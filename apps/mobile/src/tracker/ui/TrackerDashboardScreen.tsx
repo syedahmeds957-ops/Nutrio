@@ -17,7 +17,6 @@ import { MealLogHubModal } from './MealLogHubModal.js';
 import { BrandMenuModal } from './BrandMenuModal.js';
 import { ItemCustomizerModal, CustomizedLogPayload } from './ItemCustomizerModal.js';
 import { DiaryViewModal } from './DiaryViewModal.js';
-import { StreakBadge } from './StreakBadge.js';
 import { AiRecommendationCard, RecommendedFood } from './AiRecommendationCard.js';
 import { QuickStaplesBar, StapleItem } from './QuickStaplesBar.js';
 import { WeeklyCalorieBankCard } from './WeeklyCalorieBankCard.js';
@@ -269,24 +268,6 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.navActionsScroll}
           >
-            {onOpenHome && (
-              <TouchableOpacity
-                style={[
-                  styles.navPillBtn,
-                  { backgroundColor: theme.colors.surface, borderColor: theme.colors.border },
-                ]}
-                onPress={onOpenHome}
-                activeOpacity={0.7}
-              >
-                <View style={styles.navPillContent}>
-                  <Icon name="arrow-left" size={13} color={theme.colors.textPrimary} />
-                  <Text style={[styles.navPillBtnText, { color: theme.colors.textPrimary }]}>
-                    Home
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            )}
-
             {onOpenMealPlan && (
               <TouchableOpacity
                 style={[
@@ -378,14 +359,6 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
             )}
           </ScrollView>
         </View>
-
-        {/* Consistency Streak Badge */}
-        <StreakBadge
-          streakDays={7}
-          consistencyPct={94}
-          completedDays={[0, 1, 2, 3, 4, 5]}
-          currentDayIndex={6}
-        />
 
         {/* 1. Daily Progress Hero Card + 2x2 Metric Grid */}
         <DailyProgressHeader summary={summary} />
