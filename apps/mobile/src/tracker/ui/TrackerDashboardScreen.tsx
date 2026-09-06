@@ -780,12 +780,16 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+    width: '100%',
+    alignItems: 'center',
   },
   container: {
     flex: 1,
+    width: '100%',
+    maxWidth: 500,
   },
   scrollPad: {
-    paddingBottom: 90,
+    paddingBottom: 115,
   },
   topNav: {
     paddingHorizontal: 20,
@@ -1026,9 +1030,10 @@ const styles = StyleSheet.create({
   },
   bottomTabBar: {
     position: 'absolute',
-    bottom: 18,
-    left: 20,
-    right: 20,
+    bottom: 20,
+    alignSelf: 'center',
+    width: '92%',
+    maxWidth: 440,
     borderRadius: 9999,
     flexDirection: 'row',
     alignItems: 'center',
@@ -1036,7 +1041,11 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderWidth: 1,
-    elevation: 8,
+    elevation: 10,
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.35,
+    shadowRadius: 16,
   },
   bottomTabItem: {
     alignItems: 'center',

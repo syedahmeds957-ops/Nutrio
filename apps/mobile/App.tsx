@@ -63,9 +63,10 @@ const DEFAULT_ACTIVE_PLAN: ComputedUserPlan = {
   },
 };
 
-import { ThemeProvider } from './src/theme.js';
+import { ThemeProvider, useTheme } from './src/theme.js';
 
 function NutrioAppContent() {
+  const { theme } = useTheme();
   const [appState, setAppState] = useState<
     | 'home'
     | 'auth'
@@ -88,9 +89,17 @@ function NutrioAppContent() {
     DEFAULT_ACTIVE_PLAN
   );
 
+  const wrapScreen = (content: React.ReactNode) => (
+    <View style={[styles.rootWrapper, { backgroundColor: theme.colors.canvas }]}>
+      <View style={styles.appConstraint}>
+        {content}
+      </View>
+    </View>
+  );
+
   // 1. Home / Landing Screen (First Visit & Logged Out)
   if (appState === 'home') {
-    return (
+    return wrapScreen(
       <HomeScreen
         onGetStarted={() => setAppState('survey')}
         onLogin={() => setAppState('auth')}
@@ -101,7 +110,7 @@ function NutrioAppContent() {
 
   // 2. Authentication Screen (Sign In / Register)
   if (appState === 'auth') {
-    return (
+    return wrapScreen(
       <AuthScreen
         initialMode="login"
         onAuthSuccess={(_session) => setAppState('active_tracker')}
@@ -113,7 +122,7 @@ function NutrioAppContent() {
 
   // 3. Survey Flow (First Visit Onboarding)
   if (appState === 'survey') {
-    return (
+    return wrapScreen(
       <OnboardingSurveyScreen
         onComplete={(payload, bridged) => {
           setSurveyData({ payload, bridged });
@@ -142,7 +151,7 @@ function NutrioAppContent() {
       dailySittingHours: surveyData.payload.occupational.dailySittingHours ?? 8,
     } : activePlan!.userContext;
 
-    return (
+    return wrapScreen(
       <PlanWorkflowScreen
         userContext={userContext}
         onPlanAccepted={(computedPlan) => {
@@ -165,7 +174,7 @@ function NutrioAppContent() {
   // 5. Active Daily Tracker Dashboard
   if (appState === 'active_tracker' && activePlan) {
     const sessionUser = getAuthSession()?.user;
-    return (
+    return wrapScreen(
       <TrackerDashboardScreen
         userName={sessionUser?.name || 'Talha'}
         targets={{
@@ -216,7 +225,7 @@ function NutrioAppContent() {
       dietaryPreferences: [surveyData?.payload.preferencesBudget?.dietPreference || 'halal_omnivore'],
     };
 
-    return (
+    return wrapScreen(
       <CoachChatScreen
         context={coachContext}
         onBack={() => setAppState('active_tracker')}
@@ -248,7 +257,7 @@ function NutrioAppContent() {
         'Continue measuring cooking oil in curries and add a 15-minute brisk walk after dinner.',
     };
 
-    return (
+    return wrapScreen(
       <WeeklyCheckInScreen
         displayName="Client"
         metrics={mockMetrics}
@@ -263,7 +272,7 @@ function NutrioAppContent() {
 
   // 6. Weight Trend & Closed-Loop Adaptive TDEE Screen
   if (appState === 'weight_tracker' && activePlan) {
-    return (
+    return wrapScreen(
       <WeightTrackerScreen
         initialState={{
           weighIns: [
@@ -285,7 +294,7 @@ function NutrioAppContent() {
 
   // 5. Weekly 7-Day Meal Plan & One-Tap Swap Screen
   if (appState === 'weekly_plan' && activePlan) {
-    return (
+    return wrapScreen(
       <WeeklyPlanView
         solverInput={{
           targetCalories: activePlan.targetResult.kcalTarget,
@@ -309,7 +318,7 @@ function NutrioAppContent() {
   }
 
   // 6. Welcome Dashboard
-  return (
+  return wrapScreen(
     <SafeAreaView style={styles.safeArea}>
       <StatusBar style="light" />
       <ScrollView contentContainerStyle={styles.container}>
@@ -435,6 +444,16 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  rootWrapper: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+  },
+  appConstraint: {
+    flex: 1,
+    width: '100%',
+    maxWidth: 500,
+  },
   safeArea: {
     flex: 1,
     backgroundColor: '#F6F8F6',

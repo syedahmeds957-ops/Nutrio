@@ -61,7 +61,10 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({ summar
           <View style={styles.heroCategoryPill}>
             <Text style={styles.heroCategoryText}>ENERGY BUDGET</Text>
           </View>
-          <View style={styles.heroSyncDot} />
+          <View style={styles.heroStatusBadge}>
+            <View style={styles.heroStatusDot} />
+            <Text style={styles.heroStatusText}>100% FREE</Text>
+          </View>
         </View>
 
         <View style={styles.heroBodyRow}>
@@ -82,7 +85,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({ summar
           <View style={styles.weekPillChart}>
             {WEEK_DAYS.map((day, idx) => {
               const isToday = idx === currentDayOfWeek;
-              // Simulate or reflect day height
+              // Reflect realistic intake curve
               const dayFillPct = isToday ? calRatio : (idx < currentDayOfWeek ? 0.85 : 0.25);
               return (
                 <View key={idx} style={styles.weekDayCol}>
@@ -92,7 +95,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({ summar
                         styles.pillFill,
                         {
                           height: `${Math.max(15, Math.round(dayFillPct * 100))}%`,
-                          backgroundColor: isToday ? '#0A0B0D' : 'rgba(10, 11, 13, 0.4)',
+                          backgroundColor: isToday ? '#0A0B0D' : 'rgba(10, 11, 13, 0.35)',
                         },
                       ]}
                     />
@@ -126,7 +129,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({ summar
             <Text style={[styles.tileArrow, { color: theme.colors.textMuted }]}>↗</Text>
           </View>
           <Text style={[styles.tileLabel, { color: theme.colors.textSecondary }]}>Protein</Text>
-          <View style={[styles.tileProgressTrack, { backgroundColor: theme.colors.surfaceSecondary }]}>
+          <View style={[styles.tileProgressTrack, { backgroundColor: theme.isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.06)' }]}>
             <View
               style={[
                 styles.tileProgressFill,
@@ -156,7 +159,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({ summar
             <Text style={[styles.tileArrow, { color: theme.colors.textMuted }]}>↗</Text>
           </View>
           <Text style={[styles.tileLabel, { color: theme.colors.textSecondary }]}>Carbs</Text>
-          <View style={[styles.tileProgressTrack, { backgroundColor: theme.colors.surfaceSecondary }]}>
+          <View style={[styles.tileProgressTrack, { backgroundColor: theme.isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.06)' }]}>
             <View
               style={[
                 styles.tileProgressFill,
@@ -186,7 +189,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({ summar
             <Text style={[styles.tileArrow, { color: theme.colors.textMuted }]}>↗</Text>
           </View>
           <Text style={[styles.tileLabel, { color: theme.colors.textSecondary }]}>Fat</Text>
-          <View style={[styles.tileProgressTrack, { backgroundColor: theme.colors.surfaceSecondary }]}>
+          <View style={[styles.tileProgressTrack, { backgroundColor: theme.isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.06)' }]}>
             <View
               style={[
                 styles.tileProgressFill,
@@ -216,7 +219,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({ summar
             <Text style={[styles.tileArrow, { color: theme.colors.textMuted }]}>↗</Text>
           </View>
           <Text style={[styles.tileLabel, { color: theme.colors.textSecondary }]}>Banked</Text>
-          <View style={[styles.tileProgressTrack, { backgroundColor: theme.colors.surfaceSecondary }]}>
+          <View style={[styles.tileProgressTrack, { backgroundColor: theme.isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.06)' }]}>
             <View
               style={[
                 styles.tileProgressFill,
@@ -266,21 +269,36 @@ const styles = StyleSheet.create({
   },
   heroCategoryPill: {
     backgroundColor: '#0A0B0D',
-    paddingVertical: 4,
-    paddingHorizontal: 10,
+    paddingVertical: 5,
+    paddingHorizontal: 12,
     borderRadius: 9999,
   },
   heroCategoryText: {
     color: '#D4FF00',
-    fontSize: 10,
-    fontWeight: '800',
+    fontSize: 11,
+    fontWeight: '900',
     letterSpacing: 0.8,
   },
-  heroSyncDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+  heroStatusBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    backgroundColor: 'rgba(10, 11, 13, 0.12)',
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 9999,
+  },
+  heroStatusDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
     backgroundColor: '#0A0B0D',
+  },
+  heroStatusText: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#0A0B0D',
+    letterSpacing: 0.5,
   },
   heroBodyRow: {
     flexDirection: 'row',
