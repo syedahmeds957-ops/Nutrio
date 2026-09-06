@@ -31,6 +31,7 @@ import { MealPlateReviewModal } from '../../vision/ui/MealPlateReviewModal.js';
 import { analyzeMealPhoto } from '../../ai/ai-service.js';
 import { getActiveAiProvider } from '../../ai/apiKeyStorage.js';
 import { Icon } from '../../ui/Icon.js';
+import { useTheme } from '../../theme.js';
 
 interface UnifiedLogMealModalProps {
   visible: boolean;
@@ -47,6 +48,18 @@ interface UnifiedLogMealModalProps {
 
 type TabType = 'search' | 'photo';
 
+const FOOD_CATEGORIES = [
+  'All',
+  'Rice & Biryani',
+  'Karahi & Handi',
+  'BBQ & Grills',
+  'Slow-Cooked Curries',
+  'Breakfast & Nashta',
+  'Sabzi & Lentils',
+  'Pakistani Fast Food',
+  'Beverages & Drinks',
+];
+
 export const UnifiedLogMealModal: React.FC<UnifiedLogMealModalProps> = ({
   visible,
   mealSlot,
@@ -54,10 +67,12 @@ export const UnifiedLogMealModal: React.FC<UnifiedLogMealModalProps> = ({
   onConfirmSingleFood,
   onConfirmPlateItems,
 }) => {
+  const { theme, isDark } = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>('search');
 
   // Search tab state
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [selectedFood, setSelectedFood] = useState<NormalizedFood | null>(null);
   const [selectedServing, setSelectedServing] = useState<ServingUnit | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
@@ -77,17 +92,29 @@ export const UnifiedLogMealModal: React.FC<UnifiedLogMealModalProps> = ({
   const [reviewCookingMethod, setReviewCookingMethod] = useState('');
   const [reviewResolution, setReviewResolution] = useState<VisionResolutionResult | null>(null);
 
-  // 1. Search Filter
+  // 1. Search Filter with Categories
   const filteredFoods = React.useMemo(() => {
+    let list = PAKISTANI_STAPLES_DATA;
+    if (selectedCategory !== 'All') {
+      list = list.filter((f) => {
+        if (selectedCategory === 'Sabzi & Lentils') {
+          return f.category === 'Sabzi & Lentils' || f.category === 'Vegetables & Daal';
+        }
+        if (selectedCategory === 'Breakfast & Nashta') {
+          return f.category === 'Breakfast & Nashta' || f.category === 'Nashta & Breakfast';
+        }
+        return f.category.toLowerCase().includes(selectedCategory.toLowerCase());
+      });
+    }
     const q = searchQuery.trim().toLowerCase();
-    if (!q) return PAKISTANI_STAPLES_DATA;
-    return PAKISTANI_STAPLES_DATA.filter(
+    if (!q) return list;
+    return list.filter(
       (f) =>
         f.name.toLowerCase().includes(q) ||
         (f.nameUr && f.nameUr.includes(q)) ||
         f.category.toLowerCase().includes(q)
     );
-  }, [searchQuery]);
+  }, [searchQuery, selectedCategory]);
 
   const handleSelectFood = (food: NormalizedFood) => {
     setSelectedFood(food);
@@ -215,24 +242,26 @@ export const UnifiedLogMealModal: React.FC<UnifiedLogMealModalProps> = ({
       onRequestClose={handleCloseAll}
     >
       <View style={styles.modalOverlay}>
-        <View style={styles.modalContent}>
+        <View style={[styles.modalContent, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}>
           {/* Header */}
           <View style={styles.headerRow}>
             <View>
-              <Text style={styles.eyebrow}>LOG TO {mealSlot.toUpperCase().replace('_', ' ')}</Text>
-              <Text style={styles.modalTitle}>Add Food to Diary</Text>
+              <Text style={[styles.eyebrow, { color: isDark ? '#D4FF00' : '#16A34A' }]}>
+                LOG TO {mealSlot.toUpperCase().replace('_', ' ')}
+              </Text>
+              <Text style={[styles.modalTitle, { color: theme.colors.text }]}>Add Food to Diary</Text>
             </View>
             <TouchableOpacity
-              style={styles.closeBtn}
+              style={[styles.closeBtn, { backgroundColor: isDark ? '#272A33' : '#F1F5F9' }]}
               onPress={handleCloseAll}
               activeOpacity={0.7}
             >
-              <Text style={styles.closeBtnText}>✕</Text>
+              <Text style={[styles.closeBtnText, { color: theme.colors.text }]}>✕</Text>
             </TouchableOpacity>
           </View>
 
           {/* 2-Tab Navigation Bar */}
-          <View style={styles.tabBar}>
+          <View style={[styles.tabBar, { backgroundColor: isDark ? '#111215' : '#F1F5F9' }]}>
             <TouchableOpacity
               style={[styles.tabBtn, activeTab === 'search' && styles.tabBtnActive]}
               onPress={() => setActiveTab('search')}
@@ -242,9 +271,9 @@ export const UnifiedLogMealModal: React.FC<UnifiedLogMealModalProps> = ({
                 <Icon
                   name="search"
                   size={14}
-                  color={activeTab === 'search' ? '#FFFFFF' : '#64748B'}
+                  color={activeTab === 'search' ? '#0A0B0D' : theme.colors.textMuted}
                 />
-                <Text style={[styles.tabText, activeTab === 'search' && styles.tabTextActive]}>
+                <Text style={[styles.tabText, { color: theme.colors.textMuted }, activeTab === 'search' && styles.tabTextActive]}>
                   Search / Manual
                 </Text>
               </View>
@@ -259,10 +288,10 @@ export const UnifiedLogMealModal: React.FC<UnifiedLogMealModalProps> = ({
                 <Icon
                   name="camera"
                   size={14}
-                  color={activeTab === 'photo' ? '#FFFFFF' : '#64748B'}
+                  color={activeTab === 'photo' ? '#0A0B0D' : theme.colors.textMuted}
                 />
-                <Text style={[styles.tabText, activeTab === 'photo' && styles.tabTextActive]}>
-                  AI Photo Scan ({remainingScans})
+                <Text style={[styles.tabText, { color: theme.colors.textMuted }, activeTab === 'photo' && styles.tabTextActive]}>
+                  AI Photo Scan (Free)
                 </Text>
               </View>
             </TouchableOpacity>
@@ -272,64 +301,109 @@ export const UnifiedLogMealModal: React.FC<UnifiedLogMealModalProps> = ({
           {activeTab === 'search' && (
             <View style={styles.tabContent}>
               <TextInput
-                style={styles.searchInput}
+                style={[
+                  styles.searchInput,
+                  {
+                    backgroundColor: isDark ? '#14151A' : '#F8FAFC',
+                    borderColor: theme.colors.border,
+                    color: theme.colors.text,
+                  },
+                ]}
                 placeholder="Search roti, biryani, daal chana..."
-                placeholderTextColor="#64748B"
+                placeholderTextColor={theme.colors.textMuted}
                 value={searchQuery}
                 onChangeText={setSearchQuery}
               />
 
+              {/* Category Pills Bar */}
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={styles.catScroll}
+                contentContainerStyle={styles.catScrollContent}
+              >
+                {FOOD_CATEGORIES.map((cat) => {
+                  const isCatActive = selectedCategory === cat;
+                  return (
+                    <TouchableOpacity
+                      key={cat}
+                      style={[
+                        styles.catChip,
+                        {
+                          backgroundColor: isDark ? '#1C1D24' : '#F1F5F9',
+                          borderColor: theme.colors.border,
+                        },
+                        isCatActive && styles.catChipActive,
+                      ]}
+                      onPress={() => setSelectedCategory(cat)}
+                      activeOpacity={0.7}
+                    >
+                      <Text
+                        style={[
+                          styles.catChipText,
+                          { color: theme.colors.textMuted },
+                          isCatActive && styles.catChipTextActive,
+                        ]}
+                      >
+                        {cat}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </ScrollView>
+
               {selectedFood ? (
-                <View style={styles.selectedFoodCard}>
-                  <Text style={styles.selectedName}>
+                <View style={[styles.selectedFoodCard, { backgroundColor: isDark ? '#14151A' : '#F8FAFC', borderColor: theme.colors.border }]}>
+                  <Text style={[styles.selectedName, { color: theme.colors.text }]}>
                     {selectedFood.name}
                     {selectedFood.nameUr ? ` · ${selectedFood.nameUr}` : ''}
                   </Text>
-                  <Text style={styles.selectedServing}>
+                  <Text style={[styles.selectedServing, { color: theme.colors.textMuted }]}>
                     {selectedServing?.label} ({selectedServing?.grams}g)
                   </Text>
 
                   {/* Quantity Stepper */}
                   <View style={styles.qtyRow}>
                     <TouchableOpacity
-                      style={styles.qtyBtn}
+                      style={[styles.qtyBtn, { backgroundColor: isDark ? '#272A33' : '#E2E8F0' }]}
                       onPress={() => setQuantity((q) => Math.max(0.5, q - 0.5))}
                     >
-                      <Text style={styles.qtyBtnText}>-</Text>
+                      <Text style={[styles.qtyBtnText, { color: theme.colors.text }]}>-</Text>
                     </TouchableOpacity>
-                    <Text style={styles.qtyVal}>{quantity}x</Text>
+                    <Text style={[styles.qtyVal, { color: theme.colors.text }]}>{quantity}x</Text>
                     <TouchableOpacity
-                      style={styles.qtyBtn}
+                      style={[styles.qtyBtn, { backgroundColor: isDark ? '#272A33' : '#E2E8F0' }]}
                       onPress={() => setQuantity((q) => q + 0.5)}
                     >
-                      <Text style={styles.qtyBtnText}>+</Text>
+                      <Text style={[styles.qtyBtnText, { color: theme.colors.text }]}>+</Text>
                     </TouchableOpacity>
                   </View>
 
                   <TouchableOpacity
                     style={styles.actionBtn}
                     onPress={handleConfirmSearchLog}
+                    activeOpacity={0.85}
                   >
                     <Text style={styles.actionBtnText}>Log Selected Food</Text>
                   </TouchableOpacity>
                 </View>
               ) : (
-                <ScrollView style={styles.searchList}>
-                  {filteredFoods.slice(0, 15).map((food) => (
+                <ScrollView style={styles.searchList} showsVerticalScrollIndicator={false}>
+                  {filteredFoods.slice(0, 18).map((food) => (
                     <TouchableOpacity
                       key={food.id}
-                      style={styles.foodRow}
+                      style={[styles.foodRow, { borderBottomColor: theme.colors.border }]}
                       onPress={() => handleSelectFood(food)}
                       activeOpacity={0.7}
                     >
                       <View style={{ flex: 1 }}>
-                        <Text style={styles.foodRowName}>
+                        <Text style={[styles.foodRowName, { color: theme.colors.text }]}>
                           {food.name}
                           {food.nameUr ? ` · ${food.nameUr}` : ''}
                         </Text>
-                        <Text style={styles.foodRowCategory}>{food.category}</Text>
+                        <Text style={[styles.foodRowCategory, { color: theme.colors.textMuted }]}>{food.category}</Text>
                       </View>
-                      <Text style={styles.foodRowKcal}>{food.kcal100g} kcal/100g</Text>
+                      <Text style={[styles.foodRowKcal, { color: isDark ? '#D4FF00' : '#16A34A' }]}>{food.kcal100g} kcal/100g</Text>
                     </TouchableOpacity>
                   ))}
                 </ScrollView>
@@ -340,37 +414,37 @@ export const UnifiedLogMealModal: React.FC<UnifiedLogMealModalProps> = ({
           {/* Tab 2: AI Photo Calorie Scan */}
           {activeTab === 'photo' && (
             <ScrollView style={styles.tabContent} contentContainerStyle={{ gap: 14 }}>
-              <View style={styles.quotaBanner}>
+              <View style={[styles.quotaBanner, { backgroundColor: isDark ? 'rgba(212, 255, 0, 0.12)' : '#ECFDF5', borderColor: isDark ? 'rgba(212, 255, 0, 0.3)' : '#A7F3D0' }]}>
                 <View style={styles.quotaBannerRow}>
-                  <Icon name="camera" size={14} color="#059669" />
-                  <Text style={styles.quotaText}>
-                    {remainingScans} of 3 free photo scans remaining today · AI: {activeProvider.toUpperCase()}
+                  <Icon name="sparkles" size={14} color={isDark ? '#D4FF00' : '#059669'} />
+                  <Text style={[styles.quotaText, { color: isDark ? '#D4FF00' : '#059669' }]}>
+                    100% Free · Unlimited AI Photo Scans · AI: {activeProvider.toUpperCase()}
                   </Text>
                 </View>
               </View>
 
               {!selectedImage ? (
                 <TouchableOpacity
-                  style={styles.uploadArea}
+                  style={[styles.uploadArea, { backgroundColor: isDark ? '#14151A' : '#F8FAFC', borderColor: theme.colors.border }]}
                   onPress={handlePickImage}
                   activeOpacity={0.7}
                 >
-                  <View style={styles.uploadIconCircle}>
-                    <Icon name="camera" size={28} color="#059669" />
+                  <View style={[styles.uploadIconCircle, { backgroundColor: isDark ? '#272A33' : '#ECFDF5' }]}>
+                    <Icon name="camera" size={28} color={isDark ? '#D4FF00' : '#059669'} />
                   </View>
-                  <Text style={styles.cameraTitle}>Upload or Snap Meal Photo</Text>
-                  <Text style={styles.cameraSubtitle}>
+                  <Text style={[styles.cameraTitle, { color: theme.colors.text }]}>Upload or Snap Meal Photo</Text>
+                  <Text style={[styles.cameraSubtitle, { color: theme.colors.textMuted }]}>
                     Place a hand, spoon, or standard bowl for maximum portion accuracy
                   </Text>
-                  <View style={styles.chooseFilePill}>
-                    <Text style={styles.chooseFileText}>Choose Photo from Device</Text>
+                  <View style={[styles.chooseFilePill, { backgroundColor: isDark ? '#1C1D24' : '#FFFFFF', borderColor: theme.colors.border }]}>
+                    <Text style={[styles.chooseFileText, { color: isDark ? '#D4FF00' : '#059669' }]}>Choose Photo from Device</Text>
                   </View>
                 </TouchableOpacity>
               ) : (
-                <View style={styles.previewContainer}>
+                <View style={[styles.previewContainer, { borderColor: theme.colors.border, backgroundColor: isDark ? '#14151A' : '#F8FAFC' }]}>
                   <Image source={{ uri: selectedImage }} style={styles.imagePreview} />
                   <View style={styles.previewMetaRow}>
-                    <Text style={styles.fileNameText} numberOfLines={1}>
+                    <Text style={[styles.fileNameText, { color: theme.colors.text }]} numberOfLines={1}>
                       {imageFileName || 'Selected Meal Photo'}
                     </Text>
                     <View style={styles.previewActions}>
@@ -397,9 +471,9 @@ export const UnifiedLogMealModal: React.FC<UnifiedLogMealModalProps> = ({
               )}
 
               <TextInput
-                style={styles.contextInput}
+                style={[styles.contextInput, { backgroundColor: isDark ? '#14151A' : '#F8FAFC', borderColor: theme.colors.border, color: theme.colors.text }]}
                 placeholder="Optional dish note (e.g. cooked with 1 spoon oil, homemade biryani)"
-                placeholderTextColor="#64748B"
+                placeholderTextColor={theme.colors.textMuted}
                 value={photoContextNote}
                 onChangeText={setPhotoContextNote}
               />
@@ -415,12 +489,12 @@ export const UnifiedLogMealModal: React.FC<UnifiedLogMealModalProps> = ({
               >
                 {isAnalyzing ? (
                   <View style={styles.loadingRow}>
-                    <ActivityIndicator color="#FFFFFF" size="small" />
+                    <ActivityIndicator color="#0A0B0D" size="small" />
                     <Text style={styles.actionBtnText}>Analyzing with AI Vision...</Text>
                   </View>
                 ) : (
                   <View style={styles.actionBtnContent}>
-                    <Icon name="sparkles" size={16} color="#FFFFFF" />
+                    <Icon name="sparkles" size={16} color="#0A0B0D" />
                     <Text style={styles.actionBtnText}>Analyze & Estimate Calories</Text>
                   </View>
                 )}
@@ -515,29 +589,52 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   tabBtnActive: {
-    backgroundColor: '#10B981',
+    backgroundColor: '#D4FF00',
   },
   tabText: {
-    color: '#64748B',
     fontSize: 13,
     fontWeight: '700',
   },
   tabTextActive: {
-    color: '#FFFFFF',
+    color: '#0A0B0D',
+    fontWeight: '800',
+  },
+  catScroll: {
+    marginBottom: 10,
+    maxHeight: 38,
+  },
+  catScrollContent: {
+    gap: 8,
+    paddingRight: 16,
+  },
+  catChip: {
+    paddingHorizontal: 14,
+    paddingVertical: 7,
+    borderRadius: 9999,
+    borderWidth: 1,
+  },
+  catChipActive: {
+    backgroundColor: '#D4FF00',
+    borderColor: '#D4FF00',
+  },
+  catChipText: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  catChipTextActive: {
+    color: '#0A0B0D',
+    fontWeight: '800',
   },
   tabContent: {
     flex: 1,
     paddingHorizontal: 16,
   },
   searchInput: {
-    backgroundColor: '#F8FAFC',
     borderRadius: 14,
     paddingHorizontal: 16,
     paddingVertical: 12,
-    color: '#1E293B',
     fontSize: 14,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
     marginBottom: 10,
   },
   searchList: {
@@ -549,38 +646,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
   },
   foodRowName: {
-    color: '#1E293B',
     fontSize: 14,
     fontWeight: '600',
   },
   foodRowCategory: {
-    color: '#64748B',
     fontSize: 12,
     marginTop: 2,
   },
   foodRowKcal: {
-    color: '#059669',
     fontSize: 13,
     fontWeight: '700',
   },
   selectedFoodCard: {
-    backgroundColor: '#F8FAFC',
     borderRadius: 20,
     padding: 18,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
     gap: 12,
   },
   selectedName: {
-    color: '#1E293B',
     fontSize: 17,
     fontWeight: '800',
   },
   selectedServing: {
-    color: '#64748B',
     fontSize: 13,
   },
   qtyRow: {
@@ -593,38 +682,30 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: '#E6F4EA',
     alignItems: 'center',
     justifyContent: 'center',
   },
   qtyBtnText: {
-    color: '#059669',
     fontSize: 20,
     fontWeight: '700',
     lineHeight: 22,
   },
   qtyVal: {
-    color: '#1E293B',
     fontSize: 17,
     fontWeight: '700',
   },
   actionBtn: {
-    backgroundColor: '#10B981',
+    backgroundColor: '#D4FF00',
     borderRadius: 9999,
     paddingVertical: 14,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#10B981',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.15,
-    shadowRadius: 14,
-    elevation: 3,
   },
   actionBtnDisabled: {
     opacity: 0.5,
   },
   actionBtnText: {
-    color: '#FFFFFF',
+    color: '#0A0B0D',
     fontSize: 15,
     fontWeight: '800',
   },
