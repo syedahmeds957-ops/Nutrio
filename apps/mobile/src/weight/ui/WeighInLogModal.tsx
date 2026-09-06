@@ -53,15 +53,27 @@ export const WeighInLogModal: React.FC<WeighInLogModalProps> = ({
   return (
     <Modal visible={visible} animationType="slide" transparent>
       <SafeAreaView style={styles.overlay}>
-        <View style={[styles.modalContainer, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}>
+        <View
+          style={[
+            styles.modalContainer,
+            {
+              backgroundColor: theme.colors.surface,
+              borderColor: theme.colors.border,
+            },
+          ]}
+        >
           <View style={styles.header}>
-            <Text style={[styles.title, { color: theme.colors.text }]}>Log Body Weight</Text>
+            <Text style={[styles.title, { color: theme.colors.textPrimary }]}>
+              Log Body Weight
+            </Text>
             <TouchableOpacity onPress={onClose} activeOpacity={0.7}>
-              <Text style={[styles.closeBtn, { color: theme.colors.textMuted }]}>Cancel</Text>
+              <Text style={[styles.closeBtn, { color: theme.colors.textMuted }]}>
+                Cancel
+              </Text>
             </TouchableOpacity>
           </View>
 
-          <Text style={[styles.description, { color: theme.colors.textMuted }]}>
+          <Text style={[styles.description, { color: theme.colors.textSecondary }]}>
             Weigh yourself under consistent conditions (ideally in the morning, fasted, after using the restroom).
           </Text>
 
@@ -69,23 +81,52 @@ export const WeighInLogModal: React.FC<WeighInLogModalProps> = ({
           <View style={styles.inputContainer}>
             <View style={styles.stepperRow}>
               <TouchableOpacity
-                style={styles.stepBtn}
+                style={[
+                  styles.stepBtn,
+                  {
+                    backgroundColor: theme.colors.surfaceSecondary,
+                    borderColor: theme.colors.border,
+                  },
+                ]}
                 onPress={() => handleAdjust(-0.5)}
                 activeOpacity={0.7}
               >
-                <Text style={styles.stepBtnText}>−0.5</Text>
+                <Text style={[styles.stepBtnText, { color: theme.colors.textPrimary }]}>
+                  −0.5
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={styles.stepBtn}
+                style={[
+                  styles.stepBtn,
+                  {
+                    backgroundColor: theme.colors.surfaceSecondary,
+                    borderColor: theme.colors.border,
+                  },
+                ]}
                 onPress={() => handleAdjust(-0.1)}
                 activeOpacity={0.7}
               >
-                <Text style={styles.stepBtnText}>−0.1</Text>
+                <Text style={[styles.stepBtnText, { color: theme.colors.textPrimary }]}>
+                  −0.1
+                </Text>
               </TouchableOpacity>
 
-              <View style={styles.valueBox}>
+              <View
+                style={[
+                  styles.valueBox,
+                  {
+                    backgroundColor: theme.colors.surfaceSecondary,
+                    borderColor: theme.colors.primaryLime,
+                  },
+                ]}
+              >
                 <TextInput
-                  style={styles.input}
+                  style={[
+                    styles.input,
+                    {
+                      color: isDark ? theme.colors.primaryLime : theme.colors.textPrimary,
+                    },
+                  ]}
                   keyboardType="decimal-pad"
                   value={weight}
                   onChangeText={(val) => {
@@ -94,22 +135,40 @@ export const WeighInLogModal: React.FC<WeighInLogModalProps> = ({
                   }}
                   selectTextOnFocus
                 />
-                <Text style={styles.unitText}>kg</Text>
+                <Text style={[styles.unitText, { color: theme.colors.textMuted }]}>
+                  kg
+                </Text>
               </View>
 
               <TouchableOpacity
-                style={styles.stepBtn}
+                style={[
+                  styles.stepBtn,
+                  {
+                    backgroundColor: theme.colors.surfaceSecondary,
+                    borderColor: theme.colors.border,
+                  },
+                ]}
                 onPress={() => handleAdjust(0.1)}
                 activeOpacity={0.7}
               >
-                <Text style={styles.stepBtnText}>+0.1</Text>
+                <Text style={[styles.stepBtnText, { color: theme.colors.textPrimary }]}>
+                  +0.1
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={styles.stepBtn}
+                style={[
+                  styles.stepBtn,
+                  {
+                    backgroundColor: theme.colors.surfaceSecondary,
+                    borderColor: theme.colors.border,
+                  },
+                ]}
                 onPress={() => handleAdjust(0.5)}
                 activeOpacity={0.7}
               >
-                <Text style={styles.stepBtnText}>+0.5</Text>
+                <Text style={[styles.stepBtnText, { color: theme.colors.textPrimary }]}>
+                  +0.5
+                </Text>
               </TouchableOpacity>
             </View>
             {error && <Text style={styles.errorText}>{error}</Text>}
@@ -117,11 +176,20 @@ export const WeighInLogModal: React.FC<WeighInLogModalProps> = ({
 
           {/* Optional Notes */}
           <View style={styles.fieldGroup}>
-            <Text style={styles.label}>Notes (Optional)</Text>
+            <Text style={[styles.label, { color: theme.colors.textPrimary }]}>
+              Notes (Optional)
+            </Text>
             <TextInput
-              style={styles.notesInput}
+              style={[
+                styles.notesInput,
+                {
+                  backgroundColor: theme.colors.surfaceSecondary,
+                  borderColor: theme.colors.border,
+                  color: theme.colors.textPrimary,
+                },
+              ]}
               placeholder="e.g. After dawat, salt retention, morning fasted"
-              placeholderTextColor="#64748B"
+              placeholderTextColor={theme.colors.textMuted}
               value={notes}
               onChangeText={setNotes}
             />
@@ -129,11 +197,16 @@ export const WeighInLogModal: React.FC<WeighInLogModalProps> = ({
 
           {/* Save Action */}
           <TouchableOpacity
-            style={styles.saveBtn}
+            style={[
+              styles.saveBtn,
+              { backgroundColor: theme.colors.primaryLime },
+            ]}
             onPress={handleSave}
-            activeOpacity={0.7}
+            activeOpacity={0.8}
           >
-            <Text style={styles.saveBtnText}>Save Weigh-in</Text>
+            <Text style={[styles.saveBtnText, { color: theme.colors.limeText }]}>
+              Save Weigh-in
+            </Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -148,12 +221,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   modalContainer: {
-    backgroundColor: '#FFFFFF',
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
     padding: 24,
     borderWidth: 1,
-    borderColor: '#F1F5F9',
   },
   header: {
     flexDirection: 'row',
@@ -164,16 +235,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: '800',
-    color: '#1E293B',
+    letterSpacing: -0.3,
   },
   closeBtn: {
-    color: '#64748B',
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: '700',
   },
   description: {
     fontSize: 13,
-    color: '#64748B',
     lineHeight: 18,
     marginBottom: 20,
   },
@@ -189,73 +258,64 @@ const styles = StyleSheet.create({
   stepBtn: {
     paddingVertical: 10,
     paddingHorizontal: 12,
-    borderRadius: 12,
-    backgroundColor: '#F8FAFC',
+    borderRadius: 14,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
   },
   stepBtnText: {
-    color: '#1E293B',
     fontSize: 13,
-    fontWeight: '700',
+    fontWeight: '800',
   },
   valueBox: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F8FAFC',
-    borderRadius: 16,
+    borderRadius: 18,
     paddingHorizontal: 16,
     paddingVertical: 8,
-    borderWidth: 1.5,
-    borderColor: '#D4FF00',
+    borderWidth: 2,
     minWidth: 120,
     justifyContent: 'center',
   },
   input: {
     fontSize: 28,
     fontWeight: '900',
-    color: '#0A0B0D',
     textAlign: 'center',
     minWidth: 70,
   },
   unitText: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#64748B',
     marginLeft: 4,
   },
   errorText: {
     color: '#EF4444',
     fontSize: 12,
     marginTop: 8,
+    fontWeight: '600',
   },
   fieldGroup: {
     marginBottom: 20,
   },
   label: {
     fontSize: 13,
-    fontWeight: '700',
-    color: '#1E293B',
+    fontWeight: '800',
+    letterSpacing: 0.3,
     marginBottom: 8,
+    textTransform: 'uppercase',
   },
   notesInput: {
-    backgroundColor: '#F8FAFC',
     borderWidth: 1,
-    borderColor: '#E2E8F0',
-    borderRadius: 14,
+    borderRadius: 16,
     paddingHorizontal: 14,
-    paddingVertical: 10,
-    color: '#1E293B',
+    paddingVertical: 12,
     fontSize: 14,
   },
   saveBtn: {
-    backgroundColor: '#D4FF00',
     borderRadius: 9999,
     paddingVertical: 16,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   saveBtnText: {
-    color: '#0A0B0D',
     fontSize: 16,
     fontWeight: '800',
   },

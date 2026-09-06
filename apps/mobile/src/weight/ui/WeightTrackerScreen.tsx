@@ -46,7 +46,7 @@ export const WeightTrackerScreen: React.FC<WeightTrackerScreenProps> = ({
         {/* Top Header */}
         <View style={styles.topNav}>
           <View>
-            <Text style={[styles.headerSubtitle, { color: isDark ? '#D4FF00' : '#16A34A' }]}>Metabolic Feedback</Text>
+            <Text style={[styles.headerSubtitle, { color: isDark ? theme.colors.primaryLime : '#16A34A' }]}>Metabolic Feedback</Text>
             <Text style={[styles.headerTitle, { color: theme.colors.text }]}>Weight & Adaptive TDEE</Text>
           </View>
           {onBackToTracker && (
@@ -60,14 +60,14 @@ export const WeightTrackerScreen: React.FC<WeightTrackerScreenProps> = ({
           )}
         </View>
 
-        {/* Quick Log Action */}
+        {/* Action Button: Log Today's Weight */}
         <View style={styles.actionRow}>
           <TouchableOpacity
-            style={styles.logWeightBtn}
+            style={[styles.logWeightBtn, { backgroundColor: theme.colors.primaryLime }]}
             onPress={() => setModalVisible(true)}
-            activeOpacity={0.85}
+            activeOpacity={0.8}
           >
-            <Text style={styles.logWeightBtnText}>⚖️ Log Today's Weight</Text>
+            <Text style={styles.logWeightBtnText}>+ Log Today's Weight</Text>
           </TouchableOpacity>
         </View>
 
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   logWeightBtn: {
-    backgroundColor: '#D4FF00',
+    backgroundColor: '#A4EB3F',
     borderRadius: 9999,
     paddingVertical: 14,
     alignItems: 'center',

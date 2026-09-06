@@ -39,14 +39,14 @@ export const AdaptiveTDEECard: React.FC<AdaptiveTDEECardProps> = ({
       <View style={[styles.heroBox, { backgroundColor: isDark ? '#14151A' : '#F8FAFC', borderColor: theme.colors.border }]}>
         <View>
           <Text style={[styles.heroLabel, { color: theme.colors.textMuted }]}>Active Blended TDEE</Text>
-          <Text style={[styles.heroVal, { color: isDark ? '#D4FF00' : '#16A34A', fontWeight: '800' }]}>{blendedTDEE} kcal</Text>
+          <Text style={[styles.heroVal, { color: isDark ? theme.colors.primaryLime : '#16A34A', fontWeight: '800' }]}>{blendedTDEE} kcal</Text>
           <Text style={[styles.heroSub, { color: theme.colors.textMuted }]}>
             Formula baseline: {formulaTDEE} kcal
           </Text>
         </View>
 
-        <View style={[styles.deltaBadge, { backgroundColor: isDark ? 'rgba(212, 255, 0, 0.15)' : '#ECFDF5', borderColor: isDark ? '#D4FF00' : '#A7F3D0' }]}>
-          <Text style={[styles.deltaText, { color: isDark ? '#D4FF00' : '#059669' }]}>
+        <View style={[styles.deltaBadge, { backgroundColor: isDark ? 'rgba(164, 235, 63, 0.15)' : '#ECFDF5', borderColor: isDark ? theme.colors.primaryLime : '#A7F3D0' }]}>
+          <Text style={[styles.deltaText, { color: isDark ? theme.colors.primaryLime : '#059669' }]}>
             {recommendedKcalDelta > 0
               ? `+${recommendedKcalDelta}`
               : recommendedKcalDelta}{' '}
@@ -65,7 +65,7 @@ export const AdaptiveTDEECard: React.FC<AdaptiveTDEECardProps> = ({
           </Text>
         </View>
         <View style={[styles.track, { backgroundColor: isDark ? '#272A33' : '#E2E8F0' }]}>
-          <View style={[styles.fill, { width: `${calibrationPct}%`, backgroundColor: '#D4FF00' }]} />
+          <View style={[styles.fill, { width: `${calibrationPct}%`, backgroundColor: theme.colors.primaryLime }]} />
         </View>
         <Text style={[styles.calibNote, { color: theme.colors.textMuted }]}>
           Weight factor: {(weightFactor * 100).toFixed(0)}% observed data / {(

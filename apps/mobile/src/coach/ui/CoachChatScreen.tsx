@@ -98,32 +98,33 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
     }, 100);
 
     try {
-      const history = newMessages.map((m) => ({
-        role: m.role as 'user' | 'assistant',
-        content: m.text,
-      }));
-
-      const result = await sendCoachMessage(history, context);
+      const response = await sendCoachMessage(
+        newMessages.map((m) => ({
+          role: m.role,
+          content: m.text,
+        })),
+        context
+      );
 
       const assistantMsg: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        text: result.reply,
+        text: response.reply,
         timestamp: 'Just now',
       };
 
       setMessages((prev) => [...prev, assistantMsg]);
-      if (result.suggestedPrompts && result.suggestedPrompts.length > 0) {
-        setSuggestedChips(result.suggestedPrompts);
+      if (response.suggestedPrompts && response.suggestedPrompts.length > 0) {
+        setSuggestedChips(response.suggestedPrompts);
       }
-    } catch {
-      const assistantMsg: Message = {
+    } catch (e: any) {
+      const errorMsg: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        text: 'I had trouble connecting. You can check your API key or network in the ⚙️ AI Settings above.',
+        text: "I'm having a brief issue connecting to my nutrition intelligence engine. As general advice: for Pakistani dinners, fill half your plate with cucumber/salad, prioritize lean protein, and limit fried puris or naans to 1 portion.",
         timestamp: 'Just now',
       };
-      setMessages((prev) => [...prev, assistantMsg]);
+      setMessages((prev) => [...prev, errorMsg]);
     } finally {
       setIsTyping(false);
       setTimeout(() => {
@@ -134,92 +135,154 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
 
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.canvas }]}>
-      {/* Header */}
-      <View style={[styles.header, { backgroundColor: theme.colors.card, borderBottomColor: theme.colors.border }]}>
+      {/* Top Header */}
+      <View
+        style={[
+          styles.header,
+          {
+            backgroundColor: theme.colors.surface,
+            borderBottomColor: theme.colors.border,
+          },
+        ]}
+      >
         <TouchableOpacity
-          style={[styles.backBtn, { backgroundColor: isDark ? '#272A33' : '#F1F5F9', borderColor: theme.colors.border }]}
+          style={[styles.backBtn, { backgroundColor: theme.colors.surfaceSecondary }]}
           onPress={onBack}
           activeOpacity={0.7}
         >
           <View style={styles.btnRow}>
-            <Icon name="arrow-left" size={14} color={theme.colors.text} />
-            <Text style={[styles.backBtnText, { color: theme.colors.text }]}>Back</Text>
+            <Icon name="arrow-left" size={14} color={theme.colors.textPrimary} />
+            <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>Back</Text>
           </View>
         </TouchableOpacity>
+
         <View style={styles.headerCenter}>
           <View style={styles.titleRow}>
-            <Icon name="coach" size={18} color={isDark ? '#D4FF00' : '#16A34A'} />
-            <Text style={[styles.headerTitle, { color: theme.colors.text }]}>Nutrio AI Coach</Text>
+            <Icon name="sparkles" size={16} color={isDark ? theme.colors.primaryLime : '#4B6200'} />
+            <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>AI Nutrition Coach</Text>
           </View>
-          <Text style={[styles.headerSubtitle, { color: theme.colors.textMuted }]}>
-            {context.displayName || 'Client'} · {context.targets.kcalTarget} kcal target
+          <Text style={[styles.headerSubtitle, { color: theme.colors.textSecondary }]}>
+            Desi-Calibrated Intelligence
           </Text>
         </View>
+
         <TouchableOpacity
-          style={[styles.headerRightBadge, { backgroundColor: isDark ? 'rgba(212, 255, 0, 0.15)' : '#ECFDF5', borderColor: isDark ? '#D4FF00' : '#A7F3D0' }]}
+          style={[
+            styles.headerRightBadge,
+            {
+              backgroundColor: isDark ? 'rgba(164, 235, 63, 0.15)' : '#F7FEE7',
+              borderColor: theme.colors.primaryLime,
+            },
+          ]}
           onPress={() => setSettingsVisible(true)}
           activeOpacity={0.7}
         >
           <View style={styles.badgeRow}>
-            <Icon name="settings" size={12} color={isDark ? '#D4FF00' : '#059669'} />
-            <Text style={[styles.badgeText, { color: isDark ? '#D4FF00' : '#059669' }]}>{selectedProvider.toUpperCase()}</Text>
+            <Icon name="settings" size={12} color={isDark ? theme.colors.primaryLime : '#4B6200'} />
+            <Text style={[styles.badgeText, { color: isDark ? theme.colors.primaryLime : '#4B6200' }]}>
+              {selectedProvider.toUpperCase()}
+            </Text>
           </View>
         </TouchableOpacity>
       </View>
 
-      {/* Messages List */}
+      {/* Main Chat Scroll Area */}
       <KeyboardAvoidingView
         style={styles.keyboardContainer}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
       >
         <ScrollView
           ref={scrollViewRef}
           style={styles.messagesContainer}
           contentContainerStyle={styles.messagesPad}
+          showsVerticalScrollIndicator={false}
         >
           {messages.map((m) => (
             <View
               key={m.id}
               style={[
                 styles.messageBubble,
-                m.role === 'user'
-                  ? styles.userBubble
-                  : [styles.assistantBubble, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }],
+                m.role === 'user' ? styles.userBubble : styles.assistantBubble,
+                m.role === 'assistant' && {
+                  backgroundColor: theme.colors.surface,
+                  borderColor: theme.colors.border,
+                },
               ]}
             >
               {m.role === 'assistant' && (
-                <Text style={[styles.avatarLabel, { color: isDark ? '#D4FF00' : '#059669' }]}>AI NUTRITIONIST</Text>
+                <Text
+                  style={[
+                    styles.avatarLabel,
+                    { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                  ]}
+                >
+                  NUTRIO COACH
+                </Text>
               )}
               <Text
                 style={[
                   styles.messageText,
-                  m.role === 'user' ? styles.userText : [styles.assistantText, { color: theme.colors.text }],
+                  m.role === 'user' ? styles.userText : [styles.assistantText, { color: theme.colors.textPrimary }],
                 ]}
               >
                 {m.text}
               </Text>
-              <Text style={[styles.timestamp, { color: m.role === 'user' ? '#333A00' : theme.colors.textMuted }]}>{m.timestamp}</Text>
+              <Text
+                style={[
+                  styles.timestamp,
+                  { color: m.role === 'user' ? '#333A00' : theme.colors.textMuted },
+                ]}
+              >
+                {m.timestamp}
+              </Text>
             </View>
           ))}
 
           {isTyping && (
-            <View style={[styles.messageBubble, styles.assistantBubble, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}>
-              <Text style={[styles.typingIndicator, { color: isDark ? '#D4FF00' : '#059669' }]}>AI Coach is typing...</Text>
+            <View
+              style={[
+                styles.messageBubble,
+                styles.assistantBubble,
+                {
+                  backgroundColor: theme.colors.surface,
+                  borderColor: theme.colors.border,
+                },
+              ]}
+            >
+              <Text
+                style={[
+                  styles.typingIndicator,
+                  { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                ]}
+              >
+                AI Coach is typing...
+              </Text>
             </View>
           )}
 
           {/* Suggested Prompts Chips */}
           <View style={styles.chipsSection}>
-            <Text style={[styles.chipsHeader, { color: theme.colors.textMuted }]}>SUGGESTED TOPICS</Text>
+            <Text style={[styles.chipsHeader, { color: theme.colors.textMuted }]}>
+              SUGGESTED TOPICS
+            </Text>
             <View style={styles.chipsWrap}>
               {suggestedChips.map((chip, idx) => (
                 <TouchableOpacity
                   key={idx}
-                  style={[styles.chip, { backgroundColor: isDark ? '#1C1D24' : '#FFFFFF', borderColor: theme.colors.border }]}
+                  style={[
+                    styles.chip,
+                    {
+                      backgroundColor: theme.colors.surface,
+                      borderColor: theme.colors.border,
+                    },
+                  ]}
                   onPress={() => handleSend(chip)}
                   activeOpacity={0.7}
                 >
-                  <Text style={[styles.chipText, { color: theme.colors.text }]}>{chip}</Text>
+                  <Text style={[styles.chipText, { color: theme.colors.textPrimary }]}>
+                    {chip}
+                  </Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -227,9 +290,24 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
         </ScrollView>
 
         {/* Input Bar */}
-        <View style={[styles.inputBar, { backgroundColor: theme.colors.card, borderTopColor: theme.colors.border }]}>
+        <View
+          style={[
+            styles.inputBar,
+            {
+              backgroundColor: theme.colors.surface,
+              borderTopColor: theme.colors.border,
+            },
+          ]}
+        >
           <TextInput
-            style={[styles.textInput, { backgroundColor: isDark ? '#14151A' : '#F8FAFC', borderColor: theme.colors.border, color: theme.colors.text }]}
+            style={[
+              styles.textInput,
+              {
+                backgroundColor: theme.colors.surfaceSecondary,
+                borderColor: theme.colors.border,
+                color: theme.colors.textPrimary,
+              },
+            ]}
             placeholder="Ask about meals, oil, dawats, chai..."
             placeholderTextColor={theme.colors.textMuted}
             value={inputText}
@@ -238,10 +316,14 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
             returnKeyType="send"
           />
           <TouchableOpacity
-            style={[styles.sendBtn, (!inputText.trim() || isTyping) && styles.sendBtnDisabled]}
+            style={[
+              styles.sendBtn,
+              { backgroundColor: theme.colors.primaryLime },
+              (!inputText.trim() || isTyping) && styles.sendBtnDisabled,
+            ]}
             onPress={() => handleSend()}
             disabled={!inputText.trim() || isTyping}
-            activeOpacity={0.7}
+            activeOpacity={0.8}
           >
             <Text style={styles.sendBtnText}>↑</Text>
           </TouchableOpacity>
@@ -256,69 +338,123 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
         onRequestClose={() => setSettingsVisible(false)}
       >
         <View style={styles.settingsOverlay}>
-          <View style={styles.settingsCard}>
+          <View
+            style={[
+              styles.settingsCard,
+              {
+                backgroundColor: theme.colors.surface,
+                borderColor: theme.colors.border,
+                borderWidth: 1,
+              },
+            ]}
+          >
             <View style={styles.settingsHeader}>
               <View style={styles.titleRow}>
-                <Icon name="settings" size={18} color="#10B981" />
-                <Text style={styles.settingsTitle}>AI Engine Settings</Text>
+                <Icon
+                  name="settings"
+                  size={18}
+                  color={isDark ? theme.colors.primaryLime : '#4B6200'}
+                />
+                <Text style={[styles.settingsTitle, { color: theme.colors.textPrimary }]}>
+                  AI Engine Settings
+                </Text>
               </View>
               <TouchableOpacity onPress={() => setSettingsVisible(false)}>
-                <Text style={styles.settingsClose}>✕</Text>
+                <Text style={[styles.settingsClose, { color: theme.colors.textMuted }]}>✕</Text>
               </TouchableOpacity>
             </View>
 
-            <Text style={styles.settingsSub}>
+            <Text style={[styles.settingsSub, { color: theme.colors.textSecondary }]}>
               Connect your OpenAI or Google Gemini API key. If left blank, Nutrio uses its calibrated built-in Pakistani nutrition intelligence.
             </Text>
 
             {/* Provider Selector */}
-            <Text style={styles.inputLabel}>ACTIVE PROVIDER</Text>
+            <Text style={[styles.inputLabel, { color: theme.colors.textMuted }]}>
+              ACTIVE PROVIDER
+            </Text>
             <View style={styles.providerRow}>
-              {(['auto', 'openai', 'gemini'] as AiProvider[]).map((p) => (
-                <TouchableOpacity
-                  key={p}
-                  style={[
-                    styles.providerPill,
-                    selectedProvider === p && styles.providerPillActive,
-                  ]}
-                  onPress={() => setSelectedProvider(p)}
-                >
-                  <Text
+              {(['auto', 'openai', 'gemini'] as AiProvider[]).map((p) => {
+                const isSelected = selectedProvider === p;
+                return (
+                  <TouchableOpacity
+                    key={p}
                     style={[
-                      styles.providerPillText,
-                      selectedProvider === p && styles.providerPillTextActive,
+                      styles.providerPill,
+                      {
+                        backgroundColor: isSelected
+                          ? theme.colors.primaryLime
+                          : theme.colors.surfaceSecondary,
+                      },
                     ]}
+                    onPress={() => setSelectedProvider(p)}
                   >
-                    {p.toUpperCase()}
-                  </Text>
-                </TouchableOpacity>
-              ))}
+                    <Text
+                      style={[
+                        styles.providerPillText,
+                        {
+                          color: isSelected ? '#0A0B0D' : theme.colors.textPrimary,
+                          fontWeight: isSelected ? '800' : '600',
+                        },
+                      ]}
+                    >
+                      {p.toUpperCase()}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
             </View>
 
             {/* OpenAI Key */}
-            <Text style={styles.inputLabel}>OPENAI API KEY (optional)</Text>
+            <Text style={[styles.inputLabel, { color: theme.colors.textMuted }]}>
+              OPENAI API KEY (optional)
+            </Text>
             <TextInput
-              style={styles.settingsInput}
+              style={[
+                styles.settingsInput,
+                {
+                  backgroundColor: theme.colors.surfaceSecondary,
+                  borderColor: theme.colors.border,
+                  color: theme.colors.textPrimary,
+                },
+              ]}
               placeholder="sk-proj-..."
-              placeholderTextColor="#94A3B8"
+              placeholderTextColor={theme.colors.textMuted}
               value={openAiKeyInput}
               onChangeText={setOpenAiKeyInput}
               secureTextEntry={true}
             />
 
             {/* Gemini Key */}
-            <Text style={styles.inputLabel}>GOOGLE GEMINI API KEY (optional)</Text>
+            <Text style={[styles.inputLabel, { color: theme.colors.textMuted }]}>
+              GOOGLE GEMINI API KEY (optional)
+            </Text>
             <TextInput
-              style={styles.settingsInput}
+              style={[
+                styles.settingsInput,
+                {
+                  backgroundColor: theme.colors.surfaceSecondary,
+                  borderColor: theme.colors.border,
+                  color: theme.colors.textPrimary,
+                },
+              ]}
               placeholder="AIzaSy..."
-              placeholderTextColor="#94A3B8"
+              placeholderTextColor={theme.colors.textMuted}
               value={geminiKeyInput}
               onChangeText={setGeminiKeyInput}
               secureTextEntry={true}
             />
 
-            <TouchableOpacity style={styles.saveSettingsBtn} onPress={handleSaveSettings}>
-              <Text style={styles.saveSettingsBtnText}>Save AI Settings</Text>
+            <TouchableOpacity
+              style={[
+                styles.saveSettingsBtn,
+                { backgroundColor: theme.colors.primaryLime },
+              ]}
+              onPress={handleSaveSettings}
+              activeOpacity={0.8}
+            >
+              <Text style={[styles.saveSettingsBtnText, { color: theme.colors.limeText }]}>
+                Save AI Settings
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -330,7 +466,6 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#F6F8F6',
   },
   header: {
     flexDirection: 'row',
@@ -338,15 +473,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: '#FFFFFF',
     borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
   },
   backBtn: {
-    paddingVertical: 6,
-    paddingHorizontal: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
     borderRadius: 9999,
-    backgroundColor: '#F1F5F9',
   },
   btnRow: {
     flexDirection: 'row',
@@ -354,7 +486,6 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   backBtnText: {
-    color: '#1E293B',
     fontSize: 12,
     fontWeight: '700',
   },
@@ -367,22 +498,19 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   headerTitle: {
-    color: '#1E293B',
     fontSize: 16,
     fontWeight: '800',
+    letterSpacing: -0.3,
   },
   headerSubtitle: {
-    color: '#64748B',
     fontSize: 11,
     marginTop: 1,
   },
   headerRightBadge: {
-    backgroundColor: '#DCFCE7',
-    paddingVertical: 4,
+    paddingVertical: 6,
     paddingHorizontal: 10,
     borderRadius: 9999,
     borderWidth: 1,
-    borderColor: '#BBF7D0',
   },
   badgeRow: {
     flexDirection: 'row',
@@ -390,7 +518,6 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   badgeText: {
-    color: '#059669',
     fontSize: 10,
     fontWeight: '800',
   },
@@ -411,18 +538,15 @@ const styles = StyleSheet.create({
   },
   userBubble: {
     alignSelf: 'flex-end',
-    backgroundColor: '#D4FF00',
+    backgroundColor: '#A4EB3F',
     borderBottomRightRadius: 4,
   },
   assistantBubble: {
     alignSelf: 'flex-start',
-    backgroundColor: '#FFFFFF',
     borderBottomLeftRadius: 4,
     borderWidth: 1,
-    borderColor: '#F1F5F9',
   },
   avatarLabel: {
-    color: '#059669',
     fontSize: 9,
     fontWeight: '900',
     letterSpacing: 0.8,
@@ -434,19 +558,17 @@ const styles = StyleSheet.create({
   },
   userText: {
     color: '#0A0B0D',
-    fontWeight: '800',
+    fontWeight: '700',
   },
   assistantText: {
-    color: '#1E293B',
+    fontWeight: '400',
   },
   timestamp: {
-    color: '#94A3B8',
     fontSize: 10,
     marginTop: 4,
     alignSelf: 'flex-end',
   },
   typingIndicator: {
-    color: '#059669',
     fontSize: 13,
     fontStyle: 'italic',
   },
@@ -455,7 +577,6 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   chipsHeader: {
-    color: '#64748B',
     fontSize: 11,
     fontWeight: '800',
     letterSpacing: 0.5,
@@ -466,43 +587,34 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   chip: {
-    backgroundColor: '#FFFFFF',
     borderRadius: 9999,
     paddingVertical: 8,
     paddingHorizontal: 14,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
   },
   chipText: {
-    color: '#1E293B',
     fontSize: 12,
     fontWeight: '600',
   },
   inputBar: {
     flexDirection: 'row',
     padding: 12,
-    backgroundColor: '#FFFFFF',
     borderTopWidth: 1,
-    borderTopColor: '#F1F5F9',
     gap: 8,
     alignItems: 'center',
   },
   textInput: {
     flex: 1,
-    backgroundColor: '#F8FAFC',
     borderRadius: 9999,
     paddingHorizontal: 16,
     paddingVertical: 10,
-    color: '#1E293B',
     fontSize: 14,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
   },
   sendBtn: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#D4FF00',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -524,7 +636,6 @@ const styles = StyleSheet.create({
   settingsCard: {
     width: '100%',
     maxWidth: 450,
-    backgroundColor: '#FFFFFF',
     borderRadius: 24,
     padding: 20,
     shadowColor: '#000',
@@ -541,17 +652,14 @@ const styles = StyleSheet.create({
   settingsTitle: {
     fontSize: 18,
     fontWeight: '800',
-    color: '#1E293B',
   },
   settingsClose: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#64748B',
     padding: 4,
   },
   settingsSub: {
     fontSize: 12,
-    color: '#64748B',
     lineHeight: 18,
     marginBottom: 16,
   },
@@ -559,7 +667,6 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '800',
     letterSpacing: 0.6,
-    color: '#64748B',
     marginBottom: 6,
   },
   providerRow: {
@@ -569,42 +676,28 @@ const styles = StyleSheet.create({
   },
   providerPill: {
     flex: 1,
-    paddingVertical: 8,
-    borderRadius: 10,
-    backgroundColor: '#F1F5F9',
+    paddingVertical: 10,
+    borderRadius: 12,
     alignItems: 'center',
-  },
-  providerPillActive: {
-    backgroundColor: '#10B981',
   },
   providerPillText: {
     fontSize: 11,
-    fontWeight: '700',
-    color: '#64748B',
-  },
-  providerPillTextActive: {
-    color: '#FFFFFF',
   },
   settingsInput: {
-    backgroundColor: '#F8FAFC',
-    borderRadius: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
+    borderRadius: 14,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
     fontSize: 13,
-    color: '#1E293B',
     borderWidth: 1,
-    borderColor: '#E2E8F0',
     marginBottom: 14,
   },
   saveSettingsBtn: {
-    backgroundColor: '#10B981',
     borderRadius: 9999,
-    paddingVertical: 12,
+    paddingVertical: 14,
     alignItems: 'center',
     marginTop: 4,
   },
   saveSettingsBtnText: {
-    color: '#FFFFFF',
     fontWeight: '800',
     fontSize: 14,
   },

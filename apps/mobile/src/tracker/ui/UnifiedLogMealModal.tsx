@@ -246,7 +246,7 @@ export const UnifiedLogMealModal: React.FC<UnifiedLogMealModalProps> = ({
           {/* Header */}
           <View style={styles.headerRow}>
             <View>
-              <Text style={[styles.eyebrow, { color: isDark ? '#D4FF00' : '#16A34A' }]}>
+              <Text style={[styles.eyebrow, { color: isDark ? '#A4EB3F' : '#16A34A' }]}>
                 LOG TO {mealSlot.toUpperCase().replace('_', ' ')}
               </Text>
               <Text style={[styles.modalTitle, { color: theme.colors.text }]}>Add Food to Diary</Text>
@@ -403,7 +403,7 @@ export const UnifiedLogMealModal: React.FC<UnifiedLogMealModalProps> = ({
                         </Text>
                         <Text style={[styles.foodRowCategory, { color: theme.colors.textMuted }]}>{food.category}</Text>
                       </View>
-                      <Text style={[styles.foodRowKcal, { color: isDark ? '#D4FF00' : '#16A34A' }]}>{food.kcal100g} kcal/100g</Text>
+                      <Text style={[styles.foodRowKcal, { color: isDark ? '#A4EB3F' : '#16A34A' }]}>{food.kcal100g} kcal/100g</Text>
                     </TouchableOpacity>
                   ))}
                 </ScrollView>
@@ -414,10 +414,10 @@ export const UnifiedLogMealModal: React.FC<UnifiedLogMealModalProps> = ({
           {/* Tab 2: AI Photo Calorie Scan */}
           {activeTab === 'photo' && (
             <ScrollView style={styles.tabContent} contentContainerStyle={{ gap: 14 }}>
-              <View style={[styles.quotaBanner, { backgroundColor: isDark ? 'rgba(212, 255, 0, 0.12)' : '#ECFDF5', borderColor: isDark ? 'rgba(212, 255, 0, 0.3)' : '#A7F3D0' }]}>
+              <View style={[styles.quotaBanner, { backgroundColor: isDark ? 'rgba(164, 235, 63, 0.12)' : '#ECFDF5', borderColor: isDark ? 'rgba(164, 235, 63, 0.3)' : '#A7F3D0' }]}>
                 <View style={styles.quotaBannerRow}>
-                  <Icon name="sparkles" size={14} color={isDark ? '#D4FF00' : '#059669'} />
-                  <Text style={[styles.quotaText, { color: isDark ? '#D4FF00' : '#059669' }]}>
+                  <Icon name="sparkles" size={14} color={isDark ? '#A4EB3F' : '#059669'} />
+                  <Text style={[styles.quotaText, { color: isDark ? '#A4EB3F' : '#059669' }]}>
                     100% Free · Unlimited AI Photo Scans · AI: {activeProvider.toUpperCase()}
                   </Text>
                 </View>
@@ -430,14 +430,14 @@ export const UnifiedLogMealModal: React.FC<UnifiedLogMealModalProps> = ({
                   activeOpacity={0.7}
                 >
                   <View style={[styles.uploadIconCircle, { backgroundColor: isDark ? '#272A33' : '#ECFDF5' }]}>
-                    <Icon name="camera" size={28} color={isDark ? '#D4FF00' : '#059669'} />
+                    <Icon name="camera" size={28} color={isDark ? '#A4EB3F' : '#059669'} />
                   </View>
                   <Text style={[styles.cameraTitle, { color: theme.colors.text }]}>Upload or Snap Meal Photo</Text>
                   <Text style={[styles.cameraSubtitle, { color: theme.colors.textMuted }]}>
                     Place a hand, spoon, or standard bowl for maximum portion accuracy
                   </Text>
                   <View style={[styles.chooseFilePill, { backgroundColor: isDark ? '#1C1D24' : '#FFFFFF', borderColor: theme.colors.border }]}>
-                    <Text style={[styles.chooseFileText, { color: isDark ? '#D4FF00' : '#059669' }]}>Choose Photo from Device</Text>
+                    <Text style={[styles.chooseFileText, { color: isDark ? '#A4EB3F' : '#059669' }]}>Choose Photo from Device</Text>
                   </View>
                 </TouchableOpacity>
               ) : (
@@ -589,7 +589,7 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   tabBtnActive: {
-    backgroundColor: '#D4FF00',
+    backgroundColor: '#A4EB3F',
   },
   tabText: {
     fontSize: 13,
@@ -614,8 +614,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   catChipActive: {
-    backgroundColor: '#D4FF00',
-    borderColor: '#D4FF00',
+    backgroundColor: '#A4EB3F',
+    borderColor: '#A4EB3F',
   },
   catChipText: {
     fontSize: 12,
@@ -695,7 +695,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   actionBtn: {
-    backgroundColor: '#D4FF00',
+    backgroundColor: '#A4EB3F',
     borderRadius: 9999,
     paddingVertical: 14,
     alignItems: 'center',

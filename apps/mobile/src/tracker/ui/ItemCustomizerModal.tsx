@@ -334,7 +334,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                 onPress={() => setIsCustomWeightMode((prev) => !prev)}
                 activeOpacity={0.7}
               >
-                <Text style={[styles.toggleCustomGramsText, { color: isDark ? '#D4FF00' : '#16A34A' }]}>
+                <Text style={[styles.toggleCustomGramsText, { color: isDark ? '#A4EB3F' : '#16A34A' }]}>
                   {isCustomWeightMode ? '✓ Standard Servings' : '⚖ Custom Weight (g)'}
                 </Text>
               </TouchableOpacity>
@@ -401,9 +401,9 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                     <Text style={[styles.gramChipText, { color: theme.colors.text }]}>-10g</Text>
                   </TouchableOpacity>
 
-                  <View style={[styles.gramDisplayBadge, { backgroundColor: isDark ? '#1F2410' : '#F4FCE3', borderColor: '#D4FF00' }]}>
-                    <Text style={[styles.gramDisplayNumber, { color: isDark ? '#D4FF00' : '#1C1917' }]}>{customGrams}</Text>
-                    <Text style={[styles.gramDisplayUnit, { color: isDark ? '#D4FF00' : '#4D7C0F' }]}>grams</Text>
+                  <View style={[styles.gramDisplayBadge, { backgroundColor: isDark ? '#1F2410' : '#F4FCE3', borderColor: '#A4EB3F' }]}>
+                    <Text style={[styles.gramDisplayNumber, { color: isDark ? '#A4EB3F' : '#1C1917' }]}>{customGrams}</Text>
+                    <Text style={[styles.gramDisplayUnit, { color: isDark ? '#A4EB3F' : '#4D7C0F' }]}>grams</Text>
                   </View>
 
                   <TouchableOpacity
@@ -715,8 +715,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   servingPillActive: {
-    backgroundColor: '#D4FF00',
-    borderColor: '#D4FF00',
+    backgroundColor: '#A4EB3F',
+    borderColor: '#A4EB3F',
   },
   servingPillText: {
     fontSize: 13,
@@ -849,8 +849,8 @@ const styles = StyleSheet.create({
     borderColor: '#E7E5E4',
   },
   slotPillActive: {
-    backgroundColor: '#D4FF00',
-    borderColor: '#D4FF00',
+    backgroundColor: '#A4EB3F',
+    borderColor: '#A4EB3F',
   },
   slotPillText: {
     fontSize: 12,
@@ -898,7 +898,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   logThisButton: {
-    backgroundColor: '#D4FF00',
+    backgroundColor: '#A4EB3F',
     paddingHorizontal: 32,
     paddingVertical: 15,
     borderRadius: 28,

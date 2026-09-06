@@ -65,7 +65,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
         style={[
           styles.heroCard,
           {
-            backgroundColor: theme.colors.heroCardBg, // Solid Lime #D4FF00
+            backgroundColor: theme.colors.heroCardBg, // Solid Lime #A4EB3F
             borderColor: theme.colors.primaryLime,
           },
         ]}
@@ -348,7 +348,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   deltaText: {
-    color: '#D4FF00',
+    color: '#A4EB3F',
     fontSize: 12,
     fontWeight: '800',
   },

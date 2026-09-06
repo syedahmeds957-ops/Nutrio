@@ -17,12 +17,12 @@ export interface ThemeColors {
   cardBorder: string;
 
   // Solid Lime Accent (Hero & Action Highlights)
-  primary: string;           // Solid Lime #D4FF00
-  primaryDark: string;       // #B4DE00
+  primary: string;           // Solid Lime #A4EB3F
+  primaryDark: string;       // #8ECC33
   primaryLight: string;      // #F2FF9E
-  primaryBorder: string;     // #D4FF00
-  primaryLime: string;       // #D4FF00
-  heroCardBg: string;        // #D4FF00 (Solid Lime - NO gradient)
+  primaryBorder: string;     // #A4EB3F
+  primaryLime: string;       // #A4EB3F
+  heroCardBg: string;        // #A4EB3F (Solid Lime - NO gradient)
   limeText: string;          // #0A0B0D (Pitch Black for extreme contrast)
 
   // Floating Capsule Bar
@@ -63,16 +63,16 @@ export const darkColors: ThemeColors = {
   borderSubtle: '#1C1E25',
   cardBorder: '#272A33',
 
-  primary: '#D4FF00',
-  primaryDark: '#B4DE00',
-  primaryLight: '#2A3008',
-  primaryBorder: '#D4FF00',
-  primaryLime: '#D4FF00',
-  heroCardBg: '#D4FF00',
+  primary: '#A4EB3F',
+  primaryDark: '#8ECC33',
+  primaryLight: '#263B0E',
+  primaryBorder: '#A4EB3F',
+  primaryLime: '#A4EB3F',
+  heroCardBg: '#A4EB3F',
   limeText: '#0A0B0D',
 
   floatingBarBg: '#18191E',
-  floatingBarActive: '#D4FF00',
+  floatingBarActive: '#A4EB3F',
   floatingBarInactive: '#636674',
 
   textPrimary: '#FFFFFF',
@@ -82,7 +82,7 @@ export const darkColors: ThemeColors = {
   textInverse: '#0A0B0D',
 
   protein: '#3B82F6',
-  carbs: '#D4FF00',
+  carbs: '#A4EB3F',
   fat: '#F59E0B',
   water: '#0EA5E9',
   banked: '#10B981',
@@ -105,16 +105,16 @@ export const lightColors: ThemeColors = {
   borderSubtle: '#F0F2F5',
   cardBorder: '#E8EAEE',
 
-  primary: '#D4FF00',
-  primaryDark: '#A8CC00',
-  primaryLight: '#F7FFB8',
-  primaryBorder: '#D4FF00',
-  primaryLime: '#D4FF00',
-  heroCardBg: '#D4FF00',
+  primary: '#A4EB3F',
+  primaryDark: '#8ECC33',
+  primaryLight: '#EDFCD2',
+  primaryBorder: '#A4EB3F',
+  primaryLime: '#A4EB3F',
+  heroCardBg: '#A4EB3F',
   limeText: '#0A0B0D',
 
   floatingBarBg: '#111215',
-  floatingBarActive: '#D4FF00',
+  floatingBarActive: '#A4EB3F',
   floatingBarInactive: '#8E929B',
 
   textPrimary: '#0F172A',
@@ -124,7 +124,7 @@ export const lightColors: ThemeColors = {
   textInverse: '#FFFFFF',
 
   protein: '#3B82F6',
-  carbs: '#D4FF00',
+  carbs: '#A4EB3F',
   fat: '#F59E0B',
   water: '#0EA5E9',
   banked: '#10B981',
@@ -162,7 +162,7 @@ export const commonShadows = {
     elevation: 4,
   },
   hero: {
-    shadowColor: '#D4FF00',
+    shadowColor: '#A4EB3F',
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.16,
     shadowRadius: 20,

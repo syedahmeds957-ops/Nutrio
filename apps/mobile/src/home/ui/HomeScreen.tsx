@@ -110,7 +110,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           style={[
             styles.heroCard,
             {
-              backgroundColor: theme.colors.heroCardBg, // Solid Lime #D4FF00
+              backgroundColor: theme.colors.heroCardBg, // Solid Lime #A4EB3F
               borderColor: theme.colors.primaryLime,
             },
           ]}
@@ -344,7 +344,7 @@ const styles = StyleSheet.create({
     borderRadius: 9999,
   },
   freeBadgeText: {
-    color: '#D4FF00',
+    color: '#A4EB3F',
     fontSize: 11,
     fontWeight: '800',
     letterSpacing: 0.5,

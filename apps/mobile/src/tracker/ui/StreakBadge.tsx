@@ -115,7 +115,7 @@ export const StreakBadge: React.FC<StreakBadgeProps> = ({
                     styles.dotToday,
                     {
                       borderColor: theme.colors.primaryLime,
-                      backgroundColor: isDark ? 'rgba(212, 255, 0, 0.15)' : '#F7FEE7',
+                      backgroundColor: isDark ? 'rgba(164, 235, 63, 0.15)' : '#F7FEE7',
                     },
                   ],
                 ]}

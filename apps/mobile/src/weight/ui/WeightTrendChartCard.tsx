@@ -34,9 +34,9 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
           <Text style={[styles.statSub, { color: theme.colors.textMuted }]}>Raw scale reading</Text>
         </View>
 
-        <View style={[styles.statBox, { backgroundColor: isDark ? '#14151A' : '#F8FAFC', borderColor: isDark ? '#D4FF00' : '#84CC16' }]}>
+        <View style={[styles.statBox, { backgroundColor: isDark ? '#14151A' : '#F8FAFC', borderColor: isDark ? theme.colors.primaryLime : '#84CC16' }]}>
           <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>Trend Weight</Text>
-          <Text style={[styles.statVal, { color: isDark ? '#D4FF00' : '#16A34A', fontWeight: '800' }]}>{currentEWMAKg} kg</Text>
+          <Text style={[styles.statVal, { color: isDark ? theme.colors.primaryLime : '#16A34A', fontWeight: '800' }]}>{currentEWMAKg} kg</Text>
           <Text style={[styles.statSub, { color: theme.colors.textMuted }]}>True tissue trend</Text>
         </View>
 
@@ -70,7 +70,7 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
               <Text style={[styles.pointDate, { color: theme.colors.text }]}>{pt.date}</Text>
               <View style={styles.pointValues}>
                 <Text style={[styles.pointRaw, { color: theme.colors.textMuted }]}>{pt.rawWeightKg} kg scale</Text>
-                <Text style={[styles.pointEwma, { color: isDark ? '#D4FF00' : '#16A34A' }]}>→ {pt.ewmaWeightKg} kg trend</Text>
+                <Text style={[styles.pointEwma, { color: isDark ? theme.colors.primaryLime : '#16A34A' }]}>→ {pt.ewmaWeightKg} kg trend</Text>
               </View>
             </View>
           ))}

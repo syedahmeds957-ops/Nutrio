@@ -52,7 +52,7 @@ export const MealSlotCard: React.FC<MealSlotCardProps> = ({
           style={[
             styles.calBadge,
             {
-              backgroundColor: isDark ? 'rgba(212, 255, 0, 0.15)' : '#DCFCE7',
+              backgroundColor: isDark ? 'rgba(164, 235, 63, 0.15)' : '#DCFCE7',
             },
           ]}
         >

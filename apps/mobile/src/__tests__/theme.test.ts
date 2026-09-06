@@ -6,8 +6,8 @@ describe('Solid Lime Dual Theme System (Task 1)', () => {
     const dark = getTheme('dark');
     expect(dark.colors.canvas).toBe('#0C0D10');
     expect(dark.colors.surface).toBe('#18191E');
-    expect(dark.colors.primaryLime).toBe('#D4FF00');
-    expect(dark.colors.heroCardBg).toBe('#D4FF00');
+    expect(dark.colors.primaryLime).toBe('#A4EB3F');
+    expect(dark.colors.heroCardBg).toBe('#A4EB3F');
     expect(dark.colors.limeText).toBe('#0A0B0D');
     expect(dark.colors.textPrimary).toBe('#FFFFFF');
     expect(dark.colors.floatingBarBg).toBe('#18191E');
@@ -18,8 +18,8 @@ describe('Solid Lime Dual Theme System (Task 1)', () => {
     const light = getTheme('light');
     expect(light.colors.canvas).toBe('#F6F7FB');
     expect(light.colors.surface).toBe('#FFFFFF');
-    expect(light.colors.primaryLime).toBe('#D4FF00');
-    expect(light.colors.heroCardBg).toBe('#D4FF00');
+    expect(light.colors.primaryLime).toBe('#A4EB3F');
+    expect(light.colors.heroCardBg).toBe('#A4EB3F');
     expect(light.colors.limeText).toBe('#0A0B0D');
     expect(light.colors.textPrimary).toBe('#0F172A');
     expect(light.colors.floatingBarBg).toBe('#111215');
