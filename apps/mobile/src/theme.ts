@@ -11,6 +11,7 @@ export interface ThemeColors {
   canvas: string;
   surface: string;
   surfaceSecondary: string;
+  card: string;              // Convenient alias for surface
   border: string;
   borderSubtle: string;
   cardBorder: string;
@@ -31,6 +32,7 @@ export interface ThemeColors {
 
   // Typography
   textPrimary: string;
+  text: string;              // Convenient alias for textPrimary
   textSecondary: string;
   textMuted: string;
   textInverse: string;
@@ -56,6 +58,7 @@ export const darkColors: ThemeColors = {
   canvas: '#0C0D10',          // Deep obsidian dark canvas
   surface: '#18191E',         // Dark charcoal card surface
   surfaceSecondary: '#21232B',
+  card: '#18191E',
   border: '#272A33',          // Hairline micro-border
   borderSubtle: '#1C1E25',
   cardBorder: '#272A33',
@@ -70,11 +73,12 @@ export const darkColors: ThemeColors = {
 
   floatingBarBg: '#18191E',
   floatingBarActive: '#D4FF00',
-  floatingBarInactive: '#6C7080',
+  floatingBarInactive: '#636674',
 
   textPrimary: '#FFFFFF',
-  textSecondary: '#9EA3B0',
-  textMuted: '#686D7D',
+  text: '#FFFFFF',
+  textSecondary: '#9CA3AF',
+  textMuted: '#6B7280',
   textInverse: '#0A0B0D',
 
   protein: '#3B82F6',
@@ -96,6 +100,7 @@ export const lightColors: ThemeColors = {
   canvas: '#F6F7FB',          // Crisp pale porcelain alabaster
   surface: '#FFFFFF',         // Pure white card surface
   surfaceSecondary: '#F1F3F7',
+  card: '#FFFFFF',
   border: '#E8EAEE',          // Hairline micro-border
   borderSubtle: '#F0F2F5',
   cardBorder: '#E8EAEE',
@@ -113,6 +118,7 @@ export const lightColors: ThemeColors = {
   floatingBarInactive: '#8E929B',
 
   textPrimary: '#0F172A',
+  text: '#0F172A',
   textSecondary: '#64748B',
   textMuted: '#94A3B8',
   textInverse: '#FFFFFF',
@@ -238,6 +244,7 @@ export const commonTypography = {
 
 export interface NutrioTheme {
   mode: ThemeMode;
+  isDark: boolean;
   colors: ThemeColors;
   radii: typeof commonRadii;
   shadows: typeof commonShadows;
@@ -247,6 +254,7 @@ export interface NutrioTheme {
 export function getTheme(mode: ThemeMode = 'dark'): NutrioTheme {
   return {
     mode,
+    isDark: mode === 'dark',
     colors: mode === 'dark' ? darkColors : lightColors,
     radii: commonRadii,
     shadows: commonShadows,
@@ -258,11 +266,12 @@ export function getTheme(mode: ThemeMode = 'dark'): NutrioTheme {
 export const theme = getTheme('dark');
 
 // Theme Context & Hook for Dynamic Switching
-interface ThemeContextValue {
+export interface ThemeContextValue {
   theme: NutrioTheme;
   mode: ThemeMode;
   setMode: (mode: ThemeMode) => void;
   toggleTheme: () => void;
+  isDark: boolean;
 }
 
 const ThemeContext = createContext<ThemeContextValue>({
@@ -270,6 +279,7 @@ const ThemeContext = createContext<ThemeContextValue>({
   mode: 'dark',
   setMode: () => {},
   toggleTheme: () => {},
+  isDark: true,
 });
 
 export const ThemeProvider: React.FC<{ children: ReactNode; initialMode?: ThemeMode }> = ({
@@ -283,11 +293,13 @@ export const ThemeProvider: React.FC<{ children: ReactNode; initialMode?: ThemeM
     setMode((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
 
+  const isDark = mode === 'dark';
+
   return React.createElement(
     ThemeContext.Provider,
-    { value: { theme: activeTheme, mode, setMode, toggleTheme } },
+    { value: { theme: activeTheme, mode, setMode, toggleTheme, isDark } },
     children
   );
 };
 
-export const useTheme = () => useContext(ThemeContext);
+export const useTheme = (): ThemeContextValue => useContext(ThemeContext);

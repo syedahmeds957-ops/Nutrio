@@ -130,7 +130,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({ summar
             <View
               style={[
                 styles.tileProgressFill,
-                { width: `${proteinRatio * 100}%`, backgroundColor: theme.colors.protein },
+                { width: `${proteinPct}%`, backgroundColor: theme.colors.protein },
               ]}
             />
           </View>

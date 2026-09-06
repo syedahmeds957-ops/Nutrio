@@ -35,8 +35,10 @@ export interface ItemCustomizerModalProps {
   visible: boolean;
   item: NormalizedFood | null;
   initialMealSlot?: MealSlot;
-  onBack: () => void;
-  onLogItem: (payload: CustomizedLogPayload) => void;
+  onBack?: () => void;
+  onClose?: () => void;
+  onLogItem?: (payload: CustomizedLogPayload) => void;
+  onConfirmCustomizedLog?: (payload: CustomizedLogPayload) => void;
 }
 
 export interface CalculatedMacros {
@@ -135,9 +137,13 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
   item,
   initialMealSlot = 'lunch',
   onBack,
+  onClose,
   onLogItem,
+  onConfirmCustomizedLog,
 }) => {
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
+  const handleClose = onBack || onClose || (() => {});
+  const handleLog = onLogItem || onConfirmCustomizedLog || (() => {});
   const [quantity, setQuantity] = useState<number>(1);
   const [selectedModifiers, setSelectedModifiers] = useState<Record<string, number>>({});
   const [selectedSlot, setSelectedSlot] = useState<MealSlot>(initialMealSlot);
@@ -220,7 +226,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
       ? `${customGrams}g custom portion`
       : activeServing?.description || activeServing?.label || 'serving';
 
-    onLogItem({
+    handleLog({
       food: item,
       quantity,
       selectedModifiers,
@@ -242,7 +248,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
       visible={visible}
       animationType="slide"
       presentationStyle="pageSheet"
-      onRequestClose={onBack}
+      onRequestClose={handleClose}
     >
       <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.canvas }]}>
         {/* Scrollable Content Container */}
@@ -254,7 +260,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
           {/* Header Navigation: Back Arrow */}
           <TouchableOpacity
             style={styles.backButton}
-            onPress={onBack}
+            onPress={handleClose}
             activeOpacity={0.7}
             accessibilityRole="button"
             accessibilityLabel="Back"
