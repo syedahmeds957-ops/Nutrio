@@ -1,0 +1,16 @@
+{
+  "name": "@nutrio/nutrition-core",
+  "version": "0.1.0",
+  "description": "Pure mathematical and clinical nutrition engine for Nutrio",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.7"
+  }
+}

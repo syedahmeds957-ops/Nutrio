@@ -1,0 +1,14 @@
+{
+  "name": "@nutrio/food-db",
+  "version": "0.1.0",
+  "description": "Food composition ingestion, normalization and Pakistani food dataset for Nutrio",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.2"
+  }
+}

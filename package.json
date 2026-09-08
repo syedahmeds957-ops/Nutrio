@@ -1,0 +1,23 @@
+{
+  "name": "nutrio-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Nutrio - AI nutrition & calorie coach (Pakistan-first)",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "test": "npm run test --workspaces --if-present && vitest run supabase/",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.1",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.7"
+  },
+  "dependencies": {
+    "zod": "^4.5.4"
+  }
+}
