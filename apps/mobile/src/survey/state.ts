@@ -32,7 +32,11 @@ export class SurveyStateEngine {
   private occupational: Partial<SurveyOccupational> = {};
   private exercise: Partial<SurveyExercise> = {};
   private lifestyleDesi: Partial<SurveyLifestyleDesi> = {};
-  private healthClinical: Partial<SurveyHealthClinical> = {};
+  private healthClinical: Partial<SurveyHealthClinical> = {
+    medicalConditions: ['none'],
+    isPregnantOrBreastfeeding: false,
+    medicalDisclaimerAccepted: true,
+  };
   private preferencesBudget: Partial<SurveyPreferencesBudget> = {};
   private currentErrors: Record<string, string> = {};
 

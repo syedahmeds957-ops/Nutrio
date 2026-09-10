@@ -25,6 +25,7 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const currentConditions = data.medicalConditions ?? [];
+  const isDisclaimerAccepted = data.medicalDisclaimerAccepted !== false;
 
   const toggleCondition = (id: MedicalConditionFlag) => {
     if (id === 'none') {
@@ -196,6 +197,67 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
             onChange({ medicationsNotes: val });
           }}
         />
+      </View>
+
+      {/* Safety & Medical Disclaimer */}
+      <View style={styles.fieldGroup}>
+        <Text style={[styles.label, { color: theme.colors.textPrimary }]}>
+          Safety & Medical Disclaimer
+        </Text>
+        <TouchableOpacity
+          style={[
+            styles.condCard,
+            {
+              backgroundColor: theme.colors.surface,
+              borderColor: errors.medicalDisclaimerAccepted
+                ? theme.colors.error
+                : theme.colors.border,
+            },
+            isDisclaimerAccepted && {
+              backgroundColor: isDark ? 'rgba(164, 235, 63, 0.12)' : '#F7FEE7',
+              borderColor: theme.colors.primaryLime,
+              borderWidth: 2,
+            },
+          ]}
+          onPress={() => onChange({ medicalDisclaimerAccepted: !isDisclaimerAccepted })}
+          activeOpacity={0.7}
+        >
+          <View
+            style={[
+              styles.checkbox,
+              {
+                backgroundColor: theme.colors.surfaceSecondary,
+                borderColor: theme.colors.border,
+              },
+              isDisclaimerAccepted && {
+                backgroundColor: theme.colors.primaryLime,
+                borderColor: theme.colors.primaryLime,
+              },
+            ]}
+          >
+            {isDisclaimerAccepted && <Text style={styles.checkmark}>✓</Text>}
+          </View>
+          <Text
+            style={[
+              styles.condLabel,
+              {
+                color: theme.colors.textPrimary,
+                flex: 1,
+                fontSize: 13,
+                lineHeight: 18,
+              },
+              isDisclaimerAccepted && {
+                color: isDark ? theme.colors.primaryLime : '#0F172A',
+                fontWeight: '700',
+              },
+            ]}
+          >
+            I acknowledge that Nutrio provides algorithmic nutritional guidance and is not a substitute for clinical diagnosis or prescription by a physician.
+          </Text>
+        </TouchableOpacity>
+        {errors.medicalDisclaimerAccepted && (
+          <Text style={styles.errorText}>{errors.medicalDisclaimerAccepted}</Text>
+        )}
       </View>
     </View>
   );
