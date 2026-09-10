@@ -576,7 +576,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   {mode === 'login'
                     ? 'Sign In'
                     : mode === 'register'
-                    ? 'Send Verification OTP'
+                    ? 'Create Account'
                     : 'Verify & Access Nutrio'}
                 </Text>
               )}

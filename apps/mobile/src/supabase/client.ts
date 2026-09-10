@@ -41,6 +41,9 @@ export const authStorageAdapter = {
 };
 
 export const isSupabaseConfigured = (): boolean => {
+  if (process.env.NODE_ENV === 'test' && !process.env.TEST_LIVE_SUPABASE) {
+    return false;
+  }
   return (
     Boolean(SUPABASE_URL) &&
     Boolean(SUPABASE_ANON_KEY) &&
