@@ -13,6 +13,7 @@ const STORAGE_KEY = 'nutrio_auth_session';
 
 // In-memory fallback for test runners or environments without localStorage
 let memorySession: AuthSession | null = null;
+const pendingRegistrationNames = new Map<string, string>();
 
 function hasLocalStorage(): boolean {
   return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
@@ -154,11 +155,8 @@ export async function authenticateUser(
   }
 
   // Local / Mock fallback when Supabase is not configured
-  let name = 'Talha';
-  const prefix = email.split('@')[0];
-  if (prefix && prefix.toLowerCase() !== 'talha') {
-    name = prefix.charAt(0).toUpperCase() + prefix.slice(1);
-  }
+  const prefix = email.split('@')[0] || '';
+  const name = prefix ? prefix.charAt(0).toUpperCase() + prefix.slice(1) : 'User';
 
   const session: AuthSession = {
     token: `nutrio_jwt_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`,
@@ -240,6 +238,7 @@ export async function registerUser(
   }
 
   // Local / Mock fallback
+  pendingRegistrationNames.set(email, name);
   return {
     requiresOtp: true,
     email,
@@ -289,11 +288,17 @@ export async function verifyEmailOtp(payload: VerifyOtpPayload): Promise<OtpResu
   }
 
   // Local / Mock fallback
+  const fallbackPrefix = email.split('@')[0] || '';
+  const enteredName =
+    pendingRegistrationNames.get(email) ||
+    (fallbackPrefix ? fallbackPrefix.charAt(0).toUpperCase() + fallbackPrefix.slice(1) : 'User');
+  pendingRegistrationNames.delete(email);
+
   const session: AuthSession = {
     token: `nutrio_jwt_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`,
     user: {
       id: `usr_${Date.now()}`,
-      name: email.split('@')[0] || 'User',
+      name: enteredName,
       email,
       isRegistered: true,
       surveyCompleted: false,

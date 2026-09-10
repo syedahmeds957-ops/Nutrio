@@ -4,13 +4,17 @@ import { Platform } from 'react-native';
 
 const SUPABASE_URL =
   process.env.EXPO_PUBLIC_SUPABASE_URL ||
+  process.env.NEXT_PUBLIC_SUPABASE_URL ||
   process.env.SUPABASE_URL ||
-  'https://placeholder-project.supabase.co';
+  'https://qcdfluglkwvmjusncaas.supabase.co';
 
 const SUPABASE_ANON_KEY =
   process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY ||
+  process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
   process.env.SUPABASE_ANON_KEY ||
-  'placeholder-anon-key';
+  'sb_publishable_P-oWwPsg_rsZTT-7CjAIJg_oVRjw5Co';
 
 // Cross-platform resilient storage adapter
 export const authStorageAdapter = {
