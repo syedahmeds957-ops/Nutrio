@@ -8,6 +8,10 @@
     "apps/*"
   ],
   "scripts": {
+    "start": "npm run start --workspace=@nutrio/mobile",
+    "web": "npm run web --workspace=@nutrio/mobile",
+    "android": "npm run android --workspace=@nutrio/mobile",
+    "ios": "npm run ios --workspace=@nutrio/mobile",
     "test": "npm run test --workspaces --if-present && vitest run supabase/",
     "build": "npm run build --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present"

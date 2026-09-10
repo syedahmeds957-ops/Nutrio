@@ -16,6 +16,10 @@ export default defineConfig({
         find: /^react-native-svg$/,
         replacement: path.resolve(__dirname, 'test/stubs/react-native-svg.ts'),
       },
+      {
+        find: /^@react-native-async-storage\/async-storage$/,
+        replacement: path.resolve(__dirname, 'test/stubs/async-storage.ts'),
+      },
       { find: /^react-native$/, replacement: 'react-native-web' },
     ],
   },

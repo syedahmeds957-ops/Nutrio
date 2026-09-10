@@ -5,13 +5,15 @@ import {
   clearAuthSession,
   authenticateUser,
   registerUser,
+  verifyEmailOtp,
+  resendEmailOtp,
   isUserAuthenticated,
 } from '../authStorage.js';
 import { AuthSession } from '../types.js';
 
 describe('Auth Session Layer (authStorage)', () => {
-  beforeEach(() => {
-    clearAuthSession();
+  beforeEach(async () => {
+    await clearAuthSession();
   });
 
   it('starts with no active auth session', () => {
@@ -40,7 +42,7 @@ describe('Auth Session Layer (authStorage)', () => {
     expect(retrieved?.user.email).toBe('talha@nutrio.app');
   });
 
-  it('clears active auth session on logout', () => {
+  it('clears active auth session on logout', async () => {
     const session: AuthSession = {
       token: 'session_token_xyz',
       user: {
@@ -56,7 +58,7 @@ describe('Auth Session Layer (authStorage)', () => {
     saveAuthSession(session);
     expect(isUserAuthenticated()).toBe(true);
 
-    clearAuthSession();
+    await clearAuthSession();
     expect(getAuthSession()).toBeNull();
     expect(isUserAuthenticated()).toBe(false);
   });
@@ -85,22 +87,56 @@ describe('Auth Session Layer (authStorage)', () => {
     ).rejects.toThrow('Invalid email or password');
   });
 
-  it('registers a new user and persists session', async () => {
-    const session = await registerUser({
+  it('registers a new user and requires OTP verification', async () => {
+    const result = await registerUser({
       name: 'Usman',
       email: 'usman@nutrio.app',
       password: 'strongpassword',
       rememberMe: true,
     });
 
-    expect(session.token).toBeDefined();
-    expect(session.user.name).toBe('Usman');
-    expect(session.user.email).toBe('usman@nutrio.app');
-    expect(session.user.isRegistered).toBe(true);
+    expect(result.requiresOtp).toBe(true);
+    expect(result.email).toBe('usman@nutrio.app');
+    expect(result.message.toLowerCase()).toContain('verification code');
+    // Session is not active until OTP verification
+    expect(isUserAuthenticated()).toBe(false);
+  });
+
+  it('verifies 6-digit OTP code and creates active authenticated session', async () => {
+    await registerUser({
+      name: 'Usman',
+      email: 'usman@nutrio.app',
+      password: 'strongpassword',
+    });
+
+    const otpResult = await verifyEmailOtp({
+      email: 'usman@nutrio.app',
+      token: '123456',
+    });
+
+    expect(otpResult.success).toBe(true);
+    expect(otpResult.session).toBeDefined();
+    expect(otpResult.session?.user.email).toBe('usman@nutrio.app');
     expect(isUserAuthenticated()).toBe(true);
 
-    const saved = getAuthSession();
-    expect(saved?.user.name).toBe('Usman');
+    const activeSession = getAuthSession();
+    expect(activeSession?.user.email).toBe('usman@nutrio.app');
+  });
+
+  it('rejects OTP tokens shorter than 6 digits', async () => {
+    await expect(
+      verifyEmailOtp({ email: 'test@nutrio.app', token: '123' })
+    ).rejects.toThrow('Please enter a valid 6-digit verification code');
+  });
+
+  it('enforces 60-second cooldown on resending OTP', async () => {
+    const firstResend = await resendEmailOtp('test@nutrio.app');
+    expect(firstResend.success).toBe(true);
+
+    // Immediate second attempt should be rejected with cooldown error
+    await expect(resendEmailOtp('test@nutrio.app')).rejects.toThrow(
+      /Please wait \d+s before requesting a new code/
+    );
   });
 
   it('rejects registration with short password or missing name', async () => {

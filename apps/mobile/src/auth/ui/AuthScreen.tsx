@@ -14,11 +14,16 @@ import {
 } from 'react-native';
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
-import { authenticateUser, registerUser } from '../authStorage.js';
-import { AuthSession } from '../types.js';
+import {
+  authenticateUser,
+  registerUser,
+  verifyEmailOtp,
+  resendEmailOtp,
+} from '../authStorage.js';
+import { AuthSession, AuthScreenMode } from '../types.js';
 
 interface AuthScreenProps {
-  initialMode?: 'login' | 'register';
+  initialMode?: AuthScreenMode;
   onAuthSuccess: (session: AuthSession) => void;
   onBackToHome: () => void;
   onExploreGuest?: () => void;
@@ -31,7 +36,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
   onExploreGuest,
 }) => {
   const { theme, isDark } = useTheme();
-  const [mode, setMode] = useState<'login' | 'register'>(initialMode);
+  const [mode, setMode] = useState<AuthScreenMode>(initialMode);
   const [name, setName] = useState('Talha');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -39,8 +44,15 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
   const [rememberMe, setRememberMe] = useState(true);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [infoMessage, setInfoMessage] = useState('');
 
-  // Simple native animations
+  // OTP Verification state (6 digits)
+  const [otpDigits, setOtpDigits] = useState<string[]>(['', '', '', '', '', '']);
+  const otpInputRefs = useRef<(TextInput | null)[]>([]);
+  const [resendCountdown, setResendCountdown] = useState<number>(60);
+  const [resendLoading, setResendLoading] = useState<boolean>(false);
+
+  // Native entrance animation
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(20)).current;
 
@@ -57,31 +69,114 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
         useNativeDriver: true,
       }),
     ]).start();
-  }, []);
+  }, [mode]);
+
+  // Resend OTP countdown timer
+  useEffect(() => {
+    let timer: any;
+    if (mode === 'verify_otp' && resendCountdown > 0) {
+      timer = setInterval(() => {
+        setResendCountdown((prev) => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
+    }
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [mode, resendCountdown]);
+
+  const handleOtpChange = (index: number, value: string) => {
+    setErrorMessage('');
+    const cleanVal = value.replace(/[^0-9]/g, '');
+
+    // Handle full 6-digit paste
+    if (cleanVal.length >= 6) {
+      const newDigits = cleanVal.slice(0, 6).split('');
+      setOtpDigits(newDigits);
+      otpInputRefs.current[5]?.focus();
+      return;
+    }
+
+    const updated = [...otpDigits];
+    updated[index] = cleanVal ? cleanVal[cleanVal.length - 1] : '';
+    setOtpDigits(updated);
+
+    if (cleanVal && index < 5) {
+      otpInputRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleOtpKeyPress = (index: number, key: string) => {
+    if (key === 'Backspace' && !otpDigits[index] && index > 0) {
+      otpInputRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const handleResendOtp = async () => {
+    if (resendCountdown > 0 || resendLoading) return;
+    setErrorMessage('');
+    setInfoMessage('');
+    setResendLoading(true);
+
+    try {
+      const res = await resendEmailOtp(email);
+      setInfoMessage(res.message);
+      setResendCountdown(60);
+    } catch (err: any) {
+      setErrorMessage(err?.message || 'Could not resend verification code.');
+    } finally {
+      setResendLoading(false);
+    }
+  };
 
   const handleSubmit = async () => {
     setErrorMessage('');
+    setInfoMessage('');
     setLoading(true);
 
     try {
-      let session: AuthSession;
       if (mode === 'login') {
-        session = await authenticateUser({
+        const session = await authenticateUser({
           email,
           password,
           rememberMe,
         });
-      } else {
-        session = await registerUser({
+        onAuthSuccess(session);
+      } else if (mode === 'register') {
+        const regResult = await registerUser({
           name,
           email,
           password,
           rememberMe,
         });
+
+        if (regResult.requiresOtp) {
+          setMode('verify_otp');
+          setInfoMessage(regResult.message);
+          setResendCountdown(60);
+          setOtpDigits(['', '', '', '', '', '']);
+        } else if (regResult.session) {
+          onAuthSuccess(regResult.session);
+        }
+      } else if (mode === 'verify_otp') {
+        const token = otpDigits.join('');
+        if (token.length < 6) {
+          throw new Error('Please enter all 6 digits of your verification code.');
+        }
+
+        const otpResult = await verifyEmailOtp({
+          email,
+          token,
+        });
+
+        if (otpResult.session) {
+          onAuthSuccess(otpResult.session);
+        } else {
+          setMode('login');
+          setInfoMessage('Verification succeeded! Please sign in.');
+        }
       }
-      onAuthSuccess(session);
     } catch (err: any) {
-      setErrorMessage(err?.message || 'Authentication failed. Please check inputs.');
+      setErrorMessage(err?.message || 'Authentication error. Please check your inputs.');
     } finally {
       setLoading(false);
     }
@@ -107,13 +202,21 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   borderColor: theme.colors.border,
                 },
               ]}
-              onPress={onBackToHome}
+              onPress={() => {
+                if (mode === 'verify_otp') {
+                  setMode('register');
+                  setErrorMessage('');
+                  setInfoMessage('');
+                } else {
+                  onBackToHome();
+                }
+              }}
               activeOpacity={0.7}
             >
               <View style={styles.btnRow}>
                 <Icon name="arrow-left" size={14} color={theme.colors.textPrimary} />
                 <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
-                  Home
+                  {mode === 'verify_otp' ? 'Back' : 'Home'}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -145,80 +248,109 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               },
             ]}
           >
-            {/* Tab Switcher */}
-            <View
-              style={[
-                styles.tabContainer,
-                { backgroundColor: theme.colors.surfaceSecondary },
-              ]}
-            >
-              <TouchableOpacity
+            {/* Tab Switcher (Visible in Login and Register modes) */}
+            {mode !== 'verify_otp' && (
+              <View
                 style={[
-                  styles.tabBtn,
-                  mode === 'login' && {
-                    backgroundColor: theme.colors.primaryLime,
-                  },
+                  styles.tabContainer,
+                  { backgroundColor: theme.colors.surfaceSecondary },
                 ]}
-                onPress={() => {
-                  setMode('login');
-                  setErrorMessage('');
-                }}
-                activeOpacity={0.7}
               >
-                <Text
+                <TouchableOpacity
                   style={[
-                    styles.tabText,
-                    {
-                      color:
-                        mode === 'login'
-                          ? '#0A0B0D'
-                          : theme.colors.textSecondary,
-                      fontWeight: mode === 'login' ? '800' : '600',
+                    styles.tabBtn,
+                    mode === 'login' && {
+                      backgroundColor: theme.colors.primaryLime,
                     },
                   ]}
+                  onPress={() => {
+                    setMode('login');
+                    setErrorMessage('');
+                    setInfoMessage('');
+                  }}
+                  activeOpacity={0.7}
                 >
-                  Sign In
-                </Text>
-              </TouchableOpacity>
+                  <Text
+                    style={[
+                      styles.tabText,
+                      {
+                        color:
+                          mode === 'login'
+                            ? '#0A0B0D'
+                            : theme.colors.textSecondary,
+                        fontWeight: mode === 'login' ? '800' : '600',
+                      },
+                    ]}
+                  >
+                    Sign In
+                  </Text>
+                </TouchableOpacity>
 
-              <TouchableOpacity
-                style={[
-                  styles.tabBtn,
-                  mode === 'register' && {
-                    backgroundColor: theme.colors.primaryLime,
-                  },
-                ]}
-                onPress={() => {
-                  setMode('register');
-                  setErrorMessage('');
-                }}
-                activeOpacity={0.7}
-              >
-                <Text
+                <TouchableOpacity
                   style={[
-                    styles.tabText,
-                    {
-                      color:
-                        mode === 'register'
-                          ? '#0A0B0D'
-                          : theme.colors.textSecondary,
-                      fontWeight: mode === 'register' ? '800' : '600',
+                    styles.tabBtn,
+                    mode === 'register' && {
+                      backgroundColor: theme.colors.primaryLime,
                     },
                   ]}
+                  onPress={() => {
+                    setMode('register');
+                    setErrorMessage('');
+                    setInfoMessage('');
+                  }}
+                  activeOpacity={0.7}
                 >
-                  Create Account
-                </Text>
-              </TouchableOpacity>
-            </View>
+                  <Text
+                    style={[
+                      styles.tabText,
+                      {
+                        color:
+                          mode === 'register'
+                            ? '#0A0B0D'
+                            : theme.colors.textSecondary,
+                        fontWeight: mode === 'register' ? '800' : '600',
+                      },
+                    ]}
+                  >
+                    Create Account
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
 
+            {/* Header Titles */}
             <Text style={[styles.heading, { color: theme.colors.textPrimary }]}>
-              {mode === 'login' ? 'Welcome Back!' : 'Start Your Journey'}
+              {mode === 'login'
+                ? 'Welcome Back!'
+                : mode === 'register'
+                ? 'Start Your Journey'
+                : 'Verify Email OTP'}
             </Text>
             <Text style={[styles.subheading, { color: theme.colors.textSecondary }]}>
               {mode === 'login'
                 ? 'Sign in to access your calibrated daily diary and AI coach.'
-                : 'Join Nutrio for 100% free precision Pakistani nutrition tracking.'}
+                : mode === 'register'
+                ? 'Join Nutrio for precision Pakistani nutrition tracking with Supabase sync.'
+                : `We dispatched a 6-digit confirmation code to ${email || 'your email'}. Enter it below to activate your account.`}
             </Text>
+
+            {/* Info Message Banner */}
+            {infoMessage ? (
+              <View
+                style={[
+                  styles.infoBanner,
+                  {
+                    backgroundColor: isDark
+                      ? 'rgba(16, 185, 129, 0.15)'
+                      : '#D1FAE5',
+                  },
+                ]}
+              >
+                <Text style={[styles.infoText, { color: theme.colors.success }]}>
+                  ✓ {infoMessage}
+                </Text>
+              </View>
+            ) : null}
 
             {/* Error Banner */}
             {errorMessage ? (
@@ -236,114 +368,195 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               </View>
             ) : null}
 
-            {/* Name Input (Register mode only) */}
-            {mode === 'register' && (
-              <View style={styles.inputGroup}>
-                <Text style={[styles.inputLabel, { color: theme.colors.textPrimary }]}>
-                  Full Name
+            {/* OTP Verification UI */}
+            {mode === 'verify_otp' ? (
+              <View style={styles.otpSection}>
+                <Text style={[styles.inputLabel, { color: theme.colors.textPrimary, marginBottom: 12 }]}>
+                  6-Digit Verification Code
                 </Text>
-                <TextInput
-                  style={[
-                    styles.input,
-                    {
-                      backgroundColor: theme.colors.surfaceSecondary,
-                      borderColor: theme.colors.border,
-                      color: theme.colors.textPrimary,
-                    },
-                  ]}
-                  placeholder="e.g. Talha"
-                  placeholderTextColor={theme.colors.textMuted}
-                  value={name}
-                  onChangeText={setName}
-                  autoCapitalize="words"
-                />
-              </View>
-            )}
+                <View style={styles.otpRow}>
+                  {otpDigits.map((digit, idx) => (
+                    <TextInput
+                      key={`otp_cell_${idx}`}
+                      ref={(ref) => {
+                        otpInputRefs.current[idx] = ref;
+                      }}
+                      style={[
+                        styles.otpBox,
+                        {
+                          backgroundColor: theme.colors.surfaceSecondary,
+                          borderColor: digit ? theme.colors.primaryLime : theme.colors.border,
+                          color: theme.colors.textPrimary,
+                        },
+                      ]}
+                      value={digit}
+                      onChangeText={(val) => handleOtpChange(idx, val)}
+                      onKeyPress={({ nativeEvent }) => handleOtpKeyPress(idx, nativeEvent.key)}
+                      keyboardType="number-pad"
+                      maxLength={1}
+                      selectTextOnFocus
+                      textAlign="center"
+                    />
+                  ))}
+                </View>
 
-            {/* Email Input */}
-            <View style={styles.inputGroup}>
-              <Text style={[styles.inputLabel, { color: theme.colors.textPrimary }]}>
-                Email Address
-              </Text>
-              <TextInput
-                style={[
-                  styles.input,
-                  {
-                    backgroundColor: theme.colors.surfaceSecondary,
-                    borderColor: theme.colors.border,
-                    color: theme.colors.textPrimary,
-                  },
-                ]}
-                placeholder="talha@nutrio.app"
-                placeholderTextColor={theme.colors.textMuted}
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-                autoCapitalize="none"
-              />
-            </View>
+                {/* Resend Action */}
+                <View style={styles.resendRow}>
+                  <Text style={[styles.resendInfo, { color: theme.colors.textMuted }]}>
+                    Didn't receive the code?
+                  </Text>
+                  <TouchableOpacity
+                    onPress={handleResendOtp}
+                    disabled={resendCountdown > 0 || resendLoading}
+                    activeOpacity={0.7}
+                  >
+                    <Text
+                      style={[
+                        styles.resendBtnText,
+                        {
+                          color:
+                            resendCountdown > 0
+                              ? theme.colors.textMuted
+                              : theme.colors.success,
+                        },
+                      ]}
+                    >
+                      {resendCountdown > 0
+                        ? `Resend in ${resendCountdown}s`
+                        : resendLoading
+                        ? 'Sending...'
+                        : 'Resend Code'}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
 
-            {/* Password Input */}
-            <View style={styles.inputGroup}>
-              <Text style={[styles.inputLabel, { color: theme.colors.textPrimary }]}>
-                Password
-              </Text>
-              <View
-                style={[
-                  styles.passwordRow,
-                  {
-                    backgroundColor: theme.colors.surfaceSecondary,
-                    borderColor: theme.colors.border,
-                  },
-                ]}
-              >
-                <TextInput
-                  style={[
-                    styles.passwordInput,
-                    { color: theme.colors.textPrimary },
-                  ]}
-                  placeholder="Min 6 characters"
-                  placeholderTextColor={theme.colors.textMuted}
-                  value={password}
-                  onChangeText={setPassword}
-                  secureTextEntry={!showPassword}
-                />
                 <TouchableOpacity
-                  style={styles.eyeBtn}
-                  onPress={() => setShowPassword((p) => !p)}
+                  style={styles.changeEmailBtn}
+                  onPress={() => {
+                    setMode('register');
+                    setErrorMessage('');
+                    setInfoMessage('');
+                  }}
+                  activeOpacity={0.7}
                 >
-                  <Text style={[styles.eyeText, { color: theme.colors.textSecondary }]}>
-                    {showPassword ? 'Hide' : 'Show'}
+                  <Text style={[styles.changeEmailText, { color: theme.colors.textSecondary }]}>
+                    Incorrect email? Change address &rarr;
                   </Text>
                 </TouchableOpacity>
               </View>
-            </View>
+            ) : (
+              /* Standard Credentials Inputs */
+              <>
+                {/* Name Input (Register mode only) */}
+                {mode === 'register' && (
+                  <View style={styles.inputGroup}>
+                    <Text style={[styles.inputLabel, { color: theme.colors.textPrimary }]}>
+                      Full Name
+                    </Text>
+                    <TextInput
+                      style={[
+                        styles.input,
+                        {
+                          backgroundColor: theme.colors.surfaceSecondary,
+                          borderColor: theme.colors.border,
+                          color: theme.colors.textPrimary,
+                        },
+                      ]}
+                      placeholder="e.g. Talha"
+                      placeholderTextColor={theme.colors.textMuted}
+                      value={name}
+                      onChangeText={setName}
+                      autoCapitalize="words"
+                    />
+                  </View>
+                )}
 
-            {/* Remember Me */}
-            <TouchableOpacity
-              style={styles.rememberRow}
-              onPress={() => setRememberMe((r) => !r)}
-              activeOpacity={0.7}
-            >
-              <View
-                style={[
-                  styles.checkbox,
-                  {
-                    backgroundColor: rememberMe
-                      ? theme.colors.primaryLime
-                      : theme.colors.surfaceSecondary,
-                    borderColor: rememberMe
-                      ? theme.colors.primaryLime
-                      : theme.colors.border,
-                  },
-                ]}
-              >
-                {rememberMe && <Text style={styles.checkmark}>✓</Text>}
-              </View>
-              <Text style={[styles.rememberText, { color: theme.colors.textSecondary }]}>
-                Remember me on this device
-              </Text>
-            </TouchableOpacity>
+                {/* Email Input */}
+                <View style={styles.inputGroup}>
+                  <Text style={[styles.inputLabel, { color: theme.colors.textPrimary }]}>
+                    Email Address
+                  </Text>
+                  <TextInput
+                    style={[
+                      styles.input,
+                      {
+                        backgroundColor: theme.colors.surfaceSecondary,
+                        borderColor: theme.colors.border,
+                        color: theme.colors.textPrimary,
+                      },
+                    ]}
+                    placeholder="talha@nutrio.app"
+                    placeholderTextColor={theme.colors.textMuted}
+                    value={email}
+                    onChangeText={setEmail}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                  />
+                </View>
+
+                {/* Password Input */}
+                <View style={styles.inputGroup}>
+                  <Text style={[styles.inputLabel, { color: theme.colors.textPrimary }]}>
+                    Password
+                  </Text>
+                  <View
+                    style={[
+                      styles.passwordRow,
+                      {
+                        backgroundColor: theme.colors.surfaceSecondary,
+                        borderColor: theme.colors.border,
+                      },
+                    ]}
+                  >
+                    <TextInput
+                      style={[
+                        styles.passwordInput,
+                        { color: theme.colors.textPrimary },
+                      ]}
+                      placeholder="Min 6 characters"
+                      placeholderTextColor={theme.colors.textMuted}
+                      value={password}
+                      onChangeText={setPassword}
+                      secureTextEntry={!showPassword}
+                    />
+                    <TouchableOpacity
+                      style={styles.eyeBtn}
+                      onPress={() => setShowPassword((p) => !p)}
+                    >
+                      <Text style={[styles.eyeText, { color: theme.colors.textSecondary }]}>
+                        {showPassword ? 'Hide' : 'Show'}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+
+                {/* Remember Me */}
+                <TouchableOpacity
+                  style={styles.rememberRow}
+                  onPress={() => setRememberMe((r) => !r)}
+                  activeOpacity={0.7}
+                >
+                  <View
+                    style={[
+                      styles.checkbox,
+                      {
+                        backgroundColor: rememberMe
+                          ? theme.colors.primaryLime
+                          : theme.colors.surfaceSecondary,
+                        borderColor: rememberMe
+                          ? theme.colors.primaryLime
+                          : theme.colors.border,
+                      },
+                    ]}
+                  >
+                    {rememberMe && <Text style={styles.checkmark}>✓</Text>}
+                  </View>
+                  <Text style={[styles.rememberText, { color: theme.colors.textSecondary }]}>
+                    Remember me on this device
+                  </Text>
+                </TouchableOpacity>
+              </>
+            )}
 
             {/* Submit Button */}
             <TouchableOpacity
@@ -360,13 +573,17 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 <ActivityIndicator color="#0A0B0D" size="small" />
               ) : (
                 <Text style={[styles.submitBtnText, { color: theme.colors.limeText }]}>
-                  {mode === 'login' ? 'Sign In' : 'Create Free Account'}
+                  {mode === 'login'
+                    ? 'Sign In'
+                    : mode === 'register'
+                    ? 'Send Verification OTP'
+                    : 'Verify & Access Nutrio'}
                 </Text>
               )}
             </TouchableOpacity>
 
             {/* Guest Mode */}
-            {onExploreGuest && (
+            {mode !== 'verify_otp' && onExploreGuest && (
               <TouchableOpacity
                 style={styles.guestBtn}
                 onPress={onExploreGuest}
@@ -448,29 +665,38 @@ const styles = StyleSheet.create({
   tabBtn: {
     flex: 1,
     paddingVertical: 10,
-    borderRadius: 9999,
     alignItems: 'center',
+    borderRadius: 9999,
   },
   tabText: {
     fontSize: 13,
   },
   heading: {
-    fontSize: 22,
-    fontWeight: '800',
-    letterSpacing: -0.4,
+    fontSize: 24,
+    fontWeight: '900',
+    letterSpacing: -0.5,
     marginBottom: 6,
   },
   subheading: {
     fontSize: 13,
-    marginBottom: 20,
     lineHeight: 18,
+    marginBottom: 20,
+  },
+  infoBanner: {
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    marginBottom: 16,
+  },
+  infoText: {
+    fontSize: 12,
+    fontWeight: '700',
   },
   errorBanner: {
-    padding: 12,
     borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
     marginBottom: 16,
-    borderWidth: 1,
-    borderColor: '#EF4444',
   },
   errorText: {
     color: '#EF4444',
@@ -482,81 +708,130 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     fontSize: 12,
-    fontWeight: '800',
-    letterSpacing: 0.3,
+    fontWeight: '700',
     textTransform: 'uppercase',
+    letterSpacing: 0.5,
     marginBottom: 6,
   },
   input: {
+    height: 48,
+    borderRadius: 12,
     borderWidth: 1,
-    borderRadius: 16,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    fontSize: 15,
+    paddingHorizontal: 14,
+    fontSize: 14,
   },
   passwordRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    height: 48,
+    borderRadius: 12,
     borderWidth: 1,
-    borderRadius: 16,
+    paddingHorizontal: 14,
   },
   passwordInput: {
     flex: 1,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    fontSize: 15,
+    height: '100%',
+    fontSize: 14,
   },
   eyeBtn: {
-    paddingHorizontal: 16,
-    paddingVertical: 14,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
   },
   eyeText: {
     fontSize: 12,
-    fontWeight: '700',
+    fontWeight: '600',
   },
   rememberRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-    marginBottom: 22,
+    gap: 10,
+    marginBottom: 24,
     marginTop: 4,
   },
   checkbox: {
-    width: 22,
-    height: 22,
-    borderRadius: 7,
-    borderWidth: 1.5,
+    width: 20,
+    height: 20,
+    borderRadius: 6,
+    borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
   checkmark: {
     color: '#0A0B0D',
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: '900',
   },
   rememberText: {
-    fontSize: 13,
+    fontSize: 12,
   },
   submitBtn: {
+    height: 50,
     borderRadius: 9999,
-    paddingVertical: 16,
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 16,
   },
   submitBtnDisabled: {
     opacity: 0.6,
   },
   submitBtnText: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '800',
+    letterSpacing: -0.2,
   },
   guestBtn: {
     alignItems: 'center',
-    marginTop: 18,
-    paddingVertical: 6,
+    paddingVertical: 8,
   },
   guestText: {
-    fontSize: 13,
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  otpSection: {
+    marginBottom: 20,
+  },
+  otpRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 20,
+    width: '100%',
+  },
+  otpBox: {
+    flex: 1,
+    minWidth: 0,
+    maxWidth: 48,
+    height: 54,
+    borderRadius: 12,
+    borderWidth: 1.5,
+    fontSize: 22,
+    fontWeight: '800',
+    textAlign: 'center',
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
+  },
+  resendRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 6,
+    marginBottom: 16,
+  },
+  resendInfo: {
+    fontSize: 12,
+  },
+  resendBtnText: {
+    fontSize: 12,
+    fontWeight: '800',
+  },
+  changeEmailBtn: {
+    alignItems: 'center',
+    paddingVertical: 6,
+  },
+  changeEmailText: {
+    fontSize: 12,
     fontWeight: '600',
   },
 });

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {
   StyleSheet,
@@ -17,13 +17,13 @@ import {
   ComputedUserPlan,
   PlanUserContext,
 } from './src/plan/index.js';
-import { PlanWorkflowScreen } from './src/plan/ui/index.js';
+import { PlanWorkflowScreen, WeeklyPlanView } from './src/plan/ui/index.js';
 import { TrackerDashboardScreen } from './src/tracker/ui/index.js';
 import { WeightTrackerScreen } from './src/weight/ui/index.js';
-import { WeeklyPlanView } from './src/plan/ui/index.js';
 import { CoachChatScreen, WeeklyCheckInScreen } from './src/coach/index.js';
 import { HomeScreen } from './src/home/index.js';
-import { AuthScreen, getAuthSession, clearAuthSession } from './src/auth/index.js';
+import { AuthScreen, getAuthSession, clearAuthSession, restoreSession } from './src/auth/index.js';
+import { syncCompleteOnboarding } from './src/sync/userDataSync.js';
 
 const DEFAULT_ACTIVE_PLAN: ComputedUserPlan = {
   userContext: {
@@ -88,6 +88,17 @@ function NutrioAppContent() {
   const [activePlan, setActivePlan] = useState<ComputedUserPlan | null>(
     DEFAULT_ACTIVE_PLAN
   );
+
+  // Restore Supabase session on boot
+  useEffect(() => {
+    restoreSession()
+      .then((session) => {
+        if (session && appState === 'home') {
+          setAppState('active_tracker');
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const wrapScreen = (content: React.ReactNode) => (
     <View style={[styles.rootWrapper, { backgroundColor: theme.colors.canvas }]}>
@@ -156,6 +167,11 @@ function NutrioAppContent() {
         userContext={userContext}
         onPlanAccepted={(computedPlan) => {
           setActivePlan(computedPlan);
+          if (surveyData) {
+            syncCompleteOnboarding(surveyData.payload, computedPlan).catch((err) => {
+              console.warn('[NutrioApp] Background onboarding sync error:', err);
+            });
+          }
           setAppState('active_tracker');
         }}
         onCancel={() => {

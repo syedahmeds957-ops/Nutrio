@@ -24,3 +24,23 @@ export interface RegisterCredentials {
   password?: string;
   rememberMe?: boolean;
 }
+
+export interface VerifyOtpPayload {
+  email: string;
+  token: string;
+}
+
+export interface RegistrationResult {
+  requiresOtp: boolean;
+  email: string;
+  message: string;
+  session?: AuthSession | null;
+}
+
+export interface OtpResult {
+  success: boolean;
+  session?: AuthSession | null;
+  message?: string;
+}
+
+export type AuthScreenMode = 'login' | 'register' | 'verify_otp';
