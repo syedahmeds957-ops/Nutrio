@@ -56,7 +56,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   onOpenHome,
   onLogout,
 }) => {
-  const { theme, mode, setMode, toggleTheme } = useTheme();
+  const { theme, mode, isDark, setMode, toggleTheme } = useTheme();
   const [engine] = useState(() => new TrackerEngine(targets));
   const [, setRerender] = useState(0);
   const forceUpdate = () => setRerender((prev) => prev + 1);
