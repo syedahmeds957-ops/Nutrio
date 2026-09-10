@@ -201,6 +201,10 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     forceUpdate();
   };
 
+  const completedSlotsCount = (['breakfast', 'lunch', 'dinner', 'snacks_chai'] as MealSlot[]).filter(
+    (s) => engine.getItemsBySlot(s).length > 0
+  ).length;
+
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.canvas }]}>
       <ScrollView
@@ -389,9 +393,43 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
 
         {/* 5. Today's Meals Timeline */}
         <View style={styles.slotsSection}>
-          <Text style={[styles.sectionHeading, { color: theme.colors.textPrimary }]}>
-            Today's Logged Meals
-          </Text>
+          <View style={styles.slotsHeadingRow}>
+            <Text style={[styles.sectionHeading, { color: theme.colors.textPrimary, marginHorizontal: 0, marginBottom: 0 }]}>
+              Today's Logged Meals
+            </Text>
+            <View
+              style={[
+                styles.mealsProgressPill,
+                {
+                  backgroundColor:
+                    completedSlotsCount === 4
+                      ? theme.colors.primaryLime
+                      : isDark
+                      ? 'rgba(164, 235, 63, 0.15)'
+                      : '#DCFCE7',
+                  borderColor: theme.colors.primaryLime,
+                },
+              ]}
+            >
+              <Text
+                style={[
+                  styles.mealsProgressText,
+                  {
+                    color:
+                      completedSlotsCount === 4
+                        ? '#0A0B0D'
+                        : isDark
+                        ? theme.colors.primaryLime
+                        : '#059669',
+                  },
+                ]}
+              >
+                {completedSlotsCount === 4
+                  ? '🎉 ALL MEALS DONE'
+                  : `${completedSlotsCount} / 4 LOGGED`}
+              </Text>
+            </View>
+          </View>
 
           <MealSlotCard
             slot="breakfast"
@@ -861,6 +899,24 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginBottom: 12,
     letterSpacing: -0.3,
+  },
+  slotsHeadingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginHorizontal: 20,
+    marginBottom: 12,
+  },
+  mealsProgressPill: {
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 9999,
+    borderWidth: 1,
+  },
+  mealsProgressText: {
+    fontSize: 11,
+    fontWeight: '800',
+    letterSpacing: 0.4,
   },
   profileOverlay: {
     flex: 1,

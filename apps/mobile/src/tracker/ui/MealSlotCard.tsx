@@ -24,6 +24,7 @@ export const MealSlotCard: React.FC<MealSlotCardProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const slotCalories = items.reduce((sum, item) => sum + item.calories, 0);
+  const isDone = items.length > 0;
 
   return (
     <View
@@ -31,7 +32,12 @@ export const MealSlotCard: React.FC<MealSlotCardProps> = ({
         styles.card,
         {
           backgroundColor: theme.colors.surface,
-          borderColor: theme.colors.border,
+          borderColor: isDone
+            ? isDark
+              ? 'rgba(164, 235, 63, 0.45)'
+              : '#86EFAC'
+            : theme.colors.border,
+          borderWidth: isDone ? 1.5 : 1,
         },
       ]}
     >
@@ -41,25 +47,72 @@ export const MealSlotCard: React.FC<MealSlotCardProps> = ({
           <View
             style={[
               styles.emojiBadge,
-              { backgroundColor: theme.colors.surfaceSecondary },
+              {
+                backgroundColor: isDone
+                  ? isDark
+                    ? 'rgba(164, 235, 63, 0.2)'
+                    : '#DCFCE7'
+                  : theme.colors.surfaceSecondary,
+              },
             ]}
           >
             {icon ? icon : <Text style={styles.emoji}>{emoji}</Text>}
           </View>
-          <Text style={[styles.title, { color: theme.colors.textPrimary }]}>{title}</Text>
+          <View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <Text style={[styles.title, { color: theme.colors.textPrimary }]}>{title}</Text>
+              {isDone && (
+                <View
+                  style={[
+                    styles.doneBadge,
+                    {
+                      backgroundColor: isDark ? 'rgba(164, 235, 63, 0.2)' : '#DCFCE7',
+                      borderColor: isDark ? theme.colors.primaryLime : '#16A34A',
+                    },
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.doneBadgeText,
+                      { color: isDark ? theme.colors.primaryLime : '#15803D' },
+                    ]}
+                  >
+                    ✓ DONE
+                  </Text>
+                </View>
+              )}
+            </View>
+            {isDone && (
+              <Text style={[styles.itemsCountText, { color: theme.colors.textSecondary }]}>
+                {items.length} {items.length === 1 ? 'dish' : 'dishes'} tracked
+              </Text>
+            )}
+          </View>
         </View>
         <View
           style={[
             styles.calBadge,
             {
-              backgroundColor: isDark ? 'rgba(164, 235, 63, 0.15)' : '#DCFCE7',
+              backgroundColor: isDone
+                ? isDark
+                  ? 'rgba(164, 235, 63, 0.25)'
+                  : '#BBF7D0'
+                : isDark
+                ? 'rgba(255, 255, 255, 0.05)'
+                : '#F1F5F9',
             },
           ]}
         >
           <Text
             style={[
               styles.slotCalories,
-              { color: isDark ? theme.colors.primaryLime : '#059669' },
+              {
+                color: isDone
+                  ? isDark
+                    ? theme.colors.primaryLime
+                    : '#059669'
+                  : theme.colors.textMuted,
+              },
             ]}
           >
             {slotCalories} kcal
@@ -111,8 +164,16 @@ export const MealSlotCard: React.FC<MealSlotCardProps> = ({
         style={[
           styles.addBtn,
           {
-            backgroundColor: theme.colors.surfaceSecondary,
-            borderColor: theme.colors.border,
+            backgroundColor: isDone
+              ? isDark
+                ? 'rgba(164, 235, 63, 0.08)'
+                : '#F0FDF4'
+              : theme.colors.surfaceSecondary,
+            borderColor: isDone
+              ? isDark
+                ? 'rgba(164, 235, 63, 0.3)'
+                : '#BBF7D0'
+              : theme.colors.border,
           },
         ]}
         onPress={() => onAddItem(slot)}
@@ -124,7 +185,7 @@ export const MealSlotCard: React.FC<MealSlotCardProps> = ({
             { color: isDark ? theme.colors.primaryLime : '#0F172A' },
           ]}
         >
-          + Add Food
+          {isDone ? `+ Add More to ${title}` : `+ Add Food`}
         </Text>
       </TouchableOpacity>
     </View>
@@ -164,6 +225,22 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
     letterSpacing: -0.2,
+  },
+  doneBadge: {
+    paddingVertical: 2,
+    paddingHorizontal: 8,
+    borderRadius: 6,
+    borderWidth: 1,
+  },
+  doneBadgeText: {
+    fontSize: 10,
+    fontWeight: '900',
+    letterSpacing: 0.6,
+  },
+  itemsCountText: {
+    fontSize: 11,
+    marginTop: 2,
+    fontWeight: '500',
   },
   calBadge: {
     paddingVertical: 4,
