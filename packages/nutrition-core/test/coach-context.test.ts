@@ -81,4 +81,31 @@ describe('AI Coach Context Assembler & Guardrails (Task 4.1)', () => {
     expect(validation.isValid).toBe(false);
     expect(validation.flagsTriggered).toContain('EXTREME_RESTRICTION_WARNING');
   });
+
+  it('assembles culturally tailored Saudi AI Coach prompt with SFDA and Gahwa/Dates rituals', () => {
+    const saudiContext: CoachContext = {
+      ...sampleContext,
+      displayName: 'Faisal',
+      region: 'SA',
+      todaySummary: {
+        caloriesConsumed: 1400,
+        proteinConsumed: 110,
+        fatConsumed: 45,
+        carbConsumed: 140,
+        remainingCalories: 550,
+        foodsLoggedToday: ['Chicken Kabsa', '3 Sukari Dates', '2 Finjan Saudi Gahwa'],
+      },
+    };
+
+    const saudiPrompt = buildCoachSystemPrompt(saudiContext);
+
+    expect(saudiPrompt).toContain('Faisal');
+    expect(saudiPrompt).toContain('Region: SA');
+    expect(saudiPrompt).toContain('Saudi Arabian, Gulf, and Middle Eastern');
+    expect(saudiPrompt).toContain('AUTHENTIC SAUDI & GULF UNDERSTANDING');
+    expect(saudiPrompt).toContain('SFDA Caloric Standards');
+    expect(saudiPrompt).toContain('Saudi Gahwa & Dates Ritual');
+    expect(saudiPrompt).toContain('Almarai Laban');
+    expect(saudiPrompt).toContain('اللهجة السعودية');
+  });
 });

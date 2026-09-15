@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { BudgetTierPKR, DietPreference, SurveyPreferencesBudget } from '../types.js';
 import { useTheme } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
 
 interface StepPreferencesBudgetProps {
   data: Partial<SurveyPreferencesBudget>;
@@ -35,17 +36,39 @@ const BUDGET_TIERS: Array<{ id: BudgetTierPKR; title: string; range: string }> =
   },
 ];
 
+const SA_BUDGET_TIERS: Array<{ id: BudgetTierPKR; title: string; range: string }> = [
+  {
+    id: 'budget_under_3500',
+    title: 'Economical Tier (اقتصادي)',
+    range: 'Under SAR 500 / month (Focus on fresh local produce, lentils, grains, Almarai dairy, eggs)',
+  },
+  {
+    id: 'standard_3500_7000',
+    title: 'Balanced Household Tier (متوسط)',
+    range: 'SAR 500 – 1,200 / month (Fresh poultry, laban, basmati rice, seasonal fruits & dates)',
+  },
+  {
+    id: 'premium_above_7000',
+    title: 'High-Protein / Premium Tier (فاخر)',
+    range: 'Above SAR 1,200 / month (Daily fresh meats, fish, premium Ajwa/Sukari dates, specialty health items)',
+  },
+];
+
 export const StepPreferencesBudget: React.FC<StepPreferencesBudgetProps> = ({
   data,
   onChange,
   errors,
 }) => {
   const { theme, isDark } = useTheme();
+  const { activeRegion } = useRegion();
+  const budgetTiers = activeRegion === 'SA' ? SA_BUDGET_TIERS : BUDGET_TIERS;
 
   return (
     <View style={styles.container}>
       <Text style={[styles.description, { color: theme.colors.textSecondary }]}>
-        Tailoring your nutritional plan to your dietary ethos and realistic household grocery expenditure in Pakistan.
+        {activeRegion === 'SA'
+          ? 'Tailoring your nutritional plan to your dietary ethos and realistic household grocery expenditure in Saudi Arabia.'
+          : 'Tailoring your nutritional plan to your dietary ethos and realistic household grocery expenditure in Pakistan.'}
       </Text>
 
       {/* Diet Style */}
@@ -94,9 +117,11 @@ export const StepPreferencesBudget: React.FC<StepPreferencesBudgetProps> = ({
       {/* Budget Tier */}
       <View style={styles.fieldGroup}>
         <Text style={[styles.label, { color: theme.colors.textPrimary }]}>
-          Weekly Grocery Budget Target (PKR)
+          {activeRegion === 'SA'
+            ? 'Monthly Household Grocery Budget Target (SAR)'
+            : 'Weekly Grocery Budget Target (PKR)'}
         </Text>
-        {BUDGET_TIERS.map((b) => {
+        {budgetTiers.map((b) => {
           const isSelected = data.budgetTierPKR === b.id;
           return (
             <TouchableOpacity

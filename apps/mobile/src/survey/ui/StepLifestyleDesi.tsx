@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-nativ
 import { HomeCookingStyle, SurveyLifestyleDesi } from '../types.js';
 import { KCAL_PER_CUP_CHAI_SUGAR } from '../nutrition-bridge.js';
 import { useTheme } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
 
 interface StepLifestyleDesiProps {
   data: Partial<SurveyLifestyleDesi>;
@@ -24,6 +25,8 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
   errors,
 }) => {
   const { theme, isDark } = useTheme();
+  const { activeRegion } = useRegion();
+  const isSaudi = activeRegion === 'SA';
   const chaiCount = data.chaiWithSugarCupsPerDay ?? 2;
   const estimatedChaiKcal = chaiCount * KCAL_PER_CUP_CHAI_SUGAR;
   const estimatedWeeklyChaiKcal = estimatedChaiKcal * 7;
@@ -32,7 +35,9 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
   return (
     <View style={styles.container}>
       <Text style={[styles.description, { color: theme.colors.textSecondary }]}>
-        Regional habits shape your caloric profile. Sweetened chai and desi cooking oil are often the largest hidden energy sources.
+        {isSaudi
+          ? 'Saudi cultural habits shape your nutritional rhythm. Saudi Gahwa, companion Sukari/Ajwa dates, fresh Laban, and family Kabsa banquets are central to daily life.'
+          : 'Regional habits shape your caloric profile. Sweetened chai and desi cooking oil are often the largest hidden energy sources.'}
       </Text>
 
       {/* Chai with Sugar Stepper Card */}
@@ -47,14 +52,20 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
       >
         <View style={styles.chaiHeader}>
           <Text style={[styles.chaiTitle, { color: theme.colors.textPrimary }]}>
-            Cups of Chai with Sugar Per Day
+            {isSaudi
+              ? 'Daily Saudi Gahwa & Dates Ritual (فنجان قهوة وتمر)'
+              : 'Cups of Chai with Sugar Per Day'}
           </Text>
           <View style={[styles.chaiBadge, { backgroundColor: theme.colors.primaryLime }]}>
-            <Text style={styles.chaiBadgeText}>Key Desi Factor</Text>
+            <Text style={styles.chaiBadgeText}>
+              {isSaudi ? 'Saudi Tradition' : 'Key Desi Factor'}
+            </Text>
           </View>
         </View>
         <Text style={[styles.chaiSubtitle, { color: theme.colors.textSecondary }]}>
-          Doodh patti / tea brewed with 1-2 tsp of sugar
+          {isSaudi
+            ? 'Finjans of Saudi Gahwa paired with companion dates (Sukari / Ajwa)'
+            : 'Doodh patti / tea brewed with 1-2 tsp of sugar'}
         </Text>
 
         <View style={styles.stepperRow}>
@@ -163,11 +174,15 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
       >
         <View style={styles.chaiHeader}>
           <Text style={[styles.chaiTitle, { color: theme.colors.textPrimary }]}>
-            Dawat / Dine-Out Nights Per Week
+            {isSaudi
+              ? 'Family Banquets & Dine-Out Nights (ولائم وعزائم)'
+              : 'Dawat / Dine-Out Nights Per Week'}
           </Text>
         </View>
         <Text style={[styles.chaiSubtitle, { color: theme.colors.textSecondary }]}>
-          Shaadi dinners, family dawats, or restaurant takeaways
+          {isSaudi
+            ? 'Family Kabsa & Mandi banquets, or restaurant meals (AlBaik, Kudu, Shawarmer)'
+            : 'Shaadi dinners, family dawats, or restaurant takeaways'}
         </Text>
 
         <View style={styles.stepperRow}>

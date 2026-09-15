@@ -331,6 +331,7 @@ export interface VisionResolutionResult {
 
 export interface CoachContext {
   displayName?: string;
+  region?: 'PK' | 'SA';
   sex: BiologicalSex;
   ageYears: number;
   weightKg: number;
