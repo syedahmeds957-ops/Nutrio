@@ -1,4 +1,4 @@
-import { NormalizedFood, RestaurantBrand } from '../types.js';
+import { NormalizedFood, RestaurantBrand, RegionCode } from '../types.js';
 import { BBQ_GRILLS_DATA } from './bbq-grills.data.js';
 import { KARAHI_HANDI_DATA } from './karahi-handi.data.js';
 import { RICE_BIRYANI_DATA } from './rice-biryani.data.js';
@@ -14,6 +14,11 @@ import {
   PAKISTANI_EXPANDED_BRANDS,
   PAKISTANI_EXPANDED_RESTAURANTS_DATA,
 } from './pakistani-restaurants-expanded.data.js';
+import { SAUDI_TRADITIONAL_FOODS } from './saudi-traditional.data.js';
+import {
+  SAUDI_RESTAURANT_BRANDS,
+  SAUDI_RESTAURANTS_DATA,
+} from './saudi-restaurants.data.js';
 
 export * from './bbq-grills.data.js';
 export * from './karahi-handi.data.js';
@@ -27,14 +32,19 @@ export * from './sweets-desserts.data.js';
 export * from './beverages-drinks.data.js';
 export * from './calorify-restaurants.data.js';
 export * from './pakistani-restaurants-expanded.data.js';
+export * from './saudi-traditional.data.js';
+export * from './saudi-restaurants.data.js';
 
 export const PAKISTANI_RESTAURANT_BRANDS: RestaurantBrand[] = [
   ...CALORIFY_BRANDS,
   ...PAKISTANI_EXPANDED_BRANDS,
 ];
 
-// Compatibility aliases
-export const ALL_RESTAURANT_BRANDS = PAKISTANI_RESTAURANT_BRANDS;
+// Unified brands list across all supported regions
+export const ALL_RESTAURANT_BRANDS: RestaurantBrand[] = [
+  ...PAKISTANI_RESTAURANT_BRANDS,
+  ...SAUDI_RESTAURANT_BRANDS,
+];
 
 export const ALL_EXPANDED_PAKISTANI_FOODS: NormalizedFood[] = [
   ...BBQ_GRILLS_DATA,
@@ -52,4 +62,41 @@ export const ALL_EXPANDED_PAKISTANI_FOODS: NormalizedFood[] = [
 ].map((item, idx) => ({
   ...item,
   id: item.id || `pak_food_${idx + 1}`,
+  region: item.region || 'PK',
 }));
+
+export const ALL_SAUDI_FOODS: NormalizedFood[] = [
+  ...SAUDI_TRADITIONAL_FOODS,
+  ...SAUDI_RESTAURANTS_DATA,
+];
+
+export const ALL_FOODS_CATALOG: NormalizedFood[] = [
+  ...ALL_EXPANDED_PAKISTANI_FOODS,
+  ...ALL_SAUDI_FOODS,
+];
+
+/**
+ * Filter restaurant brands by user's active region.
+ */
+export function getBrandsForRegion(region: RegionCode = 'PK'): RestaurantBrand[] {
+  if (region === 'SA') {
+    return SAUDI_RESTAURANT_BRANDS;
+  }
+  if (region === 'PK') {
+    return PAKISTANI_RESTAURANT_BRANDS;
+  }
+  return ALL_RESTAURANT_BRANDS;
+}
+
+/**
+ * Filter foods catalog by user's active region.
+ */
+export function getFoodsForRegion(region: RegionCode = 'PK'): NormalizedFood[] {
+  if (region === 'SA') {
+    return ALL_SAUDI_FOODS;
+  }
+  if (region === 'PK') {
+    return ALL_EXPANDED_PAKISTANI_FOODS;
+  }
+  return ALL_FOODS_CATALOG;
+}

@@ -6,6 +6,7 @@ export interface NormalizedFood {
   nameUr?: string;
   nameAr?: string;
   brand?: string;
+  brandId?: string;
   brandCategory?: string;
   modifiers?: FoodModifier[];
   category: string;
@@ -78,12 +79,17 @@ export interface RestaurantBrand {
   nameAr?: string;
   tagline: string;
   taglineAr?: string;
-  icon: string;
+  icon?: string;
   region?: RegionCode;
   brandGroup?: string;
-  categories: string[];
+  category?: string;
+  cuisineTags?: string[];
+  categories?: string[];
   menuCount?: number;
   itemCount?: number;
+  popularItemsCount?: number;
+  color?: string;
+  accentColor?: string;
 }
 
 export type CalorifyBrand = RestaurantBrand;
