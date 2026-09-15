@@ -15,6 +15,7 @@ import {
   PAKISTANI_RESTAURANT_BRANDS,
   SAUDI_RESTAURANT_BRANDS,
   SAUDI_RESTAURANTS_DATA,
+  SAUDI_TRADITIONAL_FOODS,
   ALL_RESTAURANT_BRANDS,
   RestaurantBrand,
 } from '@nutrio/food-db';
@@ -70,6 +71,19 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
       SAUDI_RESTAURANT_BRANDS.some((b) => b.id === cleanId);
 
     if (isSaudi) {
+      if (
+        cleanId === 'al_matbakh_al_saudi' ||
+        cleanId === 'saudi_home_kitchen' ||
+        cleanId === 'saudi_traditional_kitchen'
+      ) {
+        return SAUDI_TRADITIONAL_FOODS.map((f) => ({
+          ...f,
+          brand: 'Saudi Traditional Kitchen',
+          brandId: 'al_matbakh_al_saudi',
+          brandCategory: f.category || 'Traditional Dishes',
+        }));
+      }
+
       const targetName = (currentBrand?.name || brandName).toLowerCase().trim();
       return SAUDI_RESTAURANTS_DATA.filter((i) => {
         const itemBrandId = (i.brandId || '').toLowerCase().trim();

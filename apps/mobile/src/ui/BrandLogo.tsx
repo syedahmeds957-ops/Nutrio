@@ -523,6 +523,42 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({ brandId, size = 46, style 
         </View>
       );
 
+    // 17.5 Saudi Traditional Kitchen (المطبخ الشعبي السعودي - Saudi Royal Green with Golden Palm and Dallah)
+    case 'al_matbakh_al_saudi':
+    case 'saudi_home_kitchen':
+    case 'saudi_traditional_kitchen':
+      return (
+        <View style={[containerStyle, { backgroundColor: '#006C35' }]}>
+          <Svg width={size * 0.72} height={size * 0.72} viewBox="0 0 34 34" fill="none">
+            {/* Golden Palm Tree Fronds */}
+            <Path
+              d="M17 24V14M17 14C13 12 10 9 10 7C14 7 16 10 17 14ZM17 14C21 12 24 9 24 7C20 7 18 10 17 14ZM17 14C15 10 15 7 17 5C19 7 19 10 17 14Z"
+              stroke="#FEF08A"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            {/* Golden Dallah Pot Base */}
+            <Path
+              d="M13 25H21L20 20H14L13 25Z"
+              fill="#FEF08A"
+            />
+            <Path
+              d="M14 20L11 17"
+              stroke="#FEF08A"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+            />
+            <Path
+              d="M20 21C22 21 23 22 23 24"
+              stroke="#FEF08A"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+            />
+          </Svg>
+        </View>
+      );
+
     // 18. AlBaik (البيك - Signature Yellow Rooster with Top Hat on Crimson Red)
     case 'albaik':
       return (

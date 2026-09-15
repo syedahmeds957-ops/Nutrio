@@ -16,6 +16,7 @@ import {
   ALL_SAUDI_FOODS,
   RestaurantBrand,
   searchPakistaniFoods,
+  searchSaudiFoods,
 } from '@nutrio/food-db';
 import { Icon } from '../../ui/Icon.js';
 import { BrandLogo } from '../../ui/BrandLogo.js';
@@ -41,6 +42,7 @@ const PK_BRAND_GROUPS = [
 
 const SA_BRAND_GROUPS = [
   'All',
+  'Home Food',
   'Fast Food',
   'Shawarma',
   'Traditional Saudi',
@@ -69,14 +71,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
     if (!q) return [];
 
     if (activeRegion === 'SA') {
-      return ALL_SAUDI_FOODS.filter((food) => {
-        const matchName = food.name.toLowerCase().includes(q);
-        const matchNameAr = food.nameAr ? food.nameAr.includes(q) : false;
-        const matchCategory = food.category.toLowerCase().includes(q);
-        const matchTags = food.cuisineTags?.some((t) => t.toLowerCase().includes(q));
-        const matchBrand = food.brand ? food.brand.toLowerCase().includes(q) : false;
-        return matchName || matchNameAr || matchCategory || matchTags || matchBrand;
-      }).slice(0, 40);
+      return searchSaudiFoods(q, { limit: 40 });
     }
 
     return searchPakistaniFoods(q, { limit: 40 });
@@ -88,6 +83,11 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   const filteredBrands = useMemo(() => {
     if (activeRegion === 'SA') {
       if (selectedGroup === 'All') return SAUDI_RESTAURANT_BRANDS;
+      if (selectedGroup === 'Home Food') {
+        return SAUDI_RESTAURANT_BRANDS.filter(
+          (b) => b.id === 'al_matbakh_al_saudi' || b.category === 'Home Food'
+        );
+      }
       return SAUDI_RESTAURANT_BRANDS.filter(
         (b) =>
           b.category === selectedGroup ||
@@ -276,7 +276,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                   </Text>
                 </View>
               ) : (
-                searchResults.map((item) => {
+                searchResults.map((item: NormalizedFood) => {
                   const serving = item.servings[0];
                   const kcal = serving ? Math.round(serving.kcal || item.kcal100g) : Math.round(item.kcal100g);
                   const p = serving ? Math.round(serving.proteinGrams || item.protein100g) : Math.round(item.protein100g);
