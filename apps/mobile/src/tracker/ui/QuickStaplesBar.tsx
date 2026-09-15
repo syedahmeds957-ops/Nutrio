@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
+import { useRegion } from '../../common/region/index.js';
 
 export interface StapleItem {
   id: string;
@@ -25,7 +26,7 @@ interface QuickStaplesBarProps {
   onScanPlate?: () => void;
 }
 
-const COMMON_STAPLES: StapleItem[] = [
+const PK_STAPLES: StapleItem[] = [
   {
     id: 'roti',
     label: '+ 1 Roti',
@@ -68,12 +69,78 @@ const COMMON_STAPLES: StapleItem[] = [
   },
 ];
 
+const SA_STAPLES: StapleItem[] = [
+  {
+    id: 'sa_tamees',
+    label: '+ خبز تميس',
+    name: 'Tamees Bread (خبز تميس)',
+    calories: 150,
+    proteinGrams: 5,
+    fatGrams: 1,
+    carbGrams: 35,
+    icon: 'utensils',
+  },
+  {
+    id: 'sa_laban',
+    label: '+ لبن المراعي',
+    name: 'Almarai Laban (لبن المراعي)',
+    calories: 120,
+    proteinGrams: 8,
+    fatGrams: 6,
+    carbGrams: 10,
+    icon: 'utensils',
+  },
+  {
+    id: 'sa_gahwa',
+    label: '+ قهوة سعودية',
+    name: 'Saudi Gahwa (فنجان قهوة سعودية)',
+    calories: 2,
+    proteinGrams: 0.1,
+    fatGrams: 0,
+    carbGrams: 0.5,
+    icon: 'coffee',
+  },
+  {
+    id: 'sa_dates',
+    label: '+ 3 تمرات',
+    name: 'Sukari Dates 3pc (تمر سكري)',
+    calories: 75,
+    proteinGrams: 0.6,
+    fatGrams: 0.2,
+    carbGrams: 19,
+    icon: 'sun',
+  },
+  {
+    id: 'sa_egg',
+    label: '+ بيض مسلوق',
+    name: 'Boiled Egg (بيض مسلوق)',
+    calories: 75,
+    proteinGrams: 6.5,
+    fatGrams: 5,
+    carbGrams: 0.5,
+    icon: 'sun',
+  },
+  {
+    id: 'sa_kabsa_rice',
+    label: '+ أرز كبسة',
+    name: 'Kabsa Rice Portion (أرز كبسة)',
+    calories: 180,
+    proteinGrams: 4,
+    fatGrams: 4,
+    carbGrams: 32,
+    icon: 'utensils',
+  },
+];
+
 export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
   onQuickLog,
   onScanPlate,
 }) => {
   const { theme, isDark } = useTheme();
+  const { activeRegion } = useRegion();
   const [justLoggedId, setJustLoggedId] = useState<string | null>(null);
+
+  const staples = activeRegion === 'SA' ? SA_STAPLES : PK_STAPLES;
 
   const handlePress = (staple: StapleItem) => {
     onQuickLog(staple);
@@ -87,7 +154,7 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
         <View style={styles.titleRow}>
           <Icon name="zap" size={13} color={theme.colors.primaryLime} />
           <Text style={[styles.heading, { color: theme.colors.textMuted }]}>
-            QUICK LOG STAPLES
+            {activeRegion === 'SA' ? 'تسجيل سريع للأكلات الأساسية' : 'QUICK LOG STAPLES'}
           </Text>
         </View>
 
@@ -110,7 +177,7 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
-        {COMMON_STAPLES.map((staple) => {
+        {staples.map((staple) => {
           const isJustLogged = justLoggedId === staple.id;
 
           return (

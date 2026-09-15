@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
+import { useRegion } from '../../common/region/index.js';
 
 export interface RecommendedFood {
   name: string;
@@ -31,6 +32,7 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
   onAskCoach,
 }) => {
   const { theme, isDark } = useTheme();
+  const { activeRegion } = useRegion();
   const [logged, setLogged] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(15)).current;
@@ -50,7 +52,7 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
     ]).start();
   }, []);
 
-  // Compute recommendation based on remaining calories & protein
+  // Compute recommendation based on active region & remaining calories & protein
   let title = 'Chicken Tikka Plate';
   let subtitle = 'Chicken Tikka Boti (150g) + 1 Whole Wheat Roti + Mint Raita';
   let rationale = `Matches your remaining ${remainingCalories} kcal with high protein to reach target.`;
@@ -60,22 +62,52 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
     { name: 'Mint Raita', calories: 60, proteinGrams: 3, fatGrams: 2, carbGrams: 6 },
   ];
 
-  if (remainingCalories < 250) {
-    title = 'Light Protein Snack';
-    subtitle = '1 Boiled Egg + Fresh Cucumber Lemon Salad';
-    rationale = `Protects calorie deficit with ~140 kcal while adding 8g clean protein.`;
-    items = [
-      { name: 'Boiled Egg', calories: 75, proteinGrams: 6.5, fatGrams: 5, carbGrams: 0.5 },
-      { name: 'Cucumber Salad with Lemon', calories: 35, proteinGrams: 1.5, fatGrams: 0.2, carbGrams: 7 },
-    ];
-  } else if (remainingCalories < 420) {
-    title = 'Comfort Desi Daal & Roti';
-    subtitle = '1 Katori Daal Chana + 1 Whole Wheat Roti';
-    rationale = `Satisfying fiber and plant protein fitting cleanly within ${remainingCalories} kcal.`;
-    items = [
-      { name: 'Daal Chana', calories: 160, proteinGrams: 9, fatGrams: 5, carbGrams: 20 },
-      { name: 'Roti (Whole Wheat)', calories: 120, proteinGrams: 4, fatGrams: 1, carbGrams: 24 },
-    ];
+  if (activeRegion === 'SA') {
+    if (remainingCalories < 250) {
+      title = 'Laban & Boiled Egg (خيار خفيف)';
+      subtitle = 'Almarai Fresh Laban (200ml) + 1 Boiled Egg';
+      rationale = `Protects calorie deficit with ~195 kcal while adding 14.5g clean protein.`;
+      items = [
+        { name: 'Almarai Laban (لبن المراعي)', calories: 120, proteinGrams: 8, fatGrams: 6, carbGrams: 10 },
+        { name: 'Boiled Egg (بيض مسلوق)', calories: 75, proteinGrams: 6.5, fatGrams: 5, carbGrams: 0.5 },
+      ];
+    } else if (remainingCalories < 420) {
+      title = 'Shakshuka & Warm Tamees (شكشوكة وتميس)';
+      subtitle = 'Fresh Tomato Shakshuka + Half Tamees Bread';
+      rationale = `Traditional Saudi meal fitting cleanly within ${remainingCalories} kcal with balanced macros.`;
+      items = [
+        { name: 'Fresh Shakshuka (شكشوكة)', calories: 160, proteinGrams: 10, fatGrams: 10, carbGrams: 8 },
+        { name: 'Half Tamees Bread (نصف تميس)', calories: 150, proteinGrams: 5, fatGrams: 1, carbGrams: 35 },
+      ];
+    } else {
+      title = 'Tazaj Farrouj & Salad (فروج الطازج)';
+      subtitle = 'Half Charcoal Farrouj (الطازج) + Tazaj Salad + Tahina';
+      rationale = `High-protein charcoal grilled meal matching your remaining ${remainingCalories} kcal.`;
+      items = [
+        { name: 'Al Tazaj Half Farrouj (نصف فروج)', calories: 280, proteinGrams: 35, fatGrams: 14, carbGrams: 2 },
+        { name: 'Tazaj Fresh Salad (سلطة خضراء)', calories: 26, proteinGrams: 1.2, fatGrams: 0.3, carbGrams: 4.5 },
+        { name: 'Tazaj Tahina Dip (طحينة)', calories: 156, proteinGrams: 3, fatGrams: 14, carbGrams: 4.5 },
+      ];
+    }
+  } else {
+    // Pakistani / Global default
+    if (remainingCalories < 250) {
+      title = 'Light Protein Snack';
+      subtitle = '1 Boiled Egg + Fresh Cucumber Lemon Salad';
+      rationale = `Protects calorie deficit with ~140 kcal while adding 8g clean protein.`;
+      items = [
+        { name: 'Boiled Egg', calories: 75, proteinGrams: 6.5, fatGrams: 5, carbGrams: 0.5 },
+        { name: 'Cucumber Salad with Lemon', calories: 35, proteinGrams: 1.5, fatGrams: 0.2, carbGrams: 7 },
+      ];
+    } else if (remainingCalories < 420) {
+      title = 'Comfort Desi Daal & Roti';
+      subtitle = '1 Katori Daal Chana + 1 Whole Wheat Roti';
+      rationale = `Satisfying fiber and plant protein fitting cleanly within ${remainingCalories} kcal.`;
+      items = [
+        { name: 'Daal Chana', calories: 160, proteinGrams: 9, fatGrams: 5, carbGrams: 20 },
+        { name: 'Roti (Whole Wheat)', calories: 120, proteinGrams: 4, fatGrams: 1, carbGrams: 24 },
+      ];
+    }
   }
 
   const totalKcal = items.reduce((s, i) => s + i.calories, 0);

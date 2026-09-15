@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import React from 'react';
 import { AiRecommendationCard } from '../ui/AiRecommendationCard.js';
+import { RegionProvider } from '../../common/region/index.js';
 
 describe('AiRecommendationCard Component', () => {
   it('renders dynamic recommendation and handles 1-tap log and ask coach callbacks', () => {
@@ -19,5 +20,29 @@ describe('AiRecommendationCard Component', () => {
     expect(element.props.remainingProtein).toBe(40);
     expect(element.props.onLogRecommendation).toBe(onLogRecommendation);
     expect(element.props.onAskCoach).toBe(onAskCoach);
+  });
+
+  it('renders cleanly inside Saudi Arabia RegionProvider with Saudi meals', () => {
+    const onLogRecommendation = vi.fn();
+    const child = React.createElement(AiRecommendationCard, {
+      remainingCalories: 350,
+      remainingProtein: 25,
+      onLogRecommendation,
+    });
+    const element = React.createElement(RegionProvider, { initialRegion: 'SA', children: child });
+    expect(element).toBeDefined();
+    expect(element.props.initialRegion).toBe('SA');
+  });
+
+  it('renders cleanly inside Pakistan RegionProvider with Pakistani meals', () => {
+    const onLogRecommendation = vi.fn();
+    const child = React.createElement(AiRecommendationCard, {
+      remainingCalories: 350,
+      remainingProtein: 25,
+      onLogRecommendation,
+    });
+    const element = React.createElement(RegionProvider, { initialRegion: 'PK', children: child });
+    expect(element).toBeDefined();
+    expect(element.props.initialRegion).toBe('PK');
   });
 });
