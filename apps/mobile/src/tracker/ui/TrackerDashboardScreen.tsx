@@ -25,6 +25,7 @@ import { MealSlot } from '../types.js';
 import { NormalizedFood, PAKISTANI_STAPLES_DATA, ServingUnit } from '@nutrio/food-db';
 import { ResolvedFoodItem } from '@nutrio/nutrition-core';
 import { useTheme } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
 import { Icon } from '../../ui/Icon.js';
 
 interface TrackerDashboardScreenProps {
@@ -46,7 +47,7 @@ interface TrackerDashboardScreenProps {
 }
 
 export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
-  userName = 'Talha',
+  userName = 'User',
   targets,
   onBackToPlan,
   onOpenWeightTracker,
@@ -57,6 +58,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   onLogout,
 }) => {
   const { theme, mode, isDark, setMode, toggleTheme } = useTheme();
+  const { activeRegion, setRegion } = useRegion();
   const [engine] = useState(() => new TrackerEngine(targets));
   const [, setRerender] = useState(0);
   const forceUpdate = () => setRerender((prev) => prev + 1);
@@ -248,22 +250,42 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
               </View>
             </TouchableOpacity>
 
-            {/* Quick Theme Switcher Pill */}
-            <TouchableOpacity
-              style={[
-                styles.themeToggleBtn,
-                {
-                  backgroundColor: theme.colors.surface,
-                  borderColor: theme.colors.border,
-                },
-              ]}
-              onPress={toggleTheme}
-              activeOpacity={0.7}
-            >
-              <Text style={[styles.themeToggleText, { color: theme.colors.textPrimary }]}>
-                {mode === 'dark' ? '☀️ Light' : '🌙 Dark'}
-              </Text>
-            </TouchableOpacity>
+            {/* Header Right Actions: Region Switcher + Theme Toggle */}
+            <View style={styles.headerRightActions}>
+              <TouchableOpacity
+                style={[
+                  styles.regionToggleBtn,
+                  {
+                    backgroundColor: theme.colors.surface,
+                    borderColor: theme.colors.border,
+                  },
+                ]}
+                onPress={() => setRegion(activeRegion === 'SA' ? 'PK' : 'SA')}
+                activeOpacity={0.7}
+                accessibilityRole="button"
+                accessibilityLabel="Toggle Active Region"
+              >
+                <Text style={[styles.regionToggleText, { color: theme.colors.textPrimary }]}>
+                  {activeRegion === 'SA' ? '🇸🇦 SA' : '🇵🇰 PK'}
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[
+                  styles.themeToggleBtn,
+                  {
+                    backgroundColor: theme.colors.surface,
+                    borderColor: theme.colors.border,
+                  },
+                ]}
+                onPress={toggleTheme}
+                activeOpacity={0.7}
+              >
+                <Text style={[styles.themeToggleText, { color: theme.colors.textPrimary }]}>
+                  {mode === 'dark' ? '☀️ Light' : '🌙 Dark'}
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
 
           {/* Navigation Action Chips */}
@@ -425,7 +447,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                 ]}
               >
                 {completedSlotsCount === 4
-                  ? '🎉 ALL MEALS DONE'
+                  ? 'ðŸŽ‰ ALL MEALS DONE'
                   : `${completedSlotsCount} / 4 LOGGED`}
               </Text>
             </View>
@@ -633,7 +655,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                   {userName}
                 </Text>
                 <Text style={[styles.profileEmail, { color: theme.colors.textMuted }]}>
-                  100% Free Plan • All 60+ Brands Unlocked
+                  100% Free Plan â€¢ All 60+ Brands Unlocked
                 </Text>
               </View>
               <TouchableOpacity
@@ -641,7 +663,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                 onPress={() => closeProfile()}
                 activeOpacity={0.7}
               >
-                <Text style={[styles.profileCloseText, { color: theme.colors.textSecondary }]}>✕</Text>
+                <Text style={[styles.profileCloseText, { color: theme.colors.textSecondary }]}>âœ•</Text>
               </TouchableOpacity>
             </View>
 
@@ -670,7 +692,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                       { color: mode === 'dark' ? '#0A0B0D' : theme.colors.textSecondary },
                     ]}
                   >
-                    🌙 Dark Mode
+                    ðŸŒ™ Dark Mode
                   </Text>
                 </TouchableOpacity>
 
@@ -688,7 +710,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                       { color: mode === 'light' ? '#0A0B0D' : theme.colors.textSecondary },
                     ]}
                   >
-                    ☀️ Light Mode
+                    â˜€ï¸ Light Mode
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -850,6 +872,24 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     color: '#0A0B0D',
     letterSpacing: 0.5,
+  },
+  headerRightActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  regionToggleBtn: {
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 9999,
+    borderWidth: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  regionToggleText: {
+    fontSize: 12,
+    fontWeight: '700',
   },
   themeToggleBtn: {
     paddingVertical: 6,

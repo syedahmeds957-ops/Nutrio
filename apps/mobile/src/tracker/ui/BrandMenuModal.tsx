@@ -13,6 +13,9 @@ import {
   NormalizedFood,
   ALL_EXPANDED_PAKISTANI_FOODS,
   PAKISTANI_RESTAURANT_BRANDS,
+  SAUDI_RESTAURANT_BRANDS,
+  SAUDI_RESTAURANTS_DATA,
+  ALL_RESTAURANT_BRANDS,
   RestaurantBrand,
 } from '@nutrio/food-db';
 import { Icon } from '../../ui/Icon.js';
@@ -46,11 +49,11 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
     if (!brandId) return undefined;
     const cleanId = brandId.toLowerCase().trim();
     return (
-      PAKISTANI_RESTAURANT_BRANDS.find((b) => b.id.toLowerCase() === cleanId) ||
-      PAKISTANI_RESTAURANT_BRANDS.find(
+      ALL_RESTAURANT_BRANDS.find((b) => b.id.toLowerCase() === cleanId) ||
+      ALL_RESTAURANT_BRANDS.find(
         (b) => b.name.toLowerCase().replace(/[^a-z0-9]/g, '_') === cleanId
       ) ||
-      PAKISTANI_RESTAURANT_BRANDS.find((b) => b.name.toLowerCase().includes(cleanId))
+      ALL_RESTAURANT_BRANDS.find((b) => b.name.toLowerCase().includes(cleanId))
     );
   }, [brandId]);
 
@@ -59,7 +62,27 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
   // Get all items belonging to this brand
   const brandItems = useMemo(() => {
     if (!brandId) return [];
+    const cleanId = brandId.toLowerCase().trim();
 
+    // 1. Saudi Brand Resolution
+    const isSaudi =
+      currentBrand?.region === 'SA' ||
+      SAUDI_RESTAURANT_BRANDS.some((b) => b.id === cleanId);
+
+    if (isSaudi) {
+      const targetName = (currentBrand?.name || brandName).toLowerCase().trim();
+      return SAUDI_RESTAURANTS_DATA.filter((i) => {
+        const itemBrandId = (i.brandId || '').toLowerCase().trim();
+        const itemBrand = (i.brand || '').toLowerCase().trim();
+        return (
+          itemBrandId === cleanId ||
+          (currentBrand && itemBrandId === currentBrand.id.toLowerCase().trim()) ||
+          itemBrand === targetName
+        );
+      });
+    }
+
+    // 2. Pakistani Ghar ka Khana
     if (brandId === 'ghar_ka_khana' || currentBrand?.id === 'ghar_ka_khana') {
       const brandedGhar = ALL_EXPANDED_PAKISTANI_FOODS.filter(
         (i) => i.brand === 'Ghar ka Khana'
@@ -76,6 +99,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
       return [...brandedGhar, ...staples];
     }
 
+    // 3. Pakistani branded restaurants
     const targetName = (currentBrand?.name || brandName).toLowerCase().trim();
     return ALL_EXPANDED_PAKISTANI_FOODS.filter((i) => {
       if (!i.brand) return false;
@@ -162,11 +186,18 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
           <View style={styles.headerTitleContainer}>
             <BrandLogo brandId={currentBrand?.id || brandId || ''} size={34} style={{ marginRight: 10 }} />
             <View>
-              <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>
-                {brandName || 'Brand Menu'}
-              </Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>
+                  {brandName || 'Brand Menu'}
+                </Text>
+                {currentBrand?.nameAr && (
+                  <Text style={{ fontSize: 13, fontWeight: '700', color: theme.colors.primaryLime }}>
+                    {currentBrand.nameAr}
+                  </Text>
+                )}
+              </View>
               <Text style={[styles.headerSubtitle, { color: theme.colors.textSecondary }]}>
-                {brandItems.length} verified food items
+                {brandItems.length} verified food items{currentBrand?.region === 'SA' ? ' · SFDA Compliant' : ''}
               </Text>
             </View>
           </View>
@@ -325,6 +356,11 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                             <Text style={[styles.itemName, { color: theme.colors.textPrimary }]}>
                               {item.name}
                             </Text>
+                            {item.nameAr && (
+                              <Text style={[styles.itemNameAr, { color: theme.colors.primaryLime }]}>
+                                {item.nameAr}
+                              </Text>
+                            )}
                             {item.nameUr && (
                               <Text style={[styles.itemNameUr, { color: theme.colors.textMuted }]}>
                                 {item.nameUr}
@@ -514,6 +550,11 @@ const styles = StyleSheet.create({
   itemName: {
     fontSize: 15,
     fontWeight: '800',
+    marginRight: 6,
+  },
+  itemNameAr: {
+    fontSize: 13,
+    fontWeight: '700',
     marginRight: 6,
   },
   itemNameUr: {

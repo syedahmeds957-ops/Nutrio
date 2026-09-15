@@ -12,12 +12,15 @@ import {
 import {
   NormalizedFood,
   PAKISTANI_RESTAURANT_BRANDS,
+  SAUDI_RESTAURANT_BRANDS,
+  ALL_SAUDI_FOODS,
   RestaurantBrand,
   searchPakistaniFoods,
 } from '@nutrio/food-db';
 import { Icon } from '../../ui/Icon.js';
 import { BrandLogo } from '../../ui/BrandLogo.js';
 import { useTheme } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
 
 export interface MealLogHubModalProps {
   visible: boolean;
@@ -26,7 +29,7 @@ export interface MealLogHubModalProps {
   onSelectItem: (item: NormalizedFood) => void;
 }
 
-const BRAND_GROUPS = [
+const PK_BRAND_GROUPS = [
   'All',
   'Fast Food',
   'Pizza',
@@ -36,6 +39,17 @@ const BRAND_GROUPS = [
   'Home Food',
 ];
 
+const SA_BRAND_GROUPS = [
+  'All',
+  'Fast Food',
+  'Shawarma',
+  'Traditional Saudi',
+  'Grills & Fast Casual',
+  'Burgers',
+  'Pizza',
+  'Cafe & Coffee',
+];
+
 export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   visible,
   onClose,
@@ -43,26 +57,50 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   onSelectItem,
 }) => {
   const { theme, isDark } = useTheme();
+  const { activeRegion, setRegion } = useRegion();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedGroup, setSelectedGroup] = useState<string>('All');
 
-  // Fast search across 2,700+ dishes
+  const brandGroups = activeRegion === 'SA' ? SA_BRAND_GROUPS : PK_BRAND_GROUPS;
+
+  // Search across dishes adapted to active region
   const searchResults = useMemo(() => {
-    const q = searchQuery.trim();
+    const q = searchQuery.trim().toLowerCase();
     if (!q) return [];
+
+    if (activeRegion === 'SA') {
+      return ALL_SAUDI_FOODS.filter((food) => {
+        const matchName = food.name.toLowerCase().includes(q);
+        const matchNameAr = food.nameAr ? food.nameAr.includes(q) : false;
+        const matchCategory = food.category.toLowerCase().includes(q);
+        const matchTags = food.cuisineTags?.some((t) => t.toLowerCase().includes(q));
+        const matchBrand = food.brand ? food.brand.toLowerCase().includes(q) : false;
+        return matchName || matchNameAr || matchCategory || matchTags || matchBrand;
+      }).slice(0, 40);
+    }
+
     return searchPakistaniFoods(q, { limit: 40 });
-  }, [searchQuery]);
+  }, [searchQuery, activeRegion]);
 
   const isSearching = searchQuery.trim().length > 0;
 
-  // Filter brands by selected cuisine group
+  // Filter brands by active region & selected cuisine group
   const filteredBrands = useMemo(() => {
+    if (activeRegion === 'SA') {
+      if (selectedGroup === 'All') return SAUDI_RESTAURANT_BRANDS;
+      return SAUDI_RESTAURANT_BRANDS.filter(
+        (b) =>
+          b.category === selectedGroup ||
+          b.cuisineTags?.includes(selectedGroup)
+      );
+    }
+
     if (selectedGroup === 'All') return PAKISTANI_RESTAURANT_BRANDS;
     if (selectedGroup === 'Home Food') {
       return PAKISTANI_RESTAURANT_BRANDS.filter((b) => b.id === 'ghar_ka_khana');
     }
     return PAKISTANI_RESTAURANT_BRANDS.filter((b) => b.brandGroup === selectedGroup);
-  }, [selectedGroup]);
+  }, [selectedGroup, activeRegion]);
 
   return (
     <Modal
@@ -72,7 +110,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
       onRequestClose={onClose}
     >
       <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.canvas }]}>
-        {/* Header */}
+        {/* Header with Region Switcher Pill */}
         <View
           style={[
             styles.header,
@@ -93,7 +131,26 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
           <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>
             Log a meal
           </Text>
-          <View style={styles.headerRightSpacer} />
+          <TouchableOpacity
+            style={[
+              styles.regionPillBtn,
+              {
+                backgroundColor: theme.colors.surfaceSecondary,
+                borderColor: theme.colors.border,
+              },
+            ]}
+            onPress={() => {
+              setSelectedGroup('All');
+              setRegion(activeRegion === 'SA' ? 'PK' : 'SA');
+            }}
+            activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityLabel="Switch Region"
+          >
+            <Text style={[styles.regionPillText, { color: theme.colors.textPrimary }]}>
+              {activeRegion === 'SA' ? '🇸🇦 SA' : '🇵🇰 PK'}
+            </Text>
+          </TouchableOpacity>
         </View>
 
         {/* Global Search Bar */}
@@ -118,7 +175,11 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
             <Icon name="search" size={18} color={theme.colors.textMuted} />
             <TextInput
               style={[styles.searchInput, { color: theme.colors.textPrimary }]}
-              placeholder="Search 2,700+ dishes, Zinger, pulao, fries..."
+              placeholder={
+                activeRegion === 'SA'
+                  ? 'Search Kabsa, AlBaik, Mandi, Gahwa, Shawarma...'
+                  : 'Search 2,700+ dishes, Zinger, pulao, fries...'
+              }
               placeholderTextColor={theme.colors.textMuted}
               value={searchQuery}
               onChangeText={setSearchQuery}
@@ -153,7 +214,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={styles.groupPillsWrapper}
             >
-              {BRAND_GROUPS.map((grp) => {
+              {brandGroups.map((grp) => {
                 const isActive = selectedGroup === grp;
                 return (
                   <TouchableOpacity
@@ -209,7 +270,9 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                     No dishes found
                   </Text>
                   <Text style={[styles.emptyStateSubtitle, { color: theme.colors.textSecondary }]}>
-                    Try searching for &quot;Zinger&quot;, &quot;Biryani&quot;, &quot;Chai&quot;, &quot;Pizza&quot;, or &quot;Karahi&quot;.
+                    {activeRegion === 'SA'
+                      ? 'Try searching for "Kabsa", "AlBaik", "Mandi", "Saleeg", or "Gahwa".'
+                      : 'Try searching for "Zinger", "Biryani", "Chai", "Pizza", or "Karahi".'}
                   </Text>
                 </View>
               ) : (
@@ -238,6 +301,11 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                           <Text style={[styles.dishName, { color: theme.colors.textPrimary }]}>
                             {item.name}
                           </Text>
+                          {item.nameAr && (
+                            <Text style={[styles.dishNameAr, { color: theme.colors.primaryLime }]}>
+                              {item.nameAr}
+                            </Text>
+                          )}
                           {item.nameUr && (
                             <Text style={[styles.dishNameUr, { color: theme.colors.textMuted }]}>
                               {item.nameUr}
@@ -303,7 +371,13 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
             /* Brands List View */
             <View style={styles.brandsSection}>
               <Text style={[styles.sectionEyebrow, { color: theme.colors.textMuted }]}>
-                {selectedGroup === 'All' ? '60+ PAKISTANI RESTAURANTS & HOME FOODS' : `${selectedGroup.toUpperCase()} BRANDS (${filteredBrands.length})`}
+                {activeRegion === 'SA'
+                  ? selectedGroup === 'All'
+                    ? '12+ SAUDI RESTAURANTS & TRADITIONAL DISHES (SFDA)'
+                    : `${selectedGroup.toUpperCase()} BRANDS (${filteredBrands.length})`
+                  : selectedGroup === 'All'
+                  ? '60+ PAKISTANI RESTAURANTS & HOME FOODS'
+                  : `${selectedGroup.toUpperCase()} BRANDS (${filteredBrands.length})`}
               </Text>
 
               {filteredBrands.map((brand: RestaurantBrand) => {
@@ -327,6 +401,11 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                         <Text style={[styles.brandName, { color: theme.colors.textPrimary }]}>
                           {brand.name}
                         </Text>
+                        {brand.nameAr && (
+                          <Text style={[styles.brandNameAr, { color: theme.colors.primaryLime }]}>
+                            {brand.nameAr}
+                          </Text>
+                        )}
                         {brand.nameUr && (
                           <Text style={[styles.brandNameUr, { color: theme.colors.textMuted }]}>
                             {brand.nameUr}
@@ -334,7 +413,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                         )}
                       </View>
                       <Text style={[styles.brandTagline, { color: theme.colors.textSecondary }]}>
-                        {brand.tagline}
+                        {activeRegion === 'SA' && brand.taglineAr ? brand.taglineAr : brand.tagline}
                       </Text>
                     </View>
 
@@ -355,47 +434,57 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
+    height: 60,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingVertical: 14,
     borderBottomWidth: 1,
   },
   backButton: {
-    width: 40,
-    height: 40,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 20,
   },
   headerTitle: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '800',
-    letterSpacing: -0.3,
+    letterSpacing: -0.2,
   },
-  headerRightSpacer: {
-    width: 40,
+  regionPillBtn: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 9999,
+    borderWidth: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  regionPillText: {
+    fontSize: 12,
+    fontWeight: '700',
   },
   searchContainer: {
     paddingHorizontal: 16,
-    paddingVertical: 10,
+    paddingVertical: 12,
   },
   searchInputWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 14,
-    paddingHorizontal: 12,
-    height: 46,
+    paddingHorizontal: 14,
+    height: 48,
+    borderRadius: 24,
   },
   searchInput: {
     flex: 1,
     marginLeft: 10,
     fontSize: 14,
+    fontWeight: '500',
   },
   groupScrollContainer: {
     borderBottomWidth: 1,
-    paddingBottom: 10,
+    paddingVertical: 10,
   },
   groupPillsWrapper: {
     paddingHorizontal: 16,
@@ -404,7 +493,7 @@ const styles = StyleSheet.create({
   groupPill: {
     paddingHorizontal: 14,
     paddingVertical: 8,
-    borderRadius: 9999,
+    borderRadius: 20,
   },
   groupPillText: {
     fontSize: 13,
@@ -417,18 +506,19 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   sectionEyebrow: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '800',
     letterSpacing: 0.8,
     marginBottom: 12,
+    textTransform: 'uppercase',
   },
   brandsSection: {
-    marginBottom: 24,
+    marginBottom: 20,
   },
   brandCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 14,
+    padding: 12,
     borderRadius: 18,
     marginBottom: 10,
     borderWidth: 1,
@@ -438,10 +528,11 @@ const styles = StyleSheet.create({
   },
   brandInfo: {
     flex: 1,
+    marginRight: 8,
   },
   brandTitleRow: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'baseline',
     marginBottom: 2,
     flexWrap: 'wrap',
   },
@@ -449,6 +540,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '800',
     marginRight: 8,
+  },
+  brandNameAr: {
+    fontSize: 13,
+    fontWeight: '700',
+    marginRight: 6,
   },
   brandNameUr: {
     fontSize: 12,
@@ -481,6 +577,11 @@ const styles = StyleSheet.create({
   dishName: {
     fontSize: 15,
     fontWeight: '800',
+    marginRight: 6,
+  },
+  dishNameAr: {
+    fontSize: 13,
+    fontWeight: '700',
     marginRight: 6,
   },
   dishNameUr: {

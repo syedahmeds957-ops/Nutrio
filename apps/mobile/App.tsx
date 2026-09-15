@@ -23,7 +23,7 @@ import { WeightTrackerScreen } from './src/weight/ui/index.js';
 import { CoachChatScreen, WeeklyCheckInScreen } from './src/coach/index.js';
 import { HomeScreen } from './src/home/index.js';
 import { AuthScreen, getAuthSession, clearAuthSession, restoreSession } from './src/auth/index.js';
-import { syncCompleteOnboarding } from './src/sync/userDataSync.js';
+import { syncCompleteOnboarding, hydrateUserDataFromCloud } from './src/sync/userDataSync.js';
 
 const DEFAULT_ACTIVE_PLAN: ComputedUserPlan = {
   userContext: {
@@ -64,6 +64,7 @@ const DEFAULT_ACTIVE_PLAN: ComputedUserPlan = {
 };
 
 import { ThemeProvider, useTheme } from './src/theme.js';
+import { RegionProvider } from './src/common/region/index.js';
 
 function NutrioAppContent() {
   const { theme } = useTheme();
@@ -89,12 +90,18 @@ function NutrioAppContent() {
     DEFAULT_ACTIVE_PLAN
   );
 
-  // Restore Supabase session on boot
+  // Restore Supabase session on boot & hydrate personalized cloud data
   useEffect(() => {
     restoreSession()
-      .then((session) => {
-        if (session && appState === 'home') {
-          setAppState('active_tracker');
+      .then(async (session) => {
+        if (session) {
+          const hydration = await hydrateUserDataFromCloud().catch(() => null);
+          if (hydration?.computedPlan) {
+            setActivePlan(hydration.computedPlan);
+          }
+          if (appState === 'home') {
+            setAppState('active_tracker');
+          }
         }
       })
       .catch(() => {});
@@ -124,7 +131,13 @@ function NutrioAppContent() {
     return wrapScreen(
       <AuthScreen
         initialMode="login"
-        onAuthSuccess={(_session) => setAppState('active_tracker')}
+        onAuthSuccess={async (_session) => {
+          const hydration = await hydrateUserDataFromCloud().catch(() => null);
+          if (hydration?.computedPlan) {
+            setActivePlan(hydration.computedPlan);
+          }
+          setAppState('active_tracker');
+        }}
         onBackToHome={() => setAppState('home')}
         onExploreGuest={() => setAppState('active_tracker')}
       />
@@ -192,7 +205,7 @@ function NutrioAppContent() {
     const sessionUser = getAuthSession()?.user;
     return wrapScreen(
       <TrackerDashboardScreen
-        userName={sessionUser?.name || 'Talha'}
+        userName={sessionUser?.name || 'User'}
         targets={{
           targetCalories: activePlan.targetResult.kcalTarget,
           targetProteinGrams: activePlan.macros.proteinGrams,
@@ -454,7 +467,9 @@ function NutrioAppContent() {
 export default function App() {
   return (
     <ThemeProvider initialMode="dark">
-      <NutrioAppContent />
+      <RegionProvider>
+        <NutrioAppContent />
+      </RegionProvider>
     </ThemeProvider>
   );
 }
@@ -691,3 +706,4 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
 });
+
