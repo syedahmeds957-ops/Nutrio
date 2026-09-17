@@ -86,7 +86,9 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
               style={[styles.slotTitle, { color: theme.colors.textPrimary }]}
               numberOfLines={1}
             >
-              {slot.title}
+              {isSaudi
+                ? slot.title?.replace(/Desi/gi, 'Saudi')?.replace(/Chai/gi, 'Gahwa')
+                : slot.title}
             </Text>
           </View>
         </View>

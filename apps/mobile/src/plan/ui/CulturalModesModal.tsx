@@ -33,14 +33,14 @@ const PK_FAMILY_DISHES = [
 ];
 
 const SA_FAMILY_DISHES = [
-  'Chicken Kabsa (كبسة دجاج)',
-  'Naeemi Lamb Mandi (مندي لحم نعيمي)',
-  'Hashi Camel Kabsa (كبسة حاشي)',
-  'Madhbi Chicken (مضبي دجاج)',
-  'Saleeg Taifi (سليق طائفي بالحليب)',
-  'Najdi Jareesh (جريش نجد بالسمن)',
-  'Mutabbaq Meat (مطبق لحم بلدي)',
-  'Sayadieh Fish (صيادية سمك حجازية)',
+  'Chicken Kabsa · كبسة دجاج',
+  'Naeemi Lamb Mandi · مندي لحم نعيمي',
+  'Hashi Camel Kabsa · كبسة حاشي',
+  'Madhbi Chicken · مضبي دجاج',
+  'Saleeg Taifi · سليق طائفي',
+  'Najdi Jareesh · جريش نجد',
+  'Mutabbaq Meat · مطبق لحم',
+  'Sayadiah Fish · صيادية سمك',
 ];
 
 export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
@@ -55,7 +55,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
   const { activeRegion } = useRegion();
   const isSaudi = activeRegion === 'SA';
   const familyDishes = isSaudi ? SA_FAMILY_DISHES : PK_FAMILY_DISHES;
-  const defaultDish = currentFamilyDish || (isSaudi ? 'Chicken Kabsa (كبسة دجاج)' : 'Chicken Karahi');
+  const defaultDish = currentFamilyDish || (isSaudi ? 'Chicken Kabsa · كبسة دجاج' : 'Chicken Karahi');
 
   const [activeTab, setActiveTab] = useState<'family' | 'ramadan'>('family');
   const [selectedDish, setSelectedDish] = useState(defaultDish);
@@ -65,8 +65,9 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
   const [ramadanToggle, setRamadanToggle] = useState(isRamadanActive);
 
   const handleApplyFamily = () => {
-    const dish = customDish.trim() || selectedDish;
-    onApplyFamilyMode(dish, mealSlot);
+    const rawDish = customDish.trim() || selectedDish;
+    const cleanDish = rawDish.split('·')[0].split('(')[0].trim();
+    onApplyFamilyMode(cleanDish, mealSlot);
     onClose();
   };
 
@@ -89,11 +90,11 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
             <View>
               <Text style={styles.eyebrow}>
                 {isSaudi
-                  ? 'SAUDI CULTURAL ADAPTERS (الملاءمة الثقافية السعودية)'
+                  ? 'SAUDI CULTURAL ADAPTERS · الملاءمة الثقافية'
                   : 'PAKISTANI CULTURAL ADAPTERS'}
               </Text>
               <Text style={styles.modalTitle}>
-                {isSaudi ? 'Cultural Diet Modes (الأنماط التراثية)' : 'Cultural Diet Modes'}
+                Cultural Diet Modes {isSaudi ? '· الأنماط التراثية' : ''}
               </Text>
             </View>
             <TouchableOpacity
@@ -329,16 +330,20 @@ const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.75)',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
   },
   modalContent: {
     backgroundColor: '#FFFFFF',
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
+    borderRadius: 28,
+    width: '100%',
+    maxWidth: 580,
     maxHeight: '90%',
     paddingTop: 20,
     borderWidth: 1,
     borderColor: '#F1F5F9',
+    overflow: 'hidden',
   },
   headerRow: {
     flexDirection: 'row',

@@ -21,17 +21,48 @@ interface GroceryListViewProps {
   onBackToPlan: () => void;
 }
 
+const formatBudgetTierHeader = (tier: string, isSaudiMode: boolean): string => {
+  if (isSaudiMode) {
+    switch (tier) {
+      case 'low_under_3500':
+      case 'budget_under_3500':
+        return 'BUDGET (< 125 SAR)';
+      case 'standard_3500_7000':
+        return 'STANDARD (125 - 250 SAR)';
+      case 'premium_above_7000':
+        return 'PREMIUM (> 250 SAR)';
+      default:
+        return tier.replace(/_/g, ' ').replace(/\d+/g, '').trim().toUpperCase() || 'STANDARD';
+    }
+  }
+  switch (tier) {
+    case 'low_under_3500':
+      return 'BUDGET (< Rs 3,500)';
+    case 'standard_3500_7000':
+      return 'STANDARD (Rs 3,500 - 7,000)';
+    case 'premium_above_7000':
+      return 'PREMIUM (> Rs 7,000)';
+    default:
+      return tier.replace(/_/g, ' ').toUpperCase();
+  }
+};
+
 export const GroceryListView: React.FC<GroceryListViewProps> = ({
-  weekPlans,
-  budgetTier,
-  onBackToPlan,
+  weekPlans: plans,
+  budgetTier = 'standard_3500_7000',
+  onBackToPlan: onBack,
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
   const isSaudi = activeRegion === 'SA';
-  const summary = generateWeeklyGroceryList(weekPlans, budgetTier, activeRegion);
-  const [checkedIds, setCheckedIds] = useState<Set<string>>(new Set());
+
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [checkedIds, setCheckedIds] = useState<Set<string>>(new Set());
+
+  const summary = useMemo(
+    () => generateWeeklyGroceryList(plans, budgetTier, activeRegion as any),
+    [plans, budgetTier, activeRegion]
+  );
 
   const toggleItem = (id: string) => {
     setCheckedIds((prev) => {
@@ -45,12 +76,14 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
     });
   };
 
-  const filteredCategories =
-    selectedCategory === 'all'
-      ? summary.categories
-      : summary.categories.filter((c) => c.category === selectedCategory);
+  const filteredCategories = useMemo(() => {
+    if (selectedCategory === 'all') {
+      return summary.categories;
+    }
+    return summary.categories.filter((c) => c.category === selectedCategory);
+  }, [summary, selectedCategory]);
 
-  const totalItemsCount = summary.categories.reduce(
+  const totalItemsCount = summary.totalItemCount ?? summary.categories.reduce(
     (sum, c) => sum + c.items.length,
     0
   );
@@ -69,30 +102,36 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
         ]}
       >
         <TouchableOpacity
-          style={[styles.backBtn, { backgroundColor: theme.colors.surfaceSecondary }]}
-          onPress={onBackToPlan}
+          style={[
+            styles.backBtn,
+            {
+              backgroundColor: theme.colors.surfaceSecondary,
+              borderColor: theme.colors.border,
+            },
+          ]}
+          onPress={onBack}
           activeOpacity={0.7}
         >
           <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
             ← Back to Plan
           </Text>
         </TouchableOpacity>
-        <Text style={[styles.navTitle, { color: theme.colors.textPrimary }]}>
+        <Text
+          style={[styles.screenTitle, { color: theme.colors.textPrimary }]}
+          numberOfLines={1}
+        >
           {isSaudi ? '7-Day Grocery List (مقاضي الأسبوع)' : '7-Day Grocery List'}
         </Text>
         <View
           style={[
-            styles.checkedCountBadge,
-            {
-              backgroundColor: isDark ? '#082E1E' : '#DCFCE7',
-              borderColor: isDark ? '#10B981' : '#BBF7D0',
-            },
+            styles.progressBadge,
+            { backgroundColor: isDark ? '#1C2608' : '#F4FED0' },
           ]}
         >
           <Text
             style={[
-              styles.checkedCountText,
-              { color: isDark ? theme.colors.primaryLime : '#059669' },
+              styles.progressText,
+              { color: isDark ? theme.colors.primaryLime : '#465A00' },
             ]}
           >
             {checkedCount}/{totalItemsCount}
@@ -103,6 +142,7 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
       <ScrollView
         style={[styles.container, { backgroundColor: theme.colors.canvas }]}
         contentContainerStyle={styles.scrollPad}
+        showsVerticalScrollIndicator={false}
       >
         {/* Budget Status Card */}
         <View
@@ -123,8 +163,8 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
                 ]}
               >
                 {isSaudi
-                  ? `WEEKLY BUDGET (ميزانية الأسبوع): ${budgetTier.replace(/_/g, ' ').toUpperCase()}`
-                  : `WEEKLY BUDGET: ${budgetTier.replace(/_/g, ' ').toUpperCase()}`}
+                  ? `WEEKLY BUDGET (ميزانية الأسبوع): ${formatBudgetTierHeader(budgetTier, true)}`
+                  : `WEEKLY BUDGET: ${formatBudgetTierHeader(budgetTier, false)}`}
               </Text>
               <Text
                 style={[styles.costBigVal, { color: theme.colors.textPrimary }]}
@@ -335,8 +375,19 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
                           isChecked && styles.itemNameChecked,
                         ]}
                       >
-                        {isSaudi && item.nameAr ? `${item.name} (${item.nameAr})` : item.name}
+                        {item.name}
                       </Text>
+                      {isSaudi && item.nameAr && (
+                        <Text
+                          style={[
+                            styles.itemNameAr,
+                            { color: theme.colors.textSecondary },
+                            isChecked && styles.itemNameChecked,
+                          ]}
+                        >
+                          {item.nameAr}
+                        </Text>
+                      )}
                       <Text
                         style={[
                           styles.itemMeta,
@@ -514,6 +565,11 @@ const styles = StyleSheet.create({
   itemName: {
     fontSize: 14,
     fontWeight: '600',
+  },
+  itemNameAr: {
+    fontSize: 12,
+    marginTop: 2,
+    lineHeight: 16,
   },
   itemNameChecked: {
     textDecorationLine: 'line-through',

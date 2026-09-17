@@ -6,8 +6,11 @@ import {
 } from './types.js';
 
 export interface SolverFoodCandidate {
+  id?: string;
   name: string;
   nameUr?: string;
+  nameAr?: string;
+  region?: string;
   category: string;
   cuisineTags: string[];
   kcal100g: number;
@@ -125,10 +128,21 @@ export function solveDailyMealPlan(
 ): DailyMealPlanResult {
   const filtered = filterFoodPool(foodPool, input);
 
+  const isSaudi = foodPool.some(
+    (f) =>
+      f.region === 'SA' ||
+      (f.cuisineTags && f.cuisineTags.some((t) => t.toLowerCase() === 'saudi'))
+  );
+
   // Categorized pools
   const breads = filtered.filter(
     (f) =>
-      f.category.includes('Breads') &&
+      (f.category.includes('Breads') ||
+        f.name.toLowerCase().includes('tamees') ||
+        f.name.toLowerCase().includes('khubz') ||
+        f.name.toLowerCase().includes('roti') ||
+        f.name.toLowerCase().includes('chapati') ||
+        f.name.toLowerCase().includes('naan')) &&
       !f.name.toLowerCase().includes('rice') &&
       !f.name.toLowerCase().includes('chawal')
   );
@@ -138,18 +152,23 @@ export function solveDailyMealPlan(
       (f.name.toLowerCase().includes('rice') ||
         f.name.toLowerCase().includes('chawal') ||
         f.name.toLowerCase().includes('pulao') ||
-        f.name.toLowerCase().includes('biryani'))
+        f.name.toLowerCase().includes('biryani') ||
+        f.name.toLowerCase().includes('kabsa') ||
+        f.name.toLowerCase().includes('mandi') ||
+        f.name.toLowerCase().includes('bukhari'))
   );
   const plainRices = filtered.filter(
     (f) =>
       (f.name.toLowerCase().includes('rice') || f.name.toLowerCase().includes('chawal')) &&
       !f.name.toLowerCase().includes('biryani') &&
-      !f.name.toLowerCase().includes('pulao')
+      !f.name.toLowerCase().includes('pulao') &&
+      !f.name.toLowerCase().includes('kabsa')
   );
   const curries = filtered.filter(
     (f) =>
       f.category.includes('Curries') ||
       f.category.includes('Barbecue') ||
+      f.category.includes('Stew') ||
       (f.category.includes('Meat') && !f.name.toLowerCase().includes('rice'))
   );
   const daals = filtered.filter((f) => f.category.includes('Daals'));
@@ -159,16 +178,35 @@ export function solveDailyMealPlan(
       !f.name.toLowerCase().includes('eggplant') &&
       (f.name.toLowerCase().includes('egg') ||
         f.name.toLowerCase().includes('omelette') ||
-        f.name.toLowerCase().includes('anda'))
+        f.name.toLowerCase().includes('anda') ||
+        f.name.toLowerCase().includes('shakshuka'))
   );
-  const beverages = filtered.filter((f) => f.category.includes('Beverages'));
+  const beverages = filtered.filter((f) => f.category.includes('Beverages') || f.name.toLowerCase().includes('gahwa') || f.name.toLowerCase().includes('chai'));
+
+  const saudiBreakfastFoods = filtered.filter(
+    (f) =>
+      f.category.includes('Breakfast') ||
+      f.name.toLowerCase().includes('shakshuka') ||
+      f.name.toLowerCase().includes('foul') ||
+      f.name.toLowerCase().includes('mutabbaq') ||
+      f.name.toLowerCase().includes('masoub')
+  );
 
   // Default fallback candidates if filtered subset is sparse
   const defaultRoti =
-    breads.find((b) => b.name.includes('Roti')) || breads[0] || foodPool[0];
+    breads.find(
+      (b) =>
+        b.name.includes('Roti') ||
+        b.name.includes('Tamees') ||
+        b.name.includes('Khubz')
+    ) ||
+    breads[0] ||
+    filtered.find((f) => f.name.includes('Tamees') || f.name.includes('Khubz')) ||
+    foodPool[0];
+
   const defaultRice =
     plainRices[0] ||
-    rices.find((r) => r.name.includes('Rice') || r.name.includes('Chawal')) ||
+    rices.find((r) => r.name.includes('Rice') || r.name.includes('Chawal') || r.name.includes('Kabsa')) ||
     defaultRoti;
   const defaultDaal =
     daals.find((d) => d.name.includes('Chana') || d.name.includes('Mash')) ||
@@ -179,11 +217,11 @@ export function solveDailyMealPlan(
     sabzis[0] ||
     defaultDaal;
   const defaultEgg =
-    eggs.find((e) => e.name.includes('Boiled') || e.name.includes('Omelette')) ||
+    eggs.find((e) => e.name.includes('Boiled') || e.name.includes('Shakshuka') || e.name.includes('Omelette')) ||
     eggs[0] ||
     defaultDaal;
   const defaultChai =
-    beverages.find((b) => b.name.includes('Chai')) || beverages[0];
+    beverages.find((b) => b.name.includes('Gahwa') || b.name.includes('Chai')) || beverages[0];
   const defaultCurry =
     curries.length > 0 && input.dietPreference !== 'vegetarian_desi'
       ? curries[0]
@@ -198,16 +236,34 @@ export function solveDailyMealPlan(
 
   // 1. Breakfast Slot
   const breakfastItems: PlannedMealItem[] = [];
-  const eggItem = createPlannedItem(defaultEgg, 0, 1);
-  breakfastItems.push(eggItem);
+  if (isSaudi && saudiBreakfastFoods.length > 0) {
+    const primaryBreakfast =
+      saudiBreakfastFoods.find((f) => f.name.includes('Shakshuka')) ||
+      saudiBreakfastFoods.find((f) => f.name.includes('Foul')) ||
+      saudiBreakfastFoods.find((f) => f.name.includes('Mutabbaq')) ||
+      saudiBreakfastFoods[0];
+    const bItem = createPlannedItem(primaryBreakfast, 0, 1);
+    breakfastItems.push(bItem);
 
-  const neededBreakfastKcal = targetBreakfastKcal - eggItem.calories;
-  const rotiKcalPerServing = (defaultRoti.kcal100g * defaultRoti.servings[0].grams) / 100;
-  const breakfastRotiQty = Math.max(1, Math.round(neededBreakfastKcal / rotiKcalPerServing));
-  breakfastItems.push(createPlannedItem(defaultRoti, 0, breakfastRotiQty));
+    const needed = targetBreakfastKcal - bItem.calories;
+    const breadCandidate = defaultRoti && defaultRoti.id !== primaryBreakfast.id ? defaultRoti : null;
+    if (needed > 75 && breadCandidate) {
+      const rotiServingKcal = (breadCandidate.kcal100g * breadCandidate.servings[0].grams) / 100;
+      const qty = Math.max(0.25, Number((needed / rotiServingKcal).toFixed(1)));
+      breakfastItems.push(createPlannedItem(breadCandidate, 0, Math.min(1.0, qty)));
+    }
+  } else {
+    const eggItem = createPlannedItem(defaultEgg, 0, 1);
+    breakfastItems.push(eggItem);
 
-  if (defaultChai && breakfastItems.reduce((s, i) => s + i.calories, 0) < targetBreakfastKcal - 50) {
-    breakfastItems.push(createPlannedItem(defaultChai, 0, 1));
+    const neededBreakfastKcal = targetBreakfastKcal - eggItem.calories;
+    const rotiKcalPerServing = (defaultRoti.kcal100g * defaultRoti.servings[0].grams) / 100;
+    const breakfastRotiQty = Math.max(1, Math.round(neededBreakfastKcal / rotiKcalPerServing));
+    breakfastItems.push(createPlannedItem(defaultRoti, 0, breakfastRotiQty));
+
+    if (defaultChai && breakfastItems.reduce((s, i) => s + i.calories, 0) < targetBreakfastKcal - 50) {
+      breakfastItems.push(createPlannedItem(defaultChai, 0, 1));
+    }
   }
 
   // 2. Lunch Slot (Rice / Roti + Main Dish + Sabzi/Daal)
@@ -228,6 +284,7 @@ export function solveDailyMealPlan(
   dinnerItems.push(dinnerCurryItem);
 
   const neededDinnerKcal = targetDinnerKcal - dinnerCurryItem.calories;
+  const rotiKcalPerServing = (defaultRoti.kcal100g * defaultRoti.servings[0].grams) / 100;
   const dinnerRotiQty = Math.max(1, Math.round(neededDinnerKcal / rotiKcalPerServing));
   dinnerItems.push(createPlannedItem(defaultRoti, 0, dinnerRotiQty));
 
@@ -243,37 +300,37 @@ export function solveDailyMealPlan(
 
   const remainingForDay = input.targetCalories - currentTotalNoSnack;
   if (remainingForDay > 150) {
-    // Add shami kebab or fruit/egg
-    const shami = filtered.find((f) => f.name.includes('Shami')) || defaultEgg;
-    snackItems.push(createPlannedItem(shami, 0, 1));
+    // Add shami kebab, dates, or fruit/egg
+    const extraSnack = filtered.find((f) => f.name.includes('Dates') || f.name.includes('Shami')) || defaultEgg;
+    snackItems.push(createPlannedItem(extraSnack, 0, 1));
   }
 
   // Assemble initial slots
   const meals: PlannedMealSlot[] = [
     {
       slot: 'breakfast',
-      title: 'Desi Protein Breakfast',
+      title: isSaudi ? 'Saudi Protein Breakfast' : 'Desi Protein Breakfast',
       targetCalories: targetBreakfastKcal,
       actualCalories: breakfastItems.reduce((s, i) => s + i.calories, 0),
       items: breakfastItems,
     },
     {
       slot: 'lunch',
-      title: 'Traditional Lunch',
+      title: isSaudi ? 'Traditional Saudi Lunch' : 'Traditional Lunch',
       targetCalories: targetLunchKcal,
       actualCalories: lunchItems.reduce((s, i) => s + i.calories, 0),
       items: lunchItems,
     },
     {
       slot: 'dinner',
-      title: 'Evening Wholesome Dinner',
+      title: isSaudi ? 'Evening Saudi Dinner' : 'Evening Wholesome Dinner',
       targetCalories: targetDinnerKcal,
       actualCalories: dinnerItems.reduce((s, i) => s + i.calories, 0),
       items: dinnerItems,
     },
     {
       slot: 'snacks_chai',
-      title: 'Chai & Light Snack',
+      title: isSaudi ? 'Saudi Gahwa & Dates' : 'Chai & Light Snack',
       targetCalories: targetSnackKcal,
       actualCalories: snackItems.reduce((s, i) => s + i.calories, 0),
       items: snackItems,
