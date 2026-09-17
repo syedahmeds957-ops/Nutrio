@@ -49,11 +49,28 @@ export function adaptPlanForFamilyMode(
   if (targetSlot) {
     // 1. Insert family dish as primary item in the chosen slot
     const familyItem = createPlannedItem(matchedFood, 0, 1);
-    const existingGrains = targetSlot.items.filter(
-      (i) => i.category.includes('Breads') || i.category.includes('Rice')
-    );
+    const isCompositeDish =
+      matchedFood.category.includes('Rice') ||
+      matchedFood.category.includes('Grain') ||
+      matchedFood.name.toLowerCase().includes('kabsa') ||
+      matchedFood.name.toLowerCase().includes('mandi') ||
+      matchedFood.name.toLowerCase().includes('bukhari') ||
+      matchedFood.name.toLowerCase().includes('biryani') ||
+      matchedFood.name.toLowerCase().includes('pulao') ||
+      matchedFood.name.toLowerCase().includes('saleeg') ||
+      matchedFood.name.toLowerCase().includes('jareesh') ||
+      matchedFood.name.toLowerCase().includes('mutabbaq');
 
-    targetSlot.items = [familyItem, ...existingGrains];
+    if (isCompositeDish) {
+      targetSlot.items = [familyItem];
+    } else {
+      const pureGrains = targetSlot.items.filter(
+        (i) =>
+          (i.category.includes('Breads') || i.category.includes('Rice') || i.category.includes('Grains')) &&
+          !i.category.includes('Meat')
+      );
+      targetSlot.items = [familyItem, ...(pureGrains.length > 0 ? pureGrains : [createPlannedItem(defaultRoti, 0, 1)])];
+    }
     targetSlot.actualCalories = targetSlot.items.reduce(
       (s, i) => s + i.calories,
       0
@@ -67,7 +84,7 @@ export function adaptPlanForFamilyMode(
   while (
     Math.abs(currentTotalKcal - solverInput.targetCalories) >
       solverInput.targetCalories * 0.03 &&
-    iterations < 30
+    iterations < 40
   ) {
     iterations++;
     const diff = currentTotalKcal - solverInput.targetCalories;
@@ -75,9 +92,10 @@ export function adaptPlanForFamilyMode(
     if (diff > 0) {
       // Too high: reduce grain or snack portions
       let reduced = false;
-      for (const meal of [clonedMeals[3], clonedMeals[2], clonedMeals[1], clonedMeals[0]]) {
+      const scanMeals = [clonedMeals[3], clonedMeals[2], clonedMeals[1], clonedMeals[0]].filter(Boolean);
+      for (const meal of scanMeals) {
         const candidate = meal.items.find(
-          (i) => i.quantity > 0.5 && i.foodName !== matchedFood.name
+          (i) => i.quantity > 0.3 && !(meal.slot === familyInput.familyMealSlot && i.foodName === matchedFood.name)
         );
         if (candidate) {
           candidate.quantity = Number((candidate.quantity - 0.2).toFixed(1));
@@ -91,13 +109,30 @@ export function adaptPlanForFamilyMode(
           break;
         }
       }
+      if (!reduced && targetSlot && targetSlot.items[0]) {
+        if (targetSlot.items[0].quantity > 0.6) {
+          targetSlot.items[0].quantity = Number((targetSlot.items[0].quantity - 0.1).toFixed(1));
+          const updated = createPlannedItem(matchedFood, 0, targetSlot.items[0].quantity);
+          Object.assign(targetSlot.items[0], updated);
+          targetSlot.actualCalories = targetSlot.items.reduce((s, i) => s + i.calories, 0);
+          currentTotalKcal = clonedMeals.reduce((s, m) => s + m.actualCalories, 0);
+          reduced = true;
+        }
+      }
       if (!reduced) break;
     } else {
       // Too low: increase grain or protein
       let increased = false;
-      for (const meal of [clonedMeals[0], clonedMeals[1], clonedMeals[2]]) {
+      const scanMeals = [clonedMeals[1], clonedMeals[2], clonedMeals[0], clonedMeals[3]].filter(Boolean);
+      for (const meal of scanMeals) {
         const candidate = meal.items.find(
-          (i) => i.category.includes('Breads') || i.category.includes('Rice')
+          (i) =>
+            i.category.includes('Breads') ||
+            i.category.includes('Rice') ||
+            i.category.includes('Curries') ||
+            i.category.includes('Meat') ||
+            i.category.includes('Grain') ||
+            i.category.includes('Breakfast')
         );
         if (candidate) {
           candidate.quantity = Number((candidate.quantity + 0.2).toFixed(1));

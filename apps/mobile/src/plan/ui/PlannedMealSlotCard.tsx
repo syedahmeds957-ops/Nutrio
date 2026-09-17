@@ -1,8 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { PlannedMealSlot } from '@nutrio/nutrition-core';
-import { theme } from '../../theme.js';
+import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
+import { useRegion } from '../../common/region/index.js';
 
 interface PlannedMealSlotCardProps {
   slot: PlannedMealSlot;
@@ -13,18 +14,22 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
   slot,
   onOpenSwap,
 }) => {
+  const { theme, isDark } = useTheme();
+  const { activeRegion } = useRegion();
+  const isSaudi = activeRegion === 'SA';
+
   const getSlotIcon = (slotKey: string) => {
     switch (slotKey) {
       case 'breakfast':
         return <Icon name="sun" size={20} color="#F59E0B" />;
       case 'lunch':
-        return <Icon name="utensils" size={20} color="#10B981" />;
+        return <Icon name="utensils" size={20} color={theme.colors.primaryLime} />;
       case 'dinner':
         return <Icon name="utensils" size={20} color="#3B82F6" />;
       case 'snacks_chai':
         return <Icon name="coffee" size={20} color="#B45309" />;
       default:
-        return <Icon name="utensils" size={20} color="#10B981" />;
+        return <Icon name="utensils" size={20} color={theme.colors.primaryLime} />;
     }
   };
 
@@ -42,66 +47,195 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
   );
   const oilTsps = (totalOil / 4.5).toFixed(1);
 
+  const formatServing = (qty: number, label: string, totalG: number) => {
+    const cleanLabel = (label || 'serving').replace(/\s*\(\s*\d+\s*g\s*\)/gi, '').trim();
+    const qtyPrefix = qty !== 1 ? `${qty}× ` : '';
+    return `${qtyPrefix}${cleanLabel} (${totalG}g)`;
+  };
+
   return (
-    <View style={styles.card}>
+    <View
+      style={[
+        styles.card,
+        {
+          backgroundColor: theme.colors.surface,
+          borderColor: theme.colors.border,
+        },
+      ]}
+    >
       {/* Header Slot Row */}
       <View style={styles.headerRow}>
         <View style={styles.titleWithIcon}>
-          <View style={styles.iconCircle}>
+          <View
+            style={[
+              styles.iconCircle,
+              { backgroundColor: theme.colors.surfaceSecondary },
+            ]}
+          >
             {getSlotIcon(slot.slot)}
           </View>
-          <View>
-            <Text style={styles.slotCategory}>
-              {slot.slot.toUpperCase().replace('_', ' ')}
+          <View style={styles.slotTitleCol}>
+            <Text style={[styles.slotCategory, { color: theme.colors.textSecondary }]}>
+              {isSaudi
+                ? slot.slot === 'snacks_chai'
+                  ? 'GAHWA & SNACKS (قهوة)'
+                  : slot.slot.toUpperCase().replace('_', ' ')
+                : slot.slot.toUpperCase().replace('_', ' ')}
             </Text>
-            <Text style={styles.slotTitle} numberOfLines={1}>
+            <Text
+              style={[styles.slotTitle, { color: theme.colors.textPrimary }]}
+              numberOfLines={1}
+            >
               {slot.title}
             </Text>
           </View>
         </View>
 
-        <View style={styles.calBadge}>
-          <Text style={styles.calorieVal}>{slot.actualCalories} kcal</Text>
+        <View
+          style={[
+            styles.calBadge,
+            {
+              backgroundColor: isDark ? '#082E1E' : '#DCFCE7',
+              borderColor: isDark ? '#10B981' : '#86EFAC',
+            },
+          ]}
+        >
+          <Text
+            style={[
+              styles.calorieVal,
+              { color: isDark ? theme.colors.primaryLime : '#059669' },
+            ]}
+          >
+            {slot.actualCalories} kcal
+          </Text>
         </View>
       </View>
 
       {/* Screen 3 Micro-Nutrient Chips */}
       <View style={styles.macroRow}>
-        <View style={styles.macroChip}>
-          <Text style={styles.macroChipText}>{totalProtein}g Protein</Text>
+        <View
+          style={[
+            styles.macroChip,
+            {
+              backgroundColor: theme.colors.surfaceSecondary,
+              borderColor: theme.colors.border,
+            },
+          ]}
+        >
+          <Text style={[styles.macroChipText, { color: theme.colors.textSecondary }]}>
+            {totalProtein}g Protein
+          </Text>
         </View>
-        <View style={styles.macroChip}>
-          <Text style={styles.macroChipText}>{totalCarbs}g Carbs</Text>
+        <View
+          style={[
+            styles.macroChip,
+            {
+              backgroundColor: theme.colors.surfaceSecondary,
+              borderColor: theme.colors.border,
+            },
+          ]}
+        >
+          <Text style={[styles.macroChipText, { color: theme.colors.textSecondary }]}>
+            {totalCarbs}g Carbs
+          </Text>
         </View>
-        <View style={[styles.macroChip, styles.oilChip]}>
-          <Text style={styles.oilText}>{oilTsps} tsp oil</Text>
+        <View
+          style={[
+            styles.macroChip,
+            styles.oilChip,
+            {
+              backgroundColor: isDark ? '#332306' : '#FEF3C7',
+              borderColor: isDark ? '#6B4C0A' : '#FDE68A',
+            },
+          ]}
+        >
+          <Text
+            style={[
+              styles.oilText,
+              { color: isDark ? '#FBBF24' : '#B45309' },
+            ]}
+          >
+            {oilTsps} tsp oil
+          </Text>
         </View>
       </View>
 
       {/* Tag Chips */}
       <View style={styles.tagRow}>
-        <View style={styles.dietitianBadge}>
-          <Text style={styles.dietitianBadgeText}>Dietitian Approved</Text>
+        <View
+          style={[
+            styles.dietitianBadge,
+            {
+              backgroundColor: isDark ? '#082E1E' : '#ECFDF5',
+              borderColor: isDark ? '#059669' : '#A7F3D0',
+            },
+          ]}
+        >
+          <Text
+            style={[
+              styles.dietitianBadgeText,
+              { color: isDark ? theme.colors.primaryLime : '#059669' },
+            ]}
+          >
+            Dietitian Approved
+          </Text>
         </View>
-        <View style={styles.cuisineBadge}>
-          <Text style={styles.cuisineBadgeText}>Pakistani Cuisine</Text>
+        <View
+          style={[
+            styles.cuisineBadge,
+            {
+              backgroundColor: theme.colors.surfaceSecondary,
+              borderColor: theme.colors.border,
+            },
+          ]}
+        >
+          <Text style={[styles.cuisineBadgeText, { color: theme.colors.textSecondary }]}>
+            {isSaudi ? 'Saudi Cuisine (المطبخ السعودي)' : 'Pakistani Cuisine'}
+          </Text>
         </View>
       </View>
 
       {/* Items list */}
-      <View style={styles.itemsList}>
+      <View
+        style={[
+          styles.itemsList,
+          { borderTopColor: theme.colors.border },
+        ]}
+      >
         {slot.items.map((item, index) => (
           <View key={index} style={styles.itemRow}>
             <View style={styles.itemInfo}>
-              <Text style={styles.itemName}>
-                {item.foodName}
-                {item.foodNameUr ? ` · ${item.foodNameUr}` : ''}
-              </Text>
-              <Text style={styles.servingLabel}>
-                {item.quantity}× {item.servingLabel} ({item.totalGrams}g)
+              <View style={styles.itemTitleRow}>
+                <Text
+                  style={[styles.itemName, { color: theme.colors.textPrimary }]}
+                >
+                  {item.foodName}
+                </Text>
+                {item.foodNameUr ? (
+                  <Text
+                    style={[
+                      styles.itemUrduName,
+                      { color: theme.colors.textSecondary },
+                    ]}
+                  >
+                    {item.foodNameUr}
+                  </Text>
+                ) : null}
+              </View>
+              <Text
+                style={[
+                  styles.servingLabel,
+                  { color: theme.colors.textSecondary },
+                ]}
+              >
+                {formatServing(item.quantity, item.servingLabel, item.totalGrams)}
               </Text>
             </View>
-            <Text style={styles.itemKcal}>{item.calories} kcal</Text>
+            <Text
+              style={[styles.itemKcal, { color: theme.colors.textPrimary }]}
+            >
+              {item.calories} kcal
+            </Text>
           </View>
         ))}
       </View>
@@ -109,13 +243,30 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
       {/* Footer Actions: Swap Pill Button */}
       <View style={styles.footerRow}>
         <TouchableOpacity
-          style={styles.swapButton}
+          style={[
+            styles.swapButton,
+            {
+              backgroundColor: isDark ? '#1C2E12' : '#F2FF9E',
+              borderColor: theme.colors.primaryLime,
+            },
+          ]}
           onPress={onOpenSwap}
           activeOpacity={0.7}
         >
           <View style={styles.swapBtnContent}>
-            <Icon name="swap" size={13} color="#059669" />
-            <Text style={styles.swapButtonText}>Swap Alternatives</Text>
+            <Icon
+              name="swap"
+              size={13}
+              color={isDark ? theme.colors.primaryLime : '#166534'}
+            />
+            <Text
+              style={[
+                styles.swapButtonText,
+                { color: isDark ? theme.colors.primaryLime : '#166534' },
+              ]}
+            >
+              Swap Alternatives
+            </Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -125,14 +276,11 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: theme.colors.surface,
-    borderRadius: theme.radii.card,
-    padding: 20,
-    marginHorizontal: 16,
+    borderRadius: 20,
+    padding: 18,
+    marginHorizontal: 0,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: theme.colors.cardBorder,
-    ...theme.shadows.soft,
   },
   headerRow: {
     flexDirection: 'row',
@@ -146,35 +294,36 @@ const styles = StyleSheet.create({
     gap: 12,
     flex: 1,
   },
+  slotTitleCol: {
+    flex: 1,
+  },
   iconCircle: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#F1F5F9',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  icon: {
-    fontSize: 20,
-  },
   slotCategory: {
-    ...theme.typography.overline,
-    color: theme.colors.textSecondary,
+    fontSize: 10,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
   },
   slotTitle: {
-    ...theme.typography.cardTitle,
-    color: theme.colors.textPrimary,
+    fontSize: 16,
+    fontWeight: '700',
     marginTop: 2,
   },
   calBadge: {
-    backgroundColor: '#DCFCE7',
     paddingVertical: 4,
     paddingHorizontal: 12,
-    borderRadius: theme.radii.pill,
+    borderRadius: 9999,
+    borderWidth: 1,
   },
   calorieVal: {
-    ...theme.typography.bodyMetric,
-    color: '#059669',
+    fontSize: 12,
+    fontWeight: '700',
   },
   macroRow: {
     flexDirection: 'row',
@@ -183,26 +332,21 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   macroChip: {
-    backgroundColor: theme.colors.surfaceSecondary,
     paddingVertical: 4,
     paddingHorizontal: 10,
-    borderRadius: theme.radii.pill,
+    borderRadius: 9999,
     borderWidth: 1,
-    borderColor: theme.colors.border,
   },
   macroChipText: {
     fontSize: 12,
     fontWeight: '600',
-    color: theme.colors.textSecondary,
   },
   oilChip: {
-    backgroundColor: '#FEF3C7',
-    borderColor: '#FDE68A',
+    borderWidth: 1,
   },
   oilText: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#B45309',
   },
   tagRow: {
     flexDirection: 'row',
@@ -210,30 +354,27 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   dietitianBadge: {
-    backgroundColor: '#ECFDF5',
     paddingVertical: 3,
     paddingHorizontal: 8,
-    borderRadius: theme.radii.pill,
+    borderRadius: 9999,
+    borderWidth: 1,
   },
   dietitianBadgeText: {
-    color: '#059669',
     fontSize: 11,
     fontWeight: '700',
   },
   cuisineBadge: {
-    backgroundColor: '#F1F5F9',
     paddingVertical: 3,
     paddingHorizontal: 8,
-    borderRadius: theme.radii.pill,
+    borderRadius: 9999,
+    borderWidth: 1,
   },
   cuisineBadgeText: {
-    color: theme.colors.textSecondary,
     fontSize: 11,
     fontWeight: '600',
   },
   itemsList: {
     borderTopWidth: 1,
-    borderTopColor: '#F1F5F9',
     paddingTop: 12,
     marginBottom: 14,
     gap: 10,
@@ -247,18 +388,25 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: 10,
   },
+  itemTitleRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'baseline',
+    gap: 6,
+  },
   itemName: {
-    color: theme.colors.textPrimary,
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: '700',
+  },
+  itemUrduName: {
+    fontSize: 13,
+    fontWeight: '500',
   },
   servingLabel: {
-    color: theme.colors.textSecondary,
     fontSize: 12,
     marginTop: 2,
   },
   itemKcal: {
-    color: theme.colors.textPrimary,
     fontSize: 13,
     fontWeight: '700',
   },
@@ -269,12 +417,10 @@ const styles = StyleSheet.create({
   swapButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: theme.colors.surface,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: theme.radii.pill,
-    borderWidth: 1.5,
-    borderColor: theme.colors.primary,
+    paddingVertical: 7,
+    paddingHorizontal: 14,
+    borderRadius: 9999,
+    borderWidth: 1,
   },
   swapBtnContent: {
     flexDirection: 'row',
@@ -282,8 +428,7 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   swapButtonText: {
-    color: theme.colors.primaryDark,
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: '700',
   },
 });

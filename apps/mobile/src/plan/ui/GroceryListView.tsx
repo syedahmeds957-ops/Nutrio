@@ -10,9 +10,10 @@ import {
 import {
   DailyMealPlanResult,
   generateWeeklyGroceryList,
-  GroceryCategory,
   PlanBudgetTier,
 } from '@nutrio/nutrition-core';
+import { useTheme } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
 
 interface GroceryListViewProps {
   weekPlans: DailyMealPlanResult[];
@@ -25,7 +26,10 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
   budgetTier,
   onBackToPlan,
 }) => {
-  const summary = generateWeeklyGroceryList(weekPlans, budgetTier);
+  const { theme, isDark } = useTheme();
+  const { activeRegion } = useRegion();
+  const isSaudi = activeRegion === 'SA';
+  const summary = generateWeeklyGroceryList(weekPlans, budgetTier, activeRegion);
   const [checkedIds, setCheckedIds] = useState<Set<string>>(new Set());
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
@@ -53,37 +57,84 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
   const checkedCount = checkedIds.size;
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.canvas }]}>
       {/* Top Header */}
-      <View style={styles.topNav}>
+      <View
+        style={[
+          styles.topNav,
+          {
+            backgroundColor: theme.colors.surface,
+            borderBottomColor: theme.colors.border,
+          },
+        ]}
+      >
         <TouchableOpacity
-          style={styles.backBtn}
+          style={[styles.backBtn, { backgroundColor: theme.colors.surfaceSecondary }]}
           onPress={onBackToPlan}
           activeOpacity={0.7}
         >
-          <Text style={styles.backBtnText}>← Back to Plan</Text>
+          <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
+            ← Back to Plan
+          </Text>
         </TouchableOpacity>
-        <Text style={styles.navTitle}>7-Day Grocery List</Text>
-        <View style={styles.checkedCountBadge}>
-          <Text style={styles.checkedCountText}>
+        <Text style={[styles.navTitle, { color: theme.colors.textPrimary }]}>
+          {isSaudi ? '7-Day Grocery List (مقاضي الأسبوع)' : '7-Day Grocery List'}
+        </Text>
+        <View
+          style={[
+            styles.checkedCountBadge,
+            {
+              backgroundColor: isDark ? '#082E1E' : '#DCFCE7',
+              borderColor: isDark ? '#10B981' : '#BBF7D0',
+            },
+          ]}
+        >
+          <Text
+            style={[
+              styles.checkedCountText,
+              { color: isDark ? theme.colors.primaryLime : '#059669' },
+            ]}
+          >
             {checkedCount}/{totalItemsCount}
           </Text>
         </View>
       </View>
 
-      <ScrollView style={styles.container} contentContainerStyle={styles.scrollPad}>
+      <ScrollView
+        style={[styles.container, { backgroundColor: theme.colors.canvas }]}
+        contentContainerStyle={styles.scrollPad}
+      >
         {/* Budget Status Card */}
-        <View style={styles.budgetCard}>
+        <View
+          style={[
+            styles.budgetCard,
+            {
+              backgroundColor: theme.colors.surface,
+              borderColor: theme.colors.border,
+            },
+          ]}
+        >
           <View style={styles.budgetHeader}>
             <View>
-              <Text style={styles.budgetTierLabel}>
-                WEEKLY BUDGET: {budgetTier.replace('_', ' ').toUpperCase()}
+              <Text
+                style={[
+                  styles.budgetTierLabel,
+                  { color: theme.colors.primaryLime },
+                ]}
+              >
+                {isSaudi
+                  ? `WEEKLY BUDGET (ميزانية الأسبوع): ${budgetTier.replace(/_/g, ' ').toUpperCase()}`
+                  : `WEEKLY BUDGET: ${budgetTier.replace(/_/g, ' ').toUpperCase()}`}
               </Text>
-              <Text style={styles.costBigVal}>
-                Rs. {summary.estimatedTotalCostPKR.toLocaleString()}
-                <Text style={styles.maxCapText}>
+              <Text
+                style={[styles.costBigVal, { color: theme.colors.textPrimary }]}
+              >
+                {summary.currencySymbol} {summary.estimatedTotalCost.toLocaleString()}
+                <Text
+                  style={[styles.maxCapText, { color: theme.colors.textSecondary }]}
+                >
                   {' '}
-                  / {summary.maxBudgetPKR.toLocaleString()} PKR
+                  / {summary.maxBudget.toLocaleString()} {summary.currency}
                 </Text>
               </Text>
             </View>
@@ -92,27 +143,40 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
               style={[
                 styles.statusBadge,
                 summary.isWithinBudget
-                  ? styles.statusBadgeSuccess
-                  : styles.statusBadgeWarning,
+                  ? {
+                      backgroundColor: isDark ? '#082E1E' : '#DCFCE7',
+                      borderColor: isDark ? '#10B981' : '#86EFAC',
+                    }
+                  : {
+                      backgroundColor: isDark ? '#332306' : '#FEF3C7',
+                      borderColor: isDark ? '#6B4C0A' : '#FDE68A',
+                    },
               ]}
             >
               <Text
                 style={[
                   styles.statusBadgeText,
                   summary.isWithinBudget
-                    ? styles.statusTextSuccess
-                    : styles.statusTextWarning,
+                    ? { color: isDark ? theme.colors.primaryLime : '#059669' }
+                    : { color: isDark ? '#FBBF24' : '#B45309' },
                 ]}
               >
-                {summary.isWithinBudget ? '✓ Within Budget' : '⚠️ Over Budget'}
+                {summary.isWithinBudget ? '✓ Within Budget' : '⚠ Over Budget'}
               </Text>
             </View>
           </View>
 
           {/* Budget tip */}
           {summary.budgetOptimizationTip && (
-            <View style={styles.tipBox}>
-              <Text style={styles.tipText}>
+            <View
+              style={[
+                styles.tipBox,
+                { borderTopColor: theme.colors.border },
+              ]}
+            >
+              <Text
+                style={[styles.tipText, { color: theme.colors.textSecondary }]}
+              >
                 💡 {summary.budgetOptimizationTip}
               </Text>
             </View>
@@ -128,7 +192,15 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
           <TouchableOpacity
             style={[
               styles.pill,
-              selectedCategory === 'all' && styles.pillActive,
+              selectedCategory === 'all'
+                ? {
+                    backgroundColor: theme.colors.primaryLime,
+                    borderColor: theme.colors.primaryLime,
+                  }
+                : {
+                    backgroundColor: theme.colors.surfaceSecondary,
+                    borderColor: theme.colors.border,
+                  },
             ]}
             onPress={() => setSelectedCategory('all')}
             activeOpacity={0.7}
@@ -136,45 +208,88 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
             <Text
               style={[
                 styles.pillText,
-                selectedCategory === 'all' && styles.pillTextActive,
+                selectedCategory === 'all'
+                  ? { color: '#0A0B0D' }
+                  : { color: theme.colors.textSecondary },
               ]}
             >
-              All Items ({totalItemsCount})
+              {isSaudi ? 'All Items (الكل)' : 'All Items'} ({totalItemsCount})
             </Text>
           </TouchableOpacity>
 
-          {summary.categories.map((cat) => (
-            <TouchableOpacity
-              key={cat.category}
-              style={[
-                styles.pill,
-                selectedCategory === cat.category && styles.pillActive,
-              ]}
-              onPress={() => setSelectedCategory(cat.category)}
-              activeOpacity={0.7}
-            >
-              <Text
+          {summary.categories.map((cat) => {
+            const isCatSelected = selectedCategory === cat.category;
+            return (
+              <TouchableOpacity
+                key={cat.category}
                 style={[
-                  styles.pillText,
-                  selectedCategory === cat.category && styles.pillTextActive,
+                  styles.pill,
+                  isCatSelected
+                    ? {
+                        backgroundColor: theme.colors.primaryLime,
+                        borderColor: theme.colors.primaryLime,
+                      }
+                    : {
+                        backgroundColor: theme.colors.surfaceSecondary,
+                        borderColor: theme.colors.border,
+                      },
                 ]}
+                onPress={() => setSelectedCategory(cat.category)}
+                activeOpacity={0.7}
               >
-                {cat.title} ({cat.items.length})
-              </Text>
-            </TouchableOpacity>
-          ))}
+                <Text
+                  style={[
+                    styles.pillText,
+                    isCatSelected
+                      ? { color: '#0A0B0D' }
+                      : { color: theme.colors.textSecondary },
+                  ]}
+                >
+                  {isSaudi && cat.titleAr ? cat.titleAr : cat.title} ({cat.items.length})
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
         </ScrollView>
 
         {/* Grocery Aisles / Categories */}
         {filteredCategories.map((group) => (
-          <View key={group.category} style={styles.groupCard}>
-            <View style={styles.groupHeader}>
+          <View
+            key={group.category}
+            style={[
+              styles.groupCard,
+              {
+                backgroundColor: theme.colors.surface,
+                borderColor: theme.colors.border,
+              },
+            ]}
+          >
+            <View
+              style={[
+                styles.groupHeader,
+                { borderBottomColor: theme.colors.border },
+              ]}
+            >
               <View>
-                <Text style={styles.groupTitle}>{group.title}</Text>
-                <Text style={styles.groupTitleUr}>{group.titleUr}</Text>
+                <Text
+                  style={[styles.groupTitle, { color: theme.colors.textPrimary }]}
+                >
+                  {group.title}
+                </Text>
+                <Text
+                  style={[styles.groupTitleUr, { color: theme.colors.textSecondary }]}
+                >
+                  {isSaudi ? group.titleAr : group.titleUr}
+                </Text>
               </View>
-              <Text style={styles.groupSubtotal}>
-                Rs. {group.subtotalPKR.toLocaleString()}
+              <Text
+                style={[styles.groupSubtotal, { color: theme.colors.primaryLime }]}
+              >
+                {summary.currencySymbol}{' '}
+                {(group.subtotal !== undefined
+                  ? group.subtotal
+                  : group.subtotalPKR
+                ).toLocaleString()}
               </Text>
             </View>
 
@@ -194,11 +309,21 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
                     <View
                       style={[
                         styles.checkbox,
-                        isChecked && styles.checkboxChecked,
+                        isChecked
+                          ? {
+                              backgroundColor: theme.colors.primaryLime,
+                              borderColor: theme.colors.primaryLime,
+                            }
+                          : {
+                              backgroundColor: theme.colors.surfaceSecondary,
+                              borderColor: theme.colors.border,
+                            },
                       ]}
                     >
                       {isChecked && (
-                        <Text style={styles.checkIcon}>✓</Text>
+                        <Text style={[styles.checkIcon, { color: '#0A0B0D' }]}>
+                          ✓
+                        </Text>
                       )}
                     </View>
 
@@ -206,26 +331,22 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
                       <Text
                         style={[
                           styles.itemName,
+                          { color: theme.colors.textPrimary },
                           isChecked && styles.itemNameChecked,
                         ]}
                       >
-                        {item.name}
-                        {item.nameUr ? ` · ${item.nameUr}` : ''}
+                        {isSaudi && item.nameAr ? `${item.name} (${item.nameAr})` : item.name}
                       </Text>
-                      <Text style={styles.itemMeta}>
-                        {item.quantityAmount} {item.unit}
-                        {item.notes ? ` (${item.notes})` : ''}
+                      <Text
+                        style={[
+                          styles.itemMeta,
+                          { color: theme.colors.textSecondary },
+                        ]}
+                      >
+                        {item.quantityAmount} {item.unit} · {summary.currencySymbol}{' '}
+                        {item.estimatedCost ?? item.estimatedCostPKR}
                       </Text>
                     </View>
-
-                    <Text
-                      style={[
-                        styles.itemPrice,
-                        isChecked && styles.itemPriceChecked,
-                      ]}
-                    >
-                      Rs. {item.estimatedCostPKR}
-                    </Text>
                   </TouchableOpacity>
                 );
               })}
@@ -240,7 +361,6 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#F6F8F6',
   },
   topNav: {
     flexDirection: 'row',
@@ -248,36 +368,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: '#FFFFFF',
     borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
   },
   backBtn: {
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 9999,
-    backgroundColor: '#F1F5F9',
   },
   backBtnText: {
-    color: '#1E293B',
     fontSize: 12,
     fontWeight: '700',
   },
   navTitle: {
-    color: '#1E293B',
     fontSize: 16,
     fontWeight: '800',
   },
   checkedCountBadge: {
-    backgroundColor: '#DCFCE7',
     paddingVertical: 4,
     paddingHorizontal: 10,
     borderRadius: 9999,
     borderWidth: 1,
-    borderColor: '#BBF7D0',
   },
   checkedCountText: {
-    color: '#059669',
     fontSize: 12,
     fontWeight: '700',
   },
@@ -286,20 +398,13 @@ const styles = StyleSheet.create({
   },
   scrollPad: {
     padding: 16,
-    paddingBottom: 48,
+    paddingBottom: 60,
   },
   budgetCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 24,
-    padding: 20,
+    borderRadius: 20,
+    padding: 18,
     borderWidth: 1,
-    borderColor: '#F1F5F9',
     marginBottom: 16,
-    shadowColor: '#0F172A',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 12,
-    elevation: 2,
   },
   budgetHeader: {
     flexDirection: 'row',
@@ -307,19 +412,16 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   budgetTierLabel: {
-    color: '#059669',
     fontSize: 11,
     fontWeight: '800',
     letterSpacing: 0.8,
   },
   costBigVal: {
-    color: '#1E293B',
     fontSize: 24,
     fontWeight: '900',
     marginTop: 2,
   },
   maxCapText: {
-    color: '#64748B',
     fontSize: 13,
     fontWeight: '600',
   },
@@ -327,31 +429,18 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 12,
     borderRadius: 9999,
-  },
-  statusBadgeSuccess: {
-    backgroundColor: '#DCFCE7',
-  },
-  statusBadgeWarning: {
-    backgroundColor: '#FEF3C7',
+    borderWidth: 1,
   },
   statusBadgeText: {
     fontSize: 11,
     fontWeight: '700',
   },
-  statusTextSuccess: {
-    color: '#059669',
-  },
-  statusTextWarning: {
-    color: '#B45309',
-  },
   tipBox: {
     marginTop: 14,
     paddingTop: 12,
     borderTopWidth: 1,
-    borderTopColor: '#F1F5F9',
   },
   tipText: {
-    color: '#64748B',
     fontSize: 12,
     lineHeight: 18,
   },
@@ -360,63 +449,38 @@ const styles = StyleSheet.create({
     paddingBottom: 14,
   },
   pill: {
-    backgroundColor: '#FFFFFF',
     paddingVertical: 7,
     paddingHorizontal: 14,
     borderRadius: 9999,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
-    shadowColor: '#0F172A',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.03,
-    shadowRadius: 4,
-  },
-  pillActive: {
-    backgroundColor: '#10B981',
-    borderColor: '#10B981',
   },
   pillText: {
-    color: '#64748B',
     fontSize: 12,
     fontWeight: '700',
   },
-  pillTextActive: {
-    color: '#FFFFFF',
-  },
   groupCard: {
-    backgroundColor: '#FFFFFF',
     borderRadius: 20,
     padding: 18,
     borderWidth: 1,
-    borderColor: '#F1F5F9',
     marginBottom: 14,
-    shadowColor: '#0F172A',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 2,
   },
   groupHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
     paddingBottom: 10,
     marginBottom: 12,
   },
   groupTitle: {
-    color: '#1E293B',
     fontSize: 16,
     fontWeight: '800',
   },
   groupTitleUr: {
-    color: '#64748B',
     fontSize: 11,
     marginTop: 2,
   },
   groupSubtotal: {
-    color: '#059669',
     fontSize: 13,
     fontWeight: '800',
   },
@@ -436,46 +500,27 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 6,
     borderWidth: 1.5,
-    borderColor: '#CBD5E1',
     marginRight: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#FFFFFF',
-  },
-  checkboxChecked: {
-    backgroundColor: '#10B981',
-    borderColor: '#10B981',
   },
   checkIcon: {
-    color: '#FFFFFF',
-    fontSize: 11,
-    fontWeight: '800',
+    fontSize: 12,
+    fontWeight: '900',
   },
   itemDetails: {
     flex: 1,
   },
   itemName: {
-    color: '#1E293B',
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '600',
   },
   itemNameChecked: {
     textDecorationLine: 'line-through',
-    color: '#94A3B8',
   },
   itemMeta: {
-    color: '#64748B',
-    fontSize: 11,
-    marginTop: 1,
-  },
-  itemPrice: {
-    color: '#1E293B',
-    fontSize: 13,
-    fontWeight: '700',
-    marginLeft: 8,
-  },
-  itemPriceChecked: {
-    textDecorationLine: 'line-through',
-    color: '#94A3B8',
+    fontSize: 12,
+    marginTop: 2,
   },
 });
+

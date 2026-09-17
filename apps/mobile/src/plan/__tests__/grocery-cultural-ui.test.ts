@@ -6,7 +6,7 @@ import {
   MealPlanSolverInput,
   solveDailyMealPlan,
 } from '@nutrio/nutrition-core';
-import { PAKISTANI_STAPLES_DATA } from '@nutrio/food-db';
+import { PAKISTANI_STAPLES_DATA, SAUDI_TRADITIONAL_FOODS } from '@nutrio/food-db';
 
 describe('Mobile Grocery List & Cultural Modes Flow (Task 2.7)', () => {
   const solverInput: MealPlanSolverInput = {
@@ -75,5 +75,50 @@ describe('Mobile Grocery List & Cultural Modes Flow (Task 2.7)', () => {
     expect(ramadan.iftar.slot).toBe('dinner');
     expect(ramadan.postTarawihSnack.slot).toBe('snacks_chai');
     expect(ramadan.hydrationWindows).toHaveLength(5);
+  });
+
+  it('generates Saudi regional grocery list with SAR currency and Arabic item names', () => {
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const weekPlans = days.map(() =>
+      solveDailyMealPlan(solverInput, SAUDI_TRADITIONAL_FOODS as any)
+    );
+
+    const grocery = generateWeeklyGroceryList(weekPlans, 'standard_3500_7000', 'SA');
+
+    expect(grocery.weekDaysCount).toBe(7);
+    expect(grocery.currency).toBe('SAR');
+    expect(grocery.currencySymbol).toBe('ر.س');
+    expect(grocery.maxBudgetSAR).toBe(250);
+    expect(grocery.estimatedTotalCostSAR).toBeGreaterThan(0);
+
+    // Verify Arabic translations exist
+    const categoryTitleArs = grocery.categories.map((c) => c.titleAr).filter(Boolean);
+    expect(categoryTitleArs.length).toBeGreaterThanOrEqual(3);
+
+    // Check items have Arabic names and Saudi staples
+    const items = grocery.categories.flatMap((c) => c.items);
+    expect(items.some((i) => i.nameAr && i.nameAr.includes('المراعي'))).toBe(true);
+    expect(items.some((i) => i.nameAr && i.nameAr.includes('تمر'))).toBe(true);
+  });
+
+  it('seamlessly integrates Saudi Family Banquet mode with Chicken Kabsa', () => {
+    const basePlan = solveDailyMealPlan(solverInput, SAUDI_TRADITIONAL_FOODS as any);
+
+    const adapted = adaptPlanForFamilyMode(
+      basePlan,
+      {
+        familyDishName: 'Chicken Kabsa',
+        familyMealSlot: 'dinner',
+      },
+      solverInput,
+      SAUDI_TRADITIONAL_FOODS as any
+    );
+
+    expect(adapted.isFamilyModeActive).toBe(true);
+    expect(adapted.plan.isWithinTolerance).toBe(true);
+    expect(Math.abs(adapted.plan.calorieDeviationPct)).toBeLessThanOrEqual(5.0);
+
+    const dinnerSlot = adapted.plan.meals.find((m) => m.slot === 'dinner')!;
+    expect(dinnerSlot.items.some((i) => i.foodName.includes('Kabsa'))).toBe(true);
   });
 });

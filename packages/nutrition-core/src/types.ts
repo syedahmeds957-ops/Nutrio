@@ -220,10 +220,13 @@ export interface GroceryItem {
   id: string;
   name: string;
   nameUr?: string;
+  nameAr?: string;
   category: GroceryCategory;
   quantityAmount: number;
   unit: 'kg' | 'g' | 'litres' | 'ml' | 'dozen' | 'pieces';
   estimatedCostPKR: number;
+  estimatedCostSAR?: number;
+  estimatedCost?: number;
   notes?: string;
 }
 
@@ -231,17 +234,28 @@ export interface GroceryCategoryGroup {
   category: GroceryCategory;
   title: string;
   titleUr: string;
+  titleAr?: string;
   items: GroceryItem[];
   subtotalPKR: number;
+  subtotalSAR?: number;
+  subtotal?: number;
 }
 
 export interface WeeklyGrocerySummary {
   weekDaysCount: number;
   budgetTier: PlanBudgetTier;
+  currency: 'PKR' | 'SAR';
+  currencySymbol: string;
   maxBudgetPKR: number;
+  maxBudgetSAR?: number;
+  maxBudget: number;
   estimatedTotalCostPKR: number;
+  estimatedTotalCostSAR?: number;
+  estimatedTotalCost: number;
   isWithinBudget: boolean;
   budgetDifferencePKR: number;
+  budgetDifferenceSAR?: number;
+  budgetDifference: number;
   categories: GroceryCategoryGroup[];
   budgetOptimizationTip?: string;
 }

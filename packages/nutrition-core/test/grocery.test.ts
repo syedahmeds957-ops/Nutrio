@@ -158,4 +158,43 @@ describe('Weekly Grocery List Generator & PKR Budget Calculator (Task 2.3)', () 
     expect(grocery.budgetDifferencePKR).toBe(grocery.maxBudgetPKR - grocery.estimatedTotalCostPKR);
     expect(grocery.budgetOptimizationTip).toBeDefined();
   });
+
+  it('generates Saudi regional grocery list with SAR currency, Arabic metadata, and Saudi benchmarks', () => {
+    const singleDayPlan = solveDailyMealPlan(
+      {
+        targetCalories: 2000,
+        targetProteinGrams: 120,
+        targetFatGrams: 55,
+        targetCarbGrams: 240,
+        dietPreference: 'halal_omnivore',
+        budgetTierPKR: 'standard_3500_7000',
+      },
+      testFoodPool
+    );
+
+    const weekPlans = Array(7).fill(singleDayPlan);
+    const grocery = generateWeeklyGroceryList(weekPlans, 'standard_3500_7000', 'SA');
+
+    expect(grocery.currency).toBe('SAR');
+    expect(grocery.currencySymbol).toBe('ر.س');
+    expect(grocery.maxBudgetSAR).toBe(250);
+    expect(grocery.maxBudget).toBe(250);
+    expect(grocery.estimatedTotalCostSAR).toBeGreaterThan(0);
+    expect(grocery.estimatedTotalCost).toBe(grocery.estimatedTotalCostSAR);
+    expect(grocery.budgetDifferenceSAR).toBe(grocery.maxBudgetSAR - (grocery.estimatedTotalCostSAR || 0));
+
+    // Category titles should have Arabic translations
+    for (const cat of grocery.categories) {
+      expect(cat.titleAr).toBeDefined();
+      expect(cat.titleAr!.length).toBeGreaterThan(0);
+      expect(cat.subtotalSAR).toBeGreaterThanOrEqual(0);
+    }
+
+    // Saudi specific items should be present (e.g., Dates, Laban, Olive Oil)
+    const itemNames = grocery.categories.flatMap((c) => c.items.map((i) => i.name));
+    expect(itemNames.some((n) => n.includes('Laban') || n.includes('Dates') || n.includes('Olive'))).toBe(true);
+
+    // Tip should be in Arabic for Saudi region
+    expect(grocery.budgetOptimizationTip).toContain('ر.س');
+  });
 });

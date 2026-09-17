@@ -18,11 +18,13 @@ import {
   PlannedMealSlot,
   solveDailyMealPlan,
 } from '@nutrio/nutrition-core';
-import { PAKISTANI_STAPLES_DATA } from '@nutrio/food-db';
+import { PAKISTANI_STAPLES_DATA, SAUDI_TRADITIONAL_FOODS } from '@nutrio/food-db';
 import { PlannedMealSlotCard } from './PlannedMealSlotCard.js';
 import { MealSwapModal } from './MealSwapModal.js';
 import { GroceryListView } from './GroceryListView.js';
 import { CulturalModesModal } from './CulturalModesModal.js';
+import { useTheme } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
 
 interface WeeklyPlanViewProps {
   solverInput: MealPlanSolverInput;
@@ -40,19 +42,55 @@ const DAYS_OF_WEEK = [
   'Sunday',
 ];
 
+const formatBudgetTier = (tier: string, isSaudi: boolean): string => {
+  if (isSaudi) {
+    switch (tier) {
+      case 'low_under_3500':
+      case 'budget_under_3500':
+        return 'Budget (< 125 SAR)';
+      case 'standard_3500_7000':
+        return 'Standard (125 - 250 SAR)';
+      case 'premium_above_7000':
+        return 'Premium (> 250 SAR)';
+      default:
+        return (tier || '').replace(/_/g, ' ');
+    }
+  }
+  switch (tier) {
+    case 'low_under_3500':
+      return 'Budget (< Rs 3,500)';
+    case 'standard_3500_7000':
+      return 'Standard (Rs 3,500 - 7,000)';
+    case 'premium_above_7000':
+      return 'Premium (> Rs 7,000)';
+    default:
+      return (tier || '').replace(/_/g, ' ');
+  }
+};
+
 export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
   solverInput,
   onBackToDashboard,
   onOpenGroceryList,
 }) => {
+  const { theme, isDark } = useTheme();
+  const { activeRegion } = useRegion();
   const [viewMode, setViewMode] = useState<'plan' | 'grocery'>('plan');
+
+  const isSaudi = activeRegion === 'SA';
+  const regionalFoodPool = isSaudi ? (SAUDI_TRADITIONAL_FOODS as any) : (PAKISTANI_STAPLES_DATA as any);
 
   // Generate a distinct or calibrated 7-day schedule
   const [weekPlans, setWeekPlans] = useState<DailyMealPlanResult[]>(() => {
     return DAYS_OF_WEEK.map(() =>
-      solveDailyMealPlan(solverInput, PAKISTANI_STAPLES_DATA as any)
+      solveDailyMealPlan(solverInput, regionalFoodPool)
     );
   });
+
+  // Re-generate if region changes
+  React.useEffect(() => {
+    setWeekPlans(DAYS_OF_WEEK.map(() => solveDailyMealPlan(solverInput, regionalFoodPool)));
+  }, [activeRegion]);
 
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);
 
@@ -63,7 +101,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
   // Cultural Modes state
   const [modesModalVisible, setModesModalVisible] = useState(false);
   const [isFamilyActive, setIsFamilyActive] = useState(false);
-  const [familyDishName, setFamilyDishName] = useState('Chicken Karahi');
+  const [familyDishName, setFamilyDishName] = useState(isSaudi ? 'Chicken Kabsa' : 'Chicken Karahi');
   const [isRamadanActive, setIsRamadanActive] = useState(false);
 
   const currentDayPlan = weekPlans[selectedDayIndex];
@@ -78,7 +116,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
         updated[selectedDayIndex],
         { familyDishName: dishName, familyMealSlot: slot },
         solverInput,
-        PAKISTANI_STAPLES_DATA as any
+        regionalFoodPool
       );
       updated[selectedDayIndex] = adapted.plan;
       return updated;
@@ -90,7 +128,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
     if (active) {
       const ramadan = generateRamadanPlan(
         solverInput,
-        PAKISTANI_STAPLES_DATA as any
+        regionalFoodPool
       );
       setWeekPlans((prev) => {
         const updated = [...prev];
@@ -114,7 +152,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
         const updated = [...prev];
         updated[selectedDayIndex] = solveDailyMealPlan(
           solverInput,
-          PAKISTANI_STAPLES_DATA as any
+          regionalFoodPool
         );
         return updated;
       });
@@ -135,7 +173,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
     const swap = generateMealSwaps(
       slot,
       solverInput,
-      PAKISTANI_STAPLES_DATA as any
+      regionalFoodPool
     );
     setActiveSlotToSwap(slot);
     setActiveSwapResult(swap);
@@ -201,48 +239,91 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.topNav}>
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.canvas }]}>
+      {/* Top Nav Bar */}
+      <View
+        style={[
+          styles.topNav,
+          {
+            backgroundColor: theme.colors.surface,
+            borderBottomColor: theme.colors.border,
+          },
+        ]}
+      >
         <TouchableOpacity
-          style={styles.backBtn}
+          style={[styles.backBtn, { backgroundColor: theme.colors.surfaceSecondary }]}
           onPress={onBackToDashboard}
           activeOpacity={0.7}
         >
-          <Text style={styles.backBtnText}>← Back</Text>
+          <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
+            ← Back
+          </Text>
         </TouchableOpacity>
 
-        {/* Screen 3 Segmented Tab Control */}
-        <View style={styles.segmentedControl}>
+        {/* Segmented Tab Control: TODAY / GROCERY */}
+        <View
+          style={[
+            styles.segmentedControl,
+            { backgroundColor: theme.colors.surfaceSecondary },
+          ]}
+        >
           <TouchableOpacity
-            style={[styles.segmentBtn, styles.segmentBtnActive]}
+            style={[
+              styles.segmentBtn,
+              styles.segmentBtnActive,
+              { backgroundColor: theme.colors.primaryLime },
+            ]}
             activeOpacity={0.8}
           >
-            <Text style={styles.segmentTextActive}>TODAY</Text>
+            <Text style={[styles.segmentTextActive, { color: '#0A0B0D' }]}>
+              TODAY
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.segmentBtn}
             onPress={() => setViewMode('grocery')}
             activeOpacity={0.8}
           >
-            <Text style={styles.segmentText}>GROCERY</Text>
+            <Text style={[styles.segmentText, { color: theme.colors.textSecondary }]}>
+              GROCERY
+            </Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.navRightActions}>
           <TouchableOpacity
-            style={styles.modesNavBtn}
+            style={[
+              styles.modesNavBtn,
+              {
+                backgroundColor: theme.colors.surfaceSecondary,
+                borderColor: isDark ? theme.colors.border : '#A7F3D0',
+              },
+            ]}
             onPress={() => setModesModalVisible(true)}
             activeOpacity={0.7}
           >
-            <Text style={styles.modesNavBtnText}>
-              {isRamadanActive ? '🌙 Fasting' : isFamilyActive ? '👨‍👩‍👧 Handi' : '🎭 Modes'}
+            <Text
+              style={[
+                styles.modesNavBtnText,
+                { color: isDark ? theme.colors.primaryLime : '#059669' },
+              ]}
+            >
+              {isRamadanActive ? '🌙 Fasting' : isFamilyActive ? '🍲 Handi' : '🍱 Modes'}
             </Text>
           </TouchableOpacity>
         </View>
       </View>
 
-      {/* Horizontal Day Selector with Screen 1 Date Strip Aesthetic */}
-      <View style={styles.daySelectorWrapper}>
+      {/* Horizontal Day Selector */}
+      <View
+        style={[
+          styles.daySelectorWrapper,
+          {
+            backgroundColor: theme.colors.surface,
+            borderBottomColor: theme.colors.border,
+          },
+        ]}
+      >
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -254,14 +335,27 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
             return (
               <TouchableOpacity
                 key={idx}
-                style={[styles.dayTab, isSelected && styles.dayTabActive]}
+                style={[
+                  styles.dayTab,
+                  isSelected
+                    ? {
+                        backgroundColor: theme.colors.primaryLime,
+                        borderColor: theme.colors.primaryLime,
+                      }
+                    : {
+                        backgroundColor: theme.colors.surfaceSecondary,
+                        borderColor: theme.colors.border,
+                      },
+                ]}
                 onPress={() => setSelectedDayIndex(idx)}
                 activeOpacity={0.7}
               >
                 <Text
                   style={[
                     styles.dayTabShort,
-                    isSelected && styles.dayTabShortActive,
+                    {
+                      color: isSelected ? '#0A0B0D' : theme.colors.textSecondary,
+                    },
                   ]}
                 >
                   {shortName}
@@ -269,33 +363,70 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
                 <Text
                   style={[
                     styles.dayTabFull,
-                    isSelected && styles.dayTabFullActive,
+                    {
+                      color: isSelected ? '#0A0B0D' : theme.colors.textPrimary,
+                    },
                   ]}
                 >
                   {idx + 18}
                 </Text>
-                {isSelected && <View style={styles.activeDot} />}
+                {isSelected && (
+                  <View
+                    style={[
+                      styles.activeDot,
+                      { backgroundColor: '#0A0B0D' },
+                    ]}
+                  />
+                )}
               </TouchableOpacity>
             );
           })}
         </ScrollView>
       </View>
 
-      <ScrollView style={styles.container} contentContainerStyle={styles.scrollPad}>
+      <ScrollView
+        style={[styles.container, { backgroundColor: theme.colors.canvas }]}
+        contentContainerStyle={styles.scrollPad}
+      >
         {/* Day Summary Card */}
-        <View style={styles.daySummaryCard}>
+        <View
+          style={[
+            styles.daySummaryCard,
+            {
+              backgroundColor: theme.colors.surface,
+              borderColor: theme.colors.border,
+            },
+          ]}
+        >
           <View style={styles.daySummaryHeader}>
-            <View>
-              <Text style={styles.dayNameLabel}>
+            <View style={styles.dayHeaderTitleCol}>
+              <Text
+                style={[styles.dayNameLabel, { color: theme.colors.textPrimary }]}
+              >
                 {DAYS_OF_WEEK[selectedDayIndex]} Meal Plan
               </Text>
-              <Text style={styles.dayTargetMeta}>
-                Target: {currentDayPlan.targetCalories} kcal · {currentDayPlan.budgetTier.replace('_', ' ')}
+              <Text
+                style={[styles.dayTargetMeta, { color: theme.colors.textSecondary }]}
+              >
+                Target: {currentDayPlan.targetCalories} kcal · {formatBudgetTier(currentDayPlan.budgetTier, isSaudi)}
               </Text>
             </View>
 
-            <View style={styles.tolerancePill}>
-              <Text style={styles.tolerancePillText}>
+            <View
+              style={[
+                styles.tolerancePill,
+                {
+                  backgroundColor: isDark ? '#082E1E' : '#DCFCE7',
+                  borderColor: isDark ? '#10B981' : '#86EFAC',
+                },
+              ]}
+            >
+              <Text
+                style={[
+                  styles.tolerancePillText,
+                  { color: isDark ? theme.colors.primaryLime : '#059669' },
+                ]}
+              >
                 {currentDayPlan.calorieDeviationPct >= 0 ? '+' : ''}
                 {currentDayPlan.calorieDeviationPct}%
               </Text>
@@ -304,35 +435,116 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
 
           {/* Macro Summary Row */}
           <View style={styles.macrosRow}>
-            <View style={styles.macroCard}>
-              <Text style={styles.macroVal}>
+            <View
+              style={[
+                styles.macroCard,
+                {
+                  backgroundColor: theme.colors.surfaceSecondary,
+                  borderColor: theme.colors.border,
+                },
+              ]}
+            >
+              <Text
+                style={[styles.macroVal, { color: theme.colors.textPrimary }]}
+                numberOfLines={1}
+                adjustsFontSizeToFit
+              >
                 {currentDayPlan.actualCalories}
               </Text>
-              <Text style={styles.macroLabel}>Calories</Text>
+              <Text
+                style={[styles.macroLabel, { color: theme.colors.textSecondary }]}
+              >
+                Calories
+              </Text>
             </View>
-            <View style={styles.macroCard}>
-              <Text style={styles.macroVal}>
+            <View
+              style={[
+                styles.macroCard,
+                {
+                  backgroundColor: theme.colors.surfaceSecondary,
+                  borderColor: theme.colors.border,
+                },
+              ]}
+            >
+              <Text
+                style={[styles.macroVal, { color: theme.colors.protein }]}
+                numberOfLines={1}
+                adjustsFontSizeToFit
+              >
                 {currentDayPlan.actualProteinGrams}g
               </Text>
-              <Text style={styles.macroLabel}>Protein</Text>
+              <Text
+                style={[styles.macroLabel, { color: theme.colors.textSecondary }]}
+              >
+                Protein
+              </Text>
             </View>
-            <View style={styles.macroCard}>
-              <Text style={styles.macroVal}>
+            <View
+              style={[
+                styles.macroCard,
+                {
+                  backgroundColor: theme.colors.surfaceSecondary,
+                  borderColor: theme.colors.border,
+                },
+              ]}
+            >
+              <Text
+                style={[styles.macroVal, { color: theme.colors.carbs }]}
+                numberOfLines={1}
+                adjustsFontSizeToFit
+              >
                 {currentDayPlan.actualCarbGrams}g
               </Text>
-              <Text style={styles.macroLabel}>Carbs</Text>
+              <Text
+                style={[styles.macroLabel, { color: theme.colors.textSecondary }]}
+              >
+                Carbs
+              </Text>
             </View>
-            <View style={styles.macroCard}>
-              <Text style={styles.macroVal}>
+            <View
+              style={[
+                styles.macroCard,
+                {
+                  backgroundColor: theme.colors.surfaceSecondary,
+                  borderColor: theme.colors.border,
+                },
+              ]}
+            >
+              <Text
+                style={[styles.macroVal, { color: theme.colors.fat }]}
+                numberOfLines={1}
+                adjustsFontSizeToFit
+              >
                 {currentDayPlan.actualFatGrams}g
               </Text>
-              <Text style={styles.macroLabel}>Fat</Text>
+              <Text
+                style={[styles.macroLabel, { color: theme.colors.textSecondary }]}
+              >
+                Fat
+              </Text>
             </View>
-            <View style={[styles.macroCard, styles.oilCard]}>
-              <Text style={[styles.macroVal, styles.oilVal]}>
+            <View
+              style={[
+                styles.macroCard,
+                styles.oilCard,
+                {
+                  backgroundColor: isDark ? '#332306' : '#FEF3C7',
+                  borderColor: isDark ? '#6B4C0A' : '#FDE68A',
+                },
+              ]}
+            >
+              <Text
+                style={[styles.macroVal, styles.oilVal, { color: isDark ? '#FBBF24' : '#B45309' }]}
+                numberOfLines={1}
+                adjustsFontSizeToFit
+              >
                 {currentDayPlan.totalOilAddedG}g
               </Text>
-              <Text style={styles.oilLabel}>Oil</Text>
+              <Text
+                style={[styles.oilLabel, { color: isDark ? '#FBBF24' : '#B45309' }]}
+              >
+                Oil
+              </Text>
             </View>
           </View>
         </View>
@@ -351,11 +563,14 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
         {/* Grocery Action Footer */}
         {onOpenGroceryList && (
           <TouchableOpacity
-            style={styles.groceryActionBtn}
+            style={[
+              styles.groceryActionBtn,
+              { backgroundColor: theme.colors.primaryLime },
+            ]}
             onPress={() => onOpenGroceryList(weekPlans)}
             activeOpacity={0.8}
           >
-            <Text style={styles.groceryActionBtnText}>
+            <Text style={[styles.groceryActionBtnText, { color: '#0A0B0D' }]}>
               View 7-Day Grocery List & Budget
             </Text>
           </TouchableOpacity>
@@ -391,7 +606,6 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#F6F8F6',
   },
   topNav: {
     flexDirection: 'row',
@@ -399,24 +613,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: '#FFFFFF',
     borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
   },
   backBtn: {
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 9999,
-    backgroundColor: '#F1F5F9',
   },
   backBtnText: {
-    color: '#1E293B',
     fontSize: 12,
     fontWeight: '700',
   },
   segmentedControl: {
     flexDirection: 'row',
-    backgroundColor: '#F1F5F9',
     borderRadius: 9999,
     padding: 3,
   },
@@ -425,16 +634,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     borderRadius: 9999,
   },
-  segmentBtnActive: {
-    backgroundColor: '#10B981',
-  },
+  segmentBtnActive: {},
   segmentText: {
-    color: '#64748B',
     fontSize: 11,
     fontWeight: '700',
   },
   segmentTextActive: {
-    color: '#FFFFFF',
     fontSize: 11,
     fontWeight: '700',
   },
@@ -444,22 +649,17 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   modesNavBtn: {
-    backgroundColor: '#ECFDF5',
     borderRadius: 9999,
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderWidth: 1,
-    borderColor: '#A7F3D0',
   },
   modesNavBtnText: {
-    color: '#059669',
     fontSize: 11,
     fontWeight: '700',
   },
   daySelectorWrapper: {
-    backgroundColor: '#FFFFFF',
     borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
   },
   daySelectorPad: {
     paddingHorizontal: 16,
@@ -470,59 +670,37 @@ const styles = StyleSheet.create({
     width: 54,
     paddingVertical: 10,
     borderRadius: 16,
-    backgroundColor: '#F8FAFC',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#E2E8F0',
-  },
-  dayTabActive: {
-    backgroundColor: '#10B981',
-    borderColor: '#10B981',
   },
   activeDot: {
     width: 4,
     height: 4,
     borderRadius: 2,
-    backgroundColor: '#0A0B0D',
     marginTop: 4,
   },
   dayTabShort: {
     fontSize: 10,
     fontWeight: '700',
-    color: '#64748B',
     marginBottom: 4,
   },
-  dayTabShortActive: {
-    color: '#FFFFFF',
-  },
   dayTabFull: {
-    color: '#64748B',
     fontSize: 10,
-    fontWeight: '600',
+    fontWeight: '700',
     marginTop: 2,
-  },
-  dayTabFullActive: {
-    color: '#A7F3D0',
   },
   container: {
     flex: 1,
   },
   scrollPad: {
     padding: 16,
-    paddingBottom: 40,
+    paddingBottom: 100,
   },
   daySummaryCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 24,
-    padding: 20,
+    borderRadius: 20,
+    padding: 18,
     borderWidth: 1,
-    borderColor: '#F1F5F9',
     marginBottom: 16,
-    shadowColor: '#0F172A',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 12,
-    elevation: 2,
   },
   daySummaryHeader: {
     flexDirection: 'row',
@@ -530,61 +708,55 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginBottom: 14,
   },
+  dayHeaderTitleCol: {
+    flex: 1,
+    marginRight: 8,
+  },
   dayNameLabel: {
-    color: '#1E293B',
     fontSize: 18,
     fontWeight: '800',
   },
   dayTargetMeta: {
-    color: '#64748B',
     fontSize: 12,
     marginTop: 2,
   },
   tolerancePill: {
-    backgroundColor: '#DCFCE7',
     paddingVertical: 4,
     paddingHorizontal: 10,
     borderRadius: 9999,
+    borderWidth: 1,
   },
   tolerancePillText: {
-    color: '#059669',
     fontSize: 11,
     fontWeight: '700',
   },
   macrosRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    gap: 8,
+    gap: 6,
   },
   macroCard: {
     flex: 1,
-    backgroundColor: '#F8FAFC',
     borderRadius: 12,
-    paddingVertical: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 2,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#E2E8F0',
   },
   macroVal: {
-    color: '#1E293B',
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '800',
   },
   macroLabel: {
-    color: '#64748B',
     fontSize: 10,
     fontWeight: '600',
     marginTop: 2,
   },
   oilCard: {
-    backgroundColor: '#FEF3C7',
-    borderColor: '#FDE68A',
+    borderWidth: 1,
   },
-  oilVal: {
-    color: '#B45309',
-  },
+  oilVal: {},
   oilLabel: {
-    color: '#B45309',
     fontSize: 10,
     marginTop: 2,
   },
@@ -592,20 +764,13 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   groceryActionBtn: {
-    backgroundColor: '#10B981',
     borderRadius: 9999,
     paddingVertical: 14,
     marginTop: 8,
     alignItems: 'center',
-    shadowColor: '#10B981',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.15,
-    shadowRadius: 14,
-    elevation: 3,
   },
   groceryActionBtnText: {
-    color: '#FFFFFF',
     fontSize: 14,
-    fontWeight: '700',
+    fontWeight: '800',
   },
 });

@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useRegion } from '../../common/region/index.js';
 
 interface CulturalModesModalProps {
   visible: boolean;
@@ -20,7 +21,7 @@ interface CulturalModesModalProps {
   currentFamilyDish?: string;
 }
 
-const COMMON_FAMILY_DISHES = [
+const PK_FAMILY_DISHES = [
   'Chicken Karahi',
   'Aalo Gosht',
   'Daal Mash',
@@ -31,6 +32,17 @@ const COMMON_FAMILY_DISHES = [
   'Daal Chana',
 ];
 
+const SA_FAMILY_DISHES = [
+  'Chicken Kabsa (كبسة دجاج)',
+  'Naeemi Lamb Mandi (مندي لحم نعيمي)',
+  'Hashi Camel Kabsa (كبسة حاشي)',
+  'Madhbi Chicken (مضبي دجاج)',
+  'Saleeg Taifi (سليق طائفي بالحليب)',
+  'Najdi Jareesh (جريش نجد بالسمن)',
+  'Mutabbaq Meat (مطبق لحم بلدي)',
+  'Sayadieh Fish (صيادية سمك حجازية)',
+];
+
 export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
   visible,
   onClose,
@@ -38,10 +50,15 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
   onToggleRamadanMode,
   isRamadanActive,
   isFamilyActive,
-  currentFamilyDish = 'Chicken Karahi',
+  currentFamilyDish,
 }) => {
+  const { activeRegion } = useRegion();
+  const isSaudi = activeRegion === 'SA';
+  const familyDishes = isSaudi ? SA_FAMILY_DISHES : PK_FAMILY_DISHES;
+  const defaultDish = currentFamilyDish || (isSaudi ? 'Chicken Kabsa (كبسة دجاج)' : 'Chicken Karahi');
+
   const [activeTab, setActiveTab] = useState<'family' | 'ramadan'>('family');
-  const [selectedDish, setSelectedDish] = useState(currentFamilyDish);
+  const [selectedDish, setSelectedDish] = useState(defaultDish);
   const [customDish, setCustomDish] = useState('');
   const [mealSlot, setMealSlot] = useState<'lunch' | 'dinner'>('dinner');
 
@@ -70,8 +87,14 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
           {/* Header */}
           <View style={styles.headerRow}>
             <View>
-              <Text style={styles.eyebrow}>PAKISTANI CULTURAL ADAPTERS</Text>
-              <Text style={styles.modalTitle}>Cultural Diet Modes</Text>
+              <Text style={styles.eyebrow}>
+                {isSaudi
+                  ? 'SAUDI CULTURAL ADAPTERS (الملاءمة الثقافية السعودية)'
+                  : 'PAKISTANI CULTURAL ADAPTERS'}
+              </Text>
+              <Text style={styles.modalTitle}>
+                {isSaudi ? 'Cultural Diet Modes (الأنماط التراثية)' : 'Cultural Diet Modes'}
+              </Text>
             </View>
             <TouchableOpacity
               style={styles.closeBtn}
@@ -98,7 +121,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                   activeTab === 'family' && styles.tabTextActive,
                 ]}
               >
-                👨‍👩‍👧 Family Handi
+                {isSaudi ? '👨‍👩‍👧 Family Banquet (سفرة العائلة)' : '👨‍👩‍👧 Family Handi'}
               </Text>
             </TouchableOpacity>
 
@@ -116,7 +139,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                   activeTab === 'ramadan' && styles.tabTextActive,
                 ]}
               >
-                🌙 Ramadan Mode
+                {isSaudi ? '🌙 Ramadan Mode (صيام رمضان)' : '🌙 Ramadan Mode'}
               </Text>
             </TouchableOpacity>
           </View>
@@ -127,15 +150,17 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
               <View style={styles.section}>
                 <View style={styles.infoBanner}>
                   <Text style={styles.infoBannerText}>
-                    💡 In Pakistani homes, cooking separate meals leads to failure.
-                    Pick whatever handi the family is cooking today. We will automatically
-                    re-balance your rotis and breakfast so you stay 100% on target!
+                    {isSaudi
+                      ? '💡 In Saudi households, family gatherings revolve around shared banquets (Kabsa, Mandi, Saleeg). Pick whatever the family gathers around today. We will calibrate your portions so you hit your macro targets without cooking separate meals!'
+                      : '💡 In Pakistani homes, cooking separate meals leads to failure. Pick whatever handi the family is cooking today. We will automatically re-balance your rotis and breakfast so you stay 100% on target!'}
                   </Text>
                 </View>
 
-                <Text style={styles.fieldLabel}>Select Today's Family Dish:</Text>
+                <Text style={styles.fieldLabel}>
+                  {isSaudi ? "Select Today's Family Dish (طبق العائلة اليوم):" : "Select Today's Family Dish:"}
+                </Text>
                 <View style={styles.dishChipsGrid}>
-                  {COMMON_FAMILY_DISHES.map((dish) => {
+                  {familyDishes.map((dish) => {
                     const isSelected = selectedDish === dish && !customDish;
                     return (
                       <TouchableOpacity
@@ -163,10 +188,12 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                   })}
                 </View>
 
-                <Text style={styles.fieldLabel}>Or Type Other Family Dish:</Text>
+                <Text style={styles.fieldLabel}>
+                  {isSaudi ? 'Or Type Other Saudi Dish:' : 'Or Type Other Family Dish:'}
+                </Text>
                 <TextInput
                   style={styles.textInput}
-                  placeholder="e.g. Haleem, Karelay Gosht..."
+                  placeholder={isSaudi ? 'e.g. Bukhari Rice, Mathlootha, Gursan...' : 'e.g. Haleem, Karelay Gosht...'}
                   placeholderTextColor="#64748B"
                   value={customDish}
                   onChangeText={setCustomDish}
@@ -188,7 +215,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                         mealSlot === 'dinner' && styles.slotChoiceTextActive,
                       ]}
                     >
-                      🥘 Family Dinner
+                      {isSaudi ? '🥘 Family Dinner (عشاء العائلة)' : '🥘 Family Dinner'}
                     </Text>
                   </TouchableOpacity>
 
@@ -206,7 +233,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                         mealSlot === 'lunch' && styles.slotChoiceTextActive,
                       ]}
                     >
-                      🍛 Family Lunch
+                      {isSaudi ? '🍛 Family Lunch (غداء الكبسة)' : '🍛 Family Lunch'}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -226,7 +253,9 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
               <View style={styles.section}>
                 <View style={styles.toggleRow}>
                   <View>
-                    <Text style={styles.toggleTitle}>Enable Ramadan Fasting Mode</Text>
+                    <Text style={styles.toggleTitle}>
+                      {isSaudi ? 'Enable Ramadan Fasting Mode (صيام رمضان)' : 'Enable Ramadan Fasting Mode'}
+                    </Text>
                     <Text style={styles.toggleSubtitle}>
                       Shifts eating window between Maghrib and Fajr
                     </Text>
@@ -242,16 +271,20 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                 <View style={styles.ramadanCard}>
                   <Text style={styles.ramadanCardTitle}>Daily Calorie Split:</Text>
                   <Text style={styles.ramadanScheduleLine}>
-                    • <Text style={styles.boldWhite}>Suhoor (سحری) - 40%:</Text> Eggs,
-                    whole wheat roti, dahi for sustained 14-hour satiety.
+                    • <Text style={styles.boldWhite}>{isSaudi ? 'Suhoor (سحور) - 40%:' : 'Suhoor (سحری) - 40%:'}</Text>{' '}
+                    {isSaudi
+                      ? 'Fresh Laban, Sukari dates, foul mudammas, boiled eggs & Tamees bread for sustained energy.'
+                      : 'Eggs, whole wheat roti, dahi for sustained 14-hour satiety.'}
                   </Text>
                   <Text style={styles.ramadanScheduleLine}>
-                    • <Text style={styles.boldWhite}>Iftar (افطاری) - 40%:</Text> Dates,
-                    protein-first main meal (chicken/tikka/daal), controlled oil.
+                    • <Text style={styles.boldWhite}>{isSaudi ? 'Iftar (إفطار) - 40%:' : 'Iftar (افطاری) - 40%:'}</Text>{' '}
+                    {isSaudi
+                      ? 'Sukari dates, water, Saudi Gahwa, Shourba hab & grilled Farrouj / Mandi meat.'
+                      : 'Dates, protein-first main meal (chicken/tikka/daal), controlled oil.'}
                   </Text>
                   <Text style={styles.ramadanScheduleLine}>
-                    • <Text style={styles.boldWhite}>Post-Tarawih - 20%:</Text> Light
-                    snack & recovery chai.
+                    • <Text style={styles.boldWhite}>{isSaudi ? 'Post-Tarawih (غبقة وتمر) - 20%:' : 'Post-Tarawih - 20%:'}</Text>{' '}
+                    {isSaudi ? 'Light recovery snack, fruit & mint tea or Gahwa.' : 'Light snack & recovery chai.'}
                   </Text>
                 </View>
 
