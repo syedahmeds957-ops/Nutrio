@@ -70,6 +70,8 @@ export const StepPreferencesBudget: React.FC<StepPreferencesBudgetProps> = ({
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
   const isSaudi = activeRegion === 'SA';
+  const accentColor = isSaudi ? '#10B981' : theme.colors.primaryLime;
+  const activeTextColor = isSaudi ? '#FFFFFF' : '#0A0B0D';
   const dietOptions = isSaudi ? SA_DIET_OPTIONS : PK_DIET_OPTIONS;
   const budgetTiers = isSaudi ? SA_BUDGET_TIERS : BUDGET_TIERS;
 
@@ -94,10 +96,10 @@ export const StepPreferencesBudget: React.FC<StepPreferencesBudgetProps> = ({
                   styles.chip,
                   {
                     backgroundColor: isSelected
-                      ? theme.colors.primaryLime
+                      ? accentColor
                       : theme.colors.surface,
                     borderColor: isSelected
-                      ? theme.colors.primaryLime
+                      ? accentColor
                       : theme.colors.border,
                   },
                 ]}
@@ -108,7 +110,7 @@ export const StepPreferencesBudget: React.FC<StepPreferencesBudgetProps> = ({
                   style={[
                     styles.chipText,
                     {
-                      color: isSelected ? '#0A0B0D' : theme.colors.textPrimary,
+                      color: isSelected ? activeTextColor : theme.colors.textPrimary,
                       fontWeight: isSelected ? '800' : '600',
                     },
                   ]}
@@ -141,11 +143,15 @@ export const StepPreferencesBudget: React.FC<StepPreferencesBudgetProps> = ({
                 {
                   backgroundColor: isSelected
                     ? isDark
-                      ? 'rgba(164, 235, 63, 0.12)'
-                      : '#F7FEE7'
+                      ? isSaudi
+                        ? 'rgba(16, 185, 129, 0.15)'
+                        : 'rgba(164, 235, 63, 0.12)'
+                      : isSaudi
+                        ? '#ECFDF5'
+                        : '#F7FEE7'
                     : theme.colors.surface,
                   borderColor: isSelected
-                    ? theme.colors.primaryLime
+                    ? accentColor
                     : theme.colors.border,
                   borderWidth: isSelected ? 2 : 1,
                 },
@@ -160,8 +166,12 @@ export const StepPreferencesBudget: React.FC<StepPreferencesBudgetProps> = ({
                     {
                       color: isSelected
                         ? isDark
-                          ? theme.colors.primaryLime
-                          : '#1E293B'
+                          ? isSaudi
+                            ? '#34D399'
+                            : theme.colors.primaryLime
+                          : isSaudi
+                            ? '#065F46'
+                            : '#1E293B'
                         : theme.colors.textPrimary,
                     },
                   ]}
@@ -172,10 +182,12 @@ export const StepPreferencesBudget: React.FC<StepPreferencesBudgetProps> = ({
                   <View
                     style={[
                       styles.activePill,
-                      { backgroundColor: theme.colors.primaryLime },
+                      { backgroundColor: accentColor },
                     ]}
                   >
-                    <Text style={styles.activePillText}>SELECTED</Text>
+                    <Text style={[styles.activePillText, isSaudi && { color: '#FFFFFF' }]}>
+                      {isSaudi ? 'تم الاختيار' : 'SELECTED'}
+                    </Text>
                   </View>
                 )}
               </View>

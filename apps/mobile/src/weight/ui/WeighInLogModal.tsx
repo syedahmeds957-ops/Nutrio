@@ -7,8 +7,10 @@ import {
   TextInput,
   Modal,
   SafeAreaView,
+  Platform,
 } from 'react-native';
 import { useTheme } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
 
 interface WeighInLogModalProps {
   visible: boolean;
@@ -24,6 +26,10 @@ export const WeighInLogModal: React.FC<WeighInLogModalProps> = ({
   onSaveWeight,
 }) => {
   const { theme, isDark } = useTheme();
+  const { activeRegion } = useRegion();
+  const isSaudi = activeRegion === 'SA';
+  const accentColor = isSaudi ? '#10B981' : theme.colors.primaryLime;
+  const accentTextColor = isSaudi ? '#FFFFFF' : theme.colors.limeText;
   const [weight, setWeight] = useState<string>(
     initialWeightKg > 0 ? String(initialWeightKg) : '75.0'
   );
@@ -199,13 +205,13 @@ export const WeighInLogModal: React.FC<WeighInLogModalProps> = ({
           <TouchableOpacity
             style={[
               styles.saveBtn,
-              { backgroundColor: theme.colors.primaryLime },
+              { backgroundColor: accentColor },
             ]}
             onPress={handleSave}
             activeOpacity={0.8}
           >
-            <Text style={[styles.saveBtnText, { color: theme.colors.limeText }]}>
-              Save Weigh-in
+            <Text style={[styles.saveBtnText, { color: accentTextColor }]}>
+              {isSaudi ? 'Save Weigh-in (حفظ الوزن)' : 'Save Weigh-in'}
             </Text>
           </TouchableOpacity>
         </View>
@@ -219,12 +225,26 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.75)',
     justifyContent: 'flex-end',
+    ...Platform.select({
+      web: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 20,
+      },
+    }),
   },
   modalContainer: {
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
     padding: 24,
     borderWidth: 1,
+    ...Platform.select({
+      web: {
+        width: '100%',
+        maxWidth: 500,
+        borderRadius: 28,
+      },
+    }),
   },
   header: {
     flexDirection: 'row',

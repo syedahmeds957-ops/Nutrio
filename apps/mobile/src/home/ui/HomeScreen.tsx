@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import { useTheme } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
 import { Icon } from '../../ui/Icon.js';
 
 interface HomeScreenProps {
@@ -16,12 +17,12 @@ interface HomeScreenProps {
   onExploreGuest?: () => void;
 }
 
-const FEATURES = [
+const PK_FEATURES = [
   {
-    icon: 'camera' as const,
-    title: 'AI Meal Photo Scanner',
-    desc: 'Snap a picture of your plate to instantly detect portions, roti count, and calories with zero hallucination.',
-    badge: '100% Free',
+    icon: 'search' as const,
+    title: 'Verified Pakistani Food Database',
+    desc: 'Calibrated for Biryani, Karahi, Dal, Roti, and packaged Pakistani staples with dietitian accuracy.',
+    badge: '2,700+ Foods',
   },
   {
     icon: 'utensils' as const,
@@ -43,12 +44,44 @@ const FEATURES = [
   },
 ];
 
+const SA_FEATURES = [
+  {
+    icon: 'search' as const,
+    title: 'Saudi Restaurant & Traditional Food Search',
+    desc: 'Instant 1-tap lookup for 1,200+ verified Saudi home dishes, regional staples, and local chains with dietitian accuracy.',
+    badge: 'Verified',
+  },
+  {
+    icon: 'utensils' as const,
+    title: '12+ Saudi Restaurant Brands (مطاعم سعودية)',
+    desc: 'Calibrated for AlBaik, Al Tazaj, Kudu, Shawarmer, Herfy, Maestro, Mama Noura, and Jankay.',
+    badge: 'All Unlocked',
+  },
+  {
+    icon: 'coach' as const,
+    title: 'Context-Aware AI Coach (مدرب ذكي)',
+    desc: 'Personalized clinical guidance to handle family Kabsa banquets, Ramadan iftars, and late-night cravings.',
+    badge: 'Unlimited',
+  },
+  {
+    icon: 'scale' as const,
+    title: 'Adaptive Metabolic TDEE',
+    desc: 'Closed-loop metabolic recalibration dynamically tunes daily calories based on your 7-day weight trend.',
+    badge: 'Smart Pace',
+  },
+];
+
 export const HomeScreen: React.FC<HomeScreenProps> = ({
   onGetStarted,
   onLogin,
   onExploreGuest,
 }) => {
   const { theme, mode, toggleTheme } = useTheme();
+  const { activeRegion } = useRegion();
+  const isSaudi = activeRegion === 'SA';
+  const features = isSaudi ? SA_FEATURES : PK_FEATURES;
+  const accentColor = isSaudi ? '#10B981' : theme.colors.primaryLime;
+  const accentTextColor = isSaudi ? '#FFFFFF' : theme.colors.limeText;
 
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.canvas }]}>
@@ -60,8 +93,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         {/* Top Brand & Theme Switcher Bar */}
         <View style={styles.navBar}>
           <View style={styles.brandRow}>
-            <View style={[styles.logoBadge, { backgroundColor: theme.colors.primaryLime }]}>
-              <Text style={styles.logoBadgeText}>N</Text>
+            <View style={[styles.logoBadge, { backgroundColor: accentColor }]}>
+              <Text style={[styles.logoBadgeText, isSaudi && { color: '#FFFFFF' }]}>N</Text>
             </View>
             <View>
               <Text style={[styles.brandTitle, { color: theme.colors.textPrimary }]}>Nutrio</Text>
@@ -105,47 +138,60 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           </View>
         </View>
 
-        {/* Solid Lime Hero Card (Revolut / Ronasit Style) */}
+        {/* Solid Lime / Emerald Hero Card */}
         <View
           style={[
             styles.heroCard,
             {
-              backgroundColor: theme.colors.heroCardBg, // Solid Lime #A4EB3F
-              borderColor: theme.colors.primaryLime,
+              backgroundColor: isSaudi ? '#10B981' : theme.colors.heroCardBg,
+              borderColor: accentColor,
             },
           ]}
         >
           <View style={styles.heroTopRow}>
-            <View style={styles.freeBadgePill}>
-              <Text style={styles.freeBadgeText}>100% Free • All Features</Text>
+            <View style={[styles.freeBadgePill, isSaudi && { backgroundColor: 'rgba(0, 0, 0, 0.25)' }]}>
+              <Text style={[styles.freeBadgeText, isSaudi && { color: '#FFFFFF' }]}>
+                {isSaudi ? '100% مجاناً • جميع الميزات' : '100% Free • All Features'}
+              </Text>
             </View>
-            <View style={styles.proActiveDot} />
+            <View style={[styles.proActiveDot, isSaudi && { backgroundColor: '#FFFFFF' }]} />
           </View>
 
-          <Text style={[styles.heroHeading, { color: theme.colors.limeText }]}>
-            Eat Desi, Stay Lean.
+          <Text style={[styles.heroHeading, { color: isSaudi ? '#FFFFFF' : theme.colors.limeText }]}>
+            {isSaudi ? 'Eat Traditional, Stay Lean. (المطبخ العربي الذكي)' : 'Eat Desi, Stay Lean.'}
           </Text>
 
-          <Text style={[styles.heroSubtitle, { color: theme.colors.limeText }]}>
-            Calibrated for Biryani, Karahi, and Roti. Take control of your daily macros with precision
-            portion vision and authentic nutrition science.
+          <Text style={[styles.heroSubtitle, { color: isSaudi ? '#FFFFFF' : theme.colors.limeText }]}>
+            {isSaudi
+              ? 'Calibrated for Kabsa, Mandi, and Tamees. Take control of your daily macros with Saudi restaurant intelligence and clinical science.'
+              : 'Calibrated for Biryani, Karahi, and Roti. Take control of your daily macros with authentic nutrition science.'}
           </Text>
 
           {/* Quick Metrics Preview Row */}
-          <View style={styles.heroMetricsRow}>
+          <View style={[styles.heroMetricsRow, isSaudi && { backgroundColor: 'rgba(0, 0, 0, 0.15)' }]}>
             <View style={styles.heroMetricItem}>
-              <Text style={styles.heroMetricValue}>60+</Text>
-              <Text style={styles.heroMetricLabel}>Brands Unlocked</Text>
+              <Text style={[styles.heroMetricValue, isSaudi && { color: '#FFFFFF' }]}>
+                {isSaudi ? '12+' : '60+'}
+              </Text>
+              <Text style={[styles.heroMetricLabel, isSaudi && { color: '#FFFFFF' }]}>
+                {isSaudi ? 'Saudi Brands' : 'Brands Unlocked'}
+              </Text>
             </View>
-            <View style={styles.heroMetricDivider} />
+            <View style={[styles.heroMetricDivider, isSaudi && { backgroundColor: 'rgba(255, 255, 255, 0.25)' }]} />
             <View style={styles.heroMetricItem}>
-              <Text style={styles.heroMetricValue}>2,700+</Text>
-              <Text style={styles.heroMetricLabel}>Verified Foods</Text>
+              <Text style={[styles.heroMetricValue, isSaudi && { color: '#FFFFFF' }]}>
+                {isSaudi ? '1,200+' : '2,700+'}
+              </Text>
+              <Text style={[styles.heroMetricLabel, isSaudi && { color: '#FFFFFF' }]}>
+                {isSaudi ? 'Traditional Foods' : 'Verified Foods'}
+              </Text>
             </View>
-            <View style={styles.heroMetricDivider} />
+            <View style={[styles.heroMetricDivider, isSaudi && { backgroundColor: 'rgba(255, 255, 255, 0.25)' }]} />
             <View style={styles.heroMetricItem}>
-              <Text style={styles.heroMetricValue}>0</Text>
-              <Text style={styles.heroMetricLabel}>Paywalls</Text>
+              <Text style={[styles.heroMetricValue, isSaudi && { color: '#FFFFFF' }]}>0</Text>
+              <Text style={[styles.heroMetricLabel, isSaudi && { color: '#FFFFFF' }]}>
+                {isSaudi ? 'Paywalls' : 'Paywalls'}
+              </Text>
             </View>
           </View>
         </View>
@@ -161,12 +207,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           ]}
         >
           <TouchableOpacity
-            style={[styles.primaryBtn, { backgroundColor: theme.colors.primaryLime }]}
+            style={[styles.primaryBtn, { backgroundColor: accentColor }]}
             onPress={onGetStarted}
             activeOpacity={0.8}
           >
-            <Text style={[styles.primaryBtnText, { color: theme.colors.limeText }]}>
-              Start Biometric Assessment →
+            <Text style={[styles.primaryBtnText, { color: accentTextColor }]}>
+              {isSaudi ? 'Start Biometric Assessment → (بدء التقييم الحيوي)' : 'Start Biometric Assessment →'}
             </Text>
           </TouchableOpacity>
 
@@ -183,7 +229,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               activeOpacity={0.8}
             >
               <Text style={[styles.secondaryBtnText, { color: theme.colors.textPrimary }]}>
-                Explore Active Dashboard
+                {isSaudi ? 'Explore Active Dashboard (استكشاف لوحة التحكم)' : 'Explore Active Dashboard'}
               </Text>
             </TouchableOpacity>
           )}
@@ -192,11 +238,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         {/* Features List Section */}
         <View style={styles.featuresSection}>
           <Text style={[styles.sectionTitle, { color: theme.colors.textPrimary }]}>
-            Engineered for Real Pakistani Lives
+            {isSaudi
+              ? 'Engineered for Real Saudi Lifestyles (مصمم لأسلوب الحياة السعودي)'
+              : 'Engineered for Real Pakistani Lives'}
           </Text>
 
           <View style={styles.featureList}>
-            {FEATURES.map((feat, idx) => (
+            {features.map((feat, idx) => (
               <View
                 key={idx}
                 style={[
@@ -213,7 +261,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                     { backgroundColor: theme.colors.surfaceSecondary },
                   ]}
                 >
-                  <Icon name={feat.icon} size={22} color={theme.colors.primaryLime} />
+                  <Icon name={feat.icon} size={22} color={accentColor} />
                 </View>
 
                 <View style={styles.featureTextCol}>
@@ -225,15 +273,21 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                       style={[
                         styles.featureBadge,
                         {
-                          backgroundColor: theme.isDark ? '#262A12' : '#F4FED0',
-                          borderColor: theme.colors.primaryLime,
+                          backgroundColor: isSaudi
+                            ? (theme.isDark ? 'rgba(16, 185, 129, 0.2)' : '#ECFDF5')
+                            : (theme.isDark ? '#262A12' : '#F4FED0'),
+                          borderColor: accentColor,
                         },
                       ]}
                     >
                       <Text
                         style={[
                           styles.featureBadgeText,
-                          { color: theme.isDark ? theme.colors.primaryLime : '#465A00' },
+                          {
+                            color: isSaudi
+                              ? (theme.isDark ? '#34D399' : '#065F46')
+                              : (theme.isDark ? theme.colors.primaryLime : '#465A00'),
+                          },
                         ]}
                       >
                         {feat.badge}

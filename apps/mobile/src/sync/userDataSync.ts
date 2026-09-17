@@ -1,4 +1,4 @@
-import { supabase, isSupabaseConfigured } from '../supabase/client.js';
+﻿import { supabase, isSupabaseConfigured } from '../supabase/client.js';
 import { getAuthSession } from '../auth/authStorage.js';
 import { LifestyleSurveyPayload } from '../survey/types.js';
 import { ComputedUserPlan } from '../plan/types.js';
@@ -6,6 +6,16 @@ import { ComputedUserPlan } from '../plan/types.js';
 export interface SyncResult {
   success: boolean;
   profileId?: string;
+  error?: string;
+  isMock?: boolean;
+}
+
+export interface HydrationResult {
+  success: boolean;
+  profileId?: string;
+  computedPlan?: ComputedUserPlan | null;
+  surveyPayload?: LifestyleSurveyPayload | null;
+  bodyMetrics?: any[];
   error?: string;
   isMock?: boolean;
 }
@@ -211,5 +221,176 @@ export async function syncCompleteOnboarding(
   return {
     success: true,
     profileId,
+  };
+}
+
+/**
+ * Fetches the user's latest nutrition targets from core.targets.
+ */
+export async function fetchUserTargets(profileId: string): Promise<any | null> {
+  if (!isSupabaseConfigured()) {
+    return null;
+  }
+  try {
+    const { data, error } = await supabase
+      .schema('core')
+      .from('targets')
+      .select('*')
+      .eq('user_id', profileId)
+      .order('effective_from', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (error) {
+      console.warn('[UserDataSync] Error fetching targets:', error.message);
+      return null;
+    }
+    return data ?? null;
+  } catch (err: any) {
+    console.warn('[UserDataSync] Exception fetching targets:', err?.message);
+    return null;
+  }
+}
+
+/**
+ * Fetches the user's latest lifestyle survey from core.lifestyle_surveys.
+ */
+export async function fetchLatestLifestyleSurvey(profileId: string): Promise<LifestyleSurveyPayload | null> {
+  if (!isSupabaseConfigured()) {
+    return null;
+  }
+  try {
+    const { data, error } = await supabase
+      .schema('core')
+      .from('lifestyle_surveys')
+      .select('payload')
+      .eq('user_id', profileId)
+      .order('version', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (error) {
+      console.warn('[UserDataSync] Error fetching lifestyle survey:', error.message);
+      return null;
+    }
+    return (data?.payload as LifestyleSurveyPayload) ?? null;
+  } catch (err: any) {
+    console.warn('[UserDataSync] Exception fetching lifestyle survey:', err?.message);
+    return null;
+  }
+}
+
+/**
+ * Fetches the user's recorded body metrics history from core.body_metrics.
+ */
+export async function fetchBodyMetricsHistory(profileId: string, limit: number = 30): Promise<any[]> {
+  if (!isSupabaseConfigured()) {
+    return [];
+  }
+  try {
+    const { data, error } = await supabase
+      .schema('core')
+      .from('body_metrics')
+      .select('*')
+      .eq('user_id', profileId)
+      .order('measured_at', { ascending: false })
+      .limit(limit);
+
+    if (error) {
+      console.warn('[UserDataSync] Error fetching body metrics:', error.message);
+      return [];
+    }
+    return data ?? [];
+  } catch (err: any) {
+    console.warn('[UserDataSync] Exception fetching body metrics:', err?.message);
+    return [];
+  }
+}
+
+/**
+ * Atomic data hydration: Re-hydrates personalized plan and survey data from Supabase.
+ */
+export async function hydrateUserDataFromCloud(profileIdParam?: string): Promise<HydrationResult> {
+  const session = getAuthSession();
+  if (!session) {
+    return {
+      success: false,
+      error: 'User not authenticated. Cannot hydrate data.',
+    };
+  }
+
+  const profileId = profileIdParam || (await resolveCurrentProfileId());
+  if (!profileId) {
+    return {
+      success: false,
+      error: 'Could not resolve user profile.',
+    };
+  }
+
+  if (!isSupabaseConfigured()) {
+    return {
+      success: true,
+      profileId,
+      isMock: true,
+    };
+  }
+
+  const [targetsRow, surveyPayload, bodyMetrics] = await Promise.all([
+    fetchUserTargets(profileId),
+    fetchLatestLifestyleSurvey(profileId),
+    fetchBodyMetricsHistory(profileId, 30),
+  ]);
+
+  let computedPlan: ComputedUserPlan | null = null;
+  if (targetsRow) {
+    computedPlan = {
+      userContext: {
+        weightKg: surveyPayload?.basics?.weightKg ?? 70,
+        heightCm: surveyPayload?.basics?.heightCm ?? 170,
+        ageYears: surveyPayload?.basics?.ageYears ?? 25,
+        sex: surveyPayload?.basics?.sex ?? 'male',
+        bmr: targetsRow.bmr || 1600,
+        tdee: targetsRow.tdee_formula || 2100,
+        bodyFatPct: surveyPayload?.basics?.bodyFatPct,
+        isPregnantOrBreastfeeding: surveyPayload?.healthClinical?.isPregnantOrBreastfeeding ?? false,
+        medicalConditions: surveyPayload?.healthClinical?.medicalConditions ?? [],
+        chaiSugarKcalPerDay: surveyPayload?.lifestyleDesi?.chaiWithSugarCupsPerDay ? surveyPayload.lifestyleDesi.chaiWithSugarCupsPerDay * 60 : 120,
+        weeklyChaiSugarKcal: 840,
+        isNightShift: surveyPayload?.occupational?.shiftPattern === 'night_shift',
+        dailySittingHours: surveyPayload?.occupational?.dailySittingHours ?? 8,
+      },
+      goalSelection: {
+        goal: targetsRow.goal || 'maintain',
+        targetRateKgPerWeek: Number(targetsRow.rate_kg_per_week) || 0,
+      },
+      targetResult: {
+        kcalTarget: targetsRow.kcal_target,
+        deficitKcal: targetsRow.tdee_formula ? targetsRow.tdee_formula - targetsRow.kcal_target : 0,
+        isSafe: true,
+        safetyFlags: targetsRow.safety_flags || [],
+      } as any,
+      macros: {
+        proteinGrams: targetsRow.protein_g,
+        fatGrams: targetsRow.fat_g,
+        carbGrams: targetsRow.carb_g,
+        fiberGrams: targetsRow.fibre_g || 25,
+        waterMl: targetsRow.water_ml || 2500,
+      } as any,
+      projection: {
+        currentWeightKg: surveyPayload?.basics?.weightKg ?? 70,
+        targetWeightKg: surveyPayload?.basics?.weightKg ?? 70,
+        weeklyRateKg: Number(targetsRow.rate_kg_per_week) || 0,
+        isRealistic: true,
+        pacingAdvice: 'Target loaded from your cloud profile.',
+      },
+    };
+  }
+
+  return {
+    success: true,
+    profileId,
+    computedPlan,
+    surveyPayload,
+    bodyMetrics,
   };
 }

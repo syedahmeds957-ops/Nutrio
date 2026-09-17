@@ -60,6 +60,15 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
 
   const brandName = currentBrand?.name || '';
 
+  const isSaudiBrand = useMemo(() => {
+    if (!brandId) return false;
+    const cleanId = brandId.toLowerCase().trim();
+    return (
+      currentBrand?.region === 'SA' ||
+      SAUDI_RESTAURANT_BRANDS.some((b) => b.id === cleanId)
+    );
+  }, [brandId, currentBrand]);
+
   // Get all items belonging to this brand
   const brandItems = useMemo(() => {
     if (!brandId) return [];
@@ -205,7 +214,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                   {brandName || 'Brand Menu'}
                 </Text>
                 {currentBrand?.nameAr && (
-                  <Text style={{ fontSize: 13, fontWeight: '700', color: theme.colors.primaryLime }}>
+                  <Text style={{ fontSize: 13, fontWeight: '700', color: isSaudiBrand ? '#10B981' : theme.colors.primaryLime }}>
                     {currentBrand.nameAr}
                   </Text>
                 )}
@@ -273,33 +282,33 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
             {categories.map((cat) => {
               const isSelected = selectedCategory === cat;
               return (
-                <TouchableOpacity
-                  key={cat}
-                  style={[
-                    styles.categoryPill,
-                    {
-                      backgroundColor: isSelected
-                        ? theme.colors.primaryLime
-                        : theme.colors.surfaceSecondary,
-                    },
-                  ]}
-                  onPress={() => setSelectedCategory(cat)}
-                  activeOpacity={0.7}
-                >
-                  <Text
-                    style={[
-                      styles.categoryPillText,
-                      {
-                        color: isSelected
-                          ? '#0A0B0D'
-                          : theme.colors.textSecondary,
-                        fontWeight: isSelected ? '800' : '600',
-                      },
-                    ]}
-                  >
-                    {cat}
-                  </Text>
-                </TouchableOpacity>
+                    <TouchableOpacity
+                      key={cat}
+                      style={[
+                        styles.categoryPill,
+                        {
+                          backgroundColor: isSelected
+                            ? (isSaudiBrand ? '#10B981' : theme.colors.primaryLime)
+                            : theme.colors.surfaceSecondary,
+                        },
+                      ]}
+                      onPress={() => setSelectedCategory(cat)}
+                      activeOpacity={0.7}
+                    >
+                      <Text
+                        style={[
+                          styles.categoryPillText,
+                          {
+                            color: isSelected
+                              ? (isSaudiBrand ? '#FFFFFF' : '#0A0B0D')
+                              : theme.colors.textSecondary,
+                            fontWeight: isSelected ? '800' : '600',
+                          },
+                        ]}
+                      >
+                        {cat}
+                      </Text>
+                    </TouchableOpacity>
               );
             })}
           </ScrollView>
@@ -371,7 +380,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                               {item.name}
                             </Text>
                             {item.nameAr && (
-                              <Text style={[styles.itemNameAr, { color: theme.colors.primaryLime }]}>
+                              <Text style={[styles.itemNameAr, { color: isSaudiBrand ? '#10B981' : theme.colors.primaryLime }]}>
                                 {item.nameAr}
                               </Text>
                             )}
@@ -391,7 +400,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                           <Text
                             style={[
                               styles.itemMacros,
-                              { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                              { color: isSaudiBrand ? '#10B981' : (isDark ? theme.colors.primaryLime : '#4B6200') },
                             ]}
                           >
                             P {p}g · C {c}g · F {f}g
@@ -403,17 +412,17 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                             style={[
                               styles.caloriePill,
                               {
-                                backgroundColor: isDark
-                                  ? 'rgba(164, 235, 63, 0.15)'
-                                  : '#F7FEE7',
-                                borderColor: theme.colors.primaryLime,
+                                backgroundColor: isSaudiBrand
+                                  ? (isDark ? 'rgba(16, 185, 129, 0.15)' : '#ECFDF5')
+                                  : (isDark ? 'rgba(164, 235, 63, 0.15)' : '#F7FEE7'),
+                                borderColor: isSaudiBrand ? '#10B981' : theme.colors.primaryLime,
                               },
                             ]}
                           >
                             <Text
                               style={[
                                 styles.caloriePillText,
-                                { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                                { color: isSaudiBrand ? '#10B981' : (isDark ? theme.colors.primaryLime : '#4B6200') },
                               ]}
                             >
                               ≈{kcal} kcal

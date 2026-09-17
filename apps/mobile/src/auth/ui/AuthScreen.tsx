@@ -462,7 +462,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                           color: theme.colors.textPrimary,
                         },
                       ]}
-                      placeholder="e.g. Talha"
+                      placeholder="Enter your name"
                       placeholderTextColor={theme.colors.textMuted}
                       value={name}
                       onChangeText={setName}
@@ -485,7 +485,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                         color: theme.colors.textPrimary,
                       },
                     ]}
-                    placeholder="talha@nutrio.app"
+                    placeholder="name@example.com"
                     placeholderTextColor={theme.colors.textMuted}
                     value={email}
                     onChangeText={setEmail}

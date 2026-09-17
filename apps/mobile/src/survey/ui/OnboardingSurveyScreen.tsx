@@ -196,7 +196,7 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
           activeOpacity={0.7}
         >
           <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
-            {isFirstStep ? 'Cancel' : 'Back'}
+            {isFirstStep ? (isSaudi ? 'إلغاء' : 'Cancel') : (isSaudi ? 'رجوع' : 'Back')}
           </Text>
         </TouchableOpacity>
 
@@ -204,14 +204,16 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
           style={[
             styles.nextBtn,
             {
-              backgroundColor: theme.colors.primaryLime,
+              backgroundColor: isSaudi ? '#10B981' : theme.colors.primaryLime,
             },
           ]}
           onPress={handleNext}
           activeOpacity={0.7}
         >
-          <Text style={[styles.nextBtnText, { color: theme.colors.limeText }]}>
-            {isLastStep ? 'Complete Assessment' : 'Continue'}
+          <Text style={[styles.nextBtnText, { color: isSaudi ? '#FFFFFF' : theme.colors.limeText }]}>
+            {isLastStep
+              ? (isSaudi ? 'إكمال التقييم (Complete Assessment)' : 'Complete Assessment')
+              : (isSaudi ? 'متابعة (Continue)' : 'Continue')}
           </Text>
         </TouchableOpacity>
       </View>

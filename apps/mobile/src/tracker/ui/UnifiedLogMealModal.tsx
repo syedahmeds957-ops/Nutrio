@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Platform,
 } from 'react-native';
 import {
   NormalizedFood,
@@ -136,7 +137,7 @@ export const UnifiedLogMealModal: React.FC<UnifiedLogMealModalProps> = ({
           {/* Header */}
           <View style={styles.headerRow}>
             <View>
-              <Text style={[styles.eyebrow, { color: isDark ? '#A4EB3F' : '#16A34A' }]}>
+              <Text style={[styles.eyebrow, { color: isDark ? (isSaudi ? '#10B981' : '#A4EB3F') : (isSaudi ? '#059669' : '#16A34A') }]}>
                 LOG TO {mealSlot.toUpperCase().replace('_', ' ')}
               </Text>
               <Text style={[styles.modalTitle, { color: theme.colors.text }]}>Add Food to Diary</Text>
@@ -185,7 +186,10 @@ export const UnifiedLogMealModal: React.FC<UnifiedLogMealModalProps> = ({
                         backgroundColor: isDark ? '#1C1D24' : '#F1F5F9',
                         borderColor: theme.colors.border,
                       },
-                      isCatActive && styles.catChipActive,
+                      isCatActive && [
+                        styles.catChipActive,
+                        isSaudi && { backgroundColor: '#10B981', borderColor: '#10B981' },
+                      ],
                     ]}
                     onPress={() => setSelectedCategory(cat)}
                     activeOpacity={0.7}
@@ -194,7 +198,10 @@ export const UnifiedLogMealModal: React.FC<UnifiedLogMealModalProps> = ({
                       style={[
                         styles.catChipText,
                         { color: theme.colors.textMuted },
-                        isCatActive && styles.catChipTextActive,
+                        isCatActive && [
+                          styles.catChipTextActive,
+                          isSaudi && { color: '#FFFFFF' },
+                        ],
                       ]}
                     >
                       {cat}
@@ -236,11 +243,13 @@ export const UnifiedLogMealModal: React.FC<UnifiedLogMealModalProps> = ({
                 </View>
 
                 <TouchableOpacity
-                  style={styles.actionBtn}
+                  style={[styles.actionBtn, isSaudi && { backgroundColor: '#10B981' }]}
                   onPress={handleConfirmSearchLog}
                   activeOpacity={0.85}
                 >
-                  <Text style={styles.actionBtnText}>Log Selected Food</Text>
+                  <Text style={[styles.actionBtnText, isSaudi && { color: '#FFFFFF' }]}>
+                    {isSaudi ? 'Log Selected Food (تسجيل الوجبة)' : 'Log Selected Food'}
+                  </Text>
                 </TouchableOpacity>
               </View>
             ) : (
@@ -263,7 +272,7 @@ export const UnifiedLogMealModal: React.FC<UnifiedLogMealModalProps> = ({
                       </Text>
                       <Text style={[styles.foodRowCategory, { color: theme.colors.textMuted }]}>{food.category}</Text>
                     </View>
-                    <Text style={[styles.foodRowKcal, { color: isDark ? '#A4EB3F' : '#16A34A' }]}>{food.kcal100g} kcal/100g</Text>
+                    <Text style={[styles.foodRowKcal, { color: isDark ? (isSaudi ? '#10B981' : '#A4EB3F') : (isSaudi ? '#059669' : '#16A34A') }]}>{food.kcal100g} kcal/100g</Text>
                   </TouchableOpacity>
                 ))}
               </ScrollView>
@@ -280,6 +289,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.75)',
     justifyContent: 'flex-end',
+    ...Platform.select({
+      web: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 20,
+      },
+    }),
   },
   modalContent: {
     backgroundColor: '#FFFFFF',
@@ -289,6 +305,14 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     borderWidth: 1,
     borderColor: '#F1F5F9',
+    ...Platform.select({
+      web: {
+        width: '100%',
+        maxWidth: 500,
+        maxHeight: 750,
+        borderRadius: 28,
+      },
+    }),
   },
   headerRow: {
     flexDirection: 'row',

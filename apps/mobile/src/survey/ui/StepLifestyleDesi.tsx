@@ -35,6 +35,8 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
   const isSaudi = activeRegion === 'SA';
+  const accentColor = isSaudi ? '#10B981' : theme.colors.primaryLime;
+  const activeTextColor = isSaudi ? '#FFFFFF' : '#0A0B0D';
   const cookingStyles = isSaudi ? SA_COOKING_STYLES : PK_COOKING_STYLES;
   const chaiCount = data.chaiWithSugarCupsPerDay ?? 2;
   const estimatedChaiKcal = chaiCount * KCAL_PER_CUP_CHAI_SUGAR;
@@ -65,8 +67,8 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
               ? 'Daily Saudi Gahwa & Dates Ritual (فنجان قهوة وتمر)'
               : 'Cups of Chai with Sugar Per Day'}
           </Text>
-          <View style={[styles.chaiBadge, { backgroundColor: theme.colors.primaryLime }]}>
-            <Text style={styles.chaiBadgeText}>
+          <View style={[styles.chaiBadge, { backgroundColor: accentColor }]}>
+            <Text style={[styles.chaiBadgeText, isSaudi && { color: '#FFFFFF' }]}>
               {isSaudi ? 'Saudi Tradition' : 'Key Desi Factor'}
             </Text>
           </View>
@@ -128,7 +130,12 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
           >
             <Text style={[styles.impactText, { color: theme.colors.textPrimary }]}>
               ☕ Adds ~
-              <Text style={[styles.impactHighlight, { color: theme.colors.primaryLime }]}>
+              <Text
+                style={[
+                  styles.impactHighlight,
+                  { color: isSaudi ? (isDark ? '#34D399' : '#10B981') : theme.colors.primaryLime },
+                ]}
+              >
                 {estimatedChaiKcal} kcal/day
               </Text>{' '}
               {isSaudi
@@ -252,8 +259,8 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
                     borderColor: theme.colors.border,
                   },
                   isSelected && {
-                    backgroundColor: theme.colors.primaryLime,
-                    borderColor: theme.colors.primaryLime,
+                    backgroundColor: accentColor,
+                    borderColor: accentColor,
                   },
                 ]}
                 onPress={() => onChange({ whoCooksAtHome: style.id })}
@@ -263,7 +270,7 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
                   style={[
                     styles.styleChipText,
                     { color: theme.colors.textSecondary },
-                    isSelected && { color: '#0A0B0D', fontWeight: '800' },
+                    isSelected && { color: activeTextColor, fontWeight: '800' },
                   ]}
                 >
                   {style.label}

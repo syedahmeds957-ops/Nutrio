@@ -1,10 +1,14 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+﻿import { describe, it, expect, beforeEach } from 'vitest';
 import {
   resolveCurrentProfileId,
   syncLifestyleSurvey,
   syncBodyMetrics,
   syncNutritionTargets,
   syncCompleteOnboarding,
+  hydrateUserDataFromCloud,
+  fetchUserTargets,
+  fetchLatestLifestyleSurvey,
+  fetchBodyMetricsHistory,
 } from '../userDataSync.js';
 import { saveAuthSession, clearAuthSession } from '../../auth/authStorage.js';
 import { LifestyleSurveyPayload } from '../../survey/types.js';
@@ -108,8 +112,8 @@ describe('UserDataSync Service', () => {
       token: 'jwt_123',
       user: {
         id: 'user_456',
-        name: 'Talha',
-        email: 'talha@nutrio.app',
+        name: 'User',
+        email: 'user@nutrio.app',
         isRegistered: true,
         surveyCompleted: false,
       },
@@ -132,8 +136,8 @@ describe('UserDataSync Service', () => {
       token: 'jwt_123',
       user: {
         id: 'user_789',
-        name: 'Usman',
-        email: 'usman@nutrio.app',
+        name: 'User',
+        email: 'user789@nutrio.app',
         isRegistered: true,
         surveyCompleted: false,
       },
@@ -143,5 +147,30 @@ describe('UserDataSync Service', () => {
     const result = await syncCompleteOnboarding(MOCK_SURVEY, MOCK_PLAN);
     expect(result.success).toBe(true);
     expect(result.profileId).toBeDefined();
+  });
+
+  it('returns failure when hydrating without active session', async () => {
+    const result = await hydrateUserDataFromCloud();
+    expect(result.success).toBe(false);
+    expect(result.error).toContain('not authenticated');
+  });
+
+  it('successfully executes cloud hydration with active session', async () => {
+    saveAuthSession({
+      token: 'jwt_valid',
+      user: {
+        id: 'user_hydrate_test',
+        name: 'User',
+        email: 'hydrate@nutrio.app',
+        isRegistered: true,
+        surveyCompleted: true,
+      },
+      createdAt: new Date().toISOString(),
+    });
+
+    const hydration = await hydrateUserDataFromCloud();
+    expect(hydration.success).toBe(true);
+    expect(hydration.profileId).toBeDefined();
+    expect(hydration.profileId).toContain('user_hydrate_test');
   });
 });

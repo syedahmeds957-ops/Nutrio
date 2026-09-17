@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { JobCategory, ShiftPattern, SurveyOccupational } from '../types.js';
 import { useTheme } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
 
 interface StepOccupationalProps {
   data: Partial<SurveyOccupational>;
@@ -9,7 +10,7 @@ interface StepOccupationalProps {
   errors: Record<string, string>;
 }
 
-const JOB_OPTIONS: Array<{ id: JobCategory; title: string; subtitle: string }> = [
+const PK_JOB_OPTIONS: Array<{ id: JobCategory; title: string; subtitle: string }> = [
   {
     id: 'desk_sedentary',
     title: 'Desk / Sedentary',
@@ -32,6 +33,29 @@ const JOB_OPTIONS: Array<{ id: JobCategory; title: string; subtitle: string }> =
   },
 ];
 
+const SA_JOB_OPTIONS: Array<{ id: JobCategory; title: string; subtitle: string }> = [
+  {
+    id: 'desk_sedentary',
+    title: 'Desk / Sedentary (مكتبي / قليل الحركة)',
+    subtitle: 'Software, corporate, customer support, remote desk work',
+  },
+  {
+    id: 'standing_light',
+    title: 'Standing / Teaching / Retail (وقوف / مبيعات)',
+    subtitle: 'Shop staff, teachers, salon workers, pharmacists, barista',
+  },
+  {
+    id: 'active_walking',
+    title: 'Active / Walking / Delivery (توصيل / حركة مستمرة)',
+    subtitle: 'Riders (Jahez / HungerStation / سائقي توصيل), healthcare nurses, waiters',
+  },
+  {
+    id: 'heavy_manual_labor',
+    title: 'Heavy Manual Labour (عمل بدني شاق)',
+    subtitle: 'Construction, factory floor, agriculture, warehouse loading',
+  },
+];
+
 const SHIFT_OPTIONS: Array<{ id: ShiftPattern; label: string }> = [
   { id: 'regular_day', label: 'Day Shift (9 to 5)' },
   { id: 'night_shift', label: 'Night Shift (US/UK support)' },
@@ -44,6 +68,11 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
   errors,
 }) => {
   const { theme, isDark } = useTheme();
+  const { activeRegion } = useRegion();
+  const isSaudi = activeRegion === 'SA';
+  const accentColor = isSaudi ? '#10B981' : theme.colors.primaryLime;
+  const activeTextColor = isSaudi ? '#FFFFFF' : '#0A0B0D';
+  const jobOptions = isSaudi ? SA_JOB_OPTIONS : PK_JOB_OPTIONS;
 
   return (
     <View style={styles.container}>
@@ -56,7 +85,9 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
       )}
 
       <Text style={[styles.description, { color: theme.colors.textSecondary }]}>
-        Your daily job accounts for most non-exercise calories (NEAT). A desk worker burns very differently from a Lahore rider.
+        {isSaudi
+          ? 'Your daily job accounts for most non-exercise calories (NEAT). A desk worker burns very differently from a delivery rider (Jahez / HungerStation).'
+          : 'Your daily job accounts for most non-exercise calories (NEAT). A desk worker burns very differently from a Lahore rider.'}
       </Text>
 
       {/* Job Category */}
@@ -64,7 +95,7 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
         <Text style={[styles.label, { color: theme.colors.textPrimary }, errors.jobCategory && styles.labelError]}>
           Work Activity Type {errors.jobCategory ? '*(Required)' : ''}
         </Text>
-        {JOB_OPTIONS.map((item) => {
+        {jobOptions.map((item) => {
           const isSelected = data.jobCategory === item.id;
           return (
             <TouchableOpacity
@@ -76,8 +107,14 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
                   borderColor: theme.colors.border,
                 },
                 isSelected && {
-                  backgroundColor: isDark ? 'rgba(164, 235, 63, 0.12)' : '#F7FEE7',
-                  borderColor: theme.colors.primaryLime,
+                  backgroundColor: isDark
+                    ? isSaudi
+                      ? 'rgba(16, 185, 129, 0.15)'
+                      : 'rgba(164, 235, 63, 0.12)'
+                    : isSaudi
+                      ? '#ECFDF5'
+                      : '#F7FEE7',
+                  borderColor: accentColor,
                   borderWidth: 2,
                 },
                 errors.jobCategory && !data.jobCategory && styles.cardOptionError,
@@ -88,7 +125,16 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
               <Text style={[
                 styles.cardTitle,
                 { color: theme.colors.textPrimary },
-                isSelected && { color: isDark ? theme.colors.primaryLime : '#0F172A', fontWeight: '800' }
+                isSelected && {
+                  color: isDark
+                    ? isSaudi
+                      ? '#34D399'
+                      : theme.colors.primaryLime
+                    : isSaudi
+                      ? '#065F46'
+                      : '#0F172A',
+                  fontWeight: '800',
+                }
               ]}>
                 {item.title}
               </Text>
@@ -148,8 +194,8 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
                     borderColor: theme.colors.border,
                   },
                   isSelected && {
-                    backgroundColor: theme.colors.primaryLime,
-                    borderColor: theme.colors.primaryLime,
+                    backgroundColor: accentColor,
+                    borderColor: accentColor,
                   },
                 ]}
                 onPress={() => onChange({ shiftPattern: opt.id })}
@@ -159,7 +205,7 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
                   style={[
                     styles.chipText,
                     { color: theme.colors.textSecondary },
-                    isSelected && { color: '#0A0B0D', fontWeight: '800' },
+                    isSelected && { color: activeTextColor, fontWeight: '800' },
                   ]}
                 >
                   {opt.label}

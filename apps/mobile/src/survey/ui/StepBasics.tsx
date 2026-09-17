@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { SurveyBasics } from '../types.js';
 import { useTheme } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
 
 interface StepBasicsProps {
   data: Partial<SurveyBasics>;
@@ -11,6 +12,10 @@ interface StepBasicsProps {
 
 export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }) => {
   const { theme, isDark } = useTheme();
+  const { activeRegion } = useRegion();
+  const isSaudi = activeRegion === 'SA';
+  const activeColor = isSaudi ? '#10B981' : theme.colors.primaryLime;
+  const activeTextColor = isSaudi ? '#FFFFFF' : '#0A0B0D';
 
   return (
     <View style={styles.container}>
@@ -32,8 +37,8 @@ export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }
                 borderColor: theme.colors.border,
               },
               data.sex === 'male' && {
-                backgroundColor: theme.colors.primaryLime,
-                borderColor: theme.colors.primaryLime,
+                backgroundColor: activeColor,
+                borderColor: activeColor,
               },
             ]}
             onPress={() => onChange({ sex: 'male' })}
@@ -43,10 +48,10 @@ export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }
               style={[
                 styles.toggleText,
                 { color: theme.colors.textSecondary },
-                data.sex === 'male' && { color: '#0A0B0D', fontWeight: '800' },
+                data.sex === 'male' && { color: activeTextColor, fontWeight: '800' },
               ]}
             >
-              Male
+              {isSaudi ? 'Male (ذكر)' : 'Male'}
             </Text>
           </TouchableOpacity>
 
@@ -58,8 +63,8 @@ export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }
                 borderColor: theme.colors.border,
               },
               data.sex === 'female' && {
-                backgroundColor: theme.colors.primaryLime,
-                borderColor: theme.colors.primaryLime,
+                backgroundColor: activeColor,
+                borderColor: activeColor,
               },
             ]}
             onPress={() => onChange({ sex: 'female' })}
@@ -69,10 +74,10 @@ export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }
               style={[
                 styles.toggleText,
                 { color: theme.colors.textSecondary },
-                data.sex === 'female' && { color: '#0A0B0D', fontWeight: '800' },
+                data.sex === 'female' && { color: activeTextColor, fontWeight: '800' },
               ]}
             >
-              Female
+              {isSaudi ? 'Female (أنثى)' : 'Female'}
             </Text>
           </TouchableOpacity>
         </View>

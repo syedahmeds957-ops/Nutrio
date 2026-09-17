@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { SurveyExercise, TrainingType, WorkoutIntensity } from '../types.js';
 import { useTheme } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
 
 interface StepExerciseProps {
   data: Partial<SurveyExercise>;
@@ -9,7 +10,7 @@ interface StepExerciseProps {
   errors: Record<string, string>;
 }
 
-const TRAINING_TYPES: Array<{ id: TrainingType; label: string }> = [
+const PK_TRAINING_TYPES: Array<{ id: TrainingType; label: string }> = [
   { id: 'gym_resistance', label: 'Gym / Weightlifting' },
   { id: 'cardio_running', label: 'Running / Jogging' },
   { id: 'home_calisthenics', label: 'Home Bodyweight / Calisthenics' },
@@ -18,10 +19,25 @@ const TRAINING_TYPES: Array<{ id: TrainingType; label: string }> = [
   { id: 'none', label: 'None / Not currently training' },
 ];
 
-const INTENSITY_OPTIONS: Array<{ id: WorkoutIntensity; label: string }> = [
+const SA_TRAINING_TYPES: Array<{ id: TrainingType; label: string }> = [
+  { id: 'gym_resistance', label: 'Gym / Weightlifting (حديد ولياقة)' },
+  { id: 'cardio_running', label: 'Running / Jogging (جري / ركض)' },
+  { id: 'home_calisthenics', label: 'Home Bodyweight (تمارين منزلية)' },
+  { id: 'sports_cricket_football', label: 'Sports (Football / Padel - كرة قدم / بادل)' },
+  { id: 'daily_brisk_walking', label: 'Brisk Walking (مشي سريع)' },
+  { id: 'none', label: 'None / Not currently training (لا أتمرن حالياً)' },
+];
+
+const PK_INTENSITY_OPTIONS: Array<{ id: WorkoutIntensity; label: string }> = [
   { id: 'light', label: 'Light' },
   { id: 'moderate', label: 'Moderate' },
   { id: 'high', label: 'High Intensity' },
+];
+
+const SA_INTENSITY_OPTIONS: Array<{ id: WorkoutIntensity; label: string }> = [
+  { id: 'light', label: 'Light (خفيف)' },
+  { id: 'moderate', label: 'Moderate (متوسط)' },
+  { id: 'high', label: 'High (عالي الشدة)' },
 ];
 
 export const StepExercise: React.FC<StepExerciseProps> = ({
@@ -30,6 +46,12 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
   errors,
 }) => {
   const { theme, isDark: _isDark } = useTheme();
+  const { activeRegion } = useRegion();
+  const isSaudi = activeRegion === 'SA';
+  const accentColor = isSaudi ? '#10B981' : theme.colors.primaryLime;
+  const activeTextColor = isSaudi ? '#FFFFFF' : '#0A0B0D';
+  const trainingTypes = isSaudi ? SA_TRAINING_TYPES : PK_TRAINING_TYPES;
+  const intensityOptions = isSaudi ? SA_INTENSITY_OPTIONS : PK_INTENSITY_OPTIONS;
 
   return (
     <View style={styles.container}>
@@ -41,7 +63,7 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
       <View style={styles.fieldGroup}>
         <Text style={[styles.label, { color: theme.colors.textPrimary }]}>Primary Exercise Type</Text>
         <View style={styles.chipGrid}>
-          {TRAINING_TYPES.map((t) => {
+          {trainingTypes.map((t) => {
             const isSelected = data.trainingType === t.id;
             return (
               <TouchableOpacity
@@ -53,8 +75,8 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
                     borderColor: theme.colors.border,
                   },
                   isSelected && {
-                    backgroundColor: theme.colors.primaryLime,
-                    borderColor: theme.colors.primaryLime,
+                    backgroundColor: accentColor,
+                    borderColor: accentColor,
                   },
                 ]}
                 onPress={() => onChange({ trainingType: t.id })}
@@ -64,7 +86,7 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
                   style={[
                     styles.chipText,
                     { color: theme.colors.textSecondary },
-                    isSelected && { color: '#0A0B0D', fontWeight: '800' },
+                    isSelected && { color: activeTextColor, fontWeight: '800' },
                   ]}
                 >
                   {t.label}
@@ -96,8 +118,8 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
                         borderColor: theme.colors.border,
                       },
                       isSelected && {
-                        backgroundColor: theme.colors.primaryLime,
-                        borderColor: theme.colors.primaryLime,
+                        backgroundColor: accentColor,
+                        borderColor: accentColor,
                       },
                     ]}
                     onPress={() => onChange({ frequencyDaysPerWeek: num })}
@@ -107,7 +129,7 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
                       style={[
                         styles.numText,
                         { color: theme.colors.textSecondary },
-                        isSelected && { color: '#0A0B0D', fontWeight: '800' },
+                        isSelected && { color: activeTextColor, fontWeight: '800' },
                       ]}
                     >
                       {num}
@@ -156,7 +178,7 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
           <View style={styles.fieldGroup}>
             <Text style={[styles.label, { color: theme.colors.textPrimary }]}>Workout Intensity</Text>
             <View style={styles.intensityRow}>
-              {INTENSITY_OPTIONS.map((item) => {
+              {intensityOptions.map((item) => {
                 const isSelected = data.intensity === item.id;
                 return (
                   <TouchableOpacity
@@ -168,8 +190,8 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
                         borderColor: theme.colors.border,
                       },
                       isSelected && {
-                        backgroundColor: theme.colors.primaryLime,
-                        borderColor: theme.colors.primaryLime,
+                        backgroundColor: accentColor,
+                        borderColor: accentColor,
                       },
                     ]}
                     onPress={() => onChange({ intensity: item.id })}
@@ -179,7 +201,7 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
                       style={[
                         styles.intensityText,
                         { color: theme.colors.textSecondary },
-                        isSelected && { color: '#0A0B0D', fontWeight: '800' },
+                        isSelected && { color: activeTextColor, fontWeight: '800' },
                       ]}
                     >
                       {item.label}

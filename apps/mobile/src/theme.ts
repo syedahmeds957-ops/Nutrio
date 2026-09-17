@@ -3,6 +3,7 @@
  * Inspired by Revolut & Ronasit High-Contrast Telemetry
  */
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { Platform } from 'react-native';
 
 export type ThemeMode = 'dark' | 'light';
 
@@ -147,27 +148,42 @@ export const commonRadii = {
 };
 
 export const commonShadows = {
-  soft: {
-    shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  medium: {
-    shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.08,
-    shadowRadius: 16,
-    elevation: 4,
-  },
-  hero: {
-    shadowColor: '#A4EB3F',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.16,
-    shadowRadius: 20,
-    elevation: 6,
-  },
+  soft: Platform.select({
+    web: {
+      boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.05)',
+    },
+    default: {
+      shadowColor: '#000000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.05,
+      shadowRadius: 8,
+      elevation: 2,
+    },
+  }) as any,
+  medium: Platform.select({
+    web: {
+      boxShadow: '0px 6px 16px rgba(0, 0, 0, 0.08)',
+    },
+    default: {
+      shadowColor: '#000000',
+      shadowOffset: { width: 0, height: 6 },
+      shadowOpacity: 0.08,
+      shadowRadius: 16,
+      elevation: 4,
+    },
+  }) as any,
+  hero: Platform.select({
+    web: {
+      boxShadow: '0px 8px 20px rgba(164, 235, 63, 0.16)',
+    },
+    default: {
+      shadowColor: '#A4EB3F',
+      shadowOffset: { width: 0, height: 8 },
+      shadowOpacity: 0.16,
+      shadowRadius: 20,
+      elevation: 6,
+    },
+  }) as any,
 };
 
 export const commonTypography = {

@@ -223,7 +223,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                       styles.groupPill,
                       {
                         backgroundColor: isActive
-                          ? theme.colors.primaryLime
+                          ? (activeRegion === 'SA' ? '#10B981' : theme.colors.primaryLime)
                           : theme.colors.surfaceSecondary,
                       },
                     ]}
@@ -235,7 +235,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                         styles.groupPillText,
                         {
                           color: isActive
-                            ? '#0A0B0D'
+                            ? (activeRegion === 'SA' ? '#FFFFFF' : '#0A0B0D')
                             : theme.colors.textSecondary,
                           fontWeight: isActive ? '800' : '600',
                         },
@@ -302,7 +302,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                             {item.name}
                           </Text>
                           {item.nameAr && (
-                            <Text style={[styles.dishNameAr, { color: theme.colors.primaryLime }]}>
+                            <Text style={[styles.dishNameAr, { color: activeRegion === 'SA' ? '#10B981' : theme.colors.primaryLime }]}>
                               {item.nameAr}
                             </Text>
                           )}
@@ -332,7 +332,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                         <Text
                           style={[
                             styles.dishMacrosText,
-                            { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                            { color: activeRegion === 'SA' ? '#10B981' : (isDark ? theme.colors.primaryLime : '#4B6200') },
                           ]}
                         >
                           P {p}g · C {c}g · F {f}g
@@ -344,17 +344,21 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                           style={[
                             styles.caloriePill,
                             {
-                              backgroundColor: isDark
-                                ? 'rgba(164, 235, 63, 0.15)'
-                                : '#F7FEE7',
-                              borderColor: theme.colors.primaryLime,
+                              backgroundColor: activeRegion === 'SA'
+                                ? (isDark ? 'rgba(16, 185, 129, 0.15)' : '#ECFDF5')
+                                : (isDark ? 'rgba(164, 235, 63, 0.15)' : '#F7FEE7'),
+                              borderColor: activeRegion === 'SA' ? '#10B981' : theme.colors.primaryLime,
                             },
                           ]}
                         >
                           <Text
                             style={[
                               styles.caloriePillText,
-                              { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                              {
+                                color: activeRegion === 'SA'
+                                  ? '#10B981'
+                                  : (isDark ? theme.colors.primaryLime : '#4B6200'),
+                              },
                             ]}
                           >
                             ≈{kcal} kcal
@@ -402,7 +406,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                           {brand.name}
                         </Text>
                         {brand.nameAr && (
-                          <Text style={[styles.brandNameAr, { color: theme.colors.primaryLime }]}>
+                          <Text style={[styles.brandNameAr, { color: activeRegion === 'SA' ? '#10B981' : theme.colors.primaryLime }]}>
                             {brand.nameAr}
                           </Text>
                         )}

@@ -136,9 +136,12 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
+  const isSaudi = activeRegion === 'SA';
+  const accentColor = isSaudi ? '#10B981' : theme.colors.primaryLime;
+  const activeTextColor = isSaudi ? '#FFFFFF' : '#0A0B0D';
   const [justLoggedId, setJustLoggedId] = useState<string | null>(null);
 
-  const staples = activeRegion === 'SA' ? SA_STAPLES : PK_STAPLES;
+  const staples = isSaudi ? SA_STAPLES : PK_STAPLES;
 
   const handlePress = (staple: StapleItem) => {
     onQuickLog(staple);
@@ -150,9 +153,9 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
     <View style={styles.container}>
       <View style={styles.topRow}>
         <View style={styles.titleRow}>
-          <Icon name="zap" size={13} color={theme.colors.primaryLime} />
+          <Icon name="zap" size={13} color={accentColor} />
           <Text style={[styles.heading, { color: theme.colors.textMuted }]}>
-            {activeRegion === 'SA' ? 'تسجيل سريع للأكلات الأساسية' : 'QUICK LOG STAPLES'}
+            {isSaudi ? 'تسجيل سريع للأكلات الأساسية' : 'QUICK LOG STAPLES'}
           </Text>
         </View>
       </View>
@@ -175,8 +178,8 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
                   borderColor: theme.colors.border,
                 },
                 isJustLogged && {
-                  backgroundColor: theme.colors.primaryLime,
-                  borderColor: theme.colors.primaryLime,
+                  backgroundColor: accentColor,
+                  borderColor: accentColor,
                 },
               ]}
               onPress={() => handlePress(staple)}
@@ -186,20 +189,24 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
                 <Icon
                   name={isJustLogged ? 'check' : staple.icon}
                   size={12}
-                  color={isJustLogged ? '#0A0B0D' : theme.colors.primaryLime}
+                  color={isJustLogged ? activeTextColor : accentColor}
                 />
                 <Text
                   style={[
                     styles.pillLabel,
-                    { color: isJustLogged ? '#0A0B0D' : theme.colors.textPrimary },
+                    { color: isJustLogged ? activeTextColor : theme.colors.textPrimary },
                   ]}
                 >
-                  {isJustLogged ? 'Added!' : staple.label}
+                  {isJustLogged ? (isSaudi ? 'تمت الإضافة!' : 'Added!') : staple.label}
                 </Text>
                 <Text
                   style={[
                     styles.pillKcal,
-                    { color: isJustLogged ? '#0A0B0D' : theme.colors.textSecondary },
+                    {
+                      color: isJustLogged
+                        ? (isSaudi ? 'rgba(255,255,255,0.85)' : '#0A0B0D')
+                        : theme.colors.textSecondary,
+                    },
                   ]}
                 >
                   {staple.calories} kcal

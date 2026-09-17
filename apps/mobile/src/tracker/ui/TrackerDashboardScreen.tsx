@@ -8,6 +8,7 @@ import {
   ScrollView,
   SafeAreaView,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import { DailyProgressHeader } from './DailyProgressHeader.js';
 import { WaterTrackerCard } from './WaterTrackerCard.js';
@@ -445,7 +446,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                 ]}
               >
                 {completedSlotsCount === 4
-                  ? 'ðŸŽ‰ ALL MEALS DONE'
+                  ? '🎉 ALL MEALS DONE'
                   : `${completedSlotsCount} / 4 LOGGED`}
               </Text>
             </View>
@@ -653,7 +654,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                   {userName}
                 </Text>
                 <Text style={[styles.profileEmail, { color: theme.colors.textMuted }]}>
-                  100% Free Plan â€¢ All 60+ Brands Unlocked
+                  100% Free Plan • All 60+ Brands Unlocked
                 </Text>
               </View>
               <TouchableOpacity
@@ -661,7 +662,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                 onPress={() => closeProfile()}
                 activeOpacity={0.7}
               >
-                <Text style={[styles.profileCloseText, { color: theme.colors.textSecondary }]}>âœ•</Text>
+                <Text style={[styles.profileCloseText, { color: theme.colors.textSecondary }]}>✕</Text>
               </TouchableOpacity>
             </View>
 
@@ -690,7 +691,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                       { color: mode === 'dark' ? '#0A0B0D' : theme.colors.textSecondary },
                     ]}
                   >
-                    ðŸŒ™ Dark Mode
+                    🌙 Dark Mode
                   </Text>
                 </TouchableOpacity>
 
@@ -708,7 +709,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                       { color: mode === 'light' ? '#0A0B0D' : theme.colors.textSecondary },
                     ]}
                   >
-                    â˜€ï¸ Light Mode
+                    ☀️ Light Mode
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -1108,11 +1109,18 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderWidth: 1,
-    elevation: 10,
-    shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.35,
-    shadowRadius: 16,
+    ...Platform.select({
+      web: {
+        boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.35)',
+      },
+      default: {
+        shadowColor: '#000000',
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.35,
+        shadowRadius: 16,
+        elevation: 10,
+      },
+    }),
   },
   bottomTabItem: {
     alignItems: 'center',

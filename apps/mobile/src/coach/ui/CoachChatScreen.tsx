@@ -60,6 +60,8 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
   const { activeRegion } = useRegion();
   const isSaudi = (context.region || activeRegion) === 'SA';
   const chips = isSaudi ? SA_CHIPS : PK_CHIPS;
+  const accentColor = isSaudi ? '#10B981' : theme.colors.primaryLime;
+  const accentTextColor = isSaudi ? '#FFFFFF' : theme.colors.limeText;
 
   const initialGreeting = isSaudi
     ? `Marhaba ${context.displayName || 'there'}! I'm your Nutrio Nutrition Coach.\n\nYou have ~${
@@ -139,7 +141,9 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
       const errorMsg: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        text: "I'm having a brief issue connecting to my nutrition intelligence engine. As general advice: for Pakistani dinners, fill half your plate with cucumber/salad, prioritize lean protein, and limit fried puris or naans to 1 portion.",
+        text: isSaudi
+          ? "I'm having a brief issue connecting to my nutrition intelligence engine. As general advice: for Saudi dinners, fill half your plate with fresh salad, prioritize lean grilled chicken (Farrouj) or fish, and portion rice mindfully."
+          : "I'm having a brief issue connecting to my nutrition intelligence engine. As general advice: for Pakistani dinners, fill half your plate with cucumber/salad, prioritize lean protein, and limit fried puris or naans to 1 portion.",
         timestamp: 'Just now',
       };
       setMessages((prev) => [...prev, errorMsg]);
@@ -180,7 +184,9 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
             <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>AI Nutrition Coach</Text>
           </View>
           <Text style={[styles.headerSubtitle, { color: theme.colors.textSecondary }]}>
-            Desi-Calibrated Intelligence
+            {isSaudi
+              ? 'Saudi-Calibrated Intelligence (ذكاء غذائي سعودي)'
+              : 'Desi-Calibrated Intelligence'}
           </Text>
         </View>
 
@@ -188,16 +194,18 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
           style={[
             styles.headerRightBadge,
             {
-              backgroundColor: isDark ? 'rgba(164, 235, 63, 0.15)' : '#F7FEE7',
-              borderColor: theme.colors.primaryLime,
+              backgroundColor: isSaudi
+                ? (isDark ? 'rgba(16, 185, 129, 0.15)' : '#ECFDF5')
+                : (isDark ? 'rgba(164, 235, 63, 0.15)' : '#F7FEE7'),
+              borderColor: accentColor,
             },
           ]}
           onPress={() => setSettingsVisible(true)}
           activeOpacity={0.7}
         >
           <View style={styles.badgeRow}>
-            <Icon name="settings" size={12} color={isDark ? theme.colors.primaryLime : '#4B6200'} />
-            <Text style={[styles.badgeText, { color: isDark ? theme.colors.primaryLime : '#4B6200' }]}>
+            <Icon name="settings" size={12} color={isSaudi ? '#10B981' : (isDark ? theme.colors.primaryLime : '#4B6200')} />
+            <Text style={[styles.badgeText, { color: isSaudi ? '#10B981' : (isDark ? theme.colors.primaryLime : '#4B6200') }]}>
               {selectedProvider.toUpperCase()}
             </Text>
           </View>
@@ -221,7 +229,9 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
               key={m.id}
               style={[
                 styles.messageBubble,
-                m.role === 'user' ? styles.userBubble : styles.assistantBubble,
+                m.role === 'user'
+                  ? [styles.userBubble, { backgroundColor: accentColor }]
+                  : styles.assistantBubble,
                 m.role === 'assistant' && {
                   backgroundColor: theme.colors.surface,
                   borderColor: theme.colors.border,
@@ -232,7 +242,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
                 <Text
                   style={[
                     styles.avatarLabel,
-                    { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                    { color: isSaudi ? '#10B981' : (isDark ? theme.colors.primaryLime : '#4B6200') },
                   ]}
                 >
                   NUTRIO COACH
@@ -241,7 +251,9 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
               <Text
                 style={[
                   styles.messageText,
-                  m.role === 'user' ? styles.userText : [styles.assistantText, { color: theme.colors.textPrimary }],
+                  m.role === 'user'
+                    ? [styles.userText, { color: isSaudi ? '#FFFFFF' : '#0A0B0D' }]
+                    : [styles.assistantText, { color: theme.colors.textPrimary }],
                 ]}
               >
                 {m.text}
@@ -249,7 +261,11 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
               <Text
                 style={[
                   styles.timestamp,
-                  { color: m.role === 'user' ? '#333A00' : theme.colors.textMuted },
+                  {
+                    color: m.role === 'user'
+                      ? (isSaudi ? 'rgba(255,255,255,0.8)' : '#333A00')
+                      : theme.colors.textMuted,
+                  },
                 ]}
               >
                 {m.timestamp}
@@ -271,7 +287,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
               <Text
                 style={[
                   styles.typingIndicator,
-                  { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                  { color: isSaudi ? '#10B981' : (isDark ? theme.colors.primaryLime : '#4B6200') },
                 ]}
               >
                 AI Coach is typing...
@@ -340,14 +356,14 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
           <TouchableOpacity
             style={[
               styles.sendBtn,
-              { backgroundColor: theme.colors.primaryLime },
+              { backgroundColor: accentColor },
               (!inputText.trim() || isTyping) && styles.sendBtnDisabled,
             ]}
             onPress={() => handleSend()}
             disabled={!inputText.trim() || isTyping}
             activeOpacity={0.8}
           >
-            <Text style={styles.sendBtnText}>↑</Text>
+            <Text style={[styles.sendBtnText, { color: isSaudi ? '#FFFFFF' : '#0A0B0D' }]}>↑</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -387,7 +403,9 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
             </View>
 
             <Text style={[styles.settingsSub, { color: theme.colors.textSecondary }]}>
-              Connect your OpenAI or Google Gemini API key. If left blank, Nutrio uses its calibrated built-in Pakistani nutrition intelligence.
+              {isSaudi
+                ? 'Connect your OpenAI or Google Gemini API key. If left blank, Nutrio uses its calibrated built-in Saudi nutrition intelligence.'
+                : 'Connect your OpenAI or Google Gemini API key. If left blank, Nutrio uses its calibrated built-in Pakistani nutrition intelligence.'}
             </Text>
 
             {/* Provider Selector */}
@@ -404,7 +422,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
                       styles.providerPill,
                       {
                         backgroundColor: isSelected
-                          ? theme.colors.primaryLime
+                          ? accentColor
                           : theme.colors.surfaceSecondary,
                       },
                     ]}
@@ -414,7 +432,9 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
                       style={[
                         styles.providerPillText,
                         {
-                          color: isSelected ? '#0A0B0D' : theme.colors.textPrimary,
+                          color: isSelected
+                            ? (isSaudi ? '#FFFFFF' : '#0A0B0D')
+                            : theme.colors.textPrimary,
                           fontWeight: isSelected ? '800' : '600',
                         },
                       ]}
@@ -469,12 +489,12 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
             <TouchableOpacity
               style={[
                 styles.saveSettingsBtn,
-                { backgroundColor: theme.colors.primaryLime },
+                { backgroundColor: accentColor },
               ]}
               onPress={handleSaveSettings}
               activeOpacity={0.8}
             >
-              <Text style={[styles.saveSettingsBtnText, { color: theme.colors.limeText }]}>
+              <Text style={[styles.saveSettingsBtnText, { color: accentTextColor }]}>
                 Save AI Settings
               </Text>
             </TouchableOpacity>
@@ -660,10 +680,17 @@ const styles = StyleSheet.create({
     maxWidth: 450,
     borderRadius: 24,
     padding: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.15,
-    shadowRadius: 20,
+    ...Platform.select({
+      web: {
+        boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.15)',
+      },
+      default: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 10 },
+        shadowOpacity: 0.15,
+        shadowRadius: 20,
+      },
+    }),
   },
   settingsHeader: {
     flexDirection: 'row',

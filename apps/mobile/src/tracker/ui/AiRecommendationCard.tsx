@@ -33,9 +33,13 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
+  const isSaudi = activeRegion === 'SA';
+  const accentColor = isSaudi ? '#10B981' : theme.colors.primaryLime;
   const [logged, setLogged] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(15)).current;
+
+  const btnTextColor = logged || isSaudi ? '#FFFFFF' : '#0A0B0D';
 
   useEffect(() => {
     Animated.parallel([
@@ -142,9 +146,9 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
             },
           ]}
         >
-          <Icon name="sparkles" size={13} color={theme.colors.primaryLime} />
-          <Text style={[styles.badgeText, { color: theme.colors.primaryLime }]}>
-            AI COACH DAILY BITE
+          <Icon name="sparkles" size={13} color={accentColor} />
+          <Text style={[styles.badgeText, { color: accentColor }]}>
+            {isSaudi ? 'AI COACH DAILY BITE (اقتراح اليوم)' : 'AI COACH DAILY BITE'}
           </Text>
         </View>
 
@@ -163,7 +167,7 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
             <View style={styles.coachBtnRow}>
               <Icon name="coach" size={12} color={theme.colors.textPrimary} />
               <Text style={[styles.coachPillText, { color: theme.colors.textPrimary }]}>
-                Ask Coach
+                {isSaudi ? 'Ask Coach (اسأل المدرب)' : 'Ask Coach'}
               </Text>
             </View>
           </TouchableOpacity>
@@ -209,16 +213,15 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
         <TouchableOpacity
           style={[
             styles.logBtn,
-            { backgroundColor: theme.colors.primaryLime },
-            logged && { backgroundColor: '#10B981' },
+            { backgroundColor: logged ? '#10B981' : accentColor },
           ]}
           onPress={handleLog}
           activeOpacity={0.8}
         >
           <View style={styles.btnContent}>
-            <Icon name={logged ? 'check' : 'plus'} size={13} color="#0A0B0D" />
-            <Text style={styles.logBtnText}>
-              {logged ? 'Logged!' : '+ Log Suggestion'}
+            <Icon name={logged ? 'check' : 'plus'} size={13} color={btnTextColor} />
+            <Text style={[styles.logBtnText, { color: btnTextColor }]}>
+              {logged ? 'Logged!' : (isSaudi ? '+ Log Meal (+ تسجيل)' : '+ Log Suggestion')}
             </Text>
           </View>
         </TouchableOpacity>

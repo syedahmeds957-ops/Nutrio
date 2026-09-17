@@ -1,7 +1,8 @@
-﻿import React from 'react';
+import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { MedicalConditionFlag, SurveyHealthClinical } from '../types.js';
 import { useTheme } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
 
 interface StepHealthClinicalProps {
   data: Partial<SurveyHealthClinical>;
@@ -24,6 +25,10 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
   errors,
 }) => {
   const { theme, isDark } = useTheme();
+  const { activeRegion } = useRegion();
+  const isSaudi = activeRegion === 'SA';
+  const accentColor = isSaudi ? '#10B981' : theme.colors.primaryLime;
+  const activeTextColor = isSaudi ? '#FFFFFF' : '#0A0B0D';
   const currentConditions = data.medicalConditions ?? [];
   const isDisclaimerAccepted = data.medicalDisclaimerAccepted !== false;
 
@@ -61,8 +66,8 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
                 borderColor: theme.colors.border,
               },
               data.isPregnantOrBreastfeeding === true && {
-                backgroundColor: theme.colors.primaryLime,
-                borderColor: theme.colors.primaryLime,
+                backgroundColor: accentColor,
+                borderColor: accentColor,
               },
             ]}
             onPress={() => onChange({ isPregnantOrBreastfeeding: true })}
@@ -72,10 +77,10 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
               style={[
                 styles.toggleText,
                 { color: theme.colors.textSecondary },
-                data.isPregnantOrBreastfeeding === true && { color: '#0A0B0D', fontWeight: '800' },
+                data.isPregnantOrBreastfeeding === true && { color: activeTextColor, fontWeight: '800' },
               ]}
             >
-              Yes
+              {isSaudi ? 'Yes (نعم)' : 'Yes'}
             </Text>
           </TouchableOpacity>
 
@@ -87,8 +92,8 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
                 borderColor: theme.colors.border,
               },
               data.isPregnantOrBreastfeeding === false && {
-                backgroundColor: theme.colors.primaryLime,
-                borderColor: theme.colors.primaryLime,
+                backgroundColor: accentColor,
+                borderColor: accentColor,
               },
             ]}
             onPress={() => onChange({ isPregnantOrBreastfeeding: false })}
@@ -98,17 +103,17 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
               style={[
                 styles.toggleText,
                 { color: theme.colors.textSecondary },
-                data.isPregnantOrBreastfeeding === false && { color: '#0A0B0D', fontWeight: '800' },
+                data.isPregnantOrBreastfeeding === false && { color: activeTextColor, fontWeight: '800' },
               ]}
             >
-              No
+              {isSaudi ? 'No (لا)' : 'No'}
             </Text>
           </TouchableOpacity>
         </View>
         {data.isPregnantOrBreastfeeding && (
           <View style={[styles.warningBox, { backgroundColor: isDark ? 'rgba(234, 179, 8, 0.15)' : '#FEF9C3', borderColor: '#EAB308' }]}>
             <Text style={[styles.warningText, { color: isDark ? '#FACC15' : '#854D0E' }]}>
-              ðŸ›¡ï¸ Note: Caloric restriction is clinically disabled during pregnancy and active lactation. Your plan will be set to nourishing maintenance only.
+              🛡️ Note: Caloric restriction is clinically disabled during pregnancy and active lactation. Your plan will be set to nourishing maintenance only.
             </Text>
           </View>
         )}
@@ -135,8 +140,14 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
                     borderColor: theme.colors.border,
                   },
                   isChecked && {
-                    backgroundColor: isDark ? 'rgba(164, 235, 63, 0.12)' : '#F7FEE7',
-                    borderColor: theme.colors.primaryLime,
+                    backgroundColor: isDark
+                      ? isSaudi
+                        ? 'rgba(16, 185, 129, 0.15)'
+                        : 'rgba(164, 235, 63, 0.12)'
+                      : isSaudi
+                        ? '#ECFDF5'
+                        : '#F7FEE7',
+                    borderColor: accentColor,
                     borderWidth: 2,
                   },
                 ]}
@@ -151,18 +162,29 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
                       borderColor: theme.colors.border,
                     },
                     isChecked && {
-                      backgroundColor: theme.colors.primaryLime,
-                      borderColor: theme.colors.primaryLime,
+                      backgroundColor: accentColor,
+                      borderColor: accentColor,
                     },
                   ]}
                 >
-                  {isChecked && <Text style={styles.checkmark}>âœ“</Text>}
+                  {isChecked && (
+                    <Text style={[styles.checkmark, isSaudi && { color: '#FFFFFF' }]}>✓</Text>
+                  )}
                 </View>
                 <Text
                   style={[
                     styles.condLabel,
                     { color: theme.colors.textPrimary },
-                    isChecked && { color: isDark ? theme.colors.primaryLime : '#0F172A', fontWeight: '700' },
+                    isChecked && {
+                      color: isDark
+                        ? isSaudi
+                          ? '#34D399'
+                          : theme.colors.primaryLime
+                        : isSaudi
+                          ? '#065F46'
+                          : '#0F172A',
+                      fontWeight: '700',
+                    },
                   ]}
                 >
                   {cond.label}
@@ -214,8 +236,14 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
                 : theme.colors.border,
             },
             isDisclaimerAccepted && {
-              backgroundColor: isDark ? 'rgba(164, 235, 63, 0.12)' : '#F7FEE7',
-              borderColor: theme.colors.primaryLime,
+              backgroundColor: isDark
+                ? isSaudi
+                  ? 'rgba(16, 185, 129, 0.15)'
+                  : 'rgba(164, 235, 63, 0.12)'
+                : isSaudi
+                  ? '#ECFDF5'
+                  : '#F7FEE7',
+              borderColor: accentColor,
               borderWidth: 2,
             },
           ]}
@@ -230,12 +258,14 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
                 borderColor: theme.colors.border,
               },
               isDisclaimerAccepted && {
-                backgroundColor: theme.colors.primaryLime,
-                borderColor: theme.colors.primaryLime,
+                backgroundColor: accentColor,
+                borderColor: accentColor,
               },
             ]}
           >
-            {isDisclaimerAccepted && <Text style={styles.checkmark}>âœ“</Text>}
+            {isDisclaimerAccepted && (
+              <Text style={[styles.checkmark, isSaudi && { color: '#FFFFFF' }]}>✓</Text>
+            )}
           </View>
           <Text
             style={[
@@ -247,7 +277,13 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
                 lineHeight: 18,
               },
               isDisclaimerAccepted && {
-                color: isDark ? theme.colors.primaryLime : '#0F172A',
+                color: isDark
+                  ? isSaudi
+                    ? '#34D399'
+                    : theme.colors.primaryLime
+                  : isSaudi
+                    ? '#065F46'
+                    : '#0F172A',
                 fontWeight: '700',
               },
             ]}

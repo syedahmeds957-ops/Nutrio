@@ -156,7 +156,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
               {
                 color: isDark
                   ? isSaudi
-                    ? '#A4EB3F'
+                    ? '#34D399'
                     : '#FDE047'
                   : isSaudi
                   ? '#047857'
@@ -174,7 +174,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
               {
                 backgroundColor: isDark
                   ? isSaudi
-                    ? 'rgba(164, 235, 63, 0.2)'
+                    ? 'rgba(16, 185, 129, 0.2)'
                     : 'rgba(234, 179, 8, 0.2)'
                   : isSaudi
                   ? '#D1FAE5'
@@ -188,7 +188,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
                 {
                   color: isDark
                     ? isSaudi
-                      ? '#A4EB3F'
+                      ? '#34D399'
                       : '#FDE047'
                     : isSaudi
                     ? '#065F46'
@@ -213,7 +213,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
               {
                 color: isDark
                   ? isSaudi
-                    ? '#A4EB3F'
+                    ? '#34D399'
                     : '#FBBF24'
                   : isSaudi
                   ? '#059669'
@@ -237,7 +237,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
               {
                 color: isDark
                   ? isSaudi
-                    ? '#A4EB3F'
+                    ? '#34D399'
                     : '#FBBF24'
                   : isSaudi
                   ? '#059669'

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -80,11 +80,11 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
     if (selectedCategory === 'all') {
       return summary.categories;
     }
-    return summary.categories.filter((c) => c.category === selectedCategory);
+    return summary.categories.filter((c: any) => c.category === selectedCategory);
   }, [summary, selectedCategory]);
 
-  const totalItemsCount = summary.totalItemCount ?? summary.categories.reduce(
-    (sum, c) => sum + c.items.length,
+  const totalItemsCount = summary.categories.reduce(
+    (sum: number, c: any) => sum + c.items.length,
     0
   );
   const checkedCount = checkedIds.size;
@@ -117,20 +117,20 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
           </Text>
         </TouchableOpacity>
         <Text
-          style={[styles.screenTitle, { color: theme.colors.textPrimary }]}
+          style={[styles.navTitle, { color: theme.colors.textPrimary }]}
           numberOfLines={1}
         >
           {isSaudi ? '7-Day Grocery List (مقاضي الأسبوع)' : '7-Day Grocery List'}
         </Text>
         <View
           style={[
-            styles.progressBadge,
+            styles.checkedCountBadge,
             { backgroundColor: isDark ? '#1C2608' : '#F4FED0' },
           ]}
         >
           <Text
             style={[
-              styles.progressText,
+              styles.checkedCountText,
               { color: isDark ? theme.colors.primaryLime : '#465A00' },
             ]}
           >
@@ -257,7 +257,7 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
             </Text>
           </TouchableOpacity>
 
-          {summary.categories.map((cat) => {
+          {summary.categories.map((cat: any) => {
             const isCatSelected = selectedCategory === cat.category;
             return (
               <TouchableOpacity
@@ -293,7 +293,7 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
         </ScrollView>
 
         {/* Grocery Aisles / Categories */}
-        {filteredCategories.map((group) => (
+        {filteredCategories.map((group: any) => (
           <View
             key={group.category}
             style={[
@@ -334,7 +334,7 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
             </View>
 
             <View style={styles.groupItemsList}>
-              {group.items.map((item) => {
+              {group.items.map((item: any) => {
                 const isChecked = checkedIds.has(item.id);
                 return (
                   <TouchableOpacity
