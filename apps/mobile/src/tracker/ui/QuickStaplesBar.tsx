@@ -23,7 +23,6 @@ export interface StapleItem {
 
 interface QuickStaplesBarProps {
   onQuickLog: (staple: StapleItem) => void;
-  onScanPlate?: () => void;
 }
 
 const PK_STAPLES: StapleItem[] = [
@@ -134,7 +133,6 @@ const SA_STAPLES: StapleItem[] = [
 
 export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
   onQuickLog,
-  onScanPlate,
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
@@ -157,19 +155,6 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
             {activeRegion === 'SA' ? 'تسجيل سريع للأكلات الأساسية' : 'QUICK LOG STAPLES'}
           </Text>
         </View>
-
-        {onScanPlate && (
-          <TouchableOpacity
-            style={[styles.scanBtn, { backgroundColor: theme.colors.primaryLime }]}
-            onPress={onScanPlate}
-            activeOpacity={0.8}
-          >
-            <View style={styles.scanBtnContent}>
-              <Icon name="camera" size={13} color="#0A0B0D" />
-              <Text style={styles.scanBtnText}>Scan Plate</Text>
-            </View>
-          </TouchableOpacity>
-        )}
       </View>
 
       <ScrollView
@@ -248,21 +233,6 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '800',
     letterSpacing: 0.6,
-  },
-  scanBtn: {
-    paddingVertical: 5,
-    paddingHorizontal: 12,
-    borderRadius: 9999,
-  },
-  scanBtnContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-  },
-  scanBtnText: {
-    fontSize: 11,
-    fontWeight: '800',
-    color: '#0A0B0D',
   },
   scrollContent: {
     gap: 8,

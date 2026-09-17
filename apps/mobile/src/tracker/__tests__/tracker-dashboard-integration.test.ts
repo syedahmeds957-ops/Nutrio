@@ -49,7 +49,6 @@ describe('TrackerDashboardScreen Integrated Components', () => {
 
     const staplesEl = React.createElement(QuickStaplesBar, {
       onQuickLog: vi.fn(),
-      onScanPlate: vi.fn(),
     });
     expect(staplesEl).toBeDefined();
 

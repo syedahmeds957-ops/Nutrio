@@ -399,13 +399,9 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
           onAskCoach={onOpenCoachChat}
         />
 
-        {/* 3. Quick Staples 1-Tap Log Bar & Plate Scan */}
+        {/* 3. Quick Staples 1-Tap Log Bar */}
         <QuickStaplesBar
           onQuickLog={handleQuickLogStaple}
-          onScanPlate={() => {
-            setActiveSlot('dinner');
-            setModalVisible(true);
-          }}
         />
 
         {/* 4. Water Tracker */}
