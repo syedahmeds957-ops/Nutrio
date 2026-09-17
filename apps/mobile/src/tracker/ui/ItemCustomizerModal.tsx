@@ -17,6 +17,7 @@ import {
 import { MealSlot } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
+import { useRegion } from '../../common/region/index.js';
 
 export interface CustomizedLogPayload {
   food: NormalizedFood;
@@ -125,13 +126,6 @@ export function calculateCustomizedMacros(
   };
 }
 
-const MEAL_SLOT_OPTIONS: { id: MealSlot; label: string }[] = [
-  { id: 'breakfast', label: 'Breakfast' },
-  { id: 'lunch', label: 'Lunch' },
-  { id: 'dinner', label: 'Dinner' },
-  { id: 'snacks_chai', label: 'Snacks & Chai' },
-];
-
 export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
   visible,
   item,
@@ -142,6 +136,27 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
   onConfirmCustomizedLog,
 }) => {
   const { theme, isDark } = useTheme();
+  const { activeRegion } = useRegion();
+  const isSaudi = activeRegion === 'SA';
+
+  const mealSlots: { id: MealSlot; label: string }[] = useMemo(
+    () =>
+      isSaudi
+        ? [
+            { id: 'breakfast', label: 'Breakfast (فطور)' },
+            { id: 'lunch', label: 'Lunch (غداء)' },
+            { id: 'dinner', label: 'Dinner (عشاء)' },
+            { id: 'snacks_chai', label: 'Gahwa & Snacks (قهوة وسناك)' },
+          ]
+        : [
+            { id: 'breakfast', label: 'Breakfast' },
+            { id: 'lunch', label: 'Lunch' },
+            { id: 'dinner', label: 'Dinner' },
+            { id: 'snacks_chai', label: 'Snacks & Chai' },
+          ],
+    [isSaudi]
+  );
+
   const handleClose = onBack || onClose || (() => {});
   const handleLog = onLogItem || onConfirmCustomizedLog || (() => {});
   const [quantity, setQuantity] = useState<number>(1);
@@ -241,7 +256,8 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
   };
 
   const servingsList: FoodServingItem[] = item.servings || [];
-  const brandName = (item.brand || 'PAKISTANI DISH').toUpperCase();
+  const fallbackBrand = isSaudi ? 'SAUDI DISH' : 'PAKISTANI DISH';
+  const brandName = (item.brand || fallbackBrand).toUpperCase();
 
   return (
     <Modal
@@ -270,7 +286,9 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
 
           {/* Dish Brand & Title */}
           <Text style={[styles.brandText, { color: theme.colors.textMuted }]}>{brandName}</Text>
-          <Text style={[styles.dishTitle, { color: theme.colors.text }]}>{item.name}</Text>
+          <Text style={[styles.dishTitle, { color: theme.colors.text }]}>
+            {isSaudi && (item as any).nameAr ? `${item.name} · ${(item as any).nameAr}` : item.name}
+          </Text>
 
           {/* Estimated Badge */}
           <View style={styles.estimatedBadgeContainer}>
@@ -497,7 +515,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
           <View style={styles.slotSelectionSection}>
             <Text style={[styles.slotSectionTitle, { color: theme.colors.textMuted }]}>LOG TO MEAL SLOT</Text>
             <View style={styles.slotPillContainer}>
-              {MEAL_SLOT_OPTIONS.map((slot) => {
+              {mealSlots.map((slot) => {
                 const isSelected = selectedSlot === slot.id;
                 return (
                   <TouchableOpacity
