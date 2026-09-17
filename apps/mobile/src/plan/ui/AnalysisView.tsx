@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-nati
 import { PlanUserContext, AssessmentNarrative } from '../types.js';
 import { Icon } from '../../ui/Icon.js';
 import { useTheme } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
 
 interface AnalysisViewProps {
   context: PlanUserContext;
@@ -18,6 +19,9 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
   onBack,
 }) => {
   const { theme, isDark } = useTheme();
+  const { activeRegion } = useRegion();
+  const isSaudi = activeRegion === 'SA';
+
   const sittingHours = Number.isFinite(context.dailySittingHours) ? context.dailySittingHours : 8;
   const chaiKcalDay = Number.isFinite(context.chaiSugarKcalPerDay) ? context.chaiSugarKcalPerDay : 130;
   const chaiKcalWeek = Number.isFinite(context.weeklyChaiSugarKcal) ? context.weeklyChaiSugarKcal : chaiKcalDay * 7;
@@ -129,27 +133,69 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
         </View>
       </View>
 
-      {/* Cultural Levers Card (Pakistani Chai & Cooking) */}
+      {/* Cultural Levers Card (Pakistani Chai & Cooking vs Saudi Gahwa & Dates) */}
       <View
         style={[
           styles.card,
           {
             backgroundColor: theme.colors.surface,
-            borderColor: isDark ? '#854D0E' : '#FDE68A',
+            borderColor: isDark
+              ? isSaudi
+                ? '#065F46'
+                : '#854D0E'
+              : isSaudi
+              ? '#A7F3D0'
+              : '#FDE68A',
           },
         ]}
       >
         <View style={styles.chaiHeaderRow}>
-          <Text style={[styles.chaiTitle, { color: isDark ? '#FDE047' : '#B45309' }]}>
-            ☕ Pakistani Dietary Levers
+          <Text
+            style={[
+              styles.chaiTitle,
+              {
+                color: isDark
+                  ? isSaudi
+                    ? '#A4EB3F'
+                    : '#FDE047'
+                  : isSaudi
+                  ? '#047857'
+                  : '#B45309',
+              },
+            ]}
+          >
+            {isSaudi
+              ? '🇸🇦 Saudi Dietary Levers (العادات الغذائية)'
+              : '☕ Pakistani Dietary Levers'}
           </Text>
           <View
             style={[
               styles.badgeAmber,
-              { backgroundColor: isDark ? 'rgba(234, 179, 8, 0.2)' : '#FEF3C7' },
+              {
+                backgroundColor: isDark
+                  ? isSaudi
+                    ? 'rgba(164, 235, 63, 0.2)'
+                    : 'rgba(234, 179, 8, 0.2)'
+                  : isSaudi
+                  ? '#D1FAE5'
+                  : '#FEF3C7',
+              },
             ]}
           >
-            <Text style={[styles.badgeAmberText, { color: isDark ? '#FDE047' : '#B45309' }]}>
+            <Text
+              style={[
+                styles.badgeAmberText,
+                {
+                  color: isDark
+                    ? isSaudi
+                      ? '#A4EB3F'
+                      : '#FDE047'
+                    : isSaudi
+                    ? '#065F46'
+                    : '#B45309',
+                },
+              ]}
+            >
               High Impact
             </Text>
           </View>
@@ -157,19 +203,51 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
 
         <View style={[styles.metricRow, { borderBottomColor: theme.colors.border }]}>
           <Text style={[styles.metricLabel, { color: theme.colors.textPrimary }]}>
-            Sweetened Chai Energy Load:
+            {isSaudi
+              ? 'Daily Dates & Gahwa Load (سعرات التمر والقهوة):'
+              : 'Sweetened Chai Energy Load:'}
           </Text>
-          <Text style={[styles.chaiHighlight, { color: isDark ? '#FBBF24' : '#D97706' }]}>
-            ~{chaiKcalDay} kcal/day
+          <Text
+            style={[
+              styles.chaiHighlight,
+              {
+                color: isDark
+                  ? isSaudi
+                    ? '#A4EB3F'
+                    : '#FBBF24'
+                  : isSaudi
+                  ? '#059669'
+                  : '#D97706',
+              },
+            ]}
+          >
+            {isSaudi ? '~175 kcal/day' : `~${chaiKcalDay} kcal/day`}
           </Text>
         </View>
 
         <View style={[styles.metricRow, { borderBottomColor: theme.colors.border }]}>
           <Text style={[styles.metricLabel, { color: theme.colors.textPrimary }]}>
-            Weekly Chai Energy Load:
+            {isSaudi
+              ? 'Weekly Dates & Gahwa Energy Load:'
+              : 'Weekly Chai Energy Load:'}
           </Text>
-          <Text style={[styles.chaiHighlight, { color: isDark ? '#FBBF24' : '#D97706' }]}>
-            ~{chaiKcalWeek.toLocaleString()} kcal/week
+          <Text
+            style={[
+              styles.chaiHighlight,
+              {
+                color: isDark
+                  ? isSaudi
+                    ? '#A4EB3F'
+                    : '#FBBF24'
+                  : isSaudi
+                  ? '#059669'
+                  : '#D97706',
+              },
+            ]}
+          >
+            {isSaudi
+              ? '~1,225 kcal/week'
+              : `~${chaiKcalWeek.toLocaleString()} kcal/week`}
           </Text>
         </View>
 
@@ -177,13 +255,34 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
           style={[
             styles.insightBox,
             {
-              backgroundColor: isDark ? 'rgba(217, 119, 6, 0.15)' : '#FFFBEB',
-              borderLeftColor: '#D97706',
+              backgroundColor: isDark
+                ? isSaudi
+                  ? 'rgba(6, 95, 70, 0.2)'
+                  : 'rgba(217, 119, 6, 0.15)'
+                : isSaudi
+                ? '#F0FDF4'
+                : '#FFFBEB',
+              borderLeftColor: isSaudi ? '#059669' : '#D97706',
             },
           ]}
         >
-          <Text style={[styles.insightText, { color: isDark ? '#FDE68A' : '#92400E' }]}>
-            Traditional sweetened tea and unchecked cooking oil in karahis and daals account for ~30% of unlogged calories in Pakistan. Moderating tea sugar alone yields rapid progress without eating less food.
+          <Text
+            style={[
+              styles.insightText,
+              {
+                color: isDark
+                  ? isSaudi
+                    ? '#D1FAE5'
+                    : '#FDE68A'
+                  : isSaudi
+                  ? '#064E3B'
+                  : '#92400E',
+              },
+            ]}
+          >
+            {isSaudi
+              ? 'Dates served alongside traditional Saudi Gahwa, generous Kabsa/Mandi rice portions, and full-fat dairy account for ~30% of unlogged calories in Saudi Arabia. Moderating dates to 3 Sukari dates and measuring spiced rice portions yields rapid fat loss without missing out on family banquets.'
+              : 'Traditional sweetened tea and unchecked cooking oil in karahis and daals account for ~30% of unlogged calories in Pakistan. Moderating tea sugar alone yields rapid progress without eating less food.'}
           </Text>
         </View>
       </View>

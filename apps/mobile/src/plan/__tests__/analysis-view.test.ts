@@ -3,6 +3,7 @@ import React from 'react';
 import { AnalysisView } from '../ui/AnalysisView.js';
 import { PlanWorkflowScreen } from '../ui/PlanWorkflowScreen.js';
 import { PlanUserContext } from '../types.js';
+import { RegionProvider } from '../../common/region/index.js';
 
 describe('AnalysisView and PlanWorkflowScreen Navigation', () => {
   const mockContext: PlanUserContext = {
@@ -46,5 +47,31 @@ describe('AnalysisView and PlanWorkflowScreen Navigation', () => {
 
     expect(element).toBeDefined();
     expect(element.props.onCancel).toBe(onCancel);
+  });
+
+  it('renders AnalysisView inside Saudi Arabia RegionProvider without errors', () => {
+    const child = React.createElement(AnalysisView, {
+      context: mockContext,
+      onProceedToGoal: vi.fn(),
+    });
+    const element = React.createElement(RegionProvider, {
+      initialRegion: 'SA',
+      children: child,
+    });
+    expect(element).toBeDefined();
+    expect(element.props.initialRegion).toBe('SA');
+  });
+
+  it('renders AnalysisView inside Pakistan RegionProvider without errors', () => {
+    const child = React.createElement(AnalysisView, {
+      context: mockContext,
+      onProceedToGoal: vi.fn(),
+    });
+    const element = React.createElement(RegionProvider, {
+      initialRegion: 'PK',
+      children: child,
+    });
+    expect(element).toBeDefined();
+    expect(element.props.initialRegion).toBe('PK');
   });
 });
