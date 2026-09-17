@@ -18,6 +18,7 @@ import { SurveyStateEngine } from '../state.js';
 import { LifestyleSurveyPayload } from '../types.js';
 import { bridgeSurveyToNutritionCore } from '../nutrition-bridge.js';
 import { useTheme } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
 
 interface OnboardingSurveyScreenProps {
   onComplete: (
@@ -27,7 +28,7 @@ interface OnboardingSurveyScreenProps {
   onCancel?: () => void;
 }
 
-const STEP_TITLES: Record<string, string> = {
+const PK_STEP_TITLES: Record<string, string> = {
   basics: 'Physical Metrics',
   occupational: 'Work & Daily Activity',
   exercise: 'Workouts & Training',
@@ -36,11 +37,23 @@ const STEP_TITLES: Record<string, string> = {
   preferences_budget: 'Diet & Household Budget',
 };
 
+const SA_STEP_TITLES: Record<string, string> = {
+  basics: 'Physical Metrics',
+  occupational: 'Work & Daily Activity',
+  exercise: 'Workouts & Training',
+  lifestyle_desi: 'Saudi Lifestyle & Gahwa (النمط السعودي والقهوة)',
+  health_clinical: 'Health & Medical Safety',
+  preferences_budget: 'Diet & Budget (النمط والميزانية)',
+};
+
 export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
   onComplete,
   onCancel,
 }) => {
   const { theme } = useTheme();
+  const { activeRegion } = useRegion();
+  const isSaudi = activeRegion === 'SA';
+  const stepTitles = isSaudi ? SA_STEP_TITLES : PK_STEP_TITLES;
   const [engine] = useState(() => new SurveyStateEngine());
   const [stepIndex, setStepIndex] = useState(engine.getCurrentStepIndex());
   const [, setRerender] = useState(0);
@@ -85,7 +98,7 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
       <ProgressBar
         currentStep={stepIndex}
         totalSteps={engine.getTotalSteps()}
-        stepTitle={STEP_TITLES[currentStep] || 'Onboarding Assessment'}
+        stepTitle={stepTitles[currentStep] || 'Onboarding Assessment'}
       />
 
       <ScrollView

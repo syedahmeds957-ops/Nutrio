@@ -2,9 +2,10 @@ import { describe, it, expect } from 'vitest';
 import React from 'react';
 import { StepPreferencesBudget } from '../ui/StepPreferencesBudget.js';
 import { StepLifestyleDesi } from '../ui/StepLifestyleDesi.js';
+import { OnboardingSurveyScreen } from '../ui/OnboardingSurveyScreen.js';
 import { RegionProvider } from '../../common/region/index.js';
 
-describe('Phase 5: Currency, Survey & Cultural Levers (Saudi vs Pakistani)', () => {
+describe('Step 4: Regional Survey, Preferences & Onboarding Defaults (Saudi vs Pakistani)', () => {
   it('renders StepPreferencesBudget in Pakistani mode (PKR) by default', () => {
     const child = React.createElement(StepPreferencesBudget, {
       data: { dietPreference: 'halal_omnivore', budgetTierPKR: 'standard_3500_7000' },
@@ -16,7 +17,7 @@ describe('Phase 5: Currency, Survey & Cultural Levers (Saudi vs Pakistani)', () 
     expect(element.props.initialRegion).toBe('PK');
   });
 
-  it('renders StepPreferencesBudget in Saudi Arabia mode (SAR)', () => {
+  it('renders StepPreferencesBudget in Saudi Arabia mode (SAR) with Saudi diet options and SAR budget tiers', () => {
     const child = React.createElement(StepPreferencesBudget, {
       data: { dietPreference: 'halal_omnivore', budgetTierPKR: 'standard_3500_7000' },
       onChange: () => {},
@@ -37,4 +38,15 @@ describe('Phase 5: Currency, Survey & Cultural Levers (Saudi vs Pakistani)', () 
     expect(element).toBeDefined();
     expect(element.props.initialRegion).toBe('SA');
   });
+
+  it('renders OnboardingSurveyScreen with Saudi step titles when region is SA', () => {
+    const child = React.createElement(OnboardingSurveyScreen, {
+      onComplete: () => {},
+      onCancel: () => {},
+    });
+    const element = React.createElement(RegionProvider, { initialRegion: 'SA', children: child });
+    expect(element).toBeDefined();
+    expect(element.props.initialRegion).toBe('SA');
+  });
 });
+

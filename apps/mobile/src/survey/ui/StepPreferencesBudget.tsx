@@ -10,10 +10,18 @@ interface StepPreferencesBudgetProps {
   errors: Record<string, string>;
 }
 
-const DIET_OPTIONS: Array<{ id: DietPreference; label: string }> = [
+const PK_DIET_OPTIONS: Array<{ id: DietPreference; label: string }> = [
   { id: 'halal_omnivore', label: 'Halal Omnivore (Chicken, Beef, Mutton, Daal, Veg)' },
   { id: 'halal_meat_moderate', label: 'Moderate Meat (Poultry/Fish 2-3x a week)' },
   { id: 'vegetarian_desi', label: 'Desi Vegetarian (Daal, Paneer, Sabzi, Roti)' },
+  { id: 'eggetarian', label: 'Eggetarian (Vegetarian + Eggs)' },
+  { id: 'vegan', label: 'Strict Plant-Based / Vegan' },
+];
+
+const SA_DIET_OPTIONS: Array<{ id: DietPreference; label: string }> = [
+  { id: 'halal_omnivore', label: 'Halal Omnivore (Chicken, Hashi Camel, Lamb, Kabsa, Fish - لحم ودجاج وأرز)' },
+  { id: 'halal_meat_moderate', label: 'Moderate Meat (Farrouj/Fish 2-3x a week)' },
+  { id: 'vegetarian_desi', label: 'Vegetarian (Foul, Hummus, Salads, Tamees, Rice - فول وحمص وسلطات)' },
   { id: 'eggetarian', label: 'Eggetarian (Vegetarian + Eggs)' },
   { id: 'vegan', label: 'Strict Plant-Based / Vegan' },
 ];
@@ -40,17 +48,17 @@ const SA_BUDGET_TIERS: Array<{ id: BudgetTierPKR; title: string; range: string }
   {
     id: 'budget_under_3500',
     title: 'Economical Tier (اقتصادي)',
-    range: 'Under SAR 500 / month (Focus on fresh local produce, lentils, grains, Almarai dairy, eggs)',
+    range: 'Under SAR 125 / week (Focus on seasonal produce, lentils, Tamees bread, Almarai dairy, eggs)',
   },
   {
     id: 'standard_3500_7000',
     title: 'Balanced Household Tier (متوسط)',
-    range: 'SAR 500 – 1,200 / month (Fresh poultry, laban, basmati rice, seasonal fruits & dates)',
+    range: 'SAR 125 – 250 / week (Fresh Tanmiah poultry, laban, basmati rice, seasonal fruits & dates)',
   },
   {
     id: 'premium_above_7000',
     title: 'High-Protein / Premium Tier (فاخر)',
-    range: 'Above SAR 1,200 / month (Daily fresh meats, fish, premium Ajwa/Sukari dates, specialty health items)',
+    range: 'Above SAR 250 / week (Daily fresh Naeemi lamb, fish, premium Ajwa/Sukari dates)',
   },
 ];
 
@@ -61,12 +69,14 @@ export const StepPreferencesBudget: React.FC<StepPreferencesBudgetProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
-  const budgetTiers = activeRegion === 'SA' ? SA_BUDGET_TIERS : BUDGET_TIERS;
+  const isSaudi = activeRegion === 'SA';
+  const dietOptions = isSaudi ? SA_DIET_OPTIONS : PK_DIET_OPTIONS;
+  const budgetTiers = isSaudi ? SA_BUDGET_TIERS : BUDGET_TIERS;
 
   return (
     <View style={styles.container}>
       <Text style={[styles.description, { color: theme.colors.textSecondary }]}>
-        {activeRegion === 'SA'
+        {isSaudi
           ? 'Tailoring your nutritional plan to your dietary ethos and realistic household grocery expenditure in Saudi Arabia.'
           : 'Tailoring your nutritional plan to your dietary ethos and realistic household grocery expenditure in Pakistan.'}
       </Text>
@@ -75,7 +85,7 @@ export const StepPreferencesBudget: React.FC<StepPreferencesBudgetProps> = ({
       <View style={styles.fieldGroup}>
         <Text style={[styles.label, { color: theme.colors.textPrimary }]}>Dietary Preference</Text>
         <View style={styles.chipGrid}>
-          {DIET_OPTIONS.map((d) => {
+          {dietOptions.map((d) => {
             const isSelected = data.dietPreference === d.id;
             return (
               <TouchableOpacity

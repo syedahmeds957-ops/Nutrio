@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { MedicalConditionFlag, SurveyHealthClinical } from '../types.js';
 import { useTheme } from '../../theme.js';
@@ -108,7 +108,7 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
         {data.isPregnantOrBreastfeeding && (
           <View style={[styles.warningBox, { backgroundColor: isDark ? 'rgba(234, 179, 8, 0.15)' : '#FEF9C3', borderColor: '#EAB308' }]}>
             <Text style={[styles.warningText, { color: isDark ? '#FACC15' : '#854D0E' }]}>
-              🛡️ Note: Caloric restriction is clinically disabled during pregnancy and active lactation. Your plan will be set to nourishing maintenance only.
+              ðŸ›¡ï¸ Note: Caloric restriction is clinically disabled during pregnancy and active lactation. Your plan will be set to nourishing maintenance only.
             </Text>
           </View>
         )}
@@ -156,7 +156,7 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
                     },
                   ]}
                 >
-                  {isChecked && <Text style={styles.checkmark}>✓</Text>}
+                  {isChecked && <Text style={styles.checkmark}>âœ“</Text>}
                 </View>
                 <Text
                   style={[
@@ -210,7 +210,7 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
             {
               backgroundColor: theme.colors.surface,
               borderColor: errors.medicalDisclaimerAccepted
-                ? theme.colors.error
+                ? theme.colors.danger
                 : theme.colors.border,
             },
             isDisclaimerAccepted && {
@@ -235,7 +235,7 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
               },
             ]}
           >
-            {isDisclaimerAccepted && <Text style={styles.checkmark}>✓</Text>}
+            {isDisclaimerAccepted && <Text style={styles.checkmark}>âœ“</Text>}
           </View>
           <Text
             style={[

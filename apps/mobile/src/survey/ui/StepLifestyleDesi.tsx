@@ -11,12 +11,20 @@ interface StepLifestyleDesiProps {
   errors: Record<string, string>;
 }
 
-const COOKING_STYLES: Array<{ id: HomeCookingStyle; label: string }> = [
+const PK_COOKING_STYLES: Array<{ id: HomeCookingStyle; label: string }> = [
   { id: 'family_traditional', label: 'Family cooks traditional desi meals' },
   { id: 'cook_maid', label: 'Cook / Maid prepares meals' },
   { id: 'self', label: 'I cook my own meals' },
   { id: 'hostel_mess', label: 'Hostel / Mess' },
   { id: 'daily_takeaway', label: 'Frequently order takeaway / Dine out' },
+];
+
+const SA_COOKING_STYLES: Array<{ id: HomeCookingStyle; label: string }> = [
+  { id: 'family_traditional', label: 'Family prepares home banquets (كبسة / ولائم منزلية)' },
+  { id: 'cook_maid', label: 'House cook prepares meals' },
+  { id: 'self', label: 'I cook my own meals' },
+  { id: 'hostel_mess', label: 'Company camp / Mess' },
+  { id: 'daily_takeaway', label: 'Takeaway & Restaurants (البيك، كودو، مطاعم شاورما)' },
 ];
 
 export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
@@ -27,6 +35,7 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
   const isSaudi = activeRegion === 'SA';
+  const cookingStyles = isSaudi ? SA_COOKING_STYLES : PK_COOKING_STYLES;
   const chaiCount = data.chaiWithSugarCupsPerDay ?? 2;
   const estimatedChaiKcal = chaiCount * KCAL_PER_CUP_CHAI_SUGAR;
   const estimatedWeeklyChaiKcal = estimatedChaiKcal * 7;
@@ -88,7 +97,7 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
               {chaiCount}
             </Text>
             <Text style={[styles.stepperUnit, { color: theme.colors.textSecondary }]}>
-              cups / day
+              {isSaudi ? 'finjans / day (فناجيل)' : 'cups / day'}
             </Text>
           </View>
 
@@ -122,7 +131,9 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
               <Text style={[styles.impactHighlight, { color: theme.colors.primaryLime }]}>
                 {estimatedChaiKcal} kcal/day
               </Text>{' '}
-              (~{estimatedWeeklyChaiKcal.toLocaleString()} kcal/week) in liquid sugars & milk!
+              {isSaudi
+                ? `(~${estimatedWeeklyChaiKcal.toLocaleString()} kcal/week) in dates & Gahwa ritual!`
+                : `(~${estimatedWeeklyChaiKcal.toLocaleString()} kcal/week) in liquid sugars & milk!`}
             </Text>
           </View>
         )}
@@ -229,7 +240,7 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
       <View style={styles.fieldGroup}>
         <Text style={[styles.label, { color: theme.colors.textPrimary }]}>Primary Meal Preparation Style</Text>
         <View style={styles.styleGrid}>
-          {COOKING_STYLES.map((style) => {
+          {cookingStyles.map((style) => {
             const isSelected = data.whoCooksAtHome === style.id;
             return (
               <TouchableOpacity
