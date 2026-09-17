@@ -12,6 +12,7 @@ import {
   MealSwapResult,
   PlannedMealSlot,
 } from '@nutrio/nutrition-core';
+import { useTheme } from '../../theme.js';
 
 interface MealSwapModalProps {
   visible: boolean;
@@ -28,6 +29,8 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
   swapResult,
   onSelectOption,
 }) => {
+  const { theme, isDark } = useTheme();
+
   if (!originalSlot || !swapResult) return null;
 
   return (
@@ -38,43 +41,137 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
       onRequestClose={onClose}
     >
       <View style={styles.modalOverlay}>
-        <View style={styles.modalContent}>
+        <View
+          style={[
+            styles.modalContent,
+            {
+              backgroundColor: theme.colors.surface,
+              borderColor: theme.colors.border,
+            },
+          ]}
+        >
           {/* Header */}
-          <View style={styles.headerRow}>
+          <View
+            style={[
+              styles.headerRow,
+              { borderBottomColor: theme.colors.border },
+            ]}
+          >
             <View>
-              <Text style={styles.modalSubtitle}>ONE-TAP MACRO MATCH</Text>
-              <Text style={styles.modalTitle}>Swap {originalSlot.title}</Text>
-              <Text style={styles.currentMeta}>
+              <Text
+                style={[
+                  styles.modalSubtitle,
+                  { color: isDark ? theme.colors.primaryLime : '#4D7C0F' },
+                ]}
+              >
+                ONE-TAP MACRO MATCH
+              </Text>
+              <Text
+                style={[
+                  styles.modalTitle,
+                  { color: theme.colors.textPrimary },
+                ]}
+              >
+                Swap {originalSlot.title}
+              </Text>
+              <Text
+                style={[
+                  styles.currentMeta,
+                  { color: theme.colors.textSecondary },
+                ]}
+              >
                 Current: {originalSlot.actualCalories} kcal ·{' '}
                 {originalSlot.items.map((i) => i.foodName).join(', ')}
               </Text>
             </View>
             <TouchableOpacity
-              style={styles.closeButton}
+              style={[
+                styles.closeButton,
+                { backgroundColor: theme.colors.surfaceSecondary },
+              ]}
               onPress={onClose}
               activeOpacity={0.7}
             >
-              <Text style={styles.closeButtonText}>✕</Text>
+              <Text
+                style={[
+                  styles.closeButtonText,
+                  { color: theme.colors.textSecondary },
+                ]}
+              >
+                ✕
+              </Text>
             </TouchableOpacity>
           </View>
 
           <ScrollView style={styles.scrollList} contentContainerStyle={styles.scrollPad}>
-            <Text style={styles.toleranceNotice}>
+            <Text
+              style={[
+                styles.toleranceNotice,
+                {
+                  backgroundColor: isDark ? '#1C2608' : '#EDFCD2',
+                  borderColor: isDark ? '#2D4B05' : '#D4F88D',
+                  color: isDark ? '#D9F99D' : '#365314',
+                },
+              ]}
+            >
               ✓ All 3 alternatives match your original meal within ±5% calories
             </Text>
 
             {swapResult.options.map((option, index) => {
               const deltaSign = option.calorieDeltaPct > 0 ? '+' : '';
               return (
-                <View key={option.optionId} style={styles.optionCard}>
+                <View
+                  key={option.optionId}
+                  style={[
+                    styles.optionCard,
+                    {
+                      backgroundColor: theme.colors.surfaceSecondary,
+                      borderColor: theme.colors.border,
+                    },
+                  ]}
+                >
                   <View style={styles.optionTopRow}>
                     <View style={styles.optionTitleBlock}>
-                      <Text style={styles.optionIndex}>Option {index + 1}</Text>
-                      <Text style={styles.optionTitle}>{option.title}</Text>
+                      <Text
+                        style={[
+                          styles.optionIndex,
+                          { color: isDark ? theme.colors.primaryLime : '#4D7C0F' },
+                        ]}
+                      >
+                        Option {index + 1}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.optionTitle,
+                          { color: theme.colors.textPrimary },
+                        ]}
+                      >
+                        {option.title}
+                      </Text>
                     </View>
-                    <View style={styles.calorieBadge}>
-                      <Text style={styles.calorieText}>{option.calories} kcal</Text>
-                      <Text style={styles.deltaText}>
+                    <View
+                      style={[
+                        styles.calorieBadge,
+                        {
+                          backgroundColor: isDark ? '#1C2608' : '#EDFCD2',
+                          borderColor: theme.colors.primaryLime,
+                        },
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.calorieText,
+                          { color: isDark ? theme.colors.primaryLime : '#2E4D08' },
+                        ]}
+                      >
+                        {option.calories} kcal
+                      </Text>
+                      <Text
+                        style={[
+                          styles.deltaText,
+                          { color: isDark ? theme.colors.primaryLime : '#4D7C0F' },
+                        ]}
+                      >
                         {deltaSign}
                         {option.calorieDeltaPct}%
                       </Text>
@@ -83,17 +180,53 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
 
                   {/* Macro Row */}
                   <View style={styles.macroPillRow}>
-                    <View style={styles.macroPill}>
-                      <Text style={styles.macroPillLabel}>P</Text>
-                      <Text style={styles.macroPillVal}>{option.proteinGrams}g</Text>
+                    <View
+                      style={[
+                        styles.macroPill,
+                        {
+                          backgroundColor: theme.colors.surface,
+                          borderColor: theme.colors.border,
+                        },
+                      ]}
+                    >
+                      <Text style={[styles.macroPillLabel, { color: theme.colors.protein }]}>
+                        P
+                      </Text>
+                      <Text style={[styles.macroPillVal, { color: theme.colors.textPrimary }]}>
+                        {option.proteinGrams}g
+                      </Text>
                     </View>
-                    <View style={styles.macroPill}>
-                      <Text style={styles.macroPillLabel}>C</Text>
-                      <Text style={styles.macroPillVal}>{option.carbGrams}g</Text>
+                    <View
+                      style={[
+                        styles.macroPill,
+                        {
+                          backgroundColor: theme.colors.surface,
+                          borderColor: theme.colors.border,
+                        },
+                      ]}
+                    >
+                      <Text style={[styles.macroPillLabel, { color: isDark ? theme.colors.primaryLime : '#4D7C0F' }]}>
+                        C
+                      </Text>
+                      <Text style={[styles.macroPillVal, { color: theme.colors.textPrimary }]}>
+                        {option.carbGrams}g
+                      </Text>
                     </View>
-                    <View style={styles.macroPill}>
-                      <Text style={styles.macroPillLabel}>F</Text>
-                      <Text style={styles.macroPillVal}>{option.fatGrams}g</Text>
+                    <View
+                      style={[
+                        styles.macroPill,
+                        {
+                          backgroundColor: theme.colors.surface,
+                          borderColor: theme.colors.border,
+                        },
+                      ]}
+                    >
+                      <Text style={[styles.macroPillLabel, { color: theme.colors.fat }]}>
+                        F
+                      </Text>
+                      <Text style={[styles.macroPillVal, { color: theme.colors.textPrimary }]}>
+                        {option.fatGrams}g
+                      </Text>
                     </View>
                     <View style={[styles.macroPill, styles.oilPill]}>
                       <Text style={styles.oilLabel}>Oil</Text>
@@ -102,9 +235,20 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                   </View>
 
                   {/* Item Breakdown */}
-                  <View style={styles.itemsBlock}>
+                  <View
+                    style={[
+                      styles.itemsBlock,
+                      { borderTopColor: theme.colors.border },
+                    ]}
+                  >
                     {option.items.map((item, idx) => (
-                      <Text key={idx} style={styles.itemLine}>
+                      <Text
+                        key={idx}
+                        style={[
+                          styles.itemLine,
+                          { color: theme.colors.textSecondary },
+                        ]}
+                      >
                         • {item.quantity}× {item.foodName} ({item.servingLabel})
                       </Text>
                     ))}
@@ -112,11 +256,19 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
 
                   {/* Select Button */}
                   <TouchableOpacity
-                    style={styles.selectBtn}
+                    style={[
+                      styles.selectBtn,
+                      {
+                        backgroundColor: theme.colors.primaryLime,
+                        shadowColor: theme.colors.primaryLime,
+                      },
+                    ]}
                     onPress={() => onSelectOption(option)}
                     activeOpacity={0.7}
                   >
-                    <Text style={styles.selectBtnText}>Select This Meal</Text>
+                    <Text style={[styles.selectBtnText, { color: '#0A0B0D' }]}>
+                      Select This Meal
+                    </Text>
                   </TouchableOpacity>
                 </View>
               );
@@ -132,16 +284,18 @@ const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.75)',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
   },
   modalContent: {
-    backgroundColor: '#FFFFFF',
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
-    maxHeight: '85%',
+    borderRadius: 28,
+    width: '100%',
+    maxWidth: 580,
+    maxHeight: '88%',
     paddingTop: 20,
     borderWidth: 1,
-    borderColor: '#F1F5F9',
+    overflow: 'hidden',
   },
   headerRow: {
     flexDirection: 'row',
@@ -150,10 +304,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 14,
     borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
   },
   modalSubtitle: {
-    color: '#059669',
     fontSize: 11,
     fontWeight: '800',
     letterSpacing: 0.8,
@@ -161,12 +313,10 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   modalTitle: {
-    color: '#1E293B',
     fontSize: 20,
     fontWeight: '800',
   },
   currentMeta: {
-    color: '#64748B',
     fontSize: 12,
     marginTop: 2,
     maxWidth: 260,
@@ -175,12 +325,10 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: '#F1F5F9',
     alignItems: 'center',
     justifyContent: 'center',
   },
   closeButtonText: {
-    color: '#64748B',
     fontSize: 16,
     fontWeight: '700',
   },
@@ -192,24 +340,18 @@ const styles = StyleSheet.create({
     gap: 14,
   },
   toleranceNotice: {
-    color: '#059669',
     fontSize: 12,
     fontWeight: '700',
     textAlign: 'center',
-    backgroundColor: '#ECFDF5',
     paddingVertical: 8,
     paddingHorizontal: 14,
     borderRadius: 9999,
     borderWidth: 1,
-    borderColor: '#A7F3D0',
   },
   optionCard: {
-    backgroundColor: '#FFFFFF',
     borderRadius: 20,
     padding: 18,
     borderWidth: 1,
-    borderColor: '#F1F5F9',
-    shadowColor: '#0F172A',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.05,
     shadowRadius: 10,
@@ -225,31 +367,27 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   optionIndex: {
-    color: '#059669',
     fontSize: 11,
     fontWeight: '700',
     textTransform: 'uppercase',
   },
   optionTitle: {
-    color: '#1E293B',
     fontSize: 16,
     fontWeight: '800',
     marginTop: 2,
   },
   calorieBadge: {
-    backgroundColor: '#DCFCE7',
     borderRadius: 12,
     paddingVertical: 6,
     paddingHorizontal: 12,
     alignItems: 'flex-end',
+    borderWidth: 1,
   },
   calorieText: {
-    color: '#059669',
     fontSize: 14,
     fontWeight: '800',
   },
   deltaText: {
-    color: '#059669',
     fontSize: 11,
     fontWeight: '700',
   },
@@ -261,21 +399,17 @@ const styles = StyleSheet.create({
   macroPill: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F8FAFC',
     borderRadius: 8,
     paddingVertical: 4,
     paddingHorizontal: 8,
     gap: 4,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
   },
   macroPillLabel: {
-    color: '#64748B',
     fontSize: 11,
     fontWeight: '700',
   },
   macroPillVal: {
-    color: '#1E293B',
     fontSize: 12,
     fontWeight: '700',
   },
@@ -297,28 +431,24 @@ const styles = StyleSheet.create({
     marginTop: 12,
     paddingTop: 10,
     borderTopWidth: 1,
-    borderTopColor: '#F1F5F9',
     gap: 4,
   },
   itemLine: {
-    color: '#64748B',
     fontSize: 13,
   },
   selectBtn: {
     marginTop: 14,
-    backgroundColor: '#10B981',
     borderRadius: 9999,
     paddingVertical: 12,
     alignItems: 'center',
-    shadowColor: '#10B981',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
+    shadowOpacity: 0.25,
     shadowRadius: 10,
     elevation: 2,
   },
   selectBtnText: {
-    color: '#FFFFFF',
     fontSize: 13,
-    fontWeight: '700',
+    fontWeight: '800',
   },
 });
+

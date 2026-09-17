@@ -184,8 +184,8 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
                 styles.statusBadge,
                 summary.isWithinBudget
                   ? {
-                      backgroundColor: isDark ? '#082E1E' : '#DCFCE7',
-                      borderColor: isDark ? '#10B981' : '#86EFAC',
+                      backgroundColor: isDark ? '#1C2608' : '#EDFCD2',
+                      borderColor: isDark ? '#2D4B05' : '#D4F88D',
                     }
                   : {
                       backgroundColor: isDark ? '#332306' : '#FEF3C7',
@@ -197,7 +197,7 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
                 style={[
                   styles.statusBadgeText,
                   summary.isWithinBudget
-                    ? { color: isDark ? theme.colors.primaryLime : '#059669' }
+                    ? { color: isDark ? theme.colors.primaryLime : '#365314' }
                     : { color: isDark ? '#FBBF24' : '#B45309' },
                 ]}
               >

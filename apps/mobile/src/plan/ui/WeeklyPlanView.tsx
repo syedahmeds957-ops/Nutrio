@@ -296,7 +296,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
               styles.modesNavBtn,
               {
                 backgroundColor: theme.colors.surfaceSecondary,
-                borderColor: isDark ? theme.colors.border : '#A7F3D0',
+                borderColor: isDark ? theme.colors.border : '#D4F88D',
               },
             ]}
             onPress={() => setModesModalVisible(true)}
@@ -305,7 +305,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
             <Text
               style={[
                 styles.modesNavBtnText,
-                { color: isDark ? theme.colors.primaryLime : '#059669' },
+                { color: isDark ? theme.colors.primaryLime : '#365314' },
               ]}
             >
               {isRamadanActive ? '🌙 Fasting' : isFamilyActive ? '🍲 Handi' : '🍱 Modes'}
@@ -416,15 +416,15 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
               style={[
                 styles.tolerancePill,
                 {
-                  backgroundColor: isDark ? '#082E1E' : '#DCFCE7',
-                  borderColor: isDark ? '#10B981' : '#86EFAC',
+                  backgroundColor: isDark ? '#1C2608' : '#EDFCD2',
+                  borderColor: isDark ? '#2D4B05' : '#D4F88D',
                 },
               ]}
             >
               <Text
                 style={[
                   styles.tolerancePillText,
-                  { color: isDark ? theme.colors.primaryLime : '#059669' },
+                  { color: isDark ? theme.colors.primaryLime : '#365314' },
                 ]}
               >
                 {currentDayPlan.calorieDeviationPct >= 0 ? '+' : ''}

@@ -97,15 +97,15 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
           style={[
             styles.calBadge,
             {
-              backgroundColor: isDark ? '#082E1E' : '#DCFCE7',
-              borderColor: isDark ? '#10B981' : '#86EFAC',
+              backgroundColor: isDark ? '#1C2608' : '#EDFCD2',
+              borderColor: isDark ? '#2D4B05' : '#D4F88D',
             },
           ]}
         >
           <Text
             style={[
               styles.calorieVal,
-              { color: isDark ? theme.colors.primaryLime : '#059669' },
+              { color: isDark ? theme.colors.primaryLime : '#365314' },
             ]}
           >
             {slot.actualCalories} kcal
@@ -168,15 +168,15 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
           style={[
             styles.dietitianBadge,
             {
-              backgroundColor: isDark ? '#082E1E' : '#ECFDF5',
-              borderColor: isDark ? '#059669' : '#A7F3D0',
+              backgroundColor: isDark ? '#1C2608' : '#EDFCD2',
+              borderColor: isDark ? '#2D4B05' : '#D4F88D',
             },
           ]}
         >
           <Text
             style={[
               styles.dietitianBadgeText,
-              { color: isDark ? theme.colors.primaryLime : '#059669' },
+              { color: isDark ? theme.colors.primaryLime : '#365314' },
             ]}
           >
             Dietitian Approved
