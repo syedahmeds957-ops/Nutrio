@@ -54,6 +54,7 @@ export class TrackerEngine {
       mealSlot,
       foodName: food.name,
       foodNameUr: food.nameUr,
+      foodNameAr: food.nameAr,
       servingLabel: serving.label,
       servingGrams: serving.grams,
       quantity,

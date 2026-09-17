@@ -77,6 +77,38 @@ export function getFallbackVisionDetection(contextNote?: string): {
     };
   }
 
+  if (note.includes('kabsa') || note.includes('mandi') || note.includes('saleeg') || note.includes('madhbi')) {
+    return {
+      dishDetected: 'Chicken Kabsa',
+      cookingMethod: 'Traditional Saudi spiced rice with tender bone-in chicken',
+      detectedItems: [
+        { detectedName: 'Chicken Kabsa', estimatedGrams: 350 },
+      ],
+    };
+  }
+
+  if (note.includes('albaik') || note.includes('broast') || note.includes('nugget')) {
+    return {
+      dishDetected: 'AlBaik Chicken Fillet & Garlic Sauce',
+      cookingMethod: 'Fried chicken fillet with signature garlic sauce',
+      detectedItems: [
+        { detectedName: 'AlBaik Chicken Fillet Sandwich', estimatedGrams: 180 },
+        { detectedName: 'AlBaik Garlic Sauce', estimatedGrams: 30 },
+      ],
+    };
+  }
+
+  if (note.includes('gahwa') || note.includes('date') || note.includes('sukari') || note.includes('ajwa')) {
+    return {
+      dishDetected: 'Saudi Gahwa & Sukari Dates',
+      cookingMethod: 'Cardamom and saffron infused Arabic coffee with dates',
+      detectedItems: [
+        { detectedName: 'Saudi Gahwa (Arabic Coffee)', estimatedGrams: 60 },
+        { detectedName: 'Sukari Dates (3 pcs)', estimatedGrams: 30 },
+      ],
+    };
+  }
+
   // Default balanced Pakistani household plate
   return {
     dishDetected: 'Chicken Karahi & Whole Wheat Roti',
@@ -94,7 +126,51 @@ export function getFallbackCoachResponse(
 ): { reply: string; suggestedPrompts: string[] } {
   const query = userQuery.toLowerCase();
   const remaining = context.todaySummary?.remainingCalories ?? 500;
+  const isSaudi = context.region === 'SA';
 
+  // 1. AlBaik / Fast Food Advice
+  if (query.includes('albaik') || query.includes('broast') || query.includes('nugget') || query.includes('kudu')) {
+    return {
+      reply: `At AlBaik or Kudu, you can stay within your targets by choosing grilled chicken fillet or nuggets (ask for garlic dip on the side and dip lightly) instead of double-fried broast with fries.\n\n💡 Pro Habit: Skip sugary sodas and opt for water or fresh orange juice. A 4-piece nugget portion with moderate dip is ~420 kcal!`,
+      suggestedPrompts: [
+        'What are the best low-calorie items at AlBaik?',
+        'Healthy options at Shawarmer or Al Tazaj',
+        'How to log fast food accurately',
+      ],
+    };
+  }
+
+  // 2. Kabsa / Mandi / Social Banquets
+  if (
+    query.includes('kabsa') ||
+    query.includes('mandi') ||
+    query.includes('saleeg') ||
+    query.includes('madhbi') ||
+    (isSaudi && (query.includes('rice') || query.includes('dawat') || query.includes('dinner')))
+  ) {
+    return {
+      reply: `For traditional Saudi banquets (Kabsa, Mandi, Saleeg):\n1. Portion control your rice: 1 standard portion (~150-180g cooked) is around 220-250 kcal.\n2. Prioritize the lean protein first (chicken breast or lean Naeemi lamb).\n3. Pair with fresh Green Salad and a cup of Almarai Laban (المراعي) for high satiety and digestive health!`,
+      suggestedPrompts: [
+        'How many calories are in 1 plate of Chicken Kabsa?',
+        'Is Almarai low fat laban good for fat loss?',
+        'Healthy dinner options at Al Romansiah',
+      ],
+    };
+  }
+
+  // 3. Saudi Gahwa & Dates
+  if (query.includes('gahwa') || query.includes('coffee') || query.includes('date') || query.includes('tamr')) {
+    return {
+      reply: `Saudi Gahwa (قهوة سعودية) with cardamom and saffron has almost zero calories (~2 kcal per finjan) and is rich in antioxidants!\n\n💡 Dates Note: Companion Sukari or Ajwa dates are nutrient-rich but calorie-dense (~20-25 kcal per date). Having 2-3 dates with your afternoon Gahwa ritual gives sustained energy without spiking your daily calories.`,
+      suggestedPrompts: [
+        'How many dates can I eat per day for weight loss?',
+        'Benefits of Saudi Gahwa for metabolism',
+        'Best snack to pair with afternoon coffee',
+      ],
+    };
+  }
+
+  // 4. Pakistani Oil Reduction
   if (query.includes('oil') || query.includes('karahi') || query.includes('tel') || query.includes('ghee')) {
     return {
       reply: `In traditional Pakistani handis like Chicken Karahi, free-pouring cooking oil often adds 30-50g of hidden fat (270-450 kcal) to the pot.\n\n💡 Pro Habit: Use a tablespoon (1 tbsp = 14g, ~120 kcal) for the entire family handi, or simmer tomatoes early to create a rich, silky gravy with minimal oil.`,
@@ -106,6 +182,7 @@ export function getFallbackCoachResponse(
     };
   }
 
+  // 5. Pakistani Shaadi / Dawat
   if (query.includes('shaadi') || query.includes('dawat') || query.includes('buffet') || query.includes('party')) {
     return {
       reply: `For shaadi or dawat nights, use the "Desi Harm-Reduction" strategy:\n1. Fill half your plate first with grilled proteins (chicken tikka, seekh kabab) and fresh cucumber/onion salad.\n2. Pick ONE primary carb: either 1 naan OR 1 small cup of biryani, not both.\n3. Drink 2 glasses of water before eating, and enjoy 1 small piece of sweet (gulab jamun/kheer) mindfully.`,
@@ -117,6 +194,7 @@ export function getFallbackCoachResponse(
     };
   }
 
+  // 6. Pakistani Chai
   if (query.includes('chai') || query.includes('tea') || query.includes('doodh patti')) {
     return {
       reply: `Traditional doodh patti made with whole milk and 2 teaspoons of sugar easily packs 180-220 kcal per cup!\n\n💡 Try the "half doodh, half paani" technique (50% milk + 50% water) with half a spoon of sugar or stevia. If you drink 2-3 cups a day, this saves ~300 kcal without giving up your chai ritual.`,
@@ -124,6 +202,18 @@ export function getFallbackCoachResponse(
         'Is green tea or kehwa better for fat loss?',
         'What healthy desi snacks can I have with chai?',
         'How do I control evening sugar cravings?',
+      ],
+    };
+  }
+
+  // Default Regional Greeting
+  if (isSaudi) {
+    return {
+      reply: `Marhaba ${context.displayName || 'there'}! You currently have approximately ${remaining} kcal remaining in your daily budget.\n\nFocus on balanced portions of lean protein (Tanmiah chicken, Naeemi lamb, fish), fresh salad, and Almarai Laban, while keeping rice portions measured. How can I help you optimize your meals today?`,
+      suggestedPrompts: [
+        'How to fit Kabsa into my daily macros?',
+        'Healthy choices at AlBaik & Shawarmer',
+        'Managing dates and Gahwa',
       ],
     };
   }

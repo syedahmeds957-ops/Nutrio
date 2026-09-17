@@ -22,7 +22,7 @@ import { QuickStaplesBar, StapleItem } from './QuickStaplesBar.js';
 import { WeeklyCalorieBankCard } from './WeeklyCalorieBankCard.js';
 import { TrackerEngine } from '../engine.js';
 import { MealSlot } from '../types.js';
-import { NormalizedFood, PAKISTANI_STAPLES_DATA, ServingUnit } from '@nutrio/food-db';
+import { NormalizedFood, PAKISTANI_STAPLES_DATA, SAUDI_TRADITIONAL_FOODS, ServingUnit } from '@nutrio/food-db';
 import { ResolvedFoodItem } from '@nutrio/nutrition-core';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
@@ -180,11 +180,12 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   };
 
   const handleLogRecommendation = (items: RecommendedFood[]) => {
+    const foodPool = activeRegion === 'SA' ? SAUDI_TRADITIONAL_FOODS : PAKISTANI_STAPLES_DATA;
     for (const item of items) {
       const found =
-        PAKISTANI_STAPLES_DATA.find((f) =>
+        foodPool.find((f) =>
           f.name.toLowerCase().includes(item.name.toLowerCase())
-        ) || PAKISTANI_STAPLES_DATA[0];
+        ) || foodPool[0];
       const serving = found.servings[0] || { label: 'serving', grams: 100 };
       const qty = Number((item.calories / (serving.kcal || found.kcal100g || 100)).toFixed(1));
       engine.logItem('dinner', found, serving, Math.max(0.5, qty));
@@ -193,10 +194,11 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   };
 
   const handleQuickLogStaple = (staple: StapleItem) => {
+    const foodPool = activeRegion === 'SA' ? SAUDI_TRADITIONAL_FOODS : PAKISTANI_STAPLES_DATA;
     const found =
-      PAKISTANI_STAPLES_DATA.find((f) =>
+      foodPool.find((f) =>
         f.name.toLowerCase().includes(staple.name.toLowerCase())
-      ) || PAKISTANI_STAPLES_DATA[0];
+      ) || foodPool[0];
     const serving = found.servings[0] || { label: 'serving', grams: 100 };
     const targetSlot: MealSlot = activeSlot || 'lunch';
     engine.logItem(targetSlot, found, serving, 1);
@@ -482,7 +484,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
 
           <MealSlotCard
             slot="snacks_chai"
-            title="Snacks & Chai"
+            title={activeRegion === 'SA' ? 'Gahwa & Snacks' : 'Snacks & Chai'}
             icon={<Icon name="coffee" size={18} color="#D97706" />}
             items={engine.getItemsBySlot('snacks_chai')}
             onAddItem={handleOpenAdd}

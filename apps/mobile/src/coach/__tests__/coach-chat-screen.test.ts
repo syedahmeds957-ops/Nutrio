@@ -52,4 +52,44 @@ describe('Interactive AI Nutritionist Chat Screen (Task 4.4)', () => {
     expect(res.reply.length).toBeGreaterThan(20);
     expect(res.suggestedPrompts.length).toBeGreaterThanOrEqual(1);
   });
+
+  it('generates Saudi specific coach advice for AlBaik, Kabsa, and Gahwa', async () => {
+    const { sendCoachMessage } = await import('../../ai/ai-service.js');
+    const saudiContext: CoachContext = {
+      ...mockContext,
+      displayName: 'Faisal',
+      region: 'SA',
+    };
+
+    // AlBaik query
+    const albaikRes = await sendCoachMessage(
+      [{ role: 'user', content: 'Can I eat at AlBaik on a cut?' }],
+      saudiContext
+    );
+    expect(albaikRes.reply).toContain('AlBaik');
+    expect(albaikRes.reply.toLowerCase()).toContain('garlic');
+
+    // Kabsa query
+    const kabsaRes = await sendCoachMessage(
+      [{ role: 'user', content: 'How do I fit Kabsa into my dinner macros?' }],
+      saudiContext
+    );
+    expect(kabsaRes.reply).toContain('Kabsa');
+    expect(kabsaRes.reply).toContain('Laban');
+
+    // Gahwa query
+    const gahwaRes = await sendCoachMessage(
+      [{ role: 'user', content: 'Are dates with Saudi Gahwa okay?' }],
+      saudiContext
+    );
+    expect(gahwaRes.reply).toContain('Gahwa');
+    expect(gahwaRes.reply).toContain('Sukari');
+
+    // Default greeting in Saudi mode
+    const defaultRes = await sendCoachMessage(
+      [{ role: 'user', content: 'Hello!' }],
+      saudiContext
+    );
+    expect(defaultRes.reply).toContain('Marhaba');
+  });
 });

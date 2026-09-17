@@ -11,8 +11,9 @@ import {
 import { DailyTrackerSummary, LoggedItem } from '../types.js';
 import { Icon } from '../../ui/Icon.js';
 import { useTheme } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
 
-export interface DiaryViewModalProps {
+interface DiaryViewModalProps {
   visible: boolean;
   summary: DailyTrackerSummary;
   onClose: () => void;
@@ -28,6 +29,8 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
   onOpenLogHub,
 }) => {
   const { theme, isDark } = useTheme();
+  const { activeRegion } = useRegion();
+  const isSaudi = activeRegion === 'SA';
   const [dayOffset, setDayOffset] = useState<number>(0);
 
   if (!visible) return null;
@@ -209,7 +212,9 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
                   No dishes logged yet
                 </Text>
                 <Text style={[styles.emptySubtitle, { color: theme.colors.textSecondary }]}>
-                  Tap below to log your meals, fast-food favorites, or chai.
+                  {isSaudi
+                    ? 'Tap below to log your meals, AlBaik, Kabsa, or Gahwa.'
+                    : 'Tap below to log your meals, fast-food favorites, or chai.'}
                 </Text>
                 <TouchableOpacity
                   style={[
@@ -241,15 +246,19 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
                       <Text style={[styles.itemName, { color: theme.colors.textPrimary }]}>
                         {item.foodName}
                       </Text>
-                      {item.foodNameUr && (
+                      {isSaudi && item.foodNameAr ? (
+                        <Text style={[styles.itemNameUr, { color: theme.colors.textMuted }]}>
+                          {item.foodNameAr}
+                        </Text>
+                      ) : item.foodNameUr ? (
                         <Text style={[styles.itemNameUr, { color: theme.colors.textMuted }]}>
                           {item.foodNameUr}
                         </Text>
-                      )}
+                      ) : null}
                     </View>
 
                     <Text style={[styles.itemMeta, { color: theme.colors.textSecondary }]}>
-                      {item.mealSlot.replace('_', ' ').toUpperCase()} · {item.quantity}x {item.servingLabel}
+                      {(item.mealSlot === 'snacks_chai' && isSaudi ? 'GAHWA & SNACKS' : item.mealSlot.replace('_', ' ').toUpperCase())} · {item.quantity}x {item.servingLabel}
                     </Text>
 
                     <Text

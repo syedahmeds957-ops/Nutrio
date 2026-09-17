@@ -7,6 +7,7 @@ export interface LoggedItem {
   mealSlot: MealSlot;
   foodName: string;
   foodNameUr?: string;
+  foodNameAr?: string;
   servingLabel: string;
   servingGrams: number;
   quantity: number;

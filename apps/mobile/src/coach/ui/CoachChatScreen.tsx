@@ -24,6 +24,7 @@ import {
 import { AiProvider } from '../../ai/types.js';
 import { Icon } from '../../ui/Icon.js';
 import { useTheme } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
 
 interface Message {
   id: string;
@@ -37,11 +38,18 @@ interface CoachChatScreenProps {
   onBack: () => void;
 }
 
-const DEFAULT_CHIPS = [
+const PK_CHIPS = [
   'How to reduce oil in Karahi?',
   'Eating at a shaadi dinner tonight',
   'Healthy doodh patti chai alternatives',
   'High protein Pakistani snacks',
+];
+
+const SA_CHIPS = [
+  'Best high-protein choices at AlBaik (خيارات صحية في البيك)',
+  'How to fit Kabsa & Mandi into my daily macros?',
+  'Balancing dates & Gahwa intake (موازنة القهوة والتمر)',
+  'Healthy dinner options at Al Tazaj or Shawarmer',
 ];
 
 export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
@@ -49,18 +57,28 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
   onBack,
 }) => {
   const { theme, isDark } = useTheme();
+  const { activeRegion } = useRegion();
+  const isSaudi = (context.region || activeRegion) === 'SA';
+  const chips = isSaudi ? SA_CHIPS : PK_CHIPS;
+
+  const initialGreeting = isSaudi
+    ? `Marhaba ${context.displayName || 'there'}! I'm your Nutrio Nutrition Coach.\n\nYou have ~${
+        context.todaySummary?.remainingCalories ?? context.targets.kcalTarget
+      } kcal remaining today. How can I help you balance your Kabsa portions, choose healthy meals at AlBaik or Al Tazaj, or manage dates with Gahwa?`
+    : `Assalam-o-Alaikum ${context.displayName || 'there'}! I'm your Nutrio Nutrition Coach.\n\nYou have ~${
+        context.todaySummary?.remainingCalories ?? context.targets.kcalTarget
+      } kcal remaining today. How can I help you adjust your meals, handle a dawat, or cut down on excess cooking oil?`;
+
   const [messages, setMessages] = useState<Message[]>(() => [
     {
       id: '1',
       role: 'assistant',
-      text: `Assalam-o-Alaikum ${context.displayName || 'there'}! I'm your Nutrio Nutrition Coach.\n\nYou have ~${
-        context.todaySummary?.remainingCalories ?? context.targets.kcalTarget
-      } kcal remaining today. How can I help you adjust your meals, handle a dawat, or cut down on excess cooking oil?`,
+      text: initialGreeting,
       timestamp: 'Just now',
     },
   ]);
   const [inputText, setInputText] = useState('');
-  const [suggestedChips, setSuggestedChips] = useState<string[]>(DEFAULT_CHIPS);
+  const [suggestedChips, setSuggestedChips] = useState<string[]>(chips);
   const [isTyping, setIsTyping] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
 
@@ -308,7 +326,11 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
                 color: theme.colors.textPrimary,
               },
             ]}
-            placeholder="Ask about meals, oil, dawats, chai..."
+            placeholder={
+              isSaudi
+                ? 'Ask about Kabsa, AlBaik, Al Tazaj, Gahwa...'
+                : 'Ask about meals, oil, dawats, chai...'
+            }
             placeholderTextColor={theme.colors.textMuted}
             value={inputText}
             onChangeText={setInputText}
