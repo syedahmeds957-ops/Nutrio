@@ -2,22 +2,22 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { DailyTrackerSummary } from '../types.js';
 import { useTheme } from '../../theme.js';
-import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 interface DailyProgressHeaderProps {
   summary: DailyTrackerSummary;
   weeklyHistoryFills?: number[]; // Optional array of fills 0-1 for [M, T, W, T, F, S, S]
 }
 
-const WEEK_DAYS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+const WEEK_DAY_KEYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
 export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
   summary,
   weeklyHistoryFills,
 }) => {
   const { theme } = useTheme();
-  const { activeRegion } = useRegion();
-  const isSaudi = activeRegion === 'SA';
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const heroBg = theme.colors.heroCardBg;
   const heroBorder = theme.colors.primaryLime;
   const heroTextColor = theme.colors.limeText;
@@ -53,7 +53,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
         <View style={styles.syncRow}>
           <View style={[styles.syncBadgePending, { backgroundColor: theme.colors.surfaceSecondary }]}>
             <Text style={[styles.syncBadgePendingText, { color: theme.colors.warning }]}>
-              ⚡ {pendingSyncCount} offline {pendingSyncCount === 1 ? 'entry' : 'entries'} pending sync
+              ⚡ {t('tracker.header.pendingSync', { count: pendingSyncCount })}
             </Text>
           </View>
         </View>
@@ -72,13 +72,13 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
         <View style={styles.heroTopRow}>
           <View style={styles.heroCategoryPill}>
             <Text style={styles.heroCategoryText}>
-              {isSaudi ? 'ميزانية الطاقة · ENERGY BUDGET' : 'ENERGY BUDGET'}
+              {t('tracker.header.energyBudget')}
             </Text>
           </View>
           <View style={styles.heroStatusBadge}>
             <View style={styles.heroStatusDot} />
             <Text style={styles.heroStatusText}>
-              {isSaudi ? '100% FREE · مجاني' : '100% FREE'}
+              {t('tracker.header.free')}
             </Text>
           </View>
         </View>
@@ -94,30 +94,23 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
             <Text style={[styles.heroLabel, { color: heroTextColor }]}>
               {targetCalories > 0
                 ? remainingCalories < 0
-                  ? isSaudi
-                    ? 'سعرة حرارية زائدة عن الهدف'
-                    : 'calories over limit'
-                  : isSaudi
-                  ? 'سعرة حرارية متبقية اليوم'
-                  : 'calories remaining'
-                : isSaudi
-                ? 'سعرة حرارية تم تناولها اليوم'
-                : 'calories consumed today'}
+                  ? t('tracker.header.caloriesOver')
+                  : t('tracker.header.caloriesRemaining')
+                : t('tracker.header.caloriesConsumed')}
             </Text>
             <Text style={[styles.heroTargetSub, { color: heroSubTextColor }]}>
               {targetCalories > 0
-                ? isSaudi
-                  ? `الهدف اليومي: ${targetCalories.toLocaleString()} سعرة (${Math.round(totalCaloriesConsumed)} تم تناولها)`
-                  : `Daily Goal: ${targetCalories.toLocaleString()} kcal (${Math.round(totalCaloriesConsumed)} eaten)`
-                : isSaudi
-                ? 'ابدأ بتسجيل وجباتك · حدد هدفك في الاستبيان'
-                : 'Start logging meals · Set daily target in Survey'}
+                ? t('tracker.header.dailyGoal', {
+                    target: targetCalories.toLocaleString(),
+                    eaten: Math.round(totalCaloriesConsumed),
+                  })
+                : t('tracker.header.noTargetHint')}
             </Text>
           </View>
 
           {/* 7-Day Vertical Pill Intake Chart (Clean Slate: No fake history for new users) */}
           <View style={styles.weekPillChart}>
-            {WEEK_DAYS.map((day, idx) => {
+            {WEEK_DAY_KEYS.map((dayKey, idx) => {
               const isToday = idx === currentDayOfWeek;
               // If weeklyHistoryFills is provided, use it; otherwise only today fills based on real intake
               const dayFillPct = isToday
@@ -150,7 +143,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
                       isToday && styles.weekDayLabelActive,
                     ]}
                   >
-                    {day}
+                    {t(`common.weekdayShort.${dayKey}`)}
                   </Text>
                 </View>
               );
@@ -177,7 +170,9 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
             </Text>
             <Text style={[styles.tileArrow, { color: theme.colors.textMuted }]}>↗</Text>
           </View>
-          <Text style={[styles.tileLabel, { color: theme.colors.textSecondary }]}>Protein</Text>
+          <Text style={[styles.tileLabel, dir.text, { color: theme.colors.textSecondary }]}>
+            {t('common.protein')}
+          </Text>
           <View style={[styles.tileProgressTrack, { backgroundColor: theme.isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.06)' }]}>
             <View
               style={[
@@ -188,8 +183,8 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
           </View>
           <Text style={[styles.tileSub, { color: theme.colors.textMuted }]}>
             {targetProteinGrams > 0
-              ? `${proteinPct}% of ${targetProteinGrams}g goal`
-              : (isSaudi ? 'تم تناولها اليوم' : 'Consumed today')}
+              ? t('tracker.header.pctOfGoal', { pct: proteinPct, grams: targetProteinGrams })
+              : t('tracker.header.consumedToday')}
           </Text>
         </View>
 
@@ -209,7 +204,9 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
             </Text>
             <Text style={[styles.tileArrow, { color: theme.colors.textMuted }]}>↗</Text>
           </View>
-          <Text style={[styles.tileLabel, { color: theme.colors.textSecondary }]}>Carbs</Text>
+          <Text style={[styles.tileLabel, dir.text, { color: theme.colors.textSecondary }]}>
+            {t('common.carbs')}
+          </Text>
           <View style={[styles.tileProgressTrack, { backgroundColor: theme.isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.06)' }]}>
             <View
               style={[
@@ -220,8 +217,8 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
           </View>
           <Text style={[styles.tileSub, { color: theme.colors.textMuted }]}>
             {targetCarbGrams > 0
-              ? `${carbsPct}% of ${targetCarbGrams}g goal`
-              : (isSaudi ? 'تم تناولها اليوم' : 'Consumed today')}
+              ? t('tracker.header.pctOfGoal', { pct: carbsPct, grams: targetCarbGrams })
+              : t('tracker.header.consumedToday')}
           </Text>
         </View>
 
@@ -241,7 +238,9 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
             </Text>
             <Text style={[styles.tileArrow, { color: theme.colors.textMuted }]}>↗</Text>
           </View>
-          <Text style={[styles.tileLabel, { color: theme.colors.textSecondary }]}>Fat</Text>
+          <Text style={[styles.tileLabel, dir.text, { color: theme.colors.textSecondary }]}>
+            {t('common.fat')}
+          </Text>
           <View style={[styles.tileProgressTrack, { backgroundColor: theme.isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.06)' }]}>
             <View
               style={[
@@ -252,8 +251,8 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
           </View>
           <Text style={[styles.tileSub, { color: theme.colors.textMuted }]}>
             {targetFatGrams > 0
-              ? `${fatPct}% of ${targetFatGrams}g goal`
-              : (isSaudi ? 'تم تناولها اليوم' : 'Consumed today')}
+              ? t('tracker.header.pctOfGoal', { pct: fatPct, grams: targetFatGrams })
+              : t('tracker.header.consumedToday')}
           </Text>
         </View>
 
@@ -276,7 +275,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
             <Text style={[styles.tileArrow, { color: theme.colors.textMuted }]}>↗</Text>
           </View>
           <Text style={[styles.tileLabel, { color: theme.colors.textSecondary }]}>
-            {targetCalories > 0 ? (isSaudi ? 'المتبقي بالرصيد' : 'Banked') : (isSaudi ? 'تم تسجيلها' : 'Consumed')}
+            {targetCalories > 0 ? t('tracker.header.banked') : t('tracker.header.consumed')}
           </Text>
           <View style={[styles.tileProgressTrack, { backgroundColor: theme.isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.06)' }]}>
             <View
@@ -294,9 +293,9 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
           <Text style={[styles.tileSub, { color: theme.colors.textMuted }]}>
             {targetCalories > 0
               ? totalCaloriesConsumed === 0
-                ? (isSaudi ? 'جاهز لأول وجبة' : 'Ready for first meal')
-                : (isSaudi ? 'ضمن الهدف اليومي' : 'On track for daily goal')
-              : (isSaudi ? 'سجل وجبات اليوم' : 'Track your day')}
+                ? t('tracker.header.readyFirstMeal')
+                : t('tracker.header.onTrackDaily')
+              : t('tracker.header.trackYourDay')}
           </Text>
         </View>
       </View>

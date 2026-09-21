@@ -4,6 +4,7 @@ import { PlanUserContext, AssessmentNarrative } from '../types.js';
 import { Icon } from '../../ui/Icon.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 interface AnalysisViewProps {
   context: PlanUserContext;
@@ -20,6 +21,8 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const isSaudi = activeRegion === 'SA';
 
   const sittingHours = Number.isFinite(context.dailySittingHours) ? context.dailySittingHours : 8;
@@ -51,18 +54,18 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
               color={theme.colors.textPrimary}
             />
             <Text style={[styles.topBackText, { color: theme.colors.textPrimary }]}>
-              Back
+              {t('common.back')}
             </Text>
           </View>
         </TouchableOpacity>
       )}
 
       <View style={styles.header}>
-        <Text style={[styles.title, { color: theme.colors.textPrimary }]}>
-          Metabolic Analysis
+        <Text style={[styles.title, dir.text, { color: theme.colors.textPrimary }]}>
+          {t('plan.analysis.title')}
         </Text>
-        <Text style={[styles.subtitle, { color: theme.colors.textSecondary }]}>
-          Your baseline resting requirements and lifestyle energy expenditure calculated via @nutrio/nutrition-core.
+        <Text style={[styles.subtitle, dir.text, { color: theme.colors.textSecondary }]}>
+          {t('plan.analysis.subtitle')}
         </Text>
       </View>
 
@@ -76,42 +79,42 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
           },
         ]}
       >
-        <Text style={[styles.cardHeader, { color: theme.colors.textPrimary }]}>
-          Energy Expenditure Breakdown
+        <Text style={[styles.cardHeader, dir.text, { color: theme.colors.textPrimary }]}>
+          {t('plan.analysis.expenditureBreakdown')}
         </Text>
 
         <View style={[styles.metricRow, { borderBottomColor: theme.colors.border }]}>
           <View>
-            <Text style={[styles.metricLabel, { color: theme.colors.textPrimary }]}>
-              Basal Metabolic Rate (BMR)
+            <Text style={[styles.metricLabel, dir.text, { color: theme.colors.textPrimary }]}>
+              {t('plan.analysis.bmr')}
             </Text>
-            <Text style={[styles.metricSub, { color: theme.colors.textSecondary }]}>
-              Resting energy required for basic biological life
+            <Text style={[styles.metricSub, dir.text, { color: theme.colors.textSecondary }]}>
+              {t('plan.analysis.bmrSub')}
             </Text>
           </View>
           <Text style={[styles.metricValue, { color: theme.colors.textPrimary }]}>
-            {context.bmr} kcal
+            {t('common.kcalValue', { value: context.bmr })}
           </Text>
         </View>
 
         <View style={[styles.metricRow, { borderBottomColor: theme.colors.border }]}>
           <View>
-            <Text style={[styles.metricLabel, { color: theme.colors.textPrimary }]}>
-              Daily Sitting Load
+            <Text style={[styles.metricLabel, dir.text, { color: theme.colors.textPrimary }]}>
+              {t('plan.analysis.sittingLoad')}
             </Text>
-            <Text style={[styles.metricSub, { color: theme.colors.textSecondary }]}>
-              {sittingHours} hours seated per day
+            <Text style={[styles.metricSub, dir.text, { color: theme.colors.textSecondary }]}>
+              {t('plan.analysis.sittingHours', { count: sittingHours })}
             </Text>
           </View>
           <Text style={[styles.metricValue, { color: theme.colors.textPrimary }]}>
-            {sittingHours >= 8 ? 'Sedentary' : 'Active'}
+            {sittingHours >= 8 ? t('plan.analysis.sedentary') : t('plan.analysis.active')}
           </Text>
         </View>
 
         <View style={styles.totalRow}>
           <View>
-            <Text style={[styles.totalLabel, { color: theme.colors.textPrimary }]}>
-              Total Daily Expenditure (TDEE)
+            <Text style={[styles.totalLabel, dir.text, { color: theme.colors.textPrimary }]}>
+              {t('plan.analysis.tdee')}
             </Text>
             <Text
               style={[
@@ -119,7 +122,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
                 { color: isDark ? theme.colors.primaryLime : '#4B6200' },
               ]}
             >
-              Estimated maintenance calorie baseline
+              {t('plan.analysis.tdeeSub')}
             </Text>
           </View>
           <Text
@@ -128,7 +131,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
               { color: isDark ? theme.colors.primaryLime : '#4B6200' },
             ]}
           >
-            {context.tdee} kcal
+            {t('common.kcalValue', { value: context.tdee })}
           </Text>
         </View>
       </View>
@@ -164,9 +167,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
               },
             ]}
           >
-            {isSaudi
-              ? '🇸🇦 Saudi Dietary Levers (العادات الغذائية)'
-              : '☕ Pakistani Dietary Levers'}
+            {t(`plan.analysis.levers.title.${activeRegion}`)}
           </Text>
           <View
             style={[
@@ -196,16 +197,14 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
                 },
               ]}
             >
-              High Impact
+              {t('plan.analysis.levers.highImpact')}
             </Text>
           </View>
         </View>
 
         <View style={[styles.metricRow, { borderBottomColor: theme.colors.border }]}>
           <Text style={[styles.metricLabel, { color: theme.colors.textPrimary }]}>
-            {isSaudi
-              ? 'Daily Dates & Gahwa Load (سعرات التمر والقهوة):'
-              : 'Sweetened Chai Energy Load:'}
+            {t(`plan.analysis.levers.dailyLoad.${activeRegion}`)}
           </Text>
           <Text
             style={[
@@ -221,15 +220,13 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
               },
             ]}
           >
-            {isSaudi ? '~175 kcal/day' : `~${chaiKcalDay} kcal/day`}
+            {t('plan.analysis.levers.perDay', { value: isSaudi ? 175 : chaiKcalDay })}
           </Text>
         </View>
 
         <View style={[styles.metricRow, { borderBottomColor: theme.colors.border }]}>
           <Text style={[styles.metricLabel, { color: theme.colors.textPrimary }]}>
-            {isSaudi
-              ? 'Weekly Dates & Gahwa Energy Load:'
-              : 'Weekly Chai Energy Load:'}
+            {t(`plan.analysis.levers.weeklyLoad.${activeRegion}`)}
           </Text>
           <Text
             style={[
@@ -245,9 +242,9 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
               },
             ]}
           >
-            {isSaudi
-              ? '~1,225 kcal/week'
-              : `~${chaiKcalWeek.toLocaleString()} kcal/week`}
+            {t('plan.analysis.levers.perWeek', {
+              value: (isSaudi ? 1225 : chaiKcalWeek).toLocaleString(),
+            })}
           </Text>
         </View>
 
@@ -280,9 +277,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
               },
             ]}
           >
-            {isSaudi
-              ? 'Dates served alongside traditional Saudi Gahwa, generous Kabsa/Mandi rice portions, and full-fat dairy account for ~30% of unlogged calories in Saudi Arabia. Moderating dates to 3 Sukari dates and measuring spiced rice portions yields rapid fat loss without missing out on family banquets.'
-              : 'Traditional sweetened tea and unchecked cooking oil in karahis and daals account for ~30% of unlogged calories in Pakistan. Moderating tea sugar alone yields rapid progress without eating less food.'}
+            {t(`plan.analysis.levers.insight.${activeRegion}`)}
           </Text>
         </View>
       </View>
@@ -298,8 +293,8 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
             },
           ]}
         >
-          <Text style={[styles.cardHeader, { color: theme.colors.textPrimary }]}>
-            Top 3 Actionable Levers
+          <Text style={[styles.cardHeader, dir.text, { color: theme.colors.textPrimary }]}>
+            {t('plan.analysis.topLevers')}
           </Text>
           {narrative.highestLeverageChanges.map((lever, index) => (
             <View key={index} style={styles.leverItem}>

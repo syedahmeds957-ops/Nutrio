@@ -13,6 +13,7 @@ import { computeProjection } from '../engine.js';
 import { Icon } from '../../ui/Icon.js';
 import { AppleTextInput } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 interface GoalSelectionViewProps {
   context: PlanUserContext;
@@ -26,6 +27,8 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
   onBack,
 }) => {
   const { theme, isDark } = useTheme();
+  const { t } = useTranslation();
+  const dir = useTextDirection();
 
   const bmi = useMemo(
     () => calculateBMI(context.weightKg, context.heightCm),
@@ -78,18 +81,18 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
       contentContainerStyle={styles.content}
     >
       <View style={styles.header}>
-        <Text style={[styles.title, { color: theme.colors.textPrimary }]}>
-          Choose Your Target Goal
+        <Text style={[styles.title, dir.text, { color: theme.colors.textPrimary }]}>
+          {t('plan.goal.title')}
         </Text>
-        <Text style={[styles.subtitle, { color: theme.colors.textSecondary }]}>
-          Set your primary focus and weekly pace. Safety bounds are strictly enforced by our clinical engine.
+        <Text style={[styles.subtitle, dir.text, { color: theme.colors.textSecondary }]}>
+          {t('plan.goal.subtitle')}
         </Text>
       </View>
 
       {/* Goal Cards */}
       <View style={styles.section}>
-        <Text style={[styles.label, { color: theme.colors.textPrimary }]}>
-          Primary Target
+        <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }]}>
+          {t('plan.goal.primaryTarget')}
         </Text>
 
         {/* Lose Weight */}
@@ -141,7 +144,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                   },
                 ]}
               >
-                Fat Loss / Cut
+                {t('plan.goal.lose.title')}
               </Text>
             </View>
             {isCutDisabled && (
@@ -151,7 +154,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                   { backgroundColor: isDark ? 'rgba(239, 68, 68, 0.2)' : '#FEE2E2' },
                 ]}
               >
-                <Text style={styles.disabledBadgeText}>Clinically Disabled</Text>
+                <Text style={styles.disabledBadgeText}>{t('plan.goal.clinicallyDisabled')}</Text>
               </View>
             )}
             {selectedGoal === 'lose' && !isCutDisabled && (
@@ -161,12 +164,12 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                   { backgroundColor: theme.colors.primaryLime },
                 ]}
               >
-                <Text style={styles.activeBadgeText}>SELECTED</Text>
+                <Text style={styles.activeBadgeText}>{t('common.selected')}</Text>
               </View>
             )}
           </View>
           <Text style={[styles.goalSub, { color: theme.colors.textSecondary }]}>
-            Controlled caloric deficit preserving lean muscle tissue while reducing body fat.
+            {t('plan.goal.lose.sub')}
           </Text>
           {isUnderweight && (
             <Text style={styles.warningText}>
@@ -227,7 +230,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                   },
                 ]}
               >
-                Maintenance & Performance
+                {t('plan.goal.maintain.title')}
               </Text>
             </View>
             {selectedGoal === 'maintain' && (
@@ -237,12 +240,12 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                   { backgroundColor: theme.colors.primaryLime },
                 ]}
               >
-                <Text style={styles.activeBadgeText}>SELECTED</Text>
+                <Text style={styles.activeBadgeText}>{t('common.selected')}</Text>
               </View>
             )}
           </View>
           <Text style={[styles.goalSub, { color: theme.colors.textSecondary }]}>
-            Balance calories to current expenditure. Optimizes athletic energy and recovery.
+            {t('plan.goal.maintain.sub')}
           </Text>
         </TouchableOpacity>
 
@@ -293,7 +296,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                   },
                 ]}
               >
-                Lean Muscle Gain
+                {t('plan.goal.gain.title')}
               </Text>
             </View>
             {selectedGoal === 'gain' && (
@@ -303,12 +306,12 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                   { backgroundColor: theme.colors.primaryLime },
                 ]}
               >
-                <Text style={styles.activeBadgeText}>SELECTED</Text>
+                <Text style={styles.activeBadgeText}>{t('common.selected')}</Text>
               </View>
             )}
           </View>
           <Text style={[styles.goalSub, { color: theme.colors.textSecondary }]}>
-            Controlled caloric surplus (~0.25 kg/wk) to fuel muscle synthesis without excess fat storage.
+            {t('plan.goal.gain.sub')}
           </Text>
         </TouchableOpacity>
       </View>
@@ -317,21 +320,21 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
       {selectedGoal !== 'maintain' && (
         <>
           <AppleTextInput
-            label="Goal Target Weight (kg)"
+            label={t('plan.goal.targetWeight')}
             icon="target"
             keyboardType="numeric"
             value={targetWeight}
             onChangeText={setTargetWeight}
-            placeholder="e.g. 75"
-            helperText="Sustainable target to project your timeline"
+            placeholder="75"
+            helperText={t('plan.goal.targetWeightHelper')}
           />
 
           <View style={styles.section}>
             <Text style={[styles.label, { color: theme.colors.textPrimary }]}>
-              Weekly Pace: {rateKgPerWeek} kg / week
+              {t('plan.goal.weeklyPace', { rate: rateKgPerWeek })}
             </Text>
             <Text style={[styles.subtext, { color: theme.colors.textSecondary }]}>
-              Max clinically safe rate: {maxSafeRate} kg/week (1% of your bodyweight)
+              {t('plan.goal.maxSafeRate', { rate: maxSafeRate })}
             </Text>
 
             <View style={styles.rateOptionsRow}>
@@ -401,11 +404,11 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                     { color: isDark ? theme.colors.primaryLime : '#4B6200' },
                   ]}
                 >
-                  Projected Milestone
+                  {t('plan.goal.projectedMilestone')}
                 </Text>
               </View>
               <Text style={[styles.projectionValue, { color: theme.colors.textPrimary }]}>
-                ~{projection.estimatedWeeks} Weeks ({projection.projectedDate})
+                ~{t('plan.goal.weeks', { count: projection.estimatedWeeks })} ({projection.projectedDate})
               </Text>
               <Text style={[styles.projectionAdvice, { color: theme.colors.textSecondary }]}>
                 {projection.pacingAdvice}
@@ -429,7 +432,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
           activeOpacity={0.7}
         >
           <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
-            Back
+            {t('common.back')}
           </Text>
         </TouchableOpacity>
 
@@ -443,7 +446,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
         >
           <View style={styles.confirmBtnContent}>
             <Text style={[styles.confirmBtnText, { color: theme.colors.limeText }]}>
-              Calculate Custom Plan
+              {t('plan.goal.calculatePlan')}
             </Text>
             <Icon name="arrow-right" size={16} color={theme.colors.limeText} />
           </View>

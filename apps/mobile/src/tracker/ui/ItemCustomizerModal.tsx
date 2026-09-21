@@ -18,6 +18,7 @@ import { MealSlot } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
 import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { HapticFeedback } from '../../ui/haptics.js';
 
 export interface CustomizedLogPayload {
@@ -138,24 +139,17 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const isSaudi = activeRegion === 'SA';
 
   const mealSlots: { id: MealSlot; label: string }[] = useMemo(
     () =>
-      isSaudi
-        ? [
-            { id: 'breakfast', label: 'Breakfast (فطور)' },
-            { id: 'lunch', label: 'Lunch (غداء)' },
-            { id: 'dinner', label: 'Dinner (عشاء)' },
-            { id: 'snacks_chai', label: 'Gahwa & Snacks (قهوة وسناك)' },
-          ]
-        : [
-            { id: 'breakfast', label: 'Breakfast' },
-            { id: 'lunch', label: 'Lunch' },
-            { id: 'dinner', label: 'Dinner' },
-            { id: 'snacks_chai', label: 'Snacks & Chai' },
-          ],
-    [isSaudi]
+      (['breakfast', 'lunch', 'dinner', 'snacks_chai'] as MealSlot[]).map((id) => ({
+        id,
+        label: t(`tracker.mealSlots.${id}.${activeRegion}`),
+      })),
+    [t, activeRegion]
   );
 
   const handleClose = onBack || onClose || (() => {});
@@ -259,7 +253,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
   };
 
   const servingsList: FoodServingItem[] = item.servings || [];
-  const fallbackBrand = isSaudi ? 'SAUDI DISH' : 'PAKISTANI DISH';
+  const fallbackBrand = t(`tracker.customizer.fallbackBrand.${activeRegion}`);
   const brandName = (item.brand || fallbackBrand).toUpperCase();
 
   return (
@@ -282,21 +276,23 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
             onPress={handleClose}
             activeOpacity={0.7}
             accessibilityRole="button"
-            accessibilityLabel="Back"
+            accessibilityLabel={t('common.back')}
           >
             <Icon name="arrow-left" size={24} color={theme.colors.text} />
           </TouchableOpacity>
 
           {/* Dish Brand & Title */}
           <Text style={[styles.brandText, { color: theme.colors.textMuted }]}>{brandName}</Text>
-          <Text style={[styles.dishTitle, { color: theme.colors.text }]}>
-            {isSaudi && (item as any).nameAr ? `${item.name} · ${(item as any).nameAr}` : item.name}
+          <Text style={[styles.dishTitle, dir.text, { color: theme.colors.text }]}>
+            {dir.isRTL && (item as any).nameAr ? (item as any).nameAr : item.name}
           </Text>
 
           {/* Estimated Badge */}
           <View style={styles.estimatedBadgeContainer}>
             <View style={[styles.estimatedBadge, { borderColor: isDark ? '#272A33' : '#E2E8F0', backgroundColor: isDark ? '#18191E' : '#F1F5F9' }]}>
-              <Text style={[styles.estimatedBadgeText, { color: isDark ? '#94A3B8' : '#64748B' }]}>≈ ESTIMATED</Text>
+              <Text style={[styles.estimatedBadgeText, { color: isDark ? '#94A3B8' : '#64748B' }]}>
+                ≈ {t('tracker.customizer.estimated')}
+              </Text>
             </View>
           </View>
 
@@ -327,7 +323,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                 }}
                 disabled={quantity <= 1}
                 activeOpacity={0.7}
-                accessibilityLabel="Decrease quantity"
+                accessibilityLabel={t('tracker.customizer.decreaseQty')}
               >
                 <Icon
                   name="minus"
@@ -346,7 +342,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                   setQuantity((q) => q + 1);
                 }}
                 activeOpacity={0.7}
-                accessibilityLabel="Increase quantity"
+                accessibilityLabel={t('tracker.customizer.increaseQty')}
               >
                 <Icon name="plus" size={18} color={theme.colors.text} strokeWidth={2.5} />
               </TouchableOpacity>
@@ -356,7 +352,9 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
           {/* Portion Size & Custom Grams Customizer */}
           <View style={[styles.portionControlCard, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}>
             <View style={styles.portionHeaderRow}>
-              <Text style={[styles.portionSectionTitle, { color: theme.colors.textMuted }]}>PORTION SIZE</Text>
+              <Text style={[styles.portionSectionTitle, dir.text, { color: theme.colors.textMuted }]}>
+                {t('tracker.customizer.portionSize')}
+              </Text>
               <TouchableOpacity
                 onPress={() => {
                   HapticFeedback.selection();
@@ -366,8 +364,8 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
               >
                 <Text style={[styles.toggleCustomGramsText, { color: isDark ? '#A4EB3F' : '#16A34A' }]}>
                   {isCustomWeightMode
-                    ? (isSaudi ? '✓ أحجام قياسية' : '✓ Standard Servings')
-                    : (isSaudi ? '⚖ وزن مخصص (جرام)' : '⚖ Custom Weight (g)')}
+                    ? `✓ ${t('tracker.customizer.standardServings')}`
+                    : `⚖ ${t('tracker.customizer.customWeight')}`}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -417,9 +415,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
               /* Custom Weight Gram Stepper */
               <View style={styles.customGramsBox}>
                 <Text style={[styles.customGramsPrompt, { color: theme.colors.textMuted }]}>
-                  {isSaudi
-                    ? 'أدخل الوزن الدقيق للجرامات لحساب السعرات الدقيقة'
-                    : 'Enter custom weight in grams for precise calorie calculation'}
+                  {t('tracker.customizer.customWeightHint')}
                 </Text>
 
                 <View style={styles.gramsAdjustRow}>
@@ -496,7 +492,9 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
           {/* "Make it yours" Section */}
           {activeModifiers.length > 0 && (
             <View style={styles.makeItYoursSection} testID="make-it-yours-section">
-              <Text style={[styles.makeItYoursTitle, { color: theme.colors.text }]}>Make it yours</Text>
+              <Text style={[styles.makeItYoursTitle, dir.text, { color: theme.colors.text }]}>
+                {t('tracker.customizer.makeItYours')}
+              </Text>
               <Text style={[styles.makeItYoursSubtitle, { color: theme.colors.textMuted }]}>
                 Add or remove — the number follows your real order.
               </Text>
@@ -519,7 +517,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                       <View style={styles.modifierLeftInfo}>
                         <Text style={[styles.modifierItemTitle, { color: theme.colors.text }]}>{mod.name}</Text>
                         <Text style={[styles.modifierItemKcal, { color: theme.colors.textMuted }]}>
-                          {sign}{mod.calories} kcal each
+                          {sign}{t('tracker.customizer.kcalEach', { value: mod.calories })}
                         </Text>
                       </View>
 
@@ -533,7 +531,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                           onPress={() => handleUpdateModifier(mod.id, -1)}
                           disabled={count === 0}
                           activeOpacity={0.7}
-                          accessibilityLabel={`Remove ${mod.name}`}
+                          accessibilityLabel={t('tracker.customizer.removeModifier', { name: mod.name })}
                         >
                           <Icon
                             name="minus"
@@ -549,7 +547,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                           style={[styles.peachCircleButtonSmall, { backgroundColor: isDark ? '#272A33' : '#F1F5F9' }]}
                           onPress={() => handleUpdateModifier(mod.id, 1)}
                           activeOpacity={0.7}
-                          accessibilityLabel={`Add ${mod.name}`}
+                          accessibilityLabel={t('tracker.customizer.addModifier', { name: mod.name })}
                         >
                           <Icon name="plus" size={16} color={theme.colors.text} strokeWidth={2.5} />
                         </TouchableOpacity>
@@ -563,7 +561,9 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
 
           {/* Meal Slot Selection */}
           <View style={styles.slotSelectionSection}>
-            <Text style={[styles.slotSectionTitle, { color: theme.colors.textMuted }]}>LOG TO MEAL SLOT</Text>
+            <Text style={[styles.slotSectionTitle, dir.text, { color: theme.colors.textMuted }]}>
+              {t('tracker.customizer.logToSlot')}
+            </Text>
             <View style={styles.slotPillContainer}>
               {mealSlots.map((slot) => {
                 const isSelected = selectedSlot === slot.id;
@@ -602,7 +602,9 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
           <View style={styles.bottomTotalsLeft}>
             <View style={styles.calorieRow}>
               <Text style={[styles.totalCalorieNumber, { color: theme.colors.text }]}>≈{macros.calories}</Text>
-              <Text style={[styles.totalCalorieUnit, { color: theme.colors.text }]}>kcal</Text>
+              <Text style={[styles.totalCalorieUnit, { color: theme.colors.text }]}>
+                {t('common.kcal')}
+              </Text>
             </View>
             <Text style={[styles.totalMacroBreakdown, { color: theme.colors.textMuted }]}>
               P {macros.protein}g · C {macros.carbs}g · F {macros.fat}g
@@ -614,10 +616,10 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
             onPress={handleConfirmLog}
             activeOpacity={0.85}
             accessibilityRole="button"
-            accessibilityLabel="Log this meal"
+            accessibilityLabel={t('tracker.customizer.logThis')}
           >
             <Text style={styles.logThisButtonText}>
-              {isSaudi ? 'تسجيل الوجبة' : 'Log this'}
+              {t('tracker.customizer.logThis')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -871,24 +873,29 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     marginBottom: 16,
   },
-  modifiersList: {
-    gap: 10,
+  modifiersContainerCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#F5F5F4',
+    overflow: 'hidden',
   },
-  modifierRow: {
+  modifierItemRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 14,
-    borderRadius: 16,
-    backgroundColor: '#FAF8F5',
-    borderWidth: 1,
-    borderColor: '#F5F5F4',
+    paddingHorizontal: 18,
+    paddingVertical: 14,
   },
-  modifierInfo: {
+  modifierItemDivider: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#F5F5F4',
+  },
+  modifierLeftInfo: {
     flex: 1,
     marginRight: 12,
   },
-  modifierName: {
+  modifierItemTitle: {
     fontSize: 15,
     fontWeight: '700',
     color: '#1C1917',

@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-nativ
 import { JobCategory, ShiftPattern, SurveyOccupational } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { AppleTextInput } from '../../ui/AppleInput.js';
 
 interface StepOccupationalProps {
@@ -11,57 +12,16 @@ interface StepOccupationalProps {
   errors: Record<string, string>;
 }
 
-const PK_JOB_OPTIONS: Array<{ id: JobCategory; title: string; subtitle: string }> = [
-  {
-    id: 'desk_sedentary',
-    title: 'Desk / Sedentary',
-    subtitle: 'Software, corporate, customer support, remote desk work',
-  },
-  {
-    id: 'standing_light',
-    title: 'Standing / Teaching / Retail',
-    subtitle: 'Shop staff, teachers, salon workers, pharmacists',
-  },
-  {
-    id: 'active_walking',
-    title: 'Active / Walking / Delivery',
-    subtitle: 'Riders (Bykea/Foodpanda), waiters, healthcare nurses',
-  },
-  {
-    id: 'heavy_manual_labor',
-    title: 'Heavy Manual Labour',
-    subtitle: 'Construction, factory floor, agriculture, warehouse loading',
-  },
+// Delivery platforms and job examples differ by market, so the subtitle key
+// carries the region while the id stays shared.
+const JOB_CATEGORY_IDS: JobCategory[] = [
+  'desk_sedentary',
+  'standing_light',
+  'active_walking',
+  'heavy_manual_labor',
 ];
 
-const SA_JOB_OPTIONS: Array<{ id: JobCategory; title: string; subtitle: string }> = [
-  {
-    id: 'desk_sedentary',
-    title: 'Desk / Sedentary (مكتبي / قليل الحركة)',
-    subtitle: 'Software, corporate, customer support, remote desk work',
-  },
-  {
-    id: 'standing_light',
-    title: 'Standing / Teaching / Retail (وقوف / مبيعات)',
-    subtitle: 'Shop staff, teachers, salon workers, pharmacists, barista',
-  },
-  {
-    id: 'active_walking',
-    title: 'Active / Walking / Delivery (توصيل / حركة مستمرة)',
-    subtitle: 'Riders (Jahez / HungerStation / سائقي توصيل), healthcare nurses, waiters',
-  },
-  {
-    id: 'heavy_manual_labor',
-    title: 'Heavy Manual Labour (عمل بدني شاق)',
-    subtitle: 'Construction, factory floor, agriculture, warehouse loading',
-  },
-];
-
-const SHIFT_OPTIONS: Array<{ id: ShiftPattern; label: string }> = [
-  { id: 'regular_day', label: 'Day Shift (9 to 5)' },
-  { id: 'night_shift', label: 'Night Shift (US/UK support)' },
-  { id: 'rotating_shifts', label: 'Rotating Shifts' },
-];
+const SHIFT_IDS: ShiftPattern[] = ['regular_day', 'night_shift', 'rotating_shifts'];
 
 export const StepOccupational: React.FC<StepOccupationalProps> = ({
   data,
@@ -70,31 +30,39 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
-  const isSaudi = activeRegion === 'SA';
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
   const activeTextColor = '#0A0B0D';
-  const jobOptions = isSaudi ? SA_JOB_OPTIONS : PK_JOB_OPTIONS;
+  const isSaudi = activeRegion === 'SA';
+  const jobOptions = JOB_CATEGORY_IDS.map((id) => ({
+    id,
+    title: t(`survey.occupational.jobs.${id}.title`),
+    subtitle: t(`survey.occupational.jobs.${id}.subtitle.${activeRegion}`),
+  }));
+  const shiftOptions = SHIFT_IDS.map((id) => ({
+    id,
+    label: t(`survey.occupational.shifts.${id}`),
+  }));
 
   return (
     <View style={styles.container}>
       {Object.keys(errors).length > 0 && (
         <View style={[styles.errorBanner, { backgroundColor: isDark ? 'rgba(239, 68, 68, 0.15)' : '#FEE2E2', borderColor: '#EF4444' }]}>
           <Text style={styles.errorBannerText}>
-            ⚠️ {errors.jobCategory || errors.dailySittingHours || errors.shiftPattern || 'Please complete all required fields.'}
+            ⚠️ {errors.jobCategory || errors.dailySittingHours || errors.shiftPattern || t('common.completeRequiredFields')}
           </Text>
         </View>
       )}
 
-      <Text style={[styles.description, { color: theme.colors.textSecondary }]}>
-        {isSaudi
-          ? 'Your daily job accounts for most non-exercise calories (NEAT). A desk worker burns very differently from a delivery rider (Jahez / HungerStation).'
-          : 'Your daily job accounts for most non-exercise calories (NEAT). A desk worker burns very differently from a Lahore rider.'}
+      <Text style={[styles.description, dir.text, { color: theme.colors.textSecondary }]}>
+        {t(`survey.occupational.description.${activeRegion}`)}
       </Text>
 
       {/* Job Category */}
       <View style={styles.fieldGroup}>
-        <Text style={[styles.label, { color: theme.colors.textPrimary }, errors.jobCategory && styles.labelError]}>
-          Work Activity Type {errors.jobCategory ? '*(Required)' : ''}
+        <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }, errors.jobCategory && styles.labelError]}>
+          {t('survey.occupational.workActivityType')} {errors.jobCategory ? t('common.requiredMarker') : ''}
         </Text>
         {jobOptions.map((item) => {
           const isSelected = data.jobCategory === item.id;
@@ -139,7 +107,7 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
               ]}>
                 {item.title}
               </Text>
-              <Text style={[styles.cardSubtitle, { color: theme.colors.textSecondary }]}>{item.subtitle}</Text>
+              <Text style={[styles.cardSubtitle, dir.text, { color: theme.colors.textSecondary }]}>{item.subtitle}</Text>
             </TouchableOpacity>
           );
         })}
@@ -150,7 +118,7 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
 
       {/* Sitting Hours */}
       <AppleTextInput
-        label={isSaudi ? 'ساعات الجلوس اليومية' : 'Daily Sitting Hours'}
+        label={t('survey.occupational.sittingHours')}
         placeholder="e.g. 8"
         keyboardType="numeric"
         value={
@@ -167,9 +135,11 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
 
       {/* Shift Pattern */}
       <View style={styles.fieldGroup}>
-        <Text style={[styles.label, { color: theme.colors.textPrimary }]}>Work Shift Pattern</Text>
+        <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }]}>
+          {t('survey.occupational.shiftPattern')}
+        </Text>
         <View style={styles.chipGrid}>
-          {SHIFT_OPTIONS.map((opt) => {
+          {shiftOptions.map((opt) => {
             const isSelected = data.shiftPattern === opt.id;
             return (
               <TouchableOpacity

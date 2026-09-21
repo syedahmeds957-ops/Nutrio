@@ -6,7 +6,7 @@ import {
   View,
 } from 'react-native';
 import { useTheme } from '../../theme.js';
-import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 
 export interface DayIntake {
@@ -30,8 +30,8 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
   targetCalories = 1850,
 }) => {
   const { theme, isDark } = useTheme();
-  const { activeRegion } = useRegion();
-  const isSaudi = activeRegion === 'SA';
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
   const accentBg = theme.colors.surfaceSecondary;
 
@@ -89,11 +89,11 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
             <Icon name="calendar" size={14} color={accentColor} />
           </View>
           <View>
-            <Text style={[styles.cardTitle, { color: theme.colors.textPrimary }]}>
-              {isSaudi ? 'بنك السعرات الأسبوعي' : 'Weekly Calorie Bank'}
+            <Text style={[styles.cardTitle, dir.text, { color: theme.colors.textPrimary }]}>
+              {t('tracker.calorieBank.title')}
             </Text>
-            <Text style={[styles.cardSubtitle, { color: theme.colors.textSecondary }]}>
-              {isSaudi ? 'Rolling Energy Balance (KSA)' : 'Rolling Energy Balance'}
+            <Text style={[styles.cardSubtitle, dir.text, { color: theme.colors.textSecondary }]}>
+              {t('tracker.calorieBank.subtitle')}
             </Text>
           </View>
         </View>
@@ -115,14 +115,10 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
       </View>
 
       {/* Reassurance Message */}
-      <Text style={[styles.reassuranceText, { color: theme.colors.textMuted }]}>
+      <Text style={[styles.reassuranceText, dir.text, { color: theme.colors.textMuted }]}>
         {!hasLoggedDays || totalConsumed === 0
-          ? isSaudi
-            ? 'ابدأ بتسجيل وجبات اليوم لحساب عجز السعرات الحرارية الأسبوعي بدقة والحفاظ على تقدمك.'
-            : 'Start logging your meals today. Nutrio dynamically banks your rolling weekly energy balance to keep your progress protected.'
-          : isSaudi
-          ? 'على المسار الصحيح! يتم تجميع توازن طاقتك الأسبوعي تلقائياً لموازنة أيام الولائم والعزائم.'
-          : 'On track! Rolling weekly energy balance is accumulating to safeguard your sustainable fat loss target.'}
+          ? t('tracker.calorieBank.emptyHint')
+          : t('tracker.calorieBank.onTrackHint')}
       </Text>
 
       {/* 7-Day Mini Bar Chart */}

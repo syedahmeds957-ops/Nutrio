@@ -31,6 +31,9 @@ export type IconName =
   | 'home'
   | 'chevron-right'
   | 'star'
+  | 'mail'
+  | 'lock'
+  | 'target'
   | 'x';
 
 interface IconProps {
@@ -310,6 +313,31 @@ export const Icon: React.FC<IconProps> = ({
       return (
         <Svg {...commonProps}>
           <Polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+        </Svg>
+      );
+
+    case 'mail':
+      return (
+        <Svg {...commonProps}>
+          <Rect x="2" y="4" width="20" height="16" rx="2" ry="2" />
+          <Path d="M2 7l10 6 10-6" />
+        </Svg>
+      );
+
+    case 'lock':
+      return (
+        <Svg {...commonProps}>
+          <Rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+          <Path d="M7 11V7a5 5 0 0 1 10 0v4" />
+        </Svg>
+      );
+
+    case 'target':
+      return (
+        <Svg {...commonProps}>
+          <Circle cx="12" cy="12" r="10" />
+          <Circle cx="12" cy="12" r="6" />
+          <Circle cx="12" cy="12" r="2" />
         </Svg>
       );
 

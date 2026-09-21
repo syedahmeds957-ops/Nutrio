@@ -12,6 +12,7 @@ import { DailyTrackerSummary, LoggedItem } from '../types.js';
 import { Icon } from '../../ui/Icon.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 interface DiaryViewModalProps {
   visible: boolean;
@@ -30,6 +31,8 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const isSaudi = activeRegion === 'SA';
   const [dayOffset, setDayOffset] = useState<number>(0);
 
@@ -37,12 +40,14 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
 
   const dateLabel =
     dayOffset === 0
-      ? 'Today'
+      ? t('common.today')
       : dayOffset === -1
-      ? 'Yesterday'
+      ? t('common.yesterday')
       : dayOffset === 1
-      ? 'Tomorrow'
-      : `${Math.abs(dayOffset)} days ${dayOffset < 0 ? 'ago' : 'ahead'}`;
+      ? t('common.tomorrow')
+      : dayOffset < 0
+      ? t('common.daysAgo', { count: Math.abs(dayOffset) })
+      : t('common.daysAhead', { count: Math.abs(dayOffset) });
 
   const pct = Math.min(
     100,
@@ -71,13 +76,13 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
             style={[styles.backButton, { backgroundColor: theme.colors.surfaceSecondary }]}
             onPress={onClose}
             accessibilityRole="button"
-            accessibilityLabel="Back to dashboard"
+            accessibilityLabel={t('tracker.diary.backToDashboard')}
           >
             <Icon name="arrow-left" size={18} color={theme.colors.textPrimary} />
           </TouchableOpacity>
 
           <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>
-            Food Diary
+            {t('tracker.diary.title')}
           </Text>
 
           <View style={styles.headerRightSpacer} />
@@ -101,7 +106,7 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
           </TouchableOpacity>
 
           <View style={styles.dateCenter}>
-            <Text style={[styles.dateText, { color: theme.colors.textPrimary }]}>
+            <Text style={[styles.dateText, dir.textCenter, { color: theme.colors.textPrimary }]}>
               {dateLabel}
             </Text>
             <Text style={[styles.dateSub, { color: theme.colors.textSecondary }]}>
@@ -143,7 +148,7 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
                 <Text style={[styles.progressKcalText, { color: theme.colors.textPrimary }]}>
                   {summary.totalCaloriesConsumed}{' '}
                   <Text style={[styles.progressKcalTarget, { color: theme.colors.textSecondary }]}>
-                    / {summary.targetCalories} kcal
+                    / {t('common.kcalValue', { value: summary.targetCalories })}
                   </Text>
                 </Text>
                 <Text
@@ -152,9 +157,12 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
                     { color: isDark ? theme.colors.primaryLime : '#4B6200' },
                   ]}
                 >
-                  P {summary.totalProteinConsumed}g · C {summary.totalCarbConsumed}g · F{' '}
-                  {summary.totalFatConsumed}g · {summary.items.length}{' '}
-                  {summary.items.length === 1 ? 'item' : 'items'}
+                  {t('common.macroLine', {
+                    protein: summary.totalProteinConsumed,
+                    carbs: summary.totalCarbConsumed,
+                    fat: summary.totalFatConsumed,
+                  })}{' · '}
+                  {t('tracker.diary.itemCount', { count: summary.items.length })}
                 </Text>
               </View>
 
@@ -190,11 +198,11 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
           {/* Logged Food Items List */}
           <View style={styles.itemsSection}>
             <View style={styles.sectionHeaderRow}>
-              <Text style={[styles.sectionTitle, { color: theme.colors.textMuted }]}>
-                LOGGED DISHES
+              <Text style={[styles.sectionTitle, dir.text, { color: theme.colors.textMuted }]}>
+                {t('tracker.diary.loggedDishes')}
               </Text>
               <Text style={[styles.sectionCount, { color: theme.colors.textMuted }]}>
-                {summary.items.length} {summary.items.length === 1 ? 'dish' : 'dishes'}
+                {t('tracker.diary.dishCount', { count: summary.items.length })}
               </Text>
             </View>
 
@@ -208,13 +216,11 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
                   },
                 ]}
               >
-                <Text style={[styles.emptyTitle, { color: theme.colors.textPrimary }]}>
-                  No dishes logged yet
+                <Text style={[styles.emptyTitle, dir.textCenter, { color: theme.colors.textPrimary }]}>
+                  {t('tracker.diary.emptyTitle')}
                 </Text>
-                <Text style={[styles.emptySubtitle, { color: theme.colors.textSecondary }]}>
-                  {isSaudi
-                    ? 'Tap below to log your meals, AlBaik, Kabsa, or Gahwa.'
-                    : 'Tap below to log your meals, fast-food favorites, or chai.'}
+                <Text style={[styles.emptySubtitle, dir.textCenter, { color: theme.colors.textSecondary }]}>
+                  {t(`tracker.diary.emptySubtitle.${activeRegion}`)}
                 </Text>
                 <TouchableOpacity
                   style={[
@@ -258,7 +264,7 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
                     </View>
 
                     <Text style={[styles.itemMeta, { color: theme.colors.textSecondary }]}>
-                      {(item.mealSlot === 'snacks_chai' && isSaudi ? 'GAHWA & SNACKS' : item.mealSlot.replace('_', ' ').toUpperCase())} · {item.quantity}x {item.servingLabel}
+                      {t(`tracker.mealSlots.${item.mealSlot}.${activeRegion}`)} · {item.quantity}x {item.servingLabel}
                     </Text>
 
                     <Text
@@ -267,7 +273,11 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
                         { color: isDark ? theme.colors.primaryLime : '#4B6200' },
                       ]}
                     >
-                      P {item.proteinGrams}g · C {item.carbGrams}g · F {item.fatGrams}g
+                      {t('common.macroLine', {
+                        protein: item.proteinGrams,
+                        carbs: item.carbGrams,
+                        fat: item.fatGrams,
+                      })}
                     </Text>
                   </View>
 
@@ -289,7 +299,7 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
                           { color: isDark ? theme.colors.primaryLime : '#4B6200' },
                         ]}
                       >
-                        ≈{item.calories} kcal
+                        ≈{t('common.kcalValue', { value: item.calories })}
                       </Text>
                     </View>
 
@@ -301,7 +311,7 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
                       onPress={() => onDeleteItem(item.id)}
                       hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                       accessibilityRole="button"
-                      accessibilityLabel="Delete item"
+                      accessibilityLabel={t('tracker.diary.deleteItem')}
                     >
                       <Icon name="x" size={14} color={theme.colors.textMuted} />
                     </TouchableOpacity>
@@ -332,7 +342,7 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
           >
             <Icon name="plus" size={18} color={theme.colors.limeText} />
             <Text style={[styles.logHubButtonText, { color: theme.colors.limeText }]}>
-              Log a meal
+              {t('tracker.hub.title')}
             </Text>
           </TouchableOpacity>
         </View>

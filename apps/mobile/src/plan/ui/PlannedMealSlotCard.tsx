@@ -4,6 +4,7 @@ import { PlannedMealSlot } from '@nutrio/nutrition-core';
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
 import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 interface PlannedMealSlotCardProps {
   slot: PlannedMealSlot;
@@ -16,6 +17,8 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const isSaudi = activeRegion === 'SA';
 
   const getSlotIcon = (slotKey: string) => {
@@ -76,11 +79,9 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
           </View>
           <View style={styles.slotTitleCol}>
             <Text style={[styles.slotCategory, { color: theme.colors.textSecondary }]}>
-              {isSaudi
-                ? slot.slot === 'snacks_chai'
-                  ? 'GAHWA & SNACKS (قهوة)'
-                  : slot.slot.toUpperCase().replace('_', ' ')
-                : slot.slot.toUpperCase().replace('_', ' ')}
+              {t(`tracker.mealSlots.${slot.slot}.${activeRegion}`, {
+                defaultValue: slot.slot.replace('_', ' '),
+              })}
             </Text>
             <Text
               style={[styles.slotTitle, { color: theme.colors.textPrimary }]}
@@ -108,7 +109,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
               { color: isDark ? theme.colors.primaryLime : '#365314' },
             ]}
           >
-            {slot.actualCalories} kcal
+            {t('common.kcalValue', { value: slot.actualCalories })}
           </Text>
         </View>
       </View>
@@ -192,7 +193,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
           ]}
         >
           <Text style={[styles.cuisineBadgeText, { color: theme.colors.textSecondary }]}>
-            {isSaudi ? 'Saudi Cuisine (المطبخ السعودي)' : 'Pakistani Cuisine'}
+            {t(`plan.mealSlot.cuisine.${activeRegion}`)}
           </Text>
         </View>
       </View>
@@ -236,7 +237,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
             <Text
               style={[styles.itemKcal, { color: theme.colors.textPrimary }]}
             >
-              {item.calories} kcal
+              {t('common.kcalValue', { value: item.calories })}
             </Text>
           </View>
         ))}

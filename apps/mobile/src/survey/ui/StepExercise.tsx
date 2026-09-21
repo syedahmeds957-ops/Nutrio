@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-nativ
 import { SurveyExercise, TrainingType, WorkoutIntensity } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { AppleTextInput } from '../../ui/AppleInput.js';
 
 interface StepExerciseProps {
@@ -11,35 +12,18 @@ interface StepExerciseProps {
   errors: Record<string, string>;
 }
 
-const PK_TRAINING_TYPES: Array<{ id: TrainingType; label: string }> = [
-  { id: 'gym_resistance', label: 'Gym / Weightlifting' },
-  { id: 'cardio_running', label: 'Running / Jogging' },
-  { id: 'home_calisthenics', label: 'Home Bodyweight / Calisthenics' },
-  { id: 'sports_cricket_football', label: 'Sports (Cricket / Football)' },
-  { id: 'daily_brisk_walking', label: 'Brisk Walking' },
-  { id: 'none', label: 'None / Not currently training' },
+// The popular sports differ by market (cricket in Pakistan, padel in Saudi),
+// so the label key carries the region while the id stays shared.
+const TRAINING_TYPE_IDS: TrainingType[] = [
+  'gym_resistance',
+  'cardio_running',
+  'home_calisthenics',
+  'sports_cricket_football',
+  'daily_brisk_walking',
+  'none',
 ];
 
-const SA_TRAINING_TYPES: Array<{ id: TrainingType; label: string }> = [
-  { id: 'gym_resistance', label: 'Gym / Weightlifting (حديد ولياقة)' },
-  { id: 'cardio_running', label: 'Running / Jogging (جري / ركض)' },
-  { id: 'home_calisthenics', label: 'Home Bodyweight (تمارين منزلية)' },
-  { id: 'sports_cricket_football', label: 'Sports (Football / Padel - كرة قدم / بادل)' },
-  { id: 'daily_brisk_walking', label: 'Brisk Walking (مشي سريع)' },
-  { id: 'none', label: 'None / Not currently training (لا أتمرن حالياً)' },
-];
-
-const PK_INTENSITY_OPTIONS: Array<{ id: WorkoutIntensity; label: string }> = [
-  { id: 'light', label: 'Light' },
-  { id: 'moderate', label: 'Moderate' },
-  { id: 'high', label: 'High Intensity' },
-];
-
-const SA_INTENSITY_OPTIONS: Array<{ id: WorkoutIntensity; label: string }> = [
-  { id: 'light', label: 'Light (خفيف)' },
-  { id: 'moderate', label: 'Moderate (متوسط)' },
-  { id: 'high', label: 'High (عالي الشدة)' },
-];
+const INTENSITY_IDS: WorkoutIntensity[] = ['light', 'moderate', 'high'];
 
 export const StepExercise: React.FC<StepExerciseProps> = ({
   data,
@@ -48,27 +32,36 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
 }) => {
   const { theme, isDark: _isDark } = useTheme();
   const { activeRegion } = useRegion();
-  const isSaudi = activeRegion === 'SA';
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
   const activeTextColor = '#0A0B0D';
-  const trainingTypes = isSaudi ? SA_TRAINING_TYPES : PK_TRAINING_TYPES;
-  const intensityOptions = isSaudi ? SA_INTENSITY_OPTIONS : PK_INTENSITY_OPTIONS;
+  const trainingTypes = TRAINING_TYPE_IDS.map((id) => ({
+    id,
+    label: t(`survey.exercise.trainingTypes.${id}.${activeRegion}`),
+  }));
+  const intensityOptions = INTENSITY_IDS.map((id) => ({
+    id,
+    label: t(`survey.exercise.intensity.${id}`),
+  }));
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.description, { color: theme.colors.textSecondary }]}>
-        Tell us about your intentional workouts. This enables our split TDEE model to credit your training accurately.
+      <Text style={[styles.description, dir.text, { color: theme.colors.textSecondary }]}>
+        {t('survey.exercise.description')}
       </Text>
 
       {/* Training Type */}
       <View style={styles.fieldGroup}>
-        <Text style={[styles.label, { color: theme.colors.textPrimary }]}>Primary Exercise Type</Text>
+        <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }]}>
+          {t('survey.exercise.primaryType')}
+        </Text>
         <View style={styles.chipGrid}>
-          {trainingTypes.map((t) => {
-            const isSelected = data.trainingType === t.id;
+          {trainingTypes.map((option) => {
+            const isSelected = data.trainingType === option.id;
             return (
               <TouchableOpacity
-                key={t.id}
+                key={option.id}
                 style={[
                   styles.chip,
                   {
@@ -80,7 +73,7 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
                     borderColor: accentColor,
                   },
                 ]}
-                onPress={() => onChange({ trainingType: t.id })}
+                onPress={() => onChange({ trainingType: option.id })}
                 activeOpacity={0.7}
               >
                 <Text
@@ -90,7 +83,7 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
                     isSelected && { color: activeTextColor, fontWeight: '800' },
                   ]}
                 >
-                  {t.label}
+                  {option.label}
                 </Text>
               </TouchableOpacity>
             );
@@ -105,7 +98,9 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
         <>
           {/* Frequency */}
           <View style={styles.fieldGroup}>
-            <Text style={[styles.label, { color: theme.colors.textPrimary }]}>Frequency (Days Per Week)</Text>
+            <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }]}>
+              {t('survey.exercise.frequency')}
+            </Text>
             <View style={styles.frequencyRow}>
               {[1, 2, 3, 4, 5, 6, 7].map((num) => {
                 const isSelected = data.frequencyDaysPerWeek === num;
@@ -146,7 +141,7 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
 
           {/* Session Duration */}
           <AppleTextInput
-            label={isSaudi ? 'متوسط مدة التمرين (دقائق)' : 'Average Session Duration (Minutes)'}
+            label={t('survey.exercise.sessionDuration')}
             placeholder="e.g. 45"
             keyboardType="numeric"
             value={
@@ -163,7 +158,9 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
 
           {/* Intensity */}
           <View style={styles.fieldGroup}>
-            <Text style={[styles.label, { color: theme.colors.textPrimary }]}>Workout Intensity</Text>
+            <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }]}>
+              {t('survey.exercise.intensityLabel')}
+            </Text>
             <View style={styles.intensityRow}>
               {intensityOptions.map((item) => {
                 const isSelected = data.intensity === item.id;

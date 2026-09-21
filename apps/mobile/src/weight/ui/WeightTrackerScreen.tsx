@@ -13,7 +13,7 @@ import { WeighInLogModal } from './WeighInLogModal.js';
 import { WeightTrendEngine } from '../engine.js';
 import { WeightTrackerState } from '../types.js';
 import { useTheme } from '../../theme.js';
-import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 interface WeightTrackerScreenProps {
   initialState: WeightTrackerState;
@@ -25,8 +25,8 @@ export const WeightTrackerScreen: React.FC<WeightTrackerScreenProps> = ({
   onBackToTracker,
 }) => {
   const { theme, isDark } = useTheme();
-  const { activeRegion } = useRegion();
-  const isSaudi = activeRegion === 'SA';
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
   const accentTextColor = theme.colors.limeText;
 
@@ -53,10 +53,10 @@ export const WeightTrackerScreen: React.FC<WeightTrackerScreenProps> = ({
         <View style={styles.topNav}>
           <View>
             <Text style={[styles.headerSubtitle, { color: accentColor }]}>
-              {isSaudi ? 'المؤشرات الأيضية · METABOLIC FEEDBACK' : 'METABOLIC FEEDBACK'}
+              {t('weight.screen.eyebrow')}
             </Text>
             <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>
-              {isSaudi ? 'متابعة الوزن والأيض التكيفي' : 'Weight & Adaptive TDEE'}
+              {t('weight.screen.title')}
             </Text>
           </View>
           {onBackToTracker && (
@@ -72,7 +72,7 @@ export const WeightTrackerScreen: React.FC<WeightTrackerScreenProps> = ({
               activeOpacity={0.7}
             >
               <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
-                {isSaudi ? 'المتتبع · Tracker' : 'Daily Tracker'}
+                {t('weight.screen.dailyTracker')}
               </Text>
             </TouchableOpacity>
           )}
@@ -86,7 +86,7 @@ export const WeightTrackerScreen: React.FC<WeightTrackerScreenProps> = ({
             activeOpacity={0.8}
           >
             <Text style={[styles.logWeightBtnText, { color: accentTextColor }]}>
-              {isSaudi ? '+ تسجيل وزن اليوم · Log Weight' : "+ Log Today's Weight"}
+              + {t('weight.screen.logTodayWeight')}
             </Text>
           </TouchableOpacity>
         </View>

@@ -23,6 +23,7 @@ import { Icon } from '../../ui/Icon.js';
 import { BrandLogo } from '../../ui/BrandLogo.js';
 import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 export interface BrandMenuModalProps {
   visible: boolean;
@@ -38,6 +39,8 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
   onSelectItem,
 }) => {
   const { theme, isDark } = useTheme();
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
@@ -213,7 +216,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
             <View>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                 <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>
-                  {brandName || 'Brand Menu'}
+                  {brandName || t('tracker.brandMenu.fallbackTitle')}
                 </Text>
                 {currentBrand?.nameAr && (
                   <Text style={{ fontSize: 13, fontWeight: '700', color: theme.colors.primaryLime }}>
@@ -222,7 +225,8 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                 )}
               </View>
               <Text style={[styles.headerSubtitle, { color: theme.colors.textSecondary }]}>
-                {brandItems.length} verified food items{currentBrand?.region === 'SA' ? ' · SFDA Compliant' : ''}
+                {t('tracker.brandMenu.verifiedItems', { count: brandItems.length })}
+                {currentBrand?.region === 'SA' ? ` · ${t('tracker.brandMenu.sfdaCompliant')}` : ''}
               </Text>
             </View>
           </View>
@@ -256,7 +260,9 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                 { color: theme.colors.textPrimary },
                 noOutlineStyle,
               ]}
-              placeholder={`Search in ${brandName || 'menu'}...`}
+              placeholder={t('tracker.brandMenu.searchPlaceholder', {
+                brand: brandName || t('tracker.brandMenu.menuWord'),
+              })}
               placeholderTextColor={theme.colors.textMuted}
               value={searchQuery}
               onChangeText={setSearchQuery}
@@ -314,7 +320,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                           },
                         ]}
                       >
-                        {cat}
+                        {t(`tracker.brandGroups.${cat}`, { defaultValue: cat })}
                       </Text>
                     </TouchableOpacity>
               );
@@ -331,11 +337,11 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
           {filteredItems.length === 0 ? (
             <View style={styles.emptyContainer}>
               <Icon name="search" size={32} color={theme.colors.textMuted} />
-              <Text style={[styles.emptyTitle, { color: theme.colors.textPrimary }]}>
-                No items found
+              <Text style={[styles.emptyTitle, dir.textCenter, { color: theme.colors.textPrimary }]}>
+                {t('tracker.brandMenu.noItems')}
               </Text>
-              <Text style={[styles.emptySubtitle, { color: theme.colors.textSecondary }]}>
-                Try adjusting your search or category filter.
+              <Text style={[styles.emptySubtitle, dir.textCenter, { color: theme.colors.textSecondary }]}>
+                {t('tracker.brandMenu.noItemsHint')}
               </Text>
             </View>
           ) : (
@@ -345,7 +351,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                 <View key={sec.title} style={styles.sectionBlock}>
                   {selectedCategory === 'All' && (
                     <Text style={[styles.sectionHeader, { color: theme.colors.textMuted }]}>
-                      {sec.title.toUpperCase()} ({sec.data.length})
+                      {t(`tracker.brandGroups.${sec.title}`, { defaultValue: sec.title })} ({sec.data.length})
                     </Text>
                   )}
 
@@ -401,7 +407,9 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
 
                           <Text style={[styles.itemServing, { color: theme.colors.textSecondary }]}>
                             {serving
-                              ? `${serving.grams || serving.servingWeightGrams || 100}g · ${serving.description || serving.label || '1 serving'}`
+                              ? `${serving.grams || serving.servingWeightGrams || 100}g · ${
+                                  serving.description || serving.label || t('tracker.brandMenu.oneServing')
+                                }`
                               : '100g'}
                           </Text>
 
@@ -411,7 +419,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                               { color: isDark ? theme.colors.primaryLime : '#4B6200' },
                             ]}
                           >
-                            P {p}g · C {c}g · F {f}g
+                            {t('common.macroLine', { protein: p, carbs: c, fat: f })}
                           </Text>
                         </View>
 
@@ -431,7 +439,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                                 { color: isDark ? theme.colors.primaryLime : '#4B6200' },
                               ]}
                             >
-                              ≈{kcal} kcal
+                              ≈{t('common.kcalValue', { value: kcal })}
                             </Text>
                           </View>
                           <Icon name="chevron-right" size={16} color={theme.colors.textMuted} />

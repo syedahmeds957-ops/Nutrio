@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useTheme } from '../../theme.js';
-import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 import { HapticFeedback } from '../../ui/haptics.js';
 
@@ -21,8 +21,8 @@ export const WaterTrackerCard: React.FC<WaterTrackerCardProps> = ({
   onLogWater,
 }) => {
   const { theme, isDark } = useTheme();
-  const { activeRegion } = useRegion();
-  const isSaudi = activeRegion === 'SA';
+  const { t } = useTranslation();
+  const dir = useTextDirection();
 
   const actualConsumed = consumedMl ?? waterMlConsumed ?? 0;
   const actualTarget = targetMl ?? targetWaterMl ?? 2500;
@@ -54,13 +54,11 @@ export const WaterTrackerCard: React.FC<WaterTrackerCardProps> = ({
             <Icon name="droplet" size={16} color={waterColor} />
           </View>
           <View>
-            <Text style={[styles.title, { color: theme.colors.textPrimary }]}>
-              {isSaudi ? 'ترطيب الجسم والتوازن المائي' : 'Water Hydration'}
+            <Text style={[styles.title, dir.text, { color: theme.colors.textPrimary }]}>
+              {t('tracker.water.title')}
             </Text>
-            <Text style={[styles.subtitle, { color: theme.colors.textSecondary }]}>
-              {isSaudi
-                ? `الهدف اليومي: ${actualTarget.toLocaleString()} مل`
-                : `Target: ${actualTarget.toLocaleString()} ml / day`}
+            <Text style={[styles.subtitle, dir.text, { color: theme.colors.textSecondary }]}>
+              {t('tracker.water.dailyTarget', { amount: actualTarget.toLocaleString() })}
             </Text>
           </View>
         </View>
@@ -134,7 +132,7 @@ export const WaterTrackerCard: React.FC<WaterTrackerCardProps> = ({
         >
           <Icon name="plus" size={13} color={waterColor} />
           <Text style={[styles.actionBtnText, { color: theme.colors.textPrimary }]}>
-            +250 ml {isSaudi ? '(كوب)' : '(Glass)'}
+            {t('tracker.water.addGlass')}
           </Text>
         </TouchableOpacity>
 
@@ -158,7 +156,7 @@ export const WaterTrackerCard: React.FC<WaterTrackerCardProps> = ({
         >
           <Icon name="plus" size={13} color={waterColor} />
           <Text style={[styles.actionBtnText, { color: theme.colors.textPrimary }]}>
-            +500 ml {isSaudi ? '(عبوة)' : '(Bottle)'}
+            {t('tracker.water.addBottle')}
           </Text>
         </TouchableOpacity>
 

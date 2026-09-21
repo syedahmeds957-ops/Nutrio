@@ -9,6 +9,7 @@ import {
 import { ComputedUserPlan } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 interface PlanRevealViewProps {
   plan: ComputedUserPlan;
@@ -23,6 +24,8 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
 }) => {
   const { theme } = useTheme();
   const { activeRegion } = useRegion();
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const isSaudi = (plan.region || activeRegion) === 'SA';
   const accentColor = theme.colors.heroCardBg;
   const accentBorder = theme.colors.primaryLime;
@@ -54,15 +57,15 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
               { color: theme.isDark ? theme.colors.primaryLime : '#465A00' },
             ]}
           >
-            {isSaudi ? 'Clinical Formulation Complete · الصياغة مكتملة' : 'Clinical Formulation Complete'}
+            {t('plan.reveal.formulationComplete')}
           </Text>
         </View>
 
-        <Text style={[styles.title, { color: theme.colors.textPrimary }]}>
-          Your Personalized Targets
+        <Text style={[styles.title, dir.text, { color: theme.colors.textPrimary }]}>
+          {t('plan.reveal.title')}
         </Text>
-        <Text style={[styles.subtitle, { color: theme.colors.textSecondary }]}>
-          Formulated deterministically from your biometric metrics, Mifflin-St Jeor TDEE, and cultural levers.
+        <Text style={[styles.subtitle, dir.text, { color: theme.colors.textSecondary }]}>
+          {t('plan.reveal.subtitle')}
         </Text>
       </View>
 
@@ -78,7 +81,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
       >
         <View style={styles.heroTopRow}>
           <Text style={[styles.heroLabel, { color: accentTextColor }]}>
-            {isSaudi ? 'الهدف اليومي · DAILY TARGET' : 'DAILY TARGET'}
+            {t('plan.reveal.dailyTarget')}
           </Text>
           <View style={[styles.heroStatusDot, isSaudi && { backgroundColor: '#FFFFFF' }]} />
         </View>
@@ -87,16 +90,19 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
           {targetResult.kcalTarget.toLocaleString()}
         </Text>
         <Text style={[styles.heroUnit, { color: accentTextColor }]}>
-          {isSaudi ? 'سعرة حرارية / اليوم · calories / day' : 'calories / day'}
+          {t('plan.reveal.caloriesPerDay')}
         </Text>
 
         <View style={[styles.deltaBox, isSaudi && { backgroundColor: 'rgba(0, 0, 0, 0.25)' }]}>
           <Text style={[styles.deltaText, isSaudi && { color: '#FFFFFF' }]}>
             {isDeficit
-              ? `⚡ ${Math.abs(signedDelta)} kcal deficit from maintenance (${userContext.tdee} kcal)`
+              ? `⚡ ${t('plan.reveal.deficit', {
+                  value: Math.abs(signedDelta),
+                  tdee: userContext.tdee,
+                })}`
               : signedDelta > 0
-              ? `⚡ +${signedDelta} kcal surplus above maintenance (${userContext.tdee} kcal)`
-              : `⚖️ Matched to maintenance TDEE (${userContext.tdee} kcal)`}
+              ? `⚡ ${t('plan.reveal.surplus', { value: signedDelta, tdee: userContext.tdee })}`
+              : `⚖️ ${t('plan.reveal.maintenance', { tdee: userContext.tdee })}`}
           </Text>
         </View>
       </View>
@@ -111,8 +117,8 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
           },
         ]}
       >
-        <Text style={[styles.cardHeader, { color: theme.colors.textPrimary }]}>
-          Daily Macronutrient Breakdown
+        <Text style={[styles.cardHeader, dir.text, { color: theme.colors.textPrimary }]}>
+          {t('plan.reveal.macroBreakdown')}
         </Text>
 
         <View style={styles.macroRow}>
@@ -127,12 +133,12 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
               },
             ]}
           >
-            <Text style={[styles.macroName, { color: theme.colors.textSecondary }]}>Protein</Text>
+            <Text style={[styles.macroName, { color: theme.colors.textSecondary }]}>{t('common.protein')}</Text>
             <Text style={[styles.macroValue, { color: theme.colors.textPrimary }]}>
               {macros.proteinGrams}g
             </Text>
             <Text style={[styles.macroSub, { color: theme.colors.textMuted }]}>
-              {macros.proteinKcal} kcal ({macros.proteinPct}%)
+              {t('common.kcalValue', { value: macros.proteinKcal })} ({macros.proteinPct}%)
             </Text>
           </View>
 
@@ -147,12 +153,12 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
               },
             ]}
           >
-            <Text style={[styles.macroName, { color: theme.colors.textSecondary }]}>Carbs</Text>
+            <Text style={[styles.macroName, { color: theme.colors.textSecondary }]}>{t('common.carbs')}</Text>
             <Text style={[styles.macroValue, { color: theme.colors.textPrimary }]}>
               {macros.carbGrams}g
             </Text>
             <Text style={[styles.macroSub, { color: theme.colors.textMuted }]}>
-              {macros.carbKcal} kcal ({macros.carbPct}%)
+              {t('common.kcalValue', { value: macros.carbKcal })} ({macros.carbPct}%)
             </Text>
           </View>
 
@@ -167,12 +173,12 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
               },
             ]}
           >
-            <Text style={[styles.macroName, { color: theme.colors.textSecondary }]}>Fat</Text>
+            <Text style={[styles.macroName, { color: theme.colors.textSecondary }]}>{t('common.fat')}</Text>
             <Text style={[styles.macroValue, { color: theme.colors.textPrimary }]}>
               {macros.fatGrams}g
             </Text>
             <Text style={[styles.macroSub, { color: theme.colors.textMuted }]}>
-              {macros.fatKcal} kcal ({macros.fatPct}%)
+              {t('common.kcalValue', { value: macros.fatKcal })} ({macros.fatPct}%)
             </Text>
           </View>
         </View>
@@ -181,7 +187,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
         <View style={[styles.subMacroRow, { borderTopColor: theme.colors.border }]}>
           <View style={styles.subMacroItem}>
             <Text style={[styles.subMacroLabel, { color: theme.colors.textMuted }]}>
-              Daily Fibre:
+              {t('plan.reveal.dailyFibre')}
             </Text>
             <Text style={[styles.subMacroValue, { color: theme.colors.textPrimary }]}>
               {macros.fibreGrams}g
@@ -189,7 +195,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
           </View>
           <View style={styles.subMacroItem}>
             <Text style={[styles.subMacroLabel, { color: theme.colors.textMuted }]}>
-              Hydration:
+              {t('plan.reveal.hydration')}
             </Text>
             <Text style={[styles.subMacroValue, { color: theme.colors.textPrimary }]}>
               {(macros.waterMl / 1000).toFixed(1)} L
@@ -208,8 +214,8 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
           },
         ]}
       >
-        <Text style={[styles.cardHeader, { color: theme.colors.textPrimary }]}>
-          Clinical Safety Safeguards
+        <Text style={[styles.cardHeader, dir.text, { color: theme.colors.textPrimary }]}>
+          {t('plan.reveal.safeguards')}
         </Text>
 
         <View style={styles.safeguardItem}>
@@ -217,7 +223,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
             <Text style={[styles.safeguardIcon, { color: theme.colors.primaryLime }]}>✓</Text>
           </View>
           <Text style={[styles.safeguardText, { color: theme.colors.textPrimary }]}>
-            Target strictly exceeds resting BMR floor ({userContext.bmr} kcal).
+            {t('plan.reveal.safeguardBmr', { bmr: userContext.bmr })}
           </Text>
         </View>
 
@@ -226,7 +232,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
             <Text style={[styles.safeguardIcon, { color: theme.colors.primaryLime }]}>✓</Text>
           </View>
           <Text style={[styles.safeguardText, { color: theme.colors.textPrimary }]}>
-            Caloric deficit safely capped at 25% of TDEE to prevent muscle catabolism.
+            {t('plan.reveal.safeguardDeficit')}
           </Text>
         </View>
 
@@ -235,7 +241,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
             <Text style={[styles.safeguardIcon, { color: theme.colors.primaryLime }]}>✓</Text>
           </View>
           <Text style={[styles.safeguardText, { color: theme.colors.textPrimary }]}>
-            Hormonal fat floor preserved (&ge;0.6 g/kg & &ge;20% kcal).
+            {t('plan.reveal.safeguardFat')}
           </Text>
         </View>
       </View>
@@ -254,7 +260,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
           activeOpacity={0.7}
         >
           <Text style={[styles.adjustBtnText, { color: theme.colors.textPrimary }]}>
-            Adjust Goal
+            {t('plan.reveal.adjustGoal')}
           </Text>
         </TouchableOpacity>
 
@@ -264,7 +270,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
           activeOpacity={0.8}
         >
           <Text style={[styles.acceptBtnText, { color: accentTextColor }]}>
-            {isSaudi ? 'Accept & Launch Tracker (بدء المتتبع) →' : 'Accept & Launch Tracker →'}
+            {t('plan.reveal.acceptLaunch')} {dir.isRTL ? '←' : '→'}
           </Text>
         </TouchableOpacity>
       </View>

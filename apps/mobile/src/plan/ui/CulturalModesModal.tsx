@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { useTheme } from '../../theme.js';
 import { AppleTextInput } from '../../ui/AppleInput.js';
 
@@ -23,26 +24,29 @@ interface CulturalModesModalProps {
   currentFamilyDish?: string;
 }
 
+// Which dishes a family gathers around is regional. `name` is the string the
+// meal solver matches against the food database, so it stays in the database's
+// spelling; only the chip label is translated.
 const PK_FAMILY_DISHES = [
-  'Chicken Karahi',
-  'Aalo Gosht',
-  'Daal Mash',
-  'Chicken Korma',
-  'Beef Nihari',
-  'Chicken Biryani',
-  'Bhindi Masala',
-  'Daal Chana',
+  { id: 'chickenKarahi', name: 'Chicken Karahi' },
+  { id: 'aaloGosht', name: 'Aalo Gosht' },
+  { id: 'daalMash', name: 'Daal Mash' },
+  { id: 'chickenKorma', name: 'Chicken Korma' },
+  { id: 'beefNihari', name: 'Beef Nihari' },
+  { id: 'chickenBiryani', name: 'Chicken Biryani' },
+  { id: 'bhindiMasala', name: 'Bhindi Masala' },
+  { id: 'daalChana', name: 'Daal Chana' },
 ];
 
 const SA_FAMILY_DISHES = [
-  'Chicken Kabsa · كبسة دجاج',
-  'Naeemi Lamb Mandi · مندي لحم نعيمي',
-  'Hashi Camel Kabsa · كبسة حاشي',
-  'Madhbi Chicken · مضبي دجاج',
-  'Saleeg Taifi · سليق طائفي',
-  'Najdi Jareesh · جريش نجد',
-  'Mutabbaq Meat · مطبق لحم',
-  'Sayadiah Fish · صيادية سمك',
+  { id: 'chickenKabsa', name: 'Chicken Kabsa' },
+  { id: 'lambMandi', name: 'Naeemi Lamb Mandi' },
+  { id: 'camelKabsa', name: 'Hashi Camel Kabsa' },
+  { id: 'madhbiChicken', name: 'Madhbi Chicken' },
+  { id: 'saleegTaifi', name: 'Saleeg Taifi' },
+  { id: 'najdiJareesh', name: 'Najdi Jareesh' },
+  { id: 'mutabbaqMeat', name: 'Mutabbaq Meat' },
+  { id: 'sayadiahFish', name: 'Sayadiah Fish' },
 ];
 
 export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
@@ -56,11 +60,18 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const isSaudi = activeRegion === 'SA';
   const accentColor = theme.colors.primaryLime;
   const accentTextColor = '#0A0B0D';
-  const familyDishes = isSaudi ? SA_FAMILY_DISHES : PK_FAMILY_DISHES;
-  const defaultDish = currentFamilyDish || (isSaudi ? 'Chicken Kabsa · كبسة دجاج' : 'Chicken Karahi');
+  const familyDishes = (isSaudi ? SA_FAMILY_DISHES : PK_FAMILY_DISHES).map((dish) => ({
+    ...dish,
+    label: t(`plan.cultural.dishes.${dish.id}`),
+  }));
+  const defaultDish = currentFamilyDish || familyDishes[0].name;
+  const dishLabel = (name: string) =>
+    familyDishes.find((dish) => dish.name === name)?.label ?? name;
 
   const [activeTab, setActiveTab] = useState<'family' | 'ramadan'>('family');
   const [selectedDish, setSelectedDish] = useState(defaultDish);
@@ -107,9 +118,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                   { color: isDark ? theme.colors.primaryLime : '#4D7C0F' },
                 ]}
               >
-                {isSaudi
-                  ? 'SAUDI CULTURAL ADAPTERS · الملاءمة الثقافية'
-                  : 'PAKISTANI CULTURAL ADAPTERS'}
+                {t(`plan.cultural.eyebrow.${activeRegion}`)}
               </Text>
               <Text
                 style={[
@@ -117,7 +126,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                   { color: theme.colors.textPrimary },
                 ]}
               >
-                Cultural Diet Modes {isSaudi ? '· الأنماط التراثية' : ''}
+                {t('plan.cultural.title')}
               </Text>
             </View>
             <TouchableOpacity
@@ -166,7 +175,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                   },
                 ]}
               >
-                {isSaudi ? '👨‍👩‍👧 Family Banquet · سفرة العائلة' : '👨‍👩‍👧 Family Handi'}
+                👨‍👩‍👧 {t(`plan.cultural.tabs.family.${activeRegion}`)}
               </Text>
             </TouchableOpacity>
 
@@ -190,7 +199,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                   },
                 ]}
               >
-                {isSaudi ? '🌙 Ramadan Mode · صيام رمضان' : '🌙 Ramadan Mode'}
+                🌙 {t('plan.cultural.tabs.ramadan')}
               </Text>
             </TouchableOpacity>
           </View>
@@ -214,9 +223,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                       { color: isDark ? '#D9F99D' : '#365314' },
                     ]}
                   >
-                    {isSaudi
-                      ? '💡 In Saudi households, family gatherings revolve around shared banquets (Kabsa, Mandi, Saleeg). Pick whatever the family gathers around today. We will calibrate your portions so you hit your macro targets without cooking separate meals!'
-                      : '💡 In Pakistani homes, cooking separate meals leads to failure. Pick whatever handi the family is cooking today. We will automatically re-balance your rotis and breakfast so you stay 100% on target!'}
+                    💡 {t(`plan.cultural.familyBanner.${activeRegion}`)}
                   </Text>
                 </View>
 
@@ -226,14 +233,14 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                     { color: theme.colors.textPrimary },
                   ]}
                 >
-                  {isSaudi ? "Select Today's Family Dish · طبق العائلة اليوم" : "Select Today's Family Dish:"}
+                  {t('plan.cultural.selectDish')}
                 </Text>
                 <View style={styles.dishChipsGrid}>
                   {familyDishes.map((dish) => {
-                    const isSelected = selectedDish === dish && !customDish;
+                    const isSelected = selectedDish === dish.name && !customDish;
                     return (
                       <TouchableOpacity
-                        key={dish}
+                        key={dish.id}
                         style={[
                           styles.dishChip,
                           {
@@ -246,7 +253,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                           },
                         ]}
                         onPress={() => {
-                          setSelectedDish(dish);
+                          setSelectedDish(dish.name);
                           setCustomDish('');
                         }}
                         activeOpacity={0.7}
@@ -261,7 +268,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                             },
                           ]}
                         >
-                          {dish}
+                          {dish.label}
                         </Text>
                       </TouchableOpacity>
                     );
@@ -270,8 +277,8 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
 
                 <View style={{ marginTop: 16, marginBottom: 16 }}>
                   <AppleTextInput
-                    label={isSaudi ? 'Or Type Other Saudi Dish:' : 'Or Type Other Family Dish:'}
-                    placeholder={isSaudi ? 'e.g. Bukhari Rice, Mathlootha, Gursan...' : 'e.g. Haleem, Karelay Gosht...'}
+                    label={t('plan.cultural.otherDishLabel')}
+                    placeholder={t(`plan.cultural.otherDishPlaceholder.${activeRegion}`)}
                     value={customDish}
                     onChangeText={setCustomDish}
                   />
@@ -283,7 +290,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                     { color: theme.colors.textPrimary },
                   ]}
                 >
-                  When Will You Eat This?
+                  {t('plan.cultural.whenEat')}
                 </Text>
                 <View style={styles.slotChoiceRow}>
                   <TouchableOpacity
@@ -311,7 +318,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                         },
                       ]}
                     >
-                      {isSaudi ? '🥘 Family Dinner · عشاء العائلة' : '🥘 Family Dinner'}
+                      🥘 {t('plan.cultural.familyDinner')}
                     </Text>
                   </TouchableOpacity>
 
@@ -340,7 +347,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                         },
                       ]}
                     >
-                      {isSaudi ? '🍛 Family Lunch · غداء الكبسة' : '🍛 Family Lunch'}
+                      🍛 {t('plan.cultural.familyLunch')}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -357,7 +364,9 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                   activeOpacity={0.8}
                 >
                   <Text style={[styles.applyBtnText, { color: accentTextColor }]}>
-                    Apply {customDish || selectedDish} to Plan
+                    {t('plan.cultural.applyDish', {
+                      dish: customDish || dishLabel(selectedDish),
+                    })}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -380,7 +389,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                         { color: theme.colors.textPrimary },
                       ]}
                     >
-                      {isSaudi ? 'Enable Ramadan Fasting Mode · صيام رمضان' : 'Enable Ramadan Fasting Mode'}
+                      {t('plan.cultural.enableRamadan')}
                     </Text>
                     <Text
                       style={[
@@ -388,7 +397,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                         { color: theme.colors.textSecondary },
                       ]}
                     >
-                      Shifts eating window between Maghrib and Fajr
+                      {t('plan.cultural.ramadanSubtitle')}
                     </Text>
                   </View>
                   <Switch
@@ -419,7 +428,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                       { color: isDark ? theme.colors.primaryLime : '#365314' },
                     ]}
                   >
-                    Daily Calorie Split:
+                    {t('plan.cultural.calorieSplit')}
                   </Text>
                   <Text
                     style={[
@@ -427,10 +436,8 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                       { color: theme.colors.textSecondary },
                     ]}
                   >
-                    • <Text style={[styles.boldWhite, { color: theme.colors.textPrimary }]}>{isSaudi ? 'Suhoor · سحور - 40%:' : 'Suhoor (سحری) - 40%:'}</Text>{' '}
-                    {isSaudi
-                      ? 'Fresh Laban, Sukari dates, foul mudammas, boiled eggs & Tamees bread for sustained energy.'
-                      : 'Eggs, whole wheat roti, dahi for sustained 14-hour satiety.'}
+                    • <Text style={[styles.boldWhite, { color: theme.colors.textPrimary }]}>{t('plan.cultural.suhoor')}</Text>{' '}
+                    {t(`plan.cultural.suhoorDetail.${activeRegion}`)}
                   </Text>
                   <Text
                     style={[
@@ -438,10 +445,8 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                       { color: theme.colors.textSecondary },
                     ]}
                   >
-                    • <Text style={[styles.boldWhite, { color: theme.colors.textPrimary }]}>{isSaudi ? 'Iftar · إفطار - 40%:' : 'Iftar (افطاری) - 40%:'}</Text>{' '}
-                    {isSaudi
-                      ? 'Dates & water break, followed by grilled chicken/meat Kabsa with balanced rice portion.'
-                      : 'Fruit chaat, baked samosa or grilled kebab with mint chutney.'}
+                    • <Text style={[styles.boldWhite, { color: theme.colors.textPrimary }]}>{t('plan.cultural.iftar')}</Text>{' '}
+                    {t(`plan.cultural.iftarDetail.${activeRegion}`)}
                   </Text>
                   <Text
                     style={[
@@ -449,10 +454,8 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                       { color: theme.colors.textSecondary },
                     ]}
                   >
-                    • <Text style={[styles.boldWhite, { color: theme.colors.textPrimary }]}>{isSaudi ? 'Post-Taraweeh Snack · وجبة التراويح - 20%:' : 'Post-Taraweeh Chai Window - 20%:'}</Text>{' '}
-                    {isSaudi
-                      ? 'Saudi Gahwa with 3 Sukari dates or protein pudding before sleep.'
-                      : 'Doodh patti chai + protein oats bowl or roasted almonds.'}
+                    • <Text style={[styles.boldWhite, { color: theme.colors.textPrimary }]}>{t(`plan.cultural.postTaraweeh.${activeRegion}`)}</Text>{' '}
+                    {t(`plan.cultural.postTaraweehDetail.${activeRegion}`)}
                   </Text>
                 </View>
 
@@ -471,7 +474,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                       { color: isDark ? theme.colors.primaryLime : '#365314' },
                     ]}
                   >
-                    5-Window Hydration Pacing:
+                    {t('plan.cultural.hydrationPacing')}
                   </Text>
                   <Text
                     style={[
@@ -479,7 +482,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                       { color: theme.colors.textSecondary },
                     ]}
                   >
-                    1. <Text style={[styles.boldWhite, { color: theme.colors.textPrimary }]}>Iftar Opening:</Text> 500ml water + dates
+                    1. <Text style={[styles.boldWhite, { color: theme.colors.textPrimary }]}>{t('plan.cultural.hydration.iftarOpening')}</Text> {t('plan.cultural.hydration.iftarOpeningDetail')}
                   </Text>
                   <Text
                     style={[
@@ -487,7 +490,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                       { color: theme.colors.textSecondary },
                     ]}
                   >
-                    2. <Text style={[styles.boldWhite, { color: theme.colors.textPrimary }]}>Post-Maghrib:</Text> 500ml with meal
+                    2. <Text style={[styles.boldWhite, { color: theme.colors.textPrimary }]}>{t('plan.cultural.hydration.postMaghrib')}</Text> {t('plan.cultural.hydration.postMaghribDetail')}
                   </Text>
                   <Text
                     style={[
@@ -495,7 +498,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                       { color: theme.colors.textSecondary },
                     ]}
                   >
-                    3. <Text style={[styles.boldWhite, { color: theme.colors.textPrimary }]}>Tarawih Window:</Text> 750ml bottle
+                    3. <Text style={[styles.boldWhite, { color: theme.colors.textPrimary }]}>{t('plan.cultural.hydration.tarawih')}</Text> {t('plan.cultural.hydration.tarawihDetail')}
                   </Text>
                   <Text
                     style={[
@@ -503,7 +506,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                       { color: theme.colors.textSecondary },
                     ]}
                   >
-                    4. <Text style={[styles.boldWhite, { color: theme.colors.textPrimary }]}>Pre-Sleep:</Text> 500ml
+                    4. <Text style={[styles.boldWhite, { color: theme.colors.textPrimary }]}>{t('plan.cultural.hydration.preSleep')}</Text> {t('plan.cultural.hydration.preSleepDetail')}
                   </Text>
                   <Text
                     style={[
@@ -511,7 +514,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                       { color: theme.colors.textSecondary },
                     ]}
                   >
-                    5. <Text style={[styles.boldWhite, { color: theme.colors.textPrimary }]}>Suhoor Pacing:</Text> 750ml steadily sipped
+                    5. <Text style={[styles.boldWhite, { color: theme.colors.textPrimary }]}>{t('plan.cultural.hydration.suhoorPacing')}</Text> {t('plan.cultural.hydration.suhoorPacingDetail')}
                   </Text>
                 </View>
 
@@ -527,7 +530,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                   activeOpacity={0.8}
                 >
                   <Text style={[styles.applyBtnText, { color: accentTextColor }]}>
-                    {ramadanToggle ? 'Activate Ramadan Mode' : 'Disable Ramadan Mode'}
+                    {ramadanToggle ? t('plan.cultural.activateRamadan') : t('plan.cultural.disableRamadan')}
                   </Text>
                 </TouchableOpacity>
               </View>

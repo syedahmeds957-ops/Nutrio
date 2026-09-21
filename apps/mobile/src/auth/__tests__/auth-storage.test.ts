@@ -9,8 +9,13 @@ import {
   resendEmailOtp,
   isUserAuthenticated,
   markSurveyCompleted,
+  restoreSession,
+  flushDurableWrites,
 } from '../authStorage.js';
+import { authStorageAdapter } from '../../supabase/client.js';
 import { AuthSession } from '../types.js';
+
+const STORAGE_KEY = 'nutrio_auth_session';
 
 describe('Auth Session Layer (authStorage)', () => {
   beforeEach(async () => {
@@ -149,6 +154,77 @@ describe('Auth Session Layer (authStorage)', () => {
     await expect(
       registerUser({ name: 'Ali', email: 'ali@nutrio.app', password: '123' })
     ).rejects.toThrow('Password must be at least 6 characters');
+  });
+
+  it('persists the session to durable storage so it survives a cold start', async () => {
+    const session: AuthSession = {
+      token: 'durable_token',
+      user: {
+        id: 'user_durable',
+        name: 'Bilal',
+        email: 'bilal@nutrio.app',
+        isRegistered: true,
+        surveyCompleted: true,
+      },
+      createdAt: new Date().toISOString(),
+    };
+
+    saveAuthSession(session);
+    await flushDurableWrites();
+
+    // Native builds have no window.localStorage, so the durable adapter is the
+    // only thing standing between a login and a lost session on relaunch.
+    const raw = await authStorageAdapter.getItem(STORAGE_KEY);
+    expect(raw).not.toBeNull();
+    expect(JSON.parse(raw!).user.email).toBe('bilal@nutrio.app');
+  });
+
+  it('restores a durably persisted session on boot when memory is empty', async () => {
+    const session: AuthSession = {
+      token: 'cold_start_token',
+      user: {
+        id: 'user_cold',
+        name: 'Hina',
+        email: 'hina@nutrio.app',
+        isRegistered: true,
+        surveyCompleted: true,
+      },
+      createdAt: new Date().toISOString(),
+    };
+
+    // Simulate a relaunch: storage holds the session, in-memory state does not.
+    await clearAuthSession();
+    await authStorageAdapter.setItem(STORAGE_KEY, JSON.stringify(session));
+
+    const restored = await restoreSession();
+    expect(restored).not.toBeNull();
+    expect(restored?.user.email).toBe('hina@nutrio.app');
+    expect(isUserAuthenticated()).toBe(true);
+  });
+
+  it('does not resurrect a logged-out session when logout races a later login', async () => {
+    const oldSession: AuthSession = {
+      token: 'old_token',
+      user: {
+        id: 'user_old',
+        name: 'Old',
+        email: 'old@nutrio.app',
+        isRegistered: true,
+        surveyCompleted: true,
+      },
+      createdAt: new Date().toISOString(),
+    };
+
+    saveAuthSession(oldSession);
+    await clearAuthSession();
+
+    const newSession: AuthSession = { ...oldSession, token: 'new_token', user: { ...oldSession.user, email: 'new@nutrio.app' } };
+    saveAuthSession(newSession);
+    await flushDurableWrites();
+
+    const raw = await authStorageAdapter.getItem(STORAGE_KEY);
+    expect(raw).not.toBeNull();
+    expect(JSON.parse(raw!).user.email).toBe('new@nutrio.app');
   });
 
   it('marks survey completed and preserves completion status across logout and re-login', async () => {

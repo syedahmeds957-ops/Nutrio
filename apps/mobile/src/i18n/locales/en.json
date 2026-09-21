@@ -1,0 +1,993 @@
+{
+  "app": {
+    "checkin": {
+      "headline": "Metabolic Recalibration: Active Pace",
+      "keyAction": "Continue measuring cooking oil in curries and add a 15-minute brisk walk after dinner.",
+      "summary": "Your closed-loop clinical engine analyzes daily food intake and scale trends to continuously calibrate your true energy expenditure."
+    },
+    "checkinFallbackName": "Client",
+    "coachFallbackName": "Friend",
+    "defaultUserName": "User",
+    "guest": "Guest",
+    "splash": {
+      "status": "Synchronizing telemetry...",
+      "tagline": "Precision Cultural Nutrition · Pakistan"
+    }
+  },
+  "auth": {
+    "continueAsGuest": "Continue as guest",
+    "createAccount": "Create account",
+    "emailAddress": "Email address",
+    "fullName": "Full name",
+    "fullNamePlaceholder": "Enter your name",
+    "genericError": "Authentication error. Please check your credentials.",
+    "hide": "Hide",
+    "loginSubheading": "Sign in to access your calibrated daily diary and AI coach.",
+    "password": "Password",
+    "passwordPlaceholder": "Min 6 characters",
+    "registerSubheading": "Sign up with your email and password to start logging and tracking your nutrition.",
+    "rememberMe": "Remember me on this device",
+    "show": "Show",
+    "signIn": "Sign in",
+    "welcomeBack": "Welcome back!"
+  },
+  "checkin": {
+    "actionLever": "Next week's action lever",
+    "adaptiveTdee": "Adaptive TDEE",
+    "adherenceRate": "Adherence rate",
+    "applyNewTarget": "Apply new target ({{value}} kcal/day)",
+    "avgIntake": "Avg daily intake",
+    "coachAssessment": "Coach's metabolic assessment",
+    "dashboard": "Dashboard",
+    "daysOnTarget": "{{count}} of 7 days on-target",
+    "daysOnTarget_other": "{{count}} of 7 days on-target",
+    "ewmaSmoothed": "EWMA smoothed",
+    "grounded": "Grounded",
+    "kcalPerDay": "kcal per day",
+    "kcalShift": "{{value}} kcal shift",
+    "myProgress": "My progress",
+    "newTarget": "New target",
+    "oldTarget": "Old target",
+    "recalibration": "Metabolic adaptive recalibration",
+    "share": "Share",
+    "shareBody": "📊 Nutrio weekly check-in report ({{name}})\\n- Adherence rate: {{adherence}}% ({{daysLogged}}/7 days logged)\\n- Weight trend: {{weightDelta}} kg\\n- Daily intake avg: {{intake}} kcal\\n- New daily target: {{newTarget}} kcal ({{targetDelta}} kcal)\\n- Next week habit: {{habit}}",
+    "shareTitle": "Shareable summary",
+    "title": "Weekly check-in",
+    "weightTrend": "Weight trend"
+  },
+  "coach": {
+    "badge": "Nutrio coach",
+    "calibrated": {
+      "PK": "Desi-calibrated intelligence",
+      "SA": "Saudi-calibrated intelligence"
+    },
+    "chips": {
+      "four": {
+        "PK": "High-protein Pakistani snacks",
+        "SA": "Healthy dinner options at Al Tazaj or Shawarmer"
+      },
+      "one": {
+        "PK": "How to reduce oil in karahi?",
+        "SA": "Best high-protein choices at AlBaik"
+      },
+      "three": {
+        "PK": "Healthy doodh patti chai alternatives",
+        "SA": "Balancing dates & Gahwa intake"
+      },
+      "two": {
+        "PK": "Eating at a shaadi dinner tonight",
+        "SA": "How to fit Kabsa & Mandi into my daily macros?"
+      }
+    },
+    "connectionError": {
+      "PK": "I'm having a brief issue connecting to my nutrition intelligence engine. As general advice: for Pakistani dinners, fill half your plate with cucumber/salad, prioritize lean protein, and limit fried puris or naans to 1 portion.",
+      "SA": "I'm having a brief issue connecting to my nutrition intelligence engine. As general advice: for Saudi dinners, fill half your plate with fresh salad, prioritize lean grilled chicken (Farrouj) or fish, and portion rice mindfully."
+    },
+    "defaultName": "there",
+    "fallback": {
+      "banquet": {
+        "prompts": {
+          "one": "How many calories are in 1 plate of chicken Kabsa?",
+          "three": "Healthy dinner options at Al Romansiah",
+          "two": "Is Almarai low-fat Laban good for fat loss?"
+        },
+        "reply": "For traditional Saudi banquets (Kabsa, Mandi, Saleeg):\\n1. Portion control your rice: 1 standard portion (~150-180g cooked) is around 220-250 kcal.\\n2. Prioritize the lean protein first (chicken breast or lean Naeemi lamb).\\n3. Pair with fresh green salad and a cup of Almarai Laban for high satiety and digestive health!"
+      },
+      "chai": {
+        "prompts": {
+          "one": "Is green tea or kehwa better for fat loss?",
+          "three": "How do I control evening sugar cravings?",
+          "two": "What healthy snacks can I have with chai?"
+        },
+        "reply": "Traditional doodh patti made with whole milk and 2 teaspoons of sugar easily packs 180-220 kcal per cup!\\n\\n💡 Try the half-milk, half-water technique with half a spoon of sugar or stevia. If you drink 2-3 cups a day, this saves ~300 kcal without giving up your chai ritual."
+      },
+      "cookingOil": {
+        "prompts": {
+          "one": "How many spoons of oil should I use for 4 people?",
+          "three": "What should I eat for dinner tonight?",
+          "two": "Can I use mustard oil or olive oil for desi cooking?"
+        },
+        "reply": "In traditional Pakistani handis like chicken karahi, free-pouring cooking oil often adds 30-50g of hidden fat (270-450 kcal) to the pot.\\n\\n💡 Pro habit: Use a tablespoon (1 tbsp = 14g, ~120 kcal) for the entire family handi, or simmer tomatoes early to create a rich, silky gravy with minimal oil."
+      },
+      "dawat": {
+        "prompts": {
+          "one": "How do I log food if I eat out at a dawat?",
+          "three": "Can I skip lunch before a heavy dinner?",
+          "two": "What is the best choice at a BBQ restaurant?"
+        },
+        "reply": "For shaadi or dawat nights, use the harm-reduction strategy:\\n1. Fill half your plate first with grilled proteins (chicken tikka, seekh kabab) and fresh cucumber/onion salad.\\n2. Pick ONE primary carb: either 1 naan OR 1 small cup of biryani, not both.\\n3. Drink 2 glasses of water before eating, and enjoy 1 small piece of sweet mindfully."
+      },
+      "fastFood": {
+        "prompts": {
+          "one": "What are the best low-calorie items at AlBaik?",
+          "three": "How to log fast food accurately",
+          "two": "Healthy options at Shawarmer or Al Tazaj"
+        },
+        "reply": "At AlBaik or Kudu, you can stay within your targets by choosing grilled chicken fillet or nuggets (ask for garlic dip on the side and dip lightly) instead of double-fried broast with fries.\\n\\n💡 Pro habit: Skip sugary sodas and opt for water or fresh orange juice. A 4-piece nugget portion with moderate dip is ~420 kcal!"
+      },
+      "gahwa": {
+        "prompts": {
+          "one": "How many dates can I eat per day for weight loss?",
+          "three": "Best snack to pair with afternoon coffee",
+          "two": "Benefits of Saudi Gahwa for metabolism"
+        },
+        "reply": "Saudi Gahwa with cardamom and saffron has almost zero calories (~2 kcal per finjan) and is rich in antioxidants!\\n\\n💡 Dates note: Companion Sukari or Ajwa dates are nutrient-rich but calorie-dense (~20-25 kcal per date). Having 2-3 dates with your afternoon Gahwa ritual gives sustained energy without spiking your daily calories."
+      },
+      "greetingPK": {
+        "prompts": {
+          "one": "How to reduce oil in everyday cooking?",
+          "three": "Tips for dining out at dawats",
+          "two": "High-protein Pakistani breakfast ideas"
+        },
+        "reply": "Assalam-o-Alaikum {{name}}! You currently have approximately {{remaining}} kcal remaining in your daily budget.\\n\\nFocus on getting lean protein (daal, eggs, chicken) and fibre-rich whole wheat roti while keeping cooking oil measured. What specific meal or habit can I help you optimize today?"
+      },
+      "greetingSA": {
+        "prompts": {
+          "one": "How to fit Kabsa into my daily macros?",
+          "three": "Managing dates and Gahwa",
+          "two": "Healthy choices at AlBaik & Shawarmer"
+        },
+        "reply": "Marhaba {{name}}! You currently have approximately {{remaining}} kcal remaining in your daily budget.\\n\\nFocus on balanced portions of lean protein (Tanmiah chicken, Naeemi lamb, fish), fresh salad, and Almarai Laban, while keeping rice portions measured. How can I help you optimize your meals today?"
+      }
+    },
+    "greeting": {
+      "PK": "Assalam-o-Alaikum {{name}}! I'm your Nutrio nutrition coach.\\n\\nYou have ~{{remaining}} kcal remaining today. How can I help you adjust your meals, handle a dawat, or cut down on excess cooking oil?",
+      "SA": "Marhaba {{name}}! I'm your Nutrio nutrition coach.\\n\\nYou have ~{{remaining}} kcal remaining today. How can I help you balance your Kabsa portions, choose healthy meals at AlBaik or Al Tazaj, or manage dates with Gahwa?"
+    },
+    "inputPlaceholder": {
+      "PK": "Ask coach (e.g., how to handle 2 rotis at dinner?)…",
+      "SA": "Ask coach (e.g., how do I balance a Kabsa?)…"
+    },
+    "settings": {
+      "activeProvider": "Active provider",
+      "description": {
+        "PK": "Connect your OpenAI or Google Gemini API key. If left blank, Nutrio uses its calibrated built-in Pakistani nutrition intelligence.",
+        "SA": "Connect your OpenAI or Google Gemini API key. If left blank, Nutrio uses its calibrated built-in Saudi nutrition intelligence."
+      },
+      "geminiKey": "Google Gemini API key (optional)",
+      "openAiKey": "OpenAI API key (optional)",
+      "save": "Save AI settings",
+      "title": "AI engine settings"
+    },
+    "suggestedTopics": "Suggested topics",
+    "title": "AI nutrition coach",
+    "typing": "AI coach is typing…"
+  },
+  "common": {
+    "back": "Back",
+    "calories": "Calories",
+    "cancel": "Cancel",
+    "carbs": "Carbs",
+    "completeRequiredFields": "Please complete all required fields.",
+    "continue": "Continue",
+    "daysAgo": "{{count}} day ago",
+    "daysAgo_other": "{{count}} days ago",
+    "daysAhead": "{{count}} day ahead",
+    "daysAhead_other": "{{count}} days ahead",
+    "fat": "Fat",
+    "kcal": "kcal",
+    "kcalValue": "{{value}} kcal",
+    "macroLine": "P {{protein}}g · C {{carbs}}g · F {{fat}}g",
+    "no": "No",
+    "oil": "Oil",
+    "protein": "Protein",
+    "requiredMarker": "*(Required)",
+    "selected": "Selected",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "weekday": {
+      "fri": "Friday",
+      "mon": "Monday",
+      "sat": "Saturday",
+      "sun": "Sunday",
+      "thu": "Thursday",
+      "tue": "Tuesday",
+      "wed": "Wednesday"
+    },
+    "weekdayAbbrev": {
+      "fri": "FRI",
+      "mon": "MON",
+      "sat": "SAT",
+      "sun": "SUN",
+      "thu": "THU",
+      "tue": "TUE",
+      "wed": "WED"
+    },
+    "weekdayShort": {
+      "fri": "F",
+      "mon": "M",
+      "sat": "S",
+      "sun": "S",
+      "thu": "T",
+      "tue": "T",
+      "wed": "W"
+    },
+    "yes": "Yes",
+    "yesterday": "Yesterday"
+  },
+  "plan": {
+    "analysis": {
+      "active": "Active",
+      "bmr": "Basal metabolic rate (BMR)",
+      "bmrSub": "Resting energy required for basic biological life",
+      "expenditureBreakdown": "Energy expenditure breakdown",
+      "levers": {
+        "dailyLoad": {
+          "PK": "Sweetened chai energy load:",
+          "SA": "Daily dates & Gahwa load:"
+        },
+        "highImpact": "High impact",
+        "insight": {
+          "PK": "Traditional sweetened tea and unchecked cooking oil in karahis and daals account for ~30% of unlogged calories in Pakistan. Moderating tea sugar alone yields rapid progress without eating less food.",
+          "SA": "Dates served alongside traditional Saudi Gahwa, generous Kabsa/Mandi rice portions, and full-fat dairy account for ~30% of unlogged calories in Saudi Arabia. Moderating dates to 3 Sukari dates and measuring spiced rice portions yields rapid fat loss without missing out on family banquets."
+        },
+        "perDay": "~{{value}} kcal/day",
+        "perWeek": "~{{value}} kcal/week",
+        "title": {
+          "PK": "☕ Pakistani dietary levers",
+          "SA": "🇸🇦 Saudi dietary levers"
+        },
+        "weeklyLoad": {
+          "PK": "Weekly chai energy load:",
+          "SA": "Weekly dates & Gahwa energy load:"
+        }
+      },
+      "sedentary": "Sedentary",
+      "sittingHours": "{{count}} hour seated per day",
+      "sittingHours_other": "{{count}} hours seated per day",
+      "sittingLoad": "Daily sitting load",
+      "subtitle": "Your baseline resting requirements and lifestyle energy expenditure.",
+      "tdee": "Total daily expenditure (TDEE)",
+      "tdeeSub": "Estimated maintenance calorie baseline",
+      "title": "Metabolic analysis",
+      "topLevers": "Top 3 actionable levers"
+    },
+    "cultural": {
+      "activateRamadan": "Activate Ramadan mode",
+      "applyDish": "Apply {{dish}} to plan",
+      "calorieSplit": "Daily calorie split:",
+      "disableRamadan": "Disable Ramadan mode",
+      "dishes": {
+        "aaloGosht": "Aalo gosht",
+        "beefNihari": "Beef nihari",
+        "bhindiMasala": "Bhindi masala",
+        "camelKabsa": "Hashi camel Kabsa",
+        "chickenBiryani": "Chicken biryani",
+        "chickenKabsa": "Chicken Kabsa",
+        "chickenKarahi": "Chicken karahi",
+        "chickenKorma": "Chicken korma",
+        "daalChana": "Daal chana",
+        "daalMash": "Daal mash",
+        "lambMandi": "Naeemi lamb Mandi",
+        "madhbiChicken": "Madhbi chicken",
+        "mutabbaqMeat": "Mutabbaq meat",
+        "najdiJareesh": "Najdi jareesh",
+        "saleegTaifi": "Saleeg Taifi",
+        "sayadiahFish": "Sayadiah fish"
+      },
+      "enableRamadan": "Enable Ramadan fasting mode",
+      "eyebrow": {
+        "PK": "Pakistani cultural adapters",
+        "SA": "Saudi cultural adapters"
+      },
+      "familyBanner": {
+        "PK": "In Pakistani homes, cooking separate meals leads to failure. Pick whatever handi the family is cooking today. We will automatically re-balance your rotis and breakfast so you stay 100% on target!",
+        "SA": "In Saudi households, family gatherings revolve around shared banquets (Kabsa, Mandi, Saleeg). Pick whatever the family gathers around today. We will calibrate your portions so you hit your macro targets without cooking separate meals!"
+      },
+      "familyDinner": "Family dinner",
+      "familyLunch": "Family lunch",
+      "hydration": {
+        "iftarOpening": "Iftar opening:",
+        "iftarOpeningDetail": "500ml water + dates",
+        "postMaghrib": "Post-Maghrib:",
+        "postMaghribDetail": "500ml with meal",
+        "preSleep": "Pre-sleep:",
+        "preSleepDetail": "500ml",
+        "suhoorPacing": "Suhoor pacing:",
+        "suhoorPacingDetail": "750ml steadily sipped",
+        "tarawih": "Tarawih window:",
+        "tarawihDetail": "750ml bottle"
+      },
+      "hydrationPacing": "5-window hydration pacing:",
+      "iftar": "Iftar — 40%:",
+      "iftarDetail": {
+        "PK": "Fruit chaat, baked samosa or grilled kebab with mint chutney.",
+        "SA": "Dates & water break, followed by grilled chicken/meat Kabsa with a balanced rice portion."
+      },
+      "otherDishLabel": "Or type another family dish",
+      "otherDishPlaceholder": {
+        "PK": "e.g. Haleem, Karelay Gosht…",
+        "SA": "e.g. Bukhari rice, Mathlootha, Gursan…"
+      },
+      "postTaraweeh": {
+        "PK": "Post-Taraweeh chai window — 20%:",
+        "SA": "Post-Taraweeh snack — 20%:"
+      },
+      "postTaraweehDetail": {
+        "PK": "Doodh patti chai + protein oats bowl or roasted almonds.",
+        "SA": "Saudi Gahwa with 3 Sukari dates or protein pudding before sleep."
+      },
+      "ramadanSubtitle": "Shifts eating window between Maghrib and Fajr",
+      "selectDish": "Select today's family dish",
+      "suhoor": "Suhoor — 40%:",
+      "suhoorDetail": {
+        "PK": "Eggs, whole wheat roti, dahi for sustained 14-hour satiety.",
+        "SA": "Fresh laban, Sukari dates, foul mudammas, boiled eggs & tamees bread for sustained energy."
+      },
+      "tabs": {
+        "family": {
+          "PK": "Family handi",
+          "SA": "Family banquet"
+        },
+        "ramadan": "Ramadan mode"
+      },
+      "title": "Cultural diet modes",
+      "whenEat": "When will you eat this?"
+    },
+    "goal": {
+      "calculatePlan": "Calculate custom plan",
+      "clinicallyDisabled": "Clinically disabled",
+      "gain": {
+        "sub": "Controlled caloric surplus (~0.25 kg/wk) to fuel muscle synthesis without excess fat storage.",
+        "title": "Lean muscle gain"
+      },
+      "lose": {
+        "sub": "Controlled caloric deficit preserving lean muscle tissue while reducing body fat.",
+        "title": "Fat loss / Cut"
+      },
+      "maintain": {
+        "sub": "Balance calories to current expenditure. Optimizes athletic energy and recovery.",
+        "title": "Maintenance & performance"
+      },
+      "maxSafeRate": "Max clinically safe rate: {{rate}} kg/week (1% of your bodyweight)",
+      "primaryTarget": "Primary target",
+      "projectedMilestone": "Projected milestone",
+      "subtitle": "Set your primary focus and weekly pace. Safety bounds are strictly enforced by our clinical engine.",
+      "targetWeight": "Goal target weight (kg)",
+      "targetWeightHelper": "Sustainable target to project your timeline",
+      "title": "Choose your target goal",
+      "weeklyPace": "Weekly pace: {{rate}} kg / week",
+      "weeks": "{{count}} week",
+      "weeks_other": "{{count}} weeks"
+    },
+    "grocery": {
+      "allItems": "All items",
+      "backToPlan": "Back to plan",
+      "budgetTiers": {
+        "budget": {
+          "PK": "Budget (< Rs 3,500)",
+          "SA": "Budget (< 125 SAR)"
+        },
+        "premium": {
+          "PK": "Premium (> Rs 7,000)",
+          "SA": "Premium (> 250 SAR)"
+        },
+        "standard": {
+          "PK": "Standard (Rs 3,500 – 7,000)",
+          "SA": "Standard (125 – 250 SAR)"
+        }
+      },
+      "overBudget": "Over budget",
+      "title": "7-day grocery list",
+      "weeklyBudget": "Weekly budget: {{tier}}",
+      "withinBudget": "Within budget"
+    },
+    "mealSlot": {
+      "cuisine": {
+        "PK": "Pakistani cuisine",
+        "SA": "Saudi cuisine"
+      }
+    },
+    "reveal": {
+      "acceptLaunch": "Accept & launch tracker",
+      "adjustGoal": "Adjust goal",
+      "caloriesPerDay": "calories / day",
+      "dailyFibre": "Daily fibre:",
+      "dailyTarget": "Daily target",
+      "deficit": "{{value}} kcal deficit from maintenance ({{tdee}} kcal)",
+      "formulationComplete": "Clinical formulation complete",
+      "hydration": "Hydration:",
+      "macroBreakdown": "Daily macronutrient breakdown",
+      "maintenance": "Matched to maintenance TDEE ({{tdee}} kcal)",
+      "safeguardBmr": "Target strictly exceeds resting BMR floor ({{bmr}} kcal).",
+      "safeguardDeficit": "Caloric deficit safely capped at 25% of TDEE to prevent muscle catabolism.",
+      "safeguardFat": "Hormonal fat floor preserved (≥0.6 g/kg & ≥20% kcal).",
+      "safeguards": "Clinical safety safeguards",
+      "subtitle": "Formulated deterministically from your biometric metrics, Mifflin-St Jeor TDEE, and cultural levers.",
+      "surplus": "+{{value}} kcal surplus above maintenance ({{tdee}} kcal)",
+      "title": "Your personalized targets"
+    },
+    "swap": {
+      "current": "Current: {{value}} kcal",
+      "eyebrow": "One-tap macro match",
+      "selectMeal": "Select this meal",
+      "title": "Swap {{slot}}"
+    },
+    "transition": {
+      "eyebrow": "Clinical nutrition engine",
+      "steps": {
+        "cultural": "Synthesizing cultural food levers & lifestyle preferences…",
+        "deficit": "Balancing macronutrient floor & safe deficit pacing…",
+        "tdee": "Calibrating Mifflin-St Jeor TDEE & metabolic baselines…"
+      },
+      "subtitle": "Formulating exact caloric targets, macro splits, and cultural levers.",
+      "title": "Synthesizing your plan",
+      "viewPlanNow": "View plan now"
+    },
+    "weekly": {
+      "dayMealPlan": "{{day}} meal plan",
+      "dayTarget": "Target: {{kcal}} kcal · {{tier}}",
+      "grocery": "Grocery",
+      "viewGroceryList": "View 7-day grocery list & budget"
+    }
+  },
+  "survey": {
+    "basics": {
+      "age": "Age",
+      "female": "Female",
+      "height": "Height",
+      "male": "Male",
+      "measurementsEyebrow": "Body measurements",
+      "sexEyebrow": "Biological sex (for BMR)",
+      "weight": "Current weight"
+    },
+    "completeAssessment": "Complete assessment",
+    "exercise": {
+      "description": "Tell us about your intentional workouts. This enables our split TDEE model to credit your training accurately.",
+      "frequency": "Frequency (days per week)",
+      "intensity": {
+        "high": "High intensity",
+        "light": "Light",
+        "moderate": "Moderate"
+      },
+      "intensityLabel": "Workout intensity",
+      "primaryType": "Primary exercise type",
+      "sessionDuration": "Average session duration (minutes)",
+      "trainingTypes": {
+        "cardio_running": {
+          "PK": "Running / Jogging",
+          "SA": "Running / Jogging"
+        },
+        "daily_brisk_walking": {
+          "PK": "Brisk walking",
+          "SA": "Brisk walking"
+        },
+        "gym_resistance": {
+          "PK": "Gym / Weightlifting",
+          "SA": "Gym / Weightlifting"
+        },
+        "home_calisthenics": {
+          "PK": "Home bodyweight / Calisthenics",
+          "SA": "Home bodyweight"
+        },
+        "none": {
+          "PK": "None / Not currently training",
+          "SA": "None / Not currently training"
+        },
+        "sports_cricket_football": {
+          "PK": "Sports (Cricket / Football)",
+          "SA": "Sports (Football / Padel)"
+        }
+      }
+    },
+    "health": {
+      "conditions": {
+        "ckd_renal": "Kidney / Renal condition",
+        "diabetes_type_2": "Type 2 diabetes / Pre-diabetes",
+        "hypertension": "Hypertension (high blood pressure)",
+        "none": "None of the above",
+        "pcos": "PCOS / Hormonal imbalance",
+        "thyroid_hypo": "Hypothyroidism"
+      },
+      "description": "Your safety is non-negotiable. Medical conditions adjust your safety floors and prevent unsafe caloric restrictions.",
+      "diagnosesLabel": "Known medical & health diagnoses",
+      "disclaimer": "I acknowledge that Nutrio provides algorithmic nutritional guidance and is not a substitute for clinical diagnosis or prescription by a physician.",
+      "medications": "Medications or clinical notes (optional)",
+      "pregnancyQuestion": "Are you pregnant or currently breastfeeding?",
+      "pregnancyWarning": "🛡️ Note: Caloric restriction is clinically disabled during pregnancy and active lactation. Your plan will be set to nourishing maintenance only."
+    },
+    "lifestyle": {
+      "chai": {
+        "badge": {
+          "PK": "Key desi factor",
+          "SA": "Saudi tradition"
+        },
+        "subtitle": {
+          "PK": "Doodh patti / tea brewed with 1-2 tsp of sugar",
+          "SA": "Finjans of Saudi Gahwa paired with companion dates (Sukari / Ajwa)"
+        },
+        "title": {
+          "PK": "Cups of chai with sugar per day",
+          "SA": "Daily Saudi Gahwa & dates ritual"
+        },
+        "unit": {
+          "PK": "cups / day",
+          "SA": "finjans / day"
+        },
+        "weekly": {
+          "PK": "(~{{weekly}} kcal/week) in liquid sugars & milk!",
+          "SA": "(~{{weekly}} kcal/week) in dates & Gahwa ritual!"
+        }
+      },
+      "cookingStyles": {
+        "cook_maid": {
+          "PK": "Cook / Maid prepares meals",
+          "SA": "House cook prepares meals"
+        },
+        "daily_takeaway": {
+          "PK": "Frequently order takeaway / Dine out",
+          "SA": "Takeaway & restaurants (AlBaik, Kudu, shawarma)"
+        },
+        "family_traditional": {
+          "PK": "Family cooks traditional desi meals",
+          "SA": "Family prepares home banquets"
+        },
+        "hostel_mess": {
+          "PK": "Hostel / Mess",
+          "SA": "Company camp / Mess"
+        },
+        "self": {
+          "PK": "I cook my own meals",
+          "SA": "I cook my own meals"
+        }
+      },
+      "description": {
+        "PK": "Regional habits shape your caloric profile. Sweetened chai and desi cooking oil are often the largest hidden energy sources.",
+        "SA": "Saudi cultural habits shape your nutritional rhythm. Saudi Gahwa, companion Sukari/Ajwa dates, fresh Laban, and family Kabsa banquets are central to daily life."
+      },
+      "dineOut": {
+        "subtitle": {
+          "PK": "Shaadi dinners, family dawats, or restaurant takeaways",
+          "SA": "Family Kabsa & Mandi banquets, or restaurant meals (AlBaik, Kudu, Shawarmer)"
+        },
+        "title": {
+          "PK": "Dawat / dine-out nights per week",
+          "SA": "Family banquets & dine-out nights"
+        },
+        "unit": "nights / week"
+      },
+      "mealPrepStyle": "Primary meal preparation style",
+      "sleepDuration": "Typical sleep duration (hours)"
+    },
+    "occupational": {
+      "description": {
+        "PK": "Your daily job accounts for most non-exercise calories (NEAT). A desk worker burns very differently from a Lahore rider.",
+        "SA": "Your daily job accounts for most non-exercise calories (NEAT). A desk worker burns very differently from a delivery rider (Jahez / HungerStation)."
+      },
+      "jobs": {
+        "active_walking": {
+          "subtitle": {
+            "PK": "Riders (Bykea / Foodpanda), waiters, healthcare nurses",
+            "SA": "Riders (Jahez / HungerStation), healthcare nurses, waiters"
+          },
+          "title": "Active / Walking / Delivery"
+        },
+        "desk_sedentary": {
+          "subtitle": {
+            "PK": "Software, corporate, customer support, remote desk work",
+            "SA": "Software, corporate, customer support, remote desk work"
+          },
+          "title": "Desk / Sedentary"
+        },
+        "heavy_manual_labor": {
+          "subtitle": {
+            "PK": "Construction, factory floor, agriculture, warehouse loading",
+            "SA": "Construction, factory floor, agriculture, warehouse loading"
+          },
+          "title": "Heavy manual labour"
+        },
+        "standing_light": {
+          "subtitle": {
+            "PK": "Shop staff, teachers, salon workers, pharmacists",
+            "SA": "Shop staff, teachers, salon workers, pharmacists, barista"
+          },
+          "title": "Standing / Teaching / Retail"
+        }
+      },
+      "shiftPattern": "Work shift pattern",
+      "shifts": {
+        "night_shift": "Night shift (US/UK support)",
+        "regular_day": "Day shift (9 to 5)",
+        "rotating_shifts": "Rotating shifts"
+      },
+      "sittingHours": "Daily sitting hours",
+      "workActivityType": "Work activity type"
+    },
+    "preferences": {
+      "budgetLabel": {
+        "PK": "Weekly grocery budget target (PKR)",
+        "SA": "Monthly household grocery budget target (SAR)"
+      },
+      "budgets": {
+        "budget_under_3500": {
+          "range": {
+            "PK": "Under PKR 3,500 / week (seasonal sabzi, daal, eggs, local grains)",
+            "SA": "Under SAR 125 / week (seasonal produce, lentils, Tamees bread, Almarai dairy, eggs)"
+          },
+          "title": "Economical tier"
+        },
+        "premium_above_7000": {
+          "range": {
+            "PK": "Above PKR 7,000 / week (daily lean meats, fish, premium nuts, protein additions)",
+            "SA": "Above SAR 250 / week (daily fresh Naeemi lamb, fish, premium Ajwa/Sukari dates)"
+          },
+          "title": "High-protein / Premium tier"
+        },
+        "standard_3500_7000": {
+          "range": {
+            "PK": "PKR 3,500 – 7,000 / week (chicken, dairy, yogurt, mixed meat/veg)",
+            "SA": "SAR 125 – 250 / week (fresh Tanmiah poultry, laban, basmati rice, seasonal fruits & dates)"
+          },
+          "title": "Balanced household tier"
+        }
+      },
+      "description": {
+        "PK": "Tailoring your nutritional plan to your dietary ethos and realistic household grocery expenditure in Pakistan.",
+        "SA": "Tailoring your nutritional plan to your dietary ethos and realistic household grocery expenditure in Saudi Arabia."
+      },
+      "dietaryPreference": "Dietary preference",
+      "diets": {
+        "eggetarian": {
+          "PK": "Eggetarian (vegetarian + eggs)",
+          "SA": "Eggetarian (vegetarian + eggs)"
+        },
+        "halal_meat_moderate": {
+          "PK": "Moderate meat (poultry/fish 2-3x a week)",
+          "SA": "Moderate meat (Farrouj/fish 2-3x a week)"
+        },
+        "halal_omnivore": {
+          "PK": "Halal omnivore (chicken, beef, mutton, daal, veg)",
+          "SA": "Halal omnivore (chicken, Hashi camel, lamb, Kabsa, fish)"
+        },
+        "vegan": {
+          "PK": "Strict plant-based / Vegan",
+          "SA": "Strict plant-based / Vegan"
+        },
+        "vegetarian_desi": {
+          "PK": "Desi vegetarian (daal, paneer, sabzi, roti)",
+          "SA": "Vegetarian (foul, hummus, salads, tamees, rice)"
+        }
+      }
+    },
+    "progress": {
+      "step": "Step {{current}} of {{total}}"
+    },
+    "skip": "Skip survey for now",
+    "stepTitles": {
+      "basics": {
+        "PK": "Physical metrics",
+        "SA": "Physical metrics"
+      },
+      "exercise": {
+        "PK": "Workouts & training",
+        "SA": "Workouts & training"
+      },
+      "health_clinical": {
+        "PK": "Health & medical safety",
+        "SA": "Health & medical safety"
+      },
+      "lifestyle_desi": {
+        "PK": "Desi lifestyle & chai",
+        "SA": "Saudi lifestyle & Gahwa"
+      },
+      "occupational": {
+        "PK": "Work & daily activity",
+        "SA": "Work & daily activity"
+      },
+      "preferences_budget": {
+        "PK": "Diet & household budget",
+        "SA": "Diet & budget"
+      }
+    }
+  },
+  "tracker": {
+    "aiCard": {
+      "askCoach": "Ask coach",
+      "awaitingFirstMeal": "Awaiting first meal",
+      "badge": "AI coach daily bite",
+      "cleanSlate": {
+        "rationale": "Our AI engine analyzes your real-time intake to craft balanced local meal suggestions as you log.",
+        "subtitle": "Log your breakfast or lunch to activate personalized AI meal suggestions",
+        "title": "Ready for your first meal"
+      },
+      "logFirstMeal": "+ Log first meal",
+      "logSuggestion": "+ Log suggestion",
+      "logged": "✓ Logged!",
+      "suggestions": {
+        "PK.full": {
+          "rationale": "Matches your remaining {{remaining}} kcal with high protein to reach target.",
+          "subtitle": "Chicken tikka boti (150g) + 1 whole wheat roti + mint raita",
+          "title": "Chicken tikka plate"
+        },
+        "PK.light": {
+          "rationale": "Protects your calorie deficit with ~140 kcal while adding 8g clean protein.",
+          "subtitle": "1 boiled egg + fresh cucumber lemon salad",
+          "title": "Light protein snack"
+        },
+        "PK.medium": {
+          "rationale": "Satisfying fiber and plant protein fitting cleanly within {{remaining}} kcal.",
+          "subtitle": "1 katori daal chana + 1 whole wheat roti",
+          "title": "Comfort desi daal & roti"
+        },
+        "SA.full": {
+          "rationale": "High-protein charcoal grilled meal matching your remaining {{remaining}} kcal.",
+          "subtitle": "Half charcoal farrouj + fresh salad + tahina",
+          "title": "Tazaj farrouj & salad"
+        },
+        "SA.light": {
+          "rationale": "Protects your calorie deficit with ~195 kcal while adding 14.5g clean protein.",
+          "subtitle": "Almarai fresh laban (200ml) + 1 boiled egg",
+          "title": "Laban & boiled egg"
+        },
+        "SA.medium": {
+          "rationale": "Traditional Saudi meal fitting cleanly within {{remaining}} kcal with balanced macros.",
+          "subtitle": "Fresh tomato shakshuka + half tamees bread",
+          "title": "Shakshuka & warm tamees"
+        }
+      }
+    },
+    "brandGroups": {
+      "All": "All",
+      "Asian & Continental": "Asian & continental",
+      "Burgers": "Burgers",
+      "Cafe & Coffee": "Cafe & coffee",
+      "Chai & Cafes": "Chai & cafes",
+      "Desi BBQ": "Desi BBQ",
+      "Fast Food": "Fast food",
+      "Grills & Fast Casual": "Grills & fast casual",
+      "Home Food": "Home food",
+      "Pizza": "Pizza",
+      "Shawarma": "Shawarma",
+      "Traditional Saudi": "Traditional Saudi"
+    },
+    "brandMenu": {
+      "fallbackTitle": "Brand menu",
+      "menuWord": "menu",
+      "noItems": "No items found",
+      "noItemsHint": "Try adjusting your search or category filter.",
+      "oneServing": "1 serving",
+      "searchPlaceholder": "Search in {{brand}}…",
+      "sfdaCompliant": "SFDA compliant",
+      "verifiedItems": "{{count}} verified food item",
+      "verifiedItems_other": "{{count}} verified food items"
+    },
+    "calorieBank": {
+      "emptyHint": "Start logging your meals today. Nutrio dynamically banks your rolling weekly energy balance to keep your progress protected.",
+      "onTrackHint": "On track! Rolling weekly energy balance is accumulating to safeguard your sustainable fat loss target.",
+      "subtitle": "Rolling energy balance",
+      "title": "Weekly calorie bank"
+    },
+    "customizer": {
+      "addModifier": "Add {{name}}",
+      "customWeight": "Custom weight (g)",
+      "customWeightHint": "Enter custom weight in grams for precise calorie calculation",
+      "decreaseQty": "Decrease quantity",
+      "estimated": "Estimated",
+      "fallbackBrand": {
+        "PK": "Pakistani dish",
+        "SA": "Saudi dish"
+      },
+      "increaseQty": "Increase quantity",
+      "kcalEach": "{{value}} kcal each",
+      "logThis": "Log this",
+      "logToSlot": "Log to meal slot",
+      "makeItYours": "Make it yours",
+      "portionSize": "Portion size",
+      "removeModifier": "Remove {{name}}",
+      "standardServings": "Standard servings"
+    },
+    "dashboard": {
+      "allMealsDone": "🎉 All meals done",
+      "appearance": "Appearance",
+      "dailyTarget": "Daily target",
+      "darkMode": "Dark mode",
+      "diary": "Diary",
+      "freeTag": "Free",
+      "lightMode": "Light mode",
+      "logMeal": "Log meal",
+      "logout": "Log out / Return to home",
+      "nav": {
+        "coach": "AI coach",
+        "meals": "Meals",
+        "survey": "Survey",
+        "targets": "Targets",
+        "weight": "Weight"
+      },
+      "planBlurb": {
+        "PK": "100% free plan • All 60+ brands unlocked",
+        "SA": "100% free plan • 12+ Saudi chains & traditional cuisine"
+      },
+      "retakeSurvey": "Retake lifestyle survey",
+      "signInCreate": "Sign in / Create account",
+      "slotsLogged": "{{count}} / 4 logged",
+      "todaysMeals": "Today's logged meals",
+      "toggleRegion": "Toggle active region",
+      "viewMealPlan": "View 7-day meal plan",
+      "waterGoal": "Water goal"
+    },
+    "diary": {
+      "backToDashboard": "Back to dashboard",
+      "deleteItem": "Delete item",
+      "dishCount": "{{count}} dish",
+      "dishCount_other": "{{count}} dishes",
+      "emptySubtitle": {
+        "PK": "Tap below to log your meals, fast-food favorites, or chai.",
+        "SA": "Tap below to log your meals, AlBaik, Kabsa, or Gahwa."
+      },
+      "emptyTitle": "No dishes logged yet",
+      "itemCount": "{{count}} item",
+      "itemCount_other": "{{count}} items",
+      "loggedDishes": "Logged dishes",
+      "title": "Food diary"
+    },
+    "guestModal": {
+      "continueGuest": "Continue exploring as guest",
+      "description": "You are exploring Nutrio as a guest. Create an account or sign in to log your daily meals, track your macros, and save your progress.",
+      "signIn": "Sign in / Register",
+      "title": "Sign in to save progress"
+    },
+    "header": {
+      "banked": "Banked",
+      "caloriesConsumed": "calories consumed today",
+      "caloriesOver": "calories over limit",
+      "caloriesRemaining": "calories remaining",
+      "consumed": "Consumed",
+      "consumedToday": "Consumed today",
+      "dailyGoal": "Daily goal: {{target}} kcal ({{eaten}} eaten)",
+      "energyBudget": "Energy budget",
+      "free": "100% free",
+      "noTargetHint": "Start logging meals · Set daily target in survey",
+      "onTrackDaily": "On track for daily goal",
+      "pctOfGoal": "{{pct}}% of {{grams}}g goal",
+      "pendingSync": "{{count}} offline entry pending sync",
+      "pendingSync_other": "{{count}} offline entries pending sync",
+      "readyFirstMeal": "Ready for first meal",
+      "trackYourDay": "Track your day"
+    },
+    "hub": {
+      "allBrandsHeading": {
+        "PK": "60+ Pakistani restaurants & home foods",
+        "SA": "12+ Saudi restaurants & traditional dishes (SFDA)"
+      },
+      "filtering": "Filtering nutritional database…",
+      "groupBrandsHeading": "{{group}} brands ({{count}})",
+      "noDishes": "No dishes found",
+      "noDishesHint": {
+        "PK": "Try searching for \"Zinger\", \"Biryani\", \"Chai\", \"Pizza\", or \"Karahi\".",
+        "SA": "Try searching for \"Kabsa\", \"AlBaik\", \"Mandi\", \"Saleeg\", or \"Gahwa\"."
+      },
+      "resultsFound": "{{count}} result found",
+      "resultsFound_other": "{{count}} results found",
+      "searchPlaceholder": {
+        "PK": "Search 2,700+ dishes, Zinger, pulao, fries…",
+        "SA": "Search Kabsa, AlBaik, Mandi, Gahwa, Shawarma…"
+      },
+      "searching": "Searching…",
+      "switchRegion": "Switch region",
+      "title": "Log a meal"
+    },
+    "mealSlots": {
+      "breakfast": {
+        "PK": "Breakfast",
+        "SA": "Breakfast"
+      },
+      "dinner": {
+        "PK": "Dinner",
+        "SA": "Dinner"
+      },
+      "lunch": {
+        "PK": "Lunch",
+        "SA": "Lunch"
+      },
+      "snacks_chai": {
+        "PK": "Snacks & chai",
+        "SA": "Gahwa & snacks"
+      }
+    },
+    "slotCard": {
+      "addFood": "Add food",
+      "addMore": "Add more to {{slot}}",
+      "dishesTracked": "{{count}} dish tracked",
+      "dishesTracked_other": "{{count}} dishes tracked",
+      "done": "Done",
+      "empty": "No dishes tracked in this slot yet"
+    },
+    "staples": {
+      "added": "Added!",
+      "chai": "+ 1 Chai",
+      "daal": "+ 1 Daal",
+      "egg": "+ 1 Egg",
+      "heading": "Quick log staples",
+      "roti": "+ 1 Roti",
+      "sa_dates": "+ 3 Dates",
+      "sa_egg": "+ Boiled egg",
+      "sa_gahwa": "+ Gahwa",
+      "sa_kabsa_rice": "+ Kabsa rice",
+      "sa_laban": "+ Laban",
+      "sa_tamees": "+ Tamees"
+    },
+    "water": {
+      "addBottle": "+500 ml (Bottle)",
+      "addGlass": "+250 ml (Glass)",
+      "dailyTarget": "Target: {{amount}} ml / day",
+      "title": "Water Hydration"
+    }
+  },
+  "vision": {
+    "plate": {
+      "clinicalBand": "Clinical band:",
+      "confidence": "confidence",
+      "confidenceLevels": {
+        "high": "HIGH",
+        "low": "LOW",
+        "medium": "MEDIUM"
+      },
+      "cookingOil": "Cooking oil",
+      "estimatedEnergy": "Estimated energy",
+      "eyebrow": "AI multimodal meal scan",
+      "ingredients": "Plate ingredient ({{count}})",
+      "ingredients_other": "Plate ingredients ({{count}})",
+      "logToDiary": "Log meal to diary (~{{value}} kcal)"
+    }
+  },
+  "weight": {
+    "adaptive": {
+      "blendedTdee": "Active blended TDEE",
+      "calibrationDays": "{{days}} / 28 days ({{pct}}%)",
+      "calibrationWindow": "Calibration window (28 days)",
+      "formulaBaseline": "Formula baseline: {{value}} kcal",
+      "subtitle": "Calibrating your true metabolic expenditure using scale trends & intake logs",
+      "targetAdjustment": "target adjustment",
+      "title": "Closed-loop adaptive TDEE",
+      "underLoggingDesc": "Your logged caloric intake is below biological baseline (<1.1× BMR). To protect your health and lean muscle, our clinical engine will NOT slash your calorie targets.",
+      "underLoggingTitle": "Under-logging detected",
+      "weightFactor": "Weight factor: {{observed}}% observed data / {{formula}}% formula"
+    },
+    "log": {
+      "description": "Weigh yourself under consistent conditions (ideally in the morning, fasted, after using the restroom).",
+      "notesLabel": "Notes (optional)",
+      "notesPlaceholder": "e.g. After dawat, salt retention, morning fasted",
+      "save": "Save weigh-in",
+      "title": "Log body weight"
+    },
+    "screen": {
+      "dailyTracker": "Daily tracker",
+      "eyebrow": "Metabolic feedback",
+      "logTodayWeight": "Log today's weight",
+      "title": "Weight & adaptive TDEE"
+    },
+    "trend": {
+      "kgScale": "{{value}} kg scale",
+      "kgTrend": "{{value}} kg trend",
+      "netChange": "Net change",
+      "overallProgress": "Overall progress",
+      "rawReading": "Raw scale reading",
+      "recentHistory": "Recent history",
+      "scaleWeight": "Scale weight",
+      "subtitle": "Filtering daily water fluctuations with α=0.25 exponential smoothing",
+      "title": "Weight trend (EWMA smoothed)",
+      "trendWeight": "Trend weight",
+      "trueTissue": "True tissue trend"
+    }
+  }
+}

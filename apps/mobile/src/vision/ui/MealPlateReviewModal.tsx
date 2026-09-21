@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { ResolvedFoodItem, VisionResolutionResult } from '@nutrio/nutrition-core';
 import { useTheme } from '../../theme.js';
-import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 interface MealPlateReviewModalProps {
   visible: boolean;
@@ -50,8 +50,9 @@ export const MealPlateReviewModal: React.FC<MealPlateReviewModalProps> = ({
   onConfirmLog,
 }) => {
   const { theme, isDark } = useTheme();
-  const { activeRegion } = useRegion();
-  const isSaudi = activeRegion === 'SA';
+  const { t } = useTranslation();
+  const dir = useTextDirection();
+  const isSaudi = dir.isRTL;
   const accentColor = theme.colors.primaryLime;
   const accentTextColor = '#0A0B0D';
 
@@ -128,7 +129,7 @@ export const MealPlateReviewModal: React.FC<MealPlateReviewModalProps> = ({
           <View style={[styles.headerRow, { borderBottomColor: theme.colors.border }]}>
             <View style={styles.headerTitles}>
               <Text style={[styles.eyebrow, { color: accentColor }]}>
-                {isSaudi ? 'مسح الوجبة بالذكاء الاصطناعي · AI SCAN' : 'AI MULTIMODAL MEAL SCAN'}
+                {t('vision.plate.eyebrow')}
               </Text>
               <Text style={[styles.modalTitle, { color: theme.colors.textPrimary }]}>{dishTitle}</Text>
               {cookingMethod && (
@@ -157,7 +158,7 @@ export const MealPlateReviewModal: React.FC<MealPlateReviewModalProps> = ({
             >
               <View style={styles.confidenceHeader}>
                 <Text style={[styles.confidenceTitle, { color: theme.colors.textMuted }]}>
-                  {isSaudi ? 'الطاقة المقدرة' : 'ESTIMATED ENERGY'}
+                  {t('vision.plate.estimatedEnergy')}
                 </Text>
                 <View
                   style={[
@@ -170,16 +171,20 @@ export const MealPlateReviewModal: React.FC<MealPlateReviewModalProps> = ({
                   ]}
                 >
                   <Text style={[styles.confidenceBadgeText, { color: accentColor }]}>
-                    {initialResolution.confidence.toUpperCase()} {isSaudi ? 'دقة' : 'CONFIDENCE'}
+                    {t(`vision.plate.confidenceLevels.${initialResolution.confidence}`, {
+                      defaultValue: initialResolution.confidence,
+                    })}{' '}
+                    {t('vision.plate.confidence')}
                   </Text>
                 </View>
               </View>
               <Text style={[styles.bigCalories, { color: theme.colors.textPrimary }]}>
-                ~{totalCalories} kcal
+                ~{t('common.kcalValue', { value: totalCalories })}
               </Text>
               <Text style={[styles.confidenceRange, { color: theme.colors.textMuted }]}>
-                {isSaudi ? 'النطاق السريري: ' : 'Clinical Band: '}
-                {Math.round(totalCalories * 0.9)} – {Math.round(totalCalories * 1.1)} kcal (±10%)
+                {t('vision.plate.clinicalBand')}{' '}
+                {Math.round(totalCalories * 0.9)} – {Math.round(totalCalories * 1.1)}{' '}
+                {t('common.kcal')} (±10%)
               </Text>
             </View>
 
@@ -187,27 +192,27 @@ export const MealPlateReviewModal: React.FC<MealPlateReviewModalProps> = ({
             <View style={styles.macroSummaryRow}>
               <View style={[styles.macroChip, { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border }]}>
                 <Text style={[styles.macroVal, { color: theme.colors.textPrimary }]}>{totalProtein}g</Text>
-                <Text style={[styles.macroLabel, { color: theme.colors.textMuted }]}>Protein</Text>
+                <Text style={[styles.macroLabel, { color: theme.colors.textMuted }]}>{t('common.protein')}</Text>
               </View>
               <View style={[styles.macroChip, { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border }]}>
                 <Text style={[styles.macroVal, { color: theme.colors.textPrimary }]}>{totalCarbs}g</Text>
-                <Text style={[styles.macroLabel, { color: theme.colors.textMuted }]}>Carbs</Text>
+                <Text style={[styles.macroLabel, { color: theme.colors.textMuted }]}>{t('common.carbs')}</Text>
               </View>
               <View style={[styles.macroChip, { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border }]}>
                 <Text style={[styles.macroVal, { color: theme.colors.textPrimary }]}>{totalFat}g</Text>
-                <Text style={[styles.macroLabel, { color: theme.colors.textMuted }]}>Fat</Text>
+                <Text style={[styles.macroLabel, { color: theme.colors.textMuted }]}>{t('common.fat')}</Text>
               </View>
               <View style={[styles.macroChip, styles.oilChip, isDark && { backgroundColor: '#3E1F07', borderColor: '#78350F' }]}>
                 <Text style={[styles.macroVal, styles.oilVal, isDark && { color: '#FBBF24' }]}>{totalOil}g</Text>
                 <Text style={[styles.oilLabel, isDark && { color: '#FCD34D' }]}>
-                  {isSaudi ? 'زيت / سمن' : 'Cooking Oil'}
+                  {t('vision.plate.cookingOil')}
                 </Text>
               </View>
             </View>
 
             {/* Plate Itemizer & Portion Controls */}
             <Text style={[styles.sectionHeading, { color: theme.colors.textPrimary }]}>
-              {isSaudi ? `مكونات الطبق (${items.length})` : `Plate Ingredients (${items.length})`}
+              {t('vision.plate.ingredients', { count: items.length })}
             </Text>
             <View style={styles.itemsList}>
               {items.map((item, index) => (
@@ -313,9 +318,7 @@ export const MealPlateReviewModal: React.FC<MealPlateReviewModalProps> = ({
               activeOpacity={0.8}
             >
               <Text style={[styles.logBtnText, { color: accentTextColor }]}>
-                {isSaudi
-                  ? `✓ تسجيل الوجبة في اليوميات (~${totalCalories} سعرة)`
-                  : `✓ Log Meal to Diary (~${totalCalories} kcal)`}
+                ✓ {t('vision.plate.logToDiary', { value: totalCalories })}
               </Text>
             </TouchableOpacity>
           </ScrollView>

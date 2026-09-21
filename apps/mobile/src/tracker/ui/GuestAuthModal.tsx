@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import { useTheme } from '../../theme.js';
-import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 
 interface GuestAuthModalProps {
@@ -23,8 +23,8 @@ export const GuestAuthModal: React.FC<GuestAuthModalProps> = ({
   onSignIn,
 }) => {
   const { theme, isDark } = useTheme();
-  const { activeRegion } = useRegion();
-  const isSaudi = activeRegion === 'SA';
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
   const accentTextColor = '#0A0B0D';
 
@@ -61,13 +61,11 @@ export const GuestAuthModal: React.FC<GuestAuthModalProps> = ({
               </View>
 
               {/* Title & Description */}
-              <Text style={[styles.title, { color: theme.colors.textPrimary }]}>
-                {isSaudi ? 'تسجيل الدخول لحفظ تقدمك' : 'Sign In to Save Progress'}
+              <Text style={[styles.title, dir.textCenter, { color: theme.colors.textPrimary }]}>
+                {t('tracker.guestModal.title')}
               </Text>
-              <Text style={[styles.description, { color: theme.colors.textSecondary }]}>
-                {isSaudi
-                  ? 'أنت تستكشف تطبيق Nutrio كضيف. يرجى إنشاء حساب أو تسجيل الدخول لتسجيل الوجبات وتتبع السعرات والماكروز وحفظ خطتك.'
-                  : 'You are exploring Nutrio as a guest. Create an account or sign in to log your daily meals, track your macros, and save your progress.'}
+              <Text style={[styles.description, dir.textCenter, { color: theme.colors.textSecondary }]}>
+                {t('tracker.guestModal.description')}
               </Text>
 
               {/* Actions */}
@@ -77,10 +75,10 @@ export const GuestAuthModal: React.FC<GuestAuthModalProps> = ({
                   onPress={onSignIn}
                   activeOpacity={0.8}
                   accessibilityRole="button"
-                  accessibilityLabel="Sign In or Register"
+                  accessibilityLabel={t('tracker.guestModal.signIn')}
                 >
-                  <Text style={[styles.primaryBtnText, { color: accentTextColor }]}>
-                    {isSaudi ? 'تسجيل الدخول / إنشاء حساب' : 'Sign In / Register'}
+                  <Text style={[styles.primaryBtnText, dir.textCenter, { color: accentTextColor }]}>
+                    {t('tracker.guestModal.signIn')}
                   </Text>
                 </TouchableOpacity>
 
@@ -89,10 +87,10 @@ export const GuestAuthModal: React.FC<GuestAuthModalProps> = ({
                   onPress={onClose}
                   activeOpacity={0.7}
                   accessibilityRole="button"
-                  accessibilityLabel="Continue Exploring"
+                  accessibilityLabel={t('tracker.guestModal.continueGuest')}
                 >
-                  <Text style={[styles.secondaryBtnText, { color: theme.colors.textSecondary }]}>
-                    {isSaudi ? 'متابعة الاستكشاف كضيف' : 'Continue Exploring as Guest'}
+                  <Text style={[styles.secondaryBtnText, dir.textCenter, { color: theme.colors.textSecondary }]}>
+                    {t('tracker.guestModal.continueGuest')}
                   </Text>
                 </TouchableOpacity>
               </View>

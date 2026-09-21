@@ -20,6 +20,15 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-localization",
+        {
+          "supportsRTL": true,
+          "forcesRTL": false
+        }
+      ]
+    ]
   }
 }

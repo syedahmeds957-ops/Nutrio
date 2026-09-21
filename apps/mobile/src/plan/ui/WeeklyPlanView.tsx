@@ -25,6 +25,7 @@ import { GroceryListView } from './GroceryListView.js';
 import { CulturalModesModal } from './CulturalModesModal.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 interface WeeklyPlanViewProps {
   solverInput: MealPlanSolverInput;
@@ -32,40 +33,16 @@ interface WeeklyPlanViewProps {
   onOpenGroceryList?: (plans: DailyMealPlanResult[]) => void;
 }
 
-const DAYS_OF_WEEK = [
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-  'Sunday',
-];
+const DAY_KEYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+// Kept as a plain array so the existing index-based plan generation is unchanged.
+const DAYS_OF_WEEK = DAY_KEYS;
 
-const formatBudgetTier = (tier: string, isSaudi: boolean): string => {
-  if (isSaudi) {
-    switch (tier) {
-      case 'low_under_3500':
-      case 'budget_under_3500':
-        return 'Budget (< 125 SAR)';
-      case 'standard_3500_7000':
-        return 'Standard (125 - 250 SAR)';
-      case 'premium_above_7000':
-        return 'Premium (> 250 SAR)';
-      default:
-        return (tier || '').replace(/_/g, ' ');
-    }
-  }
-  switch (tier) {
-    case 'low_under_3500':
-      return 'Budget (< Rs 3,500)';
-    case 'standard_3500_7000':
-      return 'Standard (Rs 3,500 - 7,000)';
-    case 'premium_above_7000':
-      return 'Premium (> Rs 7,000)';
-    default:
-      return (tier || '').replace(/_/g, ' ');
-  }
+// Budget bands are priced per market, so the label key carries the region.
+const BUDGET_TIER_KEYS: Record<string, string> = {
+  low_under_3500: 'budget',
+  budget_under_3500: 'budget',
+  standard_3500_7000: 'standard',
+  premium_above_7000: 'premium',
 };
 
 export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
@@ -77,7 +54,11 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
   const { activeRegion } = useRegion();
   const [viewMode, setViewMode] = useState<'plan' | 'grocery'>('plan');
 
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const isSaudi = activeRegion === 'SA';
+  const budgetTierLabel = (tier: string) =>
+    t(`plan.grocery.budgetTiers.${BUDGET_TIER_KEYS[tier] ?? 'standard'}.${activeRegion}`);
   const regionalFoodPool = isSaudi ? (SAUDI_TRADITIONAL_FOODS as any) : (PAKISTANI_STAPLES_DATA as any);
 
   // Generate a distinct or calibrated 7-day schedule with daily variety
@@ -105,7 +86,11 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
   // Cultural Modes state
   const [modesModalVisible, setModesModalVisible] = useState(false);
   const [isFamilyActive, setIsFamilyActive] = useState(false);
-  const [familyDishName, setFamilyDishName] = useState(isSaudi ? 'Chicken Kabsa' : 'Chicken Karahi');
+  // The solver matches this against the food database, so it holds the
+  // database's spelling rather than a translated label.
+  const [familyDishName, setFamilyDishName] = useState(
+    isSaudi ? 'Chicken Kabsa' : 'Chicken Karahi'
+  );
   const [isRamadanActive, setIsRamadanActive] = useState(false);
 
   const currentDayPlan = weekPlans[selectedDayIndex];
@@ -261,7 +246,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
           activeOpacity={0.7}
         >
           <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
-            ← Back
+            {dir.isRTL ? '→' : '←'} {t('common.back')}
           </Text>
         </TouchableOpacity>
 
@@ -281,7 +266,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
             activeOpacity={0.8}
           >
             <Text style={[styles.segmentTextActive, { color: '#0A0B0D' }]}>
-              TODAY
+              {t('common.today')}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -290,7 +275,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
             activeOpacity={0.8}
           >
             <Text style={[styles.segmentText, { color: theme.colors.textSecondary }]}>
-              GROCERY
+              {t('plan.weekly.grocery')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -336,7 +321,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
         >
           {DAYS_OF_WEEK.map((dayName, idx) => {
             const isSelected = idx === selectedDayIndex;
-            const shortName = dayName.slice(0, 3).toUpperCase();
+            const shortName = t(`common.weekdayAbbrev.${dayName}`);
             return (
               <TouchableOpacity
                 key={idx}
@@ -408,12 +393,17 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
               <Text
                 style={[styles.dayNameLabel, { color: theme.colors.textPrimary }]}
               >
-                {DAYS_OF_WEEK[selectedDayIndex]} Meal Plan
+                {t('plan.weekly.dayMealPlan', {
+                  day: t(`common.weekday.${DAY_KEYS[selectedDayIndex]}`),
+                })}
               </Text>
               <Text
                 style={[styles.dayTargetMeta, { color: theme.colors.textSecondary }]}
               >
-                Target: {currentDayPlan.targetCalories} kcal · {formatBudgetTier(currentDayPlan.budgetTier, isSaudi)}
+                {t('plan.weekly.dayTarget', {
+                  kcal: currentDayPlan.targetCalories,
+                  tier: budgetTierLabel(currentDayPlan.budgetTier),
+                })}
               </Text>
             </View>
 
@@ -459,7 +449,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
               <Text
                 style={[styles.macroLabel, { color: theme.colors.textSecondary }]}
               >
-                Calories
+                {t('common.calories')}
               </Text>
             </View>
             <View
@@ -481,7 +471,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
               <Text
                 style={[styles.macroLabel, { color: theme.colors.textSecondary }]}
               >
-                Protein
+                {t('common.protein')}
               </Text>
             </View>
             <View
@@ -503,7 +493,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
               <Text
                 style={[styles.macroLabel, { color: theme.colors.textSecondary }]}
               >
-                Carbs
+                {t('common.carbs')}
               </Text>
             </View>
             <View
@@ -525,7 +515,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
               <Text
                 style={[styles.macroLabel, { color: theme.colors.textSecondary }]}
               >
-                Fat
+                {t('common.fat')}
               </Text>
             </View>
             <View
@@ -548,7 +538,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
               <Text
                 style={[styles.oilLabel, { color: isDark ? '#FBBF24' : '#B45309' }]}
               >
-                Oil
+                {t('common.oil')}
               </Text>
             </View>
           </View>
@@ -576,7 +566,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
             activeOpacity={0.8}
           >
             <Text style={[styles.groceryActionBtnText, { color: '#0A0B0D' }]}>
-              View 7-Day Grocery List & Budget
+              {t('plan.weekly.viewGroceryList')}
             </Text>
           </TouchableOpacity>
         )}

@@ -14,6 +14,7 @@ import {
 } from '@nutrio/nutrition-core';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 interface GroceryListViewProps {
   weekPlans: DailyMealPlanResult[];
@@ -21,30 +22,12 @@ interface GroceryListViewProps {
   onBackToPlan: () => void;
 }
 
-const formatBudgetTierHeader = (tier: string, isSaudiMode: boolean): string => {
-  if (isSaudiMode) {
-    switch (tier) {
-      case 'low_under_3500':
-      case 'budget_under_3500':
-        return 'BUDGET (< 125 SAR)';
-      case 'standard_3500_7000':
-        return 'STANDARD (125 - 250 SAR)';
-      case 'premium_above_7000':
-        return 'PREMIUM (> 250 SAR)';
-      default:
-        return tier.replace(/_/g, ' ').replace(/\d+/g, '').trim().toUpperCase() || 'STANDARD';
-    }
-  }
-  switch (tier) {
-    case 'low_under_3500':
-      return 'BUDGET (< Rs 3,500)';
-    case 'standard_3500_7000':
-      return 'STANDARD (Rs 3,500 - 7,000)';
-    case 'premium_above_7000':
-      return 'PREMIUM (> Rs 7,000)';
-    default:
-      return tier.replace(/_/g, ' ').toUpperCase();
-  }
+// Budget bands are priced per market, so the label key carries the region.
+const BUDGET_TIER_KEYS: Record<string, string> = {
+  low_under_3500: 'budget',
+  budget_under_3500: 'budget',
+  standard_3500_7000: 'standard',
+  premium_above_7000: 'premium',
 };
 
 export const GroceryListView: React.FC<GroceryListViewProps> = ({
@@ -54,8 +37,10 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
-  const isSaudi = activeRegion === 'SA';
-
+  const { t } = useTranslation();
+  const dir = useTextDirection();
+  const budgetTierLabel = (tier: string) =>
+    t(`plan.grocery.budgetTiers.${BUDGET_TIER_KEYS[tier] ?? 'standard'}.${activeRegion}`);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [checkedIds, setCheckedIds] = useState<Set<string>>(new Set());
 
@@ -113,14 +98,14 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
           activeOpacity={0.7}
         >
           <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
-            ← Back to Plan
+            {dir.isRTL ? '→' : '←'} {t('plan.grocery.backToPlan')}
           </Text>
         </TouchableOpacity>
         <Text
           style={[styles.navTitle, { color: theme.colors.textPrimary }]}
           numberOfLines={1}
         >
-          {isSaudi ? '7-Day Grocery List (مقاضي الأسبوع)' : '7-Day Grocery List'}
+          {t('plan.grocery.title')}
         </Text>
         <View
           style={[
@@ -162,9 +147,7 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
                   { color: theme.colors.primaryLime },
                 ]}
               >
-                {isSaudi
-                  ? `WEEKLY BUDGET (ميزانية الأسبوع): ${formatBudgetTierHeader(budgetTier, true)}`
-                  : `WEEKLY BUDGET: ${formatBudgetTierHeader(budgetTier, false)}`}
+                {t('plan.grocery.weeklyBudget', { tier: budgetTierLabel(budgetTier) })}
               </Text>
               <Text
                 style={[styles.costBigVal, { color: theme.colors.textPrimary }]}
@@ -201,7 +184,9 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
                     : { color: isDark ? '#FBBF24' : '#B45309' },
                 ]}
               >
-                {summary.isWithinBudget ? '✓ Within Budget' : '⚠ Over Budget'}
+                {summary.isWithinBudget
+                  ? `✓ ${t('plan.grocery.withinBudget')}`
+                  : `⚠ ${t('plan.grocery.overBudget')}`}
               </Text>
             </View>
           </View>
@@ -253,7 +238,7 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
                   : { color: theme.colors.textSecondary },
               ]}
             >
-              {isSaudi ? 'All Items (الكل)' : 'All Items'} ({totalItemsCount})
+              {t('plan.grocery.allItems')} ({totalItemsCount})
             </Text>
           </TouchableOpacity>
 
@@ -285,7 +270,7 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
                       : { color: theme.colors.textSecondary },
                   ]}
                 >
-                  {isSaudi && cat.titleAr ? cat.titleAr : cat.title} ({cat.items.length})
+                  {dir.isRTL && cat.titleAr ? cat.titleAr : cat.title} ({cat.items.length})
                 </Text>
               </TouchableOpacity>
             );
@@ -319,7 +304,7 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
                 <Text
                   style={[styles.groupTitleUr, { color: theme.colors.textSecondary }]}
                 >
-                  {isSaudi ? group.titleAr : group.titleUr}
+                  {dir.isRTL ? group.titleAr : group.titleUr}
                 </Text>
               </View>
               <Text
@@ -377,7 +362,7 @@ export const GroceryListView: React.FC<GroceryListViewProps> = ({
                       >
                         {item.name}
                       </Text>
-                      {isSaudi && item.nameAr && (
+                      {dir.isRTL && item.nameAr && (
                         <Text
                           style={[
                             styles.itemNameAr,

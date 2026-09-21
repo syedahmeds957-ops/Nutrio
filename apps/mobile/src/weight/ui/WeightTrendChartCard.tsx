@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { WeightTrendSummary } from '../types.js';
 import { useTheme } from '../../theme.js';
-import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 interface WeightTrendChartCardProps {
   summary: WeightTrendSummary;
@@ -14,8 +14,8 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
   spikeWarning,
 }) => {
   const { theme, isDark } = useTheme();
-  const { activeRegion } = useRegion();
-  const isSaudi = activeRegion === 'SA';
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
   const { currentWeightKg, currentEWMAKg, totalDeltaKg, points } = summary;
   const isLoss = totalDeltaKg < 0;
@@ -25,12 +25,10 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
       {/* Header */}
       <View style={styles.header}>
         <Text style={[styles.title, { color: theme.colors.textPrimary }]}>
-          {isSaudi ? 'منحنى مسار الوزن الأيضي · Weight Trend' : 'Weight Trend (EWMA Smoothed)'}
+          {t('weight.trend.title')}
         </Text>
         <Text style={[styles.sub, { color: theme.colors.textMuted }]}>
-          {isSaudi
-            ? 'تصفية تقلبات السوائل والأملاح اليومية عبر التنعيم الأسي (α=0.25)'
-            : 'Filtering daily water fluctuations with α=0.25 exponential smoothing'}
+          {t('weight.trend.subtitle')}
         </Text>
       </View>
 
@@ -38,27 +36,27 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
       <View style={styles.statsRow}>
         <View style={[styles.statBox, { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border }]}>
           <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>
-            {isSaudi ? 'قراءة الميزان' : 'Scale Weight'}
+            {t('weight.trend.scaleWeight')}
           </Text>
           <Text style={[styles.statVal, { color: theme.colors.textPrimary }]}>{currentWeightKg} kg</Text>
           <Text style={[styles.statSub, { color: theme.colors.textMuted }]}>
-            {isSaudi ? 'وزن خام' : 'Raw scale reading'}
+            {t('weight.trend.rawReading')}
           </Text>
         </View>
 
         <View style={[styles.statBox, { backgroundColor: theme.colors.surfaceSecondary, borderColor: accentColor }]}>
           <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>
-            {isSaudi ? 'مسار الأنسجة' : 'Trend Weight'}
+            {t('weight.trend.trendWeight')}
           </Text>
           <Text style={[styles.statVal, { color: accentColor, fontWeight: '800' }]}>{currentEWMAKg} kg</Text>
           <Text style={[styles.statSub, { color: theme.colors.textMuted }]}>
-            {isSaudi ? 'الوزن الحقيقي' : 'True tissue trend'}
+            {t('weight.trend.trueTissue')}
           </Text>
         </View>
 
         <View style={[styles.statBox, { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border }]}>
           <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>
-            {isSaudi ? 'صافي التغير' : 'Net Change'}
+            {t('weight.trend.netChange')}
           </Text>
           <Text
             style={[
@@ -69,7 +67,7 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
             {totalDeltaKg > 0 ? `+${totalDeltaKg}` : totalDeltaKg} kg
           </Text>
           <Text style={[styles.statSub, { color: theme.colors.textMuted }]}>
-            {isSaudi ? 'التقدم الإجمالي' : 'Overall progress'}
+            {t('weight.trend.overallProgress')}
           </Text>
         </View>
       </View>
@@ -85,14 +83,18 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
       {points.length > 0 && (
         <View style={styles.pointsList}>
           <Text style={[styles.pointsTitle, { color: theme.colors.textPrimary }]}>
-            {isSaudi ? 'السجل الأخير · Recent History' : 'Recent History'}
+            {t('weight.trend.recentHistory')}
           </Text>
           {points.slice(-5).reverse().map((pt, idx) => (
             <View key={idx} style={[styles.pointRow, { borderBottomColor: theme.colors.border }]}>
               <Text style={[styles.pointDate, { color: theme.colors.textPrimary }]}>{pt.date}</Text>
               <View style={styles.pointValues}>
-                <Text style={[styles.pointRaw, { color: theme.colors.textMuted }]}>{pt.rawWeightKg} kg scale</Text>
-                <Text style={[styles.pointEwma, { color: accentColor }]}>→ {pt.ewmaWeightKg} kg trend</Text>
+                <Text style={[styles.pointRaw, { color: theme.colors.textMuted }]}>
+                  {t('weight.trend.kgScale', { value: pt.rawWeightKg })}
+                </Text>
+                <Text style={[styles.pointEwma, { color: accentColor }]}>
+                  {dir.isRTL ? '←' : '→'} {t('weight.trend.kgTrend', { value: pt.ewmaWeightKg })}
+                </Text>
               </View>
             </View>
           ))}

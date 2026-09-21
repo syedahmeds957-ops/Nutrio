@@ -9,10 +9,12 @@ import {
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
 import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { HapticFeedback } from '../../ui/haptics.js';
 
 export interface StapleItem {
   id: string;
+  /** Localised short chip label, resolved from the id at render time. */
   label: string;
   name: string;
   calories: number;
@@ -26,10 +28,12 @@ interface QuickStaplesBarProps {
   onQuickLog: (staple: StapleItem) => void;
 }
 
-const PK_STAPLES: StapleItem[] = [
+// Source rows carry the nutrition only; the visible label comes from i18n.
+type StapleDefinition = Omit<StapleItem, 'label'>;
+
+const PK_STAPLES: StapleDefinition[] = [
   {
     id: 'roti',
-    label: '+ 1 Roti',
     name: 'Roti (Whole Wheat)',
     calories: 120,
     proteinGrams: 4,
@@ -39,7 +43,6 @@ const PK_STAPLES: StapleItem[] = [
   },
   {
     id: 'daal',
-    label: '+ 1 Daal',
     name: 'Daal Chana',
     calories: 160,
     proteinGrams: 9,
@@ -49,7 +52,6 @@ const PK_STAPLES: StapleItem[] = [
   },
   {
     id: 'egg',
-    label: '+ 1 Egg',
     name: 'Boiled Egg',
     calories: 75,
     proteinGrams: 6.5,
@@ -59,7 +61,6 @@ const PK_STAPLES: StapleItem[] = [
   },
   {
     id: 'chai',
-    label: '+ 1 Chai',
     name: 'Chai (Doodh Patti)',
     calories: 85,
     proteinGrams: 2,
@@ -69,10 +70,9 @@ const PK_STAPLES: StapleItem[] = [
   },
 ];
 
-const SA_STAPLES: StapleItem[] = [
+const SA_STAPLES: StapleDefinition[] = [
   {
     id: 'sa_tamees',
-    label: '+ خبز تميس',
     name: 'Tamees Bread (خبز تميس)',
     calories: 150,
     proteinGrams: 5,
@@ -82,7 +82,6 @@ const SA_STAPLES: StapleItem[] = [
   },
   {
     id: 'sa_laban',
-    label: '+ لبن المراعي',
     name: 'Almarai Laban (لبن المراعي)',
     calories: 120,
     proteinGrams: 8,
@@ -92,7 +91,6 @@ const SA_STAPLES: StapleItem[] = [
   },
   {
     id: 'sa_gahwa',
-    label: '+ قهوة سعودية',
     name: 'Saudi Gahwa (فنجان قهوة سعودية)',
     calories: 2,
     proteinGrams: 0.1,
@@ -102,7 +100,6 @@ const SA_STAPLES: StapleItem[] = [
   },
   {
     id: 'sa_dates',
-    label: '+ 3 تمرات',
     name: 'Sukari Dates 3pc (تمر سكري)',
     calories: 75,
     proteinGrams: 0.6,
@@ -112,7 +109,6 @@ const SA_STAPLES: StapleItem[] = [
   },
   {
     id: 'sa_egg',
-    label: '+ بيض مسلوق',
     name: 'Boiled Egg (بيض مسلوق)',
     calories: 75,
     proteinGrams: 6.5,
@@ -122,7 +118,6 @@ const SA_STAPLES: StapleItem[] = [
   },
   {
     id: 'sa_kabsa_rice',
-    label: '+ أرز كبسة',
     name: 'Kabsa Rice Portion (أرز كبسة)',
     calories: 180,
     proteinGrams: 4,
@@ -137,12 +132,20 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const isSaudi = activeRegion === 'SA';
   const accentColor = theme.colors.primaryLime;
   const activeTextColor = '#0A0B0D';
   const [justLoggedId, setJustLoggedId] = useState<string | null>(null);
 
-  const staples = isSaudi ? SA_STAPLES : PK_STAPLES;
+  // Which staples appear is regional (roti in Pakistan, tamees in Saudi) and
+  // only the chip label is translated: `name` is the key the dashboard matches
+  // against the food database, so translating it would log the wrong dish.
+  const staples: StapleItem[] = (isSaudi ? SA_STAPLES : PK_STAPLES).map((staple) => ({
+    ...staple,
+    label: t(`tracker.staples.${staple.id}`),
+  }));
 
   const handlePress = (staple: StapleItem) => {
     HapticFeedback.impactLight();
@@ -156,8 +159,8 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
       <View style={styles.topRow}>
         <View style={styles.titleRow}>
           <Icon name="zap" size={13} color={accentColor} />
-          <Text style={[styles.heading, { color: theme.colors.textMuted }]}>
-            {isSaudi ? 'تسجيل سريع للأكلات الأساسية' : 'QUICK LOG STAPLES'}
+          <Text style={[styles.heading, dir.text, { color: theme.colors.textMuted }]}>
+            {t('tracker.staples.heading')}
           </Text>
         </View>
       </View>
@@ -199,7 +202,7 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
                     { color: isJustLogged ? activeTextColor : theme.colors.textPrimary },
                   ]}
                 >
-                  {isJustLogged ? (isSaudi ? 'تمت الإضافة!' : 'Added!') : staple.label}
+                  {isJustLogged ? t('tracker.staples.added') : staple.label}
                 </Text>
                 <Text
                   style={[
@@ -211,7 +214,7 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
                     },
                   ]}
                 >
-                  {staple.calories} kcal
+                  {t('common.kcalValue', { value: staple.calories })}
                 </Text>
               </View>
             </TouchableOpacity>

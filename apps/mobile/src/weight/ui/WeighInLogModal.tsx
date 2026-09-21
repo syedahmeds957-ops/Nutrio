@@ -10,7 +10,7 @@ import {
   Platform,
 } from 'react-native';
 import { useTheme } from '../../theme.js';
-import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 import { AppleTextInput, noOutlineStyle } from '../../ui/AppleInput.js';
 
@@ -28,8 +28,8 @@ export const WeighInLogModal: React.FC<WeighInLogModalProps> = ({
   onSaveWeight,
 }) => {
   const { theme, isDark } = useTheme();
-  const { activeRegion } = useRegion();
-  const isSaudi = activeRegion === 'SA';
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
   const accentTextColor = theme.colors.limeText;
   const [weight, setWeight] = useState<string>(
@@ -71,18 +71,18 @@ export const WeighInLogModal: React.FC<WeighInLogModalProps> = ({
           ]}
         >
           <View style={styles.header}>
-            <Text style={[styles.title, { color: theme.colors.textPrimary }]}>
-              Log Body Weight
+            <Text style={[styles.title, dir.text, { color: theme.colors.textPrimary }]}>
+              {t('weight.log.title')}
             </Text>
             <TouchableOpacity onPress={onClose} activeOpacity={0.7}>
               <Text style={[styles.closeBtn, { color: theme.colors.textMuted }]}>
-                Cancel
+                {t('common.cancel')}
               </Text>
             </TouchableOpacity>
           </View>
 
-          <Text style={[styles.description, { color: theme.colors.textSecondary }]}>
-            Weigh yourself under consistent conditions (ideally in the morning, fasted, after using the restroom).
+          <Text style={[styles.description, dir.text, { color: theme.colors.textSecondary }]}>
+            {t('weight.log.description')}
           </Text>
 
           {/* Stepper & Input */}
@@ -185,8 +185,8 @@ export const WeighInLogModal: React.FC<WeighInLogModalProps> = ({
           {/* Optional Notes */}
           <View style={{ marginBottom: 20 }}>
             <AppleTextInput
-              label="Notes (Optional)"
-              placeholder="e.g. After dawat, salt retention, morning fasted"
+              label={t('weight.log.notesLabel')}
+              placeholder={t('weight.log.notesPlaceholder')}
               value={notes}
               onChangeText={setNotes}
             />
@@ -202,7 +202,7 @@ export const WeighInLogModal: React.FC<WeighInLogModalProps> = ({
             activeOpacity={0.8}
           >
             <Text style={[styles.saveBtnText, { color: accentTextColor }]}>
-              {isSaudi ? 'Save Weigh-in (حفظ الوزن)' : 'Save Weigh-in'}
+              {t('weight.log.save')}
             </Text>
           </TouchableOpacity>
         </View>

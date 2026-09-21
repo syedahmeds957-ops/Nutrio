@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { LoggedItem, MealSlot } from '../types.js';
 import { useTheme } from '../../theme.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { HapticFeedback } from '../../ui/haptics.js';
 
 interface MealSlotCardProps {
@@ -24,6 +25,8 @@ export const MealSlotCard: React.FC<MealSlotCardProps> = ({
   onDeleteItem,
 }) => {
   const { theme, isDark } = useTheme();
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const slotCalories = items.reduce((sum, item) => sum + item.calories, 0);
   const isDone = items.length > 0;
 
@@ -78,14 +81,14 @@ export const MealSlotCard: React.FC<MealSlotCardProps> = ({
                       { color: isDark ? theme.colors.primaryLime : '#15803D' },
                     ]}
                   >
-                    ✓ DONE
+                    ✓ {t('tracker.slotCard.done')}
                   </Text>
                 </View>
               )}
             </View>
             {isDone && (
               <Text style={[styles.itemsCountText, { color: theme.colors.textSecondary }]}>
-                {items.length} {items.length === 1 ? 'dish' : 'dishes'} tracked
+                {t('tracker.slotCard.dishesTracked', { count: items.length })}
               </Text>
             )}
           </View>
@@ -116,7 +119,7 @@ export const MealSlotCard: React.FC<MealSlotCardProps> = ({
               },
             ]}
           >
-            {slotCalories} kcal
+            {t('common.kcalValue', { value: slotCalories })}
           </Text>
         </View>
       </View>
@@ -135,13 +138,17 @@ export const MealSlotCard: React.FC<MealSlotCardProps> = ({
                   {item.quantity} × {item.servingLabel} ({item.totalGrams}g)
                 </Text>
                 <Text style={[styles.itemMacros, { color: theme.colors.textMuted }]}>
-                  P: {item.proteinGrams}g · F: {item.fatGrams}g · C: {item.carbGrams}g
+                  {t('common.macroLine', {
+                    protein: item.proteinGrams,
+                    carbs: item.carbGrams,
+                    fat: item.fatGrams,
+                  })}
                 </Text>
               </View>
 
               <View style={styles.itemRight}>
                 <Text style={[styles.itemCalories, { color: theme.colors.textPrimary }]}>
-                  {item.calories} kcal
+                  {t('common.kcalValue', { value: item.calories })}
                 </Text>
                 <TouchableOpacity
                   onPress={() => {
@@ -161,8 +168,8 @@ export const MealSlotCard: React.FC<MealSlotCardProps> = ({
           ))}
         </View>
       ) : (
-        <Text style={[styles.emptyText, { color: theme.colors.textMuted }]}>
-          No dishes tracked in this slot yet
+        <Text style={[styles.emptyText, dir.textCenter, { color: theme.colors.textMuted }]}>
+          {t('tracker.slotCard.empty')}
         </Text>
       )}
 
@@ -195,7 +202,7 @@ export const MealSlotCard: React.FC<MealSlotCardProps> = ({
             { color: isDark ? theme.colors.primaryLime : '#0F172A' },
           ]}
         >
-          {isDone ? `+ Add More to ${title}` : `+ Add Food`}
+          {isDone ? `+ ${t('tracker.slotCard.addMore', { slot: title })}` : `+ ${t('tracker.slotCard.addFood')}`}
         </Text>
       </TouchableOpacity>
     </View>

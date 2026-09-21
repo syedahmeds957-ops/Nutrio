@@ -1,4 +1,4 @@
-import { supabase, isSupabaseConfigured } from '../supabase/client.js';
+import { supabase, isSupabaseConfigured, authStorageAdapter } from '../supabase/client.js';
 import {
   AuthSession,
   AuthUser,
@@ -11,14 +11,70 @@ import {
 
 const STORAGE_KEY = 'nutrio_auth_session';
 const MOCK_USERS_REGISTRY_KEY = 'nutrio_mock_users_registry';
+const SURVEY_COMPLETED_REGISTRY_KEY = 'nutrio_survey_completed_users';
 
 // In-memory fallback for test runners or environments without localStorage
 let memorySession: AuthSession | null = null;
 const memoryMockUsers = new Map<string, { id: string; name: string; email: string; surveyCompleted: boolean }>();
 const pendingRegistrationNames = new Map<string, string>();
 
+// Local record of who has finished onboarding, keyed by both user id and email.
+// Remote user_metadata.survey_completed is the source of truth, but that write
+// is a network call that can fail or be cut short by a logout; without a local
+// copy the next sign-in reads false and sends the user back through the survey.
+const surveyCompletedIds = new Set<string>();
+let surveyRegistryHydrated = false;
+
+// Date.now() alone collides when two accounts are created in the same
+// millisecond, and a shared id makes the second account read the first one's
+// user-scoped plan and logs.
+function newLocalUserId(): string {
+  return `usr_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+}
+
 function hasLocalStorage(): boolean {
   return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
+}
+
+// Durable cross-platform persistence. window.localStorage exists on web only, so on
+// native the session previously lived in memorySession alone and was lost on every
+// cold start. authStorageAdapter resolves to AsyncStorage on iOS/Android.
+// Writes are serialized through one chain: saveAuthSession is synchronous and
+// cannot await, so an unordered logout delete could otherwise land after a
+// subsequent login's write and wipe the fresh session.
+let durableQueue: Promise<void> = Promise.resolve();
+
+function enqueueDurable(op: () => Promise<void>): Promise<void> {
+  durableQueue = durableQueue.then(op).catch(() => {
+    // Ignore storage error
+  });
+  return durableQueue;
+}
+
+function persistDurable(key: string, value: string): void {
+  void enqueueDurable(() => authStorageAdapter.setItem(key, value));
+}
+
+function removeDurable(key: string): Promise<void> {
+  return enqueueDurable(() => authStorageAdapter.removeItem(key));
+}
+
+/**
+ * Resolves once every queued durable write has landed. saveAuthSession is
+ * synchronous and returns before its write completes, so callers that need to
+ * observe storage directly must await this first.
+ */
+export function flushDurableWrites(): Promise<void> {
+  return durableQueue;
+}
+
+async function readDurable(key: string): Promise<string | null> {
+  try {
+    await durableQueue;
+    return await authStorageAdapter.getItem(key);
+  } catch {
+    return null;
+  }
 }
 
 function getMockUser(email: string): { id: string; name: string; email: string; surveyCompleted: boolean } | null {
@@ -52,6 +108,106 @@ function saveMockUser(record: { id: string; name: string; email: string; surveyC
       window.localStorage.setItem(MOCK_USERS_REGISTRY_KEY, JSON.stringify(parsed));
     } catch {}
   }
+
+  const registry: Record<string, typeof record> = {};
+  memoryMockUsers.forEach((value, key) => {
+    registry[key] = value;
+  });
+  persistDurable(MOCK_USERS_REGISTRY_KEY, JSON.stringify(registry));
+}
+
+/**
+ * Rehydrates the local mock user registry from durable storage on boot.
+ */
+async function hydrateMockUsers(): Promise<void> {
+  const raw = await readDurable(MOCK_USERS_REGISTRY_KEY);
+  if (!raw) return;
+  try {
+    const parsed = JSON.parse(raw);
+    Object.keys(parsed || {}).forEach((email) => {
+      if (!memoryMockUsers.has(email)) {
+        memoryMockUsers.set(email, parsed[email]);
+      }
+    });
+  } catch {
+    // Ignore parse error
+  }
+}
+
+function surveyRegistryKeys(user: { id?: string; email?: string }): string[] {
+  const keys: string[] = [];
+  if (user.id) keys.push(`id:${user.id}`);
+  if (user.email) keys.push(`email:${user.email.toLowerCase().trim()}`);
+  return keys;
+}
+
+function persistSurveyRegistry(): void {
+  const serialized = JSON.stringify(Array.from(surveyCompletedIds));
+  if (hasLocalStorage()) {
+    try {
+      window.localStorage.setItem(SURVEY_COMPLETED_REGISTRY_KEY, serialized);
+    } catch {
+      // Ignore storage error
+    }
+  }
+  persistDurable(SURVEY_COMPLETED_REGISTRY_KEY, serialized);
+}
+
+/** Rehydrates the survey-completion registry from durable storage. */
+export async function hydrateSurveyRegistry(): Promise<void> {
+  if (surveyRegistryHydrated) return;
+  surveyRegistryHydrated = true;
+
+  if (hasLocalStorage()) {
+    try {
+      const raw = window.localStorage.getItem(SURVEY_COMPLETED_REGISTRY_KEY);
+      if (raw) {
+        (JSON.parse(raw) as string[]).forEach((key) => surveyCompletedIds.add(key));
+      }
+    } catch {
+      // Ignore parse error
+    }
+  }
+
+  const raw = await readDurable(SURVEY_COMPLETED_REGISTRY_KEY);
+  if (!raw) return;
+  try {
+    (JSON.parse(raw) as string[]).forEach((key) => surveyCompletedIds.add(key));
+  } catch {
+    // Ignore parse error
+  }
+}
+
+/** True when this device has already seen the user finish onboarding. */
+export function hasCompletedSurveyLocally(user: { id?: string; email?: string }): boolean {
+  return surveyRegistryKeys(user).some((key) => surveyCompletedIds.has(key));
+}
+
+function recordSurveyCompletedLocally(user: { id?: string; email?: string }): void {
+  const keys = surveyRegistryKeys(user);
+  if (keys.length === 0) return;
+  keys.forEach((key) => surveyCompletedIds.add(key));
+  persistSurveyRegistry();
+}
+
+/**
+ * Reads the persisted session, falling back to durable native storage when the
+ * in-memory and localStorage lookups come up empty.
+ */
+async function loadPersistedSession(): Promise<AuthSession | null> {
+  const cached = getAuthSession();
+  if (cached) return cached;
+
+  const raw = await readDurable(STORAGE_KEY);
+  if (!raw) return null;
+
+  try {
+    const parsed = JSON.parse(raw) as AuthSession;
+    memorySession = parsed;
+    return parsed;
+  } catch {
+    return null;
+  }
 }
 
 function mapSupabaseUserToAuthUser(sbUser: any): AuthUser {
@@ -67,7 +223,8 @@ function mapSupabaseUserToAuthUser(sbUser: any): AuthUser {
     name,
     email,
     isRegistered: true,
-    surveyCompleted: Boolean(metadata.survey_completed),
+    surveyCompleted:
+      Boolean(metadata.survey_completed) || hasCompletedSurveyLocally({ id: sbUser.id, email }),
   };
 }
 
@@ -92,13 +249,15 @@ export function getAuthSession(): AuthSession | null {
 
 export function saveAuthSession(session: AuthSession): void {
   memorySession = session;
+  const serialized = JSON.stringify(session);
   if (hasLocalStorage()) {
     try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+      window.localStorage.setItem(STORAGE_KEY, serialized);
     } catch {
       // Ignore storage error
     }
   }
+  persistDurable(STORAGE_KEY, serialized);
 }
 
 export async function clearAuthSession(): Promise<void> {
@@ -110,6 +269,7 @@ export async function clearAuthSession(): Promise<void> {
       // Ignore removal error
     }
   }
+  await removeDurable(STORAGE_KEY);
 
   if (isSupabaseConfigured()) {
     try {
@@ -128,14 +288,17 @@ export function isUserAuthenticated(): boolean {
  * Restores session from Supabase on application boot.
  */
 export async function restoreSession(): Promise<AuthSession | null> {
+  await hydrateMockUsers();
+  await hydrateSurveyRegistry();
+
   if (!isSupabaseConfigured()) {
-    return getAuthSession();
+    return loadPersistedSession();
   }
 
   try {
     const { data, error } = await supabase.auth.getSession();
     if (error || !data.session) {
-      return getAuthSession();
+      return loadPersistedSession();
     }
 
     const sbSession = data.session;
@@ -148,7 +311,7 @@ export async function restoreSession(): Promise<AuthSession | null> {
     saveAuthSession(session);
     return session;
   } catch {
-    return getAuthSession();
+    return loadPersistedSession();
   }
 }
 
@@ -160,6 +323,10 @@ export async function authenticateUser(
 ): Promise<AuthSession> {
   const email = (credentials.email || '').trim().toLowerCase();
   const password = credentials.password || '';
+
+  // The registry decides whether this sign-in skips onboarding, so it has to be
+  // loaded before the session user is built.
+  await hydrateSurveyRegistry();
 
   if (!email || !email.includes('@') || !email.includes('.') || password.length < 6) {
     throw new Error('Invalid email or password. Password must be at least 6 characters.');
@@ -208,7 +375,7 @@ export async function authenticateUser(
   const existingUser = getMockUser(email);
 
   const user: AuthUser = {
-    id: existingUser?.id || `usr_${Date.now()}`,
+    id: existingUser?.id || newLocalUserId(),
     name: existingUser?.name || defaultName,
     email,
     isRegistered: true,
@@ -326,7 +493,7 @@ export async function registerUser(
 
   // Local / Mock fallback - create user and session immediately
   const user: AuthUser = {
-    id: `usr_${Date.now()}`,
+    id: newLocalUserId(),
     name,
     email,
     isRegistered: true,
@@ -412,7 +579,7 @@ export async function verifyEmailOtp(payload: VerifyOtpPayload): Promise<OtpResu
   pendingRegistrationNames.delete(email);
 
   const mockUser: AuthUser = {
-    id: `usr_${Date.now()}`,
+    id: newLocalUserId(),
     name: enteredName,
     email,
     isRegistered: true,
@@ -486,6 +653,13 @@ export async function markSurveyCompleted(): Promise<void> {
   };
   saveAuthSession(updatedSession);
 
+  // Written before the network call: if the remote update fails, the next
+  // sign-in on this device still skips onboarding.
+  recordSurveyCompletedLocally({
+    id: currentSession.user.id,
+    email: currentSession.user.email,
+  });
+
   if (currentSession.user.email) {
     saveMockUser({
       id: currentSession.user.id,
@@ -496,12 +670,20 @@ export async function markSurveyCompleted(): Promise<void> {
   }
 
   if (isSupabaseConfigured()) {
-    try {
-      await supabase.auth.updateUser({
-        data: { survey_completed: true },
-      });
-    } catch (err: any) {
-      console.warn('[authStorage] Failed to update remote survey_completed metadata:', err?.message);
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const { error } = await supabase.auth.updateUser({
+          data: { survey_completed: true },
+        });
+        if (!error) return;
+        if (attempt === 1) {
+          console.warn('[authStorage] Failed to update remote survey_completed metadata:', error.message);
+        }
+      } catch (err: any) {
+        if (attempt === 1) {
+          console.warn('[authStorage] Failed to update remote survey_completed metadata:', err?.message);
+        }
+      }
     }
   }
 }

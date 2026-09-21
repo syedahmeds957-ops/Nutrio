@@ -19,6 +19,7 @@ import { LifestyleSurveyPayload } from '../types.js';
 import { bridgeSurveyToNutritionCore } from '../nutrition-bridge.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 interface OnboardingSurveyScreenProps {
   onComplete: (
@@ -29,24 +30,6 @@ interface OnboardingSurveyScreenProps {
   onSkip?: () => void;
 }
 
-const PK_STEP_TITLES: Record<string, string> = {
-  basics: 'Physical Metrics',
-  occupational: 'Work & Daily Activity',
-  exercise: 'Workouts & Training',
-  lifestyle_desi: 'Desi Lifestyle & Chai',
-  health_clinical: 'Health & Medical Safety',
-  preferences_budget: 'Diet & Household Budget',
-};
-
-const SA_STEP_TITLES: Record<string, string> = {
-  basics: 'Physical Metrics',
-  occupational: 'Work & Daily Activity',
-  exercise: 'Workouts & Training',
-  lifestyle_desi: 'Saudi Lifestyle & Gahwa (النمط السعودي والقهوة)',
-  health_clinical: 'Health & Medical Safety',
-  preferences_budget: 'Diet & Budget (النمط والميزانية)',
-};
-
 export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
   onComplete,
   onCancel,
@@ -54,8 +37,9 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
 }) => {
   const { theme } = useTheme();
   const { activeRegion } = useRegion();
-  const isSaudi = activeRegion === 'SA';
-  const stepTitles = isSaudi ? SA_STEP_TITLES : PK_STEP_TITLES;
+  const { t } = useTranslation();
+  const dir = useTextDirection();
+  const stepTitle = (id: string) => t(`survey.stepTitles.${id}.${activeRegion}`);
   const [engine] = useState(() => new SurveyStateEngine());
   const [stepIndex, setStepIndex] = useState(engine.getCurrentStepIndex());
   const [, setRerender] = useState(0);
@@ -100,7 +84,7 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
       <ProgressBar
         currentStep={stepIndex}
         totalSteps={engine.getTotalSteps()}
-        stepTitle={stepTitles[currentStep] || 'Onboarding Assessment'}
+        stepTitle={stepTitle(currentStep)}
       />
 
       <ScrollView
@@ -194,8 +178,8 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
             disabled={isFirstStep && !onCancel}
             activeOpacity={0.7}
           >
-            <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
-              {isFirstStep ? (isSaudi ? 'إلغاء' : 'Cancel') : (isSaudi ? 'رجوع' : 'Back')}
+            <Text style={[styles.backBtnText, dir.textCenter, { color: theme.colors.textPrimary }]}>
+              {isFirstStep ? t('common.cancel') : t('common.back')}
             </Text>
           </TouchableOpacity>
 
@@ -209,10 +193,8 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
             onPress={handleNext}
             activeOpacity={0.7}
           >
-            <Text style={[styles.nextBtnText, { color: theme.colors.limeText }]}>
-              {isLastStep
-                ? (isSaudi ? 'إكمال التقييم (Complete Assessment)' : 'Complete Assessment')
-                : (isSaudi ? 'متابعة (Continue)' : 'Continue')}
+            <Text style={[styles.nextBtnText, dir.textCenter, { color: theme.colors.limeText }]}>
+              {isLastStep ? t('survey.completeAssessment') : t('common.continue')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -223,10 +205,10 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
             onPress={onSkip}
             activeOpacity={0.7}
             accessibilityRole="button"
-            accessibilityLabel="Skip survey"
+            accessibilityLabel={t('survey.skip')}
           >
-            <Text style={[styles.skipBtnText, { color: theme.colors.textMuted }]}>
-              {isSaudi ? 'تخطي الاستبيان الآن ←' : 'Skip survey for now →'}
+            <Text style={[styles.skipBtnText, dir.textCenter, { color: theme.colors.textMuted }]}>
+              {t('survey.skip')} {dir.isRTL ? '←' : '→'}
             </Text>
           </TouchableOpacity>
         )}

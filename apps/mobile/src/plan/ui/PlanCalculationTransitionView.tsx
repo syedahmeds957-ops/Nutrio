@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { useTheme } from '../../theme.js';
-import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 
 interface PlanCalculationTransitionViewProps {
@@ -18,22 +18,17 @@ export const PlanCalculationTransitionView: React.FC<PlanCalculationTransitionVi
   onReady,
 }) => {
   const { theme } = useTheme();
-  const { activeRegion } = useRegion();
-  const isSaudi = activeRegion === 'SA';
+  const { t } = useTranslation();
+  const dir = useTextDirection();
+  const isSaudi = dir.isRTL;
   const accentColor = theme.colors.primaryLime;
   const [stepIndex, setStepIndex] = useState(0);
 
-  const steps = isSaudi
-    ? [
-        'معايرة معدل الأيض الأساسي وحساب استهلاك الطاقة...',
-        'تحديد العجز المستدام وحماية التوازن الهرموني...',
-        'تخصيص الأطباق التراثية والمطاعم المعتمدة محلياً...',
-      ]
-    : [
-        'Calibrating Mifflin-St Jeor TDEE & metabolic baselines...',
-        'Balancing macronutrient floor & safe deficit pacing...',
-        'Synthesizing cultural food levers & lifestyle preferences...',
-      ];
+  const steps = [
+    t('plan.transition.steps.tdee'),
+    t('plan.transition.steps.deficit'),
+    t('plan.transition.steps.cultural'),
+  ];
 
   useEffect(() => {
     const isTest = typeof process !== 'undefined' && process.env?.NODE_ENV === 'test';
@@ -72,15 +67,13 @@ export const PlanCalculationTransitionView: React.FC<PlanCalculationTransitionVi
         {/* Clinical Eyebrow & Title */}
         <View style={styles.headerArea}>
           <Text style={[styles.eyebrow, { color: accentColor }]}>
-            {isSaudi ? 'المحرك الأيضي السريري · CLINICAL ENGINE' : 'CLINICAL NUTRITION ENGINE'}
+            {t('plan.transition.eyebrow')}
           </Text>
-          <Text style={[styles.title, { color: theme.colors.textPrimary }]}>
-            {isSaudi ? 'صياغة خطتك المخصصة' : 'Synthesizing Your Plan'}
+          <Text style={[styles.title, dir.textCenter, { color: theme.colors.textPrimary }]}>
+            {t('plan.transition.title')}
           </Text>
-          <Text style={[styles.subtitle, { color: theme.colors.textSecondary }]}>
-            {isSaudi
-              ? 'نقوم الآن بضبط أرقامك الغذائية بدقة وفق المؤشرات الحيوية ونمط حياتك.'
-              : 'Formulating exact caloric targets, macro splits, and cultural levers.'}
+          <Text style={[styles.subtitle, dir.textCenter, { color: theme.colors.textSecondary }]}>
+            {t('plan.transition.subtitle')}
           </Text>
         </View>
 
@@ -162,7 +155,7 @@ export const PlanCalculationTransitionView: React.FC<PlanCalculationTransitionVi
           activeOpacity={0.8}
         >
           <Text style={[styles.skipButtonText, { color: theme.colors.textSecondary }]}>
-            {isSaudi ? 'عرض الخطة فوراً · View Plan Now' : 'View Plan Now'}
+            {t('plan.transition.viewPlanNow')}
           </Text>
           <Icon name="arrow-right" size={14} color={theme.colors.textSecondary} />
         </TouchableOpacity>

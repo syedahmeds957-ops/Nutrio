@@ -13,6 +13,7 @@ import {
   PlannedMealSlot,
 } from '@nutrio/nutrition-core';
 import { useTheme } from '../../theme.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 interface MealSwapModalProps {
   visible: boolean;
@@ -30,6 +31,8 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
   onSelectOption,
 }) => {
   const { theme, isDark } = useTheme();
+  const { t } = useTranslation();
+  const dir = useTextDirection();
 
   if (!originalSlot || !swapResult) return null;
 
@@ -64,7 +67,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                   { color: isDark ? theme.colors.primaryLime : '#4D7C0F' },
                 ]}
               >
-                ONE-TAP MACRO MATCH
+                {t('plan.swap.eyebrow')}
               </Text>
               <Text
                 style={[
@@ -72,7 +75,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                   { color: theme.colors.textPrimary },
                 ]}
               >
-                Swap {originalSlot.title}
+                {t('plan.swap.title', { slot: originalSlot.title })}
               </Text>
               <Text
                 style={[
@@ -80,7 +83,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                   { color: theme.colors.textSecondary },
                 ]}
               >
-                Current: {originalSlot.actualCalories} kcal ·{' '}
+                {t('plan.swap.current', { value: originalSlot.actualCalories })} ·{' '}
                 {originalSlot.items.map((i) => i.foodName).join(', ')}
               </Text>
             </View>
@@ -267,7 +270,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                     activeOpacity={0.7}
                   >
                     <Text style={[styles.selectBtnText, { color: '#0A0B0D' }]}>
-                      Select This Meal
+                      {t('plan.swap.selectMeal')}
                     </Text>
                   </TouchableOpacity>
                 </View>

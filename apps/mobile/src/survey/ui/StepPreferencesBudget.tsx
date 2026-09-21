@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { BudgetTierPKR, DietPreference, SurveyPreferencesBudget } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 interface StepPreferencesBudgetProps {
   data: Partial<SurveyPreferencesBudget>;
@@ -10,56 +11,20 @@ interface StepPreferencesBudgetProps {
   errors: Record<string, string>;
 }
 
-const PK_DIET_OPTIONS: Array<{ id: DietPreference; label: string }> = [
-  { id: 'halal_omnivore', label: 'Halal Omnivore (Chicken, Beef, Mutton, Daal, Veg)' },
-  { id: 'halal_meat_moderate', label: 'Moderate Meat (Poultry/Fish 2-3x a week)' },
-  { id: 'vegetarian_desi', label: 'Desi Vegetarian (Daal, Paneer, Sabzi, Roti)' },
-  { id: 'eggetarian', label: 'Eggetarian (Vegetarian + Eggs)' },
-  { id: 'vegan', label: 'Strict Plant-Based / Vegan' },
+// Staple foods, retail brands and grocery prices are market specific, so both
+// the diet labels and the budget ranges are keyed by region.
+const DIET_OPTION_IDS: DietPreference[] = [
+  'halal_omnivore',
+  'halal_meat_moderate',
+  'vegetarian_desi',
+  'eggetarian',
+  'vegan',
 ];
 
-const SA_DIET_OPTIONS: Array<{ id: DietPreference; label: string }> = [
-  { id: 'halal_omnivore', label: 'Halal Omnivore (Chicken, Hashi Camel, Lamb, Kabsa, Fish - لحم ودجاج وأرز)' },
-  { id: 'halal_meat_moderate', label: 'Moderate Meat (Farrouj/Fish 2-3x a week)' },
-  { id: 'vegetarian_desi', label: 'Vegetarian (Foul, Hummus, Salads, Tamees, Rice - فول وحمص وسلطات)' },
-  { id: 'eggetarian', label: 'Eggetarian (Vegetarian + Eggs)' },
-  { id: 'vegan', label: 'Strict Plant-Based / Vegan' },
-];
-
-const BUDGET_TIERS: Array<{ id: BudgetTierPKR; title: string; range: string }> = [
-  {
-    id: 'budget_under_3500',
-    title: 'Economical Desi Tier',
-    range: 'Under PKR 3,500 / week (Focus on seasonal sabzi, daal, eggs, local grains)',
-  },
-  {
-    id: 'standard_3500_7000',
-    title: 'Balanced Household Tier',
-    range: 'PKR 3,500 – 7,000 / week (Chicken, dairy, yogurt, mixed meat/veg)',
-  },
-  {
-    id: 'premium_above_7000',
-    title: 'High-Protein / Premium Tier',
-    range: 'Above PKR 7,000 / week (Daily lean meats, fish, premium nuts, protein additions)',
-  },
-];
-
-const SA_BUDGET_TIERS: Array<{ id: BudgetTierPKR; title: string; range: string }> = [
-  {
-    id: 'budget_under_3500',
-    title: 'Economical Tier (اقتصادي)',
-    range: 'Under SAR 125 / week (Focus on seasonal produce, lentils, Tamees bread, Almarai dairy, eggs)',
-  },
-  {
-    id: 'standard_3500_7000',
-    title: 'Balanced Household Tier (متوسط)',
-    range: 'SAR 125 – 250 / week (Fresh Tanmiah poultry, laban, basmati rice, seasonal fruits & dates)',
-  },
-  {
-    id: 'premium_above_7000',
-    title: 'High-Protein / Premium Tier (فاخر)',
-    range: 'Above SAR 250 / week (Daily fresh Naeemi lamb, fish, premium Ajwa/Sukari dates)',
-  },
+const BUDGET_TIER_IDS: BudgetTierPKR[] = [
+  'budget_under_3500',
+  'standard_3500_7000',
+  'premium_above_7000',
 ];
 
 export const StepPreferencesBudget: React.FC<StepPreferencesBudgetProps> = ({
@@ -69,23 +34,32 @@ export const StepPreferencesBudget: React.FC<StepPreferencesBudgetProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const isSaudi = activeRegion === 'SA';
   const accentColor = theme.colors.primaryLime;
   const activeTextColor = '#0A0B0D';
-  const dietOptions = isSaudi ? SA_DIET_OPTIONS : PK_DIET_OPTIONS;
-  const budgetTiers = isSaudi ? SA_BUDGET_TIERS : BUDGET_TIERS;
+  const dietOptions = DIET_OPTION_IDS.map((id) => ({
+    id,
+    label: t(`survey.preferences.diets.${id}.${activeRegion}`),
+  }));
+  const budgetTiers = BUDGET_TIER_IDS.map((id) => ({
+    id,
+    title: t(`survey.preferences.budgets.${id}.title`),
+    range: t(`survey.preferences.budgets.${id}.range.${activeRegion}`),
+  }));
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.description, { color: theme.colors.textSecondary }]}>
-        {isSaudi
-          ? 'Tailoring your nutritional plan to your dietary ethos and realistic household grocery expenditure in Saudi Arabia.'
-          : 'Tailoring your nutritional plan to your dietary ethos and realistic household grocery expenditure in Pakistan.'}
+      <Text style={[styles.description, dir.text, { color: theme.colors.textSecondary }]}>
+        {t(`survey.preferences.description.${activeRegion}`)}
       </Text>
 
       {/* Diet Style */}
       <View style={styles.fieldGroup}>
-        <Text style={[styles.label, { color: theme.colors.textPrimary }]}>Dietary Preference</Text>
+        <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }]}>
+          {t('survey.preferences.dietaryPreference')}
+        </Text>
         <View style={styles.chipGrid}>
           {dietOptions.map((d) => {
             const isSelected = data.dietPreference === d.id;
@@ -128,10 +102,8 @@ export const StepPreferencesBudget: React.FC<StepPreferencesBudgetProps> = ({
 
       {/* Budget Tier */}
       <View style={styles.fieldGroup}>
-        <Text style={[styles.label, { color: theme.colors.textPrimary }]}>
-          {activeRegion === 'SA'
-            ? 'Monthly Household Grocery Budget Target (SAR)'
-            : 'Weekly Grocery Budget Target (PKR)'}
+        <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }]}>
+          {t(`survey.preferences.budgetLabel.${activeRegion}`)}
         </Text>
         {budgetTiers.map((b) => {
           const isSelected = data.budgetTierPKR === b.id;
@@ -186,12 +158,12 @@ export const StepPreferencesBudget: React.FC<StepPreferencesBudgetProps> = ({
                     ]}
                   >
                     <Text style={[styles.activePillText, isSaudi && { color: '#FFFFFF' }]}>
-                      {isSaudi ? 'تم الاختيار' : 'SELECTED'}
+                      {t('common.selected')}
                     </Text>
                   </View>
                 )}
               </View>
-              <Text style={[styles.cardSubtitle, { color: theme.colors.textSecondary }]}>
+              <Text style={[styles.cardSubtitle, dir.text, { color: theme.colors.textSecondary }]}>
                 {b.range}
               </Text>
             </TouchableOpacity>

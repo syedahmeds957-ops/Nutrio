@@ -26,9 +26,11 @@ import { NormalizedFood, PAKISTANI_STAPLES_DATA, SAUDI_TRADITIONAL_FOODS, Servin
 import { ResolvedFoodItem } from '@nutrio/nutrition-core';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { GuestAuthModal } from './GuestAuthModal.js';
 import { Icon } from '../../ui/Icon.js';
 import { saveDailyActivities, loadDailyActivities } from '../activityStorage.js';
+import { pushDailyActivities } from '../../sync/activitySync.js';
 import { HapticFeedback } from '../../ui/haptics.js';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -71,7 +73,8 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
 }) => {
   const { theme, mode, isDark, setMode, toggleTheme } = useTheme();
   const { activeRegion, setRegion } = useRegion();
-  const isSaudi = activeRegion === 'SA';
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
   const accentTextColor = '#0A0B0D';
 
@@ -120,6 +123,19 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
       currentSummary.items,
       currentSummary.waterMlConsumed
     );
+
+    // Mirror the day to the account so it survives logout and device changes.
+    // Guests have no profile to attach it to, so they stay local-only.
+    if (!isGuest) {
+      pushDailyActivities({
+        date: currentSummary.date,
+        region: activeRegion,
+        items: currentSummary.items,
+        waterMl: currentSummary.waterMlConsumed,
+      }).catch(() => {
+        // Local copy already saved; a failed push retries on the next change.
+      });
+    }
   };
 
   React.useEffect(() => {
@@ -351,8 +367,8 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                 </Text>
               </View>
               <View>
-                <Text style={[styles.greetingText, { color: theme.colors.textMuted }]}>
-                  TODAY
+                <Text style={[styles.greetingText, dir.text, { color: theme.colors.textMuted }]}>
+                  {t('common.today')}
                 </Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                   <Text style={[styles.userName, { color: theme.colors.textPrimary }]}>
@@ -360,7 +376,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                   </Text>
                   <View style={[styles.freeTag, { backgroundColor: accentColor }]}>
                     <Text style={[styles.freeTagText, { color: accentTextColor }]}>
-                      {isSaudi ? 'FREE · مجاني' : 'FREE'}
+                      {t('tracker.dashboard.freeTag')}
                     </Text>
                   </View>
                 </View>
@@ -384,7 +400,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                 activeOpacity={0.7}
                 hitSlop={{ top: 8, bottom: 8, left: 6, right: 6 }}
                 accessibilityRole="button"
-                accessibilityLabel="Toggle Active Region"
+                accessibilityLabel={t('tracker.dashboard.toggleRegion')}
               >
                 <Text style={[styles.regionToggleText, { color: theme.colors.textPrimary }]}>
                   {activeRegion === 'SA' ? '🇸🇦 SA' : '🇵🇰 PK'}
@@ -433,7 +449,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                 <View style={styles.navPillContent}>
                   <Icon name="utensils" size={13} color={theme.colors.textPrimary} />
                   <Text style={[styles.navPillBtnText, { color: theme.colors.textPrimary }]}>
-                    Meals
+                    {t('tracker.dashboard.nav.meals')}
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -457,7 +473,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                 <View style={styles.navPillContent}>
                   <Icon name="scale" size={13} color={theme.colors.textPrimary} />
                   <Text style={[styles.navPillBtnText, { color: theme.colors.textPrimary }]}>
-                    Weight
+                    {t('tracker.dashboard.nav.weight')}
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -481,7 +497,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                 <View style={styles.navPillContent}>
                   <Icon name="coach" size={13} color={accentTextColor} />
                   <Text style={[styles.navPillBtnActiveText, { color: accentTextColor }]}>
-                    {isSaudi ? 'المدرب الذكي · AI Coach' : 'AI Coach'}
+                    {t('tracker.dashboard.nav.coach')}
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -499,7 +515,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                 <View style={styles.navPillContent}>
                   <Icon name="clipboard" size={13} color={theme.colors.textPrimary} />
                   <Text style={[styles.navPillBtnText, { color: theme.colors.textPrimary }]}>
-                    Targets
+                    {t('tracker.dashboard.nav.targets')}
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -517,7 +533,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                 <View style={styles.navPillContent}>
                   <Icon name="survey" size={13} color={theme.colors.textPrimary} />
                   <Text style={[styles.navPillBtnText, { color: theme.colors.textPrimary }]}>
-                    Survey
+                    {t('tracker.dashboard.nav.survey')}
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -561,8 +577,8 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
         {/* 5. Today's Meals Timeline */}
         <View style={styles.slotsSection}>
           <View style={styles.slotsHeadingRow}>
-            <Text style={[styles.sectionHeading, { color: theme.colors.textPrimary, marginHorizontal: 0, marginBottom: 0 }]}>
-              Today's Logged Meals
+            <Text style={[styles.sectionHeading, dir.text, { color: theme.colors.textPrimary, marginHorizontal: 0, marginBottom: 0 }]}>
+              {t('tracker.dashboard.todaysMeals')}
             </Text>
             <View
               style={[
@@ -592,15 +608,15 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                 ]}
               >
                 {completedSlotsCount === 4
-                  ? '🎉 ALL MEALS DONE'
-                  : `${completedSlotsCount} / 4 LOGGED`}
+                  ? t('tracker.dashboard.allMealsDone')
+                  : t('tracker.dashboard.slotsLogged', { count: completedSlotsCount })}
               </Text>
             </View>
           </View>
 
           <MealSlotCard
             slot="breakfast"
-            title="Breakfast"
+            title={t('tracker.mealSlots.breakfast.' + activeRegion)}
             icon={<Icon name="sun" size={18} color="#F59E0B" />}
             items={engine.getItemsBySlot('breakfast')}
             onAddItem={handleOpenAdd}
@@ -609,7 +625,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
 
           <MealSlotCard
             slot="lunch"
-            title="Lunch"
+            title={t('tracker.mealSlots.lunch.' + activeRegion)}
             icon={<Icon name="utensils" size={18} color={theme.colors.primaryLime} />}
             items={engine.getItemsBySlot('lunch')}
             onAddItem={handleOpenAdd}
@@ -618,7 +634,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
 
           <MealSlotCard
             slot="dinner"
-            title="Dinner"
+            title={t('tracker.mealSlots.dinner.' + activeRegion)}
             icon={<Icon name="utensils" size={18} color="#3B82F6" />}
             items={engine.getItemsBySlot('dinner')}
             onAddItem={handleOpenAdd}
@@ -627,7 +643,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
 
           <MealSlotCard
             slot="snacks_chai"
-            title={activeRegion === 'SA' ? 'Gahwa & Snacks' : 'Snacks & Chai'}
+            title={t('tracker.mealSlots.snacks_chai.' + activeRegion)}
             icon={<Icon name="coffee" size={18} color="#D97706" />}
             items={engine.getItemsBySlot('snacks_chai')}
             onAddItem={handleOpenAdd}
@@ -694,7 +710,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
               { color: activeTab === 'today' ? accentColor : '#8E929B' },
             ]}
           >
-            {isSaudi ? 'اليوم · Today' : 'Today'}
+            {t('common.today')}
           </Text>
         </TouchableOpacity>
 
@@ -709,7 +725,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
         >
           <Icon name="plus" size={16} color={accentTextColor} />
           <Text style={[styles.bottomCenterLogText, { color: accentTextColor }]}>
-            {isSaudi ? 'تسجيل وجبة' : 'Log Meal'}
+            {t('tracker.dashboard.logMeal')}
           </Text>
         </TouchableOpacity>
 
@@ -733,7 +749,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
               { color: activeTab === 'diary' ? accentColor : '#8E929B' },
             ]}
           >
-            {isSaudi ? 'اليوميات · Diary' : 'Diary'}
+            {t('tracker.dashboard.diary')}
           </Text>
         </TouchableOpacity>
       </View>
@@ -820,9 +836,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                   {userName}
                 </Text>
                 <Text style={[styles.profileEmail, { color: theme.colors.textMuted }]}>
-                  {activeRegion === 'SA'
-                    ? '100% Free Plan • 12+ Saudi Chains & Traditional Cuisine'
-                    : '100% Free Plan • All 60+ Brands Unlocked'}
+                  {t(`tracker.dashboard.planBlurb.${activeRegion}`)}
                 </Text>
               </View>
               <TouchableOpacity
@@ -841,8 +855,8 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                 { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border },
               ]}
             >
-              <Text style={[styles.themeSettingTitle, { color: theme.colors.textPrimary }]}>
-                Appearance
+              <Text style={[styles.themeSettingTitle, dir.text, { color: theme.colors.textPrimary }]}>
+                {t('tracker.dashboard.appearance')}
               </Text>
               <View style={styles.themeToggleRow}>
                 <TouchableOpacity
@@ -859,7 +873,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                       { color: mode === 'dark' ? accentTextColor : theme.colors.textSecondary },
                     ]}
                   >
-                    🌙 Dark Mode
+                    🌙 {t('tracker.dashboard.darkMode')}
                   </Text>
                 </TouchableOpacity>
 
@@ -877,7 +891,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                       { color: mode === 'light' ? accentTextColor : theme.colors.textSecondary },
                     ]}
                   >
-                    ☀️ Light Mode
+                    ☀️ {t('tracker.dashboard.lightMode')}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -894,21 +908,27 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
               ]}
             >
               <View style={styles.profileStatItem}>
-                <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>Daily Target</Text>
+                <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>
+                  {t('tracker.dashboard.dailyTarget')}
+                </Text>
                 <Text style={[styles.statNumber, { color: theme.colors.textPrimary }]}>
-                  {targets.targetCalories} kcal
+                  {t('common.kcalValue', { value: targets.targetCalories })}
                 </Text>
               </View>
               <View style={[styles.statDivider, { backgroundColor: theme.colors.border }]} />
               <View style={styles.profileStatItem}>
-                <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>Protein</Text>
+                <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>
+                  {t('common.protein')}
+                </Text>
                 <Text style={[styles.statNumber, { color: theme.colors.textPrimary }]}>
                   {targets.targetProteinGrams}g
                 </Text>
               </View>
               <View style={[styles.statDivider, { backgroundColor: theme.colors.border }]} />
               <View style={styles.profileStatItem}>
-                <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>Water Goal</Text>
+                <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>
+                  {t('tracker.dashboard.waterGoal')}
+                </Text>
                 <Text style={[styles.statNumber, { color: theme.colors.textPrimary }]}>
                   {targets.targetWaterMl || 3000} ml
                 </Text>
@@ -929,7 +949,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                   <View style={styles.actionBtnRow}>
                     <Icon name="survey" size={16} color={accentColor} />
                     <Text style={[styles.actionBtnText, { color: theme.colors.textPrimary }]}>
-                      Retake Lifestyle Survey
+                      {t('tracker.dashboard.retakeSurvey')}
                     </Text>
                   </View>
                   <Icon name="arrow-right" size={14} color={theme.colors.textMuted} />
@@ -948,7 +968,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                   <View style={styles.actionBtnRow}>
                     <Icon name="utensils" size={16} color={accentColor} />
                     <Text style={[styles.actionBtnText, { color: theme.colors.textPrimary }]}>
-                      View 7-Day Meal Plan
+                      {t('tracker.dashboard.viewMealPlan')}
                     </Text>
                   </View>
                   <Icon name="arrow-right" size={14} color={theme.colors.textMuted} />
@@ -967,7 +987,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                   <View style={styles.actionBtnRow}>
                     <Icon name="shield" size={16} color={accentTextColor} />
                     <Text style={[styles.actionBtnText, { color: accentTextColor, fontWeight: '800' }]}>
-                      {activeRegion === 'SA' ? 'تسجيل الدخول / إنشاء حساب' : 'Sign In / Create Account'}
+                      {t('tracker.dashboard.signInCreate')}
                     </Text>
                   </View>
                   <Icon name="arrow-right" size={14} color={accentTextColor} />
@@ -983,7 +1003,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                   <View style={styles.actionBtnRow}>
                     <Icon name="arrow-left" size={16} color="#EF4444" />
                     <Text style={[styles.actionBtnText, { color: '#EF4444' }]}>
-                      Log Out / Return to Home
+                      {t('tracker.dashboard.logout')}
                     </Text>
                   </View>
                 </TouchableOpacity>

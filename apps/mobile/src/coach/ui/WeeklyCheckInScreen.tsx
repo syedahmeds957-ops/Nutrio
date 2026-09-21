@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import { useTheme } from '../../theme.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 export interface WeeklyCheckInMetrics {
   daysLogged: number;
@@ -46,17 +47,25 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
   onBack,
 }) => {
   const { theme, isDark } = useTheme();
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const isTargetChanged = metrics.targetDelta !== 0;
 
   const handleShareSummary = () => {
-    const summary = `📊 Nutrio Weekly Check-in Report (${displayName || 'My Progress'})
-- Adherence Rate: ${metrics.adherenceRatePct}% (${metrics.daysLogged}/7 days logged)
-- Weight Trend: ${metrics.weightDeltaKg >= 0 ? `+${metrics.weightDeltaKg}` : metrics.weightDeltaKg} kg
-- Daily Intake Avg: ${metrics.meanDailyIntake} kcal
-- New Daily Target: ${metrics.newKcalTarget} kcal (${metrics.targetDelta >= 0 ? `+${metrics.targetDelta}` : metrics.targetDelta} kcal)
-- Next Week Habit: ${narrative.keyActionLever}`;
+    const summary = t('checkin.shareBody', {
+      name: displayName || t('checkin.myProgress'),
+      adherence: metrics.adherenceRatePct,
+      daysLogged: metrics.daysLogged,
+      weightDelta:
+        metrics.weightDeltaKg >= 0 ? `+${metrics.weightDeltaKg}` : `${metrics.weightDeltaKg}`,
+      intake: metrics.meanDailyIntake,
+      newTarget: metrics.newKcalTarget,
+      targetDelta:
+        metrics.targetDelta >= 0 ? `+${metrics.targetDelta}` : `${metrics.targetDelta}`,
+      habit: narrative.keyActionLever,
+    });
 
-    Alert.alert('Shareable Summary', summary);
+    Alert.alert(t('checkin.shareTitle'), summary);
   };
 
   return (
@@ -77,11 +86,11 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
           activeOpacity={0.7}
         >
           <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
-            ← Dashboard
+            {dir.isRTL ? '→' : '←'} {t('checkin.dashboard')}
           </Text>
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>
-          Weekly Check-In
+          {t('checkin.title')}
         </Text>
         <TouchableOpacity
           style={[
@@ -97,7 +106,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
               { color: isDark ? theme.colors.primaryLime : '#4B6200' },
             ]}
           >
-            Share
+            {t('checkin.share')}
           </Text>
         </TouchableOpacity>
       </View>
@@ -134,7 +143,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
               },
             ]}
           >
-            METABOLIC ADAPTIVE RECALIBRATION
+            {t('checkin.recalibration')}
           </Text>
           <Text
             style={[
@@ -165,7 +174,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
                   { color: isTargetChanged ? '#333A00' : theme.colors.textMuted },
                 ]}
               >
-                Old Target
+                {t('checkin.oldTarget')}
               </Text>
               <Text
                 style={[
@@ -173,7 +182,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
                   { color: isTargetChanged ? '#0A0B0D' : theme.colors.textPrimary },
                 ]}
               >
-                {metrics.oldKcalTarget} kcal
+                {t('common.kcalValue', { value: metrics.oldKcalTarget })}
               </Text>
             </View>
 
@@ -211,7 +220,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
                   { color: isTargetChanged ? '#9CA3AF' : theme.colors.textMuted },
                 ]}
               >
-                New Target
+                {t('checkin.newTarget')}
               </Text>
               <Text
                 style={[
@@ -225,7 +234,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
                   },
                 ]}
               >
-                {metrics.newKcalTarget} kcal
+                {t('common.kcalValue', { value: metrics.newKcalTarget })}
               </Text>
             </View>
           </View>
@@ -249,10 +258,10 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
               {metrics.adherenceRatePct}%
             </Text>
             <Text style={[styles.metricLabel, { color: theme.colors.textMuted }]}>
-              Adherence Rate
+              {t('checkin.adherenceRate')}
             </Text>
             <Text style={[styles.metricSub, { color: theme.colors.textMuted }]}>
-              {metrics.daysLogged} of 7 days on-target
+              {t('checkin.daysOnTarget', { count: metrics.daysLogged })}
             </Text>
           </View>
 
@@ -282,10 +291,10 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
               kg
             </Text>
             <Text style={[styles.metricLabel, { color: theme.colors.textMuted }]}>
-              Weight Trend
+              {t('checkin.weightTrend')}
             </Text>
             <Text style={[styles.metricSub, { color: theme.colors.textMuted }]}>
-              EWMA smoothed
+              {t('checkin.ewmaSmoothed')}
             </Text>
           </View>
 
@@ -302,10 +311,10 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
               {metrics.meanDailyIntake}
             </Text>
             <Text style={[styles.metricLabel, { color: theme.colors.textMuted }]}>
-              Avg Daily Intake
+              {t('checkin.avgIntake')}
             </Text>
             <Text style={[styles.metricSub, { color: theme.colors.textMuted }]}>
-              kcal per day
+              {t('checkin.kcalPerDay')}
             </Text>
           </View>
 
@@ -322,10 +331,12 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
               {metrics.newTDEE}
             </Text>
             <Text style={[styles.metricLabel, { color: theme.colors.textMuted }]}>
-              Adaptive TDEE
+              {t('checkin.adaptiveTdee')}
             </Text>
             <Text style={[styles.metricSub, { color: theme.colors.textMuted }]}>
-              {metrics.tdeeDelta >= 0 ? `+${metrics.tdeeDelta}` : metrics.tdeeDelta} kcal shift
+              {t('checkin.kcalShift', {
+                value: metrics.tdeeDelta >= 0 ? `+${metrics.tdeeDelta}` : metrics.tdeeDelta,
+              })}
             </Text>
           </View>
         </View>
@@ -342,7 +353,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
         >
           <View style={styles.narrativeHeader}>
             <Text style={[styles.narrativeTitle, { color: theme.colors.textPrimary }]}>
-              🧑‍⚕️ Coach's Metabolic Assessment
+              🧑‍⚕️ {t('checkin.coachAssessment')}
             </Text>
             <View
               style={[
@@ -358,7 +369,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
                   { color: isDark ? theme.colors.primaryLime : '#4B6200' },
                 ]}
               >
-                GROUNDED
+                {t('checkin.grounded')}
               </Text>
             </View>
           </View>
@@ -383,7 +394,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
               { color: isDark ? theme.colors.primaryLime : '#B45309' },
             ]}
           >
-            💡 NEXT WEEK'S ACTION LEVER
+            💡 {t('checkin.actionLever')}
           </Text>
           <Text
             style={[
@@ -405,7 +416,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
           activeOpacity={0.85}
         >
           <Text style={[styles.acceptBtnText, { color: theme.colors.limeText }]}>
-            ✓ Apply New Target ({metrics.newKcalTarget} kcal/day)
+            ✓ {t('checkin.applyNewTarget', { value: metrics.newKcalTarget })}
           </Text>
         </TouchableOpacity>
       </ScrollView>

@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { AdaptiveTDEEResult } from '@nutrio/nutrition-core';
 import { useTheme } from '../../theme.js';
-import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 interface AdaptiveTDEECardProps {
   adaptiveResult: AdaptiveTDEEResult;
@@ -14,8 +14,8 @@ export const AdaptiveTDEECard: React.FC<AdaptiveTDEECardProps> = ({
   formulaTDEE,
 }) => {
   const { theme, isDark } = useTheme();
-  const { activeRegion } = useRegion();
-  const isSaudi = activeRegion === 'SA';
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
   const badgeBg = isDark
     ? 'rgba(164, 235, 63, 0.15)'
@@ -38,12 +38,10 @@ export const AdaptiveTDEECard: React.FC<AdaptiveTDEECardProps> = ({
       <View style={styles.topRow}>
         <View>
           <Text style={[styles.title, { color: theme.colors.textPrimary }]}>
-            {isSaudi ? 'معدل الحرق الأيضي التكيفي · Adaptive TDEE' : 'Closed-Loop Adaptive TDEE'}
+            {t('weight.adaptive.title')}
           </Text>
           <Text style={[styles.sub, { color: theme.colors.textMuted }]}>
-            {isSaudi
-              ? 'معايرة معدل الحرق الحقيقي عبر موازنة قراءات الميزان مع سعرات الطعام الفعلية'
-              : 'Calibrating your true metabolic expenditure using scale trends & intake logs'}
+            {t('weight.adaptive.subtitle')}
           </Text>
         </View>
       </View>
@@ -52,11 +50,13 @@ export const AdaptiveTDEECard: React.FC<AdaptiveTDEECardProps> = ({
       <View style={[styles.heroBox, { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border }]}>
         <View>
           <Text style={[styles.heroLabel, { color: theme.colors.textMuted }]}>
-            {isSaudi ? 'معدل الحرق الفعلي النشط' : 'Active Blended TDEE'}
+            {t('weight.adaptive.blendedTdee')}
           </Text>
-          <Text style={[styles.heroVal, { color: accentColor, fontWeight: '800' }]}>{blendedTDEE} kcal</Text>
+          <Text style={[styles.heroVal, { color: accentColor, fontWeight: '800' }]}>
+            {t('common.kcalValue', { value: blendedTDEE })}
+          </Text>
           <Text style={[styles.heroSub, { color: theme.colors.textMuted }]}>
-            {isSaudi ? `الأساس الحسابي: ${formulaTDEE} سعرة` : `Formula baseline: ${formulaTDEE} kcal`}
+            {t('weight.adaptive.formulaBaseline', { value: formulaTDEE })}
           </Text>
         </View>
 
@@ -68,7 +68,7 @@ export const AdaptiveTDEECard: React.FC<AdaptiveTDEECardProps> = ({
             kcal/wk
           </Text>
           <Text style={[styles.deltaSub, { color: theme.colors.textMuted }]}>
-            {isSaudi ? 'تعديل السعرات' : 'target adjustment'}
+            {t('weight.adaptive.targetAdjustment')}
           </Text>
         </View>
       </View>
@@ -77,19 +77,20 @@ export const AdaptiveTDEECard: React.FC<AdaptiveTDEECardProps> = ({
       <View style={styles.calibrationSection}>
         <View style={styles.calibHeader}>
           <Text style={[styles.calibLabel, { color: theme.colors.textMuted }]}>
-            {isSaudi ? 'نافذة المعايرة (28 يوماً)' : 'Calibration Window'}
+            {t('weight.adaptive.calibrationWindow')}
           </Text>
           <Text style={[styles.calibVal, { color: theme.colors.textPrimary }]}>
-            {daysLogged} / 28 {isSaudi ? 'يوم' : 'days'} ({calibrationPct}%)
+            {t('weight.adaptive.calibrationDays', { days: daysLogged, pct: calibrationPct })}
           </Text>
         </View>
         <View style={[styles.track, { backgroundColor: isDark ? '#272A33' : '#E2E8F0' }]}>
           <View style={[styles.fill, { width: `${calibrationPct}%`, backgroundColor: accentColor }]} />
         </View>
         <Text style={[styles.calibNote, { color: theme.colors.textMuted }]}>
-          {isSaudi
-            ? `وزن البيانات الحقيقية: ${(weightFactor * 100).toFixed(0)}% / المعادلة: ${((1 - weightFactor) * 100).toFixed(0)}%`
-            : `Weight factor: ${(weightFactor * 100).toFixed(0)}% observed data / ${((1 - weightFactor) * 100).toFixed(0)}% formula`}
+          {t('weight.adaptive.weightFactor', {
+            observed: (weightFactor * 100).toFixed(0),
+            formula: ((1 - weightFactor) * 100).toFixed(0),
+          })}
         </Text>
       </View>
 
@@ -97,12 +98,10 @@ export const AdaptiveTDEECard: React.FC<AdaptiveTDEECardProps> = ({
       {isUnderLogging && (
         <View style={[styles.underLoggingAlert, { backgroundColor: isDark ? '#3E1F07' : '#FEF3C7', borderColor: '#F59E0B' }]}>
           <Text style={[styles.underLoggingTitle, { color: '#D97706' }]}>
-            {isSaudi ? '⚠️ تنبيه نقص التسجيل الحراري' : '⚠️ Under-Logging Detected'}
+            ⚠️ {t('weight.adaptive.underLoggingTitle')}
           </Text>
           <Text style={[styles.underLoggingDesc, { color: isDark ? '#FDE68A' : '#92400E' }]}>
-            {isSaudi
-              ? 'السعرات المسجلة أقل من خط الأساس البيولوجي (<1.1× BMR). لحماية الكتلة العضلية وصحتك، لن يقوم النظام بخفض سعراتك اليومية.'
-              : 'Your logged caloric intake is below biological baseline (<1.1× BMR). To protect your health and lean muscle, our clinical engine will NOT slash your calorie targets.'}
+            {t('weight.adaptive.underLoggingDesc')}
           </Text>
         </View>
       )}

@@ -24,6 +24,7 @@ import { BrandLogo } from '../../ui/BrandLogo.js';
 import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 export interface MealLogHubModalProps {
   visible: boolean;
@@ -62,6 +63,8 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion, setRegion } = useRegion();
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [debouncedQuery, setDebouncedQuery] = useState('');
@@ -89,7 +92,11 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
+  // Group names double as filter keys matched against brand.category, so the
+  // raw value stays and only the visible label is translated.
   const brandGroups = activeRegion === 'SA' ? SA_BRAND_GROUPS : PK_BRAND_GROUPS;
+  const groupLabel = (group: string) =>
+    t(`tracker.brandGroups.${group}`, { defaultValue: group });
 
   // Search across dishes adapted to active region
   const searchResults = useMemo(() => {
@@ -150,12 +157,12 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
             style={[styles.backButton, { backgroundColor: theme.colors.surfaceSecondary }]}
             onPress={onClose}
             accessibilityRole="button"
-            accessibilityLabel="Back"
+            accessibilityLabel={t('common.back')}
           >
             <Icon name="arrow-left" size={18} color={theme.colors.textPrimary} />
           </TouchableOpacity>
           <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>
-            Log a meal
+            {t('tracker.hub.title')}
           </Text>
           <TouchableOpacity
             style={[
@@ -171,7 +178,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
             }}
             activeOpacity={0.7}
             accessibilityRole="button"
-            accessibilityLabel="Switch Region"
+            accessibilityLabel={t('tracker.hub.switchRegion')}
           >
             <Text style={[styles.regionPillText, { color: theme.colors.textPrimary }]}>
               {activeRegion === 'SA' ? '🇸🇦 SA' : '🇵🇰 PK'}
@@ -209,11 +216,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                 noOutlineStyle,
                 { color: theme.colors.textPrimary },
               ]}
-              placeholder={
-                activeRegion === 'SA'
-                  ? 'Search Kabsa, AlBaik, Mandi, Gahwa, Shawarma...'
-                  : 'Search 2,700+ dishes, Zinger, pulao, fries...'
-              }
+              placeholder={t(`tracker.hub.searchPlaceholder.${activeRegion}`)}
               placeholderTextColor={theme.colors.textMuted}
               value={searchQuery}
               onChangeText={setSearchQuery}
@@ -287,7 +290,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                         },
                       ]}
                     >
-                      {grp}
+                      {groupLabel(grp)}
                     </Text>
                   </TouchableOpacity>
                 );
@@ -308,8 +311,8 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
             <View style={styles.searchResultsSection}>
               <Text style={[styles.sectionEyebrow, { color: theme.colors.textMuted }]}>
                 {isFiltering
-                  ? (activeRegion === 'SA' ? 'جاري البحث...' : 'SEARCHING...')
-                  : `${searchResults.length} ${searchResults.length === 1 ? 'RESULT' : 'RESULTS'} FOUND`}
+                  ? t('tracker.hub.searching')
+                  : t('tracker.hub.resultsFound', { count: searchResults.length })}
               </Text>
 
               {isFiltering ? (
@@ -319,20 +322,16 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                     color={theme.colors.primaryLime}
                   />
                   <Text style={[styles.filterLoadingText, { color: theme.colors.textSecondary }]}>
-                    {activeRegion === 'SA'
-                      ? 'جاري تصفية قاعدة الأطعمة والمطاعم...'
-                      : 'Filtering nutritional database...'}
+                    {t('tracker.hub.filtering')}
                   </Text>
                 </View>
               ) : searchResults.length === 0 ? (
                 <View style={styles.emptyStateContainer}>
-                  <Text style={[styles.emptyStateTitle, { color: theme.colors.textPrimary }]}>
-                    No dishes found
+                  <Text style={[styles.emptyStateTitle, dir.textCenter, { color: theme.colors.textPrimary }]}>
+                    {t('tracker.hub.noDishes')}
                   </Text>
-                  <Text style={[styles.emptyStateSubtitle, { color: theme.colors.textSecondary }]}>
-                    {activeRegion === 'SA'
-                      ? 'Try searching for "Kabsa", "AlBaik", "Mandi", "Saleeg", or "Gahwa".'
-                      : 'Try searching for "Zinger", "Biryani", "Chai", "Pizza", or "Karahi".'}
+                  <Text style={[styles.emptyStateSubtitle, dir.textCenter, { color: theme.colors.textSecondary }]}>
+                    {t(`tracker.hub.noDishesHint.${activeRegion}`)}
                   </Text>
                 </View>
               ) : (
@@ -431,13 +430,12 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
             /* Brands List View */
             <View style={styles.brandsSection}>
               <Text style={[styles.sectionEyebrow, { color: theme.colors.textMuted }]}>
-                {activeRegion === 'SA'
-                  ? selectedGroup === 'All'
-                    ? '12+ SAUDI RESTAURANTS & TRADITIONAL DISHES (SFDA)'
-                    : `${selectedGroup.toUpperCase()} BRANDS (${filteredBrands.length})`
-                  : selectedGroup === 'All'
-                    ? '60+ PAKISTANI RESTAURANTS & HOME FOODS'
-                    : `${selectedGroup.toUpperCase()} BRANDS (${filteredBrands.length})`}
+                {selectedGroup === 'All'
+                  ? t(`tracker.hub.allBrandsHeading.${activeRegion}`)
+                  : t('tracker.hub.groupBrandsHeading', {
+                      group: groupLabel(selectedGroup),
+                      count: filteredBrands.length,
+                    })}
               </Text>
 
               {filteredBrands.map((brand: RestaurantBrand) => {

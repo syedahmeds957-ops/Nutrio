@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { SurveyBasics } from '../types.js';
 import { useTheme } from '../../theme.js';
-import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { HapticFeedback } from '../../ui/haptics.js';
 import { AppleGroupedRowInput } from '../../ui/AppleInput.js';
 
@@ -14,8 +14,8 @@ interface StepBasicsProps {
 
 export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }) => {
   const { theme, isDark } = useTheme();
-  const { activeRegion } = useRegion();
-  const isSaudi = activeRegion === 'SA';
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const activeColor = theme.colors.primaryLime;
   const activeTextColor = '#0A0B0D';
 
@@ -32,8 +32,8 @@ export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }
 
       {/* 1. Biological Sex: iOS Segmented Pill Control */}
       <View style={styles.sectionBlock}>
-        <Text style={[styles.sectionEyebrow, { color: theme.colors.textMuted }]}>
-          {isSaudi ? 'الجنس البيولوجي · BIOLOGICAL SEX' : 'BIOLOGICAL SEX (FOR BMR)'}
+        <Text style={[styles.sectionEyebrow, dir.text, { color: theme.colors.textMuted }]}>
+          {t('survey.basics.sexEyebrow')}
         </Text>
 
         <View
@@ -70,7 +70,7 @@ export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }
                 },
               ]}
             >
-              {isSaudi ? 'Male (ذكر)' : 'Male'}
+              {t('survey.basics.male')}
             </Text>
           </TouchableOpacity>
 
@@ -99,7 +99,7 @@ export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }
                 },
               ]}
             >
-              {isSaudi ? 'Female (أنثى)' : 'Female'}
+              {t('survey.basics.female')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -108,8 +108,8 @@ export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }
 
       {/* 2. Apple Grouped Inset Card: Physical Measurements */}
       <View style={styles.sectionBlock}>
-        <Text style={[styles.sectionEyebrow, { color: theme.colors.textMuted }]}>
-          {isSaudi ? 'القياسات البدنية · MEASUREMENTS' : 'BODY MEASUREMENTS'}
+        <Text style={[styles.sectionEyebrow, dir.text, { color: theme.colors.textMuted }]}>
+          {t('survey.basics.measurementsEyebrow')}
         </Text>
 
         <View
@@ -123,7 +123,7 @@ export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }
         >
           {/* Row 1: Age */}
           <AppleGroupedRowInput
-            label={isSaudi ? 'العمر (Age)' : 'Age'}
+            label={t('survey.basics.age')}
             unit="yrs"
             placeholder="28"
             keyboardType="numeric"
@@ -139,7 +139,7 @@ export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }
 
           {/* Row 2: Height */}
           <AppleGroupedRowInput
-            label={isSaudi ? 'الطول (Height)' : 'Height'}
+            label={t('survey.basics.height')}
             unit="cm"
             placeholder="170"
             keyboardType="numeric"
@@ -155,7 +155,7 @@ export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }
 
           {/* Row 3: Current Weight */}
           <AppleGroupedRowInput
-            label={isSaudi ? 'الوزن الحالي (Weight)' : 'Current Weight'}
+            label={t('survey.basics.weight')}
             unit="kg"
             placeholder="78"
             keyboardType="numeric"

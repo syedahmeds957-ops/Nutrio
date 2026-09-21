@@ -16,6 +16,7 @@ import { Icon } from '../../ui/Icon.js';
 import { AppleTextInput } from '../../ui/AppleInput.js';
 import { authenticateUser, registerUser } from '../authStorage.js';
 import { AuthSession, AuthScreenMode } from '../types.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 interface AuthScreenProps {
   initialMode?: AuthScreenMode;
@@ -31,6 +32,8 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
   onExploreGuest,
 }) => {
   const { theme, isDark } = useTheme();
+  const { t } = useTranslation();
+  const dir = useTextDirection();
   const [mode, setMode] = useState<AuthScreenMode>(
     initialMode === 'verify_otp' ? 'register' : initialMode
   );
@@ -95,7 +98,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
         }
       }
     } catch (err: any) {
-      setErrorMessage(err?.message || 'Authentication error. Please check your credentials.');
+      setErrorMessage(err?.message || t('auth.genericError'));
     } finally {
       setLoading(false);
     }
@@ -128,7 +131,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 <View style={styles.btnRow}>
                   <Icon name="arrow-left" size={14} color={theme.colors.textPrimary} />
                   <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
-                    Back
+                    {t('common.back')}
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -196,7 +199,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                     },
                   ]}
                 >
-                  Sign In
+                  {t('auth.signIn')}
                 </Text>
               </TouchableOpacity>
 
@@ -226,19 +229,19 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                     },
                   ]}
                 >
-                  Create Account
+                  {t('auth.createAccount')}
                 </Text>
               </TouchableOpacity>
             </View>
 
             {/* Header Titles */}
-            <Text style={[styles.heading, { color: theme.colors.textPrimary }]}>
-              {mode === 'login' ? 'Welcome Back!' : 'Create Account'}
+            <Text style={[styles.heading, dir.text, { color: theme.colors.textPrimary }]}>
+              {mode === 'login' ? t('auth.welcomeBack') : t('auth.createAccount')}
             </Text>
             <Text style={[styles.subheading, { color: theme.colors.textSecondary }]}>
               {mode === 'login'
-                ? 'Sign in to access your calibrated daily diary and AI coach.'
-                : 'Sign up with your email and password to start logging and tracking your nutrition.'}
+                ? t('auth.loginSubheading')
+                : t('auth.registerSubheading')}
             </Text>
 
             {/* Info Message Banner */}
@@ -278,9 +281,9 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             {/* Form Inputs */}
             {mode === 'register' && (
               <AppleTextInput
-                label="Full Name"
+                label={t('auth.fullName')}
                 icon="user"
-                placeholder="Enter your name"
+                placeholder={t('auth.fullNamePlaceholder')}
                 value={name}
                 onChangeText={setName}
                 autoCapitalize="words"
@@ -288,7 +291,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             )}
 
             <AppleTextInput
-              label="Email Address"
+              label={t('auth.emailAddress')}
               icon="mail"
               placeholder="you@gmail.com"
               value={email}
@@ -298,9 +301,9 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             />
 
             <AppleTextInput
-              label="Password"
+              label={t('auth.password')}
               icon="lock"
-              placeholder="Min 6 characters"
+              placeholder={t('auth.passwordPlaceholder')}
               value={password}
               onChangeText={setPassword}
               secureTextEntry={!showPassword}
@@ -312,7 +315,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   activeOpacity={0.7}
                 >
                   <Text style={[styles.eyeText, { color: theme.colors.textSecondary }]}>
-                    {showPassword ? 'Hide' : 'Show'}
+                    {showPassword ? t('auth.hide') : t('auth.show')}
                   </Text>
                 </TouchableOpacity>
               }
@@ -340,7 +343,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 {rememberMe && <Text style={styles.checkmark}>✓</Text>}
               </View>
               <Text style={[styles.rememberText, { color: theme.colors.textSecondary }]}>
-                Remember me on this device
+                {t('auth.rememberMe')}
               </Text>
             </TouchableOpacity>
 
@@ -359,7 +362,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 <ActivityIndicator color="#0A0B0D" size="small" />
               ) : (
                 <Text style={[styles.submitBtnText, { color: theme.colors.limeText }]}>
-                  {mode === 'login' ? 'Sign In' : 'Create Account'}
+                  {mode === 'login' ? t('auth.signIn') : t('auth.createAccount')}
                 </Text>
               )}
             </TouchableOpacity>
@@ -372,7 +375,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 activeOpacity={0.7}
               >
                 <Text style={[styles.guestText, { color: theme.colors.textSecondary }]}>
-                  Continue as Guest →
+                  {t('auth.continueAsGuest')} {dir.isRTL ? '←' : '→'}
                 </Text>
               </TouchableOpacity>
             )}

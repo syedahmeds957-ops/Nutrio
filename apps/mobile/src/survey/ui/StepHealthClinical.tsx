@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { MedicalConditionFlag, SurveyHealthClinical } from '../types.js';
 import { useTheme } from '../../theme.js';
-import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { AppleTextInput } from '../../ui/AppleInput.js';
 
 interface StepHealthClinicalProps {
@@ -12,13 +12,13 @@ interface StepHealthClinicalProps {
   userSex?: 'male' | 'female';
 }
 
-const CONDITIONS: Array<{ id: MedicalConditionFlag; label: string }> = [
-  { id: 'diabetes_type_2', label: 'Type 2 Diabetes / Pre-diabetes' },
-  { id: 'hypertension', label: 'Hypertension (High Blood Pressure)' },
-  { id: 'thyroid_hypo', label: 'Hypothyroidism' },
-  { id: 'pcos', label: 'PCOS / Hormonal Imbalance' },
-  { id: 'ckd_renal', label: 'Kidney / Renal Condition' },
-  { id: 'none', label: 'None of the above' },
+const CONDITION_IDS: MedicalConditionFlag[] = [
+  'diabetes_type_2',
+  'hypertension',
+  'thyroid_hypo',
+  'pcos',
+  'ckd_renal',
+  'none',
 ];
 
 export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
@@ -28,8 +28,9 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
   userSex,
 }) => {
   const { theme, isDark } = useTheme();
-  const { activeRegion } = useRegion();
-  const isSaudi = activeRegion === 'SA';
+  const { t } = useTranslation();
+  const dir = useTextDirection();
+  const isSaudi = dir.isRTL;
   const isMale = userSex === 'male';
   const accentColor = theme.colors.primaryLime;
   const activeTextColor = '#0A0B0D';
@@ -42,9 +43,9 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
     }
   }, [isMale, data.isPregnantOrBreastfeeding]);
 
-  const visibleConditions = isMale
-    ? CONDITIONS.filter((c) => c.id !== 'pcos')
-    : CONDITIONS;
+  const visibleConditions = (isMale ? CONDITION_IDS.filter((id) => id !== 'pcos') : CONDITION_IDS).map(
+    (id) => ({ id, label: t(`survey.health.conditions.${id}`) })
+  );
 
   const toggleCondition = (id: MedicalConditionFlag) => {
     if (id === 'none') {
@@ -62,17 +63,15 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.description, { color: theme.colors.textSecondary }]}>
-        Your safety is non-negotiable. Medical conditions adjust your safety floors and prevent unsafe caloric restrictions.
+      <Text style={[styles.description, dir.text, { color: theme.colors.textSecondary }]}>
+        {t('survey.health.description')}
       </Text>
 
       {/* Pregnancy / Lactation (Female only) */}
       {!isMale && (
         <View style={styles.fieldGroup}>
-          <Text style={[styles.label, { color: theme.colors.textPrimary }]}>
-            {isSaudi
-              ? 'هل أنتِ حامل أو مرضع حالياً؟'
-              : 'Are you pregnant or currently breastfeeding?'}
+          <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }]}>
+            {t('survey.health.pregnancyQuestion')}
           </Text>
           <View style={styles.toggleRow}>
             <TouchableOpacity
@@ -97,7 +96,7 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
                   data.isPregnantOrBreastfeeding === true && { color: activeTextColor, fontWeight: '800' },
                 ]}
               >
-                {isSaudi ? 'Yes (نعم)' : 'Yes'}
+                {t('common.yes')}
               </Text>
             </TouchableOpacity>
 
@@ -123,14 +122,14 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
                   data.isPregnantOrBreastfeeding === false && { color: activeTextColor, fontWeight: '800' },
                 ]}
               >
-                {isSaudi ? 'No (لا)' : 'No'}
+                {t('common.no')}
               </Text>
             </TouchableOpacity>
           </View>
           {data.isPregnantOrBreastfeeding && (
             <View style={[styles.warningBox, { backgroundColor: isDark ? 'rgba(234, 179, 8, 0.15)' : '#FEF9C3', borderColor: '#EAB308' }]}>
-              <Text style={[styles.warningText, { color: isDark ? '#FACC15' : '#854D0E' }]}>
-                🛡️ Note: Caloric restriction is clinically disabled during pregnancy and active lactation. Your plan will be set to nourishing maintenance only.
+              <Text style={[styles.warningText, dir.text, { color: isDark ? '#FACC15' : '#854D0E' }]}>
+                {t('survey.health.pregnancyWarning')}
               </Text>
             </View>
           )}
@@ -142,8 +141,8 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
 
       {/* Medical Conditions */}
       <View style={styles.fieldGroup}>
-        <Text style={[styles.label, { color: theme.colors.textPrimary }]}>
-          Known Medical & Health Diagnoses
+        <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }]}>
+          {t('survey.health.diagnosesLabel')}
         </Text>
         <View style={styles.conditionsList}>
           {visibleConditions.map((cond) => {
@@ -218,7 +217,7 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
 
       {/* Medications / Clinical Notes */}
       <AppleTextInput
-        label={isSaudi ? 'الأدوية أو الملاحظات الطبية (اختياري)' : 'Medications or Clinical Notes (Optional)'}
+        label={t('survey.health.medications')}
         placeholder="e.g. Metformin 500mg, insulin, thyroxine"
         value={data.medicationsNotes ?? ''}
         onChangeText={(val) => {
@@ -293,7 +292,7 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
               },
             ]}
           >
-            I acknowledge that Nutrio provides algorithmic nutritional guidance and is not a substitute for clinical diagnosis or prescription by a physician.
+            {t('survey.health.disclaimer')}
           </Text>
         </TouchableOpacity>
         {errors.medicalDisclaimerAccepted && (

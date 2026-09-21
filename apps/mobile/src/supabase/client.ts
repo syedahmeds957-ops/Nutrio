@@ -48,10 +48,22 @@ export const isSupabaseConfigured = (): boolean => {
     Boolean(SUPABASE_URL) &&
     Boolean(SUPABASE_ANON_KEY) &&
     !SUPABASE_URL.includes('placeholder-project') &&
-    !SUPABASE_ANON_KEY.includes('placeholder-anon-key') &&
-    !SUPABASE_URL.includes('qcdfluglkwvmjusncaas')
+    !SUPABASE_ANON_KEY.includes('placeholder-anon-key')
   );
 };
+
+// Without credentials every auth and sync call silently takes the local mock
+// path, which accepts any email with a 6-character password and creates a
+// session that reaches no backend. Announce it once at startup so a mock login
+// is never mistaken for a real one.
+if (process.env.NODE_ENV !== 'test' && !isSupabaseConfigured()) {
+  console.warn(
+    '[supabase] No backend credentials found — running in LOCAL MOCK mode. ' +
+      'Logins are not authenticated against any server and no data is synced. ' +
+      'Set EXPO_PUBLIC_SUPABASE_URL and EXPO_PUBLIC_SUPABASE_ANON_KEY in apps/mobile/.env ' +
+      '(see apps/mobile/.env.example), then restart with: npx expo start -c'
+  );
+}
 
 export const supabase: SupabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: {

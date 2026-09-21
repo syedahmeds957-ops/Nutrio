@@ -26,6 +26,7 @@ import { Icon } from '../../ui/Icon.js';
 import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 interface Message {
   id: string;
@@ -39,19 +40,8 @@ interface CoachChatScreenProps {
   onBack: () => void;
 }
 
-const PK_CHIPS = [
-  'How to reduce oil in Karahi?',
-  'Eating at a shaadi dinner tonight',
-  'Healthy doodh patti chai alternatives',
-  'High protein Pakistani snacks',
-];
-
-const SA_CHIPS = [
-  'Best high-protein choices at AlBaik (خيارات صحية في البيك)',
-  'How to fit Kabsa & Mandi into my daily macros?',
-  'Balancing dates & Gahwa intake (موازنة القهوة والتمر)',
-  'Healthy dinner options at Al Tazaj or Shawarmer',
-];
+// Starter questions differ by market; the ids are stable and the text is translated.
+const CHIP_IDS = ['one', 'two', 'three', 'four'];
 
 export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
   context,
@@ -59,18 +49,18 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
-  const isSaudi = (context.region || activeRegion) === 'SA';
-  const chips = isSaudi ? SA_CHIPS : PK_CHIPS;
+  const { t } = useTranslation();
+  const dir = useTextDirection();
+  const chatRegion = context.region || activeRegion;
+  const isSaudi = chatRegion === 'SA';
+  const chips = CHIP_IDS.map((id) => t(`coach.chips.${id}.${chatRegion}`));
   const accentColor = theme.colors.primaryLime;
   const accentTextColor = theme.colors.limeText;
 
-  const initialGreeting = isSaudi
-    ? `Marhaba ${context.displayName || 'there'}! I'm your Nutrio Nutrition Coach.\n\nYou have ~${
-        context.todaySummary?.remainingCalories ?? context.targets.kcalTarget
-      } kcal remaining today. How can I help you balance your Kabsa portions, choose healthy meals at AlBaik or Al Tazaj, or manage dates with Gahwa?`
-    : `Assalam-o-Alaikum ${context.displayName || 'there'}! I'm your Nutrio Nutrition Coach.\n\nYou have ~${
-        context.todaySummary?.remainingCalories ?? context.targets.kcalTarget
-      } kcal remaining today. How can I help you adjust your meals, handle a dawat, or cut down on excess cooking oil?`;
+  const initialGreeting = t(`coach.greeting.${chatRegion}`, {
+    name: context.displayName || t('coach.defaultName'),
+    remaining: context.todaySummary?.remainingCalories ?? context.targets.kcalTarget,
+  });
 
   const [messages, setMessages] = useState<Message[]>(() => [
     {
@@ -142,9 +132,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
       const errorMsg: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        text: isSaudi
-          ? "I'm having a brief issue connecting to my nutrition intelligence engine. As general advice: for Saudi dinners, fill half your plate with fresh salad, prioritize lean grilled chicken (Farrouj) or fish, and portion rice mindfully."
-          : "I'm having a brief issue connecting to my nutrition intelligence engine. As general advice: for Pakistani dinners, fill half your plate with cucumber/salad, prioritize lean protein, and limit fried puris or naans to 1 portion.",
+        text: t(`coach.connectionError.${chatRegion}`),
         timestamp: 'Just now',
       };
       setMessages((prev) => [...prev, errorMsg]);
@@ -175,19 +163,19 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
         >
           <View style={styles.btnRow}>
             <Icon name="arrow-left" size={14} color={theme.colors.textPrimary} />
-            <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>Back</Text>
+            <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>{t('common.back')}</Text>
           </View>
         </TouchableOpacity>
 
         <View style={styles.headerCenter}>
           <View style={styles.titleRow}>
             <Icon name="sparkles" size={16} color={isDark ? theme.colors.primaryLime : '#4B6200'} />
-            <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>AI Nutrition Coach</Text>
+            <Text style={[styles.headerTitle, dir.text, { color: theme.colors.textPrimary }]}>
+              {t('coach.title')}
+            </Text>
           </View>
           <Text style={[styles.headerSubtitle, { color: theme.colors.textSecondary }]}>
-            {isSaudi
-              ? 'Saudi-Calibrated Intelligence (ذكاء غذائي سعودي)'
-              : 'Desi-Calibrated Intelligence'}
+            {t(`coach.calibrated.${chatRegion}`)}
           </Text>
         </View>
 
@@ -246,7 +234,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
                     { color: isDark ? theme.colors.primaryLime : '#4B6200' },
                   ]}
                 >
-                  NUTRIO COACH
+                  {t('coach.badge')}
                 </Text>
               )}
               <Text
@@ -291,7 +279,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
                   { color: isDark ? theme.colors.primaryLime : '#4B6200' },
                 ]}
               >
-                AI Coach is typing...
+                {t('coach.typing')}
               </Text>
             </View>
           )}
@@ -299,7 +287,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
           {/* Suggested Prompts Chips */}
           <View style={styles.chipsSection}>
             <Text style={[styles.chipsHeader, { color: theme.colors.textMuted }]}>
-              {isSaudi ? '💡 أسئلة شائعة' : '💡 SUGGESTED TOPICS'}
+              💡 {t('coach.suggestedTopics')}
             </Text>
             <View style={styles.chipsWrap}>
               {chips.map((chip, idx) => (
@@ -344,9 +332,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
               },
             ]}
             placeholder={
-              isSaudi
-                ? 'اسأل مدرب نيوتريو (مثلاً: كيف أوازن الكبسة؟)...'
-                : 'Ask Coach (e.g., How to handle 2 rotis at dinner?)...'
+              t(`coach.inputPlaceholder.${chatRegion}`)
             }
             placeholderTextColor={theme.colors.textMuted}
             value={inputText}
@@ -395,7 +381,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
                   color={isDark ? theme.colors.primaryLime : '#4B6200'}
                 />
                 <Text style={[styles.settingsTitle, { color: theme.colors.textPrimary }]}>
-                  AI Engine Settings
+                  {t('coach.settings.title')}
                 </Text>
               </View>
               <TouchableOpacity onPress={() => setSettingsVisible(false)}>
@@ -404,14 +390,12 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
             </View>
 
             <Text style={[styles.settingsSub, { color: theme.colors.textSecondary }]}>
-              {isSaudi
-                ? 'Connect your OpenAI or Google Gemini API key. If left blank, Nutrio uses its calibrated built-in Saudi nutrition intelligence.'
-                : 'Connect your OpenAI or Google Gemini API key. If left blank, Nutrio uses its calibrated built-in Pakistani nutrition intelligence.'}
+              {t(`coach.settings.description.${chatRegion}`)}
             </Text>
 
             {/* Provider Selector */}
             <Text style={[styles.inputLabel, { color: theme.colors.textMuted }]}>
-              ACTIVE PROVIDER
+              {t('coach.settings.activeProvider')}
             </Text>
             <View style={styles.providerRow}>
               {(['auto', 'openai', 'gemini'] as AiProvider[]).map((p) => {
@@ -449,7 +433,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
 
             {/* OpenAI Key */}
             <Text style={[styles.inputLabel, { color: theme.colors.textMuted }]}>
-              OPENAI API KEY (optional)
+              {t('coach.settings.openAiKey')}
             </Text>
             <TextInput
               style={[
@@ -469,7 +453,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
 
             {/* Gemini Key */}
             <Text style={[styles.inputLabel, { color: theme.colors.textMuted }]}>
-              GOOGLE GEMINI API KEY (optional)
+              {t('coach.settings.geminiKey')}
             </Text>
             <TextInput
               style={[
@@ -496,7 +480,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
               activeOpacity={0.8}
             >
               <Text style={[styles.saveSettingsBtnText, { color: accentTextColor }]}>
-                Save AI Settings
+                {t('coach.settings.save')}
               </Text>
             </TouchableOpacity>
           </View>
