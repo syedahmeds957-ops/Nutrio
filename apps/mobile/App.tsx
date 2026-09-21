@@ -29,62 +29,6 @@ import { RegionProvider, useRegion } from './src/common/region/index.js';
 import { DailyTrackerSummary } from './src/tracker/types.js';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-const DEFAULT_ACTIVE_PLAN: ComputedUserPlan = {
-  region: 'PK',
-  userContext: {
-    weightKg: 75,
-    heightCm: 175,
-    ageYears: 28,
-    sex: 'male',
-    bmr: 1700,
-    tdee: 2350,
-    bodyFatPct: 18,
-    isPregnantOrBreastfeeding: false,
-    medicalConditions: [],
-    chaiSugarKcalPerDay: 130,
-    weeklyChaiSugarKcal: 910,
-    isNightShift: false,
-    dailySittingHours: 8,
-  },
-  goalSelection: {
-    goal: 'lose',
-    targetRateKgPerWeek: 0.5,
-    targetWeightKg: 70,
-  },
-  targetResult: {
-    kcalTarget: 1850,
-    originalRequestedDelta: -500,
-    appliedDelta: -500,
-    effectiveRateKgPerWeek: 0.5,
-    deficitPct: 0.21,
-    safetyViolations: [],
-    safetyWarnings: [],
-  },
-  macros: {
-    kcalTarget: 1850,
-    proteinGrams: 140,
-    proteinKcal: 560,
-    proteinPct: 30,
-    fatGrams: 50,
-    fatKcal: 450,
-    fatPct: 24,
-    carbGrams: 210,
-    carbKcal: 840,
-    carbPct: 46,
-    fibreGrams: 30,
-    waterMl: 2800,
-  },
-  projection: {
-    currentWeightKg: 75,
-    targetWeightKg: 70,
-    totalKgToChange: 5,
-    weeklyRateKg: 0.5,
-    estimatedWeeks: 10,
-    isRealistic: true,
-    pacingAdvice: 'Healthy, sustainable cultural fat loss pace.',
-  },
-};
-
 function NutrioAppContent() {
   const { theme } = useTheme();
   const { activeRegion } = useRegion();
@@ -113,8 +57,8 @@ function NutrioAppContent() {
     payload: LifestyleSurveyPayload;
     bridged: ReturnType<typeof bridgeSurveyToNutritionCore>;
   } | null>(null);
-  const [activePlan, setActivePlan] = useState<ComputedUserPlan>(() => {
-    return loadPersistedPlan() || DEFAULT_ACTIVE_PLAN;
+  const [activePlan, setActivePlan] = useState<ComputedUserPlan | null>(() => {
+    return loadPersistedPlan();
   });
   const [trackerSummary, setTrackerSummary] = useState<DailyTrackerSummary | null>(null);
 
@@ -131,7 +75,11 @@ function NutrioAppContent() {
             savePersistedPlan(restoredPlan);
           }
           if (isMounted && appState === 'auth') {
-            setAppState('active_tracker');
+            if (session.user.surveyCompleted || restoredPlan) {
+              setAppState('active_tracker');
+            } else {
+              setAppState('survey');
+            }
           }
         }
       })
@@ -199,16 +147,23 @@ function NutrioAppContent() {
     return wrapScreen(
       <AuthScreen
         initialMode="login"
-        onAuthSuccess={async (_session) => {
+        onAuthSuccess={async (session) => {
           setIsGuest(false);
           const hydration = await hydrateUserDataFromCloud().catch(() => null);
           const restoredPlan = hydration?.computedPlan || loadPersistedPlan();
           if (restoredPlan) {
             setActivePlan(restoredPlan);
             savePersistedPlan(restoredPlan);
+            setAppState('active_tracker');
+          } else {
+            // New user without calculated plan: guide them to survey to calculate real targets
+            // (or user can tap Skip for Now to track without targets)
+            if (session.user.surveyCompleted) {
+              setAppState('active_tracker');
+            } else {
+              setAppState('survey');
+            }
           }
-          // Directly enter active tracker dashboard to track user activity immediately
-          setAppState('active_tracker');
         }}
         onBackToHome={() => setAppState('auth')}
         onExploreGuest={() => {
@@ -285,7 +240,7 @@ function NutrioAppContent() {
   // 5. Active Daily Tracker Dashboard
   if (appState === 'active_tracker') {
     const sessionUser = getAuthSession()?.user;
-    const dynamicTargets = activePlan
+    const dynamicTargets = (!isGuest && activePlan)
       ? {
           targetCalories: activePlan.targetResult.kcalTarget,
           targetProteinGrams: activePlan.macros.proteinGrams,
@@ -294,11 +249,11 @@ function NutrioAppContent() {
           targetWaterMl: activePlan.macros.waterMl,
         }
       : {
-          targetCalories: DEFAULT_ACTIVE_PLAN.targetResult.kcalTarget,
-          targetProteinGrams: DEFAULT_ACTIVE_PLAN.macros.proteinGrams,
-          targetFatGrams: DEFAULT_ACTIVE_PLAN.macros.fatGrams,
-          targetCarbGrams: DEFAULT_ACTIVE_PLAN.macros.carbGrams,
-          targetWaterMl: DEFAULT_ACTIVE_PLAN.macros.waterMl,
+          targetCalories: 0,
+          targetProteinGrams: 0,
+          targetFatGrams: 0,
+          targetCarbGrams: 0,
+          targetWaterMl: 0,
         };
 
     return wrapScreen(
