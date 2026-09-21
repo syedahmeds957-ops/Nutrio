@@ -32,6 +32,25 @@ if (typeof document !== 'undefined') {
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
       }
+      input, textarea, select, [contenteditable="true"] {
+        outline: none !important;
+        outline-style: none !important;
+        box-shadow: none !important;
+        -webkit-tap-highlight-color: transparent;
+      }
+      input:focus, textarea:focus, select:focus, [contenteditable="true"]:focus {
+        outline: none !important;
+        outline-style: none !important;
+        box-shadow: none !important;
+      }
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      input[type=number] {
+        -moz-appearance: textfield;
+      }
     `;
     document.head.appendChild(style);
   }

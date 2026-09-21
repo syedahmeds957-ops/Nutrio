@@ -21,6 +21,7 @@ import {
 } from '@nutrio/food-db';
 import { Icon } from '../../ui/Icon.js';
 import { BrandLogo } from '../../ui/BrandLogo.js';
+import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
 
 export interface BrandMenuModalProps {
@@ -39,6 +40,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
   const { theme, isDark } = useTheme();
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
 
   // Reset category and search query whenever a new brand is opened
   useEffect(() => {
@@ -242,18 +244,24 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
               styles.searchInputWrapper,
               {
                 backgroundColor: theme.colors.surfaceSecondary,
-                borderColor: theme.colors.border,
-                borderWidth: 1,
+                borderColor: isSearchFocused ? theme.colors.primaryLime : theme.colors.border,
+                borderWidth: isSearchFocused ? 1.5 : 1,
               },
             ]}
           >
-            <Icon name="search" size={16} color={theme.colors.textMuted} />
+            <Icon name="search" size={16} color={isSearchFocused ? theme.colors.primaryLime : theme.colors.textMuted} />
             <TextInput
-              style={[styles.searchInput, { color: theme.colors.textPrimary }]}
+              style={[
+                styles.searchInput,
+                { color: theme.colors.textPrimary },
+                noOutlineStyle,
+              ]}
               placeholder={`Search in ${brandName || 'menu'}...`}
               placeholderTextColor={theme.colors.textMuted}
               value={searchQuery}
               onChangeText={setSearchQuery}
+              onFocus={() => setIsSearchFocused(true)}
+              onBlur={() => setIsSearchFocused(false)}
               clearButtonMode="while-editing"
             />
             {searchQuery.length > 0 && (
@@ -515,6 +523,8 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 8,
     fontSize: 15,
+    backgroundColor: 'transparent',
+    borderWidth: 0,
   },
   categoryScrollContainer: {
     borderBottomWidth: 1,

@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-nativ
 import { JobCategory, ShiftPattern, SurveyOccupational } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { AppleTextInput } from '../../ui/AppleInput.js';
 
 interface StepOccupationalProps {
   data: Partial<SurveyOccupational>;
@@ -148,35 +149,21 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
       </View>
 
       {/* Sitting Hours */}
-      <View style={styles.fieldGroup}>
-        <Text style={[styles.label, { color: theme.colors.textPrimary }]}>Daily Sitting Hours</Text>
-        <TextInput
-          style={[
-            styles.input,
-            {
-              backgroundColor: theme.colors.surface,
-              borderColor: theme.colors.border,
-              color: theme.colors.textPrimary,
-            },
-            errors.dailySittingHours && styles.inputError,
-          ]}
-          placeholder="e.g. 8"
-          placeholderTextColor={theme.colors.textMuted}
-          keyboardType="numeric"
-          value={
-            data.dailySittingHours !== undefined
-              ? String(data.dailySittingHours)
-              : ''
-          }
-          onChangeText={(val) => {
-            const num = parseFloat(val);
-            onChange({ dailySittingHours: isNaN(num) ? undefined : num });
-          }}
-        />
-        {errors.dailySittingHours && (
-          <Text style={styles.errorText}>{errors.dailySittingHours}</Text>
-        )}
-      </View>
+      <AppleTextInput
+        label={isSaudi ? 'ساعات الجلوس اليومية' : 'Daily Sitting Hours'}
+        placeholder="e.g. 8"
+        keyboardType="numeric"
+        value={
+          data.dailySittingHours !== undefined
+            ? String(data.dailySittingHours)
+            : ''
+        }
+        onChangeText={(val) => {
+          const num = parseFloat(val);
+          onChange({ dailySittingHours: isNaN(num) ? undefined : num });
+        }}
+        error={errors.dailySittingHours}
+      />
 
       {/* Shift Pattern */}
       <View style={styles.fieldGroup}>

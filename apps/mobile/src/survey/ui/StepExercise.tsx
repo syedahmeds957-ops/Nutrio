@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-nativ
 import { SurveyExercise, TrainingType, WorkoutIntensity } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { AppleTextInput } from '../../ui/AppleInput.js';
 
 interface StepExerciseProps {
   data: Partial<SurveyExercise>;
@@ -144,35 +145,21 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
           </View>
 
           {/* Session Duration */}
-          <View style={styles.fieldGroup}>
-            <Text style={[styles.label, { color: theme.colors.textPrimary }]}>Average Session Duration (Minutes)</Text>
-            <TextInput
-              style={[
-                styles.input,
-                {
-                  backgroundColor: theme.colors.surface,
-                  borderColor: theme.colors.border,
-                  color: theme.colors.textPrimary,
-                },
-                errors.sessionDurationMins && styles.inputError,
-              ]}
-              placeholder="e.g. 45"
-              placeholderTextColor={theme.colors.textMuted}
-              keyboardType="numeric"
-              value={
-                data.sessionDurationMins !== undefined
-                  ? String(data.sessionDurationMins)
-                  : ''
-              }
-              onChangeText={(val) => {
-                const num = parseInt(val, 10);
-                onChange({ sessionDurationMins: isNaN(num) ? undefined : num });
-              }}
-            />
-            {errors.sessionDurationMins && (
-              <Text style={styles.errorText}>{errors.sessionDurationMins}</Text>
-            )}
-          </View>
+          <AppleTextInput
+            label={isSaudi ? 'متوسط مدة التمرين (دقائق)' : 'Average Session Duration (Minutes)'}
+            placeholder="e.g. 45"
+            keyboardType="numeric"
+            value={
+              data.sessionDurationMins !== undefined
+                ? String(data.sessionDurationMins)
+                : ''
+            }
+            onChangeText={(val) => {
+              const num = parseInt(val, 10);
+              onChange({ sessionDurationMins: isNaN(num) ? undefined : num });
+            }}
+            error={errors.sessionDurationMins}
+          />
 
           {/* Intensity */}
           <View style={styles.fieldGroup}>

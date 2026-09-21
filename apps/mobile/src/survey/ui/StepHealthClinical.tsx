@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-nativ
 import { MedicalConditionFlag, SurveyHealthClinical } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { AppleTextInput } from '../../ui/AppleInput.js';
 
 interface StepHealthClinicalProps {
   data: Partial<SurveyHealthClinical>;
@@ -216,27 +217,14 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
       </View>
 
       {/* Medications / Clinical Notes */}
-      <View style={styles.fieldGroup}>
-        <Text style={[styles.label, { color: theme.colors.textPrimary }]}>
-          Medications or Clinical Notes (Optional)
-        </Text>
-        <TextInput
-          style={[
-            styles.input,
-            {
-              backgroundColor: theme.colors.surface,
-              borderColor: theme.colors.border,
-              color: theme.colors.textPrimary,
-            },
-          ]}
-          placeholder="e.g. Metformin 500mg, insulin, thyroxine"
-          placeholderTextColor={theme.colors.textMuted}
-          value={data.medicationsNotes ?? ''}
-          onChangeText={(val) => {
-            onChange({ medicationsNotes: val });
-          }}
-        />
-      </View>
+      <AppleTextInput
+        label={isSaudi ? 'الأدوية أو الملاحظات الطبية (اختياري)' : 'Medications or Clinical Notes (Optional)'}
+        placeholder="e.g. Metformin 500mg, insulin, thyroxine"
+        value={data.medicationsNotes ?? ''}
+        onChangeText={(val) => {
+          onChange({ medicationsNotes: val });
+        }}
+      />
 
       {/* Safety & Medical Disclaimer */}
       <View style={styles.fieldGroup}>

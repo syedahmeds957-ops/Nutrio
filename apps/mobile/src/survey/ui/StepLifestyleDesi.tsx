@@ -4,6 +4,7 @@ import { HomeCookingStyle, SurveyLifestyleDesi } from '../types.js';
 import { KCAL_PER_CUP_CHAI_SUGAR } from '../nutrition-bridge.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { AppleTextInput } from '../../ui/AppleInput.js';
 
 interface StepLifestyleDesiProps {
   data: Partial<SurveyLifestyleDesi>;
@@ -150,35 +151,21 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
       </View>
 
       {/* Sleep Duration */}
-      <View style={styles.fieldGroup}>
-        <Text style={[styles.label, { color: theme.colors.textPrimary }]}>Typical Sleep Duration (Hours)</Text>
-        <TextInput
-          style={[
-            styles.input,
-            {
-              backgroundColor: theme.colors.surface,
-              borderColor: theme.colors.border,
-              color: theme.colors.textPrimary,
-            },
-            errors.sleepHoursPerNight && styles.inputError,
-          ]}
-          placeholder="e.g. 7"
-          placeholderTextColor={theme.colors.textMuted}
-          keyboardType="numeric"
-          value={
-            data.sleepHoursPerNight !== undefined
-              ? String(data.sleepHoursPerNight)
-              : ''
-          }
-          onChangeText={(val) => {
-            const num = parseFloat(val);
-            onChange({ sleepHoursPerNight: isNaN(num) ? undefined : num });
-          }}
-        />
-        {errors.sleepHoursPerNight && (
-          <Text style={styles.errorText}>{errors.sleepHoursPerNight}</Text>
-        )}
-      </View>
+      <AppleTextInput
+        label={isSaudi ? 'مدة النوم المعتادة (ساعات)' : 'Typical Sleep Duration (Hours)'}
+        placeholder="e.g. 7"
+        keyboardType="numeric"
+        value={
+          data.sleepHoursPerNight !== undefined
+            ? String(data.sleepHoursPerNight)
+            : ''
+        }
+        onChangeText={(val) => {
+          const num = parseFloat(val);
+          onChange({ sleepHoursPerNight: isNaN(num) ? undefined : num });
+        }}
+        error={errors.sleepHoursPerNight}
+      />
 
       {/* Dawat / Dining Out Frequency */}
       <View

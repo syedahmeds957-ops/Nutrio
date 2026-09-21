@@ -21,6 +21,7 @@ import {
 } from '@nutrio/food-db';
 import { Icon } from '../../ui/Icon.js';
 import { BrandLogo } from '../../ui/BrandLogo.js';
+import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 
@@ -62,6 +63,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   const { theme, isDark } = useTheme();
   const { activeRegion, setRegion } = useRegion();
   const [searchQuery, setSearchQuery] = useState('');
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [debouncedQuery, setDebouncedQuery] = useState('');
   const [isFiltering, setIsFiltering] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState<string>('All');
@@ -191,14 +193,22 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
               styles.searchInputWrapper,
               {
                 backgroundColor: theme.colors.surfaceSecondary,
-                borderColor: theme.colors.border,
-                borderWidth: 1,
+                borderColor: isSearchFocused ? theme.colors.primaryLime : theme.colors.border,
+                borderWidth: 1.5,
               },
             ]}
           >
-            <Icon name="search" size={18} color={theme.colors.textMuted} />
+            <Icon
+              name="search"
+              size={18}
+              color={isSearchFocused ? theme.colors.primaryLime : theme.colors.textMuted}
+            />
             <TextInput
-              style={[styles.searchInput, { color: theme.colors.textPrimary }]}
+              style={[
+                styles.searchInput,
+                noOutlineStyle,
+                { color: theme.colors.textPrimary },
+              ]}
               placeholder={
                 activeRegion === 'SA'
                   ? 'Search Kabsa, AlBaik, Mandi, Gahwa, Shawarma...'
@@ -207,6 +217,8 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
               placeholderTextColor={theme.colors.textMuted}
               value={searchQuery}
               onChangeText={setSearchQuery}
+              onFocus={() => setIsSearchFocused(true)}
+              onBlur={() => setIsSearchFocused(false)}
               autoCapitalize="none"
               autoCorrect={false}
               clearButtonMode="while-editing"
@@ -529,6 +541,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 14,
     fontWeight: '500',
+    backgroundColor: 'transparent',
+    borderWidth: 0,
   },
   groupScrollContainer: {
     borderBottomWidth: 1,

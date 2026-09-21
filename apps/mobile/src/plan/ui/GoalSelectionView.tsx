@@ -11,6 +11,7 @@ import { calculateBMI, GoalType } from '@nutrio/nutrition-core';
 import { GoalSelectionState, PlanUserContext } from '../types.js';
 import { computeProjection } from '../engine.js';
 import { Icon } from '../../ui/Icon.js';
+import { AppleTextInput } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
 
 interface GoalSelectionViewProps {
@@ -315,26 +316,15 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
       {/* Target Weight & Pace (if not maintain) */}
       {selectedGoal !== 'maintain' && (
         <>
-          <View style={styles.section}>
-            <Text style={[styles.label, { color: theme.colors.textPrimary }]}>
-              Goal Target Weight (kg)
-            </Text>
-            <TextInput
-              style={[
-                styles.input,
-                {
-                  backgroundColor: theme.colors.surface,
-                  borderColor: theme.colors.border,
-                  color: theme.colors.textPrimary,
-                },
-              ]}
-              keyboardType="numeric"
-              value={targetWeight}
-              onChangeText={setTargetWeight}
-              placeholder="e.g. 75"
-              placeholderTextColor={theme.colors.textMuted}
-            />
-          </View>
+          <AppleTextInput
+            label="Goal Target Weight (kg)"
+            icon="target"
+            keyboardType="numeric"
+            value={targetWeight}
+            onChangeText={setTargetWeight}
+            placeholder="e.g. 75"
+            helperText="Sustainable target to project your timeline"
+          />
 
           <View style={styles.section}>
             <Text style={[styles.label, { color: theme.colors.textPrimary }]}>

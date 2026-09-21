@@ -4,6 +4,7 @@ import { SurveyBasics } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { HapticFeedback } from '../../ui/haptics.js';
+import { AppleGroupedRowInput } from '../../ui/AppleInput.js';
 
 interface StepBasicsProps {
   data: Partial<SurveyBasics>;
@@ -121,128 +122,50 @@ export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }
           ]}
         >
           {/* Row 1: Age */}
-          <View style={styles.formRow}>
-            <View style={styles.rowLabelCol}>
-              <Text style={[styles.rowLabel, { color: theme.colors.textPrimary }]}>
-                {isSaudi ? 'العمر (Age)' : 'Age'}
-              </Text>
-            </View>
-
-            <View style={styles.rowInputGroup}>
-              <TextInput
-                style={[
-                  styles.numericInput,
-                  {
-                    color: theme.colors.textPrimary,
-                  },
-                  errors.ageYears && styles.inputError,
-                ]}
-                placeholder="28"
-                placeholderTextColor={theme.colors.textMuted}
-                keyboardType="numeric"
-                value={data.ageYears !== undefined ? String(data.ageYears) : ''}
-                onChangeText={(val) => {
-                  const num = parseInt(val, 10);
-                  onChange({ ageYears: isNaN(num) ? undefined : num });
-                }}
-              />
-              <View
-                style={[
-                  styles.unitBadge,
-                  { backgroundColor: theme.colors.surfaceSecondary },
-                ]}
-              >
-                <Text style={[styles.unitText, { color: theme.colors.textMuted }]}>
-                  yrs
-                </Text>
-              </View>
-            </View>
-          </View>
-          {errors.ageYears && <Text style={styles.rowErrorText}>{errors.ageYears}</Text>}
+          <AppleGroupedRowInput
+            label={isSaudi ? 'العمر (Age)' : 'Age'}
+            unit="yrs"
+            placeholder="28"
+            keyboardType="numeric"
+            value={data.ageYears !== undefined ? String(data.ageYears) : ''}
+            onChangeText={(val) => {
+              const num = parseInt(val, 10);
+              onChange({ ageYears: isNaN(num) ? undefined : num });
+            }}
+            error={errors.ageYears}
+          />
 
           <View style={[styles.rowDivider, { backgroundColor: theme.colors.border }]} />
 
           {/* Row 2: Height */}
-          <View style={styles.formRow}>
-            <View style={styles.rowLabelCol}>
-              <Text style={[styles.rowLabel, { color: theme.colors.textPrimary }]}>
-                {isSaudi ? 'الطول (Height)' : 'Height'}
-              </Text>
-            </View>
-
-            <View style={styles.rowInputGroup}>
-              <TextInput
-                style={[
-                  styles.numericInput,
-                  {
-                    color: theme.colors.textPrimary,
-                  },
-                  errors.heightCm && styles.inputError,
-                ]}
-                placeholder="175"
-                placeholderTextColor={theme.colors.textMuted}
-                keyboardType="numeric"
-                value={data.heightCm !== undefined ? String(data.heightCm) : ''}
-                onChangeText={(val) => {
-                  const num = parseFloat(val);
-                  onChange({ heightCm: isNaN(num) ? undefined : num });
-                }}
-              />
-              <View
-                style={[
-                  styles.unitBadge,
-                  { backgroundColor: theme.colors.surfaceSecondary },
-                ]}
-              >
-                <Text style={[styles.unitText, { color: theme.colors.textMuted }]}>
-                  cm
-                </Text>
-              </View>
-            </View>
-          </View>
-          {errors.heightCm && <Text style={styles.rowErrorText}>{errors.heightCm}</Text>}
+          <AppleGroupedRowInput
+            label={isSaudi ? 'الطول (Height)' : 'Height'}
+            unit="cm"
+            placeholder="170"
+            keyboardType="numeric"
+            value={data.heightCm !== undefined ? String(data.heightCm) : ''}
+            onChangeText={(val) => {
+              const num = parseFloat(val);
+              onChange({ heightCm: isNaN(num) ? undefined : num });
+            }}
+            error={errors.heightCm}
+          />
 
           <View style={[styles.rowDivider, { backgroundColor: theme.colors.border }]} />
 
           {/* Row 3: Current Weight */}
-          <View style={styles.formRow}>
-            <View style={styles.rowLabelCol}>
-              <Text style={[styles.rowLabel, { color: theme.colors.textPrimary }]}>
-                {isSaudi ? 'الوزن الحالي (Weight)' : 'Current Weight'}
-              </Text>
-            </View>
-
-            <View style={styles.rowInputGroup}>
-              <TextInput
-                style={[
-                  styles.numericInput,
-                  {
-                    color: theme.colors.textPrimary,
-                  },
-                  errors.weightKg && styles.inputError,
-                ]}
-                placeholder="78"
-                placeholderTextColor={theme.colors.textMuted}
-                keyboardType="numeric"
-                value={data.weightKg !== undefined ? String(data.weightKg) : ''}
-                onChangeText={(val) => {
-                  const num = parseFloat(val);
-                  onChange({ weightKg: isNaN(num) ? undefined : num });
-                }}
-              />
-              <View
-                style={[
-                  styles.unitBadge,
-                  { backgroundColor: theme.colors.surfaceSecondary },
-                ]}
-              >
-                <Text style={[styles.unitText, { color: theme.colors.textMuted }]}>
-                  kg
-                </Text>
-              </View>
-            </View>
-          </View>
-          {errors.weightKg && <Text style={styles.rowErrorText}>{errors.weightKg}</Text>}
+          <AppleGroupedRowInput
+            label={isSaudi ? 'الوزن الحالي (Weight)' : 'Current Weight'}
+            unit="kg"
+            placeholder="78"
+            keyboardType="numeric"
+            value={data.weightKg !== undefined ? String(data.weightKg) : ''}
+            onChangeText={(val) => {
+              const num = parseFloat(val);
+              onChange({ weightKg: isNaN(num) ? undefined : num });
+            }}
+            error={errors.weightKg}
+          />
         </View>
       </View>
     </View>

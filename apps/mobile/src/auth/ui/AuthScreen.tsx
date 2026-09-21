@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
+import { AppleTextInput, noOutlineStyle } from '../../ui/AppleInput.js';
 import {
   authenticateUser,
   registerUser,
@@ -383,6 +384,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                       }}
                       style={[
                         styles.otpBox,
+                        noOutlineStyle,
                         {
                           backgroundColor: theme.colors.surfaceSecondary,
                           borderColor: digit ? theme.colors.primaryLime : theme.colors.border,
@@ -449,86 +451,48 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               <>
                 {/* Name Input (Register mode only) */}
                 {mode === 'register' && (
-                  <View style={styles.inputGroup}>
-                    <Text style={[styles.inputLabel, { color: theme.colors.textPrimary }]}>
-                      Full Name
-                    </Text>
-                    <TextInput
-                      style={[
-                        styles.input,
-                        {
-                          backgroundColor: theme.colors.surfaceSecondary,
-                          borderColor: theme.colors.border,
-                          color: theme.colors.textPrimary,
-                        },
-                      ]}
-                      placeholder="Enter your name"
-                      placeholderTextColor={theme.colors.textMuted}
-                      value={name}
-                      onChangeText={setName}
-                      autoCapitalize="words"
-                    />
-                  </View>
+                  <AppleTextInput
+                    label="Full Name"
+                    icon="user"
+                    placeholder="Enter your name"
+                    value={name}
+                    onChangeText={setName}
+                    autoCapitalize="words"
+                  />
                 )}
 
                 {/* Email Input */}
-                <View style={styles.inputGroup}>
-                  <Text style={[styles.inputLabel, { color: theme.colors.textPrimary }]}>
-                    Email Address
-                  </Text>
-                  <TextInput
-                    style={[
-                      styles.input,
-                      {
-                        backgroundColor: theme.colors.surfaceSecondary,
-                        borderColor: theme.colors.border,
-                        color: theme.colors.textPrimary,
-                      },
-                    ]}
-                    placeholder="name@example.com"
-                    placeholderTextColor={theme.colors.textMuted}
-                    value={email}
-                    onChangeText={setEmail}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                  />
-                </View>
+                <AppleTextInput
+                  label="Email Address"
+                  icon="mail"
+                  placeholder="name@example.com"
+                  value={email}
+                  onChangeText={setEmail}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                />
 
                 {/* Password Input */}
-                <View style={styles.inputGroup}>
-                  <Text style={[styles.inputLabel, { color: theme.colors.textPrimary }]}>
-                    Password
-                  </Text>
-                  <View
-                    style={[
-                      styles.passwordRow,
-                      {
-                        backgroundColor: theme.colors.surfaceSecondary,
-                        borderColor: theme.colors.border,
-                      },
-                    ]}
-                  >
-                    <TextInput
-                      style={[
-                        styles.passwordInput,
-                        { color: theme.colors.textPrimary },
-                      ]}
-                      placeholder="Min 6 characters"
-                      placeholderTextColor={theme.colors.textMuted}
-                      value={password}
-                      onChangeText={setPassword}
-                      secureTextEntry={!showPassword}
-                    />
+                <AppleTextInput
+                  label="Password"
+                  icon="lock"
+                  placeholder="Min 6 characters"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry={!showPassword}
+                  rightAction={
                     <TouchableOpacity
                       style={styles.eyeBtn}
                       onPress={() => setShowPassword((p) => !p)}
+                      hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                      activeOpacity={0.7}
                     >
                       <Text style={[styles.eyeText, { color: theme.colors.textSecondary }]}>
                         {showPassword ? 'Hide' : 'Show'}
                       </Text>
                     </TouchableOpacity>
-                  </View>
-                </View>
+                  }
+                />
 
                 {/* Remember Me */}
                 <TouchableOpacity

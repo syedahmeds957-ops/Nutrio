@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { useRegion } from '../../common/region/index.js';
 import { useTheme } from '../../theme.js';
+import { AppleTextInput } from '../../ui/AppleInput.js';
 
 interface CulturalModesModalProps {
   visible: boolean;
@@ -267,28 +268,14 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                   })}
                 </View>
 
-                <Text
-                  style={[
-                    styles.fieldLabel,
-                    { color: theme.colors.textPrimary },
-                  ]}
-                >
-                  {isSaudi ? 'Or Type Other Saudi Dish:' : 'Or Type Other Family Dish:'}
-                </Text>
-                <TextInput
-                  style={[
-                    styles.textInput,
-                    {
-                      backgroundColor: theme.colors.surfaceSecondary,
-                      borderColor: theme.colors.border,
-                      color: theme.colors.textPrimary,
-                    },
-                  ]}
-                  placeholder={isSaudi ? 'e.g. Bukhari Rice, Mathlootha, Gursan...' : 'e.g. Haleem, Karelay Gosht...'}
-                  placeholderTextColor={theme.colors.textMuted}
-                  value={customDish}
-                  onChangeText={setCustomDish}
-                />
+                <View style={{ marginTop: 16, marginBottom: 16 }}>
+                  <AppleTextInput
+                    label={isSaudi ? 'Or Type Other Saudi Dish:' : 'Or Type Other Family Dish:'}
+                    placeholder={isSaudi ? 'e.g. Bukhari Rice, Mathlootha, Gursan...' : 'e.g. Haleem, Karelay Gosht...'}
+                    value={customDish}
+                    onChangeText={setCustomDish}
+                  />
+                </View>
 
                 <Text
                   style={[

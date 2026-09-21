@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { Icon } from '../../ui/Icon.js';
+import { AppleTextInput, noOutlineStyle } from '../../ui/AppleInput.js';
 
 interface WeighInLogModalProps {
   visible: boolean;
@@ -181,21 +183,10 @@ export const WeighInLogModal: React.FC<WeighInLogModalProps> = ({
           </View>
 
           {/* Optional Notes */}
-          <View style={styles.fieldGroup}>
-            <Text style={[styles.label, { color: theme.colors.textPrimary }]}>
-              Notes (Optional)
-            </Text>
-            <TextInput
-              style={[
-                styles.notesInput,
-                {
-                  backgroundColor: theme.colors.surfaceSecondary,
-                  borderColor: theme.colors.border,
-                  color: theme.colors.textPrimary,
-                },
-              ]}
+          <View style={{ marginBottom: 20 }}>
+            <AppleTextInput
+              label="Notes (Optional)"
               placeholder="e.g. After dawat, salt retention, morning fasted"
-              placeholderTextColor={theme.colors.textMuted}
               value={notes}
               onChangeText={setNotes}
             />
@@ -300,6 +291,9 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     textAlign: 'center',
     minWidth: 70,
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    ...noOutlineStyle,
   },
   unitText: {
     fontSize: 16,

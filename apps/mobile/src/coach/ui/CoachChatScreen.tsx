@@ -23,6 +23,7 @@ import {
 } from '../../ai/apiKeyStorage.js';
 import { AiProvider } from '../../ai/types.js';
 import { Icon } from '../../ui/Icon.js';
+import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 
@@ -651,7 +652,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 10,
     fontSize: 14,
-    borderWidth: 1,
+    borderWidth: 1.5,
+    ...noOutlineStyle,
   },
   sendBtn: {
     width: 40,
@@ -727,8 +729,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 12,
     fontSize: 13,
-    borderWidth: 1,
+    borderWidth: 1.5,
     marginBottom: 14,
+    ...noOutlineStyle,
   },
   saveSettingsBtn: {
     borderRadius: 9999,
