@@ -436,8 +436,8 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                     ? '12+ SAUDI RESTAURANTS & TRADITIONAL DISHES (SFDA)'
                     : `${selectedGroup.toUpperCase()} BRANDS (${filteredBrands.length})`
                   : selectedGroup === 'All'
-                  ? '60+ PAKISTANI RESTAURANTS & HOME FOODS'
-                  : `${selectedGroup.toUpperCase()} BRANDS (${filteredBrands.length})`}
+                    ? '60+ PAKISTANI RESTAURANTS & HOME FOODS'
+                    : `${selectedGroup.toUpperCase()} BRANDS (${filteredBrands.length})`}
               </Text>
 
               {filteredBrands.map((brand: RestaurantBrand) => {
