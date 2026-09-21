@@ -31,7 +31,7 @@ config.resolver.resolveRequest = (context, moduleName, platform) => {
   if (moduleName === '@nutrio/nutrition-core') {
     return (originalResolveRequest || context.resolveRequest)(
       context,
-      path.resolve(monorepoRoot, 'packages/nutrition-core/dist/index.js'),
+      path.resolve(monorepoRoot, 'packages/nutrition-core/src/index.ts'),
       platform
     );
   }
@@ -39,7 +39,7 @@ config.resolver.resolveRequest = (context, moduleName, platform) => {
   if (moduleName === '@nutrio/food-db') {
     return (originalResolveRequest || context.resolveRequest)(
       context,
-      path.resolve(monorepoRoot, 'packages/food-db/dist/index.js'),
+      path.resolve(monorepoRoot, 'packages/food-db/src/index.ts'),
       platform
     );
   }

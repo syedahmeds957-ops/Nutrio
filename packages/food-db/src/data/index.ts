@@ -78,11 +78,13 @@ export const ALL_FOODS_CATALOG: NormalizedFood[] = [
 const REGIONAL_BRANDS: Record<RegionCode, RestaurantBrand[]> = {
   PK: PAKISTANI_RESTAURANT_BRANDS,
   SA: SAUDI_RESTAURANT_BRANDS,
+  GLOBAL: ALL_RESTAURANT_BRANDS,
 };
 
 const REGIONAL_FOODS: Record<RegionCode, NormalizedFood[]> = {
   PK: ALL_EXPANDED_PAKISTANI_FOODS,
   SA: ALL_SAUDI_FOODS,
+  GLOBAL: ALL_FOODS_CATALOG,
 };
 
 export const getBrandsForRegion = (region: RegionCode = 'PK'): RestaurantBrand[] =>
