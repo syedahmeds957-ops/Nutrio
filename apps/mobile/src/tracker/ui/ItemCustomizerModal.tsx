@@ -18,6 +18,7 @@ import { MealSlot } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
 import { useRegion } from '../../common/region/index.js';
+import { HapticFeedback } from '../../ui/haptics.js';
 
 export interface CustomizedLogPayload {
   food: NormalizedFood;
@@ -233,10 +234,12 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
   };
 
   const handleAdjustGrams = (delta: number) => {
+    HapticFeedback.impactLight();
     setCustomGrams((prev) => Math.max(20, Math.min(1500, prev + delta)));
   };
 
   const handleConfirmLog = () => {
+    HapticFeedback.impactMedium();
     const servingDesc = isCustomWeightMode
       ? `${customGrams}g custom portion`
       : activeServing?.description || activeServing?.label || 'serving';
@@ -318,7 +321,10 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                   { backgroundColor: isDark ? '#272A33' : '#F1F5F9' },
                   quantity <= 1 && styles.peachCircleButtonDisabled,
                 ]}
-                onPress={() => setQuantity((q) => Math.max(1, q - 1))}
+                onPress={() => {
+                  HapticFeedback.impactLight();
+                  setQuantity((q) => Math.max(1, q - 1));
+                }}
                 disabled={quantity <= 1}
                 activeOpacity={0.7}
                 accessibilityLabel="Decrease quantity"
@@ -335,7 +341,10 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
 
               <TouchableOpacity
                 style={[styles.peachCircleButton, { backgroundColor: isDark ? '#272A33' : '#F1F5F9' }]}
-                onPress={() => setQuantity((q) => q + 1)}
+                onPress={() => {
+                  HapticFeedback.impactLight();
+                  setQuantity((q) => q + 1);
+                }}
                 activeOpacity={0.7}
                 accessibilityLabel="Increase quantity"
               >
@@ -349,10 +358,13 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
             <View style={styles.portionHeaderRow}>
               <Text style={[styles.portionSectionTitle, { color: theme.colors.textMuted }]}>PORTION SIZE</Text>
               <TouchableOpacity
-                onPress={() => setIsCustomWeightMode((prev) => !prev)}
+                onPress={() => {
+                  HapticFeedback.selection();
+                  setIsCustomWeightMode((prev) => !prev);
+                }}
                 activeOpacity={0.7}
               >
-                <Text style={[styles.toggleCustomGramsText, { color: isDark ? (isSaudi ? '#10B981' : '#A4EB3F') : (isSaudi ? '#059669' : '#16A34A') }]}>
+                <Text style={[styles.toggleCustomGramsText, { color: isDark ? '#A4EB3F' : '#16A34A' }]}>
                   {isCustomWeightMode
                     ? (isSaudi ? '✓ أحجام قياسية' : '✓ Standard Servings')
                     : (isSaudi ? '⚖ وزن مخصص (جرام)' : '⚖ Custom Weight (g)')}
@@ -371,22 +383,19 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                       style={[
                         styles.servingPill,
                         { backgroundColor: isDark ? '#1C1D24' : '#F8FAFC', borderColor: theme.colors.border },
-                        isSelected && [
-                          styles.servingPillActive,
-                          isSaudi && { backgroundColor: '#10B981', borderColor: '#10B981' },
-                        ],
+                        isSelected && styles.servingPillActive,
                       ]}
-                      onPress={() => setSelectedServingIdx(idx)}
+                      onPress={() => {
+                        HapticFeedback.selection();
+                        setSelectedServingIdx(idx);
+                      }}
                       activeOpacity={0.7}
                     >
                       <Text
                         style={[
                           styles.servingPillText,
                           { color: theme.colors.textMuted },
-                          isSelected && [
-                            styles.servingPillTextActive,
-                            isSaudi && { color: '#FFFFFF' },
-                          ],
+                          isSelected && styles.servingPillTextActive,
                         ]}
                       >
                         {srv.label || srv.description}
@@ -395,10 +404,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                         style={[
                           styles.servingPillGrams,
                           { color: theme.colors.textMuted },
-                          isSelected && [
-                            styles.servingPillGramsActive,
-                            isSaudi && { color: '#FFFFFF' },
-                          ],
+                          isSelected && styles.servingPillGramsActive,
                         ]}
                       >
                         {srv.grams}g
@@ -408,12 +414,12 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                 })}
               </View>
             ) : (
-              /* Custom Grams Weight Stepper */
-              <View style={[styles.customGramsBox, { backgroundColor: isDark ? '#14151A' : '#F8FAFC', borderColor: theme.colors.border }]}>
+              /* Custom Weight Gram Stepper */
+              <View style={styles.customGramsBox}>
                 <Text style={[styles.customGramsPrompt, { color: theme.colors.textMuted }]}>
                   {isSaudi
-                    ? 'تناولت أكثر أو أقل من الحجم القياسي؟ اضبط الوزن الفعلي:'
-                    : 'Eaten more or less than standard size? Adjust actual weight:'}
+                    ? 'أدخل الوزن الدقيق للجرامات لحساب السعرات الدقيقة'
+                    : 'Enter custom weight in grams for precise calorie calculation'}
                 </Text>
 
                 <View style={styles.gramsAdjustRow}>
@@ -432,18 +438,17 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                     <Text style={[styles.gramChipText, { color: theme.colors.text }]}>-10g</Text>
                   </TouchableOpacity>
 
+                  {/* Centered Gram Display Box */}
                   <View
                     style={[
                       styles.gramDisplayBadge,
                       {
-                        backgroundColor: isDark
-                          ? isSaudi
-                            ? '#064E3B'
-                            : '#1F2410'
-                          : isSaudi
-                          ? '#ECFDF5'
-                          : '#F4FCE3',
-                        borderColor: isSaudi ? '#10B981' : '#A4EB3F',
+                        backgroundColor: isDark ? '#1F2410' : '#F4FCE3',
+                        borderColor: '#A4EB3F',
+                        borderRadius: 12,
+                        paddingVertical: 6,
+                        paddingHorizontal: 16,
+                        borderWidth: 1,
                       },
                     ]}
                   >
@@ -451,13 +456,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                       style={[
                         styles.gramDisplayNumber,
                         {
-                          color: isDark
-                            ? isSaudi
-                              ? '#34D399'
-                              : '#A4EB3F'
-                            : isSaudi
-                            ? '#065F46'
-                            : '#1C1917',
+                          color: isDark ? '#A4EB3F' : '#1C1917',
                         },
                       ]}
                     >
@@ -467,13 +466,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                       style={[
                         styles.gramDisplayUnit,
                         {
-                          color: isDark
-                            ? isSaudi
-                              ? '#34D399'
-                              : '#A4EB3F'
-                            : isSaudi
-                            ? '#047857'
-                            : '#4D7C0F',
+                          color: isDark ? '#A4EB3F' : '#4D7C0F',
                         },
                       ]}
                     >
@@ -580,22 +573,19 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                     style={[
                       styles.slotPill,
                       { backgroundColor: isDark ? '#1C1D24' : '#FFFFFF', borderColor: theme.colors.border },
-                      isSelected && [
-                        styles.slotPillActive,
-                        isSaudi && { backgroundColor: '#10B981', borderColor: '#10B981' },
-                      ],
+                      isSelected && styles.slotPillActive,
                     ]}
-                    onPress={() => setSelectedSlot(slot.id)}
+                    onPress={() => {
+                      HapticFeedback.selection();
+                      setSelectedSlot(slot.id);
+                    }}
                     activeOpacity={0.7}
                   >
                     <Text
                       style={[
                         styles.slotPillText,
                         { color: theme.colors.textMuted },
-                        isSelected && [
-                          styles.slotPillTextActive,
-                          isSaudi && { color: '#FFFFFF' },
-                        ],
+                        isSelected && styles.slotPillTextActive,
                       ]}
                     >
                       {slot.label}
@@ -620,13 +610,13 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
           </View>
 
           <TouchableOpacity
-            style={[styles.logThisButton, isSaudi && { backgroundColor: '#10B981' }]}
+            style={styles.logThisButton}
             onPress={handleConfirmLog}
             activeOpacity={0.85}
             accessibilityRole="button"
             accessibilityLabel="Log this meal"
           >
-            <Text style={[styles.logThisButtonText, isSaudi && { color: '#FFFFFF' }]}>
+            <Text style={styles.logThisButtonText}>
               {isSaudi ? 'تسجيل الوجبة' : 'Log this'}
             </Text>
           </TouchableOpacity>
@@ -725,17 +715,17 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   peachCircleButton: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     backgroundColor: '#FFEDD5',
     alignItems: 'center',
     justifyContent: 'center',
   },
   peachCircleButtonSmall: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     backgroundColor: '#FFEDD5',
     alignItems: 'center',
     justifyContent: 'center',
@@ -748,15 +738,17 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '800',
     color: '#1C1917',
-    minWidth: 24,
+    minWidth: 28,
     textAlign: 'center',
+    fontVariant: ['tabular-nums'],
   },
   stepperNumberSmall: {
     fontSize: 16,
     fontWeight: '800',
     color: '#1C1917',
-    minWidth: 20,
+    minWidth: 24,
     textAlign: 'center',
+    fontVariant: ['tabular-nums'],
   },
   portionControlCard: {
     backgroundColor: '#FFFFFF',
@@ -837,8 +829,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E7E5E4',
     borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    minHeight: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   gramChipText: {
     fontSize: 12,
@@ -853,6 +848,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '800',
     color: '#1C1917',
+    fontVariant: ['tabular-nums'],
   },
   gramDisplayUnit: {
     fontSize: 11,
@@ -872,32 +868,27 @@ const styles = StyleSheet.create({
   makeItYoursSubtitle: {
     fontSize: 14,
     color: '#78716C',
-    marginBottom: 14,
     lineHeight: 20,
+    marginBottom: 16,
   },
-  modifiersContainerCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: '#F5F5F4',
-    overflow: 'hidden',
+  modifiersList: {
+    gap: 10,
   },
-  modifierItemRow: {
+  modifierRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 18,
-    paddingVertical: 14,
+    padding: 14,
+    borderRadius: 16,
+    backgroundColor: '#FAF8F5',
+    borderWidth: 1,
+    borderColor: '#F5F5F4',
   },
-  modifierItemDivider: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#F5F5F4',
-  },
-  modifierLeftInfo: {
+  modifierInfo: {
     flex: 1,
     marginRight: 12,
   },
-  modifierItemTitle: {
+  modifierName: {
     fontSize: 15,
     fontWeight: '700',
     color: '#1C1917',

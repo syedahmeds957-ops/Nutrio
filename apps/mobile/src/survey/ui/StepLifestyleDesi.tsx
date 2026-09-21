@@ -35,8 +35,8 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
   const isSaudi = activeRegion === 'SA';
-  const accentColor = isSaudi ? '#10B981' : theme.colors.primaryLime;
-  const activeTextColor = isSaudi ? '#FFFFFF' : '#0A0B0D';
+  const accentColor = theme.colors.primaryLime;
+  const activeTextColor = '#0A0B0D';
   const cookingStyles = isSaudi ? SA_COOKING_STYLES : PK_COOKING_STYLES;
   const chaiCount = data.chaiWithSugarCupsPerDay ?? 2;
   const estimatedChaiKcal = chaiCount * KCAL_PER_CUP_CHAI_SUGAR;
@@ -133,7 +133,7 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
               <Text
                 style={[
                   styles.impactHighlight,
-                  { color: isSaudi ? (isDark ? '#34D399' : '#10B981') : theme.colors.primaryLime },
+                  { color: theme.colors.primaryLime },
                 ]}
               >
                 {estimatedChaiKcal} kcal/day

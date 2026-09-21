@@ -9,6 +9,7 @@ import {
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
 import { useRegion } from '../../common/region/index.js';
+import { HapticFeedback } from '../../ui/haptics.js';
 
 export interface StapleItem {
   id: string;
@@ -137,13 +138,14 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
   const isSaudi = activeRegion === 'SA';
-  const accentColor = isSaudi ? '#10B981' : theme.colors.primaryLime;
-  const activeTextColor = isSaudi ? '#FFFFFF' : '#0A0B0D';
+  const accentColor = theme.colors.primaryLime;
+  const activeTextColor = '#0A0B0D';
   const [justLoggedId, setJustLoggedId] = useState<string | null>(null);
 
   const staples = isSaudi ? SA_STAPLES : PK_STAPLES;
 
   const handlePress = (staple: StapleItem) => {
+    HapticFeedback.impactLight();
     onQuickLog(staple);
     setJustLoggedId(staple.id);
     setTimeout(() => setJustLoggedId(null), 1800);

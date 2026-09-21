@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { ComputedUserPlan } from '../types.js';
 import { useTheme } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
 
 interface PlanRevealViewProps {
   plan: ComputedUserPlan;
@@ -21,6 +22,11 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
   onAdjustGoal,
 }) => {
   const { theme } = useTheme();
+  const { activeRegion } = useRegion();
+  const isSaudi = (plan.region || activeRegion) === 'SA';
+  const accentColor = theme.colors.heroCardBg;
+  const accentBorder = theme.colors.primaryLime;
+  const accentTextColor = theme.colors.limeText;
   const { targetResult, macros, userContext, goalSelection } = plan;
 
   const signedDelta = targetResult.appliedDelta;
@@ -48,7 +54,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
               { color: theme.isDark ? theme.colors.primaryLime : '#465A00' },
             ]}
           >
-            Clinical Formulation Complete
+            {isSaudi ? 'Clinical Formulation Complete · الصياغة مكتملة' : 'Clinical Formulation Complete'}
           </Text>
         </View>
 
@@ -60,32 +66,32 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
         </Text>
       </View>
 
-      {/* Hero Calorie Card - Solid Lime Revolut/Ronasit Style */}
+      {/* Hero Calorie Card - Solid Lime Revolut or Saudi Emerald */}
       <View
         style={[
           styles.heroCard,
           {
-            backgroundColor: theme.colors.heroCardBg, // Solid Lime #A4EB3F
-            borderColor: theme.colors.primaryLime,
+            backgroundColor: accentColor,
+            borderColor: accentBorder,
           },
         ]}
       >
         <View style={styles.heroTopRow}>
-          <Text style={[styles.heroLabel, { color: theme.colors.limeText }]}>
-            DAILY TARGET
+          <Text style={[styles.heroLabel, { color: accentTextColor }]}>
+            {isSaudi ? 'الهدف اليومي · DAILY TARGET' : 'DAILY TARGET'}
           </Text>
-          <View style={styles.heroStatusDot} />
+          <View style={[styles.heroStatusDot, isSaudi && { backgroundColor: '#FFFFFF' }]} />
         </View>
 
-        <Text style={[styles.heroValue, { color: theme.colors.limeText }]}>
+        <Text style={[styles.heroValue, { color: accentTextColor }]}>
           {targetResult.kcalTarget.toLocaleString()}
         </Text>
-        <Text style={[styles.heroUnit, { color: theme.colors.limeText }]}>
-          calories / day
+        <Text style={[styles.heroUnit, { color: accentTextColor }]}>
+          {isSaudi ? 'سعرة حرارية / اليوم · calories / day' : 'calories / day'}
         </Text>
 
-        <View style={styles.deltaBox}>
-          <Text style={styles.deltaText}>
+        <View style={[styles.deltaBox, isSaudi && { backgroundColor: 'rgba(0, 0, 0, 0.25)' }]}>
+          <Text style={[styles.deltaText, isSaudi && { color: '#FFFFFF' }]}>
             {isDeficit
               ? `⚡ ${Math.abs(signedDelta)} kcal deficit from maintenance (${userContext.tdee} kcal)`
               : signedDelta > 0
@@ -257,8 +263,8 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
           onPress={onAcceptPlan}
           activeOpacity={0.8}
         >
-          <Text style={[styles.acceptBtnText, { color: theme.colors.limeText }]}>
-            Accept & Launch Tracker →
+          <Text style={[styles.acceptBtnText, { color: accentTextColor }]}>
+            {isSaudi ? 'Accept & Launch Tracker (بدء المتتبع) →' : 'Accept & Launch Tracker →'}
           </Text>
         </TouchableOpacity>
       </View>

@@ -527,6 +527,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({ brandId, size = 46, style 
     case 'al_matbakh_al_saudi':
     case 'saudi_home_kitchen':
     case 'saudi_traditional_kitchen':
+    case 'saudi_traditional':
       return (
         <View style={[containerStyle, { backgroundColor: '#006C35' }]}>
           <Svg width={size * 0.72} height={size * 0.72} viewBox="0 0 34 34" fill="none">
@@ -561,6 +562,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({ brandId, size = 46, style 
 
     // 18. AlBaik (البيك - Signature Yellow Rooster with Top Hat on Crimson Red)
     case 'albaik':
+    case 'al_baik':
       return (
         <View style={[containerStyle, { backgroundColor: '#D62300' }]}>
           <Svg width={size * 0.72} height={size * 0.72} viewBox="0 0 34 34" fill="none">
@@ -602,6 +604,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({ brandId, size = 46, style 
 
     // 20. Al Tazaj (الطازج - Forest Green with Golden Charcoal Grilling Flame)
     case 'al_tazaj':
+    case 'altazaj':
     case 'tazaj':
       return (
         <View style={[containerStyle, { backgroundColor: '#00843D' }]}>
@@ -686,6 +689,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({ brandId, size = 46, style 
 
     // 24. Mama Noura (ماما نورة - Riyadh Iconic Orange with Shawarma & Fresh Juice)
     case 'mama_noura':
+    case 'mamanoura':
       return (
         <View style={[containerStyle, { backgroundColor: '#FF6F00' }]}>
           <Svg width={size * 0.72} height={size * 0.72} viewBox="0 0 34 34" fill="none">
@@ -745,6 +749,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({ brandId, size = 46, style 
 
     // 27. Bait Al Shawarma (بيت الشاورما - Deep Terracotta Orange with Shawarma Cone)
     case 'bait_al_shawarma':
+    case 'baitalshawarma':
       return (
         <View style={[containerStyle, { backgroundColor: '#D84315' }]}>
           <Svg width={size * 0.72} height={size * 0.72} viewBox="0 0 34 34" fill="none">
@@ -767,6 +772,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({ brandId, size = 46, style 
     // 28. Barn's (بارنز كافيه - Espresso Roast Brown with Steaming Gahwa Cup)
     case 'barns':
     case 'barn_cafe':
+    case 'barncafe':
       return (
         <View style={[containerStyle, { backgroundColor: '#4E342E' }]}>
           <Svg width={size * 0.72} height={size * 0.72} viewBox="0 0 34 34" fill="none">
@@ -787,6 +793,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({ brandId, size = 46, style 
     // 29. ½ Million (هاف مليون - Minimalist Luxury Obsidian with Typographic Fraction)
     case 'half_million':
     case 'halfmillion':
+    case 'half_m':
       return (
         <View style={[containerStyle, { backgroundColor: '#111827', borderWidth: 1, borderColor: '#374151' }]}>
           <Svg width={size * 0.75} height={size * 0.75} viewBox="0 0 34 34" fill="none">
@@ -817,7 +824,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({ brandId, size = 46, style 
         .filter(Boolean)
         .slice(0, 2)
         .join('')
-        .toUpperCase() || 'PK';
+        .toUpperCase() || 'SA';
 
       return (
         <View style={[containerStyle, { backgroundColor: '#1F2937', borderWidth: 1, borderColor: '#374151' }]}>

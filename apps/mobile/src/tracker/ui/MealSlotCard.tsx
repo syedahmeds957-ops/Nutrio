@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { LoggedItem, MealSlot } from '../types.js';
 import { useTheme } from '../../theme.js';
+import { HapticFeedback } from '../../ui/haptics.js';
 
 interface MealSlotCardProps {
   slot: MealSlot;
@@ -143,9 +144,15 @@ export const MealSlotCard: React.FC<MealSlotCardProps> = ({
                   {item.calories} kcal
                 </Text>
                 <TouchableOpacity
-                  onPress={() => onDeleteItem(item.id)}
-                  hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                  onPress={() => {
+                    HapticFeedback.impactHeavy();
+                    onDeleteItem(item.id);
+                  }}
+                  hitSlop={{ top: 14, bottom: 14, left: 14, right: 14 }}
                   activeOpacity={0.6}
+                  style={styles.deleteBtn}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Delete ${item.foodName}`}
                 >
                   <Text style={[styles.deleteText, { color: theme.colors.textMuted }]}>✕</Text>
                 </TouchableOpacity>
@@ -176,7 +183,10 @@ export const MealSlotCard: React.FC<MealSlotCardProps> = ({
               : theme.colors.border,
           },
         ]}
-        onPress={() => onAddItem(slot)}
+        onPress={() => {
+          HapticFeedback.selection();
+          onAddItem(slot);
+        }}
         activeOpacity={0.7}
       >
         <Text
@@ -250,6 +260,7 @@ const styles = StyleSheet.create({
   slotCalories: {
     fontSize: 12,
     fontWeight: '800',
+    fontVariant: ['tabular-nums'],
   },
   itemsList: {
     borderTopWidth: 1,
@@ -285,6 +296,13 @@ const styles = StyleSheet.create({
   itemCalories: {
     fontSize: 13,
     fontWeight: '700',
+    fontVariant: ['tabular-nums'],
+  },
+  deleteBtn: {
+    width: 32,
+    height: 32,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   deleteText: {
     fontSize: 13,
@@ -297,10 +315,12 @@ const styles = StyleSheet.create({
   },
   addBtn: {
     marginTop: 6,
-    paddingVertical: 10,
+    paddingVertical: 12,
+    minHeight: 44,
     borderRadius: 9999,
     borderWidth: 1,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   addBtnText: {
     fontSize: 12,

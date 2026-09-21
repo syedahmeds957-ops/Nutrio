@@ -7,3 +7,4 @@ export * from './PlannedMealSlotCard.js';
 export * from './WeeklyPlanView.js';
 export * from './GroceryListView.js';
 export * from './CulturalModesModal.js';
+export * from './PlanCalculationTransitionView.js';

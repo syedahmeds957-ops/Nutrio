@@ -25,6 +25,8 @@ export interface ThemeColors {
   primaryLime: string;       // #A4EB3F
   heroCardBg: string;        // #A4EB3F (Solid Lime - NO gradient)
   limeText: string;          // #0A0B0D (Pitch Black for extreme contrast)
+  primaryAccessible: string; // WCAG AA compliant accent for text/borders
+  primaryTintText: string;   // High-contrast tint for text tags and pills
 
   // Floating Capsule Bar
   floatingBarBg: string;
@@ -71,6 +73,8 @@ export const darkColors: ThemeColors = {
   primaryLime: '#A4EB3F',
   heroCardBg: '#A4EB3F',
   limeText: '#0A0B0D',
+  primaryAccessible: '#A4EB3F',
+  primaryTintText: '#A4EB3F',
 
   floatingBarBg: '#18191E',
   floatingBarActive: '#A4EB3F',
@@ -113,6 +117,8 @@ export const lightColors: ThemeColors = {
   primaryLime: '#A4EB3F',
   heroCardBg: '#A4EB3F',
   limeText: '#0A0B0D',
+  primaryAccessible: '#15803D', // High contrast emerald for light mode (WCAG AA > 4.5:1)
+  primaryTintText: '#166534',
 
   floatingBarBg: '#111215',
   floatingBarActive: '#A4EB3F',
@@ -148,42 +154,15 @@ export const commonRadii = {
 };
 
 export const commonShadows = {
-  soft: Platform.select({
-    web: {
-      boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.05)',
-    },
-    default: {
-      shadowColor: '#000000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.05,
-      shadowRadius: 8,
-      elevation: 2,
-    },
-  }) as any,
-  medium: Platform.select({
-    web: {
-      boxShadow: '0px 6px 16px rgba(0, 0, 0, 0.08)',
-    },
-    default: {
-      shadowColor: '#000000',
-      shadowOffset: { width: 0, height: 6 },
-      shadowOpacity: 0.08,
-      shadowRadius: 16,
-      elevation: 4,
-    },
-  }) as any,
-  hero: Platform.select({
-    web: {
-      boxShadow: '0px 8px 20px rgba(164, 235, 63, 0.16)',
-    },
-    default: {
-      shadowColor: '#A4EB3F',
-      shadowOffset: { width: 0, height: 8 },
-      shadowOpacity: 0.16,
-      shadowRadius: 20,
-      elevation: 6,
-    },
-  }) as any,
+  soft: {
+    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.05)',
+  } as any,
+  medium: {
+    boxShadow: '0px 6px 16px rgba(0, 0, 0, 0.08)',
+  } as any,
+  hero: {
+    boxShadow: '0px 8px 20px rgba(164, 235, 63, 0.16)',
+  } as any,
 };
 
 export const commonTypography = {
@@ -198,6 +177,7 @@ export const commonTypography = {
     fontWeight: '800' as const,
     lineHeight: 52,
     letterSpacing: -1.2,
+    fontVariant: ['tabular-nums'] as ('tabular-nums')[],
   },
   displayHero: {
     fontFamily:
@@ -206,6 +186,7 @@ export const commonTypography = {
     fontWeight: '800' as const,
     lineHeight: 44,
     letterSpacing: -0.8,
+    fontVariant: ['tabular-nums'] as ('tabular-nums')[],
   },
   sectionTitle: {
     fontFamily:
@@ -222,6 +203,7 @@ export const commonTypography = {
     fontWeight: '700' as const,
     lineHeight: 28,
     letterSpacing: -0.4,
+    fontVariant: ['tabular-nums'] as ('tabular-nums')[],
   },
   cardTitle: {
     fontFamily:
@@ -238,6 +220,7 @@ export const commonTypography = {
     fontWeight: '600' as const,
     lineHeight: 20,
     letterSpacing: 0,
+    fontVariant: ['tabular-nums'] as ('tabular-nums')[],
   },
   caption: {
     fontFamily:
@@ -267,7 +250,7 @@ export interface NutrioTheme {
   typography: typeof commonTypography;
 }
 
-export function getTheme(mode: ThemeMode = 'dark'): NutrioTheme {
+export function getTheme(mode: ThemeMode = 'light'): NutrioTheme {
   return {
     mode,
     isDark: mode === 'dark',
@@ -278,8 +261,8 @@ export function getTheme(mode: ThemeMode = 'dark'): NutrioTheme {
   };
 }
 
-// Default export: Dark mode default (can be toggled dynamically)
-export const theme = getTheme('dark');
+// Default export: Light mode default (can be toggled dynamically)
+export const theme = getTheme('light');
 
 // Theme Context & Hook for Dynamic Switching
 export interface ThemeContextValue {
@@ -291,16 +274,16 @@ export interface ThemeContextValue {
 }
 
 const ThemeContext = createContext<ThemeContextValue>({
-  theme: getTheme('dark'),
-  mode: 'dark',
+  theme: getTheme('light'),
+  mode: 'light',
   setMode: () => {},
   toggleTheme: () => {},
-  isDark: true,
+  isDark: false,
 });
 
 export const ThemeProvider: React.FC<{ children: ReactNode; initialMode?: ThemeMode }> = ({
   children,
-  initialMode = 'dark',
+  initialMode = 'light',
 }) => {
   const [mode, setMode] = useState<ThemeMode>(initialMode);
   const activeTheme = getTheme(mode);

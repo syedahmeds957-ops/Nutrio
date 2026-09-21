@@ -6,12 +6,14 @@ import {
   View,
 } from 'react-native';
 import { useTheme } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
 import { Icon } from '../../ui/Icon.js';
 
 export interface DayIntake {
   day: string;
   consumed: number;
   target: number;
+  isLogged?: boolean;
 }
 
 interface WeeklyCalorieBankCardProps {
@@ -20,23 +22,38 @@ interface WeeklyCalorieBankCardProps {
   targetCalories?: number;
 }
 
-const DEFAULT_HISTORY: DayIntake[] = [
-  { day: 'Mon', consumed: 1720, target: 1850 },
-  { day: 'Tue', consumed: 1780, target: 1850 },
-  { day: 'Wed', consumed: 1690, target: 1850 },
-  { day: 'Thu', consumed: 1820, target: 1850 },
-  { day: 'Fri', consumed: 1750, target: 1850 },
-  { day: 'Sat', consumed: 2120, target: 1850 }, // Dawat / Shaadi meal
-  { day: 'Sun', consumed: 1200, target: 1850 }, // Today
-];
+const WEEK_DAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
-  dailyHistory = DEFAULT_HISTORY,
-  weeklyDeficitKcal = 2450,
+  dailyHistory,
+  weeklyDeficitKcal,
   targetCalories = 1850,
 }) => {
   const { theme, isDark } = useTheme();
+  const { activeRegion } = useRegion();
+  const isSaudi = activeRegion === 'SA';
+  const accentColor = theme.colors.primaryLime;
+  const accentBg = theme.colors.surfaceSecondary;
+
   const animProgress = useRef(new Animated.Value(0)).current;
+
+  // Derive dynamic history: if not provided, construct clean week where unlogged days have 0 consumed
+  const currentDayIdx = (new Date().getDay() + 6) % 7;
+  const history: DayIntake[] = dailyHistory && dailyHistory.length > 0
+    ? dailyHistory
+    : WEEK_DAY_LABELS.map((day, idx) => ({
+        day,
+        consumed: 0,
+        target: targetCalories,
+        isLogged: idx === currentDayIdx,
+      }));
+
+  const hasLoggedDays = history.some((h) => (h.consumed > 0) || h.isLogged);
+  const totalConsumed = history.reduce((sum, h) => sum + h.consumed, 0);
+  const totalTarget = history.filter((h) => h.consumed > 0 || h.isLogged).reduce((sum, h) => sum + h.target, 0);
+  const computedDeficit = weeklyDeficitKcal !== undefined
+    ? weeklyDeficitKcal
+    : Math.max(0, totalTarget - totalConsumed);
 
   useEffect(() => {
     Animated.timing(animProgress, {
@@ -66,17 +83,17 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
           <View
             style={[
               styles.iconCircle,
-              { backgroundColor: theme.colors.surfaceSecondary },
+              { backgroundColor: accentBg },
             ]}
           >
-            <Icon name="calendar" size={14} color={theme.colors.primaryLime} />
+            <Icon name="calendar" size={14} color={accentColor} />
           </View>
           <View>
             <Text style={[styles.cardTitle, { color: theme.colors.textPrimary }]}>
-              Weekly Calorie Bank
+              {isSaudi ? 'بنك السعرات الأسبوعي' : 'Weekly Calorie Bank'}
             </Text>
             <Text style={[styles.cardSubtitle, { color: theme.colors.textSecondary }]}>
-              Rolling Energy Balance
+              {isSaudi ? 'Rolling Energy Balance (KSA)' : 'Rolling Energy Balance'}
             </Text>
           </View>
         </View>
@@ -85,21 +102,27 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
           style={[
             styles.deficitPill,
             {
-              backgroundColor: theme.colors.surfaceSecondary,
-              borderColor: theme.colors.border,
+              backgroundColor: accentBg,
+              borderColor: isDark ? theme.colors.border : accentColor,
             },
           ]}
         >
-          <Icon name="zap" size={12} color={theme.colors.primaryLime} />
-          <Text style={[styles.deficitText, { color: theme.colors.primaryLime }]}>
-            -{weeklyDeficitKcal.toLocaleString()} kcal
+          <Icon name="zap" size={12} color={accentColor} />
+          <Text style={[styles.deficitText, { color: accentColor }]}>
+            {computedDeficit > 0 ? `-${computedDeficit.toLocaleString()} kcal` : `0 kcal bank`}
           </Text>
         </View>
       </View>
 
       {/* Reassurance Message */}
       <Text style={[styles.reassuranceText, { color: theme.colors.textMuted }]}>
-        On track for ~0.5 kg fat loss this week. Even with higher weekend meals, your weekly balance protects your progress.
+        {!hasLoggedDays || totalConsumed === 0
+          ? isSaudi
+            ? 'ابدأ بتسجيل وجبات اليوم لحساب عجز السعرات الحرارية الأسبوعي بدقة والحفاظ على تقدمك.'
+            : 'Start logging your meals today. Nutrio dynamically banks your rolling weekly energy balance to keep your progress protected.'
+          : isSaudi
+          ? 'على المسار الصحيح! يتم تجميع توازن طاقتك الأسبوعي تلقائياً لموازنة أيام الولائم والعزائم.'
+          : 'On track! Rolling weekly energy balance is accumulating to safeguard your sustainable fat loss target.'}
       </Text>
 
       {/* 7-Day Mini Bar Chart */}
@@ -118,10 +141,10 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
         </View>
 
         <View style={styles.barsRow}>
-          {dailyHistory.map((item, idx) => {
-            const isToday = idx === dailyHistory.length - 1;
+          {history.map((item, idx) => {
+            const isToday = item.isLogged ?? (idx === currentDayIdx);
             const isOver = item.consumed > item.target;
-            const barHeightPct = Math.min(1, item.consumed / maxBarKcal);
+            const barHeightPct = item.consumed > 0 ? Math.min(1, item.consumed / maxBarKcal) : 0;
             const heightValue = animProgress.interpolate({
               inputRange: [0, 1],
               outputRange: [0, barHeightPct * BAR_MAX_HEIGHT],
@@ -133,6 +156,7 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
                   style={[
                     styles.barTrack,
                     { backgroundColor: theme.colors.surfaceSecondary },
+                    isToday && { borderColor: accentColor, borderWidth: 1 },
                   ]}
                 >
                   <Animated.View
@@ -141,7 +165,7 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
                       {
                         height: heightValue,
                         backgroundColor: isToday
-                          ? theme.colors.primaryLime
+                          ? accentColor
                           : isOver
                           ? '#F59E0B'
                           : isDark
@@ -155,7 +179,7 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
                   style={[
                     styles.dayLabel,
                     { color: theme.colors.textMuted },
-                    isToday && [styles.dayLabelToday, { color: theme.colors.primaryLime }],
+                    isToday && [styles.dayLabelToday, { color: accentColor }],
                   ]}
                 >
                   {item.day}

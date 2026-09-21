@@ -56,6 +56,8 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
   const isSaudi = activeRegion === 'SA';
+  const accentColor = theme.colors.primaryLime;
+  const accentTextColor = '#0A0B0D';
   const familyDishes = isSaudi ? SA_FAMILY_DISHES : PK_FAMILY_DISHES;
   const defaultDish = currentFamilyDish || (isSaudi ? 'Chicken Kabsa · كبسة دجاج' : 'Chicken Karahi');
 
@@ -147,7 +149,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
               style={[
                 styles.tabBtn,
                 activeTab === 'family' && {
-                  backgroundColor: theme.colors.primaryLime,
+                  backgroundColor: accentColor,
                 },
               ]}
               onPress={() => setActiveTab('family')}
@@ -158,7 +160,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                   styles.tabText,
                   { color: theme.colors.textSecondary },
                   activeTab === 'family' && {
-                    color: '#0A0B0D',
+                    color: accentTextColor,
                     fontWeight: '800',
                   },
                 ]}
@@ -171,7 +173,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
               style={[
                 styles.tabBtn,
                 activeTab === 'ramadan' && {
-                  backgroundColor: theme.colors.primaryLime,
+                  backgroundColor: accentColor,
                 },
               ]}
               onPress={() => setActiveTab('ramadan')}
@@ -182,7 +184,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                   styles.tabText,
                   { color: theme.colors.textSecondary },
                   activeTab === 'ramadan' && {
-                    color: '#0A0B0D',
+                    color: accentTextColor,
                     fontWeight: '800',
                   },
                 ]}
@@ -238,8 +240,8 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                             borderColor: theme.colors.border,
                           },
                           isSelected && {
-                            backgroundColor: theme.colors.primaryLime,
-                            borderColor: theme.colors.primaryLime,
+                            backgroundColor: accentColor,
+                            borderColor: accentColor,
                           },
                         ]}
                         onPress={() => {
@@ -253,7 +255,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                             styles.dishChipText,
                             { color: theme.colors.textPrimary },
                             isSelected && {
-                              color: '#0A0B0D',
+                              color: accentTextColor,
                               fontWeight: '800',
                             },
                           ]}
@@ -305,8 +307,8 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                         borderColor: theme.colors.border,
                       },
                       mealSlot === 'dinner' && {
-                        backgroundColor: theme.colors.primaryLime,
-                        borderColor: theme.colors.primaryLime,
+                        backgroundColor: accentColor,
+                        borderColor: accentColor,
                       },
                     ]}
                     onPress={() => setMealSlot('dinner')}
@@ -317,7 +319,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                         styles.slotChoiceText,
                         { color: theme.colors.textSecondary },
                         mealSlot === 'dinner' && {
-                          color: '#0A0B0D',
+                          color: accentTextColor,
                           fontWeight: '800',
                         },
                       ]}
@@ -334,8 +336,8 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                         borderColor: theme.colors.border,
                       },
                       mealSlot === 'lunch' && {
-                        backgroundColor: theme.colors.primaryLime,
-                        borderColor: theme.colors.primaryLime,
+                        backgroundColor: accentColor,
+                        borderColor: accentColor,
                       },
                     ]}
                     onPress={() => setMealSlot('lunch')}
@@ -346,7 +348,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                         styles.slotChoiceText,
                         { color: theme.colors.textSecondary },
                         mealSlot === 'lunch' && {
-                          color: '#0A0B0D',
+                          color: accentTextColor,
                           fontWeight: '800',
                         },
                       ]}
@@ -360,14 +362,14 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                   style={[
                     styles.applyBtn,
                     {
-                      backgroundColor: theme.colors.primaryLime,
-                      shadowColor: theme.colors.primaryLime,
+                      backgroundColor: accentColor,
+                      shadowColor: accentColor,
                     },
                   ]}
                   onPress={handleApplyFamily}
                   activeOpacity={0.8}
                 >
-                  <Text style={[styles.applyBtnText, { color: '#0A0B0D' }]}>
+                  <Text style={[styles.applyBtnText, { color: accentTextColor }]}>
                     Apply {customDish || selectedDish} to Plan
                   </Text>
                 </TouchableOpacity>
@@ -407,9 +409,11 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                     onValueChange={setRamadanToggle}
                     trackColor={{
                       false: theme.colors.border,
-                      true: isDark ? '#2D4B05' : '#D4F88D',
+                      true: isSaudi
+                        ? (isDark ? '#064E3B' : '#A7F3D0')
+                        : (isDark ? '#2D4B05' : '#D4F88D'),
                     }}
-                    thumbColor={ramadanToggle ? theme.colors.primaryLime : theme.colors.textMuted}
+                    thumbColor={ramadanToggle ? accentColor : theme.colors.textMuted}
                   />
                 </View>
 
@@ -449,8 +453,8 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                   >
                     • <Text style={[styles.boldWhite, { color: theme.colors.textPrimary }]}>{isSaudi ? 'Iftar · إفطار - 40%:' : 'Iftar (افطاری) - 40%:'}</Text>{' '}
                     {isSaudi
-                      ? 'Sukari dates, water, Saudi Gahwa, Shourba hab & grilled Farrouj / Mandi meat.'
-                      : 'Dates, protein-first main meal (chicken/tikka/daal), controlled oil.'}
+                      ? 'Dates & water break, followed by grilled chicken/meat Kabsa with balanced rice portion.'
+                      : 'Fruit chaat, baked samosa or grilled kebab with mint chutney.'}
                   </Text>
                   <Text
                     style={[
@@ -458,8 +462,10 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                       { color: theme.colors.textSecondary },
                     ]}
                   >
-                    • <Text style={[styles.boldWhite, { color: theme.colors.textPrimary }]}>{isSaudi ? 'Post-Tarawih · غبقة وتمر - 20%:' : 'Post-Tarawih - 20%:'}</Text>{' '}
-                    {isSaudi ? 'Light recovery snack, fruit & mint tea or Gahwa.' : 'Light snack & recovery chai.'}
+                    • <Text style={[styles.boldWhite, { color: theme.colors.textPrimary }]}>{isSaudi ? 'Post-Taraweeh Snack · وجبة التراويح - 20%:' : 'Post-Taraweeh Chai Window - 20%:'}</Text>{' '}
+                    {isSaudi
+                      ? 'Saudi Gahwa with 3 Sukari dates or protein pudding before sleep.'
+                      : 'Doodh patti chai + protein oats bowl or roasted almonds.'}
                   </Text>
                 </View>
 
@@ -526,14 +532,14 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                   style={[
                     styles.applyBtn,
                     {
-                      backgroundColor: theme.colors.primaryLime,
-                      shadowColor: theme.colors.primaryLime,
+                      backgroundColor: accentColor,
+                      shadowColor: accentColor,
                     },
                   ]}
                   onPress={handleApplyRamadan}
                   activeOpacity={0.8}
                 >
-                  <Text style={[styles.applyBtnText, { color: '#0A0B0D' }]}>
+                  <Text style={[styles.applyBtnText, { color: accentTextColor }]}>
                     {ramadanToggle ? 'Activate Ramadan Mode' : 'Disable Ramadan Mode'}
                   </Text>
                 </TouchableOpacity>

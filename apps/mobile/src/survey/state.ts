@@ -69,6 +69,9 @@ export class SurveyStateEngine {
   // Section setters
   public setBasics(data: Partial<SurveyBasics>): void {
     this.basics = { ...this.basics, ...data };
+    if (this.basics.sex === 'male') {
+      this.healthClinical.isPregnantOrBreastfeeding = false;
+    }
     this.currentErrors = {};
   }
 

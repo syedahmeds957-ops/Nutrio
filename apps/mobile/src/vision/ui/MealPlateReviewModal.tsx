@@ -8,6 +8,8 @@ import {
   View,
 } from 'react-native';
 import { ResolvedFoodItem, VisionResolutionResult } from '@nutrio/nutrition-core';
+import { useTheme } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
 
 interface MealPlateReviewModalProps {
   visible: boolean;
@@ -47,6 +49,12 @@ export const MealPlateReviewModal: React.FC<MealPlateReviewModalProps> = ({
   initialResolution,
   onConfirmLog,
 }) => {
+  const { theme, isDark } = useTheme();
+  const { activeRegion } = useRegion();
+  const isSaudi = activeRegion === 'SA';
+  const accentColor = theme.colors.primaryLime;
+  const accentTextColor = '#0A0B0D';
+
   const [items, setItems] = useState<ResolvedFoodItem[]>(
     initialResolution.items
   );
@@ -107,102 +115,150 @@ export const MealPlateReviewModal: React.FC<MealPlateReviewModalProps> = ({
       onRequestClose={onClose}
     >
       <View style={styles.modalOverlay}>
-        <View style={styles.modalContent}>
+        <View
+          style={[
+            styles.modalContent,
+            {
+              backgroundColor: theme.colors.surface,
+              borderColor: theme.colors.border,
+            },
+          ]}
+        >
           {/* Header */}
-          <View style={styles.headerRow}>
+          <View style={[styles.headerRow, { borderBottomColor: theme.colors.border }]}>
             <View style={styles.headerTitles}>
-              <Text style={styles.eyebrow}>AI MULTIMODAL MEAL SCAN</Text>
-              <Text style={styles.modalTitle}>{dishTitle}</Text>
+              <Text style={[styles.eyebrow, { color: accentColor }]}>
+                {isSaudi ? 'مسح الوجبة بالذكاء الاصطناعي · AI SCAN' : 'AI MULTIMODAL MEAL SCAN'}
+              </Text>
+              <Text style={[styles.modalTitle, { color: theme.colors.textPrimary }]}>{dishTitle}</Text>
               {cookingMethod && (
-                <Text style={styles.methodText}>🍳 {cookingMethod}</Text>
+                <Text style={[styles.methodText, { color: theme.colors.textMuted }]}>🍳 {cookingMethod}</Text>
               )}
             </View>
             <TouchableOpacity
-              style={styles.closeBtn}
+              style={[styles.closeBtn, { backgroundColor: theme.colors.surfaceSecondary }]}
               onPress={onClose}
               activeOpacity={0.7}
             >
-              <Text style={styles.closeBtnText}>✕</Text>
+              <Text style={[styles.closeBtnText, { color: theme.colors.textSecondary }]}>✕</Text>
             </TouchableOpacity>
           </View>
 
           <ScrollView style={styles.scrollList} contentContainerStyle={styles.scrollPad}>
             {/* Confidence Band Banner */}
-            <View style={styles.confidenceCard}>
+            <View
+              style={[
+                styles.confidenceCard,
+                {
+                  backgroundColor: theme.colors.surfaceSecondary,
+                  borderColor: theme.colors.border,
+                },
+              ]}
+            >
               <View style={styles.confidenceHeader}>
-                <Text style={styles.confidenceTitle}>ESTIMATED ENERGY</Text>
-                <View style={styles.confidenceBadge}>
-                  <Text style={styles.confidenceBadgeText}>
-                    {initialResolution.confidence.toUpperCase()} CONFIDENCE
+                <Text style={[styles.confidenceTitle, { color: theme.colors.textMuted }]}>
+                  {isSaudi ? 'الطاقة المقدرة' : 'ESTIMATED ENERGY'}
+                </Text>
+                <View
+                  style={[
+                    styles.confidenceBadge,
+                    {
+                      backgroundColor: isSaudi
+                        ? (isDark ? '#064E3B' : '#D1FAE5')
+                        : (isDark ? '#1C2608' : '#DCFCE7'),
+                    },
+                  ]}
+                >
+                  <Text style={[styles.confidenceBadgeText, { color: accentColor }]}>
+                    {initialResolution.confidence.toUpperCase()} {isSaudi ? 'دقة' : 'CONFIDENCE'}
                   </Text>
                 </View>
               </View>
-              <Text style={styles.bigCalories}>
+              <Text style={[styles.bigCalories, { color: theme.colors.textPrimary }]}>
                 ~{totalCalories} kcal
               </Text>
-              <Text style={styles.confidenceRange}>
-                Clinical Band: {Math.round(totalCalories * 0.9)} –{' '}
-                {Math.round(totalCalories * 1.1)} kcal (±10%)
+              <Text style={[styles.confidenceRange, { color: theme.colors.textMuted }]}>
+                {isSaudi ? 'النطاق السريري: ' : 'Clinical Band: '}
+                {Math.round(totalCalories * 0.9)} – {Math.round(totalCalories * 1.1)} kcal (±10%)
               </Text>
             </View>
 
             {/* Macro Summary Row */}
             <View style={styles.macroSummaryRow}>
-              <View style={styles.macroChip}>
-                <Text style={styles.macroVal}>{totalProtein}g</Text>
-                <Text style={styles.macroLabel}>Protein</Text>
+              <View style={[styles.macroChip, { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border }]}>
+                <Text style={[styles.macroVal, { color: theme.colors.textPrimary }]}>{totalProtein}g</Text>
+                <Text style={[styles.macroLabel, { color: theme.colors.textMuted }]}>Protein</Text>
               </View>
-              <View style={styles.macroChip}>
-                <Text style={styles.macroVal}>{totalCarbs}g</Text>
-                <Text style={styles.macroLabel}>Carbs</Text>
+              <View style={[styles.macroChip, { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border }]}>
+                <Text style={[styles.macroVal, { color: theme.colors.textPrimary }]}>{totalCarbs}g</Text>
+                <Text style={[styles.macroLabel, { color: theme.colors.textMuted }]}>Carbs</Text>
               </View>
-              <View style={styles.macroChip}>
-                <Text style={styles.macroVal}>{totalFat}g</Text>
-                <Text style={styles.macroLabel}>Fat</Text>
+              <View style={[styles.macroChip, { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border }]}>
+                <Text style={[styles.macroVal, { color: theme.colors.textPrimary }]}>{totalFat}g</Text>
+                <Text style={[styles.macroLabel, { color: theme.colors.textMuted }]}>Fat</Text>
               </View>
-              <View style={[styles.macroChip, styles.oilChip]}>
-                <Text style={[styles.macroVal, styles.oilVal]}>{totalOil}g</Text>
-                <Text style={styles.oilLabel}>Cooking Oil</Text>
+              <View style={[styles.macroChip, styles.oilChip, isDark && { backgroundColor: '#3E1F07', borderColor: '#78350F' }]}>
+                <Text style={[styles.macroVal, styles.oilVal, isDark && { color: '#FBBF24' }]}>{totalOil}g</Text>
+                <Text style={[styles.oilLabel, isDark && { color: '#FCD34D' }]}>
+                  {isSaudi ? 'زيت / سمن' : 'Cooking Oil'}
+                </Text>
               </View>
             </View>
 
             {/* Plate Itemizer & Portion Controls */}
-            <Text style={styles.sectionHeading}>
-              Plate Ingredients ({items.length})
+            <Text style={[styles.sectionHeading, { color: theme.colors.textPrimary }]}>
+              {isSaudi ? `مكونات الطبق (${items.length})` : `Plate Ingredients (${items.length})`}
             </Text>
             <View style={styles.itemsList}>
               {items.map((item, index) => (
-                <View key={index} style={styles.itemCard}>
+                <View
+                  key={index}
+                  style={[
+                    styles.itemCard,
+                    {
+                      backgroundColor: theme.colors.surfaceSecondary,
+                      borderColor: theme.colors.border,
+                    },
+                  ]}
+                >
                   <View style={styles.itemTopRow}>
                     <View style={styles.itemTitleBlock}>
-                      <Text style={styles.itemName}>
+                      <Text style={[styles.itemName, { color: theme.colors.textPrimary }]}>
                         {item.matchedFoodName}
                         {item.matchedFoodNameUr ? ` · ${item.matchedFoodNameUr}` : ''}
                       </Text>
-                      <Text style={styles.itemMeta}>
+                      <Text style={[styles.itemMeta, { color: theme.colors.textMuted }]}>
                         {item.resolvedGrams}g · {item.calories} kcal
                       </Text>
                     </View>
                     <TouchableOpacity
-                      style={styles.deleteBtn}
+                      style={[styles.deleteBtn, isDark && { backgroundColor: '#450A0A' }]}
                       onPress={() => handleDeleteItem(index)}
                       activeOpacity={0.7}
                     >
-                      <Text style={styles.deleteBtnText}>✕</Text>
+                      <Text style={[styles.deleteBtnText, isDark && { color: '#F87171' }]}>✕</Text>
                     </TouchableOpacity>
                   </View>
 
                   {/* One-Tap Portion Size Chips */}
-                  <View style={styles.portionControlsRow}>
+                  <View style={[styles.portionControlsRow, { borderTopColor: theme.colors.border }]}>
                     <View style={styles.smlGroup}>
                       {(['S', 'M', 'L'] as const).map((scale) => (
                         <TouchableOpacity
                           key={scale}
-                          style={styles.smlBtn}
+                          style={[
+                            styles.smlBtn,
+                            {
+                              backgroundColor: isDark
+                                ? (isSaudi ? '#064E3B' : '#1C2608')
+                                : (isSaudi ? '#ECFDF5' : '#F7FEE7'),
+                              borderColor: accentColor,
+                            },
+                          ]}
                           onPress={() => handleAdjustPortionScale(index, scale)}
                           activeOpacity={0.7}
                         >
-                          <Text style={styles.smlBtnText}>{scale}</Text>
+                          <Text style={[styles.smlBtnText, { color: accentColor }]}>{scale}</Text>
                         </TouchableOpacity>
                       ))}
                     </View>
@@ -210,18 +266,30 @@ export const MealPlateReviewModal: React.FC<MealPlateReviewModalProps> = ({
                     {/* Gram Stepper */}
                     <View style={styles.stepperGroup}>
                       <TouchableOpacity
-                        style={styles.stepBtn}
+                        style={[
+                          styles.stepBtn,
+                          {
+                            backgroundColor: theme.colors.surface,
+                            borderColor: theme.colors.border,
+                          },
+                        ]}
                         onPress={() => handleStepGrams(index, -25)}
                         activeOpacity={0.7}
                       >
-                        <Text style={styles.stepBtnText}>-25g</Text>
+                        <Text style={[styles.stepBtnText, { color: theme.colors.textPrimary }]}>-25g</Text>
                       </TouchableOpacity>
                       <TouchableOpacity
-                        style={styles.stepBtn}
+                        style={[
+                          styles.stepBtn,
+                          {
+                            backgroundColor: theme.colors.surface,
+                            borderColor: theme.colors.border,
+                          },
+                        ]}
                         onPress={() => handleStepGrams(index, +25)}
                         activeOpacity={0.7}
                       >
-                        <Text style={styles.stepBtnText}>+25g</Text>
+                        <Text style={[styles.stepBtnText, { color: theme.colors.textPrimary }]}>+25g</Text>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -231,15 +299,23 @@ export const MealPlateReviewModal: React.FC<MealPlateReviewModalProps> = ({
 
             {/* Confirm Log Action */}
             <TouchableOpacity
-              style={styles.logBtn}
+              style={[
+                styles.logBtn,
+                {
+                  backgroundColor: accentColor,
+                  shadowColor: accentColor,
+                },
+              ]}
               onPress={() => {
                 onConfirmLog(items, hasUserEdited);
                 onClose();
               }}
               activeOpacity={0.8}
             >
-              <Text style={styles.logBtnText}>
-                ✓ Log Meal to Diary (~{totalCalories} kcal)
+              <Text style={[styles.logBtnText, { color: accentTextColor }]}>
+                {isSaudi
+                  ? `✓ تسجيل الوجبة في اليوميات (~${totalCalories} سعرة)`
+                  : `✓ Log Meal to Diary (~${totalCalories} kcal)`}
               </Text>
             </TouchableOpacity>
           </ScrollView>
@@ -494,19 +570,19 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   logBtn: {
-    backgroundColor: '#10B981',
+    backgroundColor: '#A4EB3F',
     borderRadius: 9999,
     paddingVertical: 15,
     alignItems: 'center',
     marginTop: 8,
-    shadowColor: '#10B981',
+    shadowColor: '#A4EB3F',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.15,
     shadowRadius: 10,
     elevation: 3,
   },
   logBtnText: {
-    color: '#FFFFFF',
+    color: '#0A0B0D',
     fontSize: 15,
     fontWeight: '800',
   },

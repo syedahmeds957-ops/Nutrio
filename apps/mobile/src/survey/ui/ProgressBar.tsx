@@ -17,7 +17,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   const { theme } = useTheme();
   const { activeRegion } = useRegion();
   const isSaudi = activeRegion === 'SA';
-  const accentColor = isSaudi ? '#10B981' : theme.colors.primaryLime;
+  const accentColor = theme.colors.primaryLime;
   const percentage = Math.round(((currentStep + 1) / totalSteps) * 100);
 
   return (
@@ -31,7 +31,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
         <Text
           style={[
             styles.percentage,
-            { color: isSaudi ? '#10B981' : (theme.isDark ? theme.colors.primaryLime : '#4B6200') },
+            { color: theme.isDark ? theme.colors.primaryLime : '#4B6200' },
           ]}
         >
           {percentage}%

@@ -492,11 +492,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     alignItems: 'center',
     marginTop: 4,
-    shadowColor: '#10B981',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.15,
-    shadowRadius: 14,
-    elevation: 3,
+    boxShadow: '0px 6px 14px rgba(16, 185, 129, 0.15)',
   },
   subscribeBtnText: {
     color: '#FFFFFF',

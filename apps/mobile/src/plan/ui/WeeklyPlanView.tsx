@@ -80,16 +80,20 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
   const isSaudi = activeRegion === 'SA';
   const regionalFoodPool = isSaudi ? (SAUDI_TRADITIONAL_FOODS as any) : (PAKISTANI_STAPLES_DATA as any);
 
-  // Generate a distinct or calibrated 7-day schedule
+  // Generate a distinct or calibrated 7-day schedule with daily variety
   const [weekPlans, setWeekPlans] = useState<DailyMealPlanResult[]>(() => {
-    return DAYS_OF_WEEK.map(() =>
-      solveDailyMealPlan(solverInput, regionalFoodPool)
+    return DAYS_OF_WEEK.map((_, dayIndex) =>
+      solveDailyMealPlan(solverInput, regionalFoodPool, { dayIndex })
     );
   });
 
   // Re-generate if region changes
   React.useEffect(() => {
-    setWeekPlans(DAYS_OF_WEEK.map(() => solveDailyMealPlan(solverInput, regionalFoodPool)));
+    setWeekPlans(
+      DAYS_OF_WEEK.map((_, dayIndex) =>
+        solveDailyMealPlan(solverInput, regionalFoodPool, { dayIndex })
+      )
+    );
   }, [activeRegion]);
 
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);
@@ -147,12 +151,13 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
         return updated;
       });
     } else {
-      // Re-solve standard plan
+      // Re-solve standard plan for this specific day
       setWeekPlans((prev) => {
         const updated = [...prev];
         updated[selectedDayIndex] = solveDailyMealPlan(
           solverInput,
-          regionalFoodPool
+          regionalFoodPool,
+          { dayIndex: selectedDayIndex }
         );
         return updated;
       });

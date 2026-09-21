@@ -32,4 +32,22 @@ describe('Solid Lime Dual Theme System (Task 1)', () => {
     expect(theme.radii).toBeDefined();
     expect(theme.typography).toBeDefined();
   });
+
+  it('supports Apple HIG design tokens: tabular-nums, modern boxShadow, and accessible tints', () => {
+    const dark = getTheme('dark');
+    const light = getTheme('light');
+
+    // Tabular numbers for telemetry stability
+    expect(dark.typography.heroKcal.fontVariant).toContain('tabular-nums');
+    expect(dark.typography.metricValue.fontVariant).toContain('tabular-nums');
+    expect(dark.typography.bodyMetric.fontVariant).toContain('tabular-nums');
+
+    // Modern boxShadow without deprecated shadow* props
+    expect(dark.shadows.soft.boxShadow).toBeDefined();
+    expect(dark.shadows.soft.shadowColor).toBeUndefined();
+
+    // High-contrast accessible accents
+    expect(dark.colors.primaryAccessible).toBe('#A4EB3F');
+    expect(light.colors.primaryAccessible).toBe('#15803D');
+  });
 });

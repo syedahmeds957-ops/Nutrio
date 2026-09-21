@@ -242,4 +242,43 @@ describe('Deterministic Constraint Meal Plan Solver (Task 2.1)', () => {
     expect(plan.totalOilAddedG).toBeGreaterThan(0);
     expect(typeof plan.totalOilAddedG).toBe('number');
   });
+
+  it('rotates meals across days of the week to ensure variety (Task 5)', () => {
+    const mondayPlan = solveDailyMealPlan(
+      {
+        targetCalories: 2000,
+        targetProteinGrams: 140,
+        targetFatGrams: 55,
+        targetCarbGrams: 235,
+        dietPreference: 'halal_omnivore',
+        budgetTierPKR: 'standard_3500_7000',
+      },
+      mockFoodPool,
+      { dayIndex: 0 }
+    );
+
+    const tuesdayPlan = solveDailyMealPlan(
+      {
+        targetCalories: 2000,
+        targetProteinGrams: 140,
+        targetFatGrams: 55,
+        targetCarbGrams: 235,
+        dietPreference: 'halal_omnivore',
+        budgetTierPKR: 'standard_3500_7000',
+      },
+      mockFoodPool,
+      { dayIndex: 1 }
+    );
+
+    // Monday lunch has Chicken Karahi, Tuesday lunch rotates to Beef Seekh Kebab in mock pool
+    const mondayLunch = mondayPlan.meals.find((m) => m.slot === 'lunch');
+    const tuesdayLunch = tuesdayPlan.meals.find((m) => m.slot === 'lunch');
+
+    expect(mondayLunch).toBeDefined();
+    expect(tuesdayLunch).toBeDefined();
+    expect(mondayLunch?.items[0].foodName).not.toEqual(tuesdayLunch?.items[0].foodName);
+    expect(mondayPlan.isWithinTolerance).toBe(true);
+    expect(tuesdayPlan.isWithinTolerance).toBe(true);
+  });
 });
+

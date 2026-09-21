@@ -25,7 +25,7 @@ import { AuthSession, AuthScreenMode } from '../types.js';
 interface AuthScreenProps {
   initialMode?: AuthScreenMode;
   onAuthSuccess: (session: AuthSession) => void;
-  onBackToHome: () => void;
+  onBackToHome?: () => void;
   onExploreGuest?: () => void;
 }
 
@@ -192,34 +192,32 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
         >
-          {/* Top Bar with Back Button */}
-          <View style={styles.topBar}>
-            <TouchableOpacity
-              style={[
-                styles.backBtn,
-                {
-                  backgroundColor: theme.colors.surfaceSecondary,
-                  borderColor: theme.colors.border,
-                },
-              ]}
-              onPress={() => {
-                if (mode === 'verify_otp') {
+          {/* Top Bar (Brand Header & Back Button in OTP mode) */}
+          <View style={[styles.topBar, mode !== 'verify_otp' && styles.topBarCentered]}>
+            {mode === 'verify_otp' && (
+              <TouchableOpacity
+                style={[
+                  styles.backBtn,
+                  {
+                    backgroundColor: theme.colors.surfaceSecondary,
+                    borderColor: theme.colors.border,
+                  },
+                ]}
+                onPress={() => {
                   setMode('register');
                   setErrorMessage('');
                   setInfoMessage('');
-                } else {
-                  onBackToHome();
-                }
-              }}
-              activeOpacity={0.7}
-            >
-              <View style={styles.btnRow}>
-                <Icon name="arrow-left" size={14} color={theme.colors.textPrimary} />
-                <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
-                  {mode === 'verify_otp' ? 'Back' : 'Home'}
-                </Text>
-              </View>
-            </TouchableOpacity>
+                }}
+                activeOpacity={0.7}
+              >
+                <View style={styles.btnRow}>
+                  <Icon name="arrow-left" size={14} color={theme.colors.textPrimary} />
+                  <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
+                    Back
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )}
 
             <View style={styles.brandRow}>
               <View
@@ -234,6 +232,8 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 Nutrio
               </Text>
             </View>
+
+            {mode === 'verify_otp' && <View style={styles.backBtnPlaceholder} />}
           </View>
 
           {/* Animated Card */}
@@ -330,7 +330,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               {mode === 'login'
                 ? 'Sign in to access your calibrated daily diary and AI coach.'
                 : mode === 'register'
-                ? 'Join Nutrio for precision Pakistani nutrition tracking with Supabase sync.'
+                ? 'Create your account to unlock personalized macro targets, real-time food logging, and daily AI coaching.'
                 : `We dispatched a 6-digit confirmation code to ${email || 'your email'}. Enter it below to activate your account.`}
             </Text>
 
@@ -604,20 +604,34 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+    width: '100%',
   },
   container: {
     flex: 1,
+    width: '100%',
   },
   scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
     paddingHorizontal: 20,
-    paddingTop: 16,
-    paddingBottom: 40,
+    paddingVertical: 28,
+    width: '100%',
+    maxWidth: 440,
+    alignSelf: 'center',
   },
   topBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 20,
+    width: '100%',
+  },
+  topBarCentered: {
+    justifyContent: 'center',
+    marginBottom: 20,
+  },
+  backBtnPlaceholder: {
+    width: 60,
   },
   backBtn: {
     paddingVertical: 8,

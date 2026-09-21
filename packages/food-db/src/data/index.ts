@@ -75,28 +75,19 @@ export const ALL_FOODS_CATALOG: NormalizedFood[] = [
   ...ALL_SAUDI_FOODS,
 ];
 
-/**
- * Filter restaurant brands by user's active region.
- */
-export function getBrandsForRegion(region: RegionCode = 'PK'): RestaurantBrand[] {
-  if (region === 'SA') {
-    return SAUDI_RESTAURANT_BRANDS;
-  }
-  if (region === 'PK') {
-    return PAKISTANI_RESTAURANT_BRANDS;
-  }
-  return ALL_RESTAURANT_BRANDS;
-}
+const REGIONAL_BRANDS: Record<RegionCode, RestaurantBrand[]> = {
+  PK: PAKISTANI_RESTAURANT_BRANDS,
+  SA: SAUDI_RESTAURANT_BRANDS,
+};
 
-/**
- * Filter foods catalog by user's active region.
- */
-export function getFoodsForRegion(region: RegionCode = 'PK'): NormalizedFood[] {
-  if (region === 'SA') {
-    return ALL_SAUDI_FOODS;
-  }
-  if (region === 'PK') {
-    return ALL_EXPANDED_PAKISTANI_FOODS;
-  }
-  return ALL_FOODS_CATALOG;
-}
+const REGIONAL_FOODS: Record<RegionCode, NormalizedFood[]> = {
+  PK: ALL_EXPANDED_PAKISTANI_FOODS,
+  SA: ALL_SAUDI_FOODS,
+};
+
+export const getBrandsForRegion = (region: RegionCode = 'PK'): RestaurantBrand[] =>
+  REGIONAL_BRANDS[region] ?? ALL_RESTAURANT_BRANDS;
+
+export const getFoodsForRegion = (region: RegionCode = 'PK'): NormalizedFood[] =>
+  REGIONAL_FOODS[region] ?? ALL_FOODS_CATALOG;
+

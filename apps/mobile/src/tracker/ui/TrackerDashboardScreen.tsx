@@ -13,7 +13,6 @@ import {
 import { DailyProgressHeader } from './DailyProgressHeader.js';
 import { WaterTrackerCard } from './WaterTrackerCard.js';
 import { MealSlotCard } from './MealSlotCard.js';
-import { UnifiedLogMealModal } from './UnifiedLogMealModal.js';
 import { MealLogHubModal } from './MealLogHubModal.js';
 import { BrandMenuModal } from './BrandMenuModal.js';
 import { ItemCustomizerModal, CustomizedLogPayload } from './ItemCustomizerModal.js';
@@ -22,12 +21,16 @@ import { AiRecommendationCard, RecommendedFood } from './AiRecommendationCard.js
 import { QuickStaplesBar, StapleItem } from './QuickStaplesBar.js';
 import { WeeklyCalorieBankCard } from './WeeklyCalorieBankCard.js';
 import { TrackerEngine } from '../engine.js';
-import { MealSlot } from '../types.js';
+import { MealSlot, DailyTrackerSummary } from '../types.js';
 import { NormalizedFood, PAKISTANI_STAPLES_DATA, SAUDI_TRADITIONAL_FOODS, ServingUnit } from '@nutrio/food-db';
 import { ResolvedFoodItem } from '@nutrio/nutrition-core';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { GuestAuthModal } from './GuestAuthModal.js';
 import { Icon } from '../../ui/Icon.js';
+import { saveDailyActivities, loadDailyActivities } from '../activityStorage.js';
+import { HapticFeedback } from '../../ui/haptics.js';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface TrackerDashboardScreenProps {
   userName?: string;
@@ -38,6 +41,8 @@ interface TrackerDashboardScreenProps {
     targetCarbGrams: number;
     targetWaterMl?: number;
   };
+  trackerEngine?: TrackerEngine;
+  onSummaryChange?: (summary: DailyTrackerSummary) => void;
   onBackToPlan?: () => void;
   onOpenWeightTracker?: () => void;
   onOpenMealPlan?: () => void;
@@ -45,11 +50,15 @@ interface TrackerDashboardScreenProps {
   onOpenSurvey?: () => void;
   onOpenHome?: () => void;
   onLogout?: () => void;
+  isGuest?: boolean;
+  onRequireAuth?: () => void;
 }
 
 export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   userName = 'User',
   targets,
+  trackerEngine,
+  onSummaryChange,
   onBackToPlan,
   onOpenWeightTracker,
   onOpenMealPlan,
@@ -57,14 +66,92 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   onOpenSurvey,
   onOpenHome,
   onLogout,
+  isGuest = false,
+  onRequireAuth,
 }) => {
   const { theme, mode, isDark, setMode, toggleTheme } = useTheme();
   const { activeRegion, setRegion } = useRegion();
-  const [engine] = useState(() => new TrackerEngine(targets));
-  const [, setRerender] = useState(0);
-  const forceUpdate = () => setRerender((prev) => prev + 1);
+  const isSaudi = activeRegion === 'SA';
+  const accentColor = theme.colors.primaryLime;
+  const accentTextColor = '#0A0B0D';
 
-  const [modalVisible, setModalVisible] = useState(false);
+  let insetsBottom = 0;
+  try {
+    const insets = useSafeAreaInsets();
+    if (insets && typeof insets.bottom === 'number') {
+      insetsBottom = insets.bottom;
+    }
+  } catch {
+    insetsBottom = 0;
+  }
+  const bottomBarOffset = Math.max(20, insetsBottom + 8);
+
+  const enginesRef = useRef<Record<'PK' | 'SA', TrackerEngine>>({
+    PK: (() => {
+      if (activeRegion === 'PK' && trackerEngine) return trackerEngine;
+      const eng = new TrackerEngine(targets);
+      const today = new Date().toISOString().split('T')[0];
+      const saved = loadDailyActivities(today, 'PK');
+      if (saved && saved.items) eng.loadItems(saved.items, saved.waterMl || 0);
+      return eng;
+    })(),
+    SA: (() => {
+      if (activeRegion === 'SA' && trackerEngine) return trackerEngine;
+      const eng = new TrackerEngine(targets);
+      const today = new Date().toISOString().split('T')[0];
+      const saved = loadDailyActivities(today, 'SA');
+      if (saved && saved.items) eng.loadItems(saved.items, saved.waterMl || 0);
+      return eng;
+    })(),
+  });
+
+  const engine = enginesRef.current[activeRegion] || enginesRef.current.PK;
+  const [, setRerender] = useState(0);
+  const forceUpdate = () => {
+    setRerender((prev) => prev + 1);
+    onSummaryChange?.(engine.getSummary());
+  };
+
+  const persistCurrentActivities = () => {
+    const currentSummary = engine.getSummary();
+    saveDailyActivities(
+      currentSummary.date,
+      activeRegion,
+      currentSummary.items,
+      currentSummary.waterMlConsumed
+    );
+  };
+
+  React.useEffect(() => {
+    if (trackerEngine) {
+      enginesRef.current[activeRegion] = trackerEngine;
+      forceUpdate();
+    }
+  }, [trackerEngine]);
+
+  React.useEffect(() => {
+    const today = new Date().toISOString().split('T')[0];
+    const saved = loadDailyActivities(today, activeRegion);
+    if (saved && saved.items) {
+      engine.loadItems(saved.items, saved.waterMl || 0);
+    }
+    onSummaryChange?.(engine.getSummary());
+    forceUpdate();
+  }, [activeRegion]);
+
+  React.useEffect(() => {
+    const pkItems = enginesRef.current.PK.getSummary().items;
+    const pkWater = enginesRef.current.PK.getSummary().waterMlConsumed;
+    const saItems = enginesRef.current.SA.getSummary().items;
+    const saWater = enginesRef.current.SA.getSummary().waterMlConsumed;
+
+    enginesRef.current.PK = new TrackerEngine(targets);
+    enginesRef.current.PK.loadItems(pkItems, pkWater);
+    enginesRef.current.SA = new TrackerEngine(targets);
+    enginesRef.current.SA.loadItems(saItems, saWater);
+    forceUpdate();
+  }, [targets.targetCalories, targets.targetProteinGrams, targets.targetFatGrams, targets.targetCarbGrams]);
+
   const [activeSlot, setActiveSlot] = useState<MealSlot>('breakfast');
 
   // Calorify Modal Flow states
@@ -75,6 +162,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   const [selectedItemForCustomize, setSelectedItemForCustomize] = useState<NormalizedFood | null>(null);
   const [diaryVisible, setDiaryVisible] = useState(false);
   const [activeTab, setActiveTab] = useState<'today' | 'diary'>('today');
+  const [guestModalVisible, setGuestModalVisible] = useState(false);
 
   // Profile modal with minimalist animation
   const [profileVisible, setProfileVisible] = useState(false);
@@ -139,6 +227,15 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     );
     setCustomizerVisible(false);
     setSelectedItemForCustomize(null);
+    persistCurrentActivities();
+    const completedNow = (['breakfast', 'lunch', 'dinner', 'snacks_chai'] as const).filter(
+      (s) => engine.getItemsBySlot(s).length > 0
+    ).length;
+    if (completedNow === 4) {
+      HapticFeedback.notificationSuccess();
+    } else {
+      HapticFeedback.impactMedium();
+    }
     forceUpdate();
   };
 
@@ -149,6 +246,15 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     quantity: number
   ) => {
     engine.logItem(slot, food, serving, quantity);
+    persistCurrentActivities();
+    const completedNow = (['breakfast', 'lunch', 'dinner', 'snacks_chai'] as const).filter(
+      (s) => engine.getItemsBySlot(s).length > 0
+    ).length;
+    if (completedNow === 4) {
+      HapticFeedback.notificationSuccess();
+    } else {
+      HapticFeedback.impactMedium();
+    }
     forceUpdate();
   };
 
@@ -156,10 +262,11 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     slot: MealSlot,
     items: ResolvedFoodItem[]
   ) => {
+    const foodPool = activeRegion === 'SA' ? SAUDI_TRADITIONAL_FOODS : PAKISTANI_STAPLES_DATA;
     for (const item of items) {
       const found =
-        PAKISTANI_STAPLES_DATA.find((f) => f.name === item.matchedFoodName) ||
-        PAKISTANI_STAPLES_DATA[0];
+        foodPool.find((f) => f.name === item.matchedFoodName) ||
+        foodPool[0];
       const serving = found.servings[0] || {
         label: item.servingLabel,
         grams: item.servingGrams,
@@ -167,16 +274,19 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
       const qty = item.resolvedGrams / serving.grams;
       engine.logItem(slot, found, serving, Number(qty.toFixed(1)));
     }
+    persistCurrentActivities();
     forceUpdate();
   };
 
   const handleDeleteItem = (id: string) => {
     engine.deleteItem(id);
+    persistCurrentActivities();
     forceUpdate();
   };
 
   const handleLogWater = (ml: number) => {
     engine.logWater(ml);
+    persistCurrentActivities();
     forceUpdate();
   };
 
@@ -191,6 +301,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
       const qty = Number((item.calories / (serving.kcal || found.kcal100g || 100)).toFixed(1));
       engine.logItem('dinner', found, serving, Math.max(0.5, qty));
     }
+    persistCurrentActivities();
     forceUpdate();
   };
 
@@ -203,6 +314,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     const serving = found.servings[0] || { label: 'serving', grams: 100 };
     const targetSlot: MealSlot = activeSlot || 'lunch';
     engine.logItem(targetSlot, found, serving, 1);
+    persistCurrentActivities();
     forceUpdate();
   };
 
@@ -214,7 +326,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.canvas }]}>
       <ScrollView
         style={styles.container}
-        contentContainerStyle={styles.scrollPad}
+        contentContainerStyle={[styles.scrollPad, { paddingBottom: 115 + insetsBottom }]}
         showsVerticalScrollIndicator={false}
       >
         {/* Top Header */}
@@ -230,11 +342,11 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                   styles.avatarCircle,
                   {
                     backgroundColor: theme.colors.surface,
-                    borderColor: theme.colors.primaryLime,
+                    borderColor: accentColor,
                   },
                 ]}
               >
-                <Text style={[styles.avatarInitial, { color: theme.colors.primaryLime }]}>
+                <Text style={[styles.avatarInitial, { color: accentColor }]}>
                   {userName.charAt(0).toUpperCase()}
                 </Text>
               </View>
@@ -246,8 +358,10 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                   <Text style={[styles.userName, { color: theme.colors.textPrimary }]}>
                     {userName}
                   </Text>
-                  <View style={[styles.freeTag, { backgroundColor: theme.colors.primaryLime }]}>
-                    <Text style={styles.freeTagText}>FREE</Text>
+                  <View style={[styles.freeTag, { backgroundColor: accentColor }]}>
+                    <Text style={[styles.freeTagText, { color: accentTextColor }]}>
+                      {isSaudi ? 'FREE · مجاني' : 'FREE'}
+                    </Text>
                   </View>
                 </View>
               </View>
@@ -263,8 +377,12 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                     borderColor: theme.colors.border,
                   },
                 ]}
-                onPress={() => setRegion(activeRegion === 'SA' ? 'PK' : 'SA')}
+                onPress={() => {
+                  HapticFeedback.selection();
+                  setRegion(activeRegion === 'SA' ? 'PK' : 'SA');
+                }}
                 activeOpacity={0.7}
+                hitSlop={{ top: 8, bottom: 8, left: 6, right: 6 }}
                 accessibilityRole="button"
                 accessibilityLabel="Toggle Active Region"
               >
@@ -281,8 +399,14 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                     borderColor: theme.colors.border,
                   },
                 ]}
-                onPress={toggleTheme}
+                onPress={() => {
+                  HapticFeedback.selection();
+                  toggleTheme();
+                }}
                 activeOpacity={0.7}
+                hitSlop={{ top: 8, bottom: 8, left: 6, right: 6 }}
+                accessibilityRole="button"
+                accessibilityLabel="Toggle Theme Mode"
               >
                 <Text style={[styles.themeToggleText, { color: theme.colors.textPrimary }]}>
                   {mode === 'dark' ? '☀️ Light' : '🌙 Dark'}
@@ -321,7 +445,13 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                   styles.navPillBtn,
                   { backgroundColor: theme.colors.surface, borderColor: theme.colors.border },
                 ]}
-                onPress={onOpenWeightTracker}
+                onPress={() => {
+                  if (isGuest) {
+                    setGuestModalVisible(true);
+                    return;
+                  }
+                  onOpenWeightTracker();
+                }}
                 activeOpacity={0.7}
               >
                 <View style={styles.navPillContent}>
@@ -337,15 +467,21 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
               <TouchableOpacity
                 style={[
                   styles.navPillBtnActive,
-                  { backgroundColor: theme.colors.primaryLime },
+                  { backgroundColor: accentColor },
                 ]}
-                onPress={onOpenCoachChat}
+                onPress={() => {
+                  if (isGuest) {
+                    setGuestModalVisible(true);
+                    return;
+                  }
+                  onOpenCoachChat();
+                }}
                 activeOpacity={0.7}
               >
                 <View style={styles.navPillContent}>
-                  <Icon name="coach" size={13} color="#0A0B0D" />
-                  <Text style={[styles.navPillBtnActiveText, { color: '#0A0B0D' }]}>
-                    AI Coach
+                  <Icon name="coach" size={13} color={accentTextColor} />
+                  <Text style={[styles.navPillBtnActiveText, { color: accentTextColor }]}>
+                    {isSaudi ? 'المدرب الذكي · AI Coach' : 'AI Coach'}
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -394,10 +530,20 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
 
         {/* 2. Dynamic AI Recommendation Card */}
         <AiRecommendationCard
+          key={activeRegion}
           remainingCalories={summary.remainingCalories}
           remainingProtein={Math.max(0, summary.targetProteinGrams - summary.totalProteinConsumed)}
+          totalCaloriesConsumed={summary.totalCaloriesConsumed}
+          itemsLoggedCount={summary.items.length}
           onLogRecommendation={handleLogRecommendation}
-          onAskCoach={onOpenCoachChat}
+          onOpenLogMeal={() => handleOpenAdd('breakfast')}
+          onAskCoach={() => {
+            if (isGuest) {
+              setGuestModalVisible(true);
+              return;
+            }
+            onOpenCoachChat?.();
+          }}
         />
 
         {/* 3. Quick Staples 1-Tap Log Bar */}
@@ -424,11 +570,11 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                 {
                   backgroundColor:
                     completedSlotsCount === 4
-                      ? theme.colors.primaryLime
+                      ? accentColor
                       : isDark
                       ? 'rgba(164, 235, 63, 0.15)'
                       : '#DCFCE7',
-                  borderColor: theme.colors.primaryLime,
+                  borderColor: accentColor,
                 },
               ]}
             >
@@ -438,10 +584,10 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                   {
                     color:
                       completedSlotsCount === 4
-                        ? '#0A0B0D'
+                        ? accentTextColor
                         : isDark
-                        ? theme.colors.primaryLime
-                        : '#059669',
+                        ? accentColor
+                        : '#365314',
                   },
                 ]}
               >
@@ -489,10 +635,31 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
           />
         </View>
 
-        {/* Rolling Weekly Calorie Bank Card */}
+        {/* Rolling Weekly Calorie Bank Card (Dynamic Real Data) */}
         <WeeklyCalorieBankCard
-          weeklyDeficitKcal={2450}
           targetCalories={targets.targetCalories}
+          dailyHistory={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, idx) => {
+            const currentDayOfWeek = (new Date().getDay() + 6) % 7;
+            if (idx === currentDayOfWeek) {
+              return {
+                day,
+                consumed: Math.round(summary.totalCaloriesConsumed),
+                target: targets.targetCalories,
+                isLogged: true,
+              };
+            }
+            return {
+              day,
+              consumed: 0,
+              target: targets.targetCalories,
+              isLogged: false,
+            };
+          })}
+          weeklyDeficitKcal={
+            summary.totalCaloriesConsumed > 0
+              ? Math.max(0, targets.targetCalories - summary.totalCaloriesConsumed)
+              : 0
+          }
         />
       </ScrollView>
 
@@ -503,12 +670,14 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
           {
             backgroundColor: theme.colors.floatingBarBg,
             borderColor: theme.colors.border,
+            bottom: bottomBarOffset,
           },
         ]}
       >
         <TouchableOpacity
           style={[styles.bottomTabItem, activeTab === 'today' && styles.bottomTabItemActive]}
           onPress={() => {
+            HapticFeedback.selection();
             setActiveTab('today');
             setDiaryVisible(false);
           }}
@@ -517,31 +686,37 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
           <Icon
             name="sun"
             size={18}
-            color={activeTab === 'today' ? theme.colors.primaryLime : '#8E929B'}
+            color={activeTab === 'today' ? accentColor : '#8E929B'}
           />
           <Text
             style={[
               styles.bottomTabText,
-              { color: activeTab === 'today' ? theme.colors.primaryLime : '#8E929B' },
+              { color: activeTab === 'today' ? accentColor : '#8E929B' },
             ]}
           >
-            Today
+            {isSaudi ? 'اليوم · Today' : 'Today'}
           </Text>
         </TouchableOpacity>
 
-        {/* Center Solid Lime Log Meal Button */}
+        {/* Center Solid Lime or Saudi Emerald Log Meal Button */}
         <TouchableOpacity
-          style={[styles.bottomCenterLogBtn, { backgroundColor: theme.colors.primaryLime }]}
-          onPress={() => handleOpenHub('lunch')}
+          style={[styles.bottomCenterLogBtn, { backgroundColor: accentColor }]}
+          onPress={() => {
+            HapticFeedback.impactMedium();
+            handleOpenHub('lunch');
+          }}
           activeOpacity={0.8}
         >
-          <Icon name="plus" size={16} color="#0A0B0D" />
-          <Text style={[styles.bottomCenterLogText, { color: '#0A0B0D' }]}>Log Meal</Text>
+          <Icon name="plus" size={16} color={accentTextColor} />
+          <Text style={[styles.bottomCenterLogText, { color: accentTextColor }]}>
+            {isSaudi ? 'تسجيل وجبة' : 'Log Meal'}
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.bottomTabItem, activeTab === 'diary' && styles.bottomTabItemActive]}
           onPress={() => {
+            HapticFeedback.selection();
             setActiveTab('diary');
             setDiaryVisible(true);
           }}
@@ -550,15 +725,15 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
           <Icon
             name="clipboard"
             size={18}
-            color={activeTab === 'diary' ? theme.colors.primaryLime : '#8E929B'}
+            color={activeTab === 'diary' ? accentColor : '#8E929B'}
           />
           <Text
             style={[
               styles.bottomTabText,
-              { color: activeTab === 'diary' ? theme.colors.primaryLime : '#8E929B' },
+              { color: activeTab === 'diary' ? accentColor : '#8E929B' },
             ]}
           >
-            Diary
+            {isSaudi ? 'اليوميات · Diary' : 'Diary'}
           </Text>
         </TouchableOpacity>
       </View>
@@ -609,15 +784,6 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
         }}
       />
 
-      {/* Multimodal Unified Meal Logging Modal */}
-      <UnifiedLogMealModal
-        visible={modalVisible}
-        mealSlot={activeSlot}
-        onClose={() => setModalVisible(false)}
-        onConfirmSingleFood={handleConfirmLog}
-        onConfirmPlateItems={handleConfirmPlateItems}
-      />
-
       {/* Profile & Settings Drawer Modal */}
       <Modal
         visible={profileVisible}
@@ -644,8 +810,8 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
             <View style={[styles.sheetHandle, { backgroundColor: theme.colors.border }]} />
 
             <View style={styles.profileHeaderRow}>
-              <View style={[styles.profileAvatarLarge, { backgroundColor: theme.colors.primaryLime }]}>
-                <Text style={styles.profileAvatarLargeText}>
+              <View style={[styles.profileAvatarLarge, { backgroundColor: accentColor }]}>
+                <Text style={[styles.profileAvatarLargeText, { color: accentTextColor }]}>
                   {userName.charAt(0).toUpperCase()}
                 </Text>
               </View>
@@ -654,7 +820,9 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                   {userName}
                 </Text>
                 <Text style={[styles.profileEmail, { color: theme.colors.textMuted }]}>
-                  100% Free Plan • All 60+ Brands Unlocked
+                  {activeRegion === 'SA'
+                    ? '100% Free Plan • 12+ Saudi Chains & Traditional Cuisine'
+                    : '100% Free Plan • All 60+ Brands Unlocked'}
                 </Text>
               </View>
               <TouchableOpacity
@@ -680,7 +848,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                 <TouchableOpacity
                   style={[
                     styles.themeChoiceBtn,
-                    mode === 'dark' && { backgroundColor: theme.colors.primaryLime },
+                    mode === 'dark' && { backgroundColor: accentColor },
                   ]}
                   onPress={() => setMode('dark')}
                   activeOpacity={0.8}
@@ -688,7 +856,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                   <Text
                     style={[
                       styles.themeChoiceText,
-                      { color: mode === 'dark' ? '#0A0B0D' : theme.colors.textSecondary },
+                      { color: mode === 'dark' ? accentTextColor : theme.colors.textSecondary },
                     ]}
                   >
                     🌙 Dark Mode
@@ -698,7 +866,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                 <TouchableOpacity
                   style={[
                     styles.themeChoiceBtn,
-                    mode === 'light' && { backgroundColor: theme.colors.primaryLime },
+                    mode === 'light' && { backgroundColor: accentColor },
                   ]}
                   onPress={() => setMode('light')}
                   activeOpacity={0.8}
@@ -706,7 +874,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                   <Text
                     style={[
                       styles.themeChoiceText,
-                      { color: mode === 'light' ? '#0A0B0D' : theme.colors.textSecondary },
+                      { color: mode === 'light' ? accentTextColor : theme.colors.textSecondary },
                     ]}
                   >
                     ☀️ Light Mode
@@ -759,7 +927,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                   activeOpacity={0.7}
                 >
                   <View style={styles.actionBtnRow}>
-                    <Icon name="survey" size={16} color={theme.colors.primaryLime} />
+                    <Icon name="survey" size={16} color={accentColor} />
                     <Text style={[styles.actionBtnText, { color: theme.colors.textPrimary }]}>
                       Retake Lifestyle Survey
                     </Text>
@@ -778,12 +946,31 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                   activeOpacity={0.7}
                 >
                   <View style={styles.actionBtnRow}>
-                    <Icon name="utensils" size={16} color={theme.colors.primaryLime} />
+                    <Icon name="utensils" size={16} color={accentColor} />
                     <Text style={[styles.actionBtnText, { color: theme.colors.textPrimary }]}>
                       View 7-Day Meal Plan
                     </Text>
                   </View>
                   <Icon name="arrow-right" size={14} color={theme.colors.textMuted} />
+                </TouchableOpacity>
+              )}
+
+              {isGuest && onRequireAuth && (
+                <TouchableOpacity
+                  style={[
+                    styles.profileActionBtn,
+                    { backgroundColor: accentColor, borderColor: accentColor },
+                  ]}
+                  onPress={() => closeProfile(onRequireAuth)}
+                  activeOpacity={0.8}
+                >
+                  <View style={styles.actionBtnRow}>
+                    <Icon name="shield" size={16} color={accentTextColor} />
+                    <Text style={[styles.actionBtnText, { color: accentTextColor, fontWeight: '800' }]}>
+                      {activeRegion === 'SA' ? 'تسجيل الدخول / إنشاء حساب' : 'Sign In / Create Account'}
+                    </Text>
+                  </View>
+                  <Icon name="arrow-right" size={14} color={accentTextColor} />
                 </TouchableOpacity>
               )}
 
@@ -805,6 +992,16 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
           </Animated.View>
         </Animated.View>
       </Modal>
+
+      {/* Guest Authentication Guard Modal */}
+      <GuestAuthModal
+        visible={guestModalVisible}
+        onClose={() => setGuestModalVisible(false)}
+        onSignIn={() => {
+          setGuestModalVisible(false);
+          onRequireAuth?.();
+        }}
+      />
     </SafeAreaView>
   );
 };
@@ -1069,6 +1266,7 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: 14,
     fontWeight: '800',
+    fontVariant: ['tabular-nums'],
   },
   profileActions: {
     gap: 10,
@@ -1109,18 +1307,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderWidth: 1,
-    ...Platform.select({
-      web: {
-        boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.35)',
-      },
-      default: {
-        shadowColor: '#000000',
-        shadowOffset: { width: 0, height: 8 },
-        shadowOpacity: 0.35,
-        shadowRadius: 16,
-        elevation: 10,
-      },
-    }),
+    boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.35)',
   },
   bottomTabItem: {
     alignItems: 'center',

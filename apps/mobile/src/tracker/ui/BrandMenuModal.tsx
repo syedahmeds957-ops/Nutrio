@@ -214,7 +214,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                   {brandName || 'Brand Menu'}
                 </Text>
                 {currentBrand?.nameAr && (
-                  <Text style={{ fontSize: 13, fontWeight: '700', color: isSaudiBrand ? '#10B981' : theme.colors.primaryLime }}>
+                  <Text style={{ fontSize: 13, fontWeight: '700', color: theme.colors.primaryLime }}>
                     {currentBrand.nameAr}
                   </Text>
                 )}
@@ -288,7 +288,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                         styles.categoryPill,
                         {
                           backgroundColor: isSelected
-                            ? (isSaudiBrand ? '#10B981' : theme.colors.primaryLime)
+                            ? theme.colors.primaryLime
                             : theme.colors.surfaceSecondary,
                         },
                       ]}
@@ -300,7 +300,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                           styles.categoryPillText,
                           {
                             color: isSelected
-                              ? (isSaudiBrand ? '#FFFFFF' : '#0A0B0D')
+                              ? '#0A0B0D'
                               : theme.colors.textSecondary,
                             fontWeight: isSelected ? '800' : '600',
                           },
@@ -380,7 +380,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                               {item.name}
                             </Text>
                             {item.nameAr && (
-                              <Text style={[styles.itemNameAr, { color: isSaudiBrand ? '#10B981' : theme.colors.primaryLime }]}>
+                              <Text style={[styles.itemNameAr, { color: theme.colors.primaryLime }]}>
                                 {item.nameAr}
                               </Text>
                             )}
@@ -400,7 +400,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                           <Text
                             style={[
                               styles.itemMacros,
-                              { color: isSaudiBrand ? '#10B981' : (isDark ? theme.colors.primaryLime : '#4B6200') },
+                              { color: isDark ? theme.colors.primaryLime : '#4B6200' },
                             ]}
                           >
                             P {p}g · C {c}g · F {f}g
@@ -412,17 +412,15 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                             style={[
                               styles.caloriePill,
                               {
-                                backgroundColor: isSaudiBrand
-                                  ? (isDark ? 'rgba(16, 185, 129, 0.15)' : '#ECFDF5')
-                                  : (isDark ? 'rgba(164, 235, 63, 0.15)' : '#F7FEE7'),
-                                borderColor: isSaudiBrand ? '#10B981' : theme.colors.primaryLime,
+                                backgroundColor: isDark ? 'rgba(164, 235, 63, 0.15)' : '#F7FEE7',
+                                borderColor: theme.colors.primaryLime,
                               },
                             ]}
                           >
                             <Text
                               style={[
                                 styles.caloriePillText,
-                                { color: isSaudiBrand ? '#10B981' : (isDark ? theme.colors.primaryLime : '#4B6200') },
+                                { color: isDark ? theme.colors.primaryLime : '#4B6200' },
                               ]}
                             >
                               ≈{kcal} kcal

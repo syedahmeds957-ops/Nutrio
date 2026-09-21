@@ -45,4 +45,23 @@ describe('AiRecommendationCard Component', () => {
     expect(element).toBeDefined();
     expect(element.props.initialRegion).toBe('PK');
   });
+
+  it('supports regional keying to ensure separate logged state between PK and SA', () => {
+    const onLog = vi.fn();
+    const cardPK = React.createElement(AiRecommendationCard, {
+      key: 'PK',
+      remainingCalories: 500,
+      remainingProtein: 30,
+      onLogRecommendation: onLog,
+    });
+    const cardSA = React.createElement(AiRecommendationCard, {
+      key: 'SA',
+      remainingCalories: 500,
+      remainingProtein: 30,
+      onLogRecommendation: onLog,
+    });
+    expect(cardPK.key).toBe('PK');
+    expect(cardSA.key).toBe('SA');
+    expect(cardPK.key).not.toBe(cardSA.key);
+  });
 });

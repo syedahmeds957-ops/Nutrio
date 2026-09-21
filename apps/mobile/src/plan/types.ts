@@ -47,6 +47,7 @@ export interface PlanProjection {
 }
 
 export interface ComputedUserPlan {
+  region?: 'PK' | 'SA';
   userContext: PlanUserContext;
   goalSelection: GoalSelectionState;
   targetResult: CalorieTargetResult;

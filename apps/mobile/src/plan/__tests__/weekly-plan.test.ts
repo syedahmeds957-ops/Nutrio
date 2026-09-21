@@ -16,10 +16,10 @@ describe('Mobile Weekly Meal Plan & Swap Engine (Task 2.6)', () => {
     budgetTierPKR: 'standard_3500_7000',
   };
 
-  it('generates a full 7-day schedule where each day meets the +-5% tolerance', () => {
+  it('generates a full 7-day schedule where each day meets the +-5% tolerance with daily variety', () => {
     const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    const weekPlans = daysOfWeek.map(() =>
-      solveDailyMealPlan(solverInput, PAKISTANI_STAPLES_DATA as any)
+    const weekPlans = daysOfWeek.map((_, dayIndex) =>
+      solveDailyMealPlan(solverInput, PAKISTANI_STAPLES_DATA as any, { dayIndex })
     );
 
     expect(weekPlans).toHaveLength(7);
@@ -28,6 +28,19 @@ describe('Mobile Weekly Meal Plan & Swap Engine (Task 2.6)', () => {
       expect(Math.abs(dayPlan.calorieDeviationPct)).toBeLessThanOrEqual(5.0);
       expect(dayPlan.meals).toHaveLength(4);
     }
+
+    // Daily variety check: Monday and Tuesday must have different lunch dishes
+    const mondayLunchFood = weekPlans[0].meals.find((m) => m.slot === 'lunch')?.items[0].foodName;
+    const tuesdayLunchFood = weekPlans[1].meals.find((m) => m.slot === 'lunch')?.items[0].foodName;
+    const wednesdayLunchFood = weekPlans[2].meals.find((m) => m.slot === 'lunch')?.items[0].foodName;
+
+    expect(mondayLunchFood).toBeDefined();
+    expect(tuesdayLunchFood).toBeDefined();
+    expect(wednesdayLunchFood).toBeDefined();
+
+    // Dishes should not all be identical
+    const uniqueLunches = new Set([mondayLunchFood, tuesdayLunchFood, wednesdayLunchFood]);
+    expect(uniqueLunches.size).toBeGreaterThan(1);
   });
 
   it('swaps a meal slot and preserves day-level macro tolerance', () => {

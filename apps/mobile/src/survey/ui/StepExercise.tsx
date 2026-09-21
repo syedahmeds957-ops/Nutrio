@@ -48,8 +48,8 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
   const { theme, isDark: _isDark } = useTheme();
   const { activeRegion } = useRegion();
   const isSaudi = activeRegion === 'SA';
-  const accentColor = isSaudi ? '#10B981' : theme.colors.primaryLime;
-  const activeTextColor = isSaudi ? '#FFFFFF' : '#0A0B0D';
+  const accentColor = theme.colors.primaryLime;
+  const activeTextColor = '#0A0B0D';
   const trainingTypes = isSaudi ? SA_TRAINING_TYPES : PK_TRAINING_TYPES;
   const intensityOptions = isSaudi ? SA_INTENSITY_OPTIONS : PK_INTENSITY_OPTIONS;
 

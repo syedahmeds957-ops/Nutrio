@@ -28,8 +28,8 @@ export const WeighInLogModal: React.FC<WeighInLogModalProps> = ({
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
   const isSaudi = activeRegion === 'SA';
-  const accentColor = isSaudi ? '#10B981' : theme.colors.primaryLime;
-  const accentTextColor = isSaudi ? '#FFFFFF' : theme.colors.limeText;
+  const accentColor = theme.colors.primaryLime;
+  const accentTextColor = theme.colors.limeText;
   const [weight, setWeight] = useState<string>(
     initialWeightKg > 0 ? String(initialWeightKg) : '75.0'
   );

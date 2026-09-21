@@ -13,6 +13,7 @@ import { WeighInLogModal } from './WeighInLogModal.js';
 import { WeightTrendEngine } from '../engine.js';
 import { WeightTrackerState } from '../types.js';
 import { useTheme } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
 
 interface WeightTrackerScreenProps {
   initialState: WeightTrackerState;
@@ -24,6 +25,11 @@ export const WeightTrackerScreen: React.FC<WeightTrackerScreenProps> = ({
   onBackToTracker,
 }) => {
   const { theme, isDark } = useTheme();
+  const { activeRegion } = useRegion();
+  const isSaudi = activeRegion === 'SA';
+  const accentColor = theme.colors.primaryLime;
+  const accentTextColor = theme.colors.limeText;
+
   const [engine] = useState(() => new WeightTrendEngine(initialState));
   const [, setRerender] = useState(0);
   const forceUpdate = () => setRerender((prev) => prev + 1);
@@ -46,16 +52,28 @@ export const WeightTrackerScreen: React.FC<WeightTrackerScreenProps> = ({
         {/* Top Header */}
         <View style={styles.topNav}>
           <View>
-            <Text style={[styles.headerSubtitle, { color: isDark ? theme.colors.primaryLime : '#16A34A' }]}>Metabolic Feedback</Text>
-            <Text style={[styles.headerTitle, { color: theme.colors.text }]}>Weight & Adaptive TDEE</Text>
+            <Text style={[styles.headerSubtitle, { color: accentColor }]}>
+              {isSaudi ? 'المؤشرات الأيضية · METABOLIC FEEDBACK' : 'METABOLIC FEEDBACK'}
+            </Text>
+            <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>
+              {isSaudi ? 'متابعة الوزن والأيض التكيفي' : 'Weight & Adaptive TDEE'}
+            </Text>
           </View>
           {onBackToTracker && (
             <TouchableOpacity
-              style={[styles.backBtn, { backgroundColor: isDark ? '#272A33' : '#FFFFFF', borderColor: theme.colors.border }]}
+              style={[
+                styles.backBtn,
+                {
+                  backgroundColor: theme.colors.surface,
+                  borderColor: theme.colors.border,
+                },
+              ]}
               onPress={onBackToTracker}
               activeOpacity={0.7}
             >
-              <Text style={[styles.backBtnText, { color: theme.colors.text }]}>Daily Tracker</Text>
+              <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
+                {isSaudi ? 'المتتبع · Tracker' : 'Daily Tracker'}
+              </Text>
             </TouchableOpacity>
           )}
         </View>
@@ -63,11 +81,13 @@ export const WeightTrackerScreen: React.FC<WeightTrackerScreenProps> = ({
         {/* Action Button: Log Today's Weight */}
         <View style={styles.actionRow}>
           <TouchableOpacity
-            style={[styles.logWeightBtn, { backgroundColor: theme.colors.primaryLime }]}
+            style={[styles.logWeightBtn, { backgroundColor: accentColor }]}
             onPress={() => setModalVisible(true)}
             activeOpacity={0.8}
           >
-            <Text style={styles.logWeightBtnText}>+ Log Today's Weight</Text>
+            <Text style={[styles.logWeightBtnText, { color: accentTextColor }]}>
+              {isSaudi ? '+ تسجيل وزن اليوم · Log Weight' : "+ Log Today's Weight"}
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -98,7 +118,6 @@ export const WeightTrackerScreen: React.FC<WeightTrackerScreenProps> = ({
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#F6F8F6',
   },
   container: {
     flex: 1,
@@ -115,28 +134,23 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
   },
   headerSubtitle: {
-    color: '#059669',
     fontSize: 11,
     fontWeight: '800',
     textTransform: 'uppercase',
     letterSpacing: 0.8,
   },
   headerTitle: {
-    color: '#1E293B',
     fontSize: 22,
     fontWeight: '800',
     marginTop: 2,
   },
   backBtn: {
-    backgroundColor: '#FFFFFF',
     borderRadius: 9999,
     paddingVertical: 7,
     paddingHorizontal: 14,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
   },
   backBtnText: {
-    color: '#1E293B',
     fontSize: 12,
     fontWeight: '700',
   },
@@ -145,14 +159,15 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   logWeightBtn: {
-    backgroundColor: '#A4EB3F',
     borderRadius: 9999,
     paddingVertical: 14,
     alignItems: 'center',
+    justifyContent: 'center',
+    boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)',
   },
   logWeightBtnText: {
-    color: '#0A0B0D',
     fontSize: 15,
     fontWeight: '800',
+    letterSpacing: 0.3,
   },
 });

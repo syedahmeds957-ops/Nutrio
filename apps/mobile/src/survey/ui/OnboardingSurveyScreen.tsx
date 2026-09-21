@@ -26,6 +26,7 @@ interface OnboardingSurveyScreenProps {
     bridged: ReturnType<typeof bridgeSurveyToNutritionCore>
   ) => void;
   onCancel?: () => void;
+  onSkip?: () => void;
 }
 
 const PK_STEP_TITLES: Record<string, string> = {
@@ -49,6 +50,7 @@ const SA_STEP_TITLES: Record<string, string> = {
 export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
   onComplete,
   onCancel,
+  onSkip,
 }) => {
   const { theme } = useTheme();
   const { activeRegion } = useRegion();
@@ -118,7 +120,6 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
             errors={errors}
           />
         )}
-
         {currentStep === 'occupational' && (
           <StepOccupational
             data={engine.getOccupational()}
@@ -129,7 +130,6 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
             errors={errors}
           />
         )}
-
         {currentStep === 'exercise' && (
           <StepExercise
             data={engine.getExercise()}
@@ -140,7 +140,6 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
             errors={errors}
           />
         )}
-
         {currentStep === 'lifestyle_desi' && (
           <StepLifestyleDesi
             data={engine.getLifestyleDesi()}
@@ -151,10 +150,10 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
             errors={errors}
           />
         )}
-
         {currentStep === 'health_clinical' && (
           <StepHealthClinical
             data={engine.getHealthClinical()}
+            userSex={engine.getBasics().sex}
             onChange={(updated) => {
               engine.setHealthClinical(updated);
               forceUpdate();
@@ -162,7 +161,6 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
             errors={errors}
           />
         )}
-
         {currentStep === 'preferences_budget' && (
           <StepPreferencesBudget
             data={engine.getPreferencesBudget()}
@@ -185,37 +183,53 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
           },
         ]}
       >
-        <TouchableOpacity
-          style={[
-            styles.backBtn,
-            { backgroundColor: theme.colors.surfaceSecondary },
-            isFirstStep && !onCancel && styles.btnDisabled,
-          ]}
-          onPress={handlePrev}
-          disabled={isFirstStep && !onCancel}
-          activeOpacity={0.7}
-        >
-          <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
-            {isFirstStep ? (isSaudi ? 'إلغاء' : 'Cancel') : (isSaudi ? 'رجوع' : 'Back')}
-          </Text>
-        </TouchableOpacity>
+        <View style={styles.buttonRow}>
+          <TouchableOpacity
+            style={[
+              styles.backBtn,
+              { backgroundColor: theme.colors.surfaceSecondary },
+              isFirstStep && !onCancel && styles.btnDisabled,
+            ]}
+            onPress={handlePrev}
+            disabled={isFirstStep && !onCancel}
+            activeOpacity={0.7}
+          >
+            <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
+              {isFirstStep ? (isSaudi ? 'إلغاء' : 'Cancel') : (isSaudi ? 'رجوع' : 'Back')}
+            </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[
-            styles.nextBtn,
-            {
-              backgroundColor: isSaudi ? '#10B981' : theme.colors.primaryLime,
-            },
-          ]}
-          onPress={handleNext}
-          activeOpacity={0.7}
-        >
-          <Text style={[styles.nextBtnText, { color: isSaudi ? '#FFFFFF' : theme.colors.limeText }]}>
-            {isLastStep
-              ? (isSaudi ? 'إكمال التقييم (Complete Assessment)' : 'Complete Assessment')
-              : (isSaudi ? 'متابعة (Continue)' : 'Continue')}
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.nextBtn,
+              {
+                backgroundColor: theme.colors.primaryLime,
+              },
+            ]}
+            onPress={handleNext}
+            activeOpacity={0.7}
+          >
+            <Text style={[styles.nextBtnText, { color: theme.colors.limeText }]}>
+              {isLastStep
+                ? (isSaudi ? 'إكمال التقييم (Complete Assessment)' : 'Complete Assessment')
+                : (isSaudi ? 'متابعة (Continue)' : 'Continue')}
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        {onSkip && (
+          <TouchableOpacity
+            style={styles.skipBtn}
+            onPress={onSkip}
+            activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityLabel="Skip survey"
+          >
+            <Text style={[styles.skipBtnText, { color: theme.colors.textMuted }]}>
+              {isSaudi ? 'تخطي الاستبيان الآن ←' : 'Skip survey for now →'}
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
     </SafeAreaView>
   );
@@ -232,10 +246,14 @@ const styles = StyleSheet.create({
     paddingBottom: 48,
   },
   bottomBar: {
-    flexDirection: 'row',
     paddingHorizontal: 20,
-    paddingVertical: 14,
+    paddingTop: 12,
+    paddingBottom: 14,
     borderTopWidth: 1,
+    gap: 8,
+  },
+  buttonRow: {
+    flexDirection: 'row',
     gap: 12,
   },
   backBtn: {
@@ -262,5 +280,16 @@ const styles = StyleSheet.create({
   nextBtnText: {
     fontSize: 15,
     fontWeight: '800',
+  },
+  skipBtn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 8,
+    minHeight: 44,
+  },
+  skipBtnText: {
+    fontSize: 13,
+    fontWeight: '600',
+    letterSpacing: 0.2,
   },
 });

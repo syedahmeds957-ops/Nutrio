@@ -222,4 +222,17 @@ describe('Nutrition Bridge Calculation', () => {
     expect(bridged.culturalMetrics.isHighChaiIntake).toBe(true);
     expect(bridged.culturalMetrics.isSedentaryWorker).toBe(true);
   });
+
+  it('ensures male users bypass pregnancy and breastfeeding questions', () => {
+    const engine = new SurveyStateEngine();
+    engine.setBasics({
+      sex: 'male',
+      ageYears: 29,
+      heightCm: 178,
+      weightKg: 75,
+    });
+
+    expect(engine.getBasics().sex).toBe('male');
+    expect(engine.getHealthClinical().isPregnantOrBreastfeeding).toBe(false);
+  });
 });

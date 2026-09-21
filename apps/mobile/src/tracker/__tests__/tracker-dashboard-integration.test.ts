@@ -5,6 +5,7 @@ import { StreakBadge } from '../ui/StreakBadge.js';
 import { AiRecommendationCard } from '../ui/AiRecommendationCard.js';
 import { QuickStaplesBar } from '../ui/QuickStaplesBar.js';
 import { WeeklyCalorieBankCard } from '../ui/WeeklyCalorieBankCard.js';
+import { TrackerEngine } from '../engine.js';
 
 describe('TrackerDashboardScreen Integrated Components', () => {
   const mockTargets = {
@@ -57,5 +58,29 @@ describe('TrackerDashboardScreen Integrated Components', () => {
       targetCalories: 2000,
     });
     expect(bankEl).toBeDefined();
+  });
+
+  it('guarantees independent TrackerEngine instances for PK and SA modes', () => {
+    const pkEngine = new TrackerEngine(mockTargets);
+    const saEngine = new TrackerEngine(mockTargets);
+
+    // Log meal in PK
+    pkEngine.logCustomizedItem('dinner', 'Chicken Karahi', 'چکن کڑاہی', '1 serving', 1, 450, 40, 5, 25);
+    expect(pkEngine.getSummary().items.length).toBe(1);
+    expect(pkEngine.getSummary().totalCaloriesConsumed).toBe(450);
+
+    // SA remains clean slate
+    expect(saEngine.getSummary().items.length).toBe(0);
+    expect(saEngine.getSummary().totalCaloriesConsumed).toBe(0);
+
+    // Log meal in SA
+    saEngine.logCustomizedItem('dinner', 'Chicken Kabsa', 'كبسة دجاج', '1 plate', 1, 550, 35, 60, 15);
+    expect(saEngine.getSummary().items.length).toBe(1);
+    expect(saEngine.getSummary().totalCaloriesConsumed).toBe(550);
+
+    // PK still has only its original meal
+    expect(pkEngine.getSummary().items.length).toBe(1);
+    expect(pkEngine.getSummary().items[0].foodName).toBe('Chicken Karahi');
+    expect(saEngine.getSummary().items[0].foodName).toBe('Chicken Kabsa');
   });
 });

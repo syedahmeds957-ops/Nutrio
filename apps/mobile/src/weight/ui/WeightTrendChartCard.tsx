@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { WeightTrendSummary } from '../types.js';
 import { useTheme } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
 
 interface WeightTrendChartCardProps {
   summary: WeightTrendSummary;
@@ -13,64 +14,85 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
   spikeWarning,
 }) => {
   const { theme, isDark } = useTheme();
+  const { activeRegion } = useRegion();
+  const isSaudi = activeRegion === 'SA';
+  const accentColor = theme.colors.primaryLime;
   const { currentWeightKg, currentEWMAKg, totalDeltaKg, points } = summary;
   const isLoss = totalDeltaKg < 0;
 
   return (
-    <View style={[styles.card, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}>
+    <View style={[styles.card, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={[styles.title, { color: theme.colors.text }]}>Weight Trend (EWMA Smoothed)</Text>
+        <Text style={[styles.title, { color: theme.colors.textPrimary }]}>
+          {isSaudi ? 'منحنى مسار الوزن الأيضي · Weight Trend' : 'Weight Trend (EWMA Smoothed)'}
+        </Text>
         <Text style={[styles.sub, { color: theme.colors.textMuted }]}>
-          Filtering daily water fluctuations with α=0.25 exponential smoothing
+          {isSaudi
+            ? 'تصفية تقلبات السوائل والأملاح اليومية عبر التنعيم الأسي (α=0.25)'
+            : 'Filtering daily water fluctuations with α=0.25 exponential smoothing'}
         </Text>
       </View>
 
       {/* Hero Stats */}
       <View style={styles.statsRow}>
-        <View style={[styles.statBox, { backgroundColor: isDark ? '#14151A' : '#F8FAFC', borderColor: theme.colors.border }]}>
-          <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>Scale Weight</Text>
-          <Text style={[styles.statVal, { color: theme.colors.text }]}>{currentWeightKg} kg</Text>
-          <Text style={[styles.statSub, { color: theme.colors.textMuted }]}>Raw scale reading</Text>
+        <View style={[styles.statBox, { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border }]}>
+          <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>
+            {isSaudi ? 'قراءة الميزان' : 'Scale Weight'}
+          </Text>
+          <Text style={[styles.statVal, { color: theme.colors.textPrimary }]}>{currentWeightKg} kg</Text>
+          <Text style={[styles.statSub, { color: theme.colors.textMuted }]}>
+            {isSaudi ? 'وزن خام' : 'Raw scale reading'}
+          </Text>
         </View>
 
-        <View style={[styles.statBox, { backgroundColor: isDark ? '#14151A' : '#F8FAFC', borderColor: isDark ? theme.colors.primaryLime : '#84CC16' }]}>
-          <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>Trend Weight</Text>
-          <Text style={[styles.statVal, { color: isDark ? theme.colors.primaryLime : '#16A34A', fontWeight: '800' }]}>{currentEWMAKg} kg</Text>
-          <Text style={[styles.statSub, { color: theme.colors.textMuted }]}>True tissue trend</Text>
+        <View style={[styles.statBox, { backgroundColor: theme.colors.surfaceSecondary, borderColor: accentColor }]}>
+          <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>
+            {isSaudi ? 'مسار الأنسجة' : 'Trend Weight'}
+          </Text>
+          <Text style={[styles.statVal, { color: accentColor, fontWeight: '800' }]}>{currentEWMAKg} kg</Text>
+          <Text style={[styles.statSub, { color: theme.colors.textMuted }]}>
+            {isSaudi ? 'الوزن الحقيقي' : 'True tissue trend'}
+          </Text>
         </View>
 
-        <View style={[styles.statBox, { backgroundColor: isDark ? '#14151A' : '#F8FAFC', borderColor: theme.colors.border }]}>
-          <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>Net Change</Text>
+        <View style={[styles.statBox, { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border }]}>
+          <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>
+            {isSaudi ? 'صافي التغير' : 'Net Change'}
+          </Text>
           <Text
             style={[
               styles.statVal,
-              isLoss ? styles.lossText : styles.gainText,
+              isLoss ? { color: accentColor } : styles.gainText,
             ]}
           >
             {totalDeltaKg > 0 ? `+${totalDeltaKg}` : totalDeltaKg} kg
           </Text>
-          <Text style={[styles.statSub, { color: theme.colors.textMuted }]}>Overall progress</Text>
+          <Text style={[styles.statSub, { color: theme.colors.textMuted }]}>
+            {isSaudi ? 'التقدم الإجمالي' : 'Overall progress'}
+          </Text>
         </View>
       </View>
 
       {/* Water Retention Warning */}
       {spikeWarning && (
-        <View style={styles.spikeBox}>
-          <Text style={styles.spikeText}>💧 {spikeWarning}</Text>
+        <View style={[styles.spikeBox, { backgroundColor: isDark ? '#0C2A3D' : '#F0F9FF', borderLeftColor: '#0284C7' }]}>
+          <Text style={[styles.spikeText, { color: isDark ? '#7DD3FC' : '#0369A1' }]}>💧 {spikeWarning}</Text>
         </View>
       )}
 
       {/* Recent Trend Points */}
       {points.length > 0 && (
         <View style={styles.pointsList}>
-          <Text style={[styles.pointsTitle, { color: theme.colors.text }]}>Recent History</Text>
+          <Text style={[styles.pointsTitle, { color: theme.colors.textPrimary }]}>
+            {isSaudi ? 'السجل الأخير · Recent History' : 'Recent History'}
+          </Text>
           {points.slice(-5).reverse().map((pt, idx) => (
             <View key={idx} style={[styles.pointRow, { borderBottomColor: theme.colors.border }]}>
-              <Text style={[styles.pointDate, { color: theme.colors.text }]}>{pt.date}</Text>
+              <Text style={[styles.pointDate, { color: theme.colors.textPrimary }]}>{pt.date}</Text>
               <View style={styles.pointValues}>
                 <Text style={[styles.pointRaw, { color: theme.colors.textMuted }]}>{pt.rawWeightKg} kg scale</Text>
-                <Text style={[styles.pointEwma, { color: isDark ? theme.colors.primaryLime : '#16A34A' }]}>→ {pt.ewmaWeightKg} kg trend</Text>
+                <Text style={[styles.pointEwma, { color: accentColor }]}>→ {pt.ewmaWeightKg} kg trend</Text>
               </View>
             </View>
           ))}
@@ -89,11 +111,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     borderWidth: 1,
     borderColor: '#F1F5F9',
-    shadowColor: '#0F172A',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 12,
-    elevation: 2,
+    boxShadow: '0px 4px 12px rgba(15, 23, 42, 0.05)',
   },
   header: {
     marginBottom: 16,

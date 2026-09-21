@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import React from 'react';
 import { StepPreferencesBudget } from '../ui/StepPreferencesBudget.js';
 import { StepLifestyleDesi } from '../ui/StepLifestyleDesi.js';
@@ -47,6 +47,16 @@ describe('Step 4: Regional Survey, Preferences & Onboarding Defaults (Saudi vs P
     const element = React.createElement(RegionProvider, { initialRegion: 'SA', children: child });
     expect(element).toBeDefined();
     expect(element.props.initialRegion).toBe('SA');
+  });
+
+  it('renders OnboardingSurveyScreen with onSkip action prop', () => {
+    const onSkipMock = vi.fn();
+    const child = React.createElement(OnboardingSurveyScreen, {
+      onComplete: () => {},
+      onCancel: () => {},
+      onSkip: onSkipMock,
+    });
+    expect(child.props.onSkip).toBe(onSkipMock);
   });
 });
 

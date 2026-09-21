@@ -10,13 +10,48 @@ import {
 } from './types.js';
 
 const STORAGE_KEY = 'nutrio_auth_session';
+const MOCK_USERS_REGISTRY_KEY = 'nutrio_mock_users_registry';
 
 // In-memory fallback for test runners or environments without localStorage
 let memorySession: AuthSession | null = null;
+const memoryMockUsers = new Map<string, { id: string; name: string; email: string; surveyCompleted: boolean }>();
 const pendingRegistrationNames = new Map<string, string>();
 
 function hasLocalStorage(): boolean {
   return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
+}
+
+function getMockUser(email: string): { id: string; name: string; email: string; surveyCompleted: boolean } | null {
+  const cleanEmail = email.toLowerCase().trim();
+  if (memoryMockUsers.has(cleanEmail)) {
+    return memoryMockUsers.get(cleanEmail)!;
+  }
+  if (hasLocalStorage()) {
+    try {
+      const raw = window.localStorage.getItem(MOCK_USERS_REGISTRY_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && parsed[cleanEmail]) {
+          memoryMockUsers.set(cleanEmail, parsed[cleanEmail]);
+          return parsed[cleanEmail];
+        }
+      }
+    } catch {}
+  }
+  return null;
+}
+
+function saveMockUser(record: { id: string; name: string; email: string; surveyCompleted: boolean }): void {
+  const cleanEmail = record.email.toLowerCase().trim();
+  memoryMockUsers.set(cleanEmail, record);
+  if (hasLocalStorage()) {
+    try {
+      const raw = window.localStorage.getItem(MOCK_USERS_REGISTRY_KEY);
+      const parsed = raw ? JSON.parse(raw) : {};
+      parsed[cleanEmail] = record;
+      window.localStorage.setItem(MOCK_USERS_REGISTRY_KEY, JSON.stringify(parsed));
+    } catch {}
+  }
 }
 
 function mapSupabaseUserToAuthUser(sbUser: any): AuthUser {
@@ -131,42 +166,60 @@ export async function authenticateUser(
   }
 
   if (isSupabaseConfigured()) {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    if (error) {
-      throw new Error(error.message);
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      if (!data.session || !data.user) {
+        throw new Error('Sign in succeeded but no active session was returned.');
+      }
+
+      const session: AuthSession = {
+        token: data.session.access_token,
+        user: mapSupabaseUserToAuthUser(data.user),
+        createdAt: new Date().toISOString(),
+      };
+
+      saveAuthSession(session);
+      return session;
+    } catch (err: any) {
+      if (
+        err?.message?.includes('Failed to fetch') ||
+        err?.message?.includes('Network request failed') ||
+        err?.name === 'AuthRetryableFetchError'
+      ) {
+        throw new Error(
+          'Unable to reach authentication server. Please check your internet connection or configure active Supabase credentials in .env.'
+        );
+      }
+      throw err;
     }
-
-    if (!data.session || !data.user) {
-      throw new Error('Sign in succeeded but no active session was returned.');
-    }
-
-    const session: AuthSession = {
-      token: data.session.access_token,
-      user: mapSupabaseUserToAuthUser(data.user),
-      createdAt: new Date().toISOString(),
-    };
-
-    saveAuthSession(session);
-    return session;
   }
 
   // Local / Mock fallback when Supabase is not configured
   const prefix = email.split('@')[0] || '';
-  const name = prefix ? prefix.charAt(0).toUpperCase() + prefix.slice(1) : 'User';
+  const defaultName = prefix ? prefix.charAt(0).toUpperCase() + prefix.slice(1) : 'User';
+  const existingUser = getMockUser(email);
+
+  const user: AuthUser = {
+    id: existingUser?.id || `usr_${Date.now()}`,
+    name: existingUser?.name || defaultName,
+    email,
+    isRegistered: true,
+    surveyCompleted: existingUser ? existingUser.surveyCompleted : true,
+  };
+
+  saveMockUser(user);
 
   const session: AuthSession = {
     token: `nutrio_jwt_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`,
-    user: {
-      id: `usr_${Date.now()}`,
-      name,
-      email,
-      isRegistered: true,
-      surveyCompleted: true,
-    },
+    user,
     createdAt: new Date().toISOString(),
   };
 
@@ -197,44 +250,57 @@ export async function registerUser(
   }
 
   if (isSupabaseConfigured()) {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          display_name: name,
-          name,
-        },
-      },
-    });
-
-    if (error) {
-      throw new Error(error.message);
-    }
-
-    // Check if session was returned immediately (if email confirmation is disabled)
-    if (data.session && data.user) {
-      const session: AuthSession = {
-        token: data.session.access_token,
-        user: mapSupabaseUserToAuthUser(data.user),
-        createdAt: new Date().toISOString(),
-      };
-      saveAuthSession(session);
-      return {
-        requiresOtp: false,
+    try {
+      const { data, error } = await supabase.auth.signUp({
         email,
-        message: 'Account created and verified.',
-        session,
-      };
-    }
+        password,
+        options: {
+          data: {
+            display_name: name,
+            name,
+          },
+        },
+      });
 
-    // Email OTP confirmation is mandatory
-    return {
-      requiresOtp: true,
-      email,
-      message: `A 6-digit verification code was sent to ${email}.`,
-      session: null,
-    };
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      // Check if session was returned immediately (if email confirmation is disabled)
+      if (data.session && data.user) {
+        const session: AuthSession = {
+          token: data.session.access_token,
+          user: mapSupabaseUserToAuthUser(data.user),
+          createdAt: new Date().toISOString(),
+        };
+        saveAuthSession(session);
+        return {
+          requiresOtp: false,
+          email,
+          message: 'Account created and verified.',
+          session,
+        };
+      }
+
+      // Email OTP confirmation is mandatory
+      return {
+        requiresOtp: true,
+        email,
+        message: `A 6-digit verification code was sent to ${email}.`,
+        session: null,
+      };
+    } catch (err: any) {
+      if (
+        err?.message?.includes('Failed to fetch') ||
+        err?.message?.includes('Network request failed') ||
+        err?.name === 'AuthRetryableFetchError'
+      ) {
+        throw new Error(
+          'Unable to reach authentication server. Please check your internet connection or configure active Supabase credentials in .env.'
+        );
+      }
+      throw err;
+    }
   }
 
   // Local / Mock fallback
@@ -259,32 +325,45 @@ export async function verifyEmailOtp(payload: VerifyOtpPayload): Promise<OtpResu
   }
 
   if (isSupabaseConfigured()) {
-    const { data, error } = await supabase.auth.verifyOtp({
-      email,
-      token,
-      type: 'signup',
-    });
+    try {
+      const { data, error } = await supabase.auth.verifyOtp({
+        email,
+        token,
+        type: 'signup',
+      });
 
-    if (error) {
-      throw new Error(error.message);
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      if (!data.session || !data.user) {
+        throw new Error('Verification completed but no session was created.');
+      }
+
+      const session: AuthSession = {
+        token: data.session.access_token,
+        user: mapSupabaseUserToAuthUser(data.user),
+        createdAt: new Date().toISOString(),
+      };
+
+      saveAuthSession(session);
+      return {
+        success: true,
+        session,
+        message: 'Email successfully verified.',
+      };
+    } catch (err: any) {
+      if (
+        err?.message?.includes('Failed to fetch') ||
+        err?.message?.includes('Network request failed') ||
+        err?.name === 'AuthRetryableFetchError'
+      ) {
+        throw new Error(
+          'Unable to reach authentication server. Please check your internet connection or configure active Supabase credentials in .env.'
+        );
+      }
+      throw err;
     }
-
-    if (!data.session || !data.user) {
-      throw new Error('Verification completed but no session was created.');
-    }
-
-    const session: AuthSession = {
-      token: data.session.access_token,
-      user: mapSupabaseUserToAuthUser(data.user),
-      createdAt: new Date().toISOString(),
-    };
-
-    saveAuthSession(session);
-    return {
-      success: true,
-      session,
-      message: 'Email successfully verified.',
-    };
   }
 
   // Local / Mock fallback
@@ -294,15 +373,18 @@ export async function verifyEmailOtp(payload: VerifyOtpPayload): Promise<OtpResu
     (fallbackPrefix ? fallbackPrefix.charAt(0).toUpperCase() + fallbackPrefix.slice(1) : 'User');
   pendingRegistrationNames.delete(email);
 
+  const mockUser: AuthUser = {
+    id: `usr_${Date.now()}`,
+    name: enteredName,
+    email,
+    isRegistered: true,
+    surveyCompleted: false,
+  };
+  saveMockUser(mockUser);
+
   const session: AuthSession = {
     token: `nutrio_jwt_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`,
-    user: {
-      id: `usr_${Date.now()}`,
-      name: enteredName,
-      email,
-      isRegistered: true,
-      surveyCompleted: false,
-    },
+    user: mockUser,
     createdAt: new Date().toISOString(),
   };
 
@@ -347,4 +429,41 @@ export async function resendEmailOtp(email: string): Promise<{ success: boolean;
     success: true,
     message: `A new 6-digit code has been dispatched to ${cleanEmail}.`,
   };
+}
+
+/**
+ * Marks the active user's survey as completed.
+ * Persists status to active session, local mock user registry, and remote Supabase metadata.
+ */
+export async function markSurveyCompleted(): Promise<void> {
+  const currentSession = getAuthSession();
+  if (!currentSession) return;
+
+  const updatedSession: AuthSession = {
+    ...currentSession,
+    user: {
+      ...currentSession.user,
+      surveyCompleted: true,
+    },
+  };
+  saveAuthSession(updatedSession);
+
+  if (currentSession.user.email) {
+    saveMockUser({
+      id: currentSession.user.id,
+      name: currentSession.user.name,
+      email: currentSession.user.email,
+      surveyCompleted: true,
+    });
+  }
+
+  if (isSupabaseConfigured()) {
+    try {
+      await supabase.auth.updateUser({
+        data: { survey_completed: true },
+      });
+    } catch (err: any) {
+      console.warn('[authStorage] Failed to update remote survey_completed metadata:', err?.message);
+    }
+  }
 }

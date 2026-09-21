@@ -70,8 +70,8 @@ export const StepPreferencesBudget: React.FC<StepPreferencesBudgetProps> = ({
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
   const isSaudi = activeRegion === 'SA';
-  const accentColor = isSaudi ? '#10B981' : theme.colors.primaryLime;
-  const activeTextColor = isSaudi ? '#FFFFFF' : '#0A0B0D';
+  const accentColor = theme.colors.primaryLime;
+  const activeTextColor = '#0A0B0D';
   const dietOptions = isSaudi ? SA_DIET_OPTIONS : PK_DIET_OPTIONS;
   const budgetTiers = isSaudi ? SA_BUDGET_TIERS : BUDGET_TIERS;
 

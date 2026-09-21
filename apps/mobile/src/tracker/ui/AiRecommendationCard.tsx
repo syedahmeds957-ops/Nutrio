@@ -21,25 +21,35 @@ export interface RecommendedFood {
 interface AiRecommendationCardProps {
   remainingCalories: number;
   remainingProtein: number;
+  totalCaloriesConsumed?: number;
+  itemsLoggedCount?: number;
   onLogRecommendation: (items: RecommendedFood[]) => void;
   onAskCoach?: () => void;
+  onOpenLogMeal?: () => void;
 }
 
 export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
   remainingCalories,
   remainingProtein: _remainingProtein,
+  totalCaloriesConsumed,
+  itemsLoggedCount,
   onLogRecommendation,
   onAskCoach,
+  onOpenLogMeal,
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
   const isSaudi = activeRegion === 'SA';
-  const accentColor = isSaudi ? '#10B981' : theme.colors.primaryLime;
+  const accentColor = theme.colors.primaryLime;
   const [logged, setLogged] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(15)).current;
 
-  const btnTextColor = logged || isSaudi ? '#FFFFFF' : '#0A0B0D';
+  const btnTextColor = '#0A0B0D';
+
+  useEffect(() => {
+    setLogged(false);
+  }, [activeRegion]);
 
   useEffect(() => {
     Animated.parallel([
@@ -54,7 +64,9 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
         useNativeDriver: true,
       }),
     ]).start();
-  }, []);
+  }, [activeRegion]);
+
+  const isCleanSlate = totalCaloriesConsumed === 0 || itemsLoggedCount === 0;
 
   // Compute recommendation based on active region & remaining calories & protein
   let title = 'Chicken Tikka Plate';
@@ -66,7 +78,16 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
     { name: 'Mint Raita', calories: 60, proteinGrams: 3, fatGrams: 2, carbGrams: 6 },
   ];
 
-  if (activeRegion === 'SA') {
+  if (isCleanSlate) {
+    title = isSaudi ? 'جاهز لتسجيل وجبتك الأولى' : 'Ready for Your First Meal';
+    subtitle = isSaudi
+      ? 'سجّل وجبة الفطور أو الغداء لتفعيل اقتراحات الوجبات الذكية المتوازنة'
+      : 'Log your breakfast or lunch to activate personalized AI meal suggestions';
+    rationale = isSaudi
+      ? 'يقوم محرك الذكاء الاصطناعي بتحليل سعراتك المستهلكة واقتراح وجبات محلية متوازنة فور التسجيل.'
+      : 'Our AI engine analyzes your real-time intake to craft balanced local meal suggestions as you log.';
+    items = [];
+  } else if (activeRegion === 'SA') {
     if (remainingCalories < 250) {
       title = 'Laban & Boiled Egg (خيار خفيف)';
       subtitle = 'Almarai Fresh Laban (200ml) + 1 Boiled Egg';
@@ -118,6 +139,12 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
   const totalProtein = items.reduce((s, i) => s + i.proteinGrams, 0);
 
   const handleLog = () => {
+    if (isCleanSlate) {
+      if (onOpenLogMeal) {
+        onOpenLogMeal();
+      }
+      return;
+    }
     onLogRecommendation(items);
     setLogged(true);
     setTimeout(() => setLogged(false), 3000);
@@ -181,7 +208,7 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
 
       {/* Macro Pills & Action Row */}
       <View style={[styles.footerRow, { borderTopColor: theme.colors.border }]}>
-        <View style={styles.macroPills}>
+        {isCleanSlate ? (
           <View
             style={[
               styles.macroPill,
@@ -191,37 +218,66 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
               },
             ]}
           >
-            <Icon name="flame" size={11} color="#EF4444" />
+            <Icon name="sparkles" size={11} color={accentColor} />
             <Text style={[styles.macroVal, { color: theme.colors.textSecondary }]}>
-              {totalKcal} kcal
+              {isSaudi ? 'بانتظار أول وجبة' : 'Awaiting First Meal'}
             </Text>
           </View>
-          <View
-            style={[
-              styles.macroPill,
-              {
-                backgroundColor: isDark ? 'rgba(59, 130, 246, 0.15)' : '#EFF6FF',
-                borderColor: isDark ? 'rgba(59, 130, 246, 0.3)' : '#BFDBFE',
-              },
-            ]}
-          >
-            <Icon name="zap" size={11} color="#3B82F6" />
-            <Text style={[styles.macroVal, { color: '#3B82F6' }]}>{totalProtein}g protein</Text>
+        ) : (
+          <View style={styles.macroPills}>
+            <View
+              style={[
+                styles.macroPill,
+                {
+                  backgroundColor: theme.colors.surfaceSecondary,
+                  borderColor: theme.colors.border,
+                },
+              ]}
+            >
+              <Icon name="flame" size={11} color="#EF4444" />
+              <Text style={[styles.macroVal, { color: theme.colors.textSecondary }]}>
+                {totalKcal} kcal
+              </Text>
+            </View>
+            <View
+              style={[
+                styles.macroPill,
+                {
+                  backgroundColor: isDark ? 'rgba(59, 130, 246, 0.15)' : '#EFF6FF',
+                  borderColor: isDark ? 'rgba(59, 130, 246, 0.3)' : '#BFDBFE',
+                },
+              ]}
+            >
+              <Icon name="zap" size={11} color="#3B82F6" />
+              <Text style={[styles.macroVal, { color: '#3B82F6' }]}>{totalProtein}g protein</Text>
+            </View>
           </View>
-        </View>
+        )}
 
         <TouchableOpacity
           style={[
             styles.logBtn,
-            { backgroundColor: logged ? '#10B981' : accentColor },
+            { backgroundColor: accentColor },
+            logged && styles.logBtnLogged,
           ]}
           onPress={handleLog}
           activeOpacity={0.8}
+          disabled={logged}
         >
           <View style={styles.btnContent}>
             <Icon name={logged ? 'check' : 'plus'} size={13} color={btnTextColor} />
             <Text style={[styles.logBtnText, { color: btnTextColor }]}>
-              {logged ? 'Logged!' : (isSaudi ? '+ Log Meal (+ تسجيل)' : '+ Log Suggestion')}
+              {logged
+                ? isSaudi
+                  ? '✓ تم التسجيل!'
+                  : '✓ Logged!'
+                : isCleanSlate
+                ? isSaudi
+                  ? '+ تسجيل أول وجبة'
+                  : '+ Log First Meal'
+                : isSaudi
+                ? '+ Log Meal (+ تسجيل)'
+                : '+ Log Suggestion'}
             </Text>
           </View>
         </TouchableOpacity>
@@ -317,6 +373,11 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 14,
     borderRadius: 9999,
+  },
+  logBtnLogged: {
+    backgroundColor: '#A4EB3F',
+    borderWidth: 1.5,
+    borderColor: '#0A0B0D',
   },
   btnContent: {
     flexDirection: 'row',

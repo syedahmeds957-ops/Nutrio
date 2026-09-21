@@ -118,14 +118,21 @@ export function createPlannedItem(
   };
 }
 
+export interface MealPlanSolverOptions {
+  dayIndex?: number;
+}
+
 /**
  * Deterministic Constraint Meal Plan Solver
- * Generates 4 culturally coherent Pakistani meals hitting calorie & macro targets within ±5% tolerance.
+ * Generates 4 culturally coherent Pakistani / Saudi meals hitting calorie & macro targets within ±5% tolerance.
+ * Supports dayIndex (0-6) for rotating dishes across the 7-day week to ensure daily variety.
  */
 export function solveDailyMealPlan(
   input: MealPlanSolverInput,
-  foodPool: SolverFoodCandidate[]
+  foodPool: SolverFoodCandidate[],
+  options?: MealPlanSolverOptions
 ): DailyMealPlanResult {
+  const dayIndex = options?.dayIndex ?? 0;
   const filtered = filterFoodPool(foodPool, input);
 
   const isSaudi = foodPool.some(
@@ -234,14 +241,16 @@ export function solveDailyMealPlan(
   const targetDinnerKcal = Math.round(input.targetCalories * 0.3);
   const targetSnackKcal = Math.round(input.targetCalories * 0.1);
 
-  // 1. Breakfast Slot
+  // 1. Breakfast Slot (Rotated across week)
   const breakfastItems: PlannedMealItem[] = [];
   if (isSaudi && saudiBreakfastFoods.length > 0) {
     const primaryBreakfast =
-      saudiBreakfastFoods.find((f) => f.name.includes('Shakshuka')) ||
-      saudiBreakfastFoods.find((f) => f.name.includes('Foul')) ||
-      saudiBreakfastFoods.find((f) => f.name.includes('Mutabbaq')) ||
-      saudiBreakfastFoods[0];
+      dayIndex === 0
+        ? (saudiBreakfastFoods.find((f) => f.name.includes('Shakshuka')) ||
+           saudiBreakfastFoods.find((f) => f.name.includes('Foul')) ||
+           saudiBreakfastFoods.find((f) => f.name.includes('Mutabbaq')) ||
+           saudiBreakfastFoods[0])
+        : saudiBreakfastFoods[dayIndex % saudiBreakfastFoods.length];
     const bItem = createPlannedItem(primaryBreakfast, 0, 1);
     breakfastItems.push(bItem);
 
@@ -253,45 +262,71 @@ export function solveDailyMealPlan(
       breakfastItems.push(createPlannedItem(breadCandidate, 0, Math.min(1.0, qty)));
     }
   } else {
-    const eggItem = createPlannedItem(defaultEgg, 0, 1);
+    const dayEgg =
+      dayIndex === 0
+        ? defaultEgg
+        : (eggs[dayIndex % eggs.length] || defaultEgg);
+    const eggItem = createPlannedItem(dayEgg, 0, 1);
     breakfastItems.push(eggItem);
 
     const neededBreakfastKcal = targetBreakfastKcal - eggItem.calories;
-    const rotiKcalPerServing = (defaultRoti.kcal100g * defaultRoti.servings[0].grams) / 100;
+    const rotiCandidate = breads.length > 0 ? breads[dayIndex % breads.length] : defaultRoti;
+    const rotiKcalPerServing = (rotiCandidate.kcal100g * rotiCandidate.servings[0].grams) / 100;
     const breakfastRotiQty = Math.max(1, Math.round(neededBreakfastKcal / rotiKcalPerServing));
-    breakfastItems.push(createPlannedItem(defaultRoti, 0, breakfastRotiQty));
+    breakfastItems.push(createPlannedItem(rotiCandidate, 0, breakfastRotiQty));
 
-    if (defaultChai && breakfastItems.reduce((s, i) => s + i.calories, 0) < targetBreakfastKcal - 50) {
-      breakfastItems.push(createPlannedItem(defaultChai, 0, 1));
+    const dayBeverage = beverages.length > 0 ? beverages[dayIndex % beverages.length] : defaultChai;
+    if (dayBeverage && breakfastItems.reduce((s, i) => s + i.calories, 0) < targetBreakfastKcal - 50) {
+      breakfastItems.push(createPlannedItem(dayBeverage, 0, 1));
     }
   }
 
-  // 2. Lunch Slot (Rice / Roti + Main Dish + Sabzi/Daal)
+  // 2. Lunch Slot (Rotated Main Curry / Daal + Rice / Grains)
   const lunchItems: PlannedMealItem[] = [];
-  const lunchMain = input.dietPreference.includes('omnivore') && curries.length > 0 ? defaultCurry : defaultDaal;
+  const curryOffset = curries.length > 2 ? dayIndex * 2 : dayIndex;
+  const lunchCurryIdx = curryOffset % (curries.length || 1);
+  const chosenLunchCurry = curries.length > 0 ? curries[lunchCurryIdx] : defaultDaal;
+  const lunchMain =
+    input.dietPreference.includes('omnivore') && curries.length > 0
+      ? (dayIndex === 0 ? defaultCurry : chosenLunchCurry)
+      : (daals[dayIndex % (daals.length || 1)] || defaultDaal);
   const lunchMainItem = createPlannedItem(lunchMain, 0, 1);
   lunchItems.push(lunchMainItem);
 
   const neededLunchKcal = targetLunchKcal - lunchMainItem.calories;
-  const riceKcalPerServing = (defaultRice.kcal100g * defaultRice.servings[0].grams) / 100;
+  const chosenRice =
+    plainRices.length > 0
+      ? plainRices[dayIndex % plainRices.length]
+      : (rices.length > 0 ? rices[dayIndex % rices.length] : defaultRice);
+  const riceKcalPerServing = (chosenRice.kcal100g * chosenRice.servings[0].grams) / 100;
   const lunchGrainQty = Math.max(1, Number((neededLunchKcal / riceKcalPerServing).toFixed(1)));
-  lunchItems.push(createPlannedItem(defaultRice, 0, Math.min(2, Math.max(1, Math.round(lunchGrainQty)))));
+  lunchItems.push(createPlannedItem(chosenRice, 0, Math.min(2, Math.max(1, Math.round(lunchGrainQty)))));
 
-  // 3. Dinner Slot (Roti + Daal or Sabzi or Grill)
+  // 3. Dinner Slot (Rotated Evening Curry / Sabzi / Grill + Roti)
   const dinnerItems: PlannedMealItem[] = [];
-  const dinnerCurry = curries.length > 1 ? curries[1] : defaultSabzi;
+  const dinnerCurryIdx = (curryOffset + 1) % (curries.length || 1);
+  const chosenDinnerCurry =
+    curries.length > 1
+      ? (dayIndex === 0 ? curries[1] : curries[dinnerCurryIdx])
+      : (sabzis[dayIndex % (sabzis.length || 1)] || defaultSabzi);
+  const dinnerCurry =
+    input.dietPreference !== 'vegetarian_desi' && curries.length > 0
+      ? chosenDinnerCurry
+      : (sabzis[dayIndex % (sabzis.length || 1)] || defaultSabzi);
   const dinnerCurryItem = createPlannedItem(dinnerCurry, 0, 1);
   dinnerItems.push(dinnerCurryItem);
 
   const neededDinnerKcal = targetDinnerKcal - dinnerCurryItem.calories;
-  const rotiKcalPerServing = (defaultRoti.kcal100g * defaultRoti.servings[0].grams) / 100;
-  const dinnerRotiQty = Math.max(1, Math.round(neededDinnerKcal / rotiKcalPerServing));
-  dinnerItems.push(createPlannedItem(defaultRoti, 0, dinnerRotiQty));
+  const chosenDinnerBread = breads.length > 0 ? breads[(dayIndex + 1) % breads.length] : defaultRoti;
+  const dinnerBreadKcalPerServing = (chosenDinnerBread.kcal100g * chosenDinnerBread.servings[0].grams) / 100;
+  const dinnerRotiQty = Math.max(1, Math.round(neededDinnerKcal / dinnerBreadKcalPerServing));
+  dinnerItems.push(createPlannedItem(chosenDinnerBread, 0, dinnerRotiQty));
 
-  // 4. Snack / Chai Slot
+  // 4. Snack / Chai Slot (Rotated beverages & snacks)
   const snackItems: PlannedMealItem[] = [];
-  if (defaultChai) {
-    snackItems.push(createPlannedItem(defaultChai, 0, 1));
+  const snackChai = beverages.length > 0 ? beverages[dayIndex % beverages.length] : defaultChai;
+  if (snackChai) {
+    snackItems.push(createPlannedItem(snackChai, 0, 1));
   }
   const currentTotalNoSnack =
     breakfastItems.reduce((s, i) => s + i.calories, 0) +
@@ -300,8 +335,20 @@ export function solveDailyMealPlan(
 
   const remainingForDay = input.targetCalories - currentTotalNoSnack;
   if (remainingForDay > 150) {
-    // Add shami kebab, dates, or fruit/egg
-    const extraSnack = filtered.find((f) => f.name.includes('Dates') || f.name.includes('Shami')) || defaultEgg;
+    const snackCandidates = filtered.filter(
+      (f) =>
+        f.category.includes('Snacks') ||
+        f.category.includes('Barbecue') ||
+        f.name.includes('Dates') ||
+        f.name.includes('Shami') ||
+        f.name.includes('Fruit') ||
+        f.name.includes('Nuts') ||
+        f.name.includes('Kebab')
+    );
+    const extraSnack =
+      snackCandidates.length > 0
+        ? snackCandidates[dayIndex % snackCandidates.length]
+        : (filtered.find((f) => f.name.includes('Dates') || f.name.includes('Shami')) || defaultEgg);
     snackItems.push(createPlannedItem(extraSnack, 0, 1));
   }
 

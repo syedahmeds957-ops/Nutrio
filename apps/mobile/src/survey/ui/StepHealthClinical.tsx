@@ -8,6 +8,7 @@ interface StepHealthClinicalProps {
   data: Partial<SurveyHealthClinical>;
   onChange: (updated: Partial<SurveyHealthClinical>) => void;
   errors: Record<string, string>;
+  userSex?: 'male' | 'female';
 }
 
 const CONDITIONS: Array<{ id: MedicalConditionFlag; label: string }> = [
@@ -23,14 +24,26 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
   data,
   onChange,
   errors,
+  userSex,
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
   const isSaudi = activeRegion === 'SA';
-  const accentColor = isSaudi ? '#10B981' : theme.colors.primaryLime;
-  const activeTextColor = isSaudi ? '#FFFFFF' : '#0A0B0D';
+  const isMale = userSex === 'male';
+  const accentColor = theme.colors.primaryLime;
+  const activeTextColor = '#0A0B0D';
   const currentConditions = data.medicalConditions ?? [];
   const isDisclaimerAccepted = data.medicalDisclaimerAccepted !== false;
+
+  React.useEffect(() => {
+    if (isMale && data.isPregnantOrBreastfeeding) {
+      onChange({ isPregnantOrBreastfeeding: false });
+    }
+  }, [isMale, data.isPregnantOrBreastfeeding]);
+
+  const visibleConditions = isMale
+    ? CONDITIONS.filter((c) => c.id !== 'pcos')
+    : CONDITIONS;
 
   const toggleCondition = (id: MedicalConditionFlag) => {
     if (id === 'none') {
@@ -52,75 +65,79 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
         Your safety is non-negotiable. Medical conditions adjust your safety floors and prevent unsafe caloric restrictions.
       </Text>
 
-      {/* Pregnancy / Lactation */}
-      <View style={styles.fieldGroup}>
-        <Text style={[styles.label, { color: theme.colors.textPrimary }]}>
-          Are you pregnant or currently breastfeeding?
-        </Text>
-        <View style={styles.toggleRow}>
-          <TouchableOpacity
-            style={[
-              styles.toggleBtn,
-              {
-                backgroundColor: theme.colors.surface,
-                borderColor: theme.colors.border,
-              },
-              data.isPregnantOrBreastfeeding === true && {
-                backgroundColor: accentColor,
-                borderColor: accentColor,
-              },
-            ]}
-            onPress={() => onChange({ isPregnantOrBreastfeeding: true })}
-            activeOpacity={0.7}
-          >
-            <Text
+      {/* Pregnancy / Lactation (Female only) */}
+      {!isMale && (
+        <View style={styles.fieldGroup}>
+          <Text style={[styles.label, { color: theme.colors.textPrimary }]}>
+            {isSaudi
+              ? 'هل أنتِ حامل أو مرضع حالياً؟'
+              : 'Are you pregnant or currently breastfeeding?'}
+          </Text>
+          <View style={styles.toggleRow}>
+            <TouchableOpacity
               style={[
-                styles.toggleText,
-                { color: theme.colors.textSecondary },
-                data.isPregnantOrBreastfeeding === true && { color: activeTextColor, fontWeight: '800' },
+                styles.toggleBtn,
+                {
+                  backgroundColor: theme.colors.surface,
+                  borderColor: theme.colors.border,
+                },
+                data.isPregnantOrBreastfeeding === true && {
+                  backgroundColor: accentColor,
+                  borderColor: accentColor,
+                },
               ]}
+              onPress={() => onChange({ isPregnantOrBreastfeeding: true })}
+              activeOpacity={0.7}
             >
-              {isSaudi ? 'Yes (نعم)' : 'Yes'}
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={[
+                  styles.toggleText,
+                  { color: theme.colors.textSecondary },
+                  data.isPregnantOrBreastfeeding === true && { color: activeTextColor, fontWeight: '800' },
+                ]}
+              >
+                {isSaudi ? 'Yes (نعم)' : 'Yes'}
+              </Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={[
-              styles.toggleBtn,
-              {
-                backgroundColor: theme.colors.surface,
-                borderColor: theme.colors.border,
-              },
-              data.isPregnantOrBreastfeeding === false && {
-                backgroundColor: accentColor,
-                borderColor: accentColor,
-              },
-            ]}
-            onPress={() => onChange({ isPregnantOrBreastfeeding: false })}
-            activeOpacity={0.7}
-          >
-            <Text
+            <TouchableOpacity
               style={[
-                styles.toggleText,
-                { color: theme.colors.textSecondary },
-                data.isPregnantOrBreastfeeding === false && { color: activeTextColor, fontWeight: '800' },
+                styles.toggleBtn,
+                {
+                  backgroundColor: theme.colors.surface,
+                  borderColor: theme.colors.border,
+                },
+                data.isPregnantOrBreastfeeding === false && {
+                  backgroundColor: accentColor,
+                  borderColor: accentColor,
+                },
               ]}
+              onPress={() => onChange({ isPregnantOrBreastfeeding: false })}
+              activeOpacity={0.7}
             >
-              {isSaudi ? 'No (لا)' : 'No'}
-            </Text>
-          </TouchableOpacity>
-        </View>
-        {data.isPregnantOrBreastfeeding && (
-          <View style={[styles.warningBox, { backgroundColor: isDark ? 'rgba(234, 179, 8, 0.15)' : '#FEF9C3', borderColor: '#EAB308' }]}>
-            <Text style={[styles.warningText, { color: isDark ? '#FACC15' : '#854D0E' }]}>
-              🛡️ Note: Caloric restriction is clinically disabled during pregnancy and active lactation. Your plan will be set to nourishing maintenance only.
-            </Text>
+              <Text
+                style={[
+                  styles.toggleText,
+                  { color: theme.colors.textSecondary },
+                  data.isPregnantOrBreastfeeding === false && { color: activeTextColor, fontWeight: '800' },
+                ]}
+              >
+                {isSaudi ? 'No (لا)' : 'No'}
+              </Text>
+            </TouchableOpacity>
           </View>
-        )}
-        {errors.isPregnantOrBreastfeeding && (
-          <Text style={styles.errorText}>{errors.isPregnantOrBreastfeeding}</Text>
-        )}
-      </View>
+          {data.isPregnantOrBreastfeeding && (
+            <View style={[styles.warningBox, { backgroundColor: isDark ? 'rgba(234, 179, 8, 0.15)' : '#FEF9C3', borderColor: '#EAB308' }]}>
+              <Text style={[styles.warningText, { color: isDark ? '#FACC15' : '#854D0E' }]}>
+                🛡️ Note: Caloric restriction is clinically disabled during pregnancy and active lactation. Your plan will be set to nourishing maintenance only.
+              </Text>
+            </View>
+          )}
+          {errors.isPregnantOrBreastfeeding && (
+            <Text style={styles.errorText}>{errors.isPregnantOrBreastfeeding}</Text>
+          )}
+        </View>
+      )}
 
       {/* Medical Conditions */}
       <View style={styles.fieldGroup}>
@@ -128,7 +145,7 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
           Known Medical & Health Diagnoses
         </Text>
         <View style={styles.conditionsList}>
-          {CONDITIONS.map((cond) => {
+          {visibleConditions.map((cond) => {
             const isChecked = currentConditions.includes(cond.id);
             return (
               <TouchableOpacity

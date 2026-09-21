@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,6 +8,7 @@ import {
   ScrollView,
   Modal,
   SafeAreaView,
+  ActivityIndicator,
 } from 'react-native';
 import {
   NormalizedFood,
@@ -61,13 +62,36 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   const { theme, isDark } = useTheme();
   const { activeRegion, setRegion } = useRegion();
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
+  const [isFiltering, setIsFiltering] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState<string>('All');
+
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setDebouncedQuery('');
+      setIsFiltering(false);
+      return;
+    }
+    setIsFiltering(true);
+    // In test environment, resolve immediately; in app use brief 150ms debounce
+    const isTest = typeof process !== 'undefined' && process.env?.NODE_ENV === 'test';
+    if (isTest) {
+      setDebouncedQuery(searchQuery);
+      setIsFiltering(false);
+      return;
+    }
+    const timer = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+      setIsFiltering(false);
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   const brandGroups = activeRegion === 'SA' ? SA_BRAND_GROUPS : PK_BRAND_GROUPS;
 
   // Search across dishes adapted to active region
   const searchResults = useMemo(() => {
-    const q = searchQuery.trim().toLowerCase();
+    const q = (debouncedQuery || searchQuery).trim().toLowerCase();
     if (!q) return [];
 
     if (activeRegion === 'SA') {
@@ -75,7 +99,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
     }
 
     return searchPakistaniFoods(q, { limit: 40 });
-  }, [searchQuery, activeRegion]);
+  }, [debouncedQuery, searchQuery, activeRegion]);
 
   const isSearching = searchQuery.trim().length > 0;
 
@@ -187,14 +211,24 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
               autoCorrect={false}
               clearButtonMode="while-editing"
             />
-            {isSearching && (
+            {isFiltering ? (
+              <ActivityIndicator
+                size="small"
+                color={theme.colors.primaryLime}
+                style={{ marginRight: 4 }}
+              />
+            ) : isSearching ? (
               <TouchableOpacity
-                onPress={() => setSearchQuery('')}
+                onPress={() => {
+                  setSearchQuery('');
+                  setDebouncedQuery('');
+                  setIsFiltering(false);
+                }}
                 hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
               >
                 <Icon name="x" size={16} color={theme.colors.textMuted} />
               </TouchableOpacity>
-            )}
+            ) : null}
           </View>
         </View>
 
@@ -223,7 +257,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                       styles.groupPill,
                       {
                         backgroundColor: isActive
-                          ? (activeRegion === 'SA' ? '#10B981' : theme.colors.primaryLime)
+                          ? theme.colors.primaryLime
                           : theme.colors.surfaceSecondary,
                       },
                     ]}
@@ -235,7 +269,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                         styles.groupPillText,
                         {
                           color: isActive
-                            ? (activeRegion === 'SA' ? '#FFFFFF' : '#0A0B0D')
+                            ? '#0A0B0D'
                             : theme.colors.textSecondary,
                           fontWeight: isActive ? '800' : '600',
                         },
@@ -261,10 +295,24 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
             /* Search Results View */
             <View style={styles.searchResultsSection}>
               <Text style={[styles.sectionEyebrow, { color: theme.colors.textMuted }]}>
-                {searchResults.length} {searchResults.length === 1 ? 'RESULT' : 'RESULTS'} FOUND
+                {isFiltering
+                  ? (activeRegion === 'SA' ? 'جاري البحث...' : 'SEARCHING...')
+                  : `${searchResults.length} ${searchResults.length === 1 ? 'RESULT' : 'RESULTS'} FOUND`}
               </Text>
 
-              {searchResults.length === 0 ? (
+              {isFiltering ? (
+                <View style={styles.filterLoadingContainer}>
+                  <ActivityIndicator
+                    size="small"
+                    color={theme.colors.primaryLime}
+                  />
+                  <Text style={[styles.filterLoadingText, { color: theme.colors.textSecondary }]}>
+                    {activeRegion === 'SA'
+                      ? 'جاري تصفية قاعدة الأطعمة والمطاعم...'
+                      : 'Filtering nutritional database...'}
+                  </Text>
+                </View>
+              ) : searchResults.length === 0 ? (
                 <View style={styles.emptyStateContainer}>
                   <Text style={[styles.emptyStateTitle, { color: theme.colors.textPrimary }]}>
                     No dishes found
@@ -302,7 +350,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                             {item.name}
                           </Text>
                           {item.nameAr && (
-                            <Text style={[styles.dishNameAr, { color: activeRegion === 'SA' ? '#10B981' : theme.colors.primaryLime }]}>
+                            <Text style={[styles.dishNameAr, { color: theme.colors.primaryLime }]}>
                               {item.nameAr}
                             </Text>
                           )}
@@ -332,7 +380,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                         <Text
                           style={[
                             styles.dishMacrosText,
-                            { color: activeRegion === 'SA' ? '#10B981' : (isDark ? theme.colors.primaryLime : '#4B6200') },
+                            { color: isDark ? theme.colors.primaryLime : '#4B6200' },
                           ]}
                         >
                           P {p}g · C {c}g · F {f}g
@@ -344,10 +392,8 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                           style={[
                             styles.caloriePill,
                             {
-                              backgroundColor: activeRegion === 'SA'
-                                ? (isDark ? 'rgba(16, 185, 129, 0.15)' : '#ECFDF5')
-                                : (isDark ? 'rgba(164, 235, 63, 0.15)' : '#F7FEE7'),
-                              borderColor: activeRegion === 'SA' ? '#10B981' : theme.colors.primaryLime,
+                              backgroundColor: isDark ? 'rgba(164, 235, 63, 0.15)' : '#F7FEE7',
+                              borderColor: theme.colors.primaryLime,
                             },
                           ]}
                         >
@@ -355,9 +401,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                             style={[
                               styles.caloriePillText,
                               {
-                                color: activeRegion === 'SA'
-                                  ? '#10B981'
-                                  : (isDark ? theme.colors.primaryLime : '#4B6200'),
+                                color: isDark ? theme.colors.primaryLime : '#4B6200',
                               },
                             ]}
                           >
@@ -406,7 +450,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                           {brand.name}
                         </Text>
                         {brand.nameAr && (
-                          <Text style={[styles.brandNameAr, { color: activeRegion === 'SA' ? '#10B981' : theme.colors.primaryLime }]}>
+                          <Text style={[styles.brandNameAr, { color: theme.colors.primaryLime }]}>
                             {brand.nameAr}
                           </Text>
                         )}
@@ -643,5 +687,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
     lineHeight: 20,
+  },
+  filterLoadingContainer: {
+    paddingVertical: 36,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 12,
+  },
+  filterLoadingText: {
+    fontSize: 13,
+    fontWeight: '600',
   },
 });

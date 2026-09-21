@@ -20,6 +20,10 @@ export default defineConfig({
         find: /^@react-native-async-storage\/async-storage$/,
         replacement: path.resolve(__dirname, 'test/stubs/async-storage.ts'),
       },
+      {
+        find: /^react-native-safe-area-context$/,
+        replacement: path.resolve(__dirname, 'test/stubs/safe-area-context.ts'),
+      },
       { find: /^react-native$/, replacement: 'react-native-web' },
     ],
   },

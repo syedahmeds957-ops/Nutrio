@@ -8,6 +8,7 @@ import {
   verifyEmailOtp,
   resendEmailOtp,
   isUserAuthenticated,
+  markSurveyCompleted,
 } from '../authStorage.js';
 import { AuthSession } from '../types.js';
 
@@ -147,5 +148,37 @@ describe('Auth Session Layer (authStorage)', () => {
     await expect(
       registerUser({ name: 'Ali', email: 'ali@nutrio.app', password: '123' })
     ).rejects.toThrow('Password must be at least 6 characters');
+  });
+
+  it('marks survey completed and preserves completion status across logout and re-login', async () => {
+    // 1. Register a new user
+    await registerUser({
+      name: 'Zainab',
+      email: 'zainab@nutrio.app',
+      password: 'password123',
+    });
+
+    const otpRes = await verifyEmailOtp({
+      email: 'zainab@nutrio.app',
+      token: '123456',
+    });
+    expect(otpRes.session?.user.surveyCompleted).toBe(false);
+
+    // 2. Mark survey as completed
+    await markSurveyCompleted();
+    expect(getAuthSession()?.user.surveyCompleted).toBe(true);
+
+    // 3. User logs out
+    await clearAuthSession();
+    expect(getAuthSession()).toBeNull();
+
+    // 4. User logs back in
+    const reLoginSession = await authenticateUser({
+      email: 'zainab@nutrio.app',
+      password: 'password123',
+    });
+
+    expect(reLoginSession.user.surveyCompleted).toBe(true);
+    expect(reLoginSession.user.name).toBe('Zainab');
   });
 });

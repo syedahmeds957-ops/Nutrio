@@ -6,7 +6,7 @@ const SUPABASE_URL =
   process.env.EXPO_PUBLIC_SUPABASE_URL ||
   process.env.NEXT_PUBLIC_SUPABASE_URL ||
   process.env.SUPABASE_URL ||
-  'https://qcdfluglkwvmjusncaas.supabase.co';
+  'https://placeholder-project.supabase.co';
 
 const SUPABASE_ANON_KEY =
   process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY ||
@@ -14,7 +14,7 @@ const SUPABASE_ANON_KEY =
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
   process.env.SUPABASE_ANON_KEY ||
-  'sb_publishable_P-oWwPsg_rsZTT-7CjAIJg_oVRjw5Co';
+  'placeholder-anon-key';
 
 // Cross-platform resilient storage adapter
 export const authStorageAdapter = {
@@ -48,7 +48,8 @@ export const isSupabaseConfigured = (): boolean => {
     Boolean(SUPABASE_URL) &&
     Boolean(SUPABASE_ANON_KEY) &&
     !SUPABASE_URL.includes('placeholder-project') &&
-    !SUPABASE_ANON_KEY.includes('placeholder-anon-key')
+    !SUPABASE_ANON_KEY.includes('placeholder-anon-key') &&
+    !SUPABASE_URL.includes('qcdfluglkwvmjusncaas')
   );
 };
 

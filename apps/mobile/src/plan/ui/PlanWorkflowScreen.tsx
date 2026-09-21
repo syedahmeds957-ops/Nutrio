@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { StyleSheet, View, SafeAreaView } from 'react-native';
 import { AnalysisView } from './AnalysisView.js';
 import { GoalSelectionView } from './GoalSelectionView.js';
+import { PlanCalculationTransitionView } from './PlanCalculationTransitionView.js';
 import { PlanRevealView } from './PlanRevealView.js';
 import {
   ComputedUserPlan,
@@ -11,14 +12,16 @@ import {
 } from '../types.js';
 import { computePlan } from '../engine.js';
 
+import { useTheme } from '../../theme.js';
+
 interface PlanWorkflowScreenProps {
   userContext: PlanUserContext;
   narrative?: AssessmentNarrative;
   onPlanAccepted: (plan: ComputedUserPlan) => void;
-  onCancel?: () => void;
+  onCancel: () => void;
 }
 
-export type PlanPhase = 'analysis' | 'goal' | 'reveal';
+export type PlanPhase = 'analysis' | 'goal' | 'calculating' | 'reveal';
 
 export const PlanWorkflowScreen: React.FC<PlanWorkflowScreenProps> = ({
   userContext,
@@ -26,6 +29,7 @@ export const PlanWorkflowScreen: React.FC<PlanWorkflowScreenProps> = ({
   onPlanAccepted,
   onCancel,
 }) => {
+  const { theme } = useTheme();
   const [phase, setPhase] = useState<PlanPhase>('analysis');
   const [goalSelection, setGoalSelection] = useState<GoalSelectionState>({
     goal: userContext.isPregnantOrBreastfeeding ? 'maintain' : 'lose',
@@ -38,7 +42,7 @@ export const PlanWorkflowScreen: React.FC<PlanWorkflowScreenProps> = ({
   }, [userContext, goalSelection, narrative]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.canvas }]}>
       {phase === 'analysis' && (
         <AnalysisView
           context={userContext}
@@ -53,9 +57,15 @@ export const PlanWorkflowScreen: React.FC<PlanWorkflowScreenProps> = ({
           context={userContext}
           onConfirmGoal={(selection) => {
             setGoalSelection(selection);
-            setPhase('reveal');
+            setPhase('calculating');
           }}
           onBack={() => setPhase('analysis')}
+        />
+      )}
+
+      {phase === 'calculating' && (
+        <PlanCalculationTransitionView
+          onReady={() => setPhase('reveal')}
         />
       )}
 
@@ -73,6 +83,5 @@ export const PlanWorkflowScreen: React.FC<PlanWorkflowScreenProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6F8F6',
   },
 });

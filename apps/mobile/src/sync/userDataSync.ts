@@ -1,4 +1,4 @@
-﻿import { supabase, isSupabaseConfigured } from '../supabase/client.js';
+import { supabase, isSupabaseConfigured } from '../supabase/client.js';
 import { getAuthSession } from '../auth/authStorage.js';
 import { LifestyleSurveyPayload } from '../survey/types.js';
 import { ComputedUserPlan } from '../plan/types.js';
@@ -217,6 +217,15 @@ export async function syncCompleteOnboarding(
 
   // 3. Persist Calculated Targets
   await syncNutritionTargets(profileId, computedPlan);
+
+  // 4. Update Supabase Auth User metadata
+  try {
+    await supabase.auth.updateUser({
+      data: { survey_completed: true },
+    });
+  } catch (err: any) {
+    console.warn('[UserDataSync] Error updating survey_completed metadata:', err?.message);
+  }
 
   return {
     success: true,

@@ -60,8 +60,8 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
   const { activeRegion } = useRegion();
   const isSaudi = (context.region || activeRegion) === 'SA';
   const chips = isSaudi ? SA_CHIPS : PK_CHIPS;
-  const accentColor = isSaudi ? '#10B981' : theme.colors.primaryLime;
-  const accentTextColor = isSaudi ? '#FFFFFF' : theme.colors.limeText;
+  const accentColor = theme.colors.primaryLime;
+  const accentTextColor = theme.colors.limeText;
 
   const initialGreeting = isSaudi
     ? `Marhaba ${context.displayName || 'there'}! I'm your Nutrio Nutrition Coach.\n\nYou have ~${
@@ -204,8 +204,8 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
           activeOpacity={0.7}
         >
           <View style={styles.badgeRow}>
-            <Icon name="settings" size={12} color={isSaudi ? '#10B981' : (isDark ? theme.colors.primaryLime : '#4B6200')} />
-            <Text style={[styles.badgeText, { color: isSaudi ? '#10B981' : (isDark ? theme.colors.primaryLime : '#4B6200') }]}>
+            <Icon name="settings" size={12} color={isDark ? theme.colors.primaryLime : '#4B6200'} />
+            <Text style={[styles.badgeText, { color: isDark ? theme.colors.primaryLime : '#4B6200' }]}>
               {selectedProvider.toUpperCase()}
             </Text>
           </View>
@@ -242,7 +242,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
                 <Text
                   style={[
                     styles.avatarLabel,
-                    { color: isSaudi ? '#10B981' : (isDark ? theme.colors.primaryLime : '#4B6200') },
+                    { color: isDark ? theme.colors.primaryLime : '#4B6200' },
                   ]}
                 >
                   NUTRIO COACH
@@ -252,7 +252,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
                 style={[
                   styles.messageText,
                   m.role === 'user'
-                    ? [styles.userText, { color: isSaudi ? '#FFFFFF' : '#0A0B0D' }]
+                    ? [styles.userText, { color: '#0A0B0D' }]
                     : [styles.assistantText, { color: theme.colors.textPrimary }],
                 ]}
               >
@@ -263,7 +263,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
                   styles.timestamp,
                   {
                     color: m.role === 'user'
-                      ? (isSaudi ? 'rgba(255,255,255,0.8)' : '#333A00')
+                      ? '#333A00'
                       : theme.colors.textMuted,
                   },
                 ]}
@@ -287,7 +287,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
               <Text
                 style={[
                   styles.typingIndicator,
-                  { color: isSaudi ? '#10B981' : (isDark ? theme.colors.primaryLime : '#4B6200') },
+                  { color: isDark ? theme.colors.primaryLime : '#4B6200' },
                 ]}
               >
                 AI Coach is typing...
@@ -298,16 +298,16 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
           {/* Suggested Prompts Chips */}
           <View style={styles.chipsSection}>
             <Text style={[styles.chipsHeader, { color: theme.colors.textMuted }]}>
-              SUGGESTED TOPICS
+              {isSaudi ? '💡 أسئلة شائعة' : '💡 SUGGESTED TOPICS'}
             </Text>
             <View style={styles.chipsWrap}>
-              {suggestedChips.map((chip, idx) => (
+              {chips.map((chip, idx) => (
                 <TouchableOpacity
                   key={idx}
                   style={[
                     styles.chip,
                     {
-                      backgroundColor: theme.colors.surface,
+                      backgroundColor: theme.colors.surfaceSecondary,
                       borderColor: theme.colors.border,
                     },
                   ]}
@@ -328,7 +328,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
           style={[
             styles.inputBar,
             {
-              backgroundColor: theme.colors.surface,
+              backgroundColor: theme.colors.card,
               borderTopColor: theme.colors.border,
             },
           ]}
@@ -338,20 +338,20 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
               styles.textInput,
               {
                 backgroundColor: theme.colors.surfaceSecondary,
-                borderColor: theme.colors.border,
                 color: theme.colors.textPrimary,
+                borderColor: theme.colors.border,
               },
             ]}
             placeholder={
               isSaudi
-                ? 'Ask about Kabsa, AlBaik, Al Tazaj, Gahwa...'
-                : 'Ask about meals, oil, dawats, chai...'
+                ? 'اسأل مدرب نيوتريو (مثلاً: كيف أوازن الكبسة؟)...'
+                : 'Ask Coach (e.g., How to handle 2 rotis at dinner?)...'
             }
             placeholderTextColor={theme.colors.textMuted}
             value={inputText}
             onChangeText={setInputText}
-            onSubmitEditing={() => handleSend()}
-            returnKeyType="send"
+            multiline
+            maxLength={500}
           />
           <TouchableOpacity
             style={[
@@ -363,7 +363,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
             disabled={!inputText.trim() || isTyping}
             activeOpacity={0.8}
           >
-            <Text style={[styles.sendBtnText, { color: isSaudi ? '#FFFFFF' : '#0A0B0D' }]}>↑</Text>
+            <Text style={[styles.sendBtnText, { color: '#0A0B0D' }]}>↑</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -433,7 +433,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
                         styles.providerPillText,
                         {
                           color: isSelected
-                            ? (isSaudi ? '#FFFFFF' : '#0A0B0D')
+                            ? '#0A0B0D'
                             : theme.colors.textPrimary,
                           fontWeight: isSelected ? '800' : '600',
                         },
@@ -680,17 +680,7 @@ const styles = StyleSheet.create({
     maxWidth: 450,
     borderRadius: 24,
     padding: 20,
-    ...Platform.select({
-      web: {
-        boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.15)',
-      },
-      default: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 10 },
-        shadowOpacity: 0.15,
-        shadowRadius: 20,
-      },
-    }),
+    boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.15)',
   },
   settingsHeader: {
     flexDirection: 'row',
