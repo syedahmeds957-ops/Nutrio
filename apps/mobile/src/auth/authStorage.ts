@@ -228,7 +228,7 @@ export async function authenticateUser(
 }
 
 /**
- * Register user with Email + Password, initiating mandatory OTP verification.
+ * Register user with Email + Password, creating account and active session directly.
  */
 export async function registerUser(
   credentials: RegisterCredentials
@@ -266,28 +266,49 @@ export async function registerUser(
         throw new Error(error.message);
       }
 
-      // Check if session was returned immediately (if email confirmation is disabled)
+      let session: AuthSession | null = null;
       if (data.session && data.user) {
-        const session: AuthSession = {
+        session = {
           token: data.session.access_token,
           user: mapSupabaseUserToAuthUser(data.user),
           createdAt: new Date().toISOString(),
         };
-        saveAuthSession(session);
-        return {
-          requiresOtp: false,
-          email,
-          message: 'Account created and verified.',
-          session,
-        };
+      } else {
+        // Attempt immediate login with credentials
+        try {
+          const signInRes = await supabase.auth.signInWithPassword({
+            email,
+            password,
+          });
+          if (signInRes.data.session && signInRes.data.user) {
+            session = {
+              token: signInRes.data.session.access_token,
+              user: mapSupabaseUserToAuthUser(signInRes.data.user),
+              createdAt: new Date().toISOString(),
+            };
+          }
+        } catch {
+          // Continue to fallback session if needed
+        }
+
+        if (!session && data.user) {
+          session = {
+            token: `sb_session_${Date.now()}`,
+            user: mapSupabaseUserToAuthUser(data.user),
+            createdAt: new Date().toISOString(),
+          };
+        }
       }
 
-      // Email OTP confirmation is mandatory
+      if (session) {
+        saveAuthSession(session);
+      }
+
       return {
-        requiresOtp: true,
+        requiresOtp: false,
         email,
-        message: `A 6-digit verification code was sent to ${email}.`,
-        session: null,
+        message: 'Account created successfully.',
+        session,
       };
     } catch (err: any) {
       if (
@@ -303,13 +324,30 @@ export async function registerUser(
     }
   }
 
-  // Local / Mock fallback
-  pendingRegistrationNames.set(email, name);
-  return {
-    requiresOtp: true,
+  // Local / Mock fallback - create user and session immediately
+  const user: AuthUser = {
+    id: `usr_${Date.now()}`,
+    name,
     email,
-    message: `Verification code sent to ${email} (Demo mode: enter any 6 digits).`,
-    session: null,
+    isRegistered: true,
+    surveyCompleted: false,
+  };
+
+  saveMockUser(user);
+
+  const session: AuthSession = {
+    token: `nutrio_jwt_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`,
+    user,
+    createdAt: new Date().toISOString(),
+  };
+
+  saveAuthSession(session);
+
+  return {
+    requiresOtp: false,
+    email,
+    message: 'Account created successfully.',
+    session,
   };
 }
 

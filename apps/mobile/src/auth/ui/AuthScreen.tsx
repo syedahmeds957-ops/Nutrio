@@ -8,19 +8,13 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
-import { AppleTextInput, noOutlineStyle } from '../../ui/AppleInput.js';
-import {
-  authenticateUser,
-  registerUser,
-  verifyEmailOtp,
-  resendEmailOtp,
-} from '../authStorage.js';
+import { AppleTextInput } from '../../ui/AppleInput.js';
+import { authenticateUser, registerUser } from '../authStorage.js';
 import { AuthSession, AuthScreenMode } from '../types.js';
 
 interface AuthScreenProps {
@@ -37,7 +31,9 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
   onExploreGuest,
 }) => {
   const { theme, isDark } = useTheme();
-  const [mode, setMode] = useState<AuthScreenMode>(initialMode);
+  const [mode, setMode] = useState<AuthScreenMode>(
+    initialMode === 'verify_otp' ? 'register' : initialMode
+  );
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -46,12 +42,6 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [infoMessage, setInfoMessage] = useState('');
-
-  // OTP Verification state (6 digits)
-  const [otpDigits, setOtpDigits] = useState<string[]>(['', '', '', '', '', '']);
-  const otpInputRefs = useRef<(TextInput | null)[]>([]);
-  const [resendCountdown, setResendCountdown] = useState<number>(60);
-  const [resendLoading, setResendLoading] = useState<boolean>(false);
 
   // Native entrance animation
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -72,63 +62,6 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
     ]).start();
   }, [mode]);
 
-  // Resend OTP countdown timer
-  useEffect(() => {
-    let timer: any;
-    if (mode === 'verify_otp' && resendCountdown > 0) {
-      timer = setInterval(() => {
-        setResendCountdown((prev) => (prev > 0 ? prev - 1 : 0));
-      }, 1000);
-    }
-    return () => {
-      if (timer) clearInterval(timer);
-    };
-  }, [mode, resendCountdown]);
-
-  const handleOtpChange = (index: number, value: string) => {
-    setErrorMessage('');
-    const cleanVal = value.replace(/[^0-9]/g, '');
-
-    // Handle full 6-digit paste
-    if (cleanVal.length >= 6) {
-      const newDigits = cleanVal.slice(0, 6).split('');
-      setOtpDigits(newDigits);
-      otpInputRefs.current[5]?.focus();
-      return;
-    }
-
-    const updated = [...otpDigits];
-    updated[index] = cleanVal ? cleanVal[cleanVal.length - 1] : '';
-    setOtpDigits(updated);
-
-    if (cleanVal && index < 5) {
-      otpInputRefs.current[index + 1]?.focus();
-    }
-  };
-
-  const handleOtpKeyPress = (index: number, key: string) => {
-    if (key === 'Backspace' && !otpDigits[index] && index > 0) {
-      otpInputRefs.current[index - 1]?.focus();
-    }
-  };
-
-  const handleResendOtp = async () => {
-    if (resendCountdown > 0 || resendLoading) return;
-    setErrorMessage('');
-    setInfoMessage('');
-    setResendLoading(true);
-
-    try {
-      const res = await resendEmailOtp(email);
-      setInfoMessage(res.message);
-      setResendCountdown(60);
-    } catch (err: any) {
-      setErrorMessage(err?.message || 'Could not resend verification code.');
-    } finally {
-      setResendLoading(false);
-    }
-  };
-
   const handleSubmit = async () => {
     setErrorMessage('');
     setInfoMessage('');
@@ -142,7 +75,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
           rememberMe,
         });
         onAuthSuccess(session);
-      } else if (mode === 'register') {
+      } else {
         const regResult = await registerUser({
           name,
           email,
@@ -150,34 +83,19 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
           rememberMe,
         });
 
-        if (regResult.requiresOtp) {
-          setMode('verify_otp');
-          setInfoMessage(regResult.message);
-          setResendCountdown(60);
-          setOtpDigits(['', '', '', '', '', '']);
-        } else if (regResult.session) {
+        if (regResult.session) {
           onAuthSuccess(regResult.session);
-        }
-      } else if (mode === 'verify_otp') {
-        const token = otpDigits.join('');
-        if (token.length < 6) {
-          throw new Error('Please enter all 6 digits of your verification code.');
-        }
-
-        const otpResult = await verifyEmailOtp({
-          email,
-          token,
-        });
-
-        if (otpResult.session) {
-          onAuthSuccess(otpResult.session);
         } else {
-          setMode('login');
-          setInfoMessage('Verification succeeded! Please sign in.');
+          const session = await authenticateUser({
+            email,
+            password,
+            rememberMe,
+          });
+          onAuthSuccess(session);
         }
       }
     } catch (err: any) {
-      setErrorMessage(err?.message || 'Authentication error. Please check your inputs.');
+      setErrorMessage(err?.message || 'Authentication error. Please check your credentials.');
     } finally {
       setLoading(false);
     }
@@ -193,9 +111,9 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
         >
-          {/* Top Bar (Brand Header & Back Button in OTP mode) */}
-          <View style={[styles.topBar, mode !== 'verify_otp' && styles.topBarCentered]}>
-            {mode === 'verify_otp' && (
+          {/* Top Bar (Brand Header & optional Back Button) */}
+          <View style={[styles.topBar, !onBackToHome && styles.topBarCentered]}>
+            {onBackToHome && (
               <TouchableOpacity
                 style={[
                   styles.backBtn,
@@ -204,11 +122,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                     borderColor: theme.colors.border,
                   },
                 ]}
-                onPress={() => {
-                  setMode('register');
-                  setErrorMessage('');
-                  setInfoMessage('');
-                }}
+                onPress={onBackToHome}
                 activeOpacity={0.7}
               >
                 <View style={styles.btnRow}>
@@ -234,7 +148,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               </Text>
             </View>
 
-            {mode === 'verify_otp' && <View style={styles.backBtnPlaceholder} />}
+            {onBackToHome && <View style={styles.backBtnPlaceholder} />}
           </View>
 
           {/* Animated Card */}
@@ -249,90 +163,82 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               },
             ]}
           >
-            {/* Tab Switcher (Visible in Login and Register modes) */}
-            {mode !== 'verify_otp' && (
-              <View
+            {/* Segmented Tab Switcher */}
+            <View
+              style={[
+                styles.tabContainer,
+                { backgroundColor: theme.colors.surfaceSecondary },
+              ]}
+            >
+              <TouchableOpacity
                 style={[
-                  styles.tabContainer,
-                  { backgroundColor: theme.colors.surfaceSecondary },
+                  styles.tabBtn,
+                  mode === 'login' && {
+                    backgroundColor: theme.colors.primaryLime,
+                  },
                 ]}
+                onPress={() => {
+                  setMode('login');
+                  setErrorMessage('');
+                  setInfoMessage('');
+                }}
+                activeOpacity={0.7}
               >
-                <TouchableOpacity
+                <Text
                   style={[
-                    styles.tabBtn,
-                    mode === 'login' && {
-                      backgroundColor: theme.colors.primaryLime,
+                    styles.tabText,
+                    {
+                      color:
+                        mode === 'login'
+                          ? '#0A0B0D'
+                          : theme.colors.textSecondary,
+                      fontWeight: mode === 'login' ? '800' : '600',
                     },
                   ]}
-                  onPress={() => {
-                    setMode('login');
-                    setErrorMessage('');
-                    setInfoMessage('');
-                  }}
-                  activeOpacity={0.7}
                 >
-                  <Text
-                    style={[
-                      styles.tabText,
-                      {
-                        color:
-                          mode === 'login'
-                            ? '#0A0B0D'
-                            : theme.colors.textSecondary,
-                        fontWeight: mode === 'login' ? '800' : '600',
-                      },
-                    ]}
-                  >
-                    Sign In
-                  </Text>
-                </TouchableOpacity>
+                  Sign In
+                </Text>
+              </TouchableOpacity>
 
-                <TouchableOpacity
+              <TouchableOpacity
+                style={[
+                  styles.tabBtn,
+                  mode === 'register' && {
+                    backgroundColor: theme.colors.primaryLime,
+                  },
+                ]}
+                onPress={() => {
+                  setMode('register');
+                  setErrorMessage('');
+                  setInfoMessage('');
+                }}
+                activeOpacity={0.7}
+              >
+                <Text
                   style={[
-                    styles.tabBtn,
-                    mode === 'register' && {
-                      backgroundColor: theme.colors.primaryLime,
+                    styles.tabText,
+                    {
+                      color:
+                        mode === 'register'
+                          ? '#0A0B0D'
+                          : theme.colors.textSecondary,
+                      fontWeight: mode === 'register' ? '800' : '600',
                     },
                   ]}
-                  onPress={() => {
-                    setMode('register');
-                    setErrorMessage('');
-                    setInfoMessage('');
-                  }}
-                  activeOpacity={0.7}
                 >
-                  <Text
-                    style={[
-                      styles.tabText,
-                      {
-                        color:
-                          mode === 'register'
-                            ? '#0A0B0D'
-                            : theme.colors.textSecondary,
-                        fontWeight: mode === 'register' ? '800' : '600',
-                      },
-                    ]}
-                  >
-                    Create Account
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            )}
+                  Create Account
+                </Text>
+              </TouchableOpacity>
+            </View>
 
             {/* Header Titles */}
             <Text style={[styles.heading, { color: theme.colors.textPrimary }]}>
-              {mode === 'login'
-                ? 'Welcome Back!'
-                : mode === 'register'
-                ? 'Start Your Journey'
-                : 'Verify Email OTP'}
+              {mode === 'login' ? 'Welcome Back!' : 'Create Account'}
             </Text>
             <Text style={[styles.subheading, { color: theme.colors.textSecondary }]}>
               {mode === 'login'
                 ? 'Sign in to access your calibrated daily diary and AI coach.'
-                : mode === 'register'
-                ? 'Create your account to unlock personalized macro targets, real-time food logging, and daily AI coaching.'
-                : `We dispatched a 6-digit confirmation code to ${email || 'your email'}. Enter it below to activate your account.`}
+                : 'Sign up with your email and password to start logging and tracking your nutrition.'}
             </Text>
 
             {/* Info Message Banner */}
@@ -369,158 +275,74 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               </View>
             ) : null}
 
-            {/* OTP Verification UI */}
-            {mode === 'verify_otp' ? (
-              <View style={styles.otpSection}>
-                <Text style={[styles.inputLabel, { color: theme.colors.textPrimary, marginBottom: 12 }]}>
-                  6-Digit Verification Code
-                </Text>
-                <View style={styles.otpRow}>
-                  {otpDigits.map((digit, idx) => (
-                    <TextInput
-                      key={`otp_cell_${idx}`}
-                      ref={(ref) => {
-                        otpInputRefs.current[idx] = ref;
-                      }}
-                      style={[
-                        styles.otpBox,
-                        noOutlineStyle,
-                        {
-                          backgroundColor: theme.colors.surfaceSecondary,
-                          borderColor: digit ? theme.colors.primaryLime : theme.colors.border,
-                          color: theme.colors.textPrimary,
-                        },
-                      ]}
-                      value={digit}
-                      onChangeText={(val) => handleOtpChange(idx, val)}
-                      onKeyPress={({ nativeEvent }) => handleOtpKeyPress(idx, nativeEvent.key)}
-                      keyboardType="number-pad"
-                      maxLength={1}
-                      selectTextOnFocus
-                      textAlign="center"
-                    />
-                  ))}
-                </View>
-
-                {/* Resend Action */}
-                <View style={styles.resendRow}>
-                  <Text style={[styles.resendInfo, { color: theme.colors.textMuted }]}>
-                    Didn't receive the code?
-                  </Text>
-                  <TouchableOpacity
-                    onPress={handleResendOtp}
-                    disabled={resendCountdown > 0 || resendLoading}
-                    activeOpacity={0.7}
-                  >
-                    <Text
-                      style={[
-                        styles.resendBtnText,
-                        {
-                          color:
-                            resendCountdown > 0
-                              ? theme.colors.textMuted
-                              : theme.colors.success,
-                        },
-                      ]}
-                    >
-                      {resendCountdown > 0
-                        ? `Resend in ${resendCountdown}s`
-                        : resendLoading
-                        ? 'Sending...'
-                        : 'Resend Code'}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-
-                <TouchableOpacity
-                  style={styles.changeEmailBtn}
-                  onPress={() => {
-                    setMode('register');
-                    setErrorMessage('');
-                    setInfoMessage('');
-                  }}
-                  activeOpacity={0.7}
-                >
-                  <Text style={[styles.changeEmailText, { color: theme.colors.textSecondary }]}>
-                    Incorrect email? Change address &rarr;
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            ) : (
-              /* Standard Credentials Inputs */
-              <>
-                {/* Name Input (Register mode only) */}
-                {mode === 'register' && (
-                  <AppleTextInput
-                    label="Full Name"
-                    icon="user"
-                    placeholder="Enter your name"
-                    value={name}
-                    onChangeText={setName}
-                    autoCapitalize="words"
-                  />
-                )}
-
-                {/* Email Input */}
-                <AppleTextInput
-                  label="Email Address"
-                  icon="mail"
-                  placeholder="name@example.com"
-                  value={email}
-                  onChangeText={setEmail}
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                />
-
-                {/* Password Input */}
-                <AppleTextInput
-                  label="Password"
-                  icon="lock"
-                  placeholder="Min 6 characters"
-                  value={password}
-                  onChangeText={setPassword}
-                  secureTextEntry={!showPassword}
-                  rightAction={
-                    <TouchableOpacity
-                      style={styles.eyeBtn}
-                      onPress={() => setShowPassword((p) => !p)}
-                      hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                      activeOpacity={0.7}
-                    >
-                      <Text style={[styles.eyeText, { color: theme.colors.textSecondary }]}>
-                        {showPassword ? 'Hide' : 'Show'}
-                      </Text>
-                    </TouchableOpacity>
-                  }
-                />
-
-                {/* Remember Me */}
-                <TouchableOpacity
-                  style={styles.rememberRow}
-                  onPress={() => setRememberMe((r) => !r)}
-                  activeOpacity={0.7}
-                >
-                  <View
-                    style={[
-                      styles.checkbox,
-                      {
-                        backgroundColor: rememberMe
-                          ? theme.colors.primaryLime
-                          : theme.colors.surfaceSecondary,
-                        borderColor: rememberMe
-                          ? theme.colors.primaryLime
-                          : theme.colors.border,
-                      },
-                    ]}
-                  >
-                    {rememberMe && <Text style={styles.checkmark}>✓</Text>}
-                  </View>
-                  <Text style={[styles.rememberText, { color: theme.colors.textSecondary }]}>
-                    Remember me on this device
-                  </Text>
-                </TouchableOpacity>
-              </>
+            {/* Form Inputs */}
+            {mode === 'register' && (
+              <AppleTextInput
+                label="Full Name"
+                icon="user"
+                placeholder="Enter your name"
+                value={name}
+                onChangeText={setName}
+                autoCapitalize="words"
+              />
             )}
+
+            <AppleTextInput
+              label="Email Address"
+              icon="mail"
+              placeholder="you@gmail.com"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+
+            <AppleTextInput
+              label="Password"
+              icon="lock"
+              placeholder="Min 6 characters"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={!showPassword}
+              rightAction={
+                <TouchableOpacity
+                  style={styles.eyeBtn}
+                  onPress={() => setShowPassword((p) => !p)}
+                  hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                  activeOpacity={0.7}
+                >
+                  <Text style={[styles.eyeText, { color: theme.colors.textSecondary }]}>
+                    {showPassword ? 'Hide' : 'Show'}
+                  </Text>
+                </TouchableOpacity>
+              }
+            />
+
+            {/* Remember Me */}
+            <TouchableOpacity
+              style={styles.rememberRow}
+              onPress={() => setRememberMe((r) => !r)}
+              activeOpacity={0.7}
+            >
+              <View
+                style={[
+                  styles.checkbox,
+                  {
+                    backgroundColor: rememberMe
+                      ? theme.colors.primaryLime
+                      : theme.colors.surfaceSecondary,
+                    borderColor: rememberMe
+                      ? theme.colors.primaryLime
+                      : theme.colors.border,
+                  },
+                ]}
+              >
+                {rememberMe && <Text style={styles.checkmark}>✓</Text>}
+              </View>
+              <Text style={[styles.rememberText, { color: theme.colors.textSecondary }]}>
+                Remember me on this device
+              </Text>
+            </TouchableOpacity>
 
             {/* Submit Button */}
             <TouchableOpacity
@@ -537,17 +359,13 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 <ActivityIndicator color="#0A0B0D" size="small" />
               ) : (
                 <Text style={[styles.submitBtnText, { color: theme.colors.limeText }]}>
-                  {mode === 'login'
-                    ? 'Sign In'
-                    : mode === 'register'
-                    ? 'Create Account'
-                    : 'Verify & Access Nutrio'}
+                  {mode === 'login' ? 'Sign In' : 'Create Account'}
                 </Text>
               )}
             </TouchableOpacity>
 
             {/* Guest Mode */}
-            {mode !== 'verify_otp' && onExploreGuest && (
+            {onExploreGuest && (
               <TouchableOpacity
                 style={styles.guestBtn}
                 onPress={onExploreGuest}
@@ -681,36 +499,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
   },
-  inputGroup: {
-    marginBottom: 16,
-  },
-  inputLabel: {
-    fontSize: 12,
-    fontWeight: '700',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    marginBottom: 6,
-  },
-  input: {
-    height: 48,
-    borderRadius: 12,
-    borderWidth: 1,
-    paddingHorizontal: 14,
-    fontSize: 14,
-  },
-  passwordRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: 48,
-    borderRadius: 12,
-    borderWidth: 1,
-    paddingHorizontal: 14,
-  },
-  passwordInput: {
-    flex: 1,
-    height: '100%',
-    fontSize: 14,
-  },
   eyeBtn: {
     paddingHorizontal: 8,
     paddingVertical: 4,
@@ -762,53 +550,6 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   guestText: {
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  otpSection: {
-    marginBottom: 20,
-  },
-  otpRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 8,
-    marginBottom: 20,
-    width: '100%',
-  },
-  otpBox: {
-    flex: 1,
-    minWidth: 0,
-    maxWidth: 48,
-    height: 54,
-    borderRadius: 12,
-    borderWidth: 1.5,
-    fontSize: 22,
-    fontWeight: '800',
-    textAlign: 'center',
-    paddingHorizontal: 0,
-    paddingVertical: 0,
-    fontFamily: Platform.OS === 'ios' ? 'Courier' : 'monospace',
-  },
-  resendRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 6,
-    marginBottom: 16,
-  },
-  resendInfo: {
-    fontSize: 12,
-  },
-  resendBtnText: {
-    fontSize: 12,
-    fontWeight: '800',
-  },
-  changeEmailBtn: {
-    alignItems: 'center',
-    paddingVertical: 6,
-  },
-  changeEmailText: {
     fontSize: 12,
     fontWeight: '600',
   },

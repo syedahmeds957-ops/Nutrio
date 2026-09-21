@@ -88,7 +88,7 @@ describe('Auth Session Layer (authStorage)', () => {
     ).rejects.toThrow('Invalid email or password');
   });
 
-  it('registers a new user and requires OTP verification', async () => {
+  it('registers a new user directly with email and password without OTP', async () => {
     const result = await registerUser({
       name: 'Usman',
       email: 'usman@nutrio.app',
@@ -96,11 +96,12 @@ describe('Auth Session Layer (authStorage)', () => {
       rememberMe: true,
     });
 
-    expect(result.requiresOtp).toBe(true);
+    expect(result.requiresOtp).toBe(false);
     expect(result.email).toBe('usman@nutrio.app');
-    expect(result.message.toLowerCase()).toContain('verification code');
-    // Session is not active until OTP verification
-    expect(isUserAuthenticated()).toBe(false);
+    expect(result.session).toBeDefined();
+    expect(result.session?.user.email).toBe('usman@nutrio.app');
+    // Session is immediately active
+    expect(isUserAuthenticated()).toBe(true);
   });
 
   it('verifies 6-digit OTP code and creates active authenticated session', async () => {
