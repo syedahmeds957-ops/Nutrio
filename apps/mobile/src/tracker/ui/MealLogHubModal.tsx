@@ -36,7 +36,7 @@ const PK_BRAND_GROUPS = [
   'All',
   'Fast Food',
   'Pizza',
-  'Desi BBQ',
+  'BBQ',
   'Chai & Cafes',
   'Asian & Continental',
   'Home Food',

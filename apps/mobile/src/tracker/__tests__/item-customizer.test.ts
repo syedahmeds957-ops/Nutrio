@@ -202,7 +202,7 @@ describe('ItemCustomizerModal Component & Macro Engine', () => {
         brand: 'Student Biryani',
         brandCategory: 'Famous Biryani',
         category: 'Pakistani Fast Food',
-        cuisineTags: ['Desi BBQ', 'Student Biryani', 'Pakistani'],
+        cuisineTags: ['BBQ', 'Student Biryani', 'Pakistani'],
       } as any;
 
       const mods = getEffectiveModifiers(studentBiryaniItem);
@@ -215,7 +215,7 @@ describe('ItemCustomizerModal Component & Macro Engine', () => {
       expect(modNames.some((n) => n.includes('Raita'))).toBe(true);
       expect(modNames.some((n) => n.includes('Kachumber Salad'))).toBe(true);
 
-      // Must NEVER contain Karahi/Nihari options despite "Desi BBQ" tag
+      // Must NEVER contain Karahi/Nihari options despite "BBQ" tag
       expect(modNames.some((n) => n.toLowerCase().includes('makhan'))).toBe(false);
       expect(modNames.some((n) => n.toLowerCase().includes('nalli'))).toBe(false);
       expect(modNames.some((n) => n.toLowerCase().includes('maghaz'))).toBe(false);

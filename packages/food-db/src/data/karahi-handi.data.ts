@@ -534,7 +534,7 @@ export const KARAHI_HANDI_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Butter Chicken (Desi Style)",
+    "name": "Butter Chicken",
     "nameUr": "بٹر چکن",
     "category": "Karahi & Handi",
     "cuisineTags": [
@@ -1178,7 +1178,7 @@ export const KARAHI_HANDI_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Chicken Manchurian (Desi Chinese Gravy)",
+    "name": "Chicken Manchurian",
     "nameUr": "چکن منچورین",
     "category": "Karahi & Handi",
     "cuisineTags": [
@@ -1290,7 +1290,7 @@ export const KARAHI_HANDI_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Chicken Chow Mein (Desi Chinese)",
+    "name": "Chicken Chow Mein",
     "nameUr": "چکن چاؤمین",
     "category": "Karahi & Handi",
     "cuisineTags": [
