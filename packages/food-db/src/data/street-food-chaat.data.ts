@@ -1346,7 +1346,7 @@ export const STREET_FOOD_CHAAT_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Chicken Corn Soup (Desi Chinese Street Style)",
+    "name": "Chicken Corn Soup (Street Style)",
     "nameUr": "چکن کارن سوپ",
     "category": "Street Food & Chaat",
     "cuisineTags": [
@@ -1374,7 +1374,7 @@ export const STREET_FOOD_CHAAT_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Hot & Sour Soup (Desi Chinese)",
+    "name": "Hot & Sour Soup",
     "nameUr": "ہاٹ اینڈ سار سوپ",
     "category": "Street Food & Chaat",
     "cuisineTags": [
@@ -1430,7 +1430,7 @@ export const STREET_FOOD_CHAAT_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Beetroot & Carrot Desi Salad",
+    "name": "Beetroot & Carrot Salad",
     "nameUr": "چقندر اور گاجر سلاد",
     "category": "Street Food & Chaat",
     "cuisineTags": [

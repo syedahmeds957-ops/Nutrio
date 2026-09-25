@@ -450,7 +450,7 @@ export const BEVERAGES_DRINKS_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Desi Shikanjabeen (Lemon Salt & Sugar Water)",
+    "name": "Shikanjabeen (Lemon Salt & Sugar Water)",
     "nameUr": "شکنجبین",
     "category": "Beverages & Drinks",
     "cuisineTags": [
@@ -870,7 +870,7 @@ export const BEVERAGES_DRINKS_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Chaas (Spiced Desi Buttermilk with Cumin)",
+    "name": "Chaas (Spiced Buttermilk with Cumin)",
     "nameUr": "نمکین چھاچھ",
     "category": "Beverages & Drinks",
     "cuisineTags": [

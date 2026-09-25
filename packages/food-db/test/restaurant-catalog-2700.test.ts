@@ -27,7 +27,7 @@ describe('Pakistani Restaurant Catalog: 2,700+ Menu Items & 60+ Brands', () => {
     expect(brandNames.has('Pizza Hut Pakistan')).toBe(true);
     expect(brandNames.has('14th Street Pizza Co.')).toBe(true);
 
-    // Desi BBQ & Karahi
+    // BBQ & Karahi
     expect(brandNames.has('Savour Foods')).toBe(true);
     expect(brandNames.has('Student Biryani')).toBe(true);
     expect(brandNames.has('Bundu Khan')).toBe(true);

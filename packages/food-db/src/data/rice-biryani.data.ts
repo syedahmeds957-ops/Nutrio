@@ -506,7 +506,7 @@ export const RICE_BIRYANI_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Desi Chinese Chicken Fried Rice",
+    "name": "Chicken Fried Rice",
     "nameUr": "چکن فرائیڈ رائس",
     "category": "Rice & Biryani",
     "cuisineTags": [
@@ -534,7 +534,7 @@ export const RICE_BIRYANI_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Desi Chinese Egg Fried Rice",
+    "name": "Egg Fried Rice",
     "nameUr": "ایگ فرائیڈ رائس",
     "category": "Rice & Biryani",
     "cuisineTags": [
@@ -562,7 +562,7 @@ export const RICE_BIRYANI_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Desi Chinese Vegetable Fried Rice",
+    "name": "Vegetable Fried Rice",
     "nameUr": "ویجیٹیبل فرائیڈ رائس",
     "category": "Rice & Biryani",
     "cuisineTags": [
@@ -814,7 +814,7 @@ export const RICE_BIRYANI_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Peri Peri Rice (Desi Street Style)",
+    "name": "Peri Peri Rice",
     "nameUr": "پیری پیری رائس",
     "category": "Rice & Biryani",
     "cuisineTags": [

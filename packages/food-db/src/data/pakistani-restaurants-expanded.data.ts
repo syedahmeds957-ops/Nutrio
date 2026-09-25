@@ -332,7 +332,7 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "nameUr": "اسٹوڈنٹ بریانی",
     "tagline": "40 items · karachi biryani king since 1969",
     "icon": "flame",
-    "brandGroup": "Desi BBQ",
+    "brandGroup": "BBQ",
     "categories": [
       "All",
       "Famous Biryani",
@@ -348,7 +348,7 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "nameUr": "بندو خان",
     "tagline": "48 items · royal bbq & puri paratha",
     "icon": "flame",
-    "brandGroup": "Desi BBQ",
+    "brandGroup": "BBQ",
     "categories": [
       "All",
       "BBQ Grills",
@@ -364,7 +364,7 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "nameUr": "بٹ کڑاہی لکشمی چوک",
     "tagline": "36 items · pure desi ghee butter karahi",
     "icon": "flame",
-    "brandGroup": "Desi BBQ",
+    "brandGroup": "BBQ",
     "categories": [
       "All",
       "Desi Ghee Karahi",
@@ -379,7 +379,7 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "nameUr": "کولاچی ڈو دریا",
     "tagline": "46 items · seaside hunza kebab & karahi",
     "icon": "star",
-    "brandGroup": "Desi BBQ",
+    "brandGroup": "BBQ",
     "categories": [
       "All",
       "Signature BBQ",
@@ -395,7 +395,7 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "nameUr": "لال قلعہ",
     "tagline": "44 items · mughlai royal buffet & grills",
     "icon": "star",
-    "brandGroup": "Desi BBQ",
+    "brandGroup": "BBQ",
     "categories": [
       "All",
       "Mughlai Grills",
@@ -411,7 +411,7 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "nameUr": "بار بی کیو ٹونائٹ",
     "tagline": "46 items · afghani & bihari grills pioneer",
     "icon": "flame",
-    "brandGroup": "Desi BBQ",
+    "brandGroup": "BBQ",
     "categories": [
       "All",
       "Bihari & Afghani BBQ",
@@ -427,7 +427,7 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "nameUr": "غوثیہ نلی بریانی",
     "tagline": "30 items · bone marrow biryani legend",
     "icon": "flame",
-    "brandGroup": "Desi BBQ",
+    "brandGroup": "BBQ",
     "categories": [
       "All",
       "Nalli Biryani",
@@ -441,7 +441,7 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "nameUr": "وارث نہاری لاہور",
     "tagline": "32 items · pure beef nalli & maghaz nihari",
     "icon": "flame",
-    "brandGroup": "Desi BBQ",
+    "brandGroup": "BBQ",
     "categories": [
       "All",
       "Nihari Specials",
@@ -455,7 +455,7 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "nameUr": "محمدی نہاری",
     "tagline": "32 items · slow-cooked shanks & desi ghee",
     "icon": "flame",
-    "brandGroup": "Desi BBQ",
+    "brandGroup": "BBQ",
     "categories": [
       "All",
       "Classic Nihari",
@@ -470,7 +470,7 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "nameUr": "جاوید نہاری دستگیر",
     "tagline": "32 items · karachi nihari institution",
     "icon": "flame",
-    "brandGroup": "Desi BBQ",
+    "brandGroup": "BBQ",
     "categories": [
       "All",
       "Nalli Nihari",
@@ -485,7 +485,7 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "nameUr": "الرحمن بریانی کراچی",
     "tagline": "30 items · spicy double masala biryani",
     "icon": "flame",
-    "brandGroup": "Desi BBQ",
+    "brandGroup": "BBQ",
     "categories": [
       "All",
       "Double Masala Biryani",
@@ -499,7 +499,7 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "nameUr": "پھجا سری پائے لاہور",
     "tagline": "30 items · taxali gate overnight paye",
     "icon": "flame",
-    "brandGroup": "Desi BBQ",
+    "brandGroup": "BBQ",
     "categories": [
       "All",
       "Siri Paye Bowls",
@@ -513,7 +513,7 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "nameUr": "سالٹ اینڈ پیپر",
     "tagline": "42 items · pakistani heritage & continental",
     "icon": "star",
-    "brandGroup": "Desi BBQ",
+    "brandGroup": "BBQ",
     "categories": [
       "All",
       "Village BBQ",
@@ -528,7 +528,7 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "nameUr": "ڈیلی ڈھابہ",
     "tagline": "34 items · dal mash & authentic karahi",
     "icon": "utensils",
-    "brandGroup": "Desi BBQ",
+    "brandGroup": "BBQ",
     "categories": [
       "All",
       "Dhaba Daal & Karahi",
@@ -33167,7 +33167,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Famous Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -33205,7 +33205,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "BBQ & Kabab",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -33243,7 +33243,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Curries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -33281,7 +33281,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Meetha",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -33319,7 +33319,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Famous Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -33357,7 +33357,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "BBQ & Kabab",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -33395,7 +33395,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Curries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -33433,7 +33433,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Meetha",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -33471,7 +33471,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Famous Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -33509,7 +33509,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "BBQ & Kabab",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -33547,7 +33547,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Curries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -33585,7 +33585,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Meetha",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -33623,7 +33623,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Famous Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -33661,7 +33661,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "BBQ & Kabab",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -33699,7 +33699,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Curries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -33737,7 +33737,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Meetha",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -33775,7 +33775,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Famous Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -33813,7 +33813,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "BBQ & Kabab",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -33851,7 +33851,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Curries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -33889,7 +33889,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Meetha",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -33927,7 +33927,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Famous Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -33965,7 +33965,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "BBQ & Kabab",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -34003,7 +34003,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Curries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -34041,7 +34041,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Meetha",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -34079,7 +34079,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Famous Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -34117,7 +34117,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "BBQ & Kabab",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -34155,7 +34155,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Curries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -34193,7 +34193,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Meetha",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -34231,7 +34231,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Famous Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -34269,7 +34269,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "BBQ & Kabab",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -34307,7 +34307,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Curries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -34345,7 +34345,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Meetha",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -34383,7 +34383,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Famous Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -34421,7 +34421,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "BBQ & Kabab",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -34459,7 +34459,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Curries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -34497,7 +34497,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Meetha",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -34535,7 +34535,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Famous Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -34573,7 +34573,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "BBQ & Kabab",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -34611,7 +34611,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Curries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -34649,7 +34649,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Meetha",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Student Biryani",
       "Pakistani"
     ],
@@ -34687,7 +34687,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "BBQ Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -34725,7 +34725,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Puri Paratha",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -34763,7 +34763,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Handi & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -34801,7 +34801,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Naan & Gravy",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -34839,7 +34839,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "BBQ Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -34877,7 +34877,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Puri Paratha",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -34915,7 +34915,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Handi & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -34953,7 +34953,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Naan & Gravy",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -34991,7 +34991,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "BBQ Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35029,7 +35029,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Puri Paratha",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35067,7 +35067,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Handi & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35105,7 +35105,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Naan & Gravy",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35143,7 +35143,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "BBQ Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35181,7 +35181,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Puri Paratha",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35219,7 +35219,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Handi & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35257,7 +35257,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Naan & Gravy",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35295,7 +35295,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "BBQ Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35333,7 +35333,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Puri Paratha",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35371,7 +35371,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Handi & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35409,7 +35409,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Naan & Gravy",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35447,7 +35447,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "BBQ Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35485,7 +35485,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Puri Paratha",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35523,7 +35523,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Handi & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35561,7 +35561,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Naan & Gravy",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35599,7 +35599,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "BBQ Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35637,7 +35637,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Puri Paratha",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35675,7 +35675,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Handi & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35713,7 +35713,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Naan & Gravy",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35751,7 +35751,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "BBQ Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35789,7 +35789,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Puri Paratha",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35827,7 +35827,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Handi & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35865,7 +35865,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Naan & Gravy",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35903,7 +35903,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "BBQ Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35941,7 +35941,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Puri Paratha",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -35979,7 +35979,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Handi & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -36017,7 +36017,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Naan & Gravy",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -36055,7 +36055,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "BBQ Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -36093,7 +36093,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Puri Paratha",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -36131,7 +36131,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Handi & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -36169,7 +36169,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Naan & Gravy",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -36207,7 +36207,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "BBQ Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -36245,7 +36245,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Puri Paratha",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -36283,7 +36283,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Handi & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -36321,7 +36321,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Naan & Gravy",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -36359,7 +36359,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "BBQ Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -36397,7 +36397,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Puri Paratha",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -36435,7 +36435,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Handi & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -36473,7 +36473,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Naan & Gravy",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Bundu Khan",
       "Pakistani"
     ],
@@ -36511,7 +36511,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Desi Ghee Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -36549,7 +36549,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shinwari Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -36587,7 +36587,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Tandoor & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -36625,7 +36625,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Desi Ghee Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -36663,7 +36663,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shinwari Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -36701,7 +36701,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Tandoor & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -36739,7 +36739,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Desi Ghee Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -36777,7 +36777,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shinwari Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -36815,7 +36815,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Tandoor & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -36853,7 +36853,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Desi Ghee Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -36891,7 +36891,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shinwari Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -36929,7 +36929,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Tandoor & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -36967,7 +36967,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Desi Ghee Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37005,7 +37005,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shinwari Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37043,7 +37043,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Tandoor & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37081,7 +37081,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Desi Ghee Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37119,7 +37119,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shinwari Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37157,7 +37157,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Tandoor & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37195,7 +37195,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Desi Ghee Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37233,7 +37233,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shinwari Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37271,7 +37271,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Tandoor & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37309,7 +37309,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Desi Ghee Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37347,7 +37347,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shinwari Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37385,7 +37385,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Tandoor & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37423,7 +37423,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Desi Ghee Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37461,7 +37461,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shinwari Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37499,7 +37499,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Tandoor & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37537,7 +37537,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Desi Ghee Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37575,7 +37575,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shinwari Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37613,7 +37613,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Tandoor & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37651,7 +37651,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Desi Ghee Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37689,7 +37689,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shinwari Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37727,7 +37727,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Tandoor & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37765,7 +37765,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Desi Ghee Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37803,7 +37803,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shinwari Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37841,7 +37841,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Tandoor & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37879,7 +37879,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Desi Ghee Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37917,7 +37917,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shinwari Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37955,7 +37955,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Tandoor & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -37993,7 +37993,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Desi Ghee Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Butt Karahi (Lakshmi Chowk)",
       "Pakistani"
     ],
@@ -38031,7 +38031,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Signature BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38069,7 +38069,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Special Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38107,7 +38107,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38145,7 +38145,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Breads & Raita",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38183,7 +38183,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Signature BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38221,7 +38221,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Special Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38259,7 +38259,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38297,7 +38297,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Breads & Raita",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38335,7 +38335,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Signature BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38373,7 +38373,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Special Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38411,7 +38411,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38449,7 +38449,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Breads & Raita",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38487,7 +38487,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Signature BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38525,7 +38525,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Special Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38563,7 +38563,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38601,7 +38601,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Breads & Raita",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38639,7 +38639,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Signature BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38677,7 +38677,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Special Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38715,7 +38715,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38753,7 +38753,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Breads & Raita",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38791,7 +38791,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Signature BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38829,7 +38829,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Special Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38867,7 +38867,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38905,7 +38905,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Breads & Raita",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38943,7 +38943,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Signature BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -38981,7 +38981,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Special Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -39019,7 +39019,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -39057,7 +39057,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Breads & Raita",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -39095,7 +39095,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Signature BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -39133,7 +39133,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Special Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -39171,7 +39171,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -39209,7 +39209,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Breads & Raita",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -39247,7 +39247,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Signature BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -39285,7 +39285,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Special Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -39323,7 +39323,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -39361,7 +39361,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Breads & Raita",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -39399,7 +39399,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Signature BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -39437,7 +39437,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Special Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -39475,7 +39475,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -39513,7 +39513,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Breads & Raita",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -39551,7 +39551,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Signature BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -39589,7 +39589,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Special Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -39627,7 +39627,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -39665,7 +39665,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Breads & Raita",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -39703,7 +39703,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Signature BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -39741,7 +39741,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Special Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Kolachi Restaurant (Do Darya)",
       "Pakistani"
     ],
@@ -39779,7 +39779,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Mughlai Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -39817,7 +39817,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shahi Curries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -39855,7 +39855,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Royal Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -39893,7 +39893,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shahi Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -39931,7 +39931,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Mughlai Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -39969,7 +39969,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shahi Curries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40007,7 +40007,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Royal Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40045,7 +40045,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shahi Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40083,7 +40083,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Mughlai Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40121,7 +40121,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shahi Curries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40159,7 +40159,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Royal Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40197,7 +40197,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shahi Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40235,7 +40235,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Mughlai Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40273,7 +40273,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shahi Curries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40311,7 +40311,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Royal Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40349,7 +40349,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shahi Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40387,7 +40387,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Mughlai Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40425,7 +40425,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shahi Curries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40463,7 +40463,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Royal Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40501,7 +40501,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shahi Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40539,7 +40539,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Mughlai Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40577,7 +40577,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shahi Curries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40615,7 +40615,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Royal Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40653,7 +40653,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shahi Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40691,7 +40691,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Mughlai Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40729,7 +40729,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shahi Curries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40767,7 +40767,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Royal Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40805,7 +40805,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shahi Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40843,7 +40843,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Mughlai Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40881,7 +40881,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shahi Curries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40919,7 +40919,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Royal Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40957,7 +40957,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shahi Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -40995,7 +40995,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Mughlai Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -41033,7 +41033,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shahi Curries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -41071,7 +41071,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Royal Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -41109,7 +41109,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shahi Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -41147,7 +41147,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Mughlai Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -41185,7 +41185,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shahi Curries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -41223,7 +41223,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Royal Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -41261,7 +41261,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shahi Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -41299,7 +41299,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Mughlai Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -41337,7 +41337,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shahi Curries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -41375,7 +41375,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Royal Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -41413,7 +41413,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Shahi Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "LalQila Restaurant",
       "Pakistani"
     ],
@@ -41451,7 +41451,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Bihari & Afghani BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -41489,7 +41489,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Mutton Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -41527,7 +41527,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Karahi & Handi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -41565,7 +41565,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Seafood",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -41603,7 +41603,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Bihari & Afghani BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -41641,7 +41641,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Mutton Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -41679,7 +41679,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Karahi & Handi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -41717,7 +41717,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Seafood",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -41755,7 +41755,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Bihari & Afghani BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -41793,7 +41793,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Mutton Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -41831,7 +41831,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Karahi & Handi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -41869,7 +41869,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Seafood",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -41907,7 +41907,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Bihari & Afghani BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -41945,7 +41945,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Mutton Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -41983,7 +41983,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Karahi & Handi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42021,7 +42021,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Seafood",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42059,7 +42059,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Bihari & Afghani BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42097,7 +42097,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Mutton Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42135,7 +42135,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Karahi & Handi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42173,7 +42173,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Seafood",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42211,7 +42211,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Bihari & Afghani BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42249,7 +42249,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Mutton Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42287,7 +42287,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Karahi & Handi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42325,7 +42325,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Seafood",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42363,7 +42363,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Bihari & Afghani BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42401,7 +42401,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Mutton Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42439,7 +42439,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Karahi & Handi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42477,7 +42477,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Seafood",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42515,7 +42515,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Bihari & Afghani BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42553,7 +42553,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Mutton Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42591,7 +42591,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Karahi & Handi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42629,7 +42629,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Seafood",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42667,7 +42667,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Bihari & Afghani BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42705,7 +42705,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Mutton Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42743,7 +42743,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Karahi & Handi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42781,7 +42781,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Seafood",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42819,7 +42819,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Bihari & Afghani BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42857,7 +42857,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Mutton Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42895,7 +42895,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Karahi & Handi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42933,7 +42933,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Seafood",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -42971,7 +42971,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Bihari & Afghani BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -43009,7 +43009,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Mutton Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -43047,7 +43047,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Karahi & Handi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -43085,7 +43085,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Seafood",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -43123,7 +43123,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Bihari & Afghani BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -43161,7 +43161,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Mutton Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "BBQ Tonight",
       "Pakistani"
     ],
@@ -43199,7 +43199,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nalli Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -43237,7 +43237,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Sides & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -43275,7 +43275,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nalli Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -43313,7 +43313,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Sides & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -43351,7 +43351,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nalli Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -43389,7 +43389,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Sides & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -43427,7 +43427,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nalli Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -43465,7 +43465,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Sides & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -43503,7 +43503,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nalli Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -43541,7 +43541,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Sides & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -43579,7 +43579,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nalli Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -43617,7 +43617,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Sides & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -43655,7 +43655,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nalli Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -43693,7 +43693,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Sides & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -43731,7 +43731,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nalli Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -43769,7 +43769,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Sides & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -43807,7 +43807,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nalli Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -43845,7 +43845,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Sides & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -43883,7 +43883,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nalli Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -43921,7 +43921,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Sides & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -43959,7 +43959,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nalli Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -43997,7 +43997,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Sides & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -44035,7 +44035,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nalli Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -44073,7 +44073,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Sides & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -44111,7 +44111,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nalli Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -44149,7 +44149,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Sides & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -44187,7 +44187,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nalli Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -44225,7 +44225,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Sides & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -44263,7 +44263,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nalli Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -44301,7 +44301,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Sides & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -44339,7 +44339,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nalli Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -44377,7 +44377,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Sides & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -44415,7 +44415,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nalli Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -44453,7 +44453,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Sides & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -44491,7 +44491,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nalli Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -44529,7 +44529,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Sides & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -44567,7 +44567,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nalli Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -44605,7 +44605,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Sides & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -44643,7 +44643,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nalli Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -44681,7 +44681,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Sides & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Ghausia Nalli Biryani",
       "Pakistani"
     ],
@@ -44719,7 +44719,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nihari Specials",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -44757,7 +44757,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Kulcha & Tarka",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -44795,7 +44795,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nihari Specials",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -44833,7 +44833,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Kulcha & Tarka",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -44871,7 +44871,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nihari Specials",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -44909,7 +44909,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Kulcha & Tarka",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -44947,7 +44947,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nihari Specials",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -44985,7 +44985,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Kulcha & Tarka",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45023,7 +45023,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nihari Specials",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45061,7 +45061,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Kulcha & Tarka",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45099,7 +45099,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nihari Specials",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45137,7 +45137,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Kulcha & Tarka",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45175,7 +45175,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nihari Specials",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45213,7 +45213,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Kulcha & Tarka",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45251,7 +45251,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nihari Specials",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45289,7 +45289,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Kulcha & Tarka",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45327,7 +45327,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nihari Specials",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45365,7 +45365,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Kulcha & Tarka",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45403,7 +45403,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nihari Specials",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45441,7 +45441,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Kulcha & Tarka",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45479,7 +45479,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nihari Specials",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45517,7 +45517,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Kulcha & Tarka",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45555,7 +45555,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nihari Specials",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45593,7 +45593,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Kulcha & Tarka",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45631,7 +45631,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nihari Specials",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45669,7 +45669,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Kulcha & Tarka",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45707,7 +45707,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nihari Specials",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45745,7 +45745,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Kulcha & Tarka",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45783,7 +45783,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nihari Specials",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45821,7 +45821,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Kulcha & Tarka",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45859,7 +45859,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nihari Specials",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45897,7 +45897,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Kulcha & Tarka",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45935,7 +45935,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nihari Specials",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -45973,7 +45973,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Kulcha & Tarka",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -46011,7 +46011,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nihari Specials",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -46049,7 +46049,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Kulcha & Tarka",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -46087,7 +46087,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nihari Specials",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -46125,7 +46125,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Kulcha & Tarka",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -46163,7 +46163,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Nihari Specials",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -46201,7 +46201,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Kulcha & Tarka",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Waris Nihari (Lahore)",
       "Pakistani"
     ],
@@ -46239,7 +46239,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Classic Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -46277,7 +46277,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Maghaz & Nalli",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -46315,7 +46315,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -46353,7 +46353,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Classic Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -46391,7 +46391,7 @@ const CHUNK_3: NormalizedFood[] = [
     "brandCategory": "Maghaz & Nalli",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -46432,7 +46432,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -46470,7 +46470,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Classic Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -46508,7 +46508,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Maghaz & Nalli",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -46546,7 +46546,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -46584,7 +46584,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Classic Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -46622,7 +46622,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Maghaz & Nalli",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -46660,7 +46660,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -46698,7 +46698,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Classic Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -46736,7 +46736,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Maghaz & Nalli",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -46774,7 +46774,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -46812,7 +46812,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Classic Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -46850,7 +46850,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Maghaz & Nalli",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -46888,7 +46888,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -46926,7 +46926,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Classic Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -46964,7 +46964,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Maghaz & Nalli",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -47002,7 +47002,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -47040,7 +47040,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Classic Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -47078,7 +47078,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Maghaz & Nalli",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -47116,7 +47116,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -47154,7 +47154,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Classic Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -47192,7 +47192,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Maghaz & Nalli",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -47230,7 +47230,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -47268,7 +47268,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Classic Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -47306,7 +47306,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Maghaz & Nalli",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -47344,7 +47344,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -47382,7 +47382,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Classic Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -47420,7 +47420,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Maghaz & Nalli",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -47458,7 +47458,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -47496,7 +47496,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Classic Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -47534,7 +47534,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Maghaz & Nalli",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -47572,7 +47572,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -47610,7 +47610,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Classic Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -47648,7 +47648,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Maghaz & Nalli",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -47686,7 +47686,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -47724,7 +47724,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Classic Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Muhammadi Nahari",
       "Pakistani"
     ],
@@ -47762,7 +47762,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Nalli Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -47800,7 +47800,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Special Fry Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -47838,7 +47838,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -47876,7 +47876,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Nalli Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -47914,7 +47914,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Special Fry Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -47952,7 +47952,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -47990,7 +47990,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Nalli Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48028,7 +48028,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Special Fry Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48066,7 +48066,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48104,7 +48104,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Nalli Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48142,7 +48142,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Special Fry Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48180,7 +48180,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48218,7 +48218,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Nalli Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48256,7 +48256,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Special Fry Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48294,7 +48294,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48332,7 +48332,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Nalli Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48370,7 +48370,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Special Fry Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48408,7 +48408,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48446,7 +48446,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Nalli Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48484,7 +48484,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Special Fry Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48522,7 +48522,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48560,7 +48560,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Nalli Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48598,7 +48598,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Special Fry Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48636,7 +48636,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48674,7 +48674,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Nalli Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48712,7 +48712,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Special Fry Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48750,7 +48750,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48788,7 +48788,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Nalli Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48826,7 +48826,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Special Fry Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48864,7 +48864,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48902,7 +48902,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Nalli Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48940,7 +48940,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Special Fry Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -48978,7 +48978,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -49016,7 +49016,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Nalli Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -49054,7 +49054,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Special Fry Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -49092,7 +49092,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -49130,7 +49130,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Nalli Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -49168,7 +49168,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Special Fry Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -49206,7 +49206,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -49244,7 +49244,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Nalli Nihari",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Javed Nihari (Dastagir Karachi)",
       "Pakistani"
     ],
@@ -49282,7 +49282,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Double Masala Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -49320,7 +49320,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Raita & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -49358,7 +49358,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Double Masala Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -49396,7 +49396,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Raita & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -49434,7 +49434,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Double Masala Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -49472,7 +49472,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Raita & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -49510,7 +49510,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Double Masala Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -49548,7 +49548,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Raita & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -49586,7 +49586,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Double Masala Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -49624,7 +49624,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Raita & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -49662,7 +49662,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Double Masala Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -49700,7 +49700,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Raita & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -49738,7 +49738,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Double Masala Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -49776,7 +49776,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Raita & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -49814,7 +49814,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Double Masala Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -49852,7 +49852,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Raita & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -49890,7 +49890,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Double Masala Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -49928,7 +49928,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Raita & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -49966,7 +49966,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Double Masala Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -50004,7 +50004,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Raita & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -50042,7 +50042,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Double Masala Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -50080,7 +50080,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Raita & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -50118,7 +50118,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Double Masala Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -50156,7 +50156,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Raita & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -50194,7 +50194,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Double Masala Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -50232,7 +50232,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Raita & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -50270,7 +50270,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Double Masala Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -50308,7 +50308,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Raita & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -50346,7 +50346,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Double Masala Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -50384,7 +50384,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Raita & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -50422,7 +50422,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Double Masala Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -50460,7 +50460,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Raita & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -50498,7 +50498,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Double Masala Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -50536,7 +50536,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Raita & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -50574,7 +50574,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Double Masala Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -50612,7 +50612,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Raita & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -50650,7 +50650,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Double Masala Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -50688,7 +50688,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Raita & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -50726,7 +50726,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Double Masala Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -50764,7 +50764,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Raita & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Al-Rehman Biryani (Karachi)",
       "Pakistani"
     ],
@@ -50802,7 +50802,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Siri Paye Bowls",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -50840,7 +50840,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Kulcha & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -50878,7 +50878,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Siri Paye Bowls",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -50916,7 +50916,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Kulcha & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -50954,7 +50954,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Siri Paye Bowls",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -50992,7 +50992,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Kulcha & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51030,7 +51030,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Siri Paye Bowls",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51068,7 +51068,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Kulcha & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51106,7 +51106,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Siri Paye Bowls",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51144,7 +51144,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Kulcha & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51182,7 +51182,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Siri Paye Bowls",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51220,7 +51220,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Kulcha & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51258,7 +51258,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Siri Paye Bowls",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51296,7 +51296,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Kulcha & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51334,7 +51334,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Siri Paye Bowls",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51372,7 +51372,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Kulcha & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51410,7 +51410,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Siri Paye Bowls",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51448,7 +51448,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Kulcha & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51486,7 +51486,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Siri Paye Bowls",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51524,7 +51524,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Kulcha & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51562,7 +51562,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Siri Paye Bowls",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51600,7 +51600,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Kulcha & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51638,7 +51638,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Siri Paye Bowls",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51676,7 +51676,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Kulcha & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51714,7 +51714,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Siri Paye Bowls",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51752,7 +51752,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Kulcha & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51790,7 +51790,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Siri Paye Bowls",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51828,7 +51828,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Kulcha & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51866,7 +51866,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Siri Paye Bowls",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51904,7 +51904,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Kulcha & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51942,7 +51942,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Siri Paye Bowls",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -51980,7 +51980,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Kulcha & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -52018,7 +52018,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Siri Paye Bowls",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -52056,7 +52056,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Kulcha & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -52094,7 +52094,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Siri Paye Bowls",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -52132,7 +52132,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Kulcha & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -52170,7 +52170,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Siri Paye Bowls",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -52208,7 +52208,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Kulcha & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -52246,7 +52246,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Siri Paye Bowls",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -52284,7 +52284,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Kulcha & Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Phajja Siri Paye (Lahore)",
       "Pakistani"
     ],
@@ -52322,7 +52322,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Village BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -52360,7 +52360,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Handi Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -52398,7 +52398,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Salads & Continental",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -52436,7 +52436,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Village BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -52474,7 +52474,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Handi Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -52512,7 +52512,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Salads & Continental",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -52550,7 +52550,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Village BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -52588,7 +52588,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Handi Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -52626,7 +52626,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Salads & Continental",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -52664,7 +52664,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Village BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -52702,7 +52702,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Handi Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -52740,7 +52740,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Salads & Continental",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -52778,7 +52778,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Village BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -52816,7 +52816,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Handi Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -52854,7 +52854,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Salads & Continental",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -52892,7 +52892,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Village BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -52930,7 +52930,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Handi Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -52968,7 +52968,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Salads & Continental",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53006,7 +53006,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Village BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53044,7 +53044,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Handi Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53082,7 +53082,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Salads & Continental",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53120,7 +53120,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Village BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53158,7 +53158,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Handi Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53196,7 +53196,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Salads & Continental",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53234,7 +53234,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Village BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53272,7 +53272,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Handi Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53310,7 +53310,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Salads & Continental",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53348,7 +53348,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Village BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53386,7 +53386,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Handi Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53424,7 +53424,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Salads & Continental",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53462,7 +53462,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Village BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53500,7 +53500,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Handi Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53538,7 +53538,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Salads & Continental",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53576,7 +53576,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Village BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53614,7 +53614,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Handi Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53652,7 +53652,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Salads & Continental",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53690,7 +53690,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Village BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53728,7 +53728,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Handi Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53766,7 +53766,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Salads & Continental",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53804,7 +53804,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Village BBQ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53842,7 +53842,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Handi Specialties",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53880,7 +53880,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Salads & Continental",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Salt'n Pepper",
       "Pakistani"
     ],
@@ -53918,7 +53918,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Dhaba Daal & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -53956,7 +53956,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Paratha & Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -53994,7 +53994,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Chai",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54032,7 +54032,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Dhaba Daal & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54070,7 +54070,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Paratha & Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54108,7 +54108,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Chai",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54146,7 +54146,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Dhaba Daal & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54184,7 +54184,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Paratha & Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54222,7 +54222,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Chai",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54260,7 +54260,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Dhaba Daal & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54298,7 +54298,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Paratha & Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54336,7 +54336,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Chai",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54374,7 +54374,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Dhaba Daal & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54412,7 +54412,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Paratha & Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54450,7 +54450,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Chai",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54488,7 +54488,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Dhaba Daal & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54526,7 +54526,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Paratha & Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54564,7 +54564,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Chai",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54602,7 +54602,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Dhaba Daal & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54640,7 +54640,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Paratha & Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54678,7 +54678,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Chai",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54716,7 +54716,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Dhaba Daal & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54754,7 +54754,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Paratha & Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54792,7 +54792,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Chai",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54830,7 +54830,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Dhaba Daal & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54868,7 +54868,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Paratha & Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54906,7 +54906,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Chai",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54944,7 +54944,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Dhaba Daal & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -54982,7 +54982,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Paratha & Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -55020,7 +55020,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Chai",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -55058,7 +55058,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Dhaba Daal & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -55096,7 +55096,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Paratha & Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -55134,7 +55134,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Chai",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -55172,7 +55172,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Dhaba Daal & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -55210,7 +55210,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Paratha & Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -55248,7 +55248,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Chai",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -55286,7 +55286,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Dhaba Daal & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -55324,7 +55324,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Paratha & Tandoor",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -55362,7 +55362,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Chai",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -55400,7 +55400,7 @@ const CHUNK_4: NormalizedFood[] = [
     "brandCategory": "Dhaba Daal & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
-      "Desi BBQ",
+      "BBQ",
       "Daily Dhaba",
       "Pakistani"
     ],
@@ -78656,14 +78656,14 @@ const CHUNK_6: NormalizedFood[] = [
   },
   {
     "id": "ghar_expanded_1",
-    "name": "Desi Murgh Shorba (Chicken Soup Curry)",
-    "nameUr": "دیسی مرغ شوربہ",
+    "name": "Murgh Shorba (Chicken Soup Curry)",
+    "nameUr": "مرغ شوربہ",
     "brand": "Ghar ka Khana",
     "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 58,
@@ -78701,7 +78701,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 78,
@@ -78739,7 +78739,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 84,
@@ -78777,7 +78777,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 96,
@@ -78808,14 +78808,14 @@ const CHUNK_6: NormalizedFood[] = [
   },
   {
     "id": "ghar_expanded_5",
-    "name": "Desi Murgh Karahi with Tomatoes & Ginger",
-    "nameUr": "دیسی مرغ کڑاہی",
+    "name": "Murgh Karahi with Tomatoes & Ginger",
+    "nameUr": "مرغ کڑاہی",
     "brand": "Ghar ka Khana",
     "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 90,
@@ -78853,7 +78853,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 79,
@@ -78891,7 +78891,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 87,
@@ -78929,7 +78929,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 94,
@@ -78967,7 +78967,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 107,
@@ -79005,7 +79005,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 104,
@@ -79043,7 +79043,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 101,
@@ -79081,7 +79081,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 100,
@@ -79119,7 +79119,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 101,
@@ -79157,7 +79157,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 91,
@@ -79195,7 +79195,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 73,
@@ -79233,7 +79233,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 117,
@@ -79271,7 +79271,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 105,
@@ -79309,7 +79309,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 84,
@@ -79347,7 +79347,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 109,
@@ -79385,7 +79385,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 108,
@@ -79423,7 +79423,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 77,
@@ -79461,7 +79461,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 92,
@@ -79499,7 +79499,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 96,
@@ -79537,7 +79537,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 71,
@@ -79575,7 +79575,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 71,
@@ -79613,7 +79613,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 66,
@@ -79651,7 +79651,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 70,
@@ -79689,7 +79689,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 63,
@@ -79727,7 +79727,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 70,
@@ -79765,7 +79765,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 71,
@@ -79803,7 +79803,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 50,
@@ -79841,7 +79841,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 84,
@@ -79879,7 +79879,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 67,
@@ -79917,7 +79917,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 83,
@@ -79955,7 +79955,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 77,
@@ -79993,7 +79993,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 149,
@@ -80031,7 +80031,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 116,
@@ -80069,7 +80069,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 114,
@@ -80107,7 +80107,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 140,
@@ -80145,7 +80145,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 115,
@@ -80183,7 +80183,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 116,
@@ -80221,7 +80221,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 113,
@@ -80259,7 +80259,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 110,
@@ -80297,7 +80297,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 99,
@@ -80335,7 +80335,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 149,
@@ -80373,7 +80373,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 186,
@@ -80411,7 +80411,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 108,
@@ -80449,7 +80449,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 105,
@@ -80487,7 +80487,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 211,
@@ -80525,7 +80525,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 194,
@@ -80563,7 +80563,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 219,
@@ -80594,14 +80594,14 @@ const CHUNK_6: NormalizedFood[] = [
   },
   {
     "id": "ghar_expanded_52",
-    "name": "Desi Omelette (Onion Tomato Green Chilli)",
-    "nameUr": "دیسی آملیٹ",
+    "name": "Omelette (Onion Tomato Green Chilli)",
+    "nameUr": "آملیٹ",
     "brand": "Ghar ka Khana",
     "brandCategory": "Nashta",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 150,
@@ -80639,7 +80639,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 189,
@@ -80677,7 +80677,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 138,
@@ -80715,7 +80715,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 259,
@@ -80753,7 +80753,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 271,
@@ -80791,7 +80791,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 211,
@@ -80829,7 +80829,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 243,
@@ -80867,7 +80867,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 243,
@@ -80905,7 +80905,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 224,
@@ -80943,7 +80943,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 214,
@@ -80981,7 +80981,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 230,
@@ -81019,7 +81019,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 250,
@@ -81057,7 +81057,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 249,
@@ -81095,7 +81095,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 267,
@@ -81133,7 +81133,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 330,
@@ -81171,7 +81171,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 68,
@@ -81209,7 +81209,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 70,
@@ -81247,7 +81247,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 61,
@@ -81285,7 +81285,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 66,
@@ -81323,7 +81323,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 10,
@@ -81361,7 +81361,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 48,
@@ -81399,7 +81399,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 92,
@@ -81437,7 +81437,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 42,
@@ -81475,7 +81475,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 43,
@@ -81513,7 +81513,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 76,
@@ -81551,7 +81551,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 26,
@@ -81589,7 +81589,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 224,
@@ -81627,7 +81627,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 232,
@@ -81665,7 +81665,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 142,
@@ -81703,7 +81703,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 186,
@@ -81741,7 +81741,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 131,
@@ -81779,7 +81779,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 190,
@@ -81817,7 +81817,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 146,
@@ -81855,7 +81855,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 224,
@@ -81893,7 +81893,7 @@ const CHUNK_6: NormalizedFood[] = [
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Ghar ka Khana",
-      "Desi Home Cooking",
+      "Home Cooking",
       "Pakistani"
     ],
     "kcal100g": 131,

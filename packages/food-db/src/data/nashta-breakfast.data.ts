@@ -216,7 +216,7 @@ export const NASHTA_BREAKFAST_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Khagina (Desi Egg Bhurji)",
+    "name": "Khagina (Egg Bhurji)",
     "nameUr": "خاگینہ",
     "category": "Breakfast & Nashta",
     "cuisineTags": [
@@ -244,8 +244,8 @@ export const NASHTA_BREAKFAST_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Desi Fried Omelette",
-    "nameUr": "دیسی آملیٹ",
+    "name": "Fried Omelette",
+    "nameUr": "آملیٹ",
     "category": "Breakfast & Nashta",
     "cuisineTags": [
       "Pakistani",
@@ -412,7 +412,7 @@ export const NASHTA_BREAKFAST_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Cheese Paratha (Desi Bakery Style)",
+    "name": "Cheese Paratha",
     "nameUr": "چیز پراٹھا",
     "category": "Breakfast & Nashta",
     "cuisineTags": [
@@ -804,7 +804,7 @@ export const NASHTA_BREAKFAST_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Hard Boiled Egg (Desi Nashta)",
+    "name": "Hard Boiled Egg",
     "nameUr": "ابلا ہوا انڈا",
     "category": "Breakfast & Nashta",
     "cuisineTags": [
@@ -916,8 +916,8 @@ export const NASHTA_BREAKFAST_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Desi French Toast (Meetha Toast)",
-    "nameUr": "دیسی فرینچ ٹوسٹ",
+    "name": "French Toast (Meetha Toast)",
+    "nameUr": "فرینچ ٹوسٹ",
     "category": "Breakfast & Nashta",
     "cuisineTags": [
       "Pakistani",
@@ -1112,8 +1112,8 @@ export const NASHTA_BREAKFAST_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Fresh Makhan (Desi White Cultured Butter)",
-    "nameUr": "تازہ دیسی مکھن",
+    "name": "Fresh Makhan (White Cultured Butter)",
+    "nameUr": "تازہ مکھن",
     "category": "Breakfast & Nashta",
     "cuisineTags": [
       "Pakistani",
@@ -1196,7 +1196,7 @@ export const NASHTA_BREAKFAST_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Bakarkhani (Puff Pastry Desi Bread)",
+    "name": "Bakarkhani (Puff Pastry Bread)",
     "nameUr": "باقرخانی",
     "category": "Breakfast & Nashta",
     "cuisineTags": [
@@ -1252,7 +1252,7 @@ export const NASHTA_BREAKFAST_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Feteer Paratha (Arabic Desi Layered Bread)",
+    "name": "Feteer Paratha (Layered Bread)",
     "nameUr": "فطیر پراٹھا",
     "category": "Breakfast & Nashta",
     "cuisineTags": [
@@ -1280,7 +1280,7 @@ export const NASHTA_BREAKFAST_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Bhurji Pav (Desi Scrambled Egg with Bun)",
+    "name": "Bhurji Pav (Scrambled Egg with Bun)",
     "nameUr": "انڈا بھرجی مع بن",
     "category": "Breakfast & Nashta",
     "cuisineTags": [

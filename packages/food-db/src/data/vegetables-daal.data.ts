@@ -1262,7 +1262,7 @@ export const VEGETABLES_DAAL_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Mushroom Masala (Desi Restaurant Gravy)",
+    "name": "Mushroom Masala",
     "nameUr": "مشروم مصالحہ",
     "category": "Sabzi & Lentils",
     "cuisineTags": [

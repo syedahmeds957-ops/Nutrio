@@ -4,7 +4,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Gulab Jamun (in Warm Sugar Syrup)",
     "nameUr": "گلاب جامن",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -32,7 +32,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Kala Jamun (Deep Dark Fried Gulab Jamun)",
     "nameUr": "کالا جامن",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -60,7 +60,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Jalebi (Crispy Pretzel in Sugar Syrup)",
     "nameUr": "جلیبی",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -88,7 +88,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Desi Ghee Jalebi (Special Amritsari)",
     "nameUr": "دیسی گھی جلیبی",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -116,7 +116,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Imarti (Urad Daal Flower Sweet)",
     "nameUr": "امرتی",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -144,7 +144,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Ras Malai (Paneer Patties in Saffron Milk)",
     "nameUr": "رس ملائی",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -172,7 +172,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Shahi Kheer (Cardamom Rice Pudding with Nuts)",
     "nameUr": "شاہی کھیر",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -200,7 +200,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Firni (Shikora Ground Rice Pudding)",
     "nameUr": "فرنی (مٹی کا پیالہ)",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -228,7 +228,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Gajar Ka Halwa (Carrot Pudding with Khoya)",
     "nameUr": "گاجر کا حلوہ مع کھویا",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -256,7 +256,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Rabri (Sweet Clotted Milk Layers)",
     "nameUr": "ربڑی",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -284,7 +284,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Kasuri Falooda (Rabri Kulfi & Sev)",
     "nameUr": "قصوری فالودہ",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -310,9 +310,9 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Desi Matka Kulfi (Cardamom Saffron Milk)",
-    "nameUr": "دیسی مٹکا قلفی",
-    "category": "Desi Sweets & Desserts",
+    "name": "Matka Kulfi (Cardamom Saffron Milk)",
+    "nameUr": "مٹکا قلفی",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -340,7 +340,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Shahi Tukray (Royal Fried Bread Pudding)",
     "nameUr": "شاہی ٹکڑے",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -368,7 +368,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Multani Sohan Halwa (Dense Walnut Halwa)",
     "nameUr": "ملتانی سوہن حلوہ",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -396,7 +396,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Plain Khoya Barfi",
     "nameUr": "سادہ برفی",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -424,7 +424,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Pista Barfi (Pistachio Khoya Sweet)",
     "nameUr": "پستہ برفی",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -452,7 +452,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Besan Ka Ladoo (Gram Flour Sweet Ball with Ghee)",
     "nameUr": "بیسن کا لڈو",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -480,7 +480,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Motichoor Ladoo (Fine Pearl Drops Sweet)",
     "nameUr": "موتی چور لڈو",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -508,7 +508,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Chum Chum (Sweet Bengali Spongy Mithai)",
     "nameUr": "چم چم",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -536,7 +536,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Rasgulla (Spongy Cottage Cheese in Sugar Syrup)",
     "nameUr": "رس گلہ",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -564,7 +564,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Habshi Halwa (Dark Spiced Caramel Milk Halwa)",
     "nameUr": "حبشی حلوہ",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -592,7 +592,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Patisa / Soan Papdi (Flaky Cardamom Sweet)",
     "nameUr": "پتیسہ / سون پاپڑی",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -620,7 +620,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Moong Daal Ka Halwa (Lentil Halwa with Desi Ghee)",
     "nameUr": "مونگ دال کا حلوہ",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -648,7 +648,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Akhrot Ka Halwa (Walnut Halwa)",
     "nameUr": "اخروٹ کا حلوہ",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -676,7 +676,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Badam Ka Halwa (Almond Halwa)",
     "nameUr": "بادام کا حلوہ",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -704,7 +704,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Kaju Katli (Cashew Diamond Fudge)",
     "nameUr": "کاجو قتلی",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -732,7 +732,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Chocolate Barfi",
     "nameUr": "چاکلیٹ برفی",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -760,7 +760,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Coconut Barfi (Naryal Barfi)",
     "nameUr": "ناریل برفی",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -788,7 +788,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Gondh Ka Ladoo (Winter Edible Gum & Nut Tonic)",
     "nameUr": "گوند کے لڈو",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -816,7 +816,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Panjeeri (Wheat, Ghee, Nuts & Herbal Tonic)",
     "nameUr": "پنجیری",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -844,7 +844,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Besan Halwa",
     "nameUr": "بیسن کا حلوہ",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -872,7 +872,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Chana Daal Halwa",
     "nameUr": "چنا دال حلوہ",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -900,7 +900,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Doodh Dulari (Dessert with Mini Gulab Jamun & Jelly)",
     "nameUr": "دودھ دلاری",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -928,7 +928,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Lab-e-Shireen (Custard with Jelly & Fruits)",
     "nameUr": "لب شیریں",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -956,7 +956,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Trifle (Custard, Jelly, Fruit & Sponge)",
     "nameUr": "ٹرائفل",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -984,7 +984,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Fruit Custard (Vanilla with Bananas & Apples)",
     "nameUr": "فروٹ کسٹرڈ",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -1010,9 +1010,9 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Caramel Custard (Desi Egg Pudding)",
+    "name": "Caramel Custard",
     "nameUr": "کیریمل پڈنگ",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -1040,7 +1040,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Mango Kulfi on Stick",
     "nameUr": "مینگو قلفی",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -1068,7 +1068,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Peshawari Pista Ice Cream (Local Scoop)",
     "nameUr": "پشاوری پستہ آئس کریم",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -1096,7 +1096,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Kulfa Ice Cream (Rich Condensed Milk Scoop)",
     "nameUr": "قلفہ آئس کریم",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -1124,7 +1124,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Zarda Sweet Rice with Cham Cham",
     "nameUr": "میٹھے چاول / زردہ",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -1152,7 +1152,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Mutanjan Sweet Celebration Rice",
     "nameUr": "متنجن",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -1180,7 +1180,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Sweet Paan (Meetha Paan with Saunf & Gulkand)",
     "nameUr": "میٹھا پان",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -1208,7 +1208,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Khoya Til Ladoo (Sesame Seed Sweet)",
     "nameUr": "تل کے لڈو",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
@@ -1236,7 +1236,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
   {
     "name": "Gulab Jamun with Rabri Combo",
     "nameUr": "گلاب جامن مع ربڑی",
-    "category": "Desi Sweets & Desserts",
+    "category": "Sweets & Desserts",
     "cuisineTags": [
       "Pakistani",
       "Mithai"
