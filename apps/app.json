@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "backgroundColor": "#F6F7FB",
     "ios": {
       "supportsTablet": true,
       "icon": {
@@ -33,6 +34,15 @@
         {
           "supportsRTL": true,
           "forcesRTL": false
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/logo.png",
+          "imageWidth": 180,
+          "resizeMode": "contain",
+          "backgroundColor": "#F6F7FB"
         }
       ]
     ]

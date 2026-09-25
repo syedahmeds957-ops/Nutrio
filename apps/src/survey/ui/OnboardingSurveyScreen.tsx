@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
   StyleSheet,
   View,
@@ -6,6 +6,10 @@ import {
   TouchableOpacity,
   ScrollView,
   SafeAreaView,
+  KeyboardAvoidingView,
+  Keyboard,
+  TextInput,
+  Platform,
 } from 'react-native';
 import { ProgressBar } from './ProgressBar.js';
 import { StepBasics } from './StepBasics.js';
@@ -44,6 +48,37 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
   const [stepIndex, setStepIndex] = useState(engine.getCurrentStepIndex());
   const [, setRerender] = useState(0);
   const scrollRef = useRef<ScrollView>(null);
+  const scrollY = useRef(0);
+  const viewportHeight = useRef(0);
+
+  // Keep the focused input visible above the keyboard.
+  const scrollFocusedInputIntoView = useCallback(() => {
+    const input = TextInput.State.currentlyFocusedInput();
+    const scroll = scrollRef.current;
+    // getInnerViewRef exists at runtime but is missing from the RN typings.
+    const inner = (
+      scroll as (ScrollView & { getInnerViewRef(): View | null }) | null
+    )?.getInnerViewRef();
+    if (!input || !scroll || !inner) return;
+    input.measureLayout(inner, (_x, y, _w, h) => {
+      const margin = 24;
+      const top = scrollY.current;
+      const bottom = top + viewportHeight.current;
+      if (y - margin < top) {
+        scroll.scrollTo({ y: Math.max(0, y - margin), animated: true });
+      } else if (y + h + margin > bottom) {
+        scroll.scrollTo({
+          y: y + h + margin - viewportHeight.current,
+          animated: true,
+        });
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    const sub = Keyboard.addListener('keyboardDidShow', scrollFocusedInputIntoView);
+    return () => sub.remove();
+  }, [scrollFocusedInputIntoView]);
 
   const forceUpdate = () => setRerender((prev) => prev + 1);
 
@@ -87,138 +122,156 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
         stepTitle={stepTitle(currentStep)}
       />
 
-      <ScrollView
-        ref={scrollRef}
-        style={styles.scrollArea}
-        contentContainerStyle={styles.scrollContent}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
+      <KeyboardAvoidingView
+        style={styles.flex}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
-        {currentStep === 'basics' && (
-          <StepBasics
-            data={engine.getBasics()}
-            onChange={(updated) => {
-              engine.setBasics(updated);
-              forceUpdate();
-            }}
-            errors={errors}
-          />
-        )}
-        {currentStep === 'occupational' && (
-          <StepOccupational
-            data={engine.getOccupational()}
-            onChange={(updated) => {
-              engine.setOccupational(updated);
-              forceUpdate();
-            }}
-            errors={errors}
-          />
-        )}
-        {currentStep === 'exercise' && (
-          <StepExercise
-            data={engine.getExercise()}
-            onChange={(updated) => {
-              engine.setExercise(updated);
-              forceUpdate();
-            }}
-            errors={errors}
-          />
-        )}
-        {currentStep === 'lifestyle_desi' && (
-          <StepLifestyleDesi
-            data={engine.getLifestyleDesi()}
-            onChange={(updated) => {
-              engine.setLifestyleDesi(updated);
-              forceUpdate();
-            }}
-            errors={errors}
-          />
-        )}
-        {currentStep === 'health_clinical' && (
-          <StepHealthClinical
-            data={engine.getHealthClinical()}
-            userSex={engine.getBasics().sex}
-            onChange={(updated) => {
-              engine.setHealthClinical(updated);
-              forceUpdate();
-            }}
-            errors={errors}
-          />
-        )}
-        {currentStep === 'preferences_budget' && (
-          <StepPreferencesBudget
-            data={engine.getPreferencesBudget()}
-            onChange={(updated) => {
-              engine.setPreferencesBudget(updated);
-              forceUpdate();
-            }}
-            errors={errors}
-          />
-        )}
-      </ScrollView>
+        <ScrollView
+          ref={scrollRef}
+          style={styles.scrollArea}
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'}
+          showsVerticalScrollIndicator={false}
+          scrollEventThrottle={16}
+          onScroll={(e) => {
+            scrollY.current = e.nativeEvent.contentOffset.y;
+          }}
+          onLayout={(e) => {
+            viewportHeight.current = e.nativeEvent.layout.height;
+          }}
+        >
+          {currentStep === 'basics' && (
+            <StepBasics
+              data={engine.getBasics()}
+              onChange={(updated) => {
+                engine.setBasics(updated);
+                forceUpdate();
+              }}
+              errors={errors}
+            />
+          )}
+          {currentStep === 'occupational' && (
+            <StepOccupational
+              data={engine.getOccupational()}
+              onChange={(updated) => {
+                engine.setOccupational(updated);
+                forceUpdate();
+              }}
+              errors={errors}
+            />
+          )}
+          {currentStep === 'exercise' && (
+            <StepExercise
+              data={engine.getExercise()}
+              onChange={(updated) => {
+                engine.setExercise(updated);
+                forceUpdate();
+              }}
+              errors={errors}
+            />
+          )}
+          {currentStep === 'lifestyle_desi' && (
+            <StepLifestyleDesi
+              data={engine.getLifestyleDesi()}
+              onChange={(updated) => {
+                engine.setLifestyleDesi(updated);
+                forceUpdate();
+              }}
+              errors={errors}
+            />
+          )}
+          {currentStep === 'health_clinical' && (
+            <StepHealthClinical
+              data={engine.getHealthClinical()}
+              userSex={engine.getBasics().sex}
+              onChange={(updated) => {
+                engine.setHealthClinical(updated);
+                forceUpdate();
+              }}
+              errors={errors}
+            />
+          )}
+          {currentStep === 'preferences_budget' && (
+            <StepPreferencesBudget
+              data={engine.getPreferencesBudget()}
+              onChange={(updated) => {
+                engine.setPreferencesBudget(updated);
+                forceUpdate();
+              }}
+              errors={errors}
+            />
+          )}
+        </ScrollView>
 
-      {/* Persistent Bottom Bar */}
-      <View
-        style={[
-          styles.bottomBar,
-          {
-            backgroundColor: theme.colors.surface,
-            borderTopColor: theme.colors.border,
-          },
-        ]}
-      >
-        <View style={styles.buttonRow}>
-          <TouchableOpacity
-            style={[
-              styles.backBtn,
-              { backgroundColor: theme.colors.surfaceSecondary },
-              isFirstStep && !onCancel && styles.btnDisabled,
-            ]}
-            onPress={handlePrev}
-            disabled={isFirstStep && !onCancel}
-            activeOpacity={0.7}
-          >
-            <Text style={[styles.backBtnText, dir.textCenter, { color: theme.colors.textPrimary }]}>
-              {isFirstStep ? t('common.cancel') : t('common.back')}
-            </Text>
-          </TouchableOpacity>
+        {/* Persistent Bottom Bar */}
+        <View
+          style={[
+            styles.bottomBar,
+            {
+              backgroundColor: theme.colors.surface,
+              borderTopColor: theme.colors.border,
+            },
+          ]}
+        >
+          <View style={styles.buttonRow}>
+            <TouchableOpacity
+              style={[
+                styles.backBtn,
+                { backgroundColor: theme.colors.surfaceSecondary },
+                isFirstStep && !onCancel && styles.btnDisabled,
+              ]}
+              onPress={handlePrev}
+              disabled={isFirstStep && !onCancel}
+              activeOpacity={0.7}
+            >
+              <Text
+                style={[styles.backBtnText, dir.textCenter, { color: theme.colors.textPrimary }]}
+              >
+                {isFirstStep ? t('common.cancel') : t('common.back')}
+              </Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={[
-              styles.nextBtn,
-              {
-                backgroundColor: theme.colors.primaryLime,
-              },
-            ]}
-            onPress={handleNext}
-            activeOpacity={0.7}
-          >
-            <Text style={[styles.nextBtnText, dir.textCenter, { color: theme.colors.limeText }]}>
-              {isLastStep ? t('survey.completeAssessment') : t('common.continue')}
-            </Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.nextBtn,
+                {
+                  backgroundColor: theme.colors.primaryLime,
+                },
+              ]}
+              onPress={handleNext}
+              activeOpacity={0.7}
+            >
+              <Text style={[styles.nextBtnText, dir.textCenter, { color: theme.colors.limeText }]}>
+                {isLastStep ? t('survey.completeAssessment') : t('common.continue')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          {onSkip && (
+            <TouchableOpacity
+              style={styles.skipBtn}
+              onPress={onSkip}
+              activeOpacity={0.7}
+              accessibilityRole="button"
+              accessibilityLabel={t('survey.skip')}
+            >
+              <Text style={[styles.skipBtnText, dir.textCenter, { color: theme.colors.textMuted }]}>
+                {t('survey.skip')} {dir.isRTL ? '←' : '→'}
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
-
-        {onSkip && (
-          <TouchableOpacity
-            style={styles.skipBtn}
-            onPress={onSkip}
-            activeOpacity={0.7}
-            accessibilityRole="button"
-            accessibilityLabel={t('survey.skip')}
-          >
-            <Text style={[styles.skipBtnText, dir.textCenter, { color: theme.colors.textMuted }]}>
-              {t('survey.skip')} {dir.isRTL ? '←' : '→'}
-            </Text>
-          </TouchableOpacity>
-        )}
-      </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   safeArea: {
+    flex: 1,
+  },
+  flex: {
     flex: 1,
   },
   scrollArea: {

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   ActivityIndicator,
   Animated,
+  Image,
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
@@ -138,14 +139,12 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             )}
 
             <View style={styles.brandRow}>
-              <View
-                style={[
-                  styles.logoCircle,
-                  { backgroundColor: theme.colors.primaryLime },
-                ]}
-              >
-                <Icon name="sparkles" size={14} color="#0A0B0D" />
-              </View>
+              <Image
+                source={require('../../../assets/logo.png')}
+                style={styles.logo}
+                resizeMode="contain"
+                accessibilityIgnoresInvertColors
+              />
               <Text style={[styles.brandTitle, { color: theme.colors.textPrimary }]}>
                 Nutrio
               </Text>
@@ -434,16 +433,12 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   brandRow: {
-    flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: 8,
   },
-  logoCircle: {
-    width: 26,
-    height: 26,
-    borderRadius: 13,
-    alignItems: 'center',
-    justifyContent: 'center',
+  logo: {
+    width: 60,
+    height: 68,
   },
   brandTitle: {
     fontSize: 18,

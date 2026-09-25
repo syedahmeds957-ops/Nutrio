@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
+import * as SplashScreen from 'expo-splash-screen';
 import {
   StyleSheet,
   Text,
@@ -8,6 +9,7 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
+  Image,
 } from 'react-native';
 import {
   LifestyleSurveyPayload,
@@ -33,13 +35,16 @@ import {
   releaseLocalUserCache,
 } from './src/tracker/activityStorage.js';
 import { fetchActivityHistory } from './src/sync/activitySync.js';
-import { Icon } from './src/ui/Icon.js';
 
 import { ThemeProvider, useTheme } from './src/theme.js';
 import { RegionProvider, useRegion } from './src/common/region/index.js';
 import { I18nProvider, useTranslation, useTextDirection } from './src/i18n/index.js';
 import { DailyTrackerSummary } from './src/tracker/types.js';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+// Keep the native splash (app logo) up until the session restore finishes.
+SplashScreen.preventAutoHideAsync().catch(() => {});
+SplashScreen.setOptions({ duration: 300, fade: true });
 
 function NutrioAppContent() {
   const { theme } = useTheme();
@@ -150,6 +155,12 @@ function NutrioAppContent() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!isBootstrapping) {
+      SplashScreen.hide();
+    }
+  }, [isBootstrapping]);
+
   // Native mirroring only applies after a restart, and react-native-web reads
   // the CSS direction rather than I18nManager, so the root states it either way.
   const wrapScreen = (content: React.ReactNode) => (
@@ -168,17 +179,11 @@ function NutrioAppContent() {
     return (
       <View style={[styles.rootWrapper, { backgroundColor: theme.colors.canvas }]}>
         <View style={styles.splashContainer}>
-          <View
-            style={[
-              styles.splashIconCircle,
-              {
-                backgroundColor: theme.colors.surface,
-                borderColor: accentColor,
-              },
-            ]}
-          >
-            <Icon name="zap" size={36} color={accentColor} />
-          </View>
+          <Image
+            source={require('./assets/logo.png')}
+            style={styles.splashLogo}
+            resizeMode="contain"
+          />
           <Text style={[styles.splashTitle, { color: theme.colors.textPrimary }]}>
             NUTRIO
           </Text>
@@ -520,13 +525,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 24,
   },
-  splashIconCircle: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    borderWidth: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
+  splashLogo: {
+    width: 120,
+    height: 136,
     marginBottom: 20,
   },
   splashTitle: {
