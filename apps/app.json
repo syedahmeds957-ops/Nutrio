@@ -8,6 +8,10 @@
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true,
+      "icon": {
+        "light": "./assets/icon.png",
+        "dark": "./assets/icon-dark.png"
+      },
       "bundleIdentifier": "com.wags.nutrio"
     },
     "android": {
