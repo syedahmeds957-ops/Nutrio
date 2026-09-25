@@ -1,0 +1,13 @@
+diff --git a/node_modules/expo/Expo.podspec b/node_modules/expo/Expo.podspec
+index a10ac3e..bab2a3e 100644
+--- a/node_modules/expo/Expo.podspec
++++ b/node_modules/expo/Expo.podspec
+@@ -40,7 +40,7 @@ Pod::Spec.new do |s|
+     :osx => '13.4',
+     :tvos => '16.4'
+   }
+-  s.swift_version  = '6.0'
++  s.swift_version  = '5.0' # Xcode < 27: Swift 6 mode fails region-isolation checks
+   s.source         = { git: 'https://github.com/expo/expo.git' }
+   s.static_framework = true
+   s.header_dir     = 'Expo'
