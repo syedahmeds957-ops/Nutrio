@@ -258,7 +258,7 @@ Used to match "chicken karahi" / "murgh karahi" / "karahi chicken" to one DB row
 ### 4.1 Repo layout
 
 ```
-/apps/mobile              React Native (Expo dev client)
+/apps              React Native (Expo dev client)
 /packages/nutrition-core  BMR/TDEE/macros/safety — pure functions, no I/O, no network
 /packages/food-db         ingestion + normalisation scripts
 /supabase/functions       Edge Functions (all third-party calls live here)

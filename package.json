@@ -5,9 +5,10 @@
   "description": "Nutrio - AI nutrition & calorie coach (Pakistan-first)",
   "workspaces": [
     "packages/*",
-    "apps/*"
+    "apps"
   ],
   "scripts": {
+    "postinstall": "patch-package",
     "start": "npm run start --workspace=@nutrio/mobile",
     "web": "npm run web --workspace=@nutrio/mobile",
     "android": "npm run android --workspace=@nutrio/mobile",
@@ -18,6 +19,7 @@
   },
   "devDependencies": {
     "@types/node": "^26.4.1",
+    "patch-package": "^8.0.1",
     "typescript": "^5.8.2",
     "vitest": "^3.0.7"
   },

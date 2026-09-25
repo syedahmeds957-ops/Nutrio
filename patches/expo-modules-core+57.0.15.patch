@@ -1,0 +1,39 @@
+diff --git a/node_modules/expo-modules-core/ExpoModulesCore.podspec b/node_modules/expo-modules-core/ExpoModulesCore.podspec
+index 2b5d405..1a18533 100644
+--- a/node_modules/expo-modules-core/ExpoModulesCore.podspec
++++ b/node_modules/expo-modules-core/ExpoModulesCore.podspec
+@@ -55,7 +55,7 @@ Pod::Spec.new do |s|
+     :osx => '13.4',
+     :tvos => '16.4'
+   }
+-  s.swift_version  = '6.0'
++  s.swift_version  = '5.0' # Xcode < 27: Swift 6 mode fails region-isolation checks
+   s.source         = { git: 'https://github.com/expo/expo.git' }
+ 
+   header_search_paths = []
+diff --git a/node_modules/expo-modules-core/ExpoModulesWorklets.podspec b/node_modules/expo-modules-core/ExpoModulesWorklets.podspec
+index 46a4bf6..ad4583e 100644
+--- a/node_modules/expo-modules-core/ExpoModulesWorklets.podspec
++++ b/node_modules/expo-modules-core/ExpoModulesWorklets.podspec
+@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
+     :osx => '13.4',
+     :tvos => '16.4'
+   }
+-  s.swift_version  = '6.0'
++  s.swift_version  = '5.0' # Xcode < 27: Swift 6 mode fails region-isolation checks
+   s.source         = { git: 'https://github.com/expo/expo.git' }
+   s.static_framework = true
+   s.header_dir     = 'ExpoModulesWorklets'
+diff --git a/node_modules/expo-modules-core/ExpoModulesWorkletsAdapter.podspec b/node_modules/expo-modules-core/ExpoModulesWorkletsAdapter.podspec
+index 00d6d62..5900988 100644
+--- a/node_modules/expo-modules-core/ExpoModulesWorkletsAdapter.podspec
++++ b/node_modules/expo-modules-core/ExpoModulesWorkletsAdapter.podspec
+@@ -33,7 +33,7 @@ Pod::Spec.new do |s|
+     :osx => '13.4',
+     :tvos => '16.4'
+   }
+-  s.swift_version  = '6.0'
++  s.swift_version  = '5.0' # Xcode < 27: Swift 6 mode fails region-isolation checks
+   s.source         = { git: 'https://github.com/expo/expo.git' }
+   s.static_framework = true
+   s.header_dir     = 'ExpoModulesWorkletsAdapter'

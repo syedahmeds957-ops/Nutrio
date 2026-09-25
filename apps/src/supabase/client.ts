@@ -60,8 +60,8 @@ if (process.env.NODE_ENV !== 'test' && !isSupabaseConfigured()) {
   console.warn(
     '[supabase] No backend credentials found — running in LOCAL MOCK mode. ' +
       'Logins are not authenticated against any server and no data is synced. ' +
-      'Set EXPO_PUBLIC_SUPABASE_URL and EXPO_PUBLIC_SUPABASE_ANON_KEY in apps/mobile/.env ' +
-      '(see apps/mobile/.env.example), then restart with: npx expo start -c'
+      'Set EXPO_PUBLIC_SUPABASE_URL and EXPO_PUBLIC_SUPABASE_ANON_KEY in apps/.env ' +
+      '(see apps/.env.example), then restart with: npx expo start -c'
   );
 }
 

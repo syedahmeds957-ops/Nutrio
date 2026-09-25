@@ -8,7 +8,7 @@ const fs = require('fs');
 const config = getDefaultConfig(__dirname);
 
 const projectRoot = __dirname;
-const monorepoRoot = path.resolve(projectRoot, '../..');
+const monorepoRoot = path.resolve(projectRoot, '..');
 
 // 1. Watch all files within the monorepo
 config.watchFolders = [monorepoRoot];
