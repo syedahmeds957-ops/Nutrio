@@ -5,6 +5,7 @@ import { getAuthSession } from '../auth/authStorage.js';
 
 const STORAGE_PREFIX_ACTIVITIES = 'nutrio_daily_activities_';
 const STORAGE_PREFIX_ACTIVE_PLAN = 'nutrio_active_user_plan_';
+const STORAGE_PREFIX_HISTORY_START = 'nutrio_history_start_';
 // Pre-scoping key. Still read so an install that saved a plan before the key
 // was scoped per user does not lose it on upgrade.
 const LEGACY_KEY_ACTIVE_PLAN = 'nutrio_active_user_plan';
@@ -16,6 +17,7 @@ function hasStorage(): boolean {
 // In-memory fallback for test runners or environments without localStorage
 const memoryActivities = new Map<string, { items: LoggedItem[]; waterMl: number }>();
 const memoryPlans = new Map<string, ComputedUserPlan>();
+const memoryHistoryStart = new Map<string, string>();
 
 // window.localStorage exists on web only. On native these writes are the sole
 // durable copy, so a log survives a cold start. Serialized through one chain so
@@ -53,6 +55,63 @@ function activityKey(date: string, region: 'PK' | 'SA'): string {
  */
 function planKey(): string {
   return `${STORAGE_PREFIX_ACTIVE_PLAN}${activityScope()}`;
+}
+
+function historyStartKey(): string {
+  return `${STORAGE_PREFIX_HISTORY_START}${activityScope()}`;
+}
+
+/**
+ * The first day this user (or this device's guest) ever opened the tracker.
+ * Recorded once and never overwritten, so diary history never appears to
+ * reach back further than the day the user actually started using the app.
+ */
+export function getOrInitHistoryStartDate(): string {
+  const key = historyStartKey();
+  const cached = memoryHistoryStart.get(key);
+  if (cached) return cached;
+
+  if (hasStorage()) {
+    try {
+      const raw = window.localStorage.getItem(key);
+      if (raw) {
+        memoryHistoryStart.set(key, raw);
+        return raw;
+      }
+    } catch {
+      // Ignore storage error
+    }
+  }
+
+  const today = new Date().toISOString().split('T')[0];
+  memoryHistoryStart.set(key, today);
+  if (hasStorage()) {
+    try {
+      window.localStorage.setItem(key, today);
+    } catch {
+      // Ignore storage error
+    }
+  }
+  void enqueueDurable(() => authStorageAdapter.setItem(key, today));
+  return today;
+}
+
+/**
+ * Pulls the durable history-start date into memory before first render, so a
+ * returning user on a fresh device/cold start doesn't get a later (wrong)
+ * start date than the day they actually first used the app.
+ */
+export async function hydrateHistoryStartDate(): Promise<void> {
+  const key = historyStartKey();
+  if (memoryHistoryStart.has(key)) return;
+  try {
+    const raw = await authStorageAdapter.getItem(key);
+    if (raw) {
+      memoryHistoryStart.set(key, raw);
+    }
+  } catch {
+    // Ignore hydration error
+  }
 }
 
 /**

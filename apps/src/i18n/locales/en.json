@@ -775,6 +775,7 @@
       "emptyHint": "Start logging your meals today. Nutrio dynamically banks your rolling weekly energy balance to keep your progress protected.",
       "onTrackHint": "On track! Rolling weekly energy balance is accumulating to safeguard your sustainable fat loss target.",
       "subtitle": "Rolling energy balance",
+      "targetLabel": "Target",
       "title": "Weekly calorie bank"
     },
     "customizer": {
@@ -830,6 +831,7 @@
       "deleteItem": "Delete item",
       "dishCount": "{{count}} dish",
       "dishCount_other": "{{count}} dishes",
+      "emptyPastDay": "Nothing was logged on this day.",
       "emptySubtitle": {
         "PK": "Tap below to log your meals, fast-food favorites, or chai.",
         "SA": "Tap below to log your meals, AlBaik, Kabsa, or Gahwa."

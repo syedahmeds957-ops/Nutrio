@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
 import {
@@ -10,6 +10,9 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Image,
+  Animated,
+  PanResponder,
+  useWindowDimensions,
 } from 'react-native';
 import {
   LifestyleSurveyPayload,
@@ -31,6 +34,7 @@ import {
   savePersistedPlan,
   hydratePersistedPlan,
   hydrateActivityStorage,
+  hydrateHistoryStartDate,
   primeActivitiesFromRemote,
   releaseLocalUserCache,
 } from './src/tracker/activityStorage.js';
@@ -51,6 +55,7 @@ function NutrioAppContent() {
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
   const dir = useTextDirection();
+  const { width: windowWidth } = useWindowDimensions();
   const [appState, setAppState] = useState<
     | 'auth'
     | 'survey'
@@ -96,6 +101,7 @@ function NutrioAppContent() {
       today.toISOString().split('T')[0],
       yesterday.toISOString().split('T')[0],
     ]).catch(() => {});
+    await hydrateHistoryStartDate().catch(() => {});
   };
 
   // Brings a signed-in user's plan and survey answers back, from the cloud when
@@ -161,15 +167,102 @@ function NutrioAppContent() {
     }
   }, [isBootstrapping]);
 
+  // Edge-swipe-to-go-back: dispatches to the exact same target every screen's
+  // own back button already uses, so a swipe and a tap always agree.
+  const goBack = () => {
+    switch (appState) {
+      case 'survey':
+        setAppState('auth');
+        break;
+      case 'plan_flow':
+        if (activePlan) {
+          setAppState('active_tracker');
+        } else if (surveyData) {
+          setAppState('survey');
+        } else {
+          setAppState('auth');
+        }
+        break;
+      case 'coach_chat':
+      case 'weekly_checkin':
+      case 'weight_tracker':
+      case 'weekly_plan':
+        setAppState('active_tracker');
+        break;
+      default:
+        break;
+    }
+  };
+  const canSwipeBack = [
+    'survey',
+    'plan_flow',
+    'coach_chat',
+    'weekly_checkin',
+    'weight_tracker',
+    'weekly_plan',
+  ].includes(appState);
+
+  // Only the leading screen edge starts the gesture (matches iOS/Android edge-back
+  // conventions) so it never fights horizontal ScrollViews/carousels elsewhere on
+  // the screen. Direction flips for RTL: swipe left-to-right is "back" in LTR,
+  // right-to-left is "back" in RTL.
+  const EDGE_WIDTH = 24;
+  const swipeTranslateX = useRef(new Animated.Value(0)).current;
+  const swipePanResponder = PanResponder.create({
+    onStartShouldSetPanResponder: (evt) => {
+      if (!canSwipeBack) return false;
+      const x = evt.nativeEvent.pageX;
+      return dir.isRTL ? x > windowWidth - EDGE_WIDTH : x < EDGE_WIDTH;
+    },
+    onMoveShouldSetPanResponder: (evt, gestureState) => {
+      if (!canSwipeBack) return false;
+      const startX = evt.nativeEvent.pageX - gestureState.dx;
+      const startedAtEdge = dir.isRTL ? startX > windowWidth - EDGE_WIDTH : startX < EDGE_WIDTH;
+      if (!startedAtEdge) return false;
+      const movingBack = dir.isRTL ? gestureState.dx < -8 : gestureState.dx > 8;
+      return movingBack && Math.abs(gestureState.dx) > Math.abs(gestureState.dy) * 1.5;
+    },
+    onPanResponderMove: (_evt, gestureState) => {
+      const clamped = dir.isRTL ? Math.min(0, gestureState.dx) : Math.max(0, gestureState.dx);
+      swipeTranslateX.setValue(clamped);
+    },
+    onPanResponderRelease: (_evt, gestureState) => {
+      const committed =
+        Math.abs(gestureState.dx) > windowWidth * 0.28 || Math.abs(gestureState.vx) > 0.5;
+      if (committed) {
+        Animated.timing(swipeTranslateX, {
+          toValue: dir.isRTL ? -windowWidth : windowWidth,
+          duration: 180,
+          useNativeDriver: true,
+        }).start(() => {
+          swipeTranslateX.setValue(0);
+          goBack();
+        });
+      } else {
+        Animated.spring(swipeTranslateX, {
+          toValue: 0,
+          useNativeDriver: true,
+          bounciness: 4,
+        }).start();
+      }
+    },
+    onPanResponderTerminate: () => {
+      Animated.spring(swipeTranslateX, { toValue: 0, useNativeDriver: true, bounciness: 4 }).start();
+    },
+  });
+
   // Native mirroring only applies after a restart, and react-native-web reads
   // the CSS direction rather than I18nManager, so the root states it either way.
   const wrapScreen = (content: React.ReactNode) => (
     <View
       style={[styles.rootWrapper, { backgroundColor: theme.colors.canvas, direction: dir.direction }]}
     >
-      <View style={styles.appConstraint}>
+      <Animated.View
+        style={[styles.appConstraint, { transform: [{ translateX: swipeTranslateX }] }]}
+        {...swipePanResponder.panHandlers}
+      >
         {content}
-      </View>
+      </Animated.View>
     </View>
   );
 
@@ -245,7 +338,7 @@ function NutrioAppContent() {
           markSurveyCompleted().catch(() => {});
           setAppState('active_tracker');
         }}
-        onCancel={() => setAppState('auth')}
+        onCancel={goBack}
       />
     );
   }
@@ -282,15 +375,7 @@ function NutrioAppContent() {
           }
           setAppState('active_tracker');
         }}
-        onCancel={() => {
-          if (activePlan) {
-            setAppState('active_tracker');
-          } else if (surveyData) {
-            setAppState('survey');
-          } else {
-            setAppState('auth');
-          }
-        }}
+        onCancel={goBack}
       />
     );
   }
@@ -338,8 +423,12 @@ function NutrioAppContent() {
           setAppState('auth');
         }}
         onBackToPlan={() => setAppState('plan_flow')}
-        onOpenWeightTracker={() => setAppState('weight_tracker')}
-        onOpenMealPlan={() => setAppState('weekly_plan')}
+        onOpenWeightTracker={() =>
+          setAppState(activePlan ? 'weight_tracker' : surveyData ? 'plan_flow' : 'survey')
+        }
+        onOpenMealPlan={() =>
+          setAppState(activePlan ? 'weekly_plan' : surveyData ? 'plan_flow' : 'survey')
+        }
         onOpenCoachChat={() => setAppState('coach_chat')}
         onOpenSurvey={() => setAppState('survey')}
       />
@@ -386,7 +475,7 @@ function NutrioAppContent() {
     return wrapScreen(
       <CoachChatScreen
         context={coachContext}
-        onBack={() => setAppState('active_tracker')}
+        onBack={goBack}
       />
     );
   }
@@ -425,7 +514,7 @@ function NutrioAppContent() {
         onAcceptNewTargets={(_newTarget) => {
           setAppState('active_tracker');
         }}
-        onBack={() => setAppState('active_tracker')}
+        onBack={goBack}
       />
     );
   }
@@ -447,7 +536,7 @@ function NutrioAppContent() {
           formulaTDEE: activePlan.userContext.tdee,
           bmr: activePlan.userContext.bmr,
         }}
-        onBackToTracker={() => setAppState('active_tracker')}
+        onBackToTracker={goBack}
       />
     );
   }
@@ -472,7 +561,7 @@ function NutrioAppContent() {
           medicalConditions:
             surveyData?.payload.healthClinical.medicalConditions || [],
         }}
-        onBackToDashboard={() => setAppState('active_tracker')}
+        onBackToDashboard={goBack}
       />
     );
   }

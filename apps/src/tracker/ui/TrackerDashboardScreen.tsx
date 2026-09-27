@@ -29,7 +29,7 @@ import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { GuestAuthModal } from './GuestAuthModal.js';
 import { Icon } from '../../ui/Icon.js';
-import { saveDailyActivities, loadDailyActivities } from '../activityStorage.js';
+import { saveDailyActivities, loadDailyActivities, getOrInitHistoryStartDate } from '../activityStorage.js';
 import { pushDailyActivities } from '../../sync/activitySync.js';
 import { HapticFeedback } from '../../ui/haptics.js';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -71,7 +71,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   isGuest = false,
   onRequireAuth,
 }) => {
-  const { theme, mode, isDark, setMode, toggleTheme } = useTheme();
+  const { theme, mode, isDark, setMode } = useTheme();
   const { activeRegion, setRegion } = useRegion();
   const { t } = useTranslation();
   const dir = useTextDirection();
@@ -177,6 +177,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   const [customizerVisible, setCustomizerVisible] = useState(false);
   const [selectedItemForCustomize, setSelectedItemForCustomize] = useState<NormalizedFood | null>(null);
   const [diaryVisible, setDiaryVisible] = useState(false);
+  const [diaryDayOffset, setDiaryDayOffset] = useState(0);
   const [activeTab, setActiveTab] = useState<'today' | 'diary'>('today');
   const [guestModalVisible, setGuestModalVisible] = useState(false);
 
@@ -204,6 +205,37 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   };
 
   const summary = engine.getSummary();
+
+  // Diary history never reaches back further than the day this user (or this
+  // guest device) first opened the tracker — a brand-new user has no "before"
+  // to view, so the back arrow stops right there.
+  const historyStartDate = useRef(getOrInitHistoryStartDate()).current;
+  const minDiaryDayOffset = -Math.max(
+    0,
+    Math.round(
+      (new Date(`${summary.date}T00:00:00Z`).getTime() -
+        new Date(`${historyStartDate}T00:00:00Z`).getTime()) /
+        86400000
+    )
+  );
+
+  const diaryDate = (() => {
+    const d = new Date(`${summary.date}T00:00:00Z`);
+    d.setUTCDate(d.getUTCDate() + diaryDayOffset);
+    return d.toISOString().split('T')[0];
+  })();
+
+  const diarySummary: DailyTrackerSummary =
+    diaryDayOffset === 0
+      ? summary
+      : (() => {
+          const pastEngine = new TrackerEngine({ ...targets, date: diaryDate });
+          const saved = loadDailyActivities(diaryDate, activeRegion);
+          if (saved && saved.items) {
+            pastEngine.loadItems(saved.items, saved.waterMl || 0);
+          }
+          return pastEngine.getSummary();
+        })();
 
   const handleOpenAdd = (slot: MealSlot) => {
     setActiveSlot(slot);
@@ -407,27 +439,6 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                 </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity
-                style={[
-                  styles.themeToggleBtn,
-                  {
-                    backgroundColor: theme.colors.surface,
-                    borderColor: theme.colors.border,
-                  },
-                ]}
-                onPress={() => {
-                  HapticFeedback.selection();
-                  toggleTheme();
-                }}
-                activeOpacity={0.7}
-                hitSlop={{ top: 8, bottom: 8, left: 6, right: 6 }}
-                accessibilityRole="button"
-                accessibilityLabel="Toggle Theme Mode"
-              >
-                <Text style={[styles.themeToggleText, { color: theme.colors.textPrimary }]}>
-                  {mode === 'dark' ? '☀️ Light' : '🌙 Dark'}
-                </Text>
-              </TouchableOpacity>
             </View>
           </View>
 
@@ -734,6 +745,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
           onPress={() => {
             HapticFeedback.selection();
             setActiveTab('diary');
+            setDiaryDayOffset(0);
             setDiaryVisible(true);
           }}
           activeOpacity={0.7}
@@ -788,7 +800,11 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
       {/* Diary Screen */}
       <DiaryViewModal
         visible={diaryVisible}
-        summary={summary}
+        summary={diarySummary}
+        dayOffset={diaryDayOffset}
+        minDayOffset={minDiaryDayOffset}
+        onDayOffsetChange={setDiaryDayOffset}
+        readOnly={diaryDayOffset !== 0}
         onClose={() => {
           setDiaryVisible(false);
           setActiveTab('today');
@@ -1104,16 +1120,6 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   regionToggleText: {
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  themeToggleBtn: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 9999,
-    borderWidth: 1,
-  },
-  themeToggleText: {
     fontSize: 12,
     fontWeight: '700',
   },

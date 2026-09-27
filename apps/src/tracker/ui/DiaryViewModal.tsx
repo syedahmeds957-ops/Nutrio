@@ -17,6 +17,10 @@ import { useTranslation, useTextDirection } from '../../i18n/index.js';
 interface DiaryViewModalProps {
   visible: boolean;
   summary: DailyTrackerSummary;
+  dayOffset: number;
+  minDayOffset: number;
+  onDayOffsetChange: (updater: (current: number) => number) => void;
+  readOnly?: boolean;
   onClose: () => void;
   onDeleteItem: (id: string) => void;
   onOpenLogHub: () => void;
@@ -25,6 +29,10 @@ interface DiaryViewModalProps {
 export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
   visible,
   summary,
+  dayOffset,
+  minDayOffset,
+  onDayOffsetChange,
+  readOnly = false,
   onClose,
   onDeleteItem,
   onOpenLogHub,
@@ -34,7 +42,6 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
   const { t } = useTranslation();
   const dir = useTextDirection();
   const isSaudi = activeRegion === 'SA';
-  const [dayOffset, setDayOffset] = useState<number>(0);
 
   if (!visible) return null;
 
@@ -99,8 +106,13 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
           ]}
         >
           <TouchableOpacity
-            style={[styles.dateArrow, { backgroundColor: theme.colors.surfaceSecondary }]}
-            onPress={() => setDayOffset((d) => d - 1)}
+            style={[
+              styles.dateArrow,
+              { backgroundColor: theme.colors.surfaceSecondary },
+              dayOffset <= minDayOffset && { opacity: 0.3 },
+            ]}
+            onPress={() => onDayOffsetChange((d) => Math.max(minDayOffset, d - 1))}
+            disabled={dayOffset <= minDayOffset}
           >
             <Icon name="arrow-left" size={16} color={theme.colors.textPrimary} />
           </TouchableOpacity>
@@ -120,7 +132,7 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
               { backgroundColor: theme.colors.surfaceSecondary },
               dayOffset >= 0 && { opacity: 0.3 },
             ]}
-            onPress={() => setDayOffset((d) => Math.min(0, d + 1))}
+            onPress={() => onDayOffsetChange((d) => Math.min(0, d + 1))}
             disabled={dayOffset >= 0}
           >
             <Icon name="arrow-right" size={16} color={theme.colors.textPrimary} />
@@ -220,20 +232,24 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
                   {t('tracker.diary.emptyTitle')}
                 </Text>
                 <Text style={[styles.emptySubtitle, dir.textCenter, { color: theme.colors.textSecondary }]}>
-                  {t(`tracker.diary.emptySubtitle.${activeRegion}`)}
+                  {readOnly
+                    ? t('tracker.diary.emptyPastDay')
+                    : t(`tracker.diary.emptySubtitle.${activeRegion}`)}
                 </Text>
-                <TouchableOpacity
-                  style={[
-                    styles.emptyLogBtn,
-                    { backgroundColor: theme.colors.primaryLime },
-                  ]}
-                  onPress={onOpenLogHub}
-                  activeOpacity={0.8}
-                >
-                  <Text style={[styles.emptyLogBtnText, { color: theme.colors.limeText }]}>
-                    + Log a meal
-                  </Text>
-                </TouchableOpacity>
+                {!readOnly && (
+                  <TouchableOpacity
+                    style={[
+                      styles.emptyLogBtn,
+                      { backgroundColor: theme.colors.primaryLime },
+                    ]}
+                    onPress={onOpenLogHub}
+                    activeOpacity={0.8}
+                  >
+                    <Text style={[styles.emptyLogBtnText, { color: theme.colors.limeText }]}>
+                      + Log a meal
+                    </Text>
+                  </TouchableOpacity>
+                )}
               </View>
             ) : (
               summary.items.map((item: LoggedItem) => (
@@ -303,18 +319,20 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
                       </Text>
                     </View>
 
-                    <TouchableOpacity
-                      style={[
-                        styles.deleteBtn,
-                        { backgroundColor: theme.colors.surfaceSecondary },
-                      ]}
-                      onPress={() => onDeleteItem(item.id)}
-                      hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                      accessibilityRole="button"
-                      accessibilityLabel={t('tracker.diary.deleteItem')}
-                    >
-                      <Icon name="x" size={14} color={theme.colors.textMuted} />
-                    </TouchableOpacity>
+                    {!readOnly && (
+                      <TouchableOpacity
+                        style={[
+                          styles.deleteBtn,
+                          { backgroundColor: theme.colors.surfaceSecondary },
+                        ]}
+                        onPress={() => onDeleteItem(item.id)}
+                        hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                        accessibilityRole="button"
+                        accessibilityLabel={t('tracker.diary.deleteItem')}
+                      >
+                        <Icon name="x" size={14} color={theme.colors.textMuted} />
+                      </TouchableOpacity>
+                    )}
                   </View>
                 </View>
               ))
@@ -322,30 +340,32 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
           </View>
         </ScrollView>
 
-        {/* Bottom Floating Log Action */}
-        <View
-          style={[
-            styles.bottomBar,
-            {
-              backgroundColor: theme.colors.surface,
-              borderTopColor: theme.colors.border,
-            },
-          ]}
-        >
-          <TouchableOpacity
+        {/* Bottom Floating Log Action (today only — the hub always logs into today) */}
+        {!readOnly && (
+          <View
             style={[
-              styles.logHubButton,
-              { backgroundColor: theme.colors.primaryLime },
+              styles.bottomBar,
+              {
+                backgroundColor: theme.colors.surface,
+                borderTopColor: theme.colors.border,
+              },
             ]}
-            onPress={onOpenLogHub}
-            activeOpacity={0.8}
           >
-            <Icon name="plus" size={18} color={theme.colors.limeText} />
-            <Text style={[styles.logHubButtonText, { color: theme.colors.limeText }]}>
-              {t('tracker.hub.title')}
-            </Text>
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              style={[
+                styles.logHubButton,
+                { backgroundColor: theme.colors.primaryLime },
+              ]}
+              onPress={onOpenLogHub}
+              activeOpacity={0.8}
+            >
+              <Icon name="plus" size={18} color={theme.colors.limeText} />
+              <Text style={[styles.logHubButtonText, { color: theme.colors.limeText }]}>
+                {t('tracker.hub.title')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </SafeAreaView>
     </Modal>
   );

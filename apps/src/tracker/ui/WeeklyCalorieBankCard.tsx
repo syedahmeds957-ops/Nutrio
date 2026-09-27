@@ -130,10 +130,10 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
             { bottom: (targetCalories / maxBarKcal) * BAR_MAX_HEIGHT + 24 },
           ]}
         >
-          <View style={[styles.targetDashedLine, { backgroundColor: theme.colors.border }]} />
           <Text style={[styles.targetLineLabel, { color: theme.colors.textMuted }]}>
-            Target
+            {t('tracker.calorieBank.targetLabel')}
           </Text>
+          <View style={[styles.targetDashedLine, { backgroundColor: theme.colors.border }]} />
         </View>
 
         <View style={styles.barsRow}>
@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
   targetLineLabel: {
     fontSize: 9,
     fontWeight: '700',
-    marginLeft: 6,
+    marginRight: 6,
     textTransform: 'uppercase',
   },
   barsRow: {
