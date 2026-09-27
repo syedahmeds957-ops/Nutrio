@@ -364,6 +364,7 @@ function NutrioAppContent() {
     return wrapScreen(
       <PlanWorkflowScreen
         userContext={userContext}
+        existingPlan={surveyData ? undefined : activePlan}
         onPlanAccepted={(computedPlan) => {
           setActivePlan(computedPlan);
           savePersistedPlan(computedPlan);
@@ -426,9 +427,15 @@ function NutrioAppContent() {
         onOpenWeightTracker={() =>
           setAppState(activePlan ? 'weight_tracker' : surveyData ? 'plan_flow' : 'survey')
         }
-        onOpenMealPlan={() =>
-          setAppState(activePlan ? 'weekly_plan' : surveyData ? 'plan_flow' : 'survey')
-        }
+        onOpenMealPlan={() => {
+          // Meal suggestions need a known diet preference/budget from the
+          // survey — unlike weight tracking, there's no safe default here, so
+          // don't show suggestions built on a guess if we don't actually know.
+          const hasDietPreference = !!surveyData?.payload.preferencesBudget?.dietPreference;
+          setAppState(
+            activePlan && hasDietPreference ? 'weekly_plan' : surveyData ? 'plan_flow' : 'survey'
+          );
+        }}
         onOpenCoachChat={() => setAppState('coach_chat')}
         onOpenSurvey={() => setAppState('survey')}
       />

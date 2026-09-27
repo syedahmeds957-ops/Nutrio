@@ -91,61 +91,58 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
   const [familyDishName, setFamilyDishName] = useState(
     isSaudi ? 'Chicken Kabsa' : 'Chicken Karahi'
   );
+  const [familyMealSlot, setFamilyMealSlot] = useState<'lunch' | 'dinner'>('dinner');
   const [isRamadanActive, setIsRamadanActive] = useState(false);
 
   const currentDayPlan = weekPlans[selectedDayIndex];
 
+  // A "mode" describes the whole week, not just whichever day tab happens to
+  // be open — applying it to one day only meant switching day tabs silently
+  // dropped the mode and made Modes look like it needed re-activating.
   const handleApplyFamilyMode = (dishName: string, slot: 'lunch' | 'dinner') => {
     setIsFamilyActive(true);
     setFamilyDishName(dishName);
+    setFamilyMealSlot(slot);
 
-    setWeekPlans((prev) => {
-      const updated = [...prev];
-      const adapted = adaptPlanForFamilyMode(
-        updated[selectedDayIndex],
-        { familyDishName: dishName, familyMealSlot: slot },
-        solverInput,
-        regionalFoodPool
-      );
-      updated[selectedDayIndex] = adapted.plan;
-      return updated;
-    });
+    setWeekPlans((prev) =>
+      prev.map((dayPlan) =>
+        adaptPlanForFamilyMode(
+          dayPlan,
+          { familyDishName: dishName, familyMealSlot: slot },
+          solverInput,
+          regionalFoodPool
+        ).plan
+      )
+    );
   };
 
   const handleToggleRamadan = (active: boolean) => {
     setIsRamadanActive(active);
     if (active) {
-      const ramadan = generateRamadanPlan(
-        solverInput,
-        regionalFoodPool
+      const ramadan = generateRamadanPlan(solverInput, regionalFoodPool);
+      setWeekPlans((prev) =>
+        prev.map((dayPlan) => {
+          const updatedDay = { ...dayPlan };
+          updatedDay.meals = [ramadan.suhoor, ramadan.iftar, ramadan.postTarawihSnack];
+          updatedDay.actualCalories = ramadan.actualCalories;
+          updatedDay.calorieDeviationPct = Number(
+            (
+              ((ramadan.actualCalories - updatedDay.targetCalories) /
+                updatedDay.targetCalories) *
+              100
+            ).toFixed(1)
+          );
+          updatedDay.isWithinTolerance = Math.abs(updatedDay.calorieDeviationPct) <= 5.0;
+          return updatedDay;
+        })
       );
-      setWeekPlans((prev) => {
-        const updated = [...prev];
-        const dayPlan = { ...updated[selectedDayIndex] };
-        dayPlan.meals = [ramadan.suhoor, ramadan.iftar, ramadan.postTarawihSnack];
-        dayPlan.actualCalories = ramadan.actualCalories;
-        dayPlan.calorieDeviationPct = Number(
-          (
-            ((ramadan.actualCalories - dayPlan.targetCalories) /
-              dayPlan.targetCalories) *
-            100
-          ).toFixed(1)
-        );
-        dayPlan.isWithinTolerance = Math.abs(dayPlan.calorieDeviationPct) <= 5.0;
-        updated[selectedDayIndex] = dayPlan;
-        return updated;
-      });
     } else {
-      // Re-solve standard plan for this specific day
-      setWeekPlans((prev) => {
-        const updated = [...prev];
-        updated[selectedDayIndex] = solveDailyMealPlan(
-          solverInput,
-          regionalFoodPool,
-          { dayIndex: selectedDayIndex }
-        );
-        return updated;
-      });
+      // Re-solve the standard plan for every day
+      setWeekPlans(
+        DAYS_OF_WEEK.map((_, dayIndex) =>
+          solveDailyMealPlan(solverInput, regionalFoodPool, { dayIndex })
+        )
+      );
     }
   };
 
@@ -298,7 +295,15 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
                 { color: isDark ? theme.colors.primaryLime : '#365314' },
               ]}
             >
-              {isRamadanActive ? '🌙 Fasting' : isFamilyActive ? '🍲 Handi' : '🍱 Modes'}
+              {isRamadanActive
+                ? `🌙 ${t('plan.cultural.fastingBadge')}`
+                : isFamilyActive
+                ? `🍲 ${
+                    familyMealSlot === 'lunch'
+                      ? t('plan.cultural.familyLunch')
+                      : t('plan.cultural.familyDinner')
+                  }`
+                : `🍱 ${t('plan.cultural.modesDefaultLabel')}`}
             </Text>
           </TouchableOpacity>
         </View>
@@ -593,6 +598,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
         isRamadanActive={isRamadanActive}
         isFamilyActive={isFamilyActive}
         currentFamilyDish={familyDishName}
+        currentFamilySlot={familyMealSlot}
       />
     </SafeAreaView>
   );

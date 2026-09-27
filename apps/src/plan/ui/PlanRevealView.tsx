@@ -7,6 +7,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { ComputedUserPlan } from '../types.js';
+import { Icon } from '../../ui/Icon.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
@@ -15,12 +16,14 @@ interface PlanRevealViewProps {
   plan: ComputedUserPlan;
   onAcceptPlan: () => void;
   onAdjustGoal: () => void;
+  onBack?: () => void;
 }
 
 export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
   plan,
   onAcceptPlan,
   onAdjustGoal,
+  onBack,
 }) => {
   const { theme } = useTheme();
   const { activeRegion } = useRegion();
@@ -41,6 +44,27 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
+      {onBack && (
+        <TouchableOpacity
+          style={[
+            styles.topBackBtn,
+            {
+              backgroundColor: theme.colors.surface,
+              borderColor: theme.colors.border,
+            },
+          ]}
+          onPress={onBack}
+          activeOpacity={0.7}
+        >
+          <View style={styles.topBackContent}>
+            <Icon name="arrow-left" size={14} color={theme.colors.textPrimary} />
+            <Text style={[styles.topBackText, { color: theme.colors.textPrimary }]}>
+              {t('common.back')}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      )}
+
       <View style={styles.header}>
         <View
           style={[
@@ -285,6 +309,23 @@ const styles = StyleSheet.create({
   content: {
     padding: 20,
     paddingBottom: 48,
+  },
+  topBackBtn: {
+    alignSelf: 'flex-start',
+    marginBottom: 16,
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: 9999,
+    borderWidth: 1,
+  },
+  topBackContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  topBackText: {
+    fontSize: 13,
+    fontWeight: '700',
   },
   header: {
     marginBottom: 20,

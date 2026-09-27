@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Modal,
   ScrollView,
@@ -22,6 +22,7 @@ interface CulturalModesModalProps {
   isRamadanActive: boolean;
   isFamilyActive: boolean;
   currentFamilyDish?: string;
+  currentFamilySlot?: 'lunch' | 'dinner';
 }
 
 // Which dishes a family gathers around is regional. `name` is the string the
@@ -57,6 +58,7 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
   isRamadanActive,
   isFamilyActive,
   currentFamilyDish,
+  currentFamilySlot,
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
@@ -76,14 +78,29 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
   const [activeTab, setActiveTab] = useState<'family' | 'ramadan'>('family');
   const [selectedDish, setSelectedDish] = useState(defaultDish);
   const [customDish, setCustomDish] = useState('');
-  const [mealSlot, setMealSlot] = useState<'lunch' | 'dinner'>('dinner');
+  const [mealSlot, setMealSlot] = useState<'lunch' | 'dinner'>(currentFamilySlot || 'dinner');
 
   const [ramadanToggle, setRamadanToggle] = useState(isRamadanActive);
 
+  // Re-sync every time the modal opens, so it always reflects what's actually
+  // active right now instead of whatever was left over from the last visit.
+  useEffect(() => {
+    if (visible) {
+      setSelectedDish(currentFamilyDish || familyDishes[0].name);
+      setCustomDish('');
+      setMealSlot(currentFamilySlot || 'dinner');
+      setRamadanToggle(isRamadanActive);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible]);
+
+  const pendingDish = (customDish.trim() || selectedDish).split('·')[0].split('(')[0].trim();
+  const isFamilyChangePending =
+    !isFamilyActive || pendingDish !== currentFamilyDish || mealSlot !== currentFamilySlot;
+  const isRamadanChangePending = ramadanToggle !== isRamadanActive;
+
   const handleApplyFamily = () => {
-    const rawDish = customDish.trim() || selectedDish;
-    const cleanDish = rawDish.split('·')[0].split('(')[0].trim();
-    onApplyFamilyMode(cleanDish, mealSlot);
+    onApplyFamilyMode(pendingDish, mealSlot);
     onClose();
   };
 
@@ -352,23 +369,44 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                   </TouchableOpacity>
                 </View>
 
-                <TouchableOpacity
-                  style={[
-                    styles.applyBtn,
-                    {
-                      backgroundColor: accentColor,
-                      shadowColor: accentColor,
-                    },
-                  ]}
-                  onPress={handleApplyFamily}
-                  activeOpacity={0.8}
-                >
-                  <Text style={[styles.applyBtnText, { color: accentTextColor }]}>
-                    {t('plan.cultural.applyDish', {
-                      dish: customDish || dishLabel(selectedDish),
-                    })}
-                  </Text>
-                </TouchableOpacity>
+                {isFamilyChangePending ? (
+                  <TouchableOpacity
+                    style={[
+                      styles.applyBtn,
+                      {
+                        backgroundColor: accentColor,
+                        shadowColor: accentColor,
+                      },
+                    ]}
+                    onPress={handleApplyFamily}
+                    activeOpacity={0.8}
+                  >
+                    <Text style={[styles.applyBtnText, { color: accentTextColor }]}>
+                      {t(isFamilyActive ? 'plan.cultural.updateDish' : 'plan.cultural.applyDish', {
+                        dish: customDish || dishLabel(selectedDish),
+                      })}
+                    </Text>
+                  </TouchableOpacity>
+                ) : (
+                  <View
+                    style={[
+                      styles.statusBanner,
+                      {
+                        backgroundColor: isDark ? '#1C2608' : '#EDFCD2',
+                        borderColor: isDark ? '#2D4B05' : '#D4F88D',
+                      },
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.statusBannerText,
+                        { color: isDark ? theme.colors.primaryLime : '#365314' },
+                      ]}
+                    >
+                      {t('plan.cultural.dishActiveStatus', { dish: dishLabel(pendingDish) })}
+                    </Text>
+                  </View>
+                )}
               </View>
             ) : (
               // Ramadan Mode Content
@@ -518,21 +556,44 @@ export const CulturalModesModal: React.FC<CulturalModesModalProps> = ({
                   </Text>
                 </View>
 
-                <TouchableOpacity
-                  style={[
-                    styles.applyBtn,
-                    {
-                      backgroundColor: accentColor,
-                      shadowColor: accentColor,
-                    },
-                  ]}
-                  onPress={handleApplyRamadan}
-                  activeOpacity={0.8}
-                >
-                  <Text style={[styles.applyBtnText, { color: accentTextColor }]}>
-                    {ramadanToggle ? t('plan.cultural.activateRamadan') : t('plan.cultural.disableRamadan')}
-                  </Text>
-                </TouchableOpacity>
+                {isRamadanChangePending ? (
+                  <TouchableOpacity
+                    style={[
+                      styles.applyBtn,
+                      {
+                        backgroundColor: accentColor,
+                        shadowColor: accentColor,
+                      },
+                    ]}
+                    onPress={handleApplyRamadan}
+                    activeOpacity={0.8}
+                  >
+                    <Text style={[styles.applyBtnText, { color: accentTextColor }]}>
+                      {ramadanToggle ? t('plan.cultural.activateRamadan') : t('plan.cultural.disableRamadan')}
+                    </Text>
+                  </TouchableOpacity>
+                ) : (
+                  <View
+                    style={[
+                      styles.statusBanner,
+                      {
+                        backgroundColor: isDark ? '#1C2608' : '#EDFCD2',
+                        borderColor: isDark ? '#2D4B05' : '#D4F88D',
+                      },
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.statusBannerText,
+                        { color: isDark ? theme.colors.primaryLime : '#365314' },
+                      ]}
+                    >
+                      {ramadanToggle
+                        ? t('plan.cultural.ramadanActiveStatus')
+                        : t('plan.cultural.ramadanInactiveStatus')}
+                    </Text>
+                  </View>
+                )}
               </View>
             )}
           </ScrollView>
@@ -678,6 +739,17 @@ const styles = StyleSheet.create({
   },
   applyBtnText: {
     fontSize: 14,
+    fontWeight: '800',
+  },
+  statusBanner: {
+    marginTop: 8,
+    borderRadius: 9999,
+    paddingVertical: 14,
+    alignItems: 'center',
+    borderWidth: 1,
+  },
+  statusBannerText: {
+    fontSize: 13,
     fontWeight: '800',
   },
   toggleRow: {

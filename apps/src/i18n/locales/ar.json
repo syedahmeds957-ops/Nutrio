@@ -282,7 +282,13 @@
       "activateRamadan": "تفعيل وضع رمضان",
       "applyDish": "تطبيق {{dish}} على الخطة",
       "calorieSplit": "توزيع السعرات اليومية:",
+      "dishActiveStatus": "✓ {{dish}} مفعّل",
       "disableRamadan": "إيقاف وضع رمضان",
+      "fastingBadge": "الصيام",
+      "modesDefaultLabel": "الأنماط",
+      "ramadanActiveStatus": "✓ وضع رمضان مفعّل",
+      "ramadanInactiveStatus": "وضع رمضان متوقف",
+      "updateDish": "تحديث إلى {{dish}}",
       "dishes": {
         "aaloGosht": "لحم بالبطاطس",
         "beefNihari": "نهاري لحم",
@@ -352,7 +358,7 @@
       },
       "tabs": {
         "family": {
-          "PK": "طبخة العائلة",
+          "PK": "عشاء العائلة",
           "SA": "سفرة العائلة"
         },
         "ramadan": "وضع رمضان"

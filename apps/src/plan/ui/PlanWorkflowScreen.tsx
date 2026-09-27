@@ -17,6 +17,13 @@ import { useTheme } from '../../theme.js';
 interface PlanWorkflowScreenProps {
   userContext: PlanUserContext;
   narrative?: AssessmentNarrative;
+  /**
+   * An already-accepted plan being reviewed rather than created. When set,
+   * the wizard opens directly on the reveal step with the saved goal instead
+   * of making the user re-run analysis/goal-selection just to see their
+   * existing targets.
+   */
+  existingPlan?: ComputedUserPlan | null;
   onPlanAccepted: (plan: ComputedUserPlan) => void;
   onCancel: () => void;
 }
@@ -26,16 +33,21 @@ export type PlanPhase = 'analysis' | 'goal' | 'calculating' | 'reveal';
 export const PlanWorkflowScreen: React.FC<PlanWorkflowScreenProps> = ({
   userContext,
   narrative,
+  existingPlan,
   onPlanAccepted,
   onCancel,
 }) => {
   const { theme } = useTheme();
-  const [phase, setPhase] = useState<PlanPhase>('analysis');
-  const [goalSelection, setGoalSelection] = useState<GoalSelectionState>({
-    goal: userContext.isPregnantOrBreastfeeding ? 'maintain' : 'lose',
-    targetRateKgPerWeek: 0.5,
-    targetWeightKg: Math.round(userContext.weightKg - 5),
-  });
+  const [phase, setPhase] = useState<PlanPhase>(existingPlan ? 'reveal' : 'analysis');
+  const [goalSelection, setGoalSelection] = useState<GoalSelectionState>(
+    existingPlan
+      ? existingPlan.goalSelection
+      : {
+          goal: userContext.isPregnantOrBreastfeeding ? 'maintain' : 'lose',
+          targetRateKgPerWeek: 0.5,
+          targetWeightKg: Math.round(userContext.weightKg - 5),
+        }
+  );
 
   const computedPlan = useMemo(() => {
     return computePlan(userContext, goalSelection, narrative);
@@ -74,6 +86,7 @@ export const PlanWorkflowScreen: React.FC<PlanWorkflowScreenProps> = ({
           plan={computedPlan}
           onAcceptPlan={() => onPlanAccepted(computedPlan)}
           onAdjustGoal={() => setPhase('goal')}
+          onBack={existingPlan ? onCancel : undefined}
         />
       )}
     </SafeAreaView>

@@ -266,7 +266,13 @@
       "activateRamadan": "Activate Ramadan mode",
       "applyDish": "Apply {{dish}} to plan",
       "calorieSplit": "Daily calorie split:",
+      "dishActiveStatus": "✓ {{dish}} is active",
       "disableRamadan": "Disable Ramadan mode",
+      "fastingBadge": "Fasting",
+      "modesDefaultLabel": "Modes",
+      "ramadanActiveStatus": "✓ Ramadan mode is active",
+      "ramadanInactiveStatus": "Ramadan mode is off",
+      "updateDish": "Update to {{dish}}",
       "dishes": {
         "aaloGosht": "Aalo gosht",
         "beefNihari": "Beef nihari",
@@ -336,7 +342,7 @@
       },
       "tabs": {
         "family": {
-          "PK": "Family handi",
+          "PK": "Family dinner",
           "SA": "Family banquet"
         },
         "ramadan": "Ramadan mode"
