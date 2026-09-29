@@ -157,7 +157,6 @@ describe('One-Tap Macro-Matched Meal Swapper (Task 2.2)', () => {
       targetFatGrams: 55,
       targetCarbGrams: 235,
       dietPreference: 'halal_omnivore' as const,
-      budgetTierPKR: 'standard_3500_7000' as const,
     };
 
     const plan = solveDailyMealPlan(solverInput, testFoodPool);
@@ -187,7 +186,6 @@ describe('One-Tap Macro-Matched Meal Swapper (Task 2.2)', () => {
       targetFatGrams: 50,
       targetCarbGrams: 230,
       dietPreference: 'halal_omnivore' as const,
-      budgetTierPKR: 'standard_3500_7000' as const,
     };
 
     const plan = solveDailyMealPlan(solverInput, testFoodPool);
@@ -210,7 +208,6 @@ describe('One-Tap Macro-Matched Meal Swapper (Task 2.2)', () => {
       targetFatGrams: 45,
       targetCarbGrams: 260,
       dietPreference: 'vegetarian_desi' as const,
-      budgetTierPKR: 'budget_under_3500' as const,
     };
 
     const plan = solveDailyMealPlan(solverInput, testFoodPool);

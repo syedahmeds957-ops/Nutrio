@@ -144,7 +144,6 @@ describe('Deterministic Constraint Meal Plan Solver (Task 2.1)', () => {
         targetFatGrams: 55,
         targetCarbGrams: 235,
         dietPreference: 'halal_omnivore',
-        budgetTierPKR: 'standard_3500_7000',
       },
       mockFoodPool
     );
@@ -172,7 +171,6 @@ describe('Deterministic Constraint Meal Plan Solver (Task 2.1)', () => {
       targetFatGrams: 50,
       targetCarbGrams: 230,
       dietPreference: 'vegetarian_desi',
-      budgetTierPKR: 'budget_under_3500',
     });
 
     expect(filtered.some((f) => f.name.includes('Chicken'))).toBe(false);
@@ -187,7 +185,6 @@ describe('Deterministic Constraint Meal Plan Solver (Task 2.1)', () => {
         targetFatGrams: 45,
         targetCarbGrams: 250,
         dietPreference: 'vegetarian_desi',
-        budgetTierPKR: 'budget_under_3500',
       },
       mockFoodPool
     );
@@ -205,7 +202,6 @@ describe('Deterministic Constraint Meal Plan Solver (Task 2.1)', () => {
       targetFatGrams: 50,
       targetCarbGrams: 230,
       dietPreference: 'halal_omnivore',
-      budgetTierPKR: 'standard_3500_7000',
       medicalConditions: ['diabetes_type_2'],
     });
 
@@ -219,7 +215,6 @@ describe('Deterministic Constraint Meal Plan Solver (Task 2.1)', () => {
       targetFatGrams: 60,
       targetCarbGrams: 220,
       dietPreference: 'halal_omnivore',
-      budgetTierPKR: 'standard_3500_7000',
       dislikedFoods: ['karela'],
     });
 
@@ -234,7 +229,6 @@ describe('Deterministic Constraint Meal Plan Solver (Task 2.1)', () => {
         targetFatGrams: 60,
         targetCarbGrams: 250,
         dietPreference: 'halal_omnivore',
-        budgetTierPKR: 'standard_3500_7000',
       },
       mockFoodPool
     );
@@ -251,7 +245,6 @@ describe('Deterministic Constraint Meal Plan Solver (Task 2.1)', () => {
         targetFatGrams: 55,
         targetCarbGrams: 235,
         dietPreference: 'halal_omnivore',
-        budgetTierPKR: 'standard_3500_7000',
       },
       mockFoodPool,
       { dayIndex: 0 }
@@ -264,7 +257,6 @@ describe('Deterministic Constraint Meal Plan Solver (Task 2.1)', () => {
         targetFatGrams: 55,
         targetCarbGrams: 235,
         dietPreference: 'halal_omnivore',
-        budgetTierPKR: 'standard_3500_7000',
       },
       mockFoodPool,
       { dayIndex: 1 }

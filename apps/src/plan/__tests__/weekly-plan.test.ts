@@ -12,9 +12,7 @@ describe('Mobile Weekly Meal Plan & Swap Engine (Task 2.6)', () => {
     targetProteinGrams: 140,
     targetFatGrams: 55,
     targetCarbGrams: 235,
-    dietPreference: 'halal_omnivore',
-    budgetTierPKR: 'standard_3500_7000',
-  };
+    dietPreference: 'halal_omnivore',  };
 
   it('generates a full 7-day schedule where each day meets the +-5% tolerance with daily variety', () => {
     const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];

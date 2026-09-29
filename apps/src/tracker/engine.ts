@@ -80,17 +80,25 @@ export class TrackerEngine {
     calories: number,
     proteinGrams: number,
     carbGrams: number,
-    fatGrams: number
+    fatGrams: number,
+    /**
+     * Weight of the whole logged portion. Optional only for older callers:
+     * without it we fall back to the 100g-per-unit placeholder this method
+     * used to hardcode, which made a 200g burger read as 100g on the card.
+     */
+    totalGrams?: number
   ): LoggedItem {
+    const resolvedTotalGrams = Math.round(totalGrams ?? 100 * quantity);
+
     const newItem: LoggedItem = {
       id: `log_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
       mealSlot,
       foodName,
       foodNameUr,
       servingLabel,
-      servingGrams: 100,
+      servingGrams: quantity > 0 ? Math.round(resolvedTotalGrams / quantity) : resolvedTotalGrams,
       quantity,
-      totalGrams: 100 * quantity,
+      totalGrams: resolvedTotalGrams,
       calories,
       proteinGrams,
       fatGrams,

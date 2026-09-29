@@ -24,6 +24,51 @@ interface WeeklyCalorieBankCardProps {
 
 const WEEK_DAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
+// Pinned explicitly rather than left to the platform's default leading: the
+// target guide is positioned off these, so a font-dependent line height would
+// drift the line onto the day names on some devices.
+const DAY_LABEL_LINE_HEIGHT = 14;
+const BAR_LABEL_GAP = 6;
+
+const BAR_MAX_HEIGHT = 68;
+
+/**
+ * Where the target line sits inside the plot, as a fraction of bar height.
+ *
+ * Fixed rather than derived from the calorie figure, so the guide reads the
+ * same whether someone's target is 1,500 or 2,800, and so there is always
+ * headroom above it for a day that went over.
+ */
+const TARGET_LINE_FRACTION = 0.7;
+
+/** Fallback ceiling when there is no target to scale against. */
+const FALLBACK_MAX_BAR_KCAL = 2500;
+
+/**
+ * Scales the chart to the user's own target instead of a fixed ceiling.
+ *
+ * The ceiling used to be a hardcoded 2,500 for everyone. That put a 2,341 kcal
+ * target at 94% of the plot — a line pinned to the top edge, reading as a
+ * border rather than a guide — and it flattened every day above 2,500 to the
+ * same full-height bar, hiding an overshoot at exactly the moment it mattered.
+ *
+ * Deriving the ceiling from the target instead fixes both: the line lands at a
+ * consistent, readable height, and a day can run ~43% over target before it
+ * clips.
+ */
+export function computeCalorieBankScale(targetCalories: number): {
+  hasTarget: boolean;
+  maxBarKcal: number;
+} {
+  // A target of 0 (no plan yet) has no meaningful line to draw — rendering it
+  // anyway pinned the guide to the baseline, right on top of "Mon Tue Wed…".
+  const hasTarget = targetCalories > 0;
+  return {
+    hasTarget,
+    maxBarKcal: hasTarget ? targetCalories / TARGET_LINE_FRACTION : FALLBACK_MAX_BAR_KCAL,
+  };
+}
+
 export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
   dailyHistory,
   weeklyDeficitKcal,
@@ -63,9 +108,13 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
     }).start();
   }, [animProgress]);
 
-  // Max value for bar heights (e.g. 2500)
-  const maxBarKcal = 2500;
-  const BAR_MAX_HEIGHT = 68;
+  // Height of the day-label block under each bar (label line + gap), so the
+  // absolutely-positioned target guide can be measured from the bar baseline
+  // instead of the card's, which is what let it settle onto the day names.
+  const DAY_LABEL_BLOCK = DAY_LABEL_LINE_HEIGHT + BAR_LABEL_GAP;
+
+  const { hasTarget, maxBarKcal } = computeCalorieBankScale(targetCalories);
+  const targetLineBottom = DAY_LABEL_BLOCK + TARGET_LINE_FRACTION * BAR_MAX_HEIGHT;
 
   return (
     <View
@@ -124,17 +173,14 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
       {/* 7-Day Mini Bar Chart */}
       <View style={styles.chartContainer}>
         {/* Target Line Guide */}
-        <View
-          style={[
-            styles.targetLine,
-            { bottom: (targetCalories / maxBarKcal) * BAR_MAX_HEIGHT + 24 },
-          ]}
-        >
-          <Text style={[styles.targetLineLabel, { color: theme.colors.textMuted }]}>
-            {t('tracker.calorieBank.targetLabel')}
-          </Text>
-          <View style={[styles.targetDashedLine, { backgroundColor: theme.colors.border }]} />
-        </View>
+        {hasTarget ? (
+          <View style={[styles.targetLine, { bottom: targetLineBottom }]}>
+            <Text style={[styles.targetLineLabel, { color: theme.colors.textMuted }]}>
+              {t('tracker.calorieBank.targetLabel')}
+            </Text>
+            <View style={[styles.targetDashedLine, { backgroundColor: theme.colors.border }]} />
+          </View>
+        ) : null}
 
         <View style={styles.barsRow}>
           {history.map((item, idx) => {
@@ -273,7 +319,7 @@ const styles = StyleSheet.create({
   },
   barCol: {
     alignItems: 'center',
-    gap: 6,
+    gap: BAR_LABEL_GAP,
     flex: 1,
   },
   barTrack: {
@@ -289,6 +335,7 @@ const styles = StyleSheet.create({
   },
   dayLabel: {
     fontSize: 10,
+    lineHeight: DAY_LABEL_LINE_HEIGHT,
     fontWeight: '600',
   },
   dayLabelToday: {

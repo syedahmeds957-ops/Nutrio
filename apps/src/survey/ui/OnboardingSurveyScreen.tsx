@@ -116,6 +116,22 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
 
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.canvas }]}>
+      {onSkip && (
+        <View style={styles.topBar}>
+          <TouchableOpacity
+            style={styles.skipBtn}
+            onPress={onSkip}
+            activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityLabel={t('survey.skip')}
+          >
+            <Text style={[styles.skipBtnText, { color: theme.colors.textMuted }]}>
+              {t('survey.skip')}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
       <ProgressBar
         currentStep={stepIndex}
         totalSteps={engine.getTotalSteps()}
@@ -247,20 +263,6 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
               </Text>
             </TouchableOpacity>
           </View>
-
-          {onSkip && (
-            <TouchableOpacity
-              style={styles.skipBtn}
-              onPress={onSkip}
-              activeOpacity={0.7}
-              accessibilityRole="button"
-              accessibilityLabel={t('survey.skip')}
-            >
-              <Text style={[styles.skipBtnText, dir.textCenter, { color: theme.colors.textMuted }]}>
-                {t('survey.skip')} {dir.isRTL ? '←' : '→'}
-              </Text>
-            </TouchableOpacity>
-          )}
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -280,12 +282,19 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingBottom: 48,
   },
+  topBar: {
+    flexDirection: 'row',
+    // Trailing edge, so the skip sits in the top-right in English and mirrors
+    // to the top-left under native RTL.
+    justifyContent: 'flex-end',
+    paddingHorizontal: 20,
+    paddingTop: 8,
+  },
   bottomBar: {
     paddingHorizontal: 20,
     paddingTop: 12,
     paddingBottom: 14,
     borderTopWidth: 1,
-    gap: 8,
   },
   buttonRow: {
     flexDirection: 'row',
@@ -317,10 +326,10 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   skipBtn: {
-    alignItems: 'center',
-    justifyContent: 'center',
     paddingVertical: 8,
+    paddingHorizontal: 4,
     minHeight: 44,
+    justifyContent: 'center',
   },
   skipBtnText: {
     fontSize: 13,

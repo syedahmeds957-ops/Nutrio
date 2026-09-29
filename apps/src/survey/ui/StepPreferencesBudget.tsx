@@ -21,12 +21,6 @@ const DIET_OPTION_IDS: DietPreference[] = [
   'vegan',
 ];
 
-const BUDGET_TIER_IDS: BudgetTierPKR[] = [
-  'budget_under_3500',
-  'standard_3500_7000',
-  'premium_above_7000',
-];
-
 export const StepPreferencesBudget: React.FC<StepPreferencesBudgetProps> = ({
   data,
   onChange,
@@ -42,11 +36,6 @@ export const StepPreferencesBudget: React.FC<StepPreferencesBudgetProps> = ({
   const dietOptions = DIET_OPTION_IDS.map((id) => ({
     id,
     label: t(`survey.preferences.diets.${id}.${activeRegion}`),
-  }));
-  const budgetTiers = BUDGET_TIER_IDS.map((id) => ({
-    id,
-    title: t(`survey.preferences.budgets.${id}.title`),
-    range: t(`survey.preferences.budgets.${id}.range.${activeRegion}`),
   }));
 
   return (
@@ -100,79 +89,12 @@ export const StepPreferencesBudget: React.FC<StepPreferencesBudgetProps> = ({
         )}
       </View>
 
-      {/* Budget Tier */}
-      <View style={styles.fieldGroup}>
-        <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }]}>
-          {t(`survey.preferences.budgetLabel.${activeRegion}`)}
-        </Text>
-        {budgetTiers.map((b) => {
-          const isSelected = data.budgetTierPKR === b.id;
-          return (
-            <TouchableOpacity
-              key={b.id}
-              style={[
-                styles.cardOption,
-                {
-                  backgroundColor: isSelected
-                    ? isDark
-                      ? isSaudi
-                        ? 'rgba(16, 185, 129, 0.15)'
-                        : 'rgba(164, 235, 63, 0.12)'
-                      : isSaudi
-                        ? '#ECFDF5'
-                        : '#F7FEE7'
-                    : theme.colors.surface,
-                  borderColor: isSelected
-                    ? accentColor
-                    : theme.colors.border,
-                  borderWidth: isSelected ? 2 : 1,
-                },
-              ]}
-              onPress={() => onChange({ budgetTierPKR: b.id })}
-              activeOpacity={0.7}
-            >
-              <View style={styles.cardHeader}>
-                <Text
-                  style={[
-                    styles.cardTitle,
-                    {
-                      color: isSelected
-                        ? isDark
-                          ? isSaudi
-                            ? '#34D399'
-                            : theme.colors.primaryLime
-                          : isSaudi
-                            ? '#065F46'
-                            : '#1E293B'
-                        : theme.colors.textPrimary,
-                    },
-                  ]}
-                >
-                  {b.title}
-                </Text>
-                {isSelected && (
-                  <View
-                    style={[
-                      styles.activePill,
-                      { backgroundColor: accentColor },
-                    ]}
-                  >
-                    <Text style={[styles.activePillText, isSaudi && { color: '#FFFFFF' }]}>
-                      {t('common.selected')}
-                    </Text>
-                  </View>
-                )}
-              </View>
-              <Text style={[styles.cardSubtitle, dir.text, { color: theme.colors.textSecondary }]}>
-                {b.range}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
-        {errors.budgetTierPKR && (
-          <Text style={styles.errorText}>{errors.budgetTierPKR}</Text>
-        )}
-      </View>
+      {/*
+        The weekly budget question is gone. It fed only the grocery list, and
+        the solver never used it — a plan came out identical whether the user
+        picked "under Rs 3,500" or "above Rs 7,000". Asking for something that
+        changed nothing was the worst of both.
+      */}
     </View>
   );
 };

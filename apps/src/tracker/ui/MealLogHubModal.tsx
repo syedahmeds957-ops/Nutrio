@@ -18,6 +18,7 @@ import {
   RestaurantBrand,
   searchPakistaniFoods,
   searchSaudiFoods,
+  getDietBasicsForRegion,
 } from '@nutrio/food-db';
 import { Icon } from '../../ui/Icon.js';
 import { BrandLogo } from '../../ui/BrandLogo.js';
@@ -25,13 +26,33 @@ import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import {
+  getMostLoggedFoodIds,
+  loadMealPresets,
+  saveMealPreset,
+  deleteMealPreset,
+  MAX_RECENT_FOODS,
+  type MealPreset,
+} from '../mealPresets.js';
+
+/** One line of a custom meal: a food plus how many of its default serving. */
+export interface MealBasketEntry {
+  food: NormalizedFood;
+  quantity: number;
+}
 
 export interface MealLogHubModalProps {
   visible: boolean;
   onClose: () => void;
   onSelectBrand: (brandId: string) => void;
   onSelectItem: (item: NormalizedFood) => void;
+  /** Logs a whole custom meal at once — "2 eggs + cucumber + yogurt". */
+  onConfirmBasket?: (entries: MealBasketEntry[]) => void;
 }
+
+// Plain single-ingredient foods. Listed first and selected by default so
+// someone logging "2 eggs" or a salad lands on them without searching.
+const DIET_GROUP = 'Diet & Basics';
 
 const PK_BRAND_GROUPS = [
   'All',
@@ -60,6 +81,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   onClose,
   onSelectBrand,
   onSelectItem,
+  onConfirmBasket,
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion, setRegion } = useRegion();
@@ -69,7 +91,17 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [debouncedQuery, setDebouncedQuery] = useState('');
   const [isFiltering, setIsFiltering] = useState(false);
-  const [selectedGroup, setSelectedGroup] = useState<string>('All');
+  const [selectedGroup, setSelectedGroup] = useState<string>(DIET_GROUP);
+  // Custom-meal mode: tapping a food stacks it up instead of opening the
+  // customizer, so several things eaten together go in as one action.
+  const [isBuildMode, setIsBuildMode] = useState(false);
+  const [basket, setBasket] = useState<MealBasketEntry[]>([]);
+  // Presets and usage counts live in storage, not state. Bumped whenever this
+  // modal writes to either, so the derived lists recompute without the modal
+  // having to mirror storage it doesn't own.
+  const [presetsVersion, setPresetsVersion] = useState(0);
+  const [presetNameDraft, setPresetNameDraft] = useState('');
+  const [isNamingPreset, setIsNamingPreset] = useState(false);
 
   useEffect(() => {
     if (!searchQuery.trim()) {
@@ -94,9 +126,137 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
 
   // Group names double as filter keys matched against brand.category, so the
   // raw value stays and only the visible label is translated.
-  const brandGroups = activeRegion === 'SA' ? SA_BRAND_GROUPS : PK_BRAND_GROUPS;
+  const brandGroups = [
+    DIET_GROUP,
+    ...(activeRegion === 'SA' ? SA_BRAND_GROUPS : PK_BRAND_GROUPS),
+  ];
   const groupLabel = (group: string) =>
     t(`tracker.brandGroups.${group}`, { defaultValue: group });
+
+  const dietFoods = useMemo(() => getDietBasicsForRegion(activeRegion), [activeRegion]);
+  const isDietView = selectedGroup === DIET_GROUP;
+
+  const foodKey = (food: NormalizedFood) => food.id || food.name;
+
+  /**
+   * The handful of foods this user actually repeats, lifted to the top of the
+   * diet view. People eat the same ~15 things, so scrolling a 140-item
+   * catalogue to find yesterday's breakfast is the common case, not the edge.
+   */
+  const recentFoods = useMemo(() => {
+    if (!isDietView) return [];
+    const ranked = getMostLoggedFoodIds(MAX_RECENT_FOODS);
+    if (ranked.length === 0) return [];
+    const byId = new Map(dietFoods.map((f) => [foodKey(f), f]));
+    return ranked
+      .map((id) => byId.get(id))
+      .filter((f): f is NormalizedFood => Boolean(f));
+  }, [isDietView, dietFoods, presetsVersion]);
+
+  const presets = useMemo(
+    () => (isDietView ? loadMealPresets() : []),
+    [isDietView, presetsVersion]
+  );
+
+  const basketQty = (food: NormalizedFood) =>
+    basket.find((e) => foodKey(e.food) === foodKey(food))?.quantity ?? 0;
+
+  const addToBasket = (food: NormalizedFood) => {
+    setBasket((prev) => {
+      const key = foodKey(food);
+      const existing = prev.find((e) => foodKey(e.food) === key);
+      if (existing) {
+        return prev.map((e) =>
+          foodKey(e.food) === key ? { ...e, quantity: e.quantity + 1 } : e
+        );
+      }
+      return [...prev, { food, quantity: 1 }];
+    });
+  };
+
+  const removeFromBasket = (food: NormalizedFood) => {
+    setBasket((prev) => {
+      const key = foodKey(food);
+      const existing = prev.find((e) => foodKey(e.food) === key);
+      if (!existing) return prev;
+      if (existing.quantity <= 1) return prev.filter((e) => foodKey(e.food) !== key);
+      return prev.map((e) => (foodKey(e.food) === key ? { ...e, quantity: e.quantity - 1 } : e));
+    });
+  };
+
+  // Serving-based, matching how the item is actually logged.
+  const basketTotals = useMemo(() => {
+    return basket.reduce(
+      (acc, { food, quantity }) => {
+        const serving = food.servings[0];
+        const grams = (serving?.grams ?? 100) * quantity;
+        acc.kcal += (food.kcal100g * grams) / 100;
+        acc.count += quantity;
+        return acc;
+      },
+      { kcal: 0, count: 0 }
+    );
+  }, [basket]);
+
+  const exitBuildMode = () => {
+    setIsBuildMode(false);
+    setBasket([]);
+    setIsNamingPreset(false);
+    setPresetNameDraft('');
+  };
+
+  const handleSavePreset = () => {
+    const saved = saveMealPreset(
+      presetNameDraft,
+      basket.map(({ food, quantity }) => ({
+        foodId: foodKey(food),
+        foodName: food.name,
+        quantity,
+      }))
+    );
+    if (!saved) return;
+    setIsNamingPreset(false);
+    setPresetNameDraft('');
+    setPresetsVersion((v) => v + 1);
+  };
+
+  /**
+   * Refills the basket from a saved combo. Foods are resolved by id at apply
+   * time rather than stored whole, so a preset picks up any later correction to
+   * the catalogue instead of pinning the macros as they were when it was saved.
+   */
+  const handleApplyPreset = (preset: MealPreset) => {
+    const byId = new Map(dietFoods.map((f) => [foodKey(f), f]));
+    const entries = preset.entries
+      .map(({ foodId, quantity }) => {
+        const food = byId.get(foodId);
+        return food ? { food, quantity } : null;
+      })
+      .filter((e): e is MealBasketEntry => e !== null);
+
+    if (entries.length === 0) return;
+    setIsBuildMode(true);
+    setBasket(entries);
+  };
+
+  const handleDeletePreset = (id: string) => {
+    deleteMealPreset(id);
+    setPresetsVersion((v) => v + 1);
+  };
+
+  const handleConfirmBasket = () => {
+    if (!onConfirmBasket || basket.length === 0) return;
+    onConfirmBasket(basket);
+    exitBuildMode();
+  };
+
+  const handleDishPress = (item: NormalizedFood) => {
+    if (isBuildMode) {
+      addToBasket(item);
+      return;
+    }
+    onSelectItem(item);
+  };
 
   // Search across dishes adapted to active region
   const searchResults = useMemo(() => {
@@ -134,6 +294,124 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
     }
     return PAKISTANI_RESTAURANT_BRANDS.filter((b) => b.brandGroup === selectedGroup);
   }, [selectedGroup, activeRegion]);
+
+  // `keyPrefix` exists because the diet view can render the same food twice —
+  // once under "Recent" and again in the full list — and bare ids would collide
+  // between those siblings. Callers pass an explicit arrow so `.map`'s index
+  // argument never lands here by accident.
+  const renderDishCard = (item: NormalizedFood, keyPrefix = '') => {
+    const qty = basketQty(item);
+    const serving = item.servings[0];
+    const kcal = serving ? Math.round(serving.kcal || item.kcal100g) : Math.round(item.kcal100g);
+    const p = serving ? Math.round(serving.proteinGrams || item.protein100g) : Math.round(item.protein100g);
+    const c = serving ? Math.round(serving.carbGrams || item.carb100g) : Math.round(item.carb100g);
+    const f = serving ? Math.round(serving.fatGrams || item.fat100g) : Math.round(item.fat100g);
+
+    return (
+      <TouchableOpacity
+        key={`${keyPrefix}${item.id ?? item.name}`}
+        style={[
+          styles.dishCard,
+          {
+            backgroundColor: theme.colors.surface,
+            borderColor: qty > 0 ? theme.colors.primaryLime : theme.colors.border,
+            borderWidth: qty > 0 ? 1.5 : 1,
+          },
+        ]}
+        onPress={() => handleDishPress(item)}
+        activeOpacity={0.7}
+      >
+        <View style={styles.dishCardLeft}>
+          <View style={styles.dishTitleRow}>
+            <Text style={[styles.dishName, { color: theme.colors.textPrimary }]}>{item.name}</Text>
+            {item.nameAr && (
+              <Text style={[styles.dishNameAr, { color: theme.colors.primaryLime }]}>
+                {item.nameAr}
+              </Text>
+            )}
+            {item.nameUr && (
+              <Text style={[styles.dishNameUr, { color: theme.colors.textMuted }]}>
+                {item.nameUr}
+              </Text>
+            )}
+          </View>
+          <View style={styles.dishMetaRow}>
+            {item.brand && (
+              <View style={[styles.brandBadge, { backgroundColor: theme.colors.surfaceSecondary }]}>
+                <Text style={[styles.brandBadgeText, { color: theme.colors.textSecondary }]}>
+                  {item.brand}
+                </Text>
+              </View>
+            )}
+            <Text style={[styles.dishServingText, { color: theme.colors.textSecondary }]}>
+              {serving ? `${serving.grams}g · ${serving.description || serving.label}` : '100g'}
+            </Text>
+          </View>
+          <Text
+            style={[
+              styles.dishMacrosText,
+              { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+            ]}
+          >
+            P {p}g · C {c}g · F {f}g
+          </Text>
+        </View>
+
+        <View style={styles.dishCardRight}>
+          <View
+            style={[
+              styles.caloriePill,
+              {
+                backgroundColor: isDark ? 'rgba(164, 235, 63, 0.15)' : '#F7FEE7',
+                borderColor: theme.colors.primaryLime,
+              },
+            ]}
+          >
+            <Text
+              style={[
+                styles.caloriePillText,
+                { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+              ]}
+            >
+              ≈{kcal} kcal
+            </Text>
+          </View>
+          {isBuildMode ? (
+            <View style={styles.qtyControls}>
+              {qty > 0 && (
+                <>
+                  <TouchableOpacity
+                    style={[styles.qtyBtn, { backgroundColor: theme.colors.surfaceSecondary }]}
+                    onPress={() => removeFromBasket(item)}
+                    hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                    accessibilityRole="button"
+                    accessibilityLabel={t('tracker.hub.removeOne', { name: item.name })}
+                  >
+                    <Icon name="minus" size={14} color={theme.colors.textPrimary} />
+                  </TouchableOpacity>
+                  <Text style={[styles.qtyValue, { color: theme.colors.textPrimary }]}>{qty}</Text>
+                </>
+              )}
+              <View
+                style={[
+                  styles.qtyBtn,
+                  { backgroundColor: qty > 0 ? theme.colors.primaryLime : theme.colors.surfaceSecondary },
+                ]}
+              >
+                <Icon
+                  name="plus"
+                  size={14}
+                  color={qty > 0 ? '#0A0B0D' : theme.colors.textPrimary}
+                />
+              </View>
+            </View>
+          ) : (
+            <Icon name="chevron-right" size={16} color={theme.colors.textMuted} />
+          )}
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <Modal
@@ -247,6 +525,54 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
           </View>
         </View>
 
+        {/* Custom Meal Mode Toggle */}
+        {onConfirmBasket && (
+          <View
+            style={[
+              styles.buildModeRow,
+              {
+                backgroundColor: theme.colors.surface,
+                borderBottomColor: theme.colors.border,
+              },
+            ]}
+          >
+            <TouchableOpacity
+              style={[
+                styles.buildModeBtn,
+                {
+                  backgroundColor: isBuildMode
+                    ? theme.colors.primaryLime
+                    : theme.colors.surfaceSecondary,
+                  borderColor: isBuildMode ? theme.colors.primaryLime : theme.colors.border,
+                },
+              ]}
+              onPress={() => (isBuildMode ? exitBuildMode() : setIsBuildMode(true))}
+              activeOpacity={0.7}
+              accessibilityRole="button"
+            >
+              <Icon
+                name={isBuildMode ? 'x' : 'plus'}
+                size={14}
+                color={isBuildMode ? '#0A0B0D' : theme.colors.textPrimary}
+              />
+              <Text
+                style={[
+                  styles.buildModeBtnText,
+                  { color: isBuildMode ? '#0A0B0D' : theme.colors.textPrimary },
+                ]}
+              >
+                {isBuildMode ? t('tracker.hub.cancelCustomMeal') : t('tracker.hub.buildCustomMeal')}
+              </Text>
+            </TouchableOpacity>
+
+            {isBuildMode && (
+              <Text style={[styles.buildModeHint, { color: theme.colors.textSecondary }]}>
+                {t('tracker.hub.buildCustomMealHint')}
+              </Text>
+            )}
+          </View>
+        )}
+
         {/* Brand Group Filter Pills (When Not Searching) */}
         {!isSearching && (
           <View
@@ -335,96 +661,74 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                   </Text>
                 </View>
               ) : (
-                searchResults.map((item: NormalizedFood) => {
-                  const serving = item.servings[0];
-                  const kcal = serving ? Math.round(serving.kcal || item.kcal100g) : Math.round(item.kcal100g);
-                  const p = serving ? Math.round(serving.proteinGrams || item.protein100g) : Math.round(item.protein100g);
-                  const c = serving ? Math.round(serving.carbGrams || item.carb100g) : Math.round(item.carb100g);
-                  const f = serving ? Math.round(serving.fatGrams || item.fat100g) : Math.round(item.fat100g);
-
-                  return (
-                    <TouchableOpacity
-                      key={item.id}
-                      style={[
-                        styles.dishCard,
-                        {
-                          backgroundColor: theme.colors.surface,
-                          borderColor: theme.colors.border,
-                        },
-                      ]}
-                      onPress={() => onSelectItem(item)}
-                      activeOpacity={0.7}
-                    >
-                      <View style={styles.dishCardLeft}>
-                        <View style={styles.dishTitleRow}>
-                          <Text style={[styles.dishName, { color: theme.colors.textPrimary }]}>
-                            {item.name}
-                          </Text>
-                          {item.nameAr && (
-                            <Text style={[styles.dishNameAr, { color: theme.colors.primaryLime }]}>
-                              {item.nameAr}
-                            </Text>
-                          )}
-                          {item.nameUr && (
-                            <Text style={[styles.dishNameUr, { color: theme.colors.textMuted }]}>
-                              {item.nameUr}
-                            </Text>
-                          )}
-                        </View>
-                        <View style={styles.dishMetaRow}>
-                          {item.brand && (
-                            <View
-                              style={[
-                                styles.brandBadge,
-                                { backgroundColor: theme.colors.surfaceSecondary },
-                              ]}
-                            >
-                              <Text style={[styles.brandBadgeText, { color: theme.colors.textSecondary }]}>
-                                {item.brand}
-                              </Text>
-                            </View>
-                          )}
-                          <Text style={[styles.dishServingText, { color: theme.colors.textSecondary }]}>
-                            {serving ? `${serving.grams}g · ${serving.description || serving.label}` : '100g'}
-                          </Text>
-                        </View>
-                        <Text
-                          style={[
-                            styles.dishMacrosText,
-                            { color: isDark ? theme.colors.primaryLime : '#4B6200' },
-                          ]}
-                        >
-                          P {p}g · C {c}g · F {f}g
-                        </Text>
-                      </View>
-
-                      <View style={styles.dishCardRight}>
-                        <View
-                          style={[
-                            styles.caloriePill,
-                            {
-                              backgroundColor: isDark ? 'rgba(164, 235, 63, 0.15)' : '#F7FEE7',
-                              borderColor: theme.colors.primaryLime,
-                            },
-                          ]}
+                searchResults.map((food) => renderDishCard(food))
+              )}
+            </View>
+          ) : isDietView ? (
+            /* Plain Single-Ingredient Foods */
+            <View style={styles.searchResultsSection}>
+              {presets.length > 0 && (
+                <>
+                  <Text style={[styles.sectionEyebrow, { color: theme.colors.textMuted }]}>
+                    {t('tracker.hub.presetsHeading')}
+                  </Text>
+                  <View style={styles.presetRow}>
+                    {presets.map((preset) => (
+                      <View
+                        key={preset.id}
+                        style={[
+                          styles.presetChip,
+                          {
+                            backgroundColor: theme.colors.surface,
+                            borderColor: theme.colors.border,
+                          },
+                        ]}
+                      >
+                        <TouchableOpacity
+                          onPress={() => handleApplyPreset(preset)}
+                          activeOpacity={0.7}
+                          accessibilityRole="button"
+                          accessibilityLabel={t('tracker.hub.applyPreset', { name: preset.name })}
                         >
                           <Text
-                            style={[
-                              styles.caloriePillText,
-                              {
-                                color: isDark ? theme.colors.primaryLime : '#4B6200',
-                              },
-                            ]}
+                            style={[styles.presetChipText, { color: theme.colors.textPrimary }]}
+                            numberOfLines={1}
                           >
-                            ≈{kcal} kcal
+                            {preset.name}
                           </Text>
-                        </View>
-                        <Icon name="chevron-right" size={16} color={theme.colors.textMuted} />
+                          <Text style={[styles.presetChipMeta, { color: theme.colors.textMuted }]}>
+                            {t('tracker.hub.presetItemCount', { count: preset.entries.length })}
+                          </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => handleDeletePreset(preset.id)}
+                          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                          accessibilityRole="button"
+                          accessibilityLabel={t('tracker.hub.deletePreset', { name: preset.name })}
+                        >
+                          <Text style={[styles.presetChipRemove, { color: theme.colors.textMuted }]}>
+                            ✕
+                          </Text>
+                        </TouchableOpacity>
                       </View>
-                    </TouchableOpacity>
-                  );
-                })
+                    ))}
+                  </View>
+                </>
               )}
+
+              {recentFoods.length > 0 && (
+                <>
+                  <Text style={[styles.sectionEyebrow, { color: theme.colors.textMuted }]}>
+                    {t('tracker.hub.recentHeading')}
+                  </Text>
+                  {recentFoods.map((food) => renderDishCard(food, 'recent_'))}
+                </>
+              )}
+
+              <Text style={[styles.sectionEyebrow, { color: theme.colors.textMuted }]}>
+                {t('tracker.hub.dietBasicsHeading', { count: dietFoods.length })}
+              </Text>
+              {dietFoods.map((food) => renderDishCard(food))}
             </View>
           ) : (
             /* Brands List View */
@@ -482,6 +786,87 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
             </View>
           )}
         </ScrollView>
+
+        {/* Custom Meal Summary Bar */}
+        {isBuildMode && basket.length > 0 && (
+          <View
+            style={[
+              styles.basketBar,
+              {
+                backgroundColor: theme.colors.surface,
+                borderTopColor: theme.colors.border,
+              },
+            ]}
+          >
+            {isNamingPreset ? (
+              <View style={styles.presetNameRow}>
+                <TextInput
+                  style={[
+                    styles.presetNameInput,
+                    noOutlineStyle,
+                    {
+                      backgroundColor: theme.colors.canvas,
+                      borderColor: theme.colors.border,
+                      color: theme.colors.textPrimary,
+                    },
+                  ]}
+                  value={presetNameDraft}
+                  onChangeText={setPresetNameDraft}
+                  placeholder={t('tracker.hub.presetNamePlaceholder')}
+                  placeholderTextColor={theme.colors.textMuted}
+                  autoFocus
+                  returnKeyType="done"
+                  onSubmitEditing={handleSavePreset}
+                />
+                <TouchableOpacity
+                  style={[styles.basketConfirmBtn, { backgroundColor: theme.colors.primaryLime }]}
+                  onPress={handleSavePreset}
+                  activeOpacity={0.8}
+                  accessibilityRole="button"
+                >
+                  <Text style={[styles.basketConfirmText, { color: theme.colors.limeText }]}>
+                    {t('tracker.hub.savePresetConfirm')}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <>
+                <View style={styles.basketInfo}>
+                  <Text style={[styles.basketCount, { color: theme.colors.textPrimary }]}>
+                    {t('tracker.hub.basketCount', { count: basketTotals.count })}
+                  </Text>
+                  <Text
+                    style={[styles.basketKcal, { color: theme.colors.textSecondary }]}
+                    numberOfLines={2}
+                  >
+                    ≈{Math.round(basketTotals.kcal)} kcal ·{' '}
+                    {basket.map((e) => `${e.quantity}x ${e.food.name}`).join(', ')}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => setIsNamingPreset(true)}
+                    hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                    accessibilityRole="button"
+                  >
+                    <Text style={[styles.savePresetLink, { color: theme.colors.primary }]}>
+                      {t('tracker.hub.saveAsPreset')}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+
+                <TouchableOpacity
+                  style={[styles.basketConfirmBtn, { backgroundColor: theme.colors.primaryLime }]}
+                  onPress={handleConfirmBasket}
+                  activeOpacity={0.8}
+                  accessibilityRole="button"
+                >
+                  <Text style={[styles.basketConfirmText, { color: theme.colors.limeText }]}>
+                    {t('tracker.hub.logCustomMeal')}
+                  </Text>
+                </TouchableOpacity>
+              </>
+            )}
+          </View>
+        )}
       </SafeAreaView>
     </Modal>
   );
@@ -541,6 +926,125 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     backgroundColor: 'transparent',
     borderWidth: 0,
+  },
+  buildModeRow: {
+    paddingHorizontal: 16,
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    gap: 6,
+  },
+  buildModeBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    gap: 6,
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: 9999,
+    borderWidth: 1,
+  },
+  buildModeBtnText: {
+    fontSize: 12,
+    fontWeight: '800',
+  },
+  buildModeHint: {
+    fontSize: 11,
+    lineHeight: 15,
+  },
+  qtyControls: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  qtyBtn: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  qtyValue: {
+    fontSize: 14,
+    fontWeight: '800',
+    minWidth: 14,
+    textAlign: 'center',
+  },
+  basketBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderTopWidth: 1,
+  },
+  basketInfo: {
+    flex: 1,
+  },
+  savePresetLink: {
+    fontSize: 12,
+    fontWeight: '700',
+    marginTop: 4,
+  },
+  presetNameRow: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  presetNameInput: {
+    flex: 1,
+    height: 40,
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    fontSize: 14,
+  },
+  presetRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginBottom: 14,
+  },
+  presetChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 12,
+    borderWidth: 1,
+  },
+  presetChipText: {
+    fontSize: 13,
+    fontWeight: '700',
+    maxWidth: 160,
+  },
+  presetChipMeta: {
+    fontSize: 11,
+    fontWeight: '500',
+    marginTop: 1,
+  },
+  presetChipRemove: {
+    fontSize: 13,
+    fontWeight: '700',
+  },
+  basketCount: {
+    fontSize: 14,
+    fontWeight: '800',
+  },
+  basketKcal: {
+    fontSize: 11,
+    marginTop: 2,
+    lineHeight: 15,
+  },
+  basketConfirmBtn: {
+    paddingVertical: 12,
+    paddingHorizontal: 18,
+    borderRadius: 9999,
+  },
+  basketConfirmText: {
+    fontSize: 13,
+    fontWeight: '800',
   },
   groupScrollContainer: {
     borderBottomWidth: 1,

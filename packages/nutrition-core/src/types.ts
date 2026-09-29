@@ -130,18 +130,12 @@ export type PlanDietPreference =
   | 'eggetarian'
   | 'vegan';
 
-export type PlanBudgetTier =
-  | 'budget_under_3500'
-  | 'standard_3500_7000'
-  | 'premium_above_7000';
-
 export interface MealPlanSolverInput {
   targetCalories: number;
   targetProteinGrams: number;
   targetFatGrams: number;
   targetCarbGrams: number;
   dietPreference: PlanDietPreference;
-  budgetTierPKR: PlanBudgetTier;
   dislikedFoods?: string[];
   medicalConditions?: string[];
   mealsPerDay?: number;
@@ -185,7 +179,6 @@ export interface DailyMealPlanResult {
   totalOilAddedG: number;
   meals: PlannedMealSlot[];
   isWithinTolerance: boolean; // true if Math.abs(calorieDeviationPct) <= 5.0
-  budgetTier: PlanBudgetTier;
   dietPreference: PlanDietPreference;
 }
 
@@ -208,57 +201,6 @@ export interface MealSwapResult {
   options: [MealSwapOption, MealSwapOption, MealSwapOption];
 }
 
-export type GroceryCategory =
-  | 'atta_and_grains'
-  | 'daals_and_pulses'
-  | 'meats_and_poultry'
-  | 'dairy_and_eggs'
-  | 'sabzi_and_produce'
-  | 'oils_and_pantry';
-
-export interface GroceryItem {
-  id: string;
-  name: string;
-  nameUr?: string;
-  nameAr?: string;
-  category: GroceryCategory;
-  quantityAmount: number;
-  unit: 'kg' | 'g' | 'litres' | 'ml' | 'dozen' | 'pieces';
-  estimatedCostPKR: number;
-  estimatedCostSAR?: number;
-  estimatedCost?: number;
-  notes?: string;
-}
-
-export interface GroceryCategoryGroup {
-  category: GroceryCategory;
-  title: string;
-  titleUr: string;
-  titleAr?: string;
-  items: GroceryItem[];
-  subtotalPKR: number;
-  subtotalSAR?: number;
-  subtotal?: number;
-}
-
-export interface WeeklyGrocerySummary {
-  weekDaysCount: number;
-  budgetTier: PlanBudgetTier;
-  currency: 'PKR' | 'SAR';
-  currencySymbol: string;
-  maxBudgetPKR: number;
-  maxBudgetSAR?: number;
-  maxBudget: number;
-  estimatedTotalCostPKR: number;
-  estimatedTotalCostSAR?: number;
-  estimatedTotalCost: number;
-  isWithinBudget: boolean;
-  budgetDifferencePKR: number;
-  budgetDifferenceSAR?: number;
-  budgetDifference: number;
-  categories: GroceryCategoryGroup[];
-  budgetOptimizationTip?: string;
-}
 
 export interface FamilyModeInput {
   familyDishName: string;

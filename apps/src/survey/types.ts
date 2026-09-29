@@ -100,7 +100,12 @@ export type BudgetTierPKR =
 export interface SurveyPreferencesBudget {
   dietPreference: DietPreference;
   dislikedFoods: string[];
-  budgetTierPKR: BudgetTierPKR;
+  /**
+   * No longer asked for. Kept optional so surveys saved before the budget
+   * question was removed still deserialise, and so the field is not silently
+   * dropped from a returning user's stored payload.
+   */
+  budgetTierPKR?: BudgetTierPKR;
 }
 
 export interface LifestyleSurveyPayload {

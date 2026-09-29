@@ -5,6 +5,7 @@ import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { formatServingLine } from '../../tracker/formatServing.js';
 
 interface PlannedMealSlotCardProps {
   slot: PlannedMealSlot;
@@ -49,12 +50,6 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
     slot.items.reduce((sum, i) => sum + i.oilAddedG, 0).toFixed(1)
   );
   const oilTsps = (totalOil / 4.5).toFixed(1);
-
-  const formatServing = (qty: number, label: string, totalG: number) => {
-    const cleanLabel = (label || 'serving').replace(/\s*\(\s*\d+\s*g\s*\)/gi, '').trim();
-    const qtyPrefix = qty !== 1 ? `${qty}× ` : '';
-    return `${qtyPrefix}${cleanLabel} (${totalG}g)`;
-  };
 
   return (
     <View
@@ -231,7 +226,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
                   { color: theme.colors.textSecondary },
                 ]}
               >
-                {formatServing(item.quantity, item.servingLabel, item.totalGrams)}
+                {formatServingLine(item.quantity, item.servingLabel, item.totalGrams)}
               </Text>
             </View>
             <Text

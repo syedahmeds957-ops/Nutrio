@@ -4,6 +4,7 @@ import { LoggedItem, MealSlot } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { HapticFeedback } from '../../ui/haptics.js';
+import { formatServingLine } from '../formatServing.js';
 
 interface MealSlotCardProps {
   slot: MealSlot;
@@ -135,7 +136,7 @@ export const MealSlotCard: React.FC<MealSlotCardProps> = ({
                   {item.foodNameUr ? ` (${item.foodNameUr})` : ''}
                 </Text>
                 <Text style={[styles.itemServing, { color: theme.colors.textSecondary }]}>
-                  {item.quantity} × {item.servingLabel} ({item.totalGrams}g)
+                  {formatServingLine(item.quantity, item.servingLabel, item.totalGrams)}
                 </Text>
                 <Text style={[styles.itemMacros, { color: theme.colors.textMuted }]}>
                   {t('common.macroLine', {

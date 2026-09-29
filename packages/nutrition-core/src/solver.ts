@@ -4,6 +4,7 @@ import {
   PlannedMealItem,
   PlannedMealSlot,
 } from './types.js';
+import { isSuitableForDiet } from './diet-suitability.js';
 
 export interface SolverFoodCandidate {
   id?: string;
@@ -32,7 +33,7 @@ export function filterFoodPool(
   foods: SolverFoodCandidate[],
   input: MealPlanSolverInput
 ): SolverFoodCandidate[] {
-  const { dietPreference, budgetTierPKR, dislikedFoods = [], medicalConditions = [] } = input;
+  const { dietPreference, dislikedFoods = [], medicalConditions = [] } = input;
   const dislikedLower = dislikedFoods.map((d) => d.toLowerCase());
 
   return foods.filter((food) => {
@@ -43,41 +44,14 @@ export function filterFoodPool(
       return false;
     }
 
-    // 2. Check diet preference
-    if (dietPreference === 'vegan') {
-      const isAnimal =
-        food.category.includes('Meat') ||
-        food.category.includes('Barbecue') ||
-        food.category.includes('Dessert') ||
-        food.name.includes('Egg') ||
-        food.name.includes('Chicken') ||
-        food.name.includes('Beef') ||
-        food.name.includes('Mutton') ||
-        food.name.includes('Lassi') ||
-        food.name.includes('Kheer') ||
-        food.name.includes('Doodh Patti');
-      if (isAnimal) return false;
-    } else if (dietPreference === 'vegetarian_desi') {
-      const isMeat =
-        food.category.includes('Meat') ||
-        food.category.includes('Barbecue') ||
-        food.name.includes('Chicken') ||
-        food.name.includes('Beef') ||
-        food.name.includes('Mutton') ||
-        food.name.includes('Paya') ||
-        food.name.includes('Nihari');
-      if (isMeat) return false;
-    } else if (dietPreference === 'eggetarian') {
-      const isMeatNotEgg =
-        (food.category.includes('Meat') ||
-          food.category.includes('Barbecue') ||
-          food.name.includes('Chicken') ||
-          food.name.includes('Beef') ||
-          food.name.includes('Mutton')) &&
-        !food.name.includes('Egg') &&
-        !food.name.includes('Omelette') &&
-        !food.name.includes('Anda');
-      if (isMeatNotEgg) return false;
+    // 2. Check diet preference.
+    //
+    // Delegated to diet-suitability.ts. This used to be three inline blocks
+    // matching English words against Urdu dish names, plus a category check
+    // for categories that do not exist in the catalogue — between them they
+    // left 140 meat and fish dishes in the vegetarian pool.
+    if (!isSuitableForDiet(food, dietPreference)) {
+      return false;
     }
 
     // 3. Clinical checks
@@ -120,6 +94,31 @@ export function createPlannedItem(
 
 export interface MealPlanSolverOptions {
   dayIndex?: number;
+  /**
+   * Which regional plan to build. Pass it — the caller always knows, and the
+   * fallback below has to guess from the pool's contents.
+   */
+  region?: 'PK' | 'SA';
+}
+
+/**
+ * Last-resort region guess for callers that don't declare one.
+ *
+ * Deliberately a majority test rather than "contains any Saudi food". The
+ * Diet & Basics catalogue is region-neutral and merges into *both* regional
+ * pools, so the Pakistani pool legitimately contains foul medames, labneh,
+ * qahwa and tabbouleh. Under a `.some()` test those few entries flipped an
+ * entire Pakistani week to Saudi meal titles and a foul-medames breakfast,
+ * while the dishes underneath stayed nihari and sajji.
+ */
+function isPredominantlySaudi(foodPool: SolverFoodCandidate[]): boolean {
+  if (foodPool.length === 0) return false;
+  const saudiCount = foodPool.filter(
+    (f) =>
+      f.region === 'SA' ||
+      (f.cuisineTags?.some((t) => t.toLowerCase() === 'saudi') ?? false)
+  ).length;
+  return saudiCount * 2 > foodPool.length;
 }
 
 /**
@@ -135,11 +134,9 @@ export function solveDailyMealPlan(
   const dayIndex = options?.dayIndex ?? 0;
   const filtered = filterFoodPool(foodPool, input);
 
-  const isSaudi = foodPool.some(
-    (f) =>
-      f.region === 'SA' ||
-      (f.cuisineTags && f.cuisineTags.some((t) => t.toLowerCase() === 'saudi'))
-  );
+  const isSaudi = options?.region
+    ? options.region === 'SA'
+    : isPredominantlySaudi(foodPool);
 
   // Categorized pools
   const breads = filtered.filter(
@@ -209,7 +206,10 @@ export function solveDailyMealPlan(
     ) ||
     breads[0] ||
     filtered.find((f) => f.name.includes('Tamees') || f.name.includes('Khubz')) ||
-    foodPool[0];
+    // Never `foodPool[0]`. That was an unfiltered escape hatch straight past
+    // the diet check — and the first entry in the Pakistani catalogue happens
+    // to be Chicken Tikka, so a vegan could have been handed it as a default.
+    filtered[0];
 
   const defaultRice =
     plainRices[0] ||
@@ -477,7 +477,6 @@ export function solveDailyMealPlan(
     totalOilAddedG,
     meals,
     isWithinTolerance: Math.abs(calorieDeviationPct) <= 5.0,
-    budgetTier: input.budgetTierPKR,
     dietPreference: input.dietPreference,
   };
 }

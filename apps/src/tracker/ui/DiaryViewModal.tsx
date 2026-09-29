@@ -13,6 +13,7 @@ import { Icon } from '../../ui/Icon.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { formatServingLine } from '../formatServing.js';
 
 interface DiaryViewModalProps {
   visible: boolean;
@@ -280,7 +281,8 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
                     </View>
 
                     <Text style={[styles.itemMeta, { color: theme.colors.textSecondary }]}>
-                      {t(`tracker.mealSlots.${item.mealSlot}.${activeRegion}`)} · {item.quantity}x {item.servingLabel}
+                      {t(`tracker.mealSlots.${item.mealSlot}.${activeRegion}`)} ·{' '}
+                      {formatServingLine(item.quantity, item.servingLabel, item.totalGrams)}
                     </Text>
 
                     <Text

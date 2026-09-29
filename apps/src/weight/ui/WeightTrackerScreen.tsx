@@ -11,6 +11,7 @@ import { WeightTrendChartCard } from './WeightTrendChartCard.js';
 import { AdaptiveTDEECard } from './AdaptiveTDEECard.js';
 import { WeighInLogModal } from './WeighInLogModal.js';
 import { WeightTrendEngine } from '../engine.js';
+import { saveWeighIns } from '../weightStorage.js';
 import { WeightTrackerState } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
@@ -43,6 +44,9 @@ export const WeightTrackerScreen: React.FC<WeightTrackerScreenProps> = ({
     const spike = engine.checkSpikeWarning(weightKg);
     setSpikeWarning(spike.hasSpike ? spike.message : undefined);
     engine.logWeighIn(weightKg, date, notes);
+    // Persisted immediately. Without this the engine lived only in component
+    // state, so every weigh-in was lost the moment the screen unmounted.
+    saveWeighIns(engine.getWeighIns());
     forceUpdate();
   };
 
