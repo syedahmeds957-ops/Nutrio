@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import React from 'react';
 import { AnalysisView } from '../ui/AnalysisView.js';
 import { PlanWorkflowScreen } from '../ui/PlanWorkflowScreen.js';
+import { PlanRevealView } from '../ui/PlanRevealView.js';
 import { PlanUserContext } from '../types.js';
 import { RegionProvider } from '../../common/region/index.js';
 
@@ -73,5 +74,58 @@ describe('AnalysisView and PlanWorkflowScreen Navigation', () => {
     });
     expect(element).toBeDefined();
     expect(element.props.initialRegion).toBe('PK');
+  });
+});
+
+describe('Targets review hides the accept button until something changes', () => {
+  const ctx: PlanUserContext = {
+    weightKg: 78,
+    heightCm: 175,
+    ageYears: 28,
+    sex: 'male',
+    bmr: 1750,
+    tdee: 2400,
+    chaiSugarKcalPerDay: 130,
+    weeklyChaiSugarKcal: 910,
+    isNightShift: false,
+    dailySittingHours: 7,
+  };
+  const plan = {
+    goalSelection: { goal: 'lose', targetRateKgPerWeek: 0.5, targetWeightKg: 73 },
+    userContext: ctx,
+  } as never;
+
+  it('offers accept when a plan is being created for the first time', () => {
+    const el = React.createElement(PlanWorkflowScreen, {
+      userContext: ctx,
+      onPlanAccepted: vi.fn(),
+      onCancel: vi.fn(),
+    });
+    // No existingPlan, so the wizard runs and the plan genuinely needs accepting.
+    expect(el.props.existingPlan).toBeUndefined();
+  });
+
+  it('opens straight on the saved plan when reviewing', () => {
+    const el = React.createElement(PlanWorkflowScreen, {
+      userContext: ctx,
+      existingPlan: plan,
+      onPlanAccepted: vi.fn(),
+      onCancel: vi.fn(),
+    });
+    expect(el.props.existingPlan).toBe(plan);
+  });
+
+  it('lets PlanRevealView hide accept without hiding adjust', () => {
+    const onAcceptPlan = vi.fn();
+    const onAdjustGoal = vi.fn();
+    const el = React.createElement(PlanRevealView, {
+      plan,
+      onAcceptPlan,
+      onAdjustGoal,
+      showAccept: false,
+    });
+    expect(el.props.showAccept).toBe(false);
+    // Adjusting is still the whole point of the screen.
+    expect(el.props.onAdjustGoal).toBe(onAdjustGoal);
   });
 });

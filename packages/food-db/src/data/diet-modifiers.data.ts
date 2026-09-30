@@ -21,26 +21,21 @@ import { DRESSING_MODIFIERS } from './diet-dressings.data.js';
 /** Fats people add to savoury food: roti, rice, daal, sabzi, meat. */
 export const FAT_MODIFIERS: FoodModifier[] = [
   {
+    // Ghee and oil share one row. Per teaspoon they are 45 kcal and 45 kcal —
+    // the same number printed twice — and each row already carries a stepper,
+    // so a separate "1 tbsp" entry was another row for three taps.
     id: 'addon_ghee_tsp',
-    name: '+ 1 tsp Desi Ghee',
-    nameUr: '+ 1 چھوٹا چمچ دیسی گھی',
-    nameAr: '+ ملعقة صغيرة سمن',
+    name: '+ 1 tsp Ghee / Oil',
+    nameUr: '+ 1 چھوٹا چمچ گھی / تیل',
+    nameAr: '+ ملعقة صغيرة سمن أو زيت',
     calories: 45,
     proteinGrams: 0,
     carbGrams: 0,
     fatGrams: 5,
   },
   {
-    id: 'addon_ghee_tbsp',
-    name: '+ 1 tbsp Desi Ghee',
-    nameUr: '+ 1 کھانے کا چمچ دیسی گھی',
-    nameAr: '+ ملعقة كبيرة سمن',
-    calories: 125,
-    proteinGrams: 0,
-    carbGrams: 0,
-    fatGrams: 13.9,
-  },
-  {
+    // Butter earns its own row: it carries water and milk solids, so it is
+    // 734 kcal/100g against oil's 900.
     id: 'addon_butter_tsp',
     name: '+ 1 tsp Butter',
     nameUr: '+ 1 چھوٹا چمچ مکھن',
@@ -49,26 +44,6 @@ export const FAT_MODIFIERS: FoodModifier[] = [
     proteinGrams: 0.1,
     carbGrams: 0,
     fatGrams: 4.1,
-  },
-  {
-    id: 'addon_oil_tsp',
-    name: '+ 1 tsp Cooking Oil',
-    nameUr: '+ 1 چھوٹا چمچ تیل',
-    nameAr: '+ ملعقة صغيرة زيت',
-    calories: 45,
-    proteinGrams: 0,
-    carbGrams: 0,
-    fatGrams: 5,
-  },
-  {
-    id: 'addon_oil_tbsp',
-    name: '+ 1 tbsp Cooking Oil',
-    nameUr: '+ 1 کھانے کا چمچ تیل',
-    nameAr: '+ ملعقة كبيرة زيت',
-    calories: 126,
-    proteinGrams: 0,
-    carbGrams: 0,
-    fatGrams: 14,
   },
 ];
 
@@ -82,16 +57,6 @@ export const SWEETENER_MODIFIERS: FoodModifier[] = [
     calories: 16,
     proteinGrams: 0,
     carbGrams: 4,
-    fatGrams: 0,
-  },
-  {
-    id: 'addon_sugar_2tsp',
-    name: '+ 2 tsp Sugar',
-    nameUr: '+ 2 چھوٹے چمچ چینی',
-    nameAr: '+ ملعقتان صغيرتان سكر',
-    calories: 32,
-    proteinGrams: 0,
-    carbGrams: 8,
     fatGrams: 0,
   },
   {
@@ -143,17 +108,27 @@ export const DAIRY_ADDON_MODIFIERS: FoodModifier[] = [
 /**
  * Which add-ons suit a food.
  *
- * - `savoury`  roti, rice, daal, sabzi, meat, eggs — ghee, oil, butter, cheese
- * - `sweet`    chai, coffee, dahi, oats, fruit — sugar, honey, gur
- * - `salad`    the dressings in diet-dressings.data.ts
- * - `none`     the add-ons themselves, plus nuts and snacks. Offering "+1 tsp
- *              ghee" on a jar of ghee is noise, and so is sugaring almonds.
+ * Kept narrow on purpose. An add-on list that offers cheese on daal or ghee in
+ * chai reads as noise, and noise is what makes people stop reading the list —
+ * so each class only carries what someone would plausibly reach for.
+ *
+ * - `savoury`        roti, rice, daal, sabzi, meat — ghee/oil and butter
+ * - `savoury_cheese` eggs and breads, where a slice of cheese is normal too
+ * - `sweet`          chai, dahi, oats, fruit — sugar, honey, gur, malai
+ * - `salad`          the dressings in diet-dressings.data.ts
+ * - `none`           the add-ons themselves, plus nuts and snacks. Offering
+ *                    "+1 tsp ghee" on a jar of ghee is noise, and so is
+ *                    sugaring almonds.
  */
-export type DietAddOnClass = 'savoury' | 'sweet' | 'salad' | 'none';
+export type DietAddOnClass = 'savoury' | 'savoury_cheese' | 'sweet' | 'salad' | 'none';
+
+const CHEESE_MODIFIER = DAIRY_ADDON_MODIFIERS[0];
+const MALAI_MODIFIER = DAIRY_ADDON_MODIFIERS[1];
 
 const MODIFIERS_BY_CLASS: Record<DietAddOnClass, FoodModifier[]> = {
-  savoury: [...FAT_MODIFIERS, ...DAIRY_ADDON_MODIFIERS],
-  sweet: [...SWEETENER_MODIFIERS, DAIRY_ADDON_MODIFIERS[1]],
+  savoury: FAT_MODIFIERS,
+  savoury_cheese: [...FAT_MODIFIERS, CHEESE_MODIFIER],
+  sweet: [...SWEETENER_MODIFIERS, MALAI_MODIFIER],
   salad: DRESSING_MODIFIERS,
   none: [],
 };

@@ -39,6 +39,14 @@ export const PlanWorkflowScreen: React.FC<PlanWorkflowScreenProps> = ({
 }) => {
   const { theme } = useTheme();
   const [phase, setPhase] = useState<PlanPhase>(existingPlan ? 'reveal' : 'analysis');
+  /**
+   * Set once the user confirms a different goal while reviewing.
+   *
+   * Reviewing saved targets has nothing to accept — the plan was accepted when
+   * it was created — so the accept button stays hidden until an adjustment
+   * actually produces a new plan to confirm.
+   */
+  const [hasAdjustedGoal, setHasAdjustedGoal] = useState(false);
   const [goalSelection, setGoalSelection] = useState<GoalSelectionState>(
     existingPlan
       ? existingPlan.goalSelection
@@ -69,6 +77,7 @@ export const PlanWorkflowScreen: React.FC<PlanWorkflowScreenProps> = ({
           context={userContext}
           onConfirmGoal={(selection) => {
             setGoalSelection(selection);
+            setHasAdjustedGoal(true);
             setPhase('calculating');
           }}
           onBack={() => setPhase('analysis')}
@@ -87,6 +96,7 @@ export const PlanWorkflowScreen: React.FC<PlanWorkflowScreenProps> = ({
           onAcceptPlan={() => onPlanAccepted(computedPlan)}
           onAdjustGoal={() => setPhase('goal')}
           onBack={existingPlan ? onCancel : undefined}
+          showAccept={!existingPlan || hasAdjustedGoal}
         />
       )}
     </SafeAreaView>

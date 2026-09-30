@@ -17,6 +17,15 @@ interface PlanRevealViewProps {
   onAcceptPlan: () => void;
   onAdjustGoal: () => void;
   onBack?: () => void;
+  /**
+   * Whether to offer "accept & launch".
+   *
+   * False when the user is simply looking at targets they already accepted —
+   * there is nothing to accept, and the button read as though the plan were
+   * still pending. It comes back the moment they change the goal, because then
+   * there genuinely is a new plan to confirm.
+   */
+  showAccept?: boolean;
 }
 
 export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
@@ -24,6 +33,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
   onAcceptPlan,
   onAdjustGoal,
   onBack,
+  showAccept = true,
 }) => {
   const { theme } = useTheme();
   const { activeRegion } = useRegion();
@@ -288,15 +298,17 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[styles.acceptBtn, { backgroundColor: theme.colors.primaryLime }]}
-          onPress={onAcceptPlan}
-          activeOpacity={0.8}
-        >
-          <Text style={[styles.acceptBtnText, { color: accentTextColor }]}>
-            {t('plan.reveal.acceptLaunch')} {dir.isRTL ? '←' : '→'}
-          </Text>
-        </TouchableOpacity>
+        {showAccept && (
+          <TouchableOpacity
+            style={[styles.acceptBtn, { backgroundColor: theme.colors.primaryLime }]}
+            onPress={onAcceptPlan}
+            activeOpacity={0.8}
+          >
+            <Text style={[styles.acceptBtnText, { color: accentTextColor }]}>
+              {t('plan.reveal.acceptLaunch')} {dir.isRTL ? '←' : '→'}
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
     </ScrollView>
   );

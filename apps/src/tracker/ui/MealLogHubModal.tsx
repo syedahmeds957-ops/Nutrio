@@ -19,6 +19,7 @@ import {
   searchPakistaniFoods,
   searchSaudiFoods,
   getDietBasicsForRegion,
+  groupDietFoods,
 } from '@nutrio/food-db';
 import { Icon } from '../../ui/Icon.js';
 import { BrandLogo } from '../../ui/BrandLogo.js';
@@ -85,6 +86,10 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion, setRegion } = useRegion();
+  const isSaudiRegion = activeRegion === 'SA';
+  /** The local-script name for the active region, falling back to the other. */
+  const localName = (nameUr?: string, nameAr?: string) =>
+    isSaudiRegion ? nameAr || nameUr : nameUr || nameAr;
   const { t } = useTranslation();
   const dir = useTextDirection();
   const [searchQuery, setSearchQuery] = useState('');
@@ -134,6 +139,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
     t(`tracker.brandGroups.${group}`, { defaultValue: group });
 
   const dietFoods = useMemo(() => getDietBasicsForRegion(activeRegion), [activeRegion]);
+  const dietSections = useMemo(() => groupDietFoods(dietFoods), [dietFoods]);
   const isDietView = selectedGroup === DIET_GROUP;
 
   const foodKey = (food: NormalizedFood) => food.id || food.name;
@@ -324,14 +330,18 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
         <View style={styles.dishCardLeft}>
           <View style={styles.dishTitleRow}>
             <Text style={[styles.dishName, { color: theme.colors.textPrimary }]}>{item.name}</Text>
-            {item.nameAr && (
-              <Text style={[styles.dishNameAr, { color: theme.colors.primaryLime }]}>
-                {item.nameAr}
-              </Text>
-            )}
-            {item.nameUr && (
-              <Text style={[styles.dishNameUr, { color: theme.colors.textMuted }]}>
-                {item.nameUr}
+            {/*
+              One local name, not both. These rendered unconditionally, so a
+              food carrying nameUr and nameAr printed its name three times.
+            */}
+            {localName(item.nameUr, item.nameAr) && (
+              <Text
+                style={[
+                  isSaudiRegion ? styles.dishNameAr : styles.dishNameUr,
+                  { color: isSaudiRegion ? theme.colors.primaryLime : theme.colors.textMuted },
+                ]}
+              >
+                {localName(item.nameUr, item.nameAr)}
               </Text>
             )}
           </View>
@@ -728,7 +738,20 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
               <Text style={[styles.sectionEyebrow, { color: theme.colors.textMuted }]}>
                 {t('tracker.hub.dietBasicsHeading', { count: dietFoods.length })}
               </Text>
-              {dietFoods.map((food) => renderDishCard(food))}
+
+              {/*
+                Grouped, not one flat scroll of ~280 rows. Ordered so whole
+                meals and proteins come first and the add-ons people put *on*
+                food — oils, sugar, dressings — come last.
+              */}
+              {dietSections.map(({ group, foods }) => (
+                <View key={group}>
+                  <Text style={[styles.dietGroupHeading, { color: theme.colors.textSecondary }]}>
+                    {t(`tracker.hub.dietGroups.${group}`)} · {foods.length}
+                  </Text>
+                  {foods.map((food) => renderDishCard(food, `${group}_`))}
+                </View>
+              ))}
             </View>
           ) : (
             /* Brands List View */
@@ -763,14 +786,18 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                         <Text style={[styles.brandName, { color: theme.colors.textPrimary }]}>
                           {brand.name}
                         </Text>
-                        {brand.nameAr && (
-                          <Text style={[styles.brandNameAr, { color: theme.colors.primaryLime }]}>
-                            {brand.nameAr}
-                          </Text>
-                        )}
-                        {brand.nameUr && (
-                          <Text style={[styles.brandNameUr, { color: theme.colors.textMuted }]}>
-                            {brand.nameUr}
+                        {localName(brand.nameUr, brand.nameAr) && (
+                          <Text
+                            style={[
+                              isSaudiRegion ? styles.brandNameAr : styles.brandNameUr,
+                              {
+                                color: isSaudiRegion
+                                  ? theme.colors.primaryLime
+                                  : theme.colors.textMuted,
+                              },
+                            ]}
+                          >
+                            {localName(brand.nameUr, brand.nameAr)}
                           </Text>
                         )}
                       </View>
@@ -1068,6 +1095,14 @@ const styles = StyleSheet.create({
   contentContainer: {
     padding: 16,
     paddingBottom: 40,
+  },
+  dietGroupHeading: {
+    fontSize: 11,
+    fontWeight: '800',
+    letterSpacing: 0.6,
+    textTransform: 'uppercase',
+    marginTop: 18,
+    marginBottom: 8,
   },
   sectionEyebrow: {
     fontSize: 11,

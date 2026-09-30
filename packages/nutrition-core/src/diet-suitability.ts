@@ -66,7 +66,7 @@ const DAIRY_TERMS = [
   'cheese', 'cheddar', 'mozzarella', 'halloumi', 'labneh', 'laban', 'cream',
   'malai', 'butter', 'makhan', 'ghee', 'khoya', 'mawa', 'kheer', 'firni',
   'rabri', 'rabdi', 'kulfi', 'falooda', 'thandai', 'sardai', 'skyr', 'quark',
-  'condensed', 'latte', 'cappuccino', 'custard', 'chaas', 'buttermilk',
+  'condensed', 'latte', 'cappuccino', 'custard', 'chaas', 'buttermilk', 'whey',
 ] as const;
 
 /**

@@ -29,6 +29,7 @@ import { DIET_SOUPS_DATA } from './diet-soups.data.js';
 import { DIET_BREAKFAST_DATA } from './diet-breakfast.data.js';
 import { DIET_SNACKS_DATA } from './diet-snacks.data.js';
 import { DIET_EGGS_DATA } from './diet-eggs.data.js';
+import { DIET_GLOBAL_DATA } from './diet-global.data.js';
 import { DIET_FATS_SWEETENERS_DATA } from './diet-fats-sweeteners.data.js';
 import { DIET_FRUITS_DATA } from './diet-fruits.data.js';
 import { DIET_LEGUMES_DATA } from './diet-legumes.data.js';
@@ -68,6 +69,7 @@ export * from './diet-soups.data.js';
 export * from './diet-breakfast.data.js';
 export * from './diet-snacks.data.js';
 export * from './diet-eggs.data.js';
+export * from './diet-global.data.js';
 export * from './diet-fats-sweeteners.data.js';
 export * from './diet-fruits.data.js';
 export * from './diet-legumes.data.js';
@@ -78,6 +80,7 @@ export * from './diet-dairy.data.js';
 export * from './diet-grains.data.js';
 export * from './diet-nuts-seeds.data.js';
 export * from './diet-modifiers.data.js';
+export * from './diet-groups.data.js';
 
 export const PAKISTANI_RESTAURANT_BRANDS: RestaurantBrand[] = [
   ...CALORIFY_BRANDS,
@@ -137,7 +140,8 @@ export const DIET_BASICS_CATALOG: NormalizedFood[] = [
   // omelette) is close enough that offering it honey costs nothing.
   ...withDietIds(DIET_BREAKFAST_DATA, 'diet_brk', 'sweet'),
   ...withDietIds(DIET_SNACKS_DATA, 'diet_snack', 'none'),
-  ...withDietIds(DIET_EGGS_DATA, 'diet_egg', 'savoury'),
+  ...withDietIds(DIET_EGGS_DATA, 'diet_egg', 'savoury_cheese'),
+  ...withDietIds(DIET_GLOBAL_DATA, 'diet_global', 'savoury'),
   ...withDietIds(DIET_FATS_SWEETENERS_DATA, 'diet_fat', 'none'),
   ...withDietIds(DIET_FRUITS_DATA, 'diet_fruit', 'sweet'),
   ...withDietIds(DIET_LEGUMES_DATA, 'diet_leg', 'savoury'),
@@ -148,7 +152,7 @@ export const DIET_BASICS_CATALOG: NormalizedFood[] = [
   // sweetened. The sweet set is the safe default — sugaring cheese is odd but
   // harmless, whereas offering ghee on yogurt would be actively wrong.
   ...withDietIds(DIET_DAIRY_DATA, 'diet_dairy', 'sweet'),
-  ...withDietIds(DIET_GRAINS_DATA, 'diet_grain', 'savoury'),
+  ...withDietIds(DIET_GRAINS_DATA, 'diet_grain', 'savoury_cheese'),
   ...withDietIds(DIET_NUTS_SEEDS_DATA, 'diet_nut', 'none'),
 ];
 
