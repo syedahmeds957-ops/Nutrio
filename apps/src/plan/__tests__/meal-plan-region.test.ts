@@ -70,13 +70,17 @@ describe('Meal plan region selection', () => {
     expect(inferred.meals.map((m) => m.title).join(' | ')).toMatch(/saudi/i);
   });
 
-  it('confirms the Pakistani pool really does carry Saudi-tagged diet foods', () => {
-    // If this ever goes to zero the tests above stop proving anything, because
-    // the condition that caused the bug would no longer exist.
-    const saudiTagged = (PAKISTANI_STAPLES_DATA as { cuisineTags?: string[] }[]).filter((f) =>
-      f.cuisineTags?.some((t) => t.toLowerCase() === 'saudi')
-    );
-    expect(saudiTagged.length).toBeGreaterThan(0);
-    expect(saudiTagged.length * 2).toBeLessThan(PAKISTANI_STAPLES_DATA.length);
+  it('keeps Saudi diet foods out of the Pakistani pool entirely', () => {
+    // This assertion used to run the other way: it confirmed the pool *did*
+    // carry Saudi-tagged diet foods, because that was the condition that fooled
+    // the solver's region guess and the other tests needed it to exist.
+    //
+    // Diet foods now carry their own region instead of all being GLOBAL, so the
+    // leak is gone at the source. The solver's majority fallback stays as a
+    // second line of defence, covered by the test above.
+    const saudiTagged = (PAKISTANI_STAPLES_DATA as { cuisineTags?: string[]; name: string }[])
+      .filter((f) => f.cuisineTags?.some((t) => t.toLowerCase() === 'saudi'))
+      .map((f) => f.name);
+    expect(saudiTagged).toEqual([]);
   });
 });
