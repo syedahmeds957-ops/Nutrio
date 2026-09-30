@@ -55,7 +55,7 @@ describe('Diet & Basics catalogue', () => {
   it('files every item under the Diet & Basics filter pill', () => {
     for (const food of DIET_BASICS_CATALOG) {
       expect(food.category, food.name).toBe('Diet & Basics');
-      expect(food.region, food.name).toBe('GLOBAL');
+      expect(['PK', 'SA', 'GLOBAL'], food.name).toContain(food.region);
     }
   });
 

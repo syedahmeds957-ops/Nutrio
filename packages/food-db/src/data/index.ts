@@ -102,6 +102,26 @@ export const ALL_RESTAURANT_BRANDS: RestaurantBrand[] = [
  * is inserted into an earlier file, silently breaking the ids already written
  * into users' saved diaries.
  */
+/**
+ * Which regional catalogue a diet food belongs to.
+ *
+ * Everything here used to be forced to GLOBAL on the theory that Diet & Basics
+ * is region-neutral. That holds for an egg or a glass of milk; it does not hold
+ * for foul medames, saj bread, freekeh or hammour, which were showing up for
+ * Pakistani users — nor for chapli kebab and karela sabzi, which were showing
+ * up for Saudi ones. The cuisine tags already say which is which.
+ */
+const dietRegionFor = (food: NormalizedFood): RegionCode => {
+  const tags = food.cuisineTags ?? [];
+  if (tags.includes('Saudi')) return 'SA';
+  if (tags.includes('Pakistani')) return 'PK';
+  return 'GLOBAL';
+};
+
+/** Diet foods that belong in `region`'s catalogue: its own, plus the neutral ones. */
+const dietFoodsForRegion = (region: 'PK' | 'SA'): NormalizedFood[] =>
+  DIET_BASICS_CATALOG.filter((f) => f.region === region || f.region === 'GLOBAL');
+
 const withDietIds = (
   data: NormalizedFood[],
   prefix: string,
@@ -120,7 +140,7 @@ const withDietIds = (
     return {
       ...item,
       id: item.id || `${prefix}_${idx + 1}`,
-      region: 'GLOBAL' as RegionCode,
+      region: item.region ?? dietRegionFor(item),
       // Left undefined rather than set to [] so `getDishCustomizationModifiers`
       // can still fall back to its taxonomy for anything we classify as 'none'.
       ...(modifiers.length > 0 ? { modifiers } : {}),
@@ -169,11 +189,14 @@ export const ALL_EXPANDED_PAKISTANI_FOODS: NormalizedFood[] = [
   ...BEVERAGES_DRINKS_DATA,
   ...CALORIFY_RESTAURANTS_DATA,
   ...PAKISTANI_EXPANDED_RESTAURANTS_DATA,
+  // Only the Pakistani and region-neutral diet foods. Passing the whole
+  // catalogue here is what put foul medames and saj bread in a PK user's list.
+  //
   // Appended, never prepended: plenty of callers resolve a food with a fuzzy
   // `find(f => f.name.includes(...))`, so putting "Plain Roti" ahead of the
   // real Roti would silently repoint those lookups. Diet foods are surfaced
   // by the search ranking boost and the Diet & Basics filter instead.
-  ...DIET_BASICS_CATALOG,
+  ...dietFoodsForRegion('PK'),
 ].map((item, idx) => ({
   ...item,
   id: item.id || `pak_food_${idx + 1}`,
@@ -183,7 +206,8 @@ export const ALL_EXPANDED_PAKISTANI_FOODS: NormalizedFood[] = [
 export const ALL_SAUDI_FOODS: NormalizedFood[] = [
   ...SAUDI_TRADITIONAL_FOODS,
   ...SAUDI_RESTAURANTS_DATA,
-  ...DIET_BASICS_CATALOG,
+  // Likewise: chapli kebab and karela sabzi do not belong in a Saudi list.
+  ...dietFoodsForRegion('SA'),
 ];
 
 // Deduped by id: the diet basics appear in both regional catalogues, so a
