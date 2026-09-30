@@ -5,6 +5,7 @@ import {
   DRESSING_MODIFIERS,
   ALL_DIET_ADDON_MODIFIERS,
   searchPakistaniFoods,
+  groupDietFoods,
   isDietBasic,
 } from '../src/index.js';
 
@@ -75,7 +76,7 @@ describe('Diet & Basics catalogue', () => {
     expect(new Set(ids).size, 'duplicate diet ids').toBe(ids.length);
     for (const id of ids) {
       expect(id, `${id} is not a recognised diet id prefix`).toMatch(
-        /^diet_(basic|bev|salad|dress|arab|pk|soup|brk|snack|egg|fat|fruit|leg|veg|meat|sea|dairy|grain|nut)_\d+$/
+        /^diet_(basic|bev|salad|dress|arab|pk|soup|brk|snack|egg|fat|fruit|leg|veg|meat|sea|dairy|grain|nut|global)_\d+$/
       );
     }
   });
@@ -399,13 +400,11 @@ describe('Add-on modifiers', () => {
     const mod = (id: string) => ALL_DIET_ADDON_MODIFIERS.find((m) => m.id === id)!;
 
     const pairs: [string, string, number][] = [
+      // One row for both, so it has to reconcile with either.
       ['addon_ghee_tsp', 'Desi Ghee', 5],
-      ['addon_ghee_tbsp', 'Desi Ghee', 14],
+      ['addon_ghee_tsp', 'Cooking Oil (Any Plain Oil)', 5],
       ['addon_butter_tsp', 'Butter', 5],
-      ['addon_oil_tsp', 'Cooking Oil (Any Plain Oil)', 5],
-      ['addon_oil_tbsp', 'Cooking Oil (Any Plain Oil)', 14],
       ['addon_sugar_tsp', 'Sugar (White)', 4],
-      ['addon_sugar_2tsp', 'Sugar (White)', 8],
       ['addon_honey_tsp', 'Honey', 7],
       ['addon_gur_piece', 'Gur / Jaggery', 10],
       ['addon_cheese_slice', 'Cheddar Cheese', 28],
@@ -452,7 +451,7 @@ describe('Add-on modifiers', () => {
     // 11 add-on definitions covering this many foods is the trade being made
     // against shipping "Roti with Ghee" as its own row.
     expect(withAddOns.length).toBeGreaterThan(DIET_BASICS_CATALOG.length * 0.7);
-    expect(ALL_DIET_ADDON_MODIFIERS).toHaveLength(11);
+    expect(ALL_DIET_ADDON_MODIFIERS).toHaveLength(7);
   });
 });
 
@@ -479,5 +478,43 @@ describe('Phase 9 — search ranking still holds at 3x the catalogue size', () =
     ['nihari', 'Nihari'],
   ])('still returns the real dish for "%s"', (query, expected) => {
     expect(topNames(query).join(' | ')).toContain(expected);
+  });
+});
+
+describe('Diet list grouping', () => {
+  const sections = groupDietFoods(DIET_BASICS_CATALOG);
+
+  it('places every food in exactly one section', () => {
+    const total = sections.reduce((sum, s) => sum + s.foods.length, 0);
+    expect(total).toBe(DIET_BASICS_CATALOG.length);
+    const ids = sections.flatMap((s) => s.foods.map((f) => f.id));
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it('puts ingredients where someone would look for them', () => {
+    const groupOf = (name: string) =>
+      sections.find((s) => s.foods.some((f) => f.name === name))?.group;
+    expect(groupOf('Tomato (Raw)')).toBe('vegetables');
+    expect(groupOf('Lettuce / Salad Leaves')).toBe('vegetables');
+    expect(groupOf('Mango')).toBe('fruits');
+    expect(groupOf('Plain Roti / Chapati (No Ghee)')).toBe('grains');
+    expect(groupOf('Plain Yogurt / Dahi')).toBe('dairy');
+    expect(groupOf('Plain Boiled Daal (No Tarka)')).toBe('legumes');
+    expect(groupOf('Almonds')).toBe('nuts_seeds');
+  });
+
+  it('files the things you put on food, not log alone, under extras and last', () => {
+    const groupOf = (name: string) =>
+      sections.find((s) => s.foods.some((f) => f.name === name))?.group;
+    expect(groupOf('Olive Oil')).toBe('extras');
+    expect(groupOf('Desi Ghee')).toBe('extras');
+    expect(groupOf('Sugar (White)')).toBe('extras');
+    expect(groupOf('Ranch Dressing')).toBe('extras');
+    expect(sections[sections.length - 1].group).toBe('extras');
+  });
+
+  it('leads with meals and protein, which is what the logger is opened for', () => {
+    expect(sections[0].group).toBe('meals');
+    expect(sections[1].group).toBe('protein');
   });
 });

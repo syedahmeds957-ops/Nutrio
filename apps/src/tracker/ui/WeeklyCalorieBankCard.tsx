@@ -32,6 +32,9 @@ const BAR_LABEL_GAP = 6;
 
 const BAR_MAX_HEIGHT = 68;
 
+/** Width reserved on the left for the TARGET caption, so no bar sits under it. */
+const TARGET_LABEL_GUTTER = 42;
+
 /**
  * Where the target line sits inside the plot, as a fraction of bar height.
  *
@@ -298,16 +301,18 @@ const styles = StyleSheet.create({
     right: 0,
     flexDirection: 'row',
     alignItems: 'center',
-    zIndex: 1,
+    // No zIndex on purpose. It is declared before barsRow, so it paints
+    // underneath and the bars occlude it, which is how a reference line should
+    // read. On top it looked like a line scribbled across the chart.
   },
   targetDashedLine: {
     flex: 1,
     height: 1,
   },
   targetLineLabel: {
+    width: TARGET_LABEL_GUTTER,
     fontSize: 9,
     fontWeight: '700',
-    marginRight: 6,
     textTransform: 'uppercase',
   },
   barsRow: {
@@ -315,7 +320,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     height: 94,
-    paddingHorizontal: 8,
+    // Left gutter matches the caption's width so no bar sits under "TARGET".
+    // The caption used to start at x=0, right on top of Monday's bar.
+    paddingLeft: TARGET_LABEL_GUTTER,
+    paddingRight: 8,
   },
   barCol: {
     alignItems: 'center',
