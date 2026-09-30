@@ -84,7 +84,9 @@ describe('Pakistani Restaurant Catalog: 2,700+ Menu Items & 60+ Brands', () => {
       expect(food.name.length).toBeGreaterThan(1);
       expect(food.nameUr).toBeDefined();
       expect(food.nameUr?.length).toBeGreaterThan(1);
-      expect(food.verifiedBy).toBe('dietitian_approved');
+      // Restaurant/home dishes are dietitian-reviewed; plain single-ingredient
+      // foods carry USDA reference values. Both are acceptable provenance.
+      expect(['dietitian_approved', 'usda_reference', 'composed']).toContain(food.verifiedBy);
       expect(food.servings.length).toBeGreaterThan(0);
       const servingKcal = food.servings[0].kcal ?? Math.round((food.kcal100g * food.servings[0].grams) / 100);
       expect(servingKcal).toBeGreaterThanOrEqual(0);

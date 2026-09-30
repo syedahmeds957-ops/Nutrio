@@ -8,10 +8,8 @@ import {
   View,
 } from 'react-native';
 import {
-  adaptPlanForFamilyMode,
   DailyMealPlanResult,
   generateMealSwaps,
-  generateRamadanPlan,
   MealPlanSolverInput,
   MealSwapOption,
   MealSwapResult,
@@ -21,8 +19,6 @@ import {
 import { PAKISTANI_STAPLES_DATA, SAUDI_TRADITIONAL_FOODS } from '@nutrio/food-db';
 import { PlannedMealSlotCard } from './PlannedMealSlotCard.js';
 import { MealSwapModal } from './MealSwapModal.js';
-import { GroceryListView } from './GroceryListView.js';
-import { CulturalModesModal } from './CulturalModesModal.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
@@ -30,41 +26,32 @@ import { useTranslation, useTextDirection } from '../../i18n/index.js';
 interface WeeklyPlanViewProps {
   solverInput: MealPlanSolverInput;
   onBackToDashboard: () => void;
-  onOpenGroceryList?: (plans: DailyMealPlanResult[]) => void;
 }
 
 const DAY_KEYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 // Kept as a plain array so the existing index-based plan generation is unchanged.
 const DAYS_OF_WEEK = DAY_KEYS;
 
-// Budget bands are priced per market, so the label key carries the region.
-const BUDGET_TIER_KEYS: Record<string, string> = {
-  low_under_3500: 'budget',
-  budget_under_3500: 'budget',
-  standard_3500_7000: 'standard',
-  premium_above_7000: 'premium',
-};
-
 export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
   solverInput,
   onBackToDashboard,
-  onOpenGroceryList,
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
-  const [viewMode, setViewMode] = useState<'plan' | 'grocery'>('plan');
 
   const { t } = useTranslation();
   const dir = useTextDirection();
   const isSaudi = activeRegion === 'SA';
-  const budgetTierLabel = (tier: string) =>
-    t(`plan.grocery.budgetTiers.${BUDGET_TIER_KEYS[tier] ?? 'standard'}.${activeRegion}`);
   const regionalFoodPool = isSaudi ? (SAUDI_TRADITIONAL_FOODS as any) : (PAKISTANI_STAPLES_DATA as any);
 
   // Generate a distinct or calibrated 7-day schedule with daily variety
+  // The region is passed explicitly rather than left for the solver to infer
+  // from the pool. Diet & Basics foods are region-neutral and merge into both
+  // catalogues, so the Pakistani pool contains a few Saudi dishes — enough to
+  // fool a "does this pool contain any Saudi food" check.
   const [weekPlans, setWeekPlans] = useState<DailyMealPlanResult[]>(() => {
     return DAYS_OF_WEEK.map((_, dayIndex) =>
-      solveDailyMealPlan(solverInput, regionalFoodPool, { dayIndex })
+      solveDailyMealPlan(solverInput, regionalFoodPool, { dayIndex, region: activeRegion })
     );
   });
 
@@ -72,7 +59,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
   React.useEffect(() => {
     setWeekPlans(
       DAYS_OF_WEEK.map((_, dayIndex) =>
-        solveDailyMealPlan(solverInput, regionalFoodPool, { dayIndex })
+        solveDailyMealPlan(solverInput, regionalFoodPool, { dayIndex, region: activeRegion })
       )
     );
   }, [activeRegion]);
@@ -83,78 +70,9 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
   const [activeSlotToSwap, setActiveSlotToSwap] = useState<PlannedMealSlot | null>(null);
   const [activeSwapResult, setActiveSwapResult] = useState<MealSwapResult | null>(null);
 
-  // Cultural Modes state
-  const [modesModalVisible, setModesModalVisible] = useState(false);
-  const [isFamilyActive, setIsFamilyActive] = useState(false);
-  // The solver matches this against the food database, so it holds the
-  // database's spelling rather than a translated label.
-  const [familyDishName, setFamilyDishName] = useState(
-    isSaudi ? 'Chicken Kabsa' : 'Chicken Karahi'
-  );
-  const [familyMealSlot, setFamilyMealSlot] = useState<'lunch' | 'dinner'>('dinner');
-  const [isRamadanActive, setIsRamadanActive] = useState(false);
+
 
   const currentDayPlan = weekPlans[selectedDayIndex];
-
-  // A "mode" describes the whole week, not just whichever day tab happens to
-  // be open — applying it to one day only meant switching day tabs silently
-  // dropped the mode and made Modes look like it needed re-activating.
-  const handleApplyFamilyMode = (dishName: string, slot: 'lunch' | 'dinner') => {
-    setIsFamilyActive(true);
-    setFamilyDishName(dishName);
-    setFamilyMealSlot(slot);
-
-    setWeekPlans((prev) =>
-      prev.map((dayPlan) =>
-        adaptPlanForFamilyMode(
-          dayPlan,
-          { familyDishName: dishName, familyMealSlot: slot },
-          solverInput,
-          regionalFoodPool
-        ).plan
-      )
-    );
-  };
-
-  const handleToggleRamadan = (active: boolean) => {
-    setIsRamadanActive(active);
-    if (active) {
-      const ramadan = generateRamadanPlan(solverInput, regionalFoodPool);
-      setWeekPlans((prev) =>
-        prev.map((dayPlan) => {
-          const updatedDay = { ...dayPlan };
-          updatedDay.meals = [ramadan.suhoor, ramadan.iftar, ramadan.postTarawihSnack];
-          updatedDay.actualCalories = ramadan.actualCalories;
-          updatedDay.calorieDeviationPct = Number(
-            (
-              ((ramadan.actualCalories - updatedDay.targetCalories) /
-                updatedDay.targetCalories) *
-              100
-            ).toFixed(1)
-          );
-          updatedDay.isWithinTolerance = Math.abs(updatedDay.calorieDeviationPct) <= 5.0;
-          return updatedDay;
-        })
-      );
-    } else {
-      // Re-solve the standard plan for every day
-      setWeekPlans(
-        DAYS_OF_WEEK.map((_, dayIndex) =>
-          solveDailyMealPlan(solverInput, regionalFoodPool, { dayIndex })
-        )
-      );
-    }
-  };
-
-  if (viewMode === 'grocery') {
-    return (
-      <GroceryListView
-        weekPlans={weekPlans}
-        budgetTier={solverInput.budgetTierPKR}
-        onBackToPlan={() => setViewMode('plan')}
-      />
-    );
-  }
 
   const handleOpenSwap = (slot: PlannedMealSlot) => {
     const swap = generateMealSwaps(
@@ -247,66 +165,12 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
           </Text>
         </TouchableOpacity>
 
-        {/* Segmented Tab Control: TODAY / GROCERY */}
-        <View
-          style={[
-            styles.segmentedControl,
-            { backgroundColor: theme.colors.surfaceSecondary },
-          ]}
-        >
-          <TouchableOpacity
-            style={[
-              styles.segmentBtn,
-              styles.segmentBtnActive,
-              { backgroundColor: theme.colors.primaryLime },
-            ]}
-            activeOpacity={0.8}
-          >
-            <Text style={[styles.segmentTextActive, { color: '#0A0B0D' }]}>
-              {t('common.today')}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.segmentBtn}
-            onPress={() => setViewMode('grocery')}
-            activeOpacity={0.8}
-          >
-            <Text style={[styles.segmentText, { color: theme.colors.textSecondary }]}>
-              {t('plan.weekly.grocery')}
-            </Text>
-          </TouchableOpacity>
-        </View>
+        {/*
+          The Today/Grocery segmented control is gone with the grocery list.
+          A segmented control with one segment is not a control.
+        */}
 
-        <View style={styles.navRightActions}>
-          <TouchableOpacity
-            style={[
-              styles.modesNavBtn,
-              {
-                backgroundColor: theme.colors.surfaceSecondary,
-                borderColor: isDark ? theme.colors.border : '#D4F88D',
-              },
-            ]}
-            onPress={() => setModesModalVisible(true)}
-            activeOpacity={0.7}
-          >
-            <Text
-              style={[
-                styles.modesNavBtnText,
-                { color: isDark ? theme.colors.primaryLime : '#365314' },
-              ]}
-            >
-              {isRamadanActive
-                ? `🌙 ${t('plan.cultural.fastingBadge')}`
-                : isFamilyActive
-                ? `🍲 ${
-                    familyMealSlot === 'lunch'
-                      ? t('plan.cultural.familyLunch')
-                      : t('plan.cultural.familyDinner')
-                  }`
-                : `🍱 ${t('plan.cultural.modesDefaultLabel')}`}
-            </Text>
-          </TouchableOpacity>
-        </View>
+
       </View>
 
       {/* Horizontal Day Selector */}
@@ -405,9 +269,8 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
               <Text
                 style={[styles.dayTargetMeta, { color: theme.colors.textSecondary }]}
               >
-                {t('plan.weekly.dayTarget', {
+                {t('plan.weekly.dayTargetKcal', {
                   kcal: currentDayPlan.targetCalories,
-                  tier: budgetTierLabel(currentDayPlan.budgetTier),
                 })}
               </Text>
             </View>
@@ -560,21 +423,6 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
           ))}
         </View>
 
-        {/* Grocery Action Footer */}
-        {onOpenGroceryList && (
-          <TouchableOpacity
-            style={[
-              styles.groceryActionBtn,
-              { backgroundColor: theme.colors.primaryLime },
-            ]}
-            onPress={() => onOpenGroceryList(weekPlans)}
-            activeOpacity={0.8}
-          >
-            <Text style={[styles.groceryActionBtnText, { color: '#0A0B0D' }]}>
-              {t('plan.weekly.viewGroceryList')}
-            </Text>
-          </TouchableOpacity>
-        )}
       </ScrollView>
 
       {/* 1-Tap Macro-Matched Swap Modal */}
@@ -589,17 +437,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
         onSelectOption={handleApplySwap}
       />
 
-      {/* Cultural Modes Modal */}
-      <CulturalModesModal
-        visible={modesModalVisible}
-        onClose={() => setModesModalVisible(false)}
-        onApplyFamilyMode={handleApplyFamilyMode}
-        onToggleRamadanMode={handleToggleRamadan}
-        isRamadanActive={isRamadanActive}
-        isFamilyActive={isFamilyActive}
-        currentFamilyDish={familyDishName}
-        currentFamilySlot={familyMealSlot}
-      />
+
     </SafeAreaView>
   );
 };
@@ -624,41 +462,7 @@ const styles = StyleSheet.create({
   backBtnText: {
     fontSize: 12,
     fontWeight: '700',
-  },
-  segmentedControl: {
-    flexDirection: 'row',
-    borderRadius: 9999,
-    padding: 3,
-  },
-  segmentBtn: {
-    paddingVertical: 6,
-    paddingHorizontal: 14,
-    borderRadius: 9999,
-  },
-  segmentBtnActive: {},
-  segmentText: {
-    fontSize: 11,
-    fontWeight: '700',
-  },
-  segmentTextActive: {
-    fontSize: 11,
-    fontWeight: '700',
-  },
-  navRightActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  modesNavBtn: {
-    borderRadius: 9999,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderWidth: 1,
-  },
-  modesNavBtnText: {
-    fontSize: 11,
-    fontWeight: '700',
-  },
+  },
   daySelectorWrapper: {
     borderBottomWidth: 1,
   },
@@ -763,15 +567,5 @@ const styles = StyleSheet.create({
   },
   slotList: {
     gap: 4,
-  },
-  groceryActionBtn: {
-    borderRadius: 9999,
-    paddingVertical: 14,
-    marginTop: 8,
-    alignItems: 'center',
-  },
-  groceryActionBtnText: {
-    fontSize: 14,
-    fontWeight: '800',
-  },
+  },
 });

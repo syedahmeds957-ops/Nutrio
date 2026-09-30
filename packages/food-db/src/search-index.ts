@@ -16,6 +16,21 @@ function tokenize(text: string): string[] {
     .filter((t) => t.length > 1);
 }
 
+export const DIET_BASICS_CATEGORY = 'Diet & Basics';
+
+export function isDietBasic(food: NormalizedFood): boolean {
+  return food.category === DIET_BASICS_CATEGORY;
+}
+
+/**
+ * Lifts plain single-ingredient foods above prepared-dish matches, so "egg"
+ * surfaces the boiled egg before Egg Fried Rice. Sized to clear the +80
+ * name-prefix bonus (diet items are named "Boiled Egg", not "Egg Boiled", so
+ * they rarely earn it) while staying under the +150 exact-match bonus — a
+ * search for a real dish by name still returns that dish first.
+ */
+const DIET_BASIC_RANK_BOOST = 50;
+
 // Inverted index maps
 let tokenIndexPK: Map<string, number[]> | null = null;
 let tokenIndexSA: Map<string, number[]> | null = null;
@@ -133,6 +148,7 @@ export function searchPakistaniFoods(
     else if (lowerName.includes(rawQ)) score += 40;
 
     if (food.nameUr && food.nameUr.includes(rawQ)) score += 60;
+    if (isDietBasic(food)) score += DIET_BASIC_RANK_BOOST;
 
     candidates.push({ food, score });
   }
@@ -187,12 +203,22 @@ export function searchSaudiFoods(
     else if (lowerName.includes(rawQ)) score += 40;
 
     if (food.nameAr && food.nameAr.includes(rawQ)) score += 80;
+    if (isDietBasic(food)) score += DIET_BASIC_RANK_BOOST;
 
     candidates.push({ food, score });
   }
 
   candidates.sort((a, b) => b.score - a.score);
   return candidates.slice(0, options?.limit || 40).map((c) => c.food);
+}
+
+/**
+ * The plain single-ingredient foods for a region, for showing as the default
+ * list before the user has typed a search.
+ */
+export function getDietBasicsForRegion(region: RegionCode = 'PK'): NormalizedFood[] {
+  const catalog = region === 'SA' ? ALL_SAUDI_FOODS : ALL_EXPANDED_PAKISTANI_FOODS;
+  return catalog.filter(isDietBasic);
 }
 
 export function searchFoodsByRegion(

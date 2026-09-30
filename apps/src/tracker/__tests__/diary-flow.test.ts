@@ -64,6 +64,9 @@ describe('Phase 5: DiaryViewModal Component & Flow', () => {
     const element = React.createElement(DiaryViewModal, {
       visible: true,
       summary: mockSummary,
+      dayOffset: 0,
+      minDayOffset: 0,
+      onDayOffsetChange: vi.fn(),
       onClose: handleClose,
       onDeleteItem: handleDelete,
       onOpenLogHub: handleOpenLogHub,
@@ -83,6 +86,9 @@ describe('Phase 5: DiaryViewModal Component & Flow', () => {
     const element = React.createElement(DiaryViewModal, {
       visible: true,
       summary: mockSummary,
+      dayOffset: 0,
+      minDayOffset: 0,
+      onDayOffsetChange: vi.fn(),
       onClose: handleClose,
       onDeleteItem: handleDelete,
       onOpenLogHub: handleOpenLogHub,
@@ -100,6 +106,9 @@ describe('Phase 5: DiaryViewModal Component & Flow', () => {
     const element = React.createElement(DiaryViewModal, {
       visible: true,
       summary: mockSummary,
+      dayOffset: 0,
+      minDayOffset: 0,
+      onDayOffsetChange: vi.fn(),
       onClose: handleClose,
       onDeleteItem: handleDelete,
       onOpenLogHub: handleOpenLogHub,

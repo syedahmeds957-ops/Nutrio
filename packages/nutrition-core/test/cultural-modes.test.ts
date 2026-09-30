@@ -105,7 +105,6 @@ describe('Pakistani Family Mode & Ramadan Mode Adapters (Task 2.4)', () => {
       targetFatGrams: 55,
       targetCarbGrams: 235,
       dietPreference: 'halal_omnivore' as const,
-      budgetTierPKR: 'standard_3500_7000' as const,
     };
 
     const basePlan = solveDailyMealPlan(solverInput, testFoodPool);
@@ -141,7 +140,6 @@ describe('Pakistani Family Mode & Ramadan Mode Adapters (Task 2.4)', () => {
       targetFatGrams: 50,
       targetCarbGrams: 250,
       dietPreference: 'halal_omnivore' as const,
-      budgetTierPKR: 'standard_3500_7000' as const,
     };
 
     const ramadanPlan = generateRamadanPlan(solverInput, testFoodPool, 3000);

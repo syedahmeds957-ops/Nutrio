@@ -82,6 +82,16 @@ export class WeightTrendEngine {
     return newIntake;
   }
 
+  /**
+   * Every weigh-in, oldest first. Exposed so the screen can hand the whole list
+   * to storage after a change — the engine already owns the rules (one entry
+   * per date, sorted), so re-deriving them anywhere else would be a second
+   * chance to disagree with it.
+   */
+  public getWeighIns(): WeighInEntry[] {
+    return [...this.weighIns];
+  }
+
   public deleteWeighIn(id: string): boolean {
     const initialLen = this.weighIns.length;
     this.weighIns = this.weighIns.filter((w) => w.id !== id);

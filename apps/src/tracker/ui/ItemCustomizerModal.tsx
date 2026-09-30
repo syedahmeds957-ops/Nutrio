@@ -161,18 +161,22 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
   const [isCustomWeightMode, setIsCustomWeightMode] = useState<boolean>(false);
   const [customGrams, setCustomGrams] = useState<number>(200);
 
-  // Reset state on new item or visibility change
+  // Reset state on new item or visibility change. This modal stays mounted
+  // for the dashboard's whole lifetime (only `visible` toggles), so
+  // `useState(initialMealSlot)` above only ever runs once — without this,
+  // every log would silently land in whatever slot was active on first mount.
   useEffect(() => {
     if (visible && item) {
       setQuantity(1);
       setSelectedModifiers({});
       setSelectedServingIdx(0);
       setIsCustomWeightMode(false);
+      setSelectedSlot(initialMealSlot);
       const defaultServing = item.servings?.[0];
       const initialG = defaultServing?.servingWeightGrams || defaultServing?.grams || 100;
       setCustomGrams(initialG);
     }
-  }, [visible, item]);
+  }, [visible, item, initialMealSlot]);
 
   const activeModifiers = useMemo(() => {
     if (!item) return [];

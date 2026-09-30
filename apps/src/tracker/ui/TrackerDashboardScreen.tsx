@@ -13,12 +13,13 @@ import {
 import { DailyProgressHeader } from './DailyProgressHeader.js';
 import { WaterTrackerCard } from './WaterTrackerCard.js';
 import { MealSlotCard } from './MealSlotCard.js';
-import { MealLogHubModal } from './MealLogHubModal.js';
+import { MealLogHubModal, MealBasketEntry } from './MealLogHubModal.js';
 import { BrandMenuModal } from './BrandMenuModal.js';
 import { ItemCustomizerModal, CustomizedLogPayload } from './ItemCustomizerModal.js';
 import { DiaryViewModal } from './DiaryViewModal.js';
 import { AiRecommendationCard, RecommendedFood } from './AiRecommendationCard.js';
 import { QuickStaplesBar, StapleItem } from './QuickStaplesBar.js';
+import { resolveStaple } from '../staples.js';
 import { WeeklyCalorieBankCard } from './WeeklyCalorieBankCard.js';
 import { TrackerEngine } from '../engine.js';
 import { MealSlot, DailyTrackerSummary } from '../types.js';
@@ -30,6 +31,7 @@ import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { GuestAuthModal } from './GuestAuthModal.js';
 import { Icon } from '../../ui/Icon.js';
 import { saveDailyActivities, loadDailyActivities, getOrInitHistoryStartDate } from '../activityStorage.js';
+import { recordFoodUsage } from '../mealPresets.js';
 import { pushDailyActivities } from '../../sync/activitySync.js';
 import { HapticFeedback } from '../../ui/haptics.js';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -262,17 +264,21 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
 
   const handleConfirmCustomizedLog = (payload: CustomizedLogPayload) => {
     const servingDesc = payload.portionDescription || payload.food.servings[0]?.description || 'serving';
+    // The label stays the singular portion ("1 bazinga burger") — the cards
+    // prepend the quantity themselves, so baking it in here printed it twice.
     engine.logCustomizedItem(
       payload.mealSlot,
       payload.food.name,
       payload.food.nameUr,
-      `${payload.quantity}x ${servingDesc}`,
+      servingDesc,
       payload.quantity,
       payload.totalCalories,
       payload.totalProtein,
       payload.totalCarbs,
-      payload.totalFat
+      payload.totalFat,
+      payload.actualGrams
     );
+    recordFoodUsage([payload.food.id || payload.food.name]);
     setCustomizerVisible(false);
     setSelectedItemForCustomize(null);
     persistCurrentActivities();
@@ -294,6 +300,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     quantity: number
   ) => {
     engine.logItem(slot, food, serving, quantity);
+    recordFoodUsage([food.id || food.name]);
     persistCurrentActivities();
     const completedNow = (['breakfast', 'lunch', 'dinner', 'snacks_chai'] as const).filter(
       (s) => engine.getItemsBySlot(s).length > 0
@@ -303,6 +310,21 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     } else {
       HapticFeedback.impactMedium();
     }
+    forceUpdate();
+  };
+
+  // A custom meal goes in as one LoggedItem per food, all tagged with the same
+  // slot — the slot card already renders and lets you delete them individually.
+  const handleConfirmBasket = (entries: MealBasketEntry[]) => {
+    for (const { food, quantity } of entries) {
+      const serving = food.servings[0];
+      if (!serving) continue;
+      engine.logItem(activeSlot, food, serving, quantity);
+    }
+    recordFoodUsage(entries.map(({ food }) => food.id || food.name));
+    setHubVisible(false);
+    persistCurrentActivities();
+    HapticFeedback.notificationSuccess();
     forceUpdate();
   };
 
@@ -353,15 +375,9 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     forceUpdate();
   };
 
-  const handleQuickLogStaple = (staple: StapleItem) => {
-    const foodPool = activeRegion === 'SA' ? SAUDI_TRADITIONAL_FOODS : PAKISTANI_STAPLES_DATA;
-    const found =
-      foodPool.find((f) =>
-        f.name.toLowerCase().includes(staple.name.toLowerCase())
-      ) || foodPool[0];
-    const serving = found.servings[0] || { label: 'serving', grams: 100 };
-    const targetSlot: MealSlot = activeSlot || 'lunch';
-    engine.logItem(targetSlot, found, serving, 1);
+  const handleQuickLogStaple = (staple: StapleItem, slot: MealSlot) => {
+    const { food, serving } = resolveStaple(staple, activeRegion);
+    engine.logItem(slot, food, serving, 1);
     persistCurrentActivities();
     forceUpdate();
   };
@@ -532,23 +548,12 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
               </TouchableOpacity>
             )}
 
-            {onOpenSurvey && (
-              <TouchableOpacity
-                style={[
-                  styles.navPillBtn,
-                  { backgroundColor: theme.colors.surface, borderColor: theme.colors.border },
-                ]}
-                onPress={onOpenSurvey}
-                activeOpacity={0.7}
-              >
-                <View style={styles.navPillContent}>
-                  <Icon name="survey" size={13} color={theme.colors.textPrimary} />
-                  <Text style={[styles.navPillBtnText, { color: theme.colors.textPrimary }]}>
-                    {t('tracker.dashboard.nav.survey')}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            )}
+            {/*
+              No Survey pill here. The nav row is for places you go during a
+              normal day — meals, weight, coach, targets — and re-taking the
+              whole onboarding survey is not one of them. It still lives in the
+              profile sheet, where settings-shaped actions belong.
+            */}
           </ScrollView>
         </View>
 
@@ -772,6 +777,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
         onClose={() => setHubVisible(false)}
         onSelectBrand={handleSelectBrandInHub}
         onSelectItem={handleSelectItemInHubOrBrand}
+        onConfirmBasket={handleConfirmBasket}
       />
 
       {/* Brand Menu View with Sub-Categories */}

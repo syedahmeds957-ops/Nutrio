@@ -26,7 +26,19 @@ import { OnboardingSurveyScreen } from './src/survey/ui/index.js';
 import { ComputedUserPlan, PlanUserContext } from './src/plan/index.js';
 import { PlanWorkflowScreen, WeeklyPlanView } from './src/plan/ui/index.js';
 import { TrackerDashboardScreen } from './src/tracker/ui/index.js';
+import {
+  resolveTargetsDestination,
+  resolveWeightTrackerDestination,
+  resolveMealPlanDestination,
+  resolvePlanFlowBack,
+  resolveSurveyBack,
+  shouldOpenSavedPlan,
+  type PlanDestination,
+  type SurveyEntry,
+} from './src/navigation/planFlowRouting.js';
 import { WeightTrackerScreen } from './src/weight/ui/index.js';
+import { hydrateWeighIns, releaseWeightCache } from './src/weight/weightStorage.js';
+import { buildWeighInSeed, collectIntakeLogs } from './src/weight/weightSeed.js';
 import { CoachChatScreen, WeeklyCheckInScreen } from './src/coach/index.js';
 import { AuthScreen, getAuthSession, clearAuthSession, restoreSession, markSurveyCompleted } from './src/auth/index.js';
 import { syncCompleteOnboarding, hydrateUserDataFromCloud } from './src/sync/userDataSync.js';
@@ -39,6 +51,11 @@ import {
   primeActivitiesFromRemote,
   releaseLocalUserCache,
 } from './src/tracker/activityStorage.js';
+import {
+  hydrateMealPresets,
+  hydrateFoodUsage,
+  releasePresetCache,
+} from './src/tracker/mealPresets.js';
 import { fetchActivityHistory } from './src/sync/activitySync.js';
 
 import { ThemeProvider, useTheme } from './src/theme.js';
@@ -108,6 +125,41 @@ function NutrioAppContent() {
     return loadPersistedPlan();
   });
   const [trackerSummary, setTrackerSummary] = useState<DailyTrackerSummary | null>(null);
+  /**
+   * Why we're in `plan_flow`, which the state name alone can't say.
+   *
+   * 'create' is the onboarding path: fresh survey answers, run analysis then
+   * goal selection. 'review' is the dashboard's Targets button: the user already
+   * accepted a plan and wants to see it, not build another one.
+   *
+   * They differ in both directions — where the wizard opens and where Back
+   * returns to — so guessing from `surveyData`/`activePlan` got both wrong:
+   * a user with saved targets was re-asked to pick a goal, and Back from the
+   * dashboard dropped them on page one of the survey.
+   */
+  const [planFlowMode, setPlanFlowMode] = useState<'create' | 'review'>('create');
+  /** Where the survey was opened from, so cancelling returns there. */
+  const [surveyEntry, setSurveyEntry] = useState<SurveyEntry>('onboarding');
+
+  const routingInput = {
+    hasActivePlan: !!activePlan,
+    hasSurveyData: !!surveyData,
+  };
+
+  /**
+   * Applies a routing decision. The mode is always written before the route, and
+   * always written when the destination names one, so a later navigation can
+   * never inherit a stale 'review' from an earlier one.
+   */
+  const applyDestination = (destination: PlanDestination) => {
+    if (destination.planFlowMode) {
+      setPlanFlowMode(destination.planFlowMode);
+    }
+    if (destination.surveyEntry) {
+      setSurveyEntry(destination.surveyEntry);
+    }
+    setAppState(destination.route);
+  };
 
   // Pulls the signed-in user's activity history down and seeds local storage,
   // so a re-login or a new device shows the days they already logged.
@@ -125,6 +177,13 @@ function NutrioAppContent() {
       yesterday.toISOString().split('T')[0],
     ]).catch(() => {});
     await hydrateHistoryStartDate().catch(() => {});
+    // Saved meals and most-logged counts are read synchronously during render,
+    // so they have to be in memory before the hub first opens.
+    await Promise.all([
+      hydrateMealPresets().catch(() => {}),
+      hydrateFoodUsage().catch(() => {}),
+      hydrateWeighIns().catch(() => {}),
+    ]);
   };
 
   // Brings a signed-in user's plan and survey answers back, from the cloud when
@@ -167,6 +226,7 @@ function NutrioAppContent() {
             if (session.user.surveyCompleted || plan) {
               setAppState('active_tracker');
             } else {
+              setSurveyEntry('onboarding');
               setAppState('survey');
             }
           }
@@ -215,16 +275,12 @@ function NutrioAppContent() {
   const goBack = () => {
     switch (appState) {
       case 'survey':
-        setAppState('auth');
+        // Backing out of the survey from the dashboard used to land on the
+        // login screen, which reads as having been signed out.
+        setAppState(resolveSurveyBack(surveyEntry));
         break;
       case 'plan_flow':
-        if (activePlan) {
-          setAppState('active_tracker');
-        } else if (surveyData) {
-          setAppState('survey');
-        } else {
-          setAppState('auth');
-        }
+        setAppState(resolvePlanFlowBack({ planFlowMode, hasSurveyData: !!surveyData }));
         break;
       case 'coach_chat':
       case 'weekly_checkin':
@@ -352,7 +408,7 @@ function NutrioAppContent() {
           } else {
             // New user without calculated plan: guide them to survey to calculate real targets
             // (or user can tap Skip for Now to track without targets)
-            setAppState('survey');
+            applyDestination({ route: 'survey', surveyEntry: 'onboarding' });
           }
         }}
         onExploreGuest={() => {
@@ -374,6 +430,7 @@ function NutrioAppContent() {
           // and the user must never be asked for them a second time, even if
           // they leave before the plan screen.
           markSurveyCompleted().catch(() => {});
+          setPlanFlowMode('create');
           setAppState('plan_flow');
         }}
         onSkip={() => {
@@ -407,7 +464,10 @@ function NutrioAppContent() {
     return wrapScreen(
       <PlanWorkflowScreen
         userContext={userContext}
-        existingPlan={surveyData ? undefined : activePlan}
+        // Only the create path runs the wizard. Reviewing opens straight on the
+        // accepted plan — re-deriving it from the survey would ask the user to
+        // choose a goal they already chose.
+        existingPlan={shouldOpenSavedPlan(planFlowMode) ? activePlan : undefined}
         onPlanAccepted={(computedPlan) => {
           setActivePlan(computedPlan);
           savePersistedPlan(computedPlan);
@@ -458,6 +518,8 @@ function NutrioAppContent() {
           // durable records stay: they are keyed by user id, and wiping them
           // here is what made a returning user redo the whole survey.
           releaseLocalUserCache();
+          releasePresetCache();
+          releaseWeightCache();
           releaseSurveyCache();
           clearAuthSession().catch(() => {});
           setIsGuest(false);
@@ -466,21 +528,21 @@ function NutrioAppContent() {
           setTrackerSummary(null);
           setAppState('auth');
         }}
-        onBackToPlan={() => setAppState('plan_flow')}
+        onBackToPlan={() => applyDestination(resolveTargetsDestination(routingInput))}
         onOpenWeightTracker={() =>
-          setAppState(activePlan ? 'weight_tracker' : surveyData ? 'plan_flow' : 'survey')
+          applyDestination(resolveWeightTrackerDestination(routingInput))
         }
-        onOpenMealPlan={() => {
-          // Meal suggestions need a known diet preference/budget from the
-          // survey — unlike weight tracking, there's no safe default here, so
-          // don't show suggestions built on a guess if we don't actually know.
-          const hasDietPreference = !!surveyData?.payload.preferencesBudget?.dietPreference;
-          setAppState(
-            activePlan && hasDietPreference ? 'weekly_plan' : surveyData ? 'plan_flow' : 'survey'
-          );
-        }}
+        onOpenMealPlan={() =>
+          applyDestination(
+            resolveMealPlanDestination({
+              ...routingInput,
+              hasDietPreference: !!surveyData?.payload.preferencesBudget?.dietPreference,
+            })
+          )
+        }
         onOpenCoachChat={() => setAppState('coach_chat')}
-        onOpenSurvey={() => setAppState('survey')}
+        // Still reachable from the profile sheet, just not from the nav row.
+        onOpenSurvey={() => applyDestination({ route: 'survey', surveyEntry: 'dashboard' })}
       />
     );
   }
@@ -574,15 +636,14 @@ function NutrioAppContent() {
     return wrapScreen(
       <WeightTrackerScreen
         initialState={{
-          weighIns: [
-            {
-              id: 'initial_weigh_in',
-              date: new Date().toISOString().split('T')[0],
-              weightKg: activePlan.userContext.weightKg,
-              loggedAt: new Date().toISOString(),
-            },
-          ],
-          intakeLogs: [],
+          // Read back from storage. This used to fabricate a single weigh-in
+          // dated today on every mount, which is why logging a weight three
+          // times still showed one row and 0 kg of change.
+          weighIns: buildWeighInSeed(activePlan.userContext.weightKg),
+          // The adaptive TDEE calibrates against what was actually eaten, so
+          // the days already in the diary are handed over rather than left
+          // empty — "0 / 28 days logged" was counting an array we never filled.
+          intakeLogs: collectIntakeLogs(activeRegion),
           formulaTDEE: activePlan.userContext.tdee,
           bmr: activePlan.userContext.bmr,
         }}
@@ -603,9 +664,6 @@ function NutrioAppContent() {
           dietPreference:
             surveyData?.payload.preferencesBudget?.dietPreference ||
             'halal_omnivore',
-          budgetTierPKR:
-            surveyData?.payload.preferencesBudget?.budgetTierPKR ||
-            'standard_3500_7000',
           dislikedFoods:
             surveyData?.payload.preferencesBudget?.dislikedFoods || [],
           medicalConditions:

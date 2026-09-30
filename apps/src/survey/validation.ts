@@ -175,10 +175,6 @@ export function validatePreferencesBudget(
     errors.dietPreference = 'Please select your preferred dietary pattern.';
   }
 
-  if (!data.budgetTierPKR) {
-    errors.budgetTierPKR = 'Please select a weekly grocery budget tier.';
-  }
-
   return {
     isValid: Object.keys(errors).length === 0,
     errors,

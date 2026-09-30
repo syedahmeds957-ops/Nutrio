@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import {
+  Modal,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -11,121 +13,16 @@ import { Icon } from '../../ui/Icon.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { HapticFeedback } from '../../ui/haptics.js';
+import { MealSlot } from '../types.js';
+import { StapleItem, getStapleDefinitions, resolveStaple } from '../staples.js';
 
-export interface StapleItem {
-  id: string;
-  /** Localised short chip label, resolved from the id at render time. */
-  label: string;
-  name: string;
-  calories: number;
-  proteinGrams: number;
-  fatGrams: number;
-  carbGrams: number;
-  icon: 'utensils' | 'coffee' | 'sun';
-}
+export type { StapleItem } from '../staples.js';
 
 interface QuickStaplesBarProps {
-  onQuickLog: (staple: StapleItem) => void;
+  onQuickLog: (staple: StapleItem, slot: MealSlot) => void;
 }
 
-// Source rows carry the nutrition only; the visible label comes from i18n.
-type StapleDefinition = Omit<StapleItem, 'label'>;
-
-const PK_STAPLES: StapleDefinition[] = [
-  {
-    id: 'roti',
-    name: 'Roti (Whole Wheat)',
-    calories: 120,
-    proteinGrams: 4,
-    fatGrams: 1,
-    carbGrams: 24,
-    icon: 'utensils',
-  },
-  {
-    id: 'daal',
-    name: 'Daal Chana',
-    calories: 160,
-    proteinGrams: 9,
-    fatGrams: 5,
-    carbGrams: 20,
-    icon: 'utensils',
-  },
-  {
-    id: 'egg',
-    name: 'Boiled Egg',
-    calories: 75,
-    proteinGrams: 6.5,
-    fatGrams: 5,
-    carbGrams: 0.5,
-    icon: 'sun',
-  },
-  {
-    id: 'chai',
-    name: 'Chai (Doodh Patti)',
-    calories: 85,
-    proteinGrams: 2,
-    fatGrams: 3,
-    carbGrams: 12,
-    icon: 'coffee',
-  },
-];
-
-const SA_STAPLES: StapleDefinition[] = [
-  {
-    id: 'sa_tamees',
-    name: 'Tamees Bread (خبز تميس)',
-    calories: 150,
-    proteinGrams: 5,
-    fatGrams: 1,
-    carbGrams: 35,
-    icon: 'utensils',
-  },
-  {
-    id: 'sa_laban',
-    name: 'Almarai Laban (لبن المراعي)',
-    calories: 120,
-    proteinGrams: 8,
-    fatGrams: 6,
-    carbGrams: 10,
-    icon: 'utensils',
-  },
-  {
-    id: 'sa_gahwa',
-    name: 'Saudi Gahwa (فنجان قهوة سعودية)',
-    calories: 2,
-    proteinGrams: 0.1,
-    fatGrams: 0,
-    carbGrams: 0.5,
-    icon: 'coffee',
-  },
-  {
-    id: 'sa_dates',
-    name: 'Sukari Dates 3pc (تمر سكري)',
-    calories: 75,
-    proteinGrams: 0.6,
-    fatGrams: 0.2,
-    carbGrams: 19,
-    icon: 'sun',
-  },
-  {
-    id: 'sa_egg',
-    name: 'Boiled Egg (بيض مسلوق)',
-    calories: 75,
-    proteinGrams: 6.5,
-    fatGrams: 5,
-    carbGrams: 0.5,
-    icon: 'sun',
-  },
-  {
-    id: 'sa_kabsa_rice',
-    name: 'Kabsa Rice Portion (أرز كبسة)',
-    calories: 180,
-    proteinGrams: 4,
-    fatGrams: 4,
-    carbGrams: 32,
-    icon: 'utensils',
-  },
-];
+const SLOT_IDS: MealSlot[] = ['breakfast', 'lunch', 'dinner', 'snacks_chai'];
 
 export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
   onQuickLog,
@@ -138,19 +35,31 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
   const accentColor = theme.colors.primaryLime;
   const activeTextColor = '#0A0B0D';
   const [justLoggedId, setJustLoggedId] = useState<string | null>(null);
+  // A staple is logged only once the user has picked a meal, so a tap parks
+  // the chip here while the slot sheet is open instead of logging blind.
+  const [pendingStaple, setPendingStaple] = useState<StapleItem | null>(null);
 
   // Which staples appear is regional (roti in Pakistan, tamees in Saudi) and
-  // only the chip label is translated: `name` is the key the dashboard matches
+  // only the chip label is translated: `name` is the key the resolver matches
   // against the food database, so translating it would log the wrong dish.
-  const staples: StapleItem[] = (isSaudi ? SA_STAPLES : PK_STAPLES).map((staple) => ({
-    ...staple,
-    label: t(`tracker.staples.${staple.id}`),
+  // Calories come from the resolved catalogue serving, not the chip row, so
+  // the number on the chip is the number that lands in the diary.
+  const staples = getStapleDefinitions(activeRegion).map((staple) => ({
+    item: { ...staple, label: t(`tracker.staples.${staple.id}`) } as StapleItem,
+    resolved: resolveStaple(staple, activeRegion),
   }));
 
   const handlePress = (staple: StapleItem) => {
     HapticFeedback.impactLight();
-    onQuickLog(staple);
-    setJustLoggedId(staple.id);
+    setPendingStaple(staple);
+  };
+
+  const handlePickSlot = (slot: MealSlot) => {
+    if (!pendingStaple) return;
+    HapticFeedback.impactLight();
+    onQuickLog(pendingStaple, slot);
+    setJustLoggedId(pendingStaple.id);
+    setPendingStaple(null);
     setTimeout(() => setJustLoggedId(null), 1800);
   };
 
@@ -170,7 +79,7 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
-        {staples.map((staple) => {
+        {staples.map(({ item: staple, resolved }) => {
           const isJustLogged = justLoggedId === staple.id;
 
           return (
@@ -214,13 +123,82 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
                     },
                   ]}
                 >
-                  {t('common.kcalValue', { value: staple.calories })}
+                  {t('common.kcalValue', { value: resolved.calories })}
                 </Text>
               </View>
             </TouchableOpacity>
           );
         })}
       </ScrollView>
+
+      <Modal
+        visible={pendingStaple !== null}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setPendingStaple(null)}
+      >
+        <Pressable
+          style={styles.sheetBackdrop}
+          onPress={() => setPendingStaple(null)}
+        >
+          <Pressable
+            style={[
+              styles.sheet,
+              {
+                backgroundColor: theme.colors.card,
+                borderColor: theme.colors.border,
+              },
+            ]}
+            onPress={() => {}}
+          >
+            <Text style={[styles.sheetTitle, dir.text, { color: theme.colors.textPrimary }]}>
+              {t('tracker.staples.chooseSlotTitle', {
+                item: pendingStaple?.label ?? '',
+              })}
+            </Text>
+            <Text style={[styles.sheetSubtitle, dir.text, { color: theme.colors.textMuted }]}>
+              {t('tracker.staples.chooseSlotSubtitle')}
+            </Text>
+
+            {SLOT_IDS.map((slot) => (
+              <TouchableOpacity
+                key={slot}
+                style={[
+                  styles.sheetOption,
+                  {
+                    backgroundColor: theme.colors.surface,
+                    borderColor: theme.colors.border,
+                  },
+                ]}
+                onPress={() => handlePickSlot(slot)}
+                activeOpacity={0.7}
+                accessibilityRole="button"
+              >
+                <Text
+                  style={[
+                    styles.sheetOptionText,
+                    dir.text,
+                    { color: theme.colors.textPrimary },
+                  ]}
+                >
+                  {t(`tracker.mealSlots.${slot}.${activeRegion}`)}
+                </Text>
+              </TouchableOpacity>
+            ))}
+
+            <TouchableOpacity
+              style={styles.sheetCancel}
+              onPress={() => setPendingStaple(null)}
+              activeOpacity={0.7}
+              accessibilityRole="button"
+            >
+              <Text style={[styles.sheetCancelText, { color: theme.colors.textMuted }]}>
+                {t('common.cancel')}
+              </Text>
+            </TouchableOpacity>
+          </Pressable>
+        </Pressable>
+      </Modal>
     </View>
   );
 };
@@ -268,5 +246,47 @@ const styles = StyleSheet.create({
   pillKcal: {
     fontSize: 11,
     fontWeight: '600',
+  },
+  sheetBackdrop: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.55)',
+    justifyContent: 'flex-end',
+  },
+  sheet: {
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    borderWidth: 1,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 32,
+    gap: 8,
+  },
+  sheetTitle: {
+    fontSize: 16,
+    fontWeight: '800',
+  },
+  sheetSubtitle: {
+    fontSize: 12,
+    fontWeight: '600',
+    marginBottom: 6,
+  },
+  sheetOption: {
+    borderRadius: 14,
+    borderWidth: 1,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+  },
+  sheetOptionText: {
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  sheetCancel: {
+    alignItems: 'center',
+    paddingVertical: 12,
+    marginTop: 4,
+  },
+  sheetCancelText: {
+    fontSize: 13,
+    fontWeight: '700',
   },
 });

@@ -179,7 +179,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
                 <View style={styles.featureTextCol}>
                   <Text style={styles.featureTitle}>Cultural Meal Plans & Swaps</Text>
                   <Text style={styles.featureDesc}>
-                    Family handi mode, 1-tap macro swaps, and weekly bazaar grocery lists.
+                    A 7-day Pakistani and Saudi meal plan with 1-tap macro swaps.
                   </Text>
                 </View>
               </View>
