@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
+import { useFonts } from 'expo-font';
 import {
   StyleSheet,
   Text,
@@ -42,9 +43,29 @@ import { fetchActivityHistory } from './src/sync/activitySync.js';
 
 import { ThemeProvider, useTheme } from './src/theme.js';
 import { RegionProvider, useRegion } from './src/common/region/index.js';
-import { I18nProvider, useTranslation, useTextDirection } from './src/i18n/index.js';
+import {
+  I18nProvider,
+  useTranslation,
+  useTextDirection,
+  useI18nState,
+  appFontAssets,
+  installFontPatch,
+  setActiveFontScript,
+  setActiveTextDirection,
+  directionForLanguage,
+} from './src/i18n/index.js';
 import { DailyTrackerSummary } from './src/tracker/types.js';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+// Routes every Text/TextInput through the app's typeface — Inter for Latin,
+// IBM Plex Sans Arabic for Arabic — once the files have registered. Installed
+// at module scope so it is in place before the first screen mounts; it stays
+// dormant until setActiveFontScript names a script.
+installFontPatch();
+
+// Built once: useFonts reads the map on every render, and rebuilding it there
+// would re-resolve every asset per frame for no gain.
+const APP_FONTS = appFontAssets();
 
 // Keep the native splash (app logo) up until the session restore finishes.
 SplashScreen.preventAutoHideAsync().catch(() => {});
@@ -55,6 +76,8 @@ function NutrioAppContent() {
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
   const dir = useTextDirection();
+  const { language } = useI18nState();
+  const [fontsLoaded] = useFonts(APP_FONTS);
   const { width: windowWidth } = useWindowDimensions();
   const [appState, setAppState] = useState<
     | 'auth'
@@ -161,11 +184,31 @@ function NutrioAppContent() {
     };
   }, []);
 
+  // Text only switches off the platform font once the files are registered —
+  // naming a font the platform has not loaded renders nothing at all.
   useEffect(() => {
-    if (!isBootstrapping) {
+    if (!fontsLoaded) {
+      setActiveFontScript(null);
+      return;
+    }
+    setActiveFontScript(language === 'ar' ? 'arabic' : 'latin');
+  }, [language, fontsLoaded]);
+
+  // Direction needs no assets, so it is set straight away: it decides which
+  // edge every string reads from, and almost no screen states it per Text.
+  useEffect(() => {
+    setActiveTextDirection(directionForLanguage(language));
+  }, [language]);
+
+  // The splash holds until the typefaces are ready, so no screen paints in
+  // the system fallback face and then reflows into Inter.
+  const isWaitingForFonts = !fontsLoaded;
+
+  useEffect(() => {
+    if (!isBootstrapping && !isWaitingForFonts) {
       SplashScreen.hide();
     }
-  }, [isBootstrapping]);
+  }, [isBootstrapping, isWaitingForFonts]);
 
   // Edge-swipe-to-go-back: dispatches to the exact same target every screen's
   // own back button already uses, so a swipe and a tap always agree.
@@ -267,7 +310,7 @@ function NutrioAppContent() {
   );
 
   // Startup Splash Screen during session restore & telemetry synchronization
-  if (isBootstrapping) {
+  if (isBootstrapping || isWaitingForFonts) {
     const accentColor = theme.colors.primaryLime;
     return (
       <View style={[styles.rootWrapper, { backgroundColor: theme.colors.canvas }]}>

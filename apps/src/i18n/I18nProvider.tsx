@@ -118,17 +118,23 @@ export function useI18nState(): I18nState {
 
 /**
  * Text styling that follows the content direction. Native mirroring handles
- * rows and spacing once the app restarts; text alignment has to be stated
- * because a Text default of 'auto' resolves per character run and leaves mixed
- * Arabic/Latin labels ragged.
+ * rows and spacing once the app restarts.
  */
 export function useTextDirection() {
   const { direction, isRTL } = useI18nState();
+
   return useMemo(
     () => ({
       direction,
       isRTL,
-      text: { writingDirection: direction, textAlign: isRTL ? 'right' : 'left' } as const,
+      // No textAlign: an explicit 'left'/'right' is swapped by React Native
+      // whenever the native layout is mirrored, and I18nManager.isRTL cannot be
+      // trusted to say whether that swap is happening (it reports false under
+      // bridgeless even with RCTI18nUtil_forceRTL set natively). Stating only
+      // the writing direction leaves alignment Natural, which follows the
+      // paragraph's base direction and is never swapped, so Arabic reads from
+      // the right and mixed Arabic/Latin labels stop coming out ragged.
+      text: { writingDirection: direction } as const,
       textCenter: { writingDirection: direction, textAlign: 'center' } as const,
     }),
     [direction, isRTL]
