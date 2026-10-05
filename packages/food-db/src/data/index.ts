@@ -122,6 +122,38 @@ const dietRegionFor = (food: NormalizedFood): RegionCode => {
 const dietFoodsForRegion = (region: 'PK' | 'SA'): NormalizedFood[] =>
   DIET_BASICS_CATALOG.filter((f) => f.region === region || f.region === 'GLOBAL');
 
+/**
+ * Guarantees a food offers a choice of portions.
+ *
+ * 26 diet foods shipped with a single serving, so the customizer's portion row
+ * showed one pill and there was nothing to pick — a bowl of steamed vegetables
+ * was 150g or nothing. Rather than hand-writing alternates for each, and
+ * leaving the next food added to repeat the problem, a half and a double portion
+ * are derived from the default.
+ *
+ * Only applied where the food defines fewer than two servings; anything with
+ * real, named portions ("1 pot", "1 cup", "half cup") keeps exactly those.
+ */
+const withPortionChoices = (food: NormalizedFood): NormalizedFood => {
+  if (food.servings.length > 1) return food;
+
+  const base = food.servings[0];
+  if (!base || base.grams <= 0) return food;
+
+  const half = Math.round(base.grams / 2);
+  const double = base.grams * 2;
+  if (half < 1) return food;
+
+  return {
+    ...food,
+    servings: [
+      { ...base, isDefault: true },
+      { label: `Half portion (${half}g)`, grams: half, isDefault: false },
+      { label: `Double portion (${double}g)`, grams: double, isDefault: false },
+    ],
+  };
+};
+
 const withDietIds = (
   data: NormalizedFood[],
   prefix: string,
@@ -137,8 +169,9 @@ const withDietIds = (
   data.map((item, idx) => {
     const cls = typeof addOns === 'function' ? addOns(item) : addOns;
     const modifiers = item.modifiers ?? getDietAddOnModifiers(cls);
+    const withPortions = withPortionChoices(item);
     return {
-      ...item,
+      ...withPortions,
       id: item.id || `${prefix}_${idx + 1}`,
       region: item.region ?? dietRegionFor(item),
       // Left undefined rather than set to [] so `getDishCustomizationModifiers`

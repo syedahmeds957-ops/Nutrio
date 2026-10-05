@@ -778,6 +778,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
         onSelectBrand={handleSelectBrandInHub}
         onSelectItem={handleSelectItemInHubOrBrand}
         onConfirmBasket={handleConfirmBasket}
+        slot={activeSlot}
       />
 
       {/* Brand Menu View with Sub-Categories */}

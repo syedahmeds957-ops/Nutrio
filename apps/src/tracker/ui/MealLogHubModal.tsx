@@ -49,11 +49,18 @@ export interface MealLogHubModalProps {
   onSelectItem: (item: NormalizedFood) => void;
   /** Logs a whole custom meal at once — "2 eggs + cucumber + yogurt". */
   onConfirmBasket?: (entries: MealBasketEntry[]) => void;
+  /** Meal slot being logged into; each slot keeps its own selection. */
+  slot?: string;
 }
+
+const EMPTY_BASKET: MealBasketEntry[] = [];
 
 // Plain single-ingredient foods. Listed first and selected by default so
 // someone logging "2 eggs" or a salad lands on them without searching.
 const DIET_GROUP = 'Diet & Basics';
+
+/** Sentinel for the diet sub-category pills meaning 'show every section'. */
+const ALL_DIET_GROUPS = '__all__';
 
 const PK_BRAND_GROUPS = [
   'All',
@@ -83,6 +90,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   onSelectBrand,
   onSelectItem,
   onConfirmBasket,
+  slot,
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion, setRegion } = useRegion();
@@ -97,10 +105,22 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   const [debouncedQuery, setDebouncedQuery] = useState('');
   const [isFiltering, setIsFiltering] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState<string>(DIET_GROUP);
+  const [selectedDietGroup, setSelectedDietGroup] = useState<string>(ALL_DIET_GROUPS);
   // Custom-meal mode: tapping a food stacks it up instead of opening the
   // customizer, so several things eaten together go in as one action.
   const [isBuildMode, setIsBuildMode] = useState(false);
-  const [basket, setBasket] = useState<MealBasketEntry[]>([]);
+  // One basket per meal slot, so picks made for lunch never show up when
+  // breakfast or dinner is opened.
+  const slotKey = slot ?? 'default';
+  const [baskets, setBaskets] = useState<Record<string, MealBasketEntry[]>>({});
+  const basket = baskets[slotKey] ?? EMPTY_BASKET;
+  const setBasket = (
+    next: MealBasketEntry[] | ((prev: MealBasketEntry[]) => MealBasketEntry[])
+  ) =>
+    setBaskets((all) => {
+      const prev = all[slotKey] ?? EMPTY_BASKET;
+      return { ...all, [slotKey]: typeof next === 'function' ? next(prev) : next };
+    });
   // Presets and usage counts live in storage, not state. Bumped whenever this
   // modal writes to either, so the derived lists recompute without the modal
   // having to mirror storage it doesn't own.
@@ -140,6 +160,21 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
 
   const dietFoods = useMemo(() => getDietBasicsForRegion(activeRegion), [activeRegion]);
   const dietSections = useMemo(() => groupDietFoods(dietFoods), [dietFoods]);
+  useEffect(() => {
+    setSelectedDietGroup(ALL_DIET_GROUPS);
+  }, [activeRegion]);
+  /**
+   * Which diet sub-category the pills have selected, or every one of them.
+   * Reset whenever the region changes, since the sections themselves change
+   * with it and a pill for a group that no longer exists would show nothing.
+   */
+  const visibleDietSections = useMemo(
+    () =>
+      selectedDietGroup === ALL_DIET_GROUPS
+        ? dietSections
+        : dietSections.filter((s) => s.group === selectedDietGroup),
+    [dietSections, selectedDietGroup]
+  );
   const isDietView = selectedGroup === DIET_GROUP;
 
   const foodKey = (food: NormalizedFood) => food.id || food.name;
@@ -474,6 +509,52 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
           </TouchableOpacity>
         </View>
 
+        {/* Preset naming (top, so the keyboard never covers it) */}
+        {isBuildMode && basket.length > 0 && isNamingPreset && (
+          <View
+            style={[
+              styles.basketBar,
+              {
+                backgroundColor: theme.colors.surface,
+                borderTopWidth: 0,
+                borderBottomWidth: 1,
+                borderBottomColor: theme.colors.border,
+              },
+            ]}
+          >
+            <View style={styles.presetNameRow}>
+              <TextInput
+                style={[
+                  styles.presetNameInput,
+                  noOutlineStyle,
+                  {
+                    backgroundColor: theme.colors.canvas,
+                    borderColor: theme.colors.border,
+                    color: theme.colors.textPrimary,
+                  },
+                ]}
+                value={presetNameDraft}
+                onChangeText={setPresetNameDraft}
+                placeholder={t('tracker.hub.presetNamePlaceholder')}
+                placeholderTextColor={theme.colors.textMuted}
+                autoFocus
+                returnKeyType="done"
+                onSubmitEditing={handleSavePreset}
+              />
+              <TouchableOpacity
+                style={[styles.basketConfirmBtn, { backgroundColor: theme.colors.primaryLime }]}
+                onPress={handleSavePreset}
+                activeOpacity={0.8}
+                accessibilityRole="button"
+              >
+                <Text style={[styles.basketConfirmText, { color: theme.colors.limeText }]}>
+                  {t('tracker.hub.savePresetConfirm')}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+
         {/* Global Search Bar */}
         <View
           style={[
@@ -635,6 +716,67 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
           </View>
         )}
 
+        {/*
+          Diet sub-category pills — the same nav the brand groups use, one level
+          down. Diet & Basics is ~290 items, and a single scroll that long is
+          not a list you browse, it is one you give up on.
+        */}
+        {isDietView && !searchQuery.trim() && dietSections.length > 1 && (
+          <View
+            style={[
+              styles.groupScrollContainer,
+              {
+                backgroundColor: theme.colors.surface,
+                borderBottomColor: theme.colors.border,
+              },
+            ]}
+          >
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.groupPillsWrapper}
+            >
+              {[ALL_DIET_GROUPS, ...dietSections.map((s) => s.group)].map((group) => {
+                const isActive = selectedDietGroup === group;
+                const count =
+                  group === ALL_DIET_GROUPS
+                    ? dietFoods.length
+                    : (dietSections.find((s) => s.group === group)?.foods.length ?? 0);
+                return (
+                  <TouchableOpacity
+                    key={group}
+                    style={[
+                      styles.groupPill,
+                      {
+                        backgroundColor: isActive
+                          ? theme.colors.primaryLime
+                          : theme.colors.surfaceSecondary,
+                      },
+                    ]}
+                    onPress={() => setSelectedDietGroup(group)}
+                    activeOpacity={0.7}
+                  >
+                    <Text
+                      style={[
+                        styles.groupPillText,
+                        {
+                          color: isActive ? '#0A0B0D' : theme.colors.textSecondary,
+                          fontWeight: isActive ? '800' : '600',
+                        },
+                      ]}
+                    >
+                      {group === ALL_DIET_GROUPS
+                        ? t('tracker.hub.dietGroups.all')
+                        : t(`tracker.hub.dietGroups.${group}`)}{' '}
+                      {count}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
+          </View>
+        )}
+
         {/* Main Content Area */}
         <ScrollView
           style={styles.content}
@@ -744,11 +886,13 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                 meals and proteins come first and the add-ons people put *on*
                 food — oils, sugar, dressings — come last.
               */}
-              {dietSections.map(({ group, foods }) => (
+              {visibleDietSections.map(({ group, foods }) => (
                 <View key={group}>
+                  {visibleDietSections.length > 1 && (
                   <Text style={[styles.dietGroupHeading, { color: theme.colors.textSecondary }]}>
                     {t(`tracker.hub.dietGroups.${group}`)} · {foods.length}
                   </Text>
+                  )}
                   {foods.map((food) => renderDishCard(food, `${group}_`))}
                 </View>
               ))}
@@ -815,7 +959,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
         </ScrollView>
 
         {/* Custom Meal Summary Bar */}
-        {isBuildMode && basket.length > 0 && (
+        {isBuildMode && basket.length > 0 && !isNamingPreset && (
           <View
             style={[
               styles.basketBar,
@@ -825,38 +969,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
               },
             ]}
           >
-            {isNamingPreset ? (
-              <View style={styles.presetNameRow}>
-                <TextInput
-                  style={[
-                    styles.presetNameInput,
-                    noOutlineStyle,
-                    {
-                      backgroundColor: theme.colors.canvas,
-                      borderColor: theme.colors.border,
-                      color: theme.colors.textPrimary,
-                    },
-                  ]}
-                  value={presetNameDraft}
-                  onChangeText={setPresetNameDraft}
-                  placeholder={t('tracker.hub.presetNamePlaceholder')}
-                  placeholderTextColor={theme.colors.textMuted}
-                  autoFocus
-                  returnKeyType="done"
-                  onSubmitEditing={handleSavePreset}
-                />
-                <TouchableOpacity
-                  style={[styles.basketConfirmBtn, { backgroundColor: theme.colors.primaryLime }]}
-                  onPress={handleSavePreset}
-                  activeOpacity={0.8}
-                  accessibilityRole="button"
-                >
-                  <Text style={[styles.basketConfirmText, { color: theme.colors.limeText }]}>
-                    {t('tracker.hub.savePresetConfirm')}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            ) : (
+            {(
               <>
                 <View style={styles.basketInfo}>
                   <Text style={[styles.basketCount, { color: theme.colors.textPrimary }]}>
