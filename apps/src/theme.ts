@@ -165,14 +165,29 @@ export const commonShadows = {
   } as any,
 };
 
+/**
+ * CSS font stack for the web build. Native cannot take a stack: iOS and
+ * Android resolve `fontFamily` to a single registered face and log an
+ * unrecognized-family warning for anything else, so native leaves the family
+ * unset here and picks the per-weight Inter or IBM Plex Sans Arabic file at
+ * render time — see `src/i18n/fontPatch.tsx`. The patch does not run on web,
+ * where a stack is the whole mechanism: the browser takes Inter if it can
+ * resolve one and the system font otherwise, and synthesizes the weights.
+ */
+const WEB_FONT_STACK =
+  '"Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Plus Jakarta Sans", Roboto, sans-serif';
+
+export const platformFontFamily: string | undefined = Platform.select({
+  web: WEB_FONT_STACK,
+  default: undefined,
+});
+
 export const commonTypography = {
-  fontFamily:
-    '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Plus Jakarta Sans", Roboto, sans-serif',
+  fontFamily: platformFontFamily,
   fallbacks:
     'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
   heroKcal: {
-    fontFamily:
-      '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Plus Jakarta Sans", Roboto, sans-serif',
+    fontFamily: platformFontFamily,
     fontSize: 48,
     fontWeight: '800' as const,
     lineHeight: 52,
@@ -180,8 +195,7 @@ export const commonTypography = {
     fontVariant: ['tabular-nums'] as ('tabular-nums')[],
   },
   displayHero: {
-    fontFamily:
-      '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Plus Jakarta Sans", Roboto, sans-serif',
+    fontFamily: platformFontFamily,
     fontSize: 40,
     fontWeight: '800' as const,
     lineHeight: 44,
@@ -189,16 +203,14 @@ export const commonTypography = {
     fontVariant: ['tabular-nums'] as ('tabular-nums')[],
   },
   sectionTitle: {
-    fontFamily:
-      '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Plus Jakarta Sans", Roboto, sans-serif',
+    fontFamily: platformFontFamily,
     fontSize: 20,
     fontWeight: '700' as const,
     lineHeight: 26,
     letterSpacing: -0.3,
   },
   metricValue: {
-    fontFamily:
-      '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Plus Jakarta Sans", Roboto, sans-serif',
+    fontFamily: platformFontFamily,
     fontSize: 22,
     fontWeight: '700' as const,
     lineHeight: 28,
@@ -206,16 +218,14 @@ export const commonTypography = {
     fontVariant: ['tabular-nums'] as ('tabular-nums')[],
   },
   cardTitle: {
-    fontFamily:
-      '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Plus Jakarta Sans", Roboto, sans-serif',
+    fontFamily: platformFontFamily,
     fontSize: 16,
     fontWeight: '600' as const,
     lineHeight: 22,
     letterSpacing: -0.1,
   },
   bodyMetric: {
-    fontFamily:
-      '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Plus Jakarta Sans", Roboto, sans-serif',
+    fontFamily: platformFontFamily,
     fontSize: 14,
     fontWeight: '600' as const,
     lineHeight: 20,
@@ -223,16 +233,14 @@ export const commonTypography = {
     fontVariant: ['tabular-nums'] as ('tabular-nums')[],
   },
   caption: {
-    fontFamily:
-      '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Plus Jakarta Sans", Roboto, sans-serif',
+    fontFamily: platformFontFamily,
     fontSize: 12,
     fontWeight: '500' as const,
     lineHeight: 16,
     letterSpacing: 0.1,
   },
   overline: {
-    fontFamily:
-      '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Plus Jakarta Sans", Roboto, sans-serif',
+    fontFamily: platformFontFamily,
     fontSize: 11,
     fontWeight: '700' as const,
     lineHeight: 14,

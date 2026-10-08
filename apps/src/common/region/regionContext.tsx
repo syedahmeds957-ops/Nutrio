@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export type Region = 'PK' | 'SA';
 
@@ -42,6 +43,29 @@ export function getCurrencyForRegion(region: Region): CurrencyInfo {
 
 const STORAGE_KEY = 'nutrio_active_region';
 
+/**
+ * AsyncStorage is the only store that exists on device; window.localStorage is
+ * undefined under Hermes, so reading it silently dropped every manual region
+ * (and therefore language) choice on the next launch. Kept async and
+ * fire-and-forget on write so the toggle stays instant.
+ */
+type SavedRegionRead = { ok: true; region: Region | null } | { ok: false };
+
+async function readSavedRegion(): Promise<SavedRegionRead> {
+  try {
+    const saved = await AsyncStorage.getItem(STORAGE_KEY);
+    return { ok: true, region: saved === 'SA' || saved === 'PK' ? saved : null };
+  } catch {
+    return { ok: false };
+  }
+}
+
+function persistRegion(region: Region): void {
+  void AsyncStorage.setItem(STORAGE_KEY, region).catch(() => {
+    // A failed write only costs re-detection on the next launch.
+  });
+}
+
 const RegionContext = createContext<RegionState>({
   activeRegion: 'PK',
   currency: { code: 'PKR', symbol: 'Rs.' },
@@ -83,15 +107,20 @@ export const RegionProvider: React.FC<{ children: ReactNode; initialRegion?: Reg
 
     async function initRegion() {
       try {
-        // 1. Check local storage if available
-        let saved: string | null = null;
-        if (typeof window !== 'undefined' && window.localStorage) {
-          saved = window.localStorage.getItem(STORAGE_KEY);
+        // 1. A manual choice always wins over detection.
+        const saved = await readSavedRegion();
+
+        // A read that failed is not the same as a region never chosen. Falling
+        // through to detection there would quietly replace a choice the user
+        // made, so this launch keeps the default and leaves the stored value
+        // untouched for the next one.
+        if (!saved.ok) {
+          return;
         }
 
-        if (saved === 'SA' || saved === 'PK') {
+        if (saved.region) {
           if (isMounted) {
-            setActiveRegionState(saved);
+            setActiveRegionState(saved.region);
             setIsAutoDetected(false);
             setIsLoading(false);
           }
@@ -104,9 +133,7 @@ export const RegionProvider: React.FC<{ children: ReactNode; initialRegion?: Reg
           const detected = detectRegionFromCountry(country);
           setActiveRegionState(detected);
           setIsAutoDetected(true);
-          if (typeof window !== 'undefined' && window.localStorage) {
-            window.localStorage.setItem(STORAGE_KEY, detected);
-          }
+          persistRegion(detected);
         }
       } catch {
         // Keep default PK on error
@@ -127,9 +154,7 @@ export const RegionProvider: React.FC<{ children: ReactNode; initialRegion?: Reg
   const setRegion = (region: Region) => {
     setActiveRegionState(region);
     setIsAutoDetected(false);
-    if (typeof window !== 'undefined' && window.localStorage) {
-      window.localStorage.setItem(STORAGE_KEY, region);
-    }
+    persistRegion(region);
   };
 
   const currency = getCurrencyForRegion(activeRegion);
