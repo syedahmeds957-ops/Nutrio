@@ -343,9 +343,12 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
           onPress={onProceedToGoal}
           activeOpacity={0.8}
         >
-          <Text style={[styles.actionBtnText, { color: theme.colors.limeText }]}>
-            Select Your Goal & Pace →
-          </Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, justifyContent: 'center' }}>
+            <Text style={[styles.actionBtnText, { color: theme.colors.limeText }]}>
+              Select Your Goal & Pace
+            </Text>
+            <Icon name="arrow-right" size={18} color={theme.colors.limeText} />
+          </View>
         </TouchableOpacity>
       </View>
     </ScrollView>

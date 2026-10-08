@@ -13,7 +13,9 @@ import {
   PlannedMealSlot,
 } from '@nutrio/nutrition-core';
 import { useTheme } from '../../theme.js';
+import { Notice } from '../../ui/Notice.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { Icon } from '../../ui/Icon.js';
 
 interface MealSwapModalProps {
   visible: boolean;
@@ -95,30 +97,14 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
               onPress={onClose}
               activeOpacity={0.7}
             >
-              <Text
-                style={[
-                  styles.closeButtonText,
-                  { color: theme.colors.textSecondary },
-                ]}
-              >
-                ✕
-              </Text>
+              <Icon name="x" size={18} color={theme.colors.textSecondary} />
             </TouchableOpacity>
           </View>
 
           <ScrollView style={styles.scrollList} contentContainerStyle={styles.scrollPad}>
-            <Text
-              style={[
-                styles.toleranceNotice,
-                {
-                  backgroundColor: isDark ? '#1C2608' : '#EDFCD2',
-                  borderColor: isDark ? '#2D4B05' : '#D4F88D',
-                  color: isDark ? '#D9F99D' : '#365314',
-                },
-              ]}
-            >
-              ✓ All 3 alternatives match your original meal within ±5% calories
-            </Text>
+            <Notice tone="info" icon="check" style={{ marginBottom: 12 }}>
+              All 3 alternatives match your original meal within ±5% calories
+            </Notice>
 
             {swapResult.options.map((option, index) => {
               const deltaSign = option.calorieDeltaPct > 0 ? '+' : '';

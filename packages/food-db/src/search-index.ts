@@ -16,6 +16,11 @@ function tokenize(text: string): string[] {
     .filter((t) => t.length > 1);
 }
 
+/** Folds simple plurals so "eggs" and "egg" find each other. */
+function stem(word: string): string {
+  return word.length > 3 && word.endsWith('s') && !word.endsWith('ss') ? word.slice(0, -1) : word;
+}
+
 export const DIET_BASICS_CATEGORY = 'Diet & Basics';
 
 export function isDietBasic(food: NormalizedFood): boolean {
@@ -102,6 +107,30 @@ function getIndexSA(): Map<string, number[]> {
   return tokenIndexSA;
 }
 
+/**
+ * Narrows ranked candidates to foods whose name contains every query word as a
+ * whole word, so "egg" returns egg dishes rather than also dragging in
+ * eggplant (prefix match) or anything merely categorised near eggs. Only
+ * applies when at least one such food exists; otherwise the looser prefix and
+ * category matches stay as a fallback so partial typing still finds things.
+ */
+function preferWholeWordMatches(
+  candidates: { food: NormalizedFood; score: number }[],
+  queryTokens: string[]
+): { food: NormalizedFood; score: number }[] {
+  const strict = candidates.filter(({ food }) => {
+    const words = new Set(
+      [
+        ...tokenize(food.name),
+        ...tokenize(food.nameUr ?? ''),
+        ...tokenize(food.nameAr ?? ''),
+      ].map(stem)
+    );
+    return queryTokens.every((t) => words.has(t));
+  });
+  return strict.length > 0 ? strict : candidates;
+}
+
 export function searchPakistaniFoods(
   query: string,
   options?: SearchOptions
@@ -113,7 +142,7 @@ export function searchPakistaniFoods(
       : [];
   }
 
-  const queryTokens = tokenize(rawQ);
+  const queryTokens = tokenize(rawQ).map(stem);
   if (queryTokens.length === 0) return [];
 
   const index = getIndexPK();
@@ -153,8 +182,9 @@ export function searchPakistaniFoods(
     candidates.push({ food, score });
   }
 
-  candidates.sort((a, b) => b.score - a.score);
-  return candidates.slice(0, options?.limit || 40).map((c) => c.food);
+  const ranked = preferWholeWordMatches(candidates, queryTokens);
+  ranked.sort((a, b) => b.score - a.score);
+  return ranked.slice(0, options?.limit || 40).map((c) => c.food);
 }
 
 export function searchSaudiFoods(
@@ -168,7 +198,7 @@ export function searchSaudiFoods(
       : [];
   }
 
-  const queryTokens = tokenize(rawQ);
+  const queryTokens = tokenize(rawQ).map(stem);
   if (queryTokens.length === 0) return [];
 
   const index = getIndexSA();
@@ -208,8 +238,9 @@ export function searchSaudiFoods(
     candidates.push({ food, score });
   }
 
-  candidates.sort((a, b) => b.score - a.score);
-  return candidates.slice(0, options?.limit || 40).map((c) => c.food);
+  const ranked = preferWholeWordMatches(candidates, queryTokens);
+  ranked.sort((a, b) => b.score - a.score);
+  return ranked.slice(0, options?.limit || 40).map((c) => c.food);
 }
 
 /**

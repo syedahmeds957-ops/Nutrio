@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { Icon } from '../../ui/Icon.js';
 
 export interface WeeklyCheckInMetrics {
   daysLogged: number;
@@ -85,9 +86,10 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
           onPress={onBack}
           activeOpacity={0.7}
         >
-          <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
-            {dir.isRTL ? '→' : '←'} {t('checkin.dashboard')}
-          </Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+            <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={16} color={theme.colors.textPrimary} />
+            <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>{t('checkin.dashboard')}</Text>
+          </View>
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>
           {t('checkin.title')}
@@ -186,20 +188,11 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
               </Text>
             </View>
 
-            <Text
-              style={[
-                styles.arrowIcon,
-                {
-                  color: isTargetChanged
-                    ? '#0A0B0D'
-                    : isDark
-                    ? theme.colors.primaryLime
-                    : '#4B6200',
-                },
-              ]}
-            >
-              →
-            </Text>
+            <Icon
+              name="arrow-right"
+              size={20}
+              color={isTargetChanged ? '#0A0B0D' : isDark ? theme.colors.primaryLime : '#4B6200'}
+            />
 
             <View
               style={[
@@ -353,7 +346,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
         >
           <View style={styles.narrativeHeader}>
             <Text style={[styles.narrativeTitle, { color: theme.colors.textPrimary }]}>
-              🧑‍⚕️ {t('checkin.coachAssessment')}
+              {t('checkin.coachAssessment')}
             </Text>
             <View
               style={[
@@ -394,7 +387,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
               { color: isDark ? theme.colors.primaryLime : '#B45309' },
             ]}
           >
-            💡 {t('checkin.actionLever')}
+            {t('checkin.actionLever')}
           </Text>
           <Text
             style={[
@@ -416,7 +409,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
           activeOpacity={0.85}
         >
           <Text style={[styles.acceptBtnText, { color: theme.colors.limeText }]}>
-            ✓ {t('checkin.applyNewTarget', { value: metrics.newKcalTarget })}
+            {t('checkin.applyNewTarget', { value: metrics.newKcalTarget })}
           </Text>
         </TouchableOpacity>
       </ScrollView>

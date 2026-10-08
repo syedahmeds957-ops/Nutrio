@@ -124,7 +124,7 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
             ]}
           >
             <Text style={[styles.impactText, { color: theme.colors.textPrimary }]}>
-              ☕ Adds ~
+              Adds ~
               <Text
                 style={[
                   styles.impactHighlight,

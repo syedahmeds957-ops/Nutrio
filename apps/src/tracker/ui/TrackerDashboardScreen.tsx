@@ -239,6 +239,26 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
           return pastEngine.getSummary();
         })();
 
+  // Fill (0-1) of the daily calorie target for each day of the current
+  // Mon-Sun week, read from what was saved on those days. Days that have not
+  // happened yet, or were never logged, stay 0 so their bars stay empty.
+  const weeklyHistoryFills = (() => {
+    const today = new Date(`${summary.date}T00:00:00Z`);
+    const todayIdx = (today.getUTCDay() + 6) % 7;
+    return Array.from({ length: 7 }, (_, idx) => {
+      if (idx >= todayIdx) return 0;
+      const d = new Date(today);
+      d.setUTCDate(d.getUTCDate() - (todayIdx - idx));
+      const date = d.toISOString().split('T')[0];
+      const saved = loadDailyActivities(date, activeRegion);
+      if (!saved?.items?.length) return 0;
+      const dayEngine = new TrackerEngine({ ...targets, date });
+      dayEngine.loadItems(saved.items, saved.waterMl || 0);
+      const eaten = dayEngine.getSummary().totalCaloriesConsumed;
+      return Math.min(1, eaten / Math.max(1, targets.targetCalories));
+    });
+  })();
+
   const handleOpenAdd = (slot: MealSlot) => {
     setActiveSlot(slot);
     setHubVisible(true);
@@ -382,6 +402,15 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     forceUpdate();
   };
 
+  /** The meal people most likely mean right now, used to preselect the hub. */
+const defaultSlotForNow = (): MealSlot => {
+  const h = new Date().getHours();
+  if (h < 11) return 'breakfast';
+  if (h < 16) return 'lunch';
+  if (h < 19) return 'snacks_chai';
+  return 'dinner';
+};
+
   const completedSlotsCount = (['breakfast', 'lunch', 'dinner', 'snacks_chai'] as MealSlot[]).filter(
     (s) => engine.getItemsBySlot(s).length > 0
   ).length;
@@ -451,7 +480,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                 accessibilityLabel={t('tracker.dashboard.toggleRegion')}
               >
                 <Text style={[styles.regionToggleText, { color: theme.colors.textPrimary }]}>
-                  {activeRegion === 'SA' ? '🇸🇦 SA' : '🇵🇰 PK'}
+                  {activeRegion === 'SA' ? 'SA' : 'PK'}
                 </Text>
               </TouchableOpacity>
 
@@ -459,11 +488,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
           </View>
 
           {/* Navigation Action Chips */}
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.navActionsScroll}
-          >
+          <View style={styles.navActionsRow}>
             {onOpenMealPlan && (
               <TouchableOpacity
                 style={[
@@ -475,7 +500,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
               >
                 <View style={styles.navPillContent}>
                   <Icon name="utensils" size={13} color={theme.colors.textPrimary} />
-                  <Text style={[styles.navPillBtnText, { color: theme.colors.textPrimary }]}>
+                  <Text numberOfLines={1} style={[styles.navPillBtnText, { color: theme.colors.textPrimary }]}>
                     {t('tracker.dashboard.nav.meals')}
                   </Text>
                 </View>
@@ -499,7 +524,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
               >
                 <View style={styles.navPillContent}>
                   <Icon name="scale" size={13} color={theme.colors.textPrimary} />
-                  <Text style={[styles.navPillBtnText, { color: theme.colors.textPrimary }]}>
+                  <Text numberOfLines={1} style={[styles.navPillBtnText, { color: theme.colors.textPrimary }]}>
                     {t('tracker.dashboard.nav.weight')}
                   </Text>
                 </View>
@@ -523,7 +548,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
               >
                 <View style={styles.navPillContent}>
                   <Icon name="coach" size={13} color={accentTextColor} />
-                  <Text style={[styles.navPillBtnActiveText, { color: accentTextColor }]}>
+                  <Text numberOfLines={1} style={[styles.navPillBtnActiveText, { color: accentTextColor }]}>
                     {t('tracker.dashboard.nav.coach')}
                   </Text>
                 </View>
@@ -541,7 +566,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
               >
                 <View style={styles.navPillContent}>
                   <Icon name="clipboard" size={13} color={theme.colors.textPrimary} />
-                  <Text style={[styles.navPillBtnText, { color: theme.colors.textPrimary }]}>
+                  <Text numberOfLines={1} style={[styles.navPillBtnText, { color: theme.colors.textPrimary }]}>
                     {t('tracker.dashboard.nav.targets')}
                   </Text>
                 </View>
@@ -554,11 +579,11 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
               whole onboarding survey is not one of them. It still lives in the
               profile sheet, where settings-shaped actions belong.
             */}
-          </ScrollView>
+          </View>
         </View>
 
         {/* 1. Daily Progress Hero Card + 2x2 Metric Grid */}
-        <DailyProgressHeader summary={summary} />
+        <DailyProgressHeader summary={summary} weeklyHistoryFills={weeklyHistoryFills} />
 
         {/* 2. Dynamic AI Recommendation Card */}
         <AiRecommendationCard
@@ -735,7 +760,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
           style={[styles.bottomCenterLogBtn, { backgroundColor: accentColor }]}
           onPress={() => {
             HapticFeedback.impactMedium();
-            handleOpenHub('lunch');
+            handleOpenHub(defaultSlotForNow());
           }}
           activeOpacity={0.8}
         >
@@ -779,6 +804,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
         onSelectItem={handleSelectItemInHubOrBrand}
         onConfirmBasket={handleConfirmBasket}
         slot={activeSlot}
+        onSlotChange={setActiveSlot}
       />
 
       {/* Brand Menu View with Sub-Categories */}
@@ -867,7 +893,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                 onPress={() => closeProfile()}
                 activeOpacity={0.7}
               >
-                <Text style={[styles.profileCloseText, { color: theme.colors.textSecondary }]}>✕</Text>
+                <Icon name="x" size={18} color={theme.colors.textSecondary} />
               </TouchableOpacity>
             </View>
 
@@ -896,7 +922,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                       { color: mode === 'dark' ? accentTextColor : theme.colors.textSecondary },
                     ]}
                   >
-                    🌙 {t('tracker.dashboard.darkMode')}
+                    {t('tracker.dashboard.darkMode')}
                   </Text>
                 </TouchableOpacity>
 
@@ -914,7 +940,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
                       { color: mode === 'light' ? accentTextColor : theme.colors.textSecondary },
                     ]}
                   >
-                    ☀️ {t('tracker.dashboard.lightMode')}
+                    {t('tracker.dashboard.lightMode')}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -1130,32 +1156,39 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '700',
   },
-  navActionsScroll: {
+  navActionsRow: {
     flexDirection: 'row',
-    gap: 8,
+    gap: 6,
     paddingVertical: 4,
   },
   navPillBtn: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
+    flex: 1,
+    minWidth: 0,
+    paddingVertical: 7,
+    paddingHorizontal: 8,
     borderRadius: 9999,
     borderWidth: 1,
   },
   navPillContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    justifyContent: 'center',
+    gap: 5,
   },
   navPillBtnText: {
+    flexShrink: 1,
     fontSize: 12,
     fontWeight: '600',
   },
   navPillBtnActive: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
+    flex: 1,
+    minWidth: 0,
+    paddingVertical: 7,
+    paddingHorizontal: 8,
     borderRadius: 9999,
   },
   navPillBtnActiveText: {
+    flexShrink: 1,
     fontSize: 12,
     fontWeight: '800',
   },

@@ -15,6 +15,7 @@ import {
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
 import { AppleTextInput } from '../../ui/AppleInput.js';
+import { Notice } from '../../ui/Notice.js';
 import { authenticateUser, registerUser } from '../authStorage.js';
 import { AuthSession, AuthScreenMode } from '../types.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
@@ -245,36 +246,12 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
 
             {/* Info Message Banner */}
             {infoMessage ? (
-              <View
-                style={[
-                  styles.infoBanner,
-                  {
-                    backgroundColor: isDark
-                      ? 'rgba(16, 185, 129, 0.15)'
-                      : '#D1FAE5',
-                  },
-                ]}
-              >
-                <Text style={[styles.infoText, { color: theme.colors.success }]}>
-                  ✓ {infoMessage}
-                </Text>
-              </View>
+              <Notice tone="info" icon="check">{infoMessage}</Notice>
             ) : null}
 
             {/* Error Banner */}
             {errorMessage ? (
-              <View
-                style={[
-                  styles.errorBanner,
-                  {
-                    backgroundColor: isDark
-                      ? 'rgba(239, 68, 68, 0.15)'
-                      : '#FEE2E2',
-                  },
-                ]}
-              >
-                <Text style={styles.errorText}>⚠️ {errorMessage}</Text>
-              </View>
+              <Notice tone="danger">{errorMessage}</Notice>
             ) : null}
 
             {/* Form Inputs */}
@@ -339,7 +316,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                   },
                 ]}
               >
-                {rememberMe && <Text style={styles.checkmark}>✓</Text>}
+                {rememberMe && <Icon name="check" size={14} color="#0A0B0D" strokeWidth={3} />}
               </View>
               <Text style={[styles.rememberText, { color: theme.colors.textSecondary }]}>
                 {t('auth.rememberMe')}
@@ -373,9 +350,12 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 onPress={onExploreGuest}
                 activeOpacity={0.7}
               >
-                <Text style={[styles.guestText, { color: theme.colors.textSecondary }]}>
-                  {t('auth.continueAsGuest')} {dir.isRTL ? '←' : '→'}
-                </Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, justifyContent: 'center' }}>
+                  <Text style={[styles.guestText, { color: theme.colors.textSecondary }]}>
+                    {t('auth.continueAsGuest')}
+                  </Text>
+                  <Icon name={dir.isRTL ? 'arrow-left' : 'arrow-right'} size={16} color={theme.colors.textSecondary} />
+                </View>
               </TouchableOpacity>
             )}
           </Animated.View>

@@ -50,7 +50,7 @@
     "oldTarget": "Old target",
     "recalibration": "Metabolic adaptive recalibration",
     "share": "Share",
-    "shareBody": "📊 Nutrio weekly check-in report ({{name}})\\n- Adherence rate: {{adherence}}% ({{daysLogged}}/7 days logged)\\n- Weight trend: {{weightDelta}} kg\\n- Daily intake avg: {{intake}} kcal\\n- New daily target: {{newTarget}} kcal ({{targetDelta}} kcal)\\n- Next week habit: {{habit}}",
+    "shareBody": "Nutrio weekly check-in report ({{name}})\\n- Adherence rate: {{adherence}}% ({{daysLogged}}/7 days logged)\\n- Weight trend: {{weightDelta}} kg\\n- Daily intake avg: {{intake}} kcal\\n- New daily target: {{newTarget}} kcal ({{targetDelta}} kcal)\\n- Next week habit: {{habit}}",
     "shareTitle": "Shareable summary",
     "title": "Weekly check-in",
     "weightTrend": "Weight trend"
@@ -99,7 +99,7 @@
           "three": "How do I control evening sugar cravings?",
           "two": "What healthy snacks can I have with chai?"
         },
-        "reply": "Traditional doodh patti made with whole milk and 2 teaspoons of sugar easily packs 180-220 kcal per cup!\\n\\n💡 Try the half-milk, half-water technique with half a spoon of sugar or stevia. If you drink 2-3 cups a day, this saves ~300 kcal without giving up your chai ritual."
+        "reply": "Traditional doodh patti made with whole milk and 2 teaspoons of sugar easily packs 180-220 kcal per cup!\\n\\nTry the half-milk, half-water technique with half a spoon of sugar or stevia. If you drink 2-3 cups a day, this saves ~300 kcal without giving up your chai ritual."
       },
       "cookingOil": {
         "prompts": {
@@ -107,7 +107,7 @@
           "three": "What should I eat for dinner tonight?",
           "two": "Can I use mustard oil or olive oil for desi cooking?"
         },
-        "reply": "In traditional Pakistani handis like chicken karahi, free-pouring cooking oil often adds 30-50g of hidden fat (270-450 kcal) to the pot.\\n\\n💡 Pro habit: Use a tablespoon (1 tbsp = 14g, ~120 kcal) for the entire family handi, or simmer tomatoes early to create a rich, silky gravy with minimal oil."
+        "reply": "In traditional Pakistani handis like chicken karahi, free-pouring cooking oil often adds 30-50g of hidden fat (270-450 kcal) to the pot.\\n\\nPro habit: Use a tablespoon (1 tbsp = 14g, ~120 kcal) for the entire family handi, or simmer tomatoes early to create a rich, silky gravy with minimal oil."
       },
       "dawat": {
         "prompts": {
@@ -123,7 +123,7 @@
           "three": "How to log fast food accurately",
           "two": "Healthy options at Shawarmer or Al Tazaj"
         },
-        "reply": "At AlBaik or Kudu, you can stay within your targets by choosing grilled chicken fillet or nuggets (ask for garlic dip on the side and dip lightly) instead of double-fried broast with fries.\\n\\n💡 Pro habit: Skip sugary sodas and opt for water or fresh orange juice. A 4-piece nugget portion with moderate dip is ~420 kcal!"
+        "reply": "At AlBaik or Kudu, you can stay within your targets by choosing grilled chicken fillet or nuggets (ask for garlic dip on the side and dip lightly) instead of double-fried broast with fries.\\n\\nPro habit: Skip sugary sodas and opt for water or fresh orange juice. A 4-piece nugget portion with moderate dip is ~420 kcal!"
       },
       "gahwa": {
         "prompts": {
@@ -131,7 +131,7 @@
           "three": "Best snack to pair with afternoon coffee",
           "two": "Benefits of Saudi Gahwa for metabolism"
         },
-        "reply": "Saudi Gahwa with cardamom and saffron has almost zero calories (~2 kcal per finjan) and is rich in antioxidants!\\n\\n💡 Dates note: Companion Sukari or Ajwa dates are nutrient-rich but calorie-dense (~20-25 kcal per date). Having 2-3 dates with your afternoon Gahwa ritual gives sustained energy without spiking your daily calories."
+        "reply": "Saudi Gahwa with cardamom and saffron has almost zero calories (~2 kcal per finjan) and is rich in antioxidants!\\n\\nDates note: Companion Sukari or Ajwa dates are nutrient-rich but calorie-dense (~20-25 kcal per date). Having 2-3 dates with your afternoon Gahwa ritual gives sustained energy without spiking your daily calories."
       },
       "greetingPK": {
         "prompts": {
@@ -244,8 +244,8 @@
         "perDay": "~{{value}} kcal/day",
         "perWeek": "~{{value}} kcal/week",
         "title": {
-          "PK": "☕ Pakistani dietary levers",
-          "SA": "🇸🇦 Saudi dietary levers"
+          "PK": "Pakistani dietary levers",
+          "SA": "Saudi dietary levers"
         },
         "weeklyLoad": {
           "PK": "Weekly chai energy load:",
@@ -266,11 +266,11 @@
       "activateRamadan": "Activate Ramadan mode",
       "applyDish": "Apply {{dish}} to plan",
       "calorieSplit": "Daily calorie split:",
-      "dishActiveStatus": "✓ {{dish}} is active",
+      "dishActiveStatus": "{{dish}} is active",
       "disableRamadan": "Disable Ramadan mode",
       "fastingBadge": "Fasting",
       "modesDefaultLabel": "Modes",
-      "ramadanActiveStatus": "✓ Ramadan mode is active",
+      "ramadanActiveStatus": "Ramadan mode is active",
       "ramadanInactiveStatus": "Ramadan mode is off",
       "updateDish": "Update to {{dish}}",
       "dishes": {
@@ -510,7 +510,7 @@
       "disclaimer": "I acknowledge that Nutrio provides algorithmic nutritional guidance and is not a substitute for clinical diagnosis or prescription by a physician.",
       "medications": "Medications or clinical notes (optional)",
       "pregnancyQuestion": "Are you pregnant or currently breastfeeding?",
-      "pregnancyWarning": "🛡️ Note: Caloric restriction is clinically disabled during pregnancy and active lactation. Your plan will be set to nourishing maintenance only."
+      "pregnancyWarning": "Note: Caloric restriction is clinically disabled during pregnancy and active lactation. Your plan will be set to nourishing maintenance only."
     },
     "lifestyle": {
       "chai": {
@@ -718,7 +718,7 @@
       },
       "logFirstMeal": "+ Log first meal",
       "logSuggestion": "+ Log suggestion",
-      "logged": "✓ Logged!",
+      "logged": "Logged!",
       "suggestions": {
         "PK.full": {
           "rationale": "Matches your remaining {{remaining}} kcal with high protein to reach target.",
@@ -805,7 +805,7 @@
       "standardServings": "Standard servings"
     },
     "dashboard": {
-      "allMealsDone": "🎉 All meals done",
+      "allMealsDone": "All meals done",
       "appearance": "Appearance",
       "dailyTarget": "Daily target",
       "darkMode": "Dark mode",
@@ -865,6 +865,11 @@
       "dailyGoal": "Daily goal: {{target}} kcal ({{eaten}} eaten)",
       "energyBudget": "Energy budget",
       "free": "100% free",
+      "goalCaption": "Goal",
+      "gramsLeft": "{{value}} g left",
+      "gramsOver": "{{value}} g over",
+      "kcalLeft": "{{value}} kcal left",
+      "kcalOver": "{{value}} kcal over",
       "noTargetHint": "Start logging meals · Set daily target in survey",
       "onTrackDaily": "On track for daily goal",
       "pctOfGoal": "{{pct}}% of {{grams}}g goal",

@@ -5,6 +5,7 @@ import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { HapticFeedback } from '../../ui/haptics.js';
 import { formatServingLine } from '../formatServing.js';
+import { Icon } from '../../ui/Icon.js';
 
 interface MealSlotCardProps {
   slot: MealSlot;
@@ -82,7 +83,7 @@ export const MealSlotCard: React.FC<MealSlotCardProps> = ({
                       { color: isDark ? theme.colors.primaryLime : '#15803D' },
                     ]}
                   >
-                    ✓ {t('tracker.slotCard.done')}
+                    {t('tracker.slotCard.done')}
                   </Text>
                 </View>
               )}
@@ -162,7 +163,7 @@ export const MealSlotCard: React.FC<MealSlotCardProps> = ({
                   accessibilityRole="button"
                   accessibilityLabel={`Delete ${item.foodName}`}
                 >
-                  <Text style={[styles.deleteText, { color: theme.colors.textMuted }]}>✕</Text>
+                  <Icon name="x" size={16} color={theme.colors.textMuted} />
                 </TouchableOpacity>
               </View>
             </View>

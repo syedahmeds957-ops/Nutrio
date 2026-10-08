@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Icon } from '../ui/Icon.js';
 import {
   Modal,
   ScrollView,
@@ -67,7 +68,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
               </Text>
             </View>
             <TouchableOpacity style={styles.closeBtn} onPress={onClose} activeOpacity={0.7}>
-              <Text style={styles.closeBtnText}>✕</Text>
+              <Icon name="x" size={18} color="#64748B" />
             </TouchableOpacity>
           </View>
 
@@ -96,7 +97,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
                         currency === curr && styles.currPillTextActive,
                       ]}
                     >
-                      {curr === 'PKR' ? '🇵🇰 PKR (Pakistan)' : '🌐 USD (Global)'}
+                      {curr === 'PKR' ? 'PKR (Pakistan)' : 'USD (Global)'}
                     </Text>
                   </TouchableOpacity>
                 ))}
@@ -145,7 +146,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
             <Text style={styles.sectionHeading}>What You Unlock</Text>
             <View style={styles.featuresList}>
               <View style={styles.featureRow}>
-                <Text style={styles.featureIcon}>📷</Text>
+                <Icon name="camera" size={20} color="#1E293B" style={styles.featureIcon} />
                 <View style={styles.featureTextCol}>
                   <Text style={styles.featureTitle}>Unlimited Photo Calorie Scans</Text>
                   <Text style={styles.featureDesc}>
@@ -155,7 +156,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
               </View>
 
               <View style={styles.featureRow}>
-                <Text style={styles.featureIcon}>🧑‍⚕️</Text>
+                <Icon name="coach" size={20} color="#1E293B" style={styles.featureIcon} />
                 <View style={styles.featureTextCol}>
                   <Text style={styles.featureTitle}>24/7 AI Nutritionist Coach</Text>
                   <Text style={styles.featureDesc}>
@@ -165,7 +166,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
               </View>
 
               <View style={styles.featureRow}>
-                <Text style={styles.featureIcon}>⚖️</Text>
+                <Icon name="scale" size={20} color="#1E293B" style={styles.featureIcon} />
                 <View style={styles.featureTextCol}>
                   <Text style={styles.featureTitle}>Closed-Loop Adaptive TDEE</Text>
                   <Text style={styles.featureDesc}>
@@ -175,7 +176,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
               </View>
 
               <View style={styles.featureRow}>
-                <Text style={styles.featureIcon}>🍽️</Text>
+                <Icon name="utensils" size={20} color="#1E293B" style={styles.featureIcon} />
                 <View style={styles.featureTextCol}>
                   <Text style={styles.featureTitle}>Cultural Meal Plans & Swaps</Text>
                   <Text style={styles.featureDesc}>
@@ -198,7 +199,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
                     onPress={() => setSelectedProvider('jazzcash')}
                     activeOpacity={0.7}
                   >
-                    <Text style={styles.providerText}>🔴 JazzCash</Text>
+                    <Text style={styles.providerText}>JazzCash</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
@@ -209,7 +210,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
                     onPress={() => setSelectedProvider('easypaisa')}
                     activeOpacity={0.7}
                   >
-                    <Text style={styles.providerText}>🟢 Easypaisa</Text>
+                    <Text style={styles.providerText}>Easypaisa</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
@@ -220,7 +221,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
                     onPress={() => setSelectedProvider('card')}
                     activeOpacity={0.7}
                   >
-                    <Text style={styles.providerText}>💳 Debit/Credit</Text>
+                    <Text style={styles.providerText}>Debit/Credit</Text>
                   </TouchableOpacity>
                 </>
               ) : (
@@ -233,7 +234,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
                     onPress={() => setSelectedProvider('card')}
                     activeOpacity={0.7}
                   >
-                    <Text style={styles.providerText}>💳 Credit Card</Text>
+                    <Text style={styles.providerText}>Credit Card</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
@@ -245,7 +246,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
                     onPress={() => setSelectedProvider('in_app_purchase')}
                     activeOpacity={0.7}
                   >
-                    <Text style={styles.providerText}>🍎 In-App Purchase</Text>
+                    <Text style={styles.providerText}>In-App Purchase</Text>
                   </TouchableOpacity>
                 </>
               )}
@@ -263,7 +264,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
             </TouchableOpacity>
 
             <Text style={styles.guaranteeText}>
-              🛡️ No risk · Cancel anytime in 1 tap · ZDR health data privacy
+              No risk · Cancel anytime in 1 tap · ZDR health data privacy
             </Text>
           </ScrollView>
         </View>
@@ -447,7 +448,6 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   featureIcon: {
-    fontSize: 18,
     marginTop: 1,
   },
   featureTextCol: {

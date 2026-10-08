@@ -4,6 +4,7 @@ import { MedicalConditionFlag, SurveyHealthClinical } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { AppleTextInput } from '../../ui/AppleInput.js';
+import { Icon } from '../../ui/Icon.js';
 
 interface StepHealthClinicalProps {
   data: Partial<SurveyHealthClinical>;
@@ -185,7 +186,7 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
                   ]}
                 >
                   {isChecked && (
-                    <Text style={[styles.checkmark, isSaudi && { color: '#FFFFFF' }]}>✓</Text>
+                    <Icon name="check" size={14} color={isSaudi ? '#FFFFFF' : '#0A0B0D'} strokeWidth={3} />
                   )}
                 </View>
                 <Text
@@ -268,7 +269,7 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
             ]}
           >
             {isDisclaimerAccepted && (
-              <Text style={[styles.checkmark, isSaudi && { color: '#FFFFFF' }]}>✓</Text>
+              <Icon name="check" size={14} color={isSaudi ? '#FFFFFF' : '#0A0B0D'} strokeWidth={3} />
             )}
           </View>
           <Text

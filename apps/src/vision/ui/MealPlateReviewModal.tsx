@@ -10,6 +10,7 @@ import {
 import { ResolvedFoodItem, VisionResolutionResult } from '@nutrio/nutrition-core';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { Icon } from '../../ui/Icon.js';
 
 interface MealPlateReviewModalProps {
   visible: boolean;
@@ -133,7 +134,7 @@ export const MealPlateReviewModal: React.FC<MealPlateReviewModalProps> = ({
               </Text>
               <Text style={[styles.modalTitle, { color: theme.colors.textPrimary }]}>{dishTitle}</Text>
               {cookingMethod && (
-                <Text style={[styles.methodText, { color: theme.colors.textMuted }]}>🍳 {cookingMethod}</Text>
+                <Text style={[styles.methodText, { color: theme.colors.textMuted }]}>{cookingMethod}</Text>
               )}
             </View>
             <TouchableOpacity
@@ -141,7 +142,7 @@ export const MealPlateReviewModal: React.FC<MealPlateReviewModalProps> = ({
               onPress={onClose}
               activeOpacity={0.7}
             >
-              <Text style={[styles.closeBtnText, { color: theme.colors.textSecondary }]}>✕</Text>
+              <Icon name="x" size={18} color={theme.colors.textSecondary} />
             </TouchableOpacity>
           </View>
 
@@ -241,7 +242,7 @@ export const MealPlateReviewModal: React.FC<MealPlateReviewModalProps> = ({
                       onPress={() => handleDeleteItem(index)}
                       activeOpacity={0.7}
                     >
-                      <Text style={[styles.deleteBtnText, isDark && { color: '#F87171' }]}>✕</Text>
+                      <Icon name="x" size={16} color={isDark ? '#F87171' : '#DC2626'} />
                     </TouchableOpacity>
                   </View>
 
@@ -318,7 +319,7 @@ export const MealPlateReviewModal: React.FC<MealPlateReviewModalProps> = ({
               activeOpacity={0.8}
             >
               <Text style={[styles.logBtnText, { color: accentTextColor }]}>
-                ✓ {t('vision.plate.logToDiary', { value: totalCalories })}
+                {t('vision.plate.logToDiary', { value: totalCalories })}
               </Text>
             </TouchableOpacity>
           </ScrollView>

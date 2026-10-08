@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { AdaptiveTDEEResult } from '@nutrio/nutrition-core';
+import { Notice } from '../../ui/Notice.js';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
@@ -96,20 +97,13 @@ export const AdaptiveTDEECard: React.FC<AdaptiveTDEECardProps> = ({
 
       {/* Under-Logging Safeguard Banner */}
       {isUnderLogging && (
-        <View style={[styles.underLoggingAlert, { backgroundColor: isDark ? '#3E1F07' : '#FEF3C7', borderColor: '#F59E0B' }]}>
-          <Text style={[styles.underLoggingTitle, { color: '#D97706' }]}>
-            ⚠️ {t('weight.adaptive.underLoggingTitle')}
-          </Text>
-          <Text style={[styles.underLoggingDesc, { color: isDark ? '#FDE68A' : '#92400E' }]}>
-            {t('weight.adaptive.underLoggingDesc')}
-          </Text>
-        </View>
+        <Notice tone="warning" title={t('weight.adaptive.underLoggingTitle')} style={{ marginTop: 12 }}>
+          {t('weight.adaptive.underLoggingDesc')}
+        </Notice>
       )}
 
       {/* Explanation Box */}
-      <View style={[styles.explanationBox, { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border }]}>
-        <Text style={[styles.explanationText, { color: theme.colors.textMuted }]}>ℹ️ {explanation}</Text>
-      </View>
+      <Notice tone="neutral" style={{ marginTop: 12 }}>{explanation}</Notice>
     </View>
   );
 };

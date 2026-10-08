@@ -130,13 +130,13 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
         <View style={[styles.deltaBox, isSaudi && { backgroundColor: 'rgba(0, 0, 0, 0.25)' }]}>
           <Text style={[styles.deltaText, isSaudi && { color: '#FFFFFF' }]}>
             {isDeficit
-              ? `⚡ ${t('plan.reveal.deficit', {
+              ? `${t('plan.reveal.deficit', {
                   value: Math.abs(signedDelta),
                   tdee: userContext.tdee,
                 })}`
               : signedDelta > 0
-              ? `⚡ ${t('plan.reveal.surplus', { value: signedDelta, tdee: userContext.tdee })}`
-              : `⚖️ ${t('plan.reveal.maintenance', { tdee: userContext.tdee })}`}
+              ? `${t('plan.reveal.surplus', { value: signedDelta, tdee: userContext.tdee })}`
+              : `${t('plan.reveal.maintenance', { tdee: userContext.tdee })}`}
           </Text>
         </View>
       </View>
@@ -254,7 +254,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
 
         <View style={styles.safeguardItem}>
           <View style={[styles.safeguardIconCircle, { backgroundColor: theme.colors.surfaceSecondary }]}>
-            <Text style={[styles.safeguardIcon, { color: theme.colors.primaryLime }]}>✓</Text>
+            <Icon name="check" size={14} color={theme.colors.primaryLime} strokeWidth={3} />
           </View>
           <Text style={[styles.safeguardText, { color: theme.colors.textPrimary }]}>
             {t('plan.reveal.safeguardBmr', { bmr: userContext.bmr })}
@@ -263,7 +263,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
 
         <View style={styles.safeguardItem}>
           <View style={[styles.safeguardIconCircle, { backgroundColor: theme.colors.surfaceSecondary }]}>
-            <Text style={[styles.safeguardIcon, { color: theme.colors.primaryLime }]}>✓</Text>
+            <Icon name="check" size={14} color={theme.colors.primaryLime} strokeWidth={3} />
           </View>
           <Text style={[styles.safeguardText, { color: theme.colors.textPrimary }]}>
             {t('plan.reveal.safeguardDeficit')}
@@ -272,7 +272,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
 
         <View style={styles.safeguardItem}>
           <View style={[styles.safeguardIconCircle, { backgroundColor: theme.colors.surfaceSecondary }]}>
-            <Text style={[styles.safeguardIcon, { color: theme.colors.primaryLime }]}>✓</Text>
+            <Icon name="check" size={14} color={theme.colors.primaryLime} strokeWidth={3} />
           </View>
           <Text style={[styles.safeguardText, { color: theme.colors.textPrimary }]}>
             {t('plan.reveal.safeguardFat')}
@@ -304,9 +304,12 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
             onPress={onAcceptPlan}
             activeOpacity={0.8}
           >
-            <Text style={[styles.acceptBtnText, { color: accentTextColor }]}>
-              {t('plan.reveal.acceptLaunch')} {dir.isRTL ? '←' : '→'}
-            </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, justifyContent: 'center' }}>
+              <Text style={[styles.acceptBtnText, { color: accentTextColor }]}>
+                {t('plan.reveal.acceptLaunch')}
+              </Text>
+              <Icon name={dir.isRTL ? 'arrow-left' : 'arrow-right'} size={18} color={accentTextColor} />
+            </View>
           </TouchableOpacity>
         )}
       </View>

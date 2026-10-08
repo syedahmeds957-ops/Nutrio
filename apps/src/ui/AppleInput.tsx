@@ -296,9 +296,7 @@ export const AppleSearchInput: React.FC<AppleSearchInputProps> = ({
               { backgroundColor: theme.colors.border },
             ]}
           >
-            <Text style={[styles.clearText, { color: theme.colors.textSecondary }]}>
-              ✕
-            </Text>
+            <Icon name="x" size={12} color={theme.colors.textSecondary} strokeWidth={2.5} />
           </View>
         </TouchableOpacity>
       ) : null}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { DailyTrackerSummary } from '../types.js';
+import { Notice } from '../../ui/Notice.js';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
@@ -10,6 +11,83 @@ interface DailyProgressHeaderProps {
 }
 
 const WEEK_DAY_KEYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+interface MacroTileProps {
+  label: string;
+  value: number;
+  unit: string;
+  /** 0 means no target is set yet; the tile then shows the fallback line and no goal. */
+  goal: number;
+  color: string;
+  overKey: string;
+  leftKey: string;
+  fallback: string;
+}
+
+/**
+ * One macro tile: the amount eaten, the goal beside it as a small
+ * denominator, the progress bar, and how far over or under the goal you are.
+ */
+const MacroTile: React.FC<MacroTileProps> = ({
+  label,
+  value,
+  unit,
+  goal,
+  color,
+  overKey,
+  leftKey,
+  fallback,
+}) => {
+  const { theme } = useTheme();
+  const { t } = useTranslation();
+  const dir = useTextDirection();
+  const eaten = Math.round(value);
+  const hasGoal = goal > 0;
+  const diff = Math.round(goal) - eaten;
+  const isOver = hasGoal && diff < 0;
+  const pct = hasGoal ? Math.min(100, Math.max(0, (eaten / goal) * 100)) : eaten > 0 ? 100 : 0;
+  const hairline = theme.isDark ? 'rgba(255, 255, 255, 0.16)' : 'rgba(15, 23, 42, 0.13)';
+
+  return (
+    <View
+      style={[
+        styles.metricTile,
+        { backgroundColor: theme.colors.surface, borderColor: theme.colors.border },
+      ]}
+    >
+      <View style={styles.tileHeader}>
+        <Text style={[styles.tileValue, { color: theme.colors.textPrimary }]}>
+          {eaten.toLocaleString()}
+          <Text style={[styles.tileUnit, { color: theme.colors.textSecondary }]}>{unit}</Text>
+        </Text>
+        {hasGoal && (
+          <View style={[styles.goalBox, { borderColor: hairline }]}>
+            <Text style={[styles.goalCaption, { color: theme.colors.textMuted }]}>
+              {t('tracker.header.goalCaption')}
+            </Text>
+            <Text style={[styles.goalValue, { color: theme.colors.textSecondary }]}>
+              {Math.round(goal).toLocaleString()}
+            </Text>
+          </View>
+        )}
+      </View>
+      <Text style={[styles.tileLabel, dir.text, { color: theme.colors.textSecondary }]}>{label}</Text>
+      <View
+        style={[
+          styles.tileProgressTrack,
+          { backgroundColor: theme.isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.06)' },
+        ]}
+      >
+        <View style={[styles.tileProgressFill, { width: `${pct}%`, backgroundColor: color }]} />
+      </View>
+      <Text
+        style={[styles.tileSub, { color: isOver ? theme.colors.danger : theme.colors.textMuted }]}
+      >
+        {hasGoal ? t(isOver ? overKey : leftKey, { value: Math.abs(diff).toLocaleString() }) : fallback}
+      </Text>
+    </View>
+  );
+};
 
 export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
   summary,
@@ -39,9 +117,6 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
   const totalTarget = Math.max(1, targetCalories);
   const calRatio = Math.min(1, Math.max(0, totalCaloriesConsumed / totalTarget));
 
-  const proteinPct = Math.min(100, Math.round((totalProteinConsumed / Math.max(1, targetProteinGrams)) * 100));
-  const carbsPct = Math.min(100, Math.round((totalCarbConsumed / Math.max(1, targetCarbGrams)) * 100));
-  const fatPct = Math.min(100, Math.round((totalFatConsumed / Math.max(1, targetFatGrams)) * 100));
 
   // Current day index (0 for Monday, 6 for Sunday)
   const currentDayOfWeek = (new Date().getDay() + 6) % 7;
@@ -51,11 +126,9 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
       {/* Offline Sync Status Badge if needed */}
       {pendingSyncCount > 0 && (
         <View style={styles.syncRow}>
-          <View style={[styles.syncBadgePending, { backgroundColor: theme.colors.surfaceSecondary }]}>
-            <Text style={[styles.syncBadgePendingText, { color: theme.colors.warning }]}>
-              ⚡ {t('tracker.header.pendingSync', { count: pendingSyncCount })}
-            </Text>
-          </View>
+          <Notice compact tone="warning" icon="sync">
+            {t('tracker.header.pendingSync', { count: pendingSyncCount })}
+          </Notice>
         </View>
       )}
 
@@ -152,152 +225,48 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
         </View>
       </View>
 
-      {/* 2. 2x2 Metric Grid Tiles (Protein, Carbs, Fat, Banked) */}
+      {/* 2. 2x2 Metric Grid Tiles (Protein, Carbs, Fat, Calories) */}
       <View style={styles.metricGrid}>
-        {/* Tile 1: Protein */}
-        <View
-          style={[
-            styles.metricTile,
-            {
-              backgroundColor: theme.colors.surface,
-              borderColor: theme.colors.border,
-            },
-          ]}
-        >
-          <View style={styles.tileHeader}>
-            <Text style={[styles.tileValue, { color: theme.colors.textPrimary }]}>
-              {Math.round(totalProteinConsumed)}g
-            </Text>
-            <Text style={[styles.tileArrow, { color: theme.colors.textMuted }]}>↗</Text>
-          </View>
-          <Text style={[styles.tileLabel, dir.text, { color: theme.colors.textSecondary }]}>
-            {t('common.protein')}
-          </Text>
-          <View style={[styles.tileProgressTrack, { backgroundColor: theme.isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.06)' }]}>
-            <View
-              style={[
-                styles.tileProgressFill,
-                { width: `${proteinPct}%`, backgroundColor: theme.colors.protein },
-              ]}
-            />
-          </View>
-          <Text style={[styles.tileSub, { color: theme.colors.textMuted }]}>
-            {targetProteinGrams > 0
-              ? t('tracker.header.pctOfGoal', { pct: proteinPct, grams: targetProteinGrams })
-              : t('tracker.header.consumedToday')}
-          </Text>
-        </View>
-
-        {/* Tile 2: Carbs */}
-        <View
-          style={[
-            styles.metricTile,
-            {
-              backgroundColor: theme.colors.surface,
-              borderColor: theme.colors.border,
-            },
-          ]}
-        >
-          <View style={styles.tileHeader}>
-            <Text style={[styles.tileValue, { color: theme.colors.textPrimary }]}>
-              {Math.round(totalCarbConsumed)}g
-            </Text>
-            <Text style={[styles.tileArrow, { color: theme.colors.textMuted }]}>↗</Text>
-          </View>
-          <Text style={[styles.tileLabel, dir.text, { color: theme.colors.textSecondary }]}>
-            {t('common.carbs')}
-          </Text>
-          <View style={[styles.tileProgressTrack, { backgroundColor: theme.isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.06)' }]}>
-            <View
-              style={[
-                styles.tileProgressFill,
-                { width: `${carbsPct}%`, backgroundColor: theme.colors.carbs },
-              ]}
-            />
-          </View>
-          <Text style={[styles.tileSub, { color: theme.colors.textMuted }]}>
-            {targetCarbGrams > 0
-              ? t('tracker.header.pctOfGoal', { pct: carbsPct, grams: targetCarbGrams })
-              : t('tracker.header.consumedToday')}
-          </Text>
-        </View>
-
-        {/* Tile 3: Fat */}
-        <View
-          style={[
-            styles.metricTile,
-            {
-              backgroundColor: theme.colors.surface,
-              borderColor: theme.colors.border,
-            },
-          ]}
-        >
-          <View style={styles.tileHeader}>
-            <Text style={[styles.tileValue, { color: theme.colors.textPrimary }]}>
-              {Math.round(totalFatConsumed)}g
-            </Text>
-            <Text style={[styles.tileArrow, { color: theme.colors.textMuted }]}>↗</Text>
-          </View>
-          <Text style={[styles.tileLabel, dir.text, { color: theme.colors.textSecondary }]}>
-            {t('common.fat')}
-          </Text>
-          <View style={[styles.tileProgressTrack, { backgroundColor: theme.isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.06)' }]}>
-            <View
-              style={[
-                styles.tileProgressFill,
-                { width: `${fatPct}%`, backgroundColor: theme.colors.fat },
-              ]}
-            />
-          </View>
-          <Text style={[styles.tileSub, { color: theme.colors.textMuted }]}>
-            {targetFatGrams > 0
-              ? t('tracker.header.pctOfGoal', { pct: fatPct, grams: targetFatGrams })
-              : t('tracker.header.consumedToday')}
-          </Text>
-        </View>
-
-        {/* Tile 4: Daily Banked Dynamic */}
-        <View
-          style={[
-            styles.metricTile,
-            {
-              backgroundColor: theme.colors.surface,
-              borderColor: theme.colors.border,
-            },
-          ]}
-        >
-          <View style={styles.tileHeader}>
-            <Text style={[styles.tileValue, { color: theme.colors.textPrimary }]}>
-              {targetCalories > 0
-                ? `${Math.max(0, targetCalories - Math.round(totalCaloriesConsumed))} kcal`
-                : `${Math.round(totalCaloriesConsumed)} kcal`}
-            </Text>
-            <Text style={[styles.tileArrow, { color: theme.colors.textMuted }]}>↗</Text>
-          </View>
-          <Text style={[styles.tileLabel, { color: theme.colors.textSecondary }]}>
-            {targetCalories > 0 ? t('tracker.header.banked') : t('tracker.header.consumed')}
-          </Text>
-          <View style={[styles.tileProgressTrack, { backgroundColor: theme.isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.06)' }]}>
-            <View
-              style={[
-                styles.tileProgressFill,
-                {
-                  width: targetCalories > 0
-                    ? `${Math.min(100, Math.max(0, Math.round(((targetCalories - totalCaloriesConsumed) / targetCalories) * 100)))}%`
-                    : `${totalCaloriesConsumed > 0 ? 100 : 0}%`,
-                  backgroundColor: theme.colors.primaryAccessible,
-                },
-              ]}
-            />
-          </View>
-          <Text style={[styles.tileSub, { color: theme.colors.textMuted }]}>
-            {targetCalories > 0
-              ? totalCaloriesConsumed === 0
-                ? t('tracker.header.readyFirstMeal')
-                : t('tracker.header.onTrackDaily')
-              : t('tracker.header.trackYourDay')}
-          </Text>
-        </View>
+        <MacroTile
+          label={t('common.protein')}
+          value={totalProteinConsumed}
+          unit="g"
+          goal={targetProteinGrams}
+          color={theme.colors.protein}
+          overKey="tracker.header.gramsOver"
+          leftKey="tracker.header.gramsLeft"
+          fallback={t('tracker.header.consumedToday')}
+        />
+        <MacroTile
+          label={t('common.carbs')}
+          value={totalCarbConsumed}
+          unit="g"
+          goal={targetCarbGrams}
+          color={theme.colors.carbs}
+          overKey="tracker.header.gramsOver"
+          leftKey="tracker.header.gramsLeft"
+          fallback={t('tracker.header.consumedToday')}
+        />
+        <MacroTile
+          label={t('common.fat')}
+          value={totalFatConsumed}
+          unit="g"
+          goal={targetFatGrams}
+          color={theme.colors.fat}
+          overKey="tracker.header.gramsOver"
+          leftKey="tracker.header.gramsLeft"
+          fallback={t('tracker.header.consumedToday')}
+        />
+        <MacroTile
+          label={t('tracker.header.consumed')}
+          value={totalCaloriesConsumed}
+          unit=" kcal"
+          goal={targetCalories}
+          color={theme.colors.primaryAccessible}
+          overKey="tracker.header.kcalOver"
+          leftKey="tracker.header.kcalLeft"
+          fallback={t('tracker.header.trackYourDay')}
+        />
       </View>
     </View>
   );
@@ -450,10 +419,6 @@ const styles = StyleSheet.create({
     letterSpacing: -0.4,
     fontVariant: ['tabular-nums'],
   },
-  tileArrow: {
-    fontSize: 14,
-    fontWeight: '700',
-  },
   tileLabel: {
     fontSize: 12,
     fontWeight: '700',
@@ -470,6 +435,30 @@ const styles = StyleSheet.create({
   tileProgressFill: {
     height: '100%',
     borderRadius: 2,
+  },
+  tileUnit: {
+    fontSize: 13,
+    fontWeight: '700',
+    letterSpacing: 0,
+  },
+  goalBox: {
+    alignItems: 'flex-end',
+    borderLeftWidth: 1,
+    paddingLeft: 9,
+    marginTop: 1,
+  },
+  goalCaption: {
+    fontSize: 8,
+    fontWeight: '800',
+    letterSpacing: 0.8,
+    textTransform: 'uppercase',
+    marginBottom: 3,
+  },
+  goalValue: {
+    fontSize: 15,
+    fontWeight: '700',
+    letterSpacing: -0.3,
+    fontVariant: ['tabular-nums'],
   },
   tileSub: {
     fontSize: 10,

@@ -4,6 +4,7 @@ import { JobCategory, ShiftPattern, SurveyOccupational } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { Notice } from '../../ui/Notice.js';
 import { AppleTextInput } from '../../ui/AppleInput.js';
 
 interface StepOccupationalProps {
@@ -48,11 +49,9 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
   return (
     <View style={styles.container}>
       {Object.keys(errors).length > 0 && (
-        <View style={[styles.errorBanner, { backgroundColor: isDark ? 'rgba(239, 68, 68, 0.15)' : '#FEE2E2', borderColor: '#EF4444' }]}>
-          <Text style={styles.errorBannerText}>
-            ⚠️ {errors.jobCategory || errors.dailySittingHours || errors.shiftPattern || t('common.completeRequiredFields')}
-          </Text>
-        </View>
+        <Notice tone="danger" style={{ marginBottom: 16 }}>
+          {errors.jobCategory || errors.dailySittingHours || errors.shiftPattern || t('common.completeRequiredFields')}
+        </Notice>
       )}
 
       <Text style={[styles.description, dir.text, { color: theme.colors.textSecondary }]}>

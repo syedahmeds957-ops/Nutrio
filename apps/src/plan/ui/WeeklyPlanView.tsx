@@ -22,6 +22,7 @@ import { MealSwapModal } from './MealSwapModal.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { Icon } from '../../ui/Icon.js';
 
 interface WeeklyPlanViewProps {
   solverInput: MealPlanSolverInput;
@@ -160,9 +161,10 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
           onPress={onBackToDashboard}
           activeOpacity={0.7}
         >
-          <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
-            {dir.isRTL ? '→' : '←'} {t('common.back')}
-          </Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+            <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={16} color={theme.colors.textPrimary} />
+            <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>{t('common.back')}</Text>
+          </View>
         </TouchableOpacity>
 
         {/*

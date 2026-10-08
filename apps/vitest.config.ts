@@ -24,6 +24,11 @@ export default defineConfig({
         find: /^react-native-safe-area-context$/,
         replacement: path.resolve(__dirname, 'test/stubs/safe-area-context.ts'),
       },
+      {
+        // Native icon set: tests never render icons, and importing the real package is slow.
+        find: /^phosphor-react-native(\/.*)?$/,
+        replacement: path.resolve(__dirname, 'test/stubs/phosphor-react-native.ts'),
+      },
       { find: /^react-native$/, replacement: 'react-native-web' },
     ],
   },

@@ -287,7 +287,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
           {/* Suggested Prompts Chips */}
           <View style={styles.chipsSection}>
             <Text style={[styles.chipsHeader, { color: theme.colors.textMuted }]}>
-              💡 {t('coach.suggestedTopics')}
+              {t('coach.suggestedTopics')}
             </Text>
             <View style={styles.chipsWrap}>
               {chips.map((chip, idx) => (
@@ -350,7 +350,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
             disabled={!inputText.trim() || isTyping}
             activeOpacity={0.8}
           >
-            <Text style={[styles.sendBtnText, { color: '#0A0B0D' }]}>↑</Text>
+            <Icon name="arrow-up" size={20} color="#0A0B0D" strokeWidth={2.5} />
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -385,7 +385,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
                 </Text>
               </View>
               <TouchableOpacity onPress={() => setSettingsVisible(false)}>
-                <Text style={[styles.settingsClose, { color: theme.colors.textMuted }]}>✕</Text>
+                <Icon name="x" size={20} color={theme.colors.textMuted} />
               </TouchableOpacity>
             </View>
 

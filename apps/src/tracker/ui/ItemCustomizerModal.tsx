@@ -368,8 +368,8 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
               >
                 <Text style={[styles.toggleCustomGramsText, { color: isDark ? '#A4EB3F' : '#16A34A' }]}>
                   {isCustomWeightMode
-                    ? `✓ ${t('tracker.customizer.standardServings')}`
-                    : `⚖ ${t('tracker.customizer.customWeight')}`}
+                    ? `${t('tracker.customizer.standardServings')}`
+                    : `${t('tracker.customizer.customWeight')}`}
                 </Text>
               </TouchableOpacity>
             </View>

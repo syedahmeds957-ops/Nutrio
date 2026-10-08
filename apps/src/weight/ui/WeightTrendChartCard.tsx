@@ -1,8 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { WeightTrendSummary } from '../types.js';
+import { Notice } from '../../ui/Notice.js';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { Icon } from '../../ui/Icon.js';
 
 interface WeightTrendChartCardProps {
   summary: WeightTrendSummary;
@@ -74,9 +76,7 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
 
       {/* Water Retention Warning */}
       {spikeWarning && (
-        <View style={[styles.spikeBox, { backgroundColor: isDark ? '#0C2A3D' : '#F0F9FF', borderLeftColor: '#0284C7' }]}>
-          <Text style={[styles.spikeText, { color: isDark ? '#7DD3FC' : '#0369A1' }]}>💧 {spikeWarning}</Text>
-        </View>
+        <Notice tone="info" icon="droplet">{spikeWarning}</Notice>
       )}
 
       {/* Recent Trend Points */}
@@ -92,9 +92,12 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
                 <Text style={[styles.pointRaw, { color: theme.colors.textMuted }]}>
                   {t('weight.trend.kgScale', { value: pt.rawWeightKg })}
                 </Text>
-                <Text style={[styles.pointEwma, { color: accentColor }]}>
-                  {dir.isRTL ? '←' : '→'} {t('weight.trend.kgTrend', { value: pt.ewmaWeightKg })}
-                </Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                  <Icon name={dir.isRTL ? 'arrow-left' : 'arrow-right'} size={14} color={accentColor} />
+                  <Text style={[styles.pointEwma, { color: accentColor }]}>
+                    {t('weight.trend.kgTrend', { value: pt.ewmaWeightKg })}
+                  </Text>
+                </View>
               </View>
             </View>
           ))}

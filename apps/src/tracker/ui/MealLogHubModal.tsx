@@ -21,6 +21,8 @@ import {
   getDietBasicsForRegion,
   groupDietFoods,
 } from '@nutrio/food-db';
+import { MealSlot } from '../types.js';
+import { formatServingLine } from '../formatServing.js';
 import { Icon } from '../../ui/Icon.js';
 import { BrandLogo } from '../../ui/BrandLogo.js';
 import { noOutlineStyle } from '../../ui/AppleInput.js';
@@ -50,8 +52,12 @@ export interface MealLogHubModalProps {
   /** Logs a whole custom meal at once — "2 eggs + cucumber + yogurt". */
   onConfirmBasket?: (entries: MealBasketEntry[]) => void;
   /** Meal slot being logged into; each slot keeps its own selection. */
-  slot?: string;
+  slot?: MealSlot;
+  /** Called when the user picks a different meal in the hub. */
+  onSlotChange?: (slot: MealSlot) => void;
 }
+
+const MEAL_SLOT_IDS: MealSlot[] = ['breakfast', 'lunch', 'dinner', 'snacks_chai'];
 
 const EMPTY_BASKET: MealBasketEntry[] = [];
 
@@ -91,6 +97,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   onSelectItem,
   onConfirmBasket,
   slot,
+  onSlotChange,
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion, setRegion } = useRegion();
@@ -389,7 +396,9 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
               </View>
             )}
             <Text style={[styles.dishServingText, { color: theme.colors.textSecondary }]}>
-              {serving ? `${serving.grams}g · ${serving.description || serving.label}` : '100g'}
+              {serving
+                ? formatServingLine(1, serving.description || serving.label, serving.grams)
+                : '100g'}
             </Text>
           </View>
           <Text
@@ -504,10 +513,43 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
             accessibilityLabel={t('tracker.hub.switchRegion')}
           >
             <Text style={[styles.regionPillText, { color: theme.colors.textPrimary }]}>
-              {activeRegion === 'SA' ? '🇸🇦 SA' : '🇵🇰 PK'}
+              {activeRegion === 'SA' ? 'SA' : 'PK'}
             </Text>
           </TouchableOpacity>
         </View>
+
+        {/* Which meal this is being logged to */}
+        {slot && onSlotChange && (
+          <View style={[styles.slotRow, { backgroundColor: theme.colors.surface }]}>
+            {MEAL_SLOT_IDS.map((id) => {
+              const selected = slot === id;
+              return (
+                <TouchableOpacity
+                  key={id}
+                  style={[
+                    styles.slotChip,
+                    { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border },
+                    selected && { backgroundColor: theme.colors.primaryLime, borderColor: theme.colors.primaryLime },
+                  ]}
+                  onPress={() => onSlotChange(id)}
+                  activeOpacity={0.7}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected }}
+                >
+                  <Text
+                    style={[
+                      styles.slotChipText,
+                      { color: selected ? theme.colors.limeText : theme.colors.textSecondary },
+                    ]}
+                    numberOfLines={1}
+                  >
+                    {t(`tracker.mealSlots.${id}.${activeRegion}`)}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        )}
 
         {/* Preset naming (top, so the keyboard never covers it) */}
         {isBuildMode && basket.length > 0 && isNamingPreset && (
@@ -858,9 +900,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                           accessibilityRole="button"
                           accessibilityLabel={t('tracker.hub.deletePreset', { name: preset.name })}
                         >
-                          <Text style={[styles.presetChipRemove, { color: theme.colors.textMuted }]}>
-                            ✕
-                          </Text>
+                          <Icon name="x" size={12} color={theme.colors.textMuted} />
                         </TouchableOpacity>
                       </View>
                     ))}
@@ -1013,6 +1053,23 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
 };
 
 const styles = StyleSheet.create({
+  slotRow: {
+    flexDirection: 'row',
+    gap: 6,
+    paddingHorizontal: 16,
+    paddingBottom: 10,
+  },
+  slotChip: {
+    flex: 1,
+    alignItems: 'center',
+    paddingVertical: 8,
+    borderRadius: 12,
+    borderWidth: 1,
+  },
+  slotChipText: {
+    fontSize: 12,
+    fontWeight: '700',
+  },
   safeArea: {
     flex: 1,
   },
