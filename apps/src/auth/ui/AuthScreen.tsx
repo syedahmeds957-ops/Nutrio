@@ -99,8 +99,8 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
           onAuthSuccess(session);
         }
       }
-    } catch (err: any) {
-      setErrorMessage(err?.message || t('auth.genericError'));
+    } catch (err) {
+      setErrorMessage((err instanceof Error && err.message) || t('auth.genericError'));
     } finally {
       setLoading(false);
     }

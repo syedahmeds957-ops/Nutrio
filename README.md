@@ -1,13 +1,57 @@
-# Nutrition App — Documentation Set
+# Nutrio — AI nutrition & calorie coach
 
-**Project:** AI nutrition & calorie coach (Pakistan-first)
+**Project:** AI nutrition & calorie coach (Pakistan-first, Saudi Arabia second)
 **Owner:** Syed Ahmed / eCube, Lahore
-**Last updated:** August 2026
-**Status:** Planning complete. Ready to build.
+**Last updated:** October 2026
+**Status:** MVP built and in testing. The planning documents below are kept as the design record.
 
 ---
 
-## Read in this order
+## Current state (October 2026)
+
+### What the app does
+
+- Sign-in with email code (Supabase Auth), or explore as a guest.
+- Six-step onboarding survey → metabolic analysis → goal → personalised calorie and macro targets.
+- Daily tracker: meal slots, a meal-logging hub (diet basics, Pakistani and Saudi restaurant menus, custom meals and saved presets), an item customiser, quick staples, water, a weekly calorie bank, a diary and a logging streak.
+- Weight tracking with an adaptive TDEE that recalibrates from logged intake and weigh-ins.
+- Weekly check-in that proposes a capped, safety-floored target adjustment from real logs.
+- 7-day meal plan with one-tap swaps, filtered by diet preference.
+- AI coach (Groq `openai/gpt-oss-120b`, free tier) with a translated offline fallback.
+- English and Arabic, with right-to-left layout for Saudi Arabia; light and dark themes.
+
+Removed on purpose: meal-photo scanning, the grocery list and the weekly grocery budget. The paywall component exists but is not shown until the paid version.
+
+### Repository layout
+
+| Path | Contents |
+|---|---|
+| `apps/` | Expo 57 / React Native app (`App.tsx` routes between screens) |
+| `packages/nutrition-core/` | BMR, TDEE, targets, macros, safety, adaptive TDEE, meal-plan solver, coach prompt |
+| `packages/food-db/` | Local food catalogue, restaurant menus, search index |
+| `supabase/migrations/` | Database schema (`core` and `off` schemas, row-level security) |
+| `supabase/functions/` | Edge functions; only `coach-chat` is deployed and used by the app |
+| `scripts/` | CI key guard, edge-function bundler, catalogue builders |
+
+### Commands
+
+```bash
+npm install
+npm run web            # or: npm run android / npm run ios
+npm test               # every workspace plus the edge-function tests
+npm run deploy:coach   # bundle and deploy coach-chat (needs `npx supabase login`)
+```
+
+The Groq key is an Edge Function secret (`GROQ_API_KEY`), set in the Supabase dashboard. It never goes in the app or in `.env`. CI fails if client code calls an AI provider directly or ships a key.
+
+### Pending
+
+- Apply `supabase/migrations/20261013000000_targets_full_plan_and_cleanup.sql` to the live project. Until then, target syncs are rejected by row-level security and plans restore from the device only.
+- `assess`, `ocr-label`, `parse-food-text`, `plan-generate` and `weekly-review` edge functions are built and tested but not deployed or called by the app.
+
+---
+
+## Planning documents — read in this order
 
 | # | File | What it is | Read if you're… |
 |---|---|---|---|
@@ -30,12 +74,12 @@ These documents were written in sequence and later ones correct earlier ones. Wh
 | Topic | Decision | Superseded |
 |---|---|---|
 | **Budget** | $0. No paid tiers, no GPU, no self-hosting. | All cost tables in files 3, 4, 6 |
-| **Vision model** | Groq `qwen/qwen3.6-27b` (free, no training on data, JSON mode). Preview status — benchmark before trusting. | "Paid Anthropic/OpenAI from day one" in file 3 |
+| **Vision model** | ~~Groq `qwen/qwen3.6-27b`~~ — superseded: meal-photo scanning was removed (Oct 2026). | "Paid Anthropic/OpenAI from day one" in file 3 |
 | **Text models** | Groq `openai/gpt-oss-120b` (chat/narrative), `openai/gpt-oss-20b` (parsing) | `llama-3.3-70b-versatile` / `llama-3.1-8b-instant` in file 3 — **both deprecated June 2026** |
 | **Food database architecture** | **Two separate databases.** `db_core` (USDA CC0 + INDB CC BY 4.0 + our Pakistani dishes) and `db_off` (Open Food Facts only). Join in app layer only. | "single Postgres" in file 4 §4.2 |
 | **USDA import scope** | `Foundation` + `SR Legacy` only. **Skip Branded Foods** (350k US rows, useless here, blows the 500 MB quota). | file 4 §4.2 |
 | **Open Food Facts import** | Filter to PK-relevant products before importing (~20–50k rows, ~15 MB). Never import the full export. | — |
-| **Meal photos** | **Never stored.** Capture → downscale 768px → Groq → JSON → discard. Optional 100×100 thumbnail only. | — |
+| **Meal photos** | Feature removed (Oct 2026). If it returns: never store photos; capture → downscale 768px → Groq → JSON → discard. | — |
 | **Label OCR** | Phase 1, not Phase 3. OCR.space free tier. | file 4 Phase 3 |
 | **Distribution** | **PWA first.** No Apple ($99/yr, cut). Google Play ($25) later. Keep the RN codebase for a later native build. | "store submission" in file 3 week 10 |
 | **Nutritionix** | Not used. Public free tier was discontinued. | file 4 §12 |
@@ -65,7 +109,7 @@ Three things, none of which cost money:
 
 1. **Pakistani food database** with correct local serving units (`1 roti = 45g`, `1 katori daal = 150g`) and an explicit `oil_added_g` field. Desi cooking oil is why every western app reads ~30% low on our food.
 2. **Adaptive TDEE** — closed-loop recalculation from logged intake and weight trend. This is what separates a real coach from a calculator. Formula in `NUTRITION_APP_PLAN.md` §5.5.
-3. **Honest photo estimation** — confidence bands and one-tap correction that *persists*. Cal AI's known weakness is that corrections don't stick. Ours must, per user and in aggregate.
+3. **Honest estimation** — calories always come from our database, never from a model, and the adaptive weekly check-in corrects targets from real logs instead of trusting a formula forever. (Photo estimation was planned here and has been removed.)
 
 No free API gives you any of these. That's the good news.
 
@@ -88,7 +132,7 @@ Full ceiling table in `ZERO_BUDGET_PLAN.md` §4.
 3. Set up the **keep-alive cron** (Supabase free projects pause after 7 days idle) **and a weekly `pg_dump` backup Action** (free tier has no backups).
 4. Write `nutrition-core` — safety tests first. One day's work, de-risks everything downstream.
 5. Import USDA Foundation + SR Legacy. Confirm the DB stays under 50 MB.
-6. **Benchmark `qwen/qwen3.6-27b`** on 50 Nutrition5k images + 50 real Pakistani plates. This single experiment decides whether Phase 3 is viable at $0.
+6. ~~Benchmark `qwen/qwen3.6-27b` on meal photos~~ — no longer needed; photo scanning was removed.
 7. Apply to **Mistralship** and every startup credit programme eCube qualifies for. Up to ~$30k in credits would erase the ceiling entirely.
 
 ---

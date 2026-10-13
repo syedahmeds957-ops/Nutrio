@@ -38,6 +38,8 @@ describe('TrackerDashboardScreen Integrated Components', () => {
     const streakEl = React.createElement(StreakBadge, {
       streakDays: 7,
       consistencyPct: 94,
+      completedDays: [0, 1, 2],
+      currentDayIndex: 2,
     });
     expect(streakEl).toBeDefined();
 

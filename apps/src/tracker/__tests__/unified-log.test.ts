@@ -24,7 +24,7 @@ describe('Unified Multimodal Meal Logging Workflow (Task 3.6)', () => {
     expect(engine.getItemsBySlot('breakfast')).toHaveLength(1);
   });
 
-  it('logs multi-item plate from voice/photo review modal into active diary', () => {
+  it('logs a multi-item resolved plate into the active diary', () => {
     const engine = new TrackerEngine(targets);
 
     const plateItems: ResolvedFoodItem[] = [
@@ -82,11 +82,11 @@ describe('Unified Multimodal Meal Logging Workflow (Task 3.6)', () => {
     expect(engine.getItemsBySlot('dinner')).toHaveLength(2);
   });
 
-  it('resolves AI photo vision detection into nutritional plate and logs into lunch', async () => {
+  it('resolves parsed food detections into a nutritional plate and logs into lunch', async () => {
     const engine = new TrackerEngine(targets);
     const { resolveDetectedPlate } = await import('@nutrio/nutrition-core');
 
-    // Simulate AI Vision detections
+    // Detections as the parse-food-text function produces them
     const visionDetections = [
       { detectedName: 'Chicken Biryani', estimatedGrams: 350, portionSize: 'M' as const },
     ];

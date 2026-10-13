@@ -1,0 +1,128 @@
+import React from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
+import { NormalizedFood } from '@nutrio/food-db';
+import { formatServingLine } from '../formatServing.js';
+import { Icon } from '../../ui/Icon.js';
+import { useTheme } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
+import { useTranslation } from '../../i18n/index.js';
+import { styles } from './MealLogHubModal.styles.js';
+
+const ACCENT_TEXT = '#0A0B0D';
+const LIGHT_MACRO_TEXT = '#4B6200';
+
+export interface DishCardProps {
+  item: NormalizedFood;
+  /** How many of this food are in the custom-meal basket (0 when none). */
+  qty: number;
+  /** Custom-meal mode: the card shows quantity controls instead of a chevron. */
+  isBuildMode: boolean;
+  onPress: () => void;
+  onRemoveOne: () => void;
+}
+
+/** One food row in the meal-logging hub, with its default serving and macros. */
+export const DishCard: React.FC<DishCardProps> = ({ item, qty, isBuildMode, onPress, onRemoveOne }) => {
+  const { theme, isDark } = useTheme();
+  const { activeRegion } = useRegion();
+  const { t } = useTranslation();
+  const isSaudiRegion = activeRegion === 'SA';
+  // One local name, not both: a food carrying nameUr and nameAr used to print
+  // its name three times. The active region's script wins.
+  const localName = isSaudiRegion ? item.nameAr || item.nameUr : item.nameUr || item.nameAr;
+  const macroColor = isDark ? theme.colors.primaryLime : LIGHT_MACRO_TEXT;
+
+  const serving = item.servings[0];
+  const kcal = serving ? Math.round(serving.kcal || item.kcal100g) : Math.round(item.kcal100g);
+  const p = serving ? Math.round(serving.proteinGrams || item.protein100g) : Math.round(item.protein100g);
+  const c = serving ? Math.round(serving.carbGrams || item.carb100g) : Math.round(item.carb100g);
+  const f = serving ? Math.round(serving.fatGrams || item.fat100g) : Math.round(item.fat100g);
+
+  return (
+    <TouchableOpacity
+      style={[
+        styles.dishCard,
+        {
+          backgroundColor: theme.colors.surface,
+          borderColor: qty > 0 ? theme.colors.primaryLime : theme.colors.border,
+          borderWidth: qty > 0 ? 1.5 : 1,
+        },
+      ]}
+      onPress={onPress}
+      activeOpacity={0.7}
+    >
+      <View style={styles.dishCardLeft}>
+        <View style={styles.dishTitleRow}>
+          <Text style={[styles.dishName, { color: theme.colors.textPrimary }]}>{item.name}</Text>
+          {localName && (
+            <Text
+              style={[
+                isSaudiRegion ? styles.dishNameAr : styles.dishNameUr,
+                { color: isSaudiRegion ? theme.colors.primaryLime : theme.colors.textMuted },
+              ]}
+            >
+              {localName}
+            </Text>
+          )}
+        </View>
+        <View style={styles.dishMetaRow}>
+          {item.brand && (
+            <View style={[styles.brandBadge, { backgroundColor: theme.colors.surfaceSecondary }]}>
+              <Text style={[styles.brandBadgeText, { color: theme.colors.textSecondary }]}>
+                {item.brand}
+              </Text>
+            </View>
+          )}
+          <Text style={[styles.dishServingText, { color: theme.colors.textSecondary }]}>
+            {serving ? formatServingLine(1, serving.description || serving.label, serving.grams) : '100g'}
+          </Text>
+        </View>
+        <Text style={[styles.dishMacrosText, { color: macroColor }]}>
+          P {p}g · C {c}g · F {f}g
+        </Text>
+      </View>
+
+      <View style={styles.dishCardRight}>
+        <View
+          style={[
+            styles.caloriePill,
+            {
+              backgroundColor: isDark ? 'rgba(164, 235, 63, 0.15)' : '#F7FEE7',
+              borderColor: theme.colors.primaryLime,
+            },
+          ]}
+        >
+          <Text style={[styles.caloriePillText, { color: macroColor }]}>≈{kcal} kcal</Text>
+        </View>
+        {isBuildMode ? (
+          <View style={styles.qtyControls}>
+            {qty > 0 && (
+              <>
+                <TouchableOpacity
+                  style={[styles.qtyBtn, { backgroundColor: theme.colors.surfaceSecondary }]}
+                  onPress={onRemoveOne}
+                  hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                  accessibilityRole="button"
+                  accessibilityLabel={t('tracker.hub.removeOne', { name: item.name })}
+                >
+                  <Icon name="minus" size={14} color={theme.colors.textPrimary} />
+                </TouchableOpacity>
+                <Text style={[styles.qtyValue, { color: theme.colors.textPrimary }]}>{qty}</Text>
+              </>
+            )}
+            <View
+              style={[
+                styles.qtyBtn,
+                { backgroundColor: qty > 0 ? theme.colors.primaryLime : theme.colors.surfaceSecondary },
+              ]}
+            >
+              <Icon name="plus" size={14} color={qty > 0 ? ACCENT_TEXT : theme.colors.textPrimary} />
+            </View>
+          </View>
+        ) : (
+          <Icon name="chevron-right" size={16} color={theme.colors.textMuted} />
+        )}
+      </View>
+    </TouchableOpacity>
+  );
+};

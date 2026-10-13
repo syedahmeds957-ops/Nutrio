@@ -156,13 +156,13 @@ export const commonRadii = {
 export const commonShadows = {
   soft: {
     boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.05)',
-  } as any,
+  },
   medium: {
     boxShadow: '0px 6px 16px rgba(0, 0, 0, 0.08)',
-  } as any,
+  },
   hero: {
     boxShadow: '0px 8px 20px rgba(164, 235, 63, 0.16)',
-  } as any,
+  },
 };
 
 /**

@@ -1,8 +1,6 @@
 import React, { useState, useRef } from 'react';
 import {
   Animated,
-  Modal,
-  StyleSheet,
   View,
   Text,
   ScrollView,
@@ -29,12 +27,17 @@ import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { GuestAuthModal } from './GuestAuthModal.js';
+import { ProfileSheet } from './ProfileSheet.js';
 import { Icon } from '../../ui/Icon.js';
 import { saveDailyActivities, loadDailyActivities, getOrInitHistoryStartDate } from '../activityStorage.js';
 import { recordFoodUsage } from '../mealPresets.js';
 import { pushDailyActivities } from '../../sync/activitySync.js';
 import { HapticFeedback } from '../../ui/haptics.js';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { addDaysToKey, localDateKey } from '../../common/dateKey.js';
+import { computeLoggingStreak } from '../streak.js';
+import { StreakBadge } from './StreakBadge.js';
+import { styles } from './TrackerDashboardScreen.styles.js';
 
 interface TrackerDashboardScreenProps {
   userName?: string;
@@ -51,6 +54,7 @@ interface TrackerDashboardScreenProps {
   onOpenWeightTracker?: () => void;
   onOpenMealPlan?: () => void;
   onOpenCoachChat?: () => void;
+  onOpenWeeklyCheckIn?: () => void;
   onOpenSurvey?: () => void;
   onOpenHome?: () => void;
   onLogout?: () => void;
@@ -67,13 +71,14 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   onOpenWeightTracker,
   onOpenMealPlan,
   onOpenCoachChat,
+  onOpenWeeklyCheckIn,
   onOpenSurvey,
   onOpenHome,
   onLogout,
   isGuest = false,
   onRequireAuth,
 }) => {
-  const { theme, mode, isDark, setMode } = useTheme();
+  const { theme, isDark } = useTheme();
   const { activeRegion, setRegion } = useRegion();
   const { t } = useTranslation();
   const dir = useTextDirection();
@@ -95,7 +100,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     PK: (() => {
       if (activeRegion === 'PK' && trackerEngine) return trackerEngine;
       const eng = new TrackerEngine(targets);
-      const today = new Date().toISOString().split('T')[0];
+      const today = localDateKey();
       const saved = loadDailyActivities(today, 'PK');
       if (saved && saved.items) eng.loadItems(saved.items, saved.waterMl || 0);
       return eng;
@@ -103,7 +108,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     SA: (() => {
       if (activeRegion === 'SA' && trackerEngine) return trackerEngine;
       const eng = new TrackerEngine(targets);
-      const today = new Date().toISOString().split('T')[0];
+      const today = localDateKey();
       const saved = loadDailyActivities(today, 'SA');
       if (saved && saved.items) eng.loadItems(saved.items, saved.waterMl || 0);
       return eng;
@@ -148,7 +153,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   }, [trackerEngine]);
 
   React.useEffect(() => {
-    const today = new Date().toISOString().split('T')[0];
+    const today = localDateKey();
     const saved = loadDailyActivities(today, activeRegion);
     if (saved && saved.items) {
       engine.loadItems(saved.items, saved.waterMl || 0);
@@ -221,11 +226,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     )
   );
 
-  const diaryDate = (() => {
-    const d = new Date(`${summary.date}T00:00:00Z`);
-    d.setUTCDate(d.getUTCDate() + diaryDayOffset);
-    return d.toISOString().split('T')[0];
-  })();
+  const diaryDate = addDaysToKey(summary.date, diaryDayOffset);
 
   const diarySummary: DailyTrackerSummary =
     diaryDayOffset === 0
@@ -247,9 +248,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     const todayIdx = (today.getUTCDay() + 6) % 7;
     return Array.from({ length: 7 }, (_, idx) => {
       if (idx >= todayIdx) return 0;
-      const d = new Date(today);
-      d.setUTCDate(d.getUTCDate() - (todayIdx - idx));
-      const date = d.toISOString().split('T')[0];
+      const date = addDaysToKey(summary.date, -(todayIdx - idx));
       const saved = loadDailyActivities(date, activeRegion);
       if (!saved?.items?.length) return 0;
       const dayEngine = new TrackerEngine({ ...targets, date });
@@ -258,6 +257,15 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
       return Math.min(1, eaten / Math.max(1, targets.targetCalories));
     });
   })();
+
+  // Today reads from the live summary so a meal logged a moment ago counts at once.
+  const loggingStreak = computeLoggingStreak(
+    (date) =>
+      date === summary.date
+        ? summary.items.length > 0
+        : (loadDailyActivities(date, activeRegion)?.items?.length ?? 0) > 0,
+    summary.date
+  );
 
   const handleOpenAdd = (slot: MealSlot) => {
     setActiveSlot(slot);
@@ -585,6 +593,8 @@ const defaultSlotForNow = (): MealSlot => {
         {/* 1. Daily Progress Hero Card + 2x2 Metric Grid */}
         <DailyProgressHeader summary={summary} weeklyHistoryFills={weeklyHistoryFills} />
 
+        {!isGuest && <StreakBadge {...loggingStreak} />}
+
         {/* 2. Dynamic AI Recommendation Card */}
         <AiRecommendationCard
           key={activeRegion}
@@ -849,218 +859,21 @@ const defaultSlotForNow = (): MealSlot => {
         }}
       />
 
-      {/* Profile & Settings Drawer Modal */}
-      <Modal
+      {/* Profile & Settings Drawer */}
+      <ProfileSheet
         visible={profileVisible}
-        transparent={true}
-        animationType="none"
-        onRequestClose={() => closeProfile()}
-      >
-        <Animated.View style={[styles.profileOverlay, { opacity: profileFade }]}>
-          <TouchableOpacity
-            style={StyleSheet.absoluteFill}
-            onPress={() => closeProfile()}
-            activeOpacity={1}
-          />
-          <Animated.View
-            style={[
-              styles.profileSheet,
-              {
-                backgroundColor: theme.colors.surface,
-                transform: [{ translateY: profileSlide }],
-              },
-            ]}
-          >
-            {/* Sheet Handle */}
-            <View style={[styles.sheetHandle, { backgroundColor: theme.colors.border }]} />
-
-            <View style={styles.profileHeaderRow}>
-              <View style={[styles.profileAvatarLarge, { backgroundColor: accentColor }]}>
-                <Text style={[styles.profileAvatarLargeText, { color: accentTextColor }]}>
-                  {userName.charAt(0).toUpperCase()}
-                </Text>
-              </View>
-              <View style={{ flex: 1 }}>
-                <Text style={[styles.profileNameLarge, { color: theme.colors.textPrimary }]}>
-                  {userName}
-                </Text>
-                <Text style={[styles.profileEmail, { color: theme.colors.textMuted }]}>
-                  {t(`tracker.dashboard.planBlurb.${activeRegion}`)}
-                </Text>
-              </View>
-              <TouchableOpacity
-                style={styles.profileCloseBtn}
-                onPress={() => closeProfile()}
-                activeOpacity={0.7}
-              >
-                <Icon name="x" size={18} color={theme.colors.textSecondary} />
-              </TouchableOpacity>
-            </View>
-
-            {/* Theme Switcher in User Settings */}
-            <View
-              style={[
-                styles.themeSettingCard,
-                { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border },
-              ]}
-            >
-              <Text style={[styles.themeSettingTitle, dir.text, { color: theme.colors.textPrimary }]}>
-                {t('tracker.dashboard.appearance')}
-              </Text>
-              <View style={styles.themeToggleRow}>
-                <TouchableOpacity
-                  style={[
-                    styles.themeChoiceBtn,
-                    mode === 'dark' && { backgroundColor: accentColor },
-                  ]}
-                  onPress={() => setMode('dark')}
-                  activeOpacity={0.8}
-                >
-                  <Text
-                    style={[
-                      styles.themeChoiceText,
-                      { color: mode === 'dark' ? accentTextColor : theme.colors.textSecondary },
-                    ]}
-                  >
-                    {t('tracker.dashboard.darkMode')}
-                  </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={[
-                    styles.themeChoiceBtn,
-                    mode === 'light' && { backgroundColor: accentColor },
-                  ]}
-                  onPress={() => setMode('light')}
-                  activeOpacity={0.8}
-                >
-                  <Text
-                    style={[
-                      styles.themeChoiceText,
-                      { color: mode === 'light' ? accentTextColor : theme.colors.textSecondary },
-                    ]}
-                  >
-                    {t('tracker.dashboard.lightMode')}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-
-            {/* Target Summary Stats Card */}
-            <View
-              style={[
-                styles.profileStatsCard,
-                {
-                  backgroundColor: theme.colors.surfaceSecondary,
-                  borderColor: theme.colors.border,
-                },
-              ]}
-            >
-              <View style={styles.profileStatItem}>
-                <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>
-                  {t('tracker.dashboard.dailyTarget')}
-                </Text>
-                <Text style={[styles.statNumber, { color: theme.colors.textPrimary }]}>
-                  {t('common.kcalValue', { value: targets.targetCalories })}
-                </Text>
-              </View>
-              <View style={[styles.statDivider, { backgroundColor: theme.colors.border }]} />
-              <View style={styles.profileStatItem}>
-                <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>
-                  {t('common.protein')}
-                </Text>
-                <Text style={[styles.statNumber, { color: theme.colors.textPrimary }]}>
-                  {targets.targetProteinGrams}g
-                </Text>
-              </View>
-              <View style={[styles.statDivider, { backgroundColor: theme.colors.border }]} />
-              <View style={styles.profileStatItem}>
-                <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>
-                  {t('tracker.dashboard.waterGoal')}
-                </Text>
-                <Text style={[styles.statNumber, { color: theme.colors.textPrimary }]}>
-                  {targets.targetWaterMl || 3000} ml
-                </Text>
-              </View>
-            </View>
-
-            {/* Action Buttons */}
-            <View style={styles.profileActions}>
-              {onOpenSurvey && (
-                <TouchableOpacity
-                  style={[
-                    styles.profileActionBtn,
-                    { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border },
-                  ]}
-                  onPress={() => closeProfile(onOpenSurvey)}
-                  activeOpacity={0.7}
-                >
-                  <View style={styles.actionBtnRow}>
-                    <Icon name="survey" size={16} color={accentColor} />
-                    <Text style={[styles.actionBtnText, { color: theme.colors.textPrimary }]}>
-                      {t('tracker.dashboard.retakeSurvey')}
-                    </Text>
-                  </View>
-                  <Icon name="arrow-right" size={14} color={theme.colors.textMuted} />
-                </TouchableOpacity>
-              )}
-
-              {onOpenMealPlan && (
-                <TouchableOpacity
-                  style={[
-                    styles.profileActionBtn,
-                    { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border },
-                  ]}
-                  onPress={() => closeProfile(onOpenMealPlan)}
-                  activeOpacity={0.7}
-                >
-                  <View style={styles.actionBtnRow}>
-                    <Icon name="utensils" size={16} color={accentColor} />
-                    <Text style={[styles.actionBtnText, { color: theme.colors.textPrimary }]}>
-                      {t('tracker.dashboard.viewMealPlan')}
-                    </Text>
-                  </View>
-                  <Icon name="arrow-right" size={14} color={theme.colors.textMuted} />
-                </TouchableOpacity>
-              )}
-
-              {isGuest && onRequireAuth && (
-                <TouchableOpacity
-                  style={[
-                    styles.profileActionBtn,
-                    { backgroundColor: accentColor, borderColor: accentColor },
-                  ]}
-                  onPress={() => closeProfile(onRequireAuth)}
-                  activeOpacity={0.8}
-                >
-                  <View style={styles.actionBtnRow}>
-                    <Icon name="shield" size={16} color={accentTextColor} />
-                    <Text style={[styles.actionBtnText, { color: accentTextColor, fontWeight: '800' }]}>
-                      {t('tracker.dashboard.signInCreate')}
-                    </Text>
-                  </View>
-                  <Icon name="arrow-right" size={14} color={accentTextColor} />
-                </TouchableOpacity>
-              )}
-
-              {onLogout && (
-                <TouchableOpacity
-                  style={[styles.profileActionBtn, styles.logoutBtn]}
-                  onPress={() => closeProfile(onLogout)}
-                  activeOpacity={0.7}
-                >
-                  <View style={styles.actionBtnRow}>
-                    <Icon name="arrow-left" size={16} color="#EF4444" />
-                    <Text style={[styles.actionBtnText, { color: '#EF4444' }]}>
-                      {t('tracker.dashboard.logout')}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              )}
-            </View>
-          </Animated.View>
-        </Animated.View>
-      </Modal>
+        fade={profileFade}
+        slide={profileSlide}
+        onClose={closeProfile}
+        userName={userName}
+        targets={targets}
+        isGuest={!!isGuest}
+        onOpenSurvey={onOpenSurvey}
+        onOpenMealPlan={onOpenMealPlan}
+        onOpenWeeklyCheckIn={onOpenWeeklyCheckIn}
+        onRequireAuth={onRequireAuth}
+        onLogout={onLogout}
+      />
 
       {/* Guest Authentication Guard Modal */}
       <GuestAuthModal
@@ -1074,329 +887,3 @@ const defaultSlotForNow = (): MealSlot => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    width: '100%',
-    alignItems: 'center',
-  },
-  container: {
-    flex: 1,
-    width: '100%',
-    maxWidth: 500,
-  },
-  scrollPad: {
-    paddingBottom: 115,
-  },
-  topNav: {
-    paddingHorizontal: 20,
-    paddingTop: 16,
-    paddingBottom: 10,
-    gap: 12,
-  },
-  topHeaderRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  userRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  avatarCircle: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 2,
-  },
-  avatarInitial: {
-    fontSize: 18,
-    fontWeight: '900',
-  },
-  greetingText: {
-    fontSize: 11,
-    fontWeight: '700',
-    letterSpacing: 0.8,
-  },
-  userName: {
-    fontSize: 18,
-    fontWeight: '800',
-    letterSpacing: -0.3,
-  },
-  freeTag: {
-    paddingVertical: 2,
-    paddingHorizontal: 6,
-    borderRadius: 6,
-  },
-  freeTagText: {
-    fontSize: 9,
-    fontWeight: '900',
-    color: '#0A0B0D',
-    letterSpacing: 0.5,
-  },
-  headerRightActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  regionToggleBtn: {
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderRadius: 9999,
-    borderWidth: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  regionToggleText: {
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  navActionsRow: {
-    flexDirection: 'row',
-    gap: 6,
-    paddingVertical: 4,
-  },
-  navPillBtn: {
-    flex: 1,
-    minWidth: 0,
-    paddingVertical: 7,
-    paddingHorizontal: 8,
-    borderRadius: 9999,
-    borderWidth: 1,
-  },
-  navPillContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 5,
-  },
-  navPillBtnText: {
-    flexShrink: 1,
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  navPillBtnActive: {
-    flex: 1,
-    minWidth: 0,
-    paddingVertical: 7,
-    paddingHorizontal: 8,
-    borderRadius: 9999,
-  },
-  navPillBtnActiveText: {
-    flexShrink: 1,
-    fontSize: 12,
-    fontWeight: '800',
-  },
-  slotsSection: {
-    marginTop: 10,
-  },
-  sectionHeading: {
-    fontSize: 18,
-    fontWeight: '800',
-    marginHorizontal: 20,
-    marginBottom: 12,
-    letterSpacing: -0.3,
-  },
-  slotsHeadingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginHorizontal: 20,
-    marginBottom: 12,
-  },
-  mealsProgressPill: {
-    paddingVertical: 4,
-    paddingHorizontal: 10,
-    borderRadius: 9999,
-    borderWidth: 1,
-  },
-  mealsProgressText: {
-    fontSize: 11,
-    fontWeight: '800',
-    letterSpacing: 0.4,
-  },
-  profileOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.65)',
-    justifyContent: 'flex-end',
-  },
-  profileSheet: {
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
-    paddingHorizontal: 24,
-    paddingTop: 12,
-    paddingBottom: 36,
-  },
-  sheetHandle: {
-    width: 40,
-    height: 4,
-    borderRadius: 2,
-    alignSelf: 'center',
-    marginBottom: 18,
-  },
-  profileHeaderRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 14,
-    marginBottom: 18,
-  },
-  profileAvatarLarge: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  profileAvatarLargeText: {
-    fontSize: 22,
-    fontWeight: '900',
-    color: '#0A0B0D',
-  },
-  profileNameLarge: {
-    fontSize: 20,
-    fontWeight: '800',
-    letterSpacing: -0.3,
-  },
-  profileEmail: {
-    fontSize: 12,
-    fontWeight: '500',
-    marginTop: 2,
-  },
-  profileCloseBtn: {
-    padding: 8,
-  },
-  profileCloseText: {
-    fontSize: 18,
-    fontWeight: '700',
-  },
-  themeSettingCard: {
-    borderRadius: 18,
-    padding: 14,
-    marginBottom: 16,
-    borderWidth: 1,
-  },
-  themeSettingTitle: {
-    fontSize: 12,
-    fontWeight: '700',
-    textTransform: 'uppercase',
-    letterSpacing: 0.8,
-    marginBottom: 10,
-  },
-  themeToggleRow: {
-    flexDirection: 'row',
-    gap: 10,
-  },
-  themeChoiceBtn: {
-    flex: 1,
-    paddingVertical: 10,
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.1)',
-  },
-  themeChoiceText: {
-    fontSize: 13,
-    fontWeight: '700',
-  },
-  profileStatsCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderRadius: 20,
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    marginBottom: 18,
-    borderWidth: 1,
-  },
-  profileStatItem: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  statDivider: {
-    width: 1,
-    height: 24,
-  },
-  statLabel: {
-    fontSize: 11,
-    fontWeight: '600',
-    marginBottom: 2,
-    textTransform: 'uppercase',
-  },
-  statNumber: {
-    fontSize: 14,
-    fontWeight: '800',
-    fontVariant: ['tabular-nums'],
-  },
-  profileActions: {
-    gap: 10,
-  },
-  profileActionBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    borderRadius: 16,
-    borderWidth: 1,
-  },
-  actionBtnRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-  actionBtnText: {
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  logoutBtn: {
-    backgroundColor: '#FEF2F2',
-    borderColor: '#FEE2E2',
-    marginTop: 6,
-  },
-  bottomTabBar: {
-    position: 'absolute',
-    bottom: 20,
-    alignSelf: 'center',
-    width: '92%',
-    maxWidth: 440,
-    borderRadius: 9999,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderWidth: 1,
-    boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.35)',
-  },
-  bottomTabItem: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 6,
-    paddingHorizontal: 18,
-  },
-  bottomTabItemActive: {},
-  bottomTabText: {
-    fontSize: 11,
-    fontWeight: '700',
-    marginTop: 3,
-  },
-  bottomCenterLogBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 22,
-    paddingVertical: 11,
-    borderRadius: 9999,
-    gap: 6,
-  },
-  bottomCenterLogText: {
-    fontSize: 13,
-    fontWeight: '800',
-  },
-});

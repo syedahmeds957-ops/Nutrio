@@ -1,6 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import {
-  StyleSheet,
   Text,
   View,
   TouchableOpacity,
@@ -22,27 +21,19 @@ import {
   groupDietFoods,
 } from '@nutrio/food-db';
 import { MealSlot } from '../types.js';
-import { formatServingLine } from '../formatServing.js';
 import { Icon } from '../../ui/Icon.js';
 import { BrandLogo } from '../../ui/BrandLogo.js';
 import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
-import {
-  getMostLoggedFoodIds,
-  loadMealPresets,
-  saveMealPreset,
-  deleteMealPreset,
-  MAX_RECENT_FOODS,
-  type MealPreset,
-} from '../mealPresets.js';
+import { getMostLoggedFoodIds, loadMealPresets, MAX_RECENT_FOODS } from '../mealPresets.js';
+import { styles } from './MealLogHubModal.styles.js';
+import { DishCard } from './DishCard.js';
+import { BasketSummaryBar, PresetNamingBar } from './MealBasketBars.js';
+import { foodKey, useMealBasket, type MealBasketEntry } from './useMealBasket.js';
 
-/** One line of a custom meal: a food plus how many of its default serving. */
-export interface MealBasketEntry {
-  food: NormalizedFood;
-  quantity: number;
-}
+export type { MealBasketEntry };
 
 export interface MealLogHubModalProps {
   visible: boolean;
@@ -58,8 +49,6 @@ export interface MealLogHubModalProps {
 }
 
 const MEAL_SLOT_IDS: MealSlot[] = ['breakfast', 'lunch', 'dinner', 'snacks_chai'];
-
-const EMPTY_BASKET: MealBasketEntry[] = [];
 
 // Plain single-ingredient foods. Listed first and selected by default so
 // someone logging "2 eggs" or a salad lands on them without searching.
@@ -99,7 +88,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   slot,
   onSlotChange,
 }) => {
-  const { theme, isDark } = useTheme();
+  const { theme } = useTheme();
   const { activeRegion, setRegion } = useRegion();
   const isSaudiRegion = activeRegion === 'SA';
   /** The local-script name for the active region, falling back to the other. */
@@ -113,27 +102,6 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   const [isFiltering, setIsFiltering] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState<string>(DIET_GROUP);
   const [selectedDietGroup, setSelectedDietGroup] = useState<string>(ALL_DIET_GROUPS);
-  // Custom-meal mode: tapping a food stacks it up instead of opening the
-  // customizer, so several things eaten together go in as one action.
-  const [isBuildMode, setIsBuildMode] = useState(false);
-  // One basket per meal slot, so picks made for lunch never show up when
-  // breakfast or dinner is opened.
-  const slotKey = slot ?? 'default';
-  const [baskets, setBaskets] = useState<Record<string, MealBasketEntry[]>>({});
-  const basket = baskets[slotKey] ?? EMPTY_BASKET;
-  const setBasket = (
-    next: MealBasketEntry[] | ((prev: MealBasketEntry[]) => MealBasketEntry[])
-  ) =>
-    setBaskets((all) => {
-      const prev = all[slotKey] ?? EMPTY_BASKET;
-      return { ...all, [slotKey]: typeof next === 'function' ? next(prev) : next };
-    });
-  // Presets and usage counts live in storage, not state. Bumped whenever this
-  // modal writes to either, so the derived lists recompute without the modal
-  // having to mirror storage it doesn't own.
-  const [presetsVersion, setPresetsVersion] = useState(0);
-  const [presetNameDraft, setPresetNameDraft] = useState('');
-  const [isNamingPreset, setIsNamingPreset] = useState(false);
 
   useEffect(() => {
     if (!searchQuery.trim()) {
@@ -184,7 +152,25 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   );
   const isDietView = selectedGroup === DIET_GROUP;
 
-  const foodKey = (food: NormalizedFood) => food.id || food.name;
+  const {
+    basket,
+    isBuildMode,
+    setIsBuildMode,
+    basketQty,
+    addToBasket,
+    removeFromBasket,
+    basketTotals,
+    exitBuildMode,
+    presetsVersion,
+    presetNameDraft,
+    setPresetNameDraft,
+    isNamingPreset,
+    setIsNamingPreset,
+    handleSavePreset,
+    handleApplyPreset,
+    handleDeletePreset,
+    handleConfirmBasket,
+  } = useMealBasket({ slot, dietFoods, onConfirmBasket });
 
   /**
    * The handful of foods this user actually repeats, lifted to the top of the
@@ -205,98 +191,6 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
     () => (isDietView ? loadMealPresets() : []),
     [isDietView, presetsVersion]
   );
-
-  const basketQty = (food: NormalizedFood) =>
-    basket.find((e) => foodKey(e.food) === foodKey(food))?.quantity ?? 0;
-
-  const addToBasket = (food: NormalizedFood) => {
-    setBasket((prev) => {
-      const key = foodKey(food);
-      const existing = prev.find((e) => foodKey(e.food) === key);
-      if (existing) {
-        return prev.map((e) =>
-          foodKey(e.food) === key ? { ...e, quantity: e.quantity + 1 } : e
-        );
-      }
-      return [...prev, { food, quantity: 1 }];
-    });
-  };
-
-  const removeFromBasket = (food: NormalizedFood) => {
-    setBasket((prev) => {
-      const key = foodKey(food);
-      const existing = prev.find((e) => foodKey(e.food) === key);
-      if (!existing) return prev;
-      if (existing.quantity <= 1) return prev.filter((e) => foodKey(e.food) !== key);
-      return prev.map((e) => (foodKey(e.food) === key ? { ...e, quantity: e.quantity - 1 } : e));
-    });
-  };
-
-  // Serving-based, matching how the item is actually logged.
-  const basketTotals = useMemo(() => {
-    return basket.reduce(
-      (acc, { food, quantity }) => {
-        const serving = food.servings[0];
-        const grams = (serving?.grams ?? 100) * quantity;
-        acc.kcal += (food.kcal100g * grams) / 100;
-        acc.count += quantity;
-        return acc;
-      },
-      { kcal: 0, count: 0 }
-    );
-  }, [basket]);
-
-  const exitBuildMode = () => {
-    setIsBuildMode(false);
-    setBasket([]);
-    setIsNamingPreset(false);
-    setPresetNameDraft('');
-  };
-
-  const handleSavePreset = () => {
-    const saved = saveMealPreset(
-      presetNameDraft,
-      basket.map(({ food, quantity }) => ({
-        foodId: foodKey(food),
-        foodName: food.name,
-        quantity,
-      }))
-    );
-    if (!saved) return;
-    setIsNamingPreset(false);
-    setPresetNameDraft('');
-    setPresetsVersion((v) => v + 1);
-  };
-
-  /**
-   * Refills the basket from a saved combo. Foods are resolved by id at apply
-   * time rather than stored whole, so a preset picks up any later correction to
-   * the catalogue instead of pinning the macros as they were when it was saved.
-   */
-  const handleApplyPreset = (preset: MealPreset) => {
-    const byId = new Map(dietFoods.map((f) => [foodKey(f), f]));
-    const entries = preset.entries
-      .map(({ foodId, quantity }) => {
-        const food = byId.get(foodId);
-        return food ? { food, quantity } : null;
-      })
-      .filter((e): e is MealBasketEntry => e !== null);
-
-    if (entries.length === 0) return;
-    setIsBuildMode(true);
-    setBasket(entries);
-  };
-
-  const handleDeletePreset = (id: string) => {
-    deleteMealPreset(id);
-    setPresetsVersion((v) => v + 1);
-  };
-
-  const handleConfirmBasket = () => {
-    if (!onConfirmBasket || basket.length === 0) return;
-    onConfirmBasket(basket);
-    exitBuildMode();
-  };
 
   const handleDishPress = (item: NormalizedFood) => {
     if (isBuildMode) {
@@ -347,125 +241,16 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   // once under "Recent" and again in the full list — and bare ids would collide
   // between those siblings. Callers pass an explicit arrow so `.map`'s index
   // argument never lands here by accident.
-  const renderDishCard = (item: NormalizedFood, keyPrefix = '') => {
-    const qty = basketQty(item);
-    const serving = item.servings[0];
-    const kcal = serving ? Math.round(serving.kcal || item.kcal100g) : Math.round(item.kcal100g);
-    const p = serving ? Math.round(serving.proteinGrams || item.protein100g) : Math.round(item.protein100g);
-    const c = serving ? Math.round(serving.carbGrams || item.carb100g) : Math.round(item.carb100g);
-    const f = serving ? Math.round(serving.fatGrams || item.fat100g) : Math.round(item.fat100g);
-
-    return (
-      <TouchableOpacity
-        key={`${keyPrefix}${item.id ?? item.name}`}
-        style={[
-          styles.dishCard,
-          {
-            backgroundColor: theme.colors.surface,
-            borderColor: qty > 0 ? theme.colors.primaryLime : theme.colors.border,
-            borderWidth: qty > 0 ? 1.5 : 1,
-          },
-        ]}
-        onPress={() => handleDishPress(item)}
-        activeOpacity={0.7}
-      >
-        <View style={styles.dishCardLeft}>
-          <View style={styles.dishTitleRow}>
-            <Text style={[styles.dishName, { color: theme.colors.textPrimary }]}>{item.name}</Text>
-            {/*
-              One local name, not both. These rendered unconditionally, so a
-              food carrying nameUr and nameAr printed its name three times.
-            */}
-            {localName(item.nameUr, item.nameAr) && (
-              <Text
-                style={[
-                  isSaudiRegion ? styles.dishNameAr : styles.dishNameUr,
-                  { color: isSaudiRegion ? theme.colors.primaryLime : theme.colors.textMuted },
-                ]}
-              >
-                {localName(item.nameUr, item.nameAr)}
-              </Text>
-            )}
-          </View>
-          <View style={styles.dishMetaRow}>
-            {item.brand && (
-              <View style={[styles.brandBadge, { backgroundColor: theme.colors.surfaceSecondary }]}>
-                <Text style={[styles.brandBadgeText, { color: theme.colors.textSecondary }]}>
-                  {item.brand}
-                </Text>
-              </View>
-            )}
-            <Text style={[styles.dishServingText, { color: theme.colors.textSecondary }]}>
-              {serving
-                ? formatServingLine(1, serving.description || serving.label, serving.grams)
-                : '100g'}
-            </Text>
-          </View>
-          <Text
-            style={[
-              styles.dishMacrosText,
-              { color: isDark ? theme.colors.primaryLime : '#4B6200' },
-            ]}
-          >
-            P {p}g · C {c}g · F {f}g
-          </Text>
-        </View>
-
-        <View style={styles.dishCardRight}>
-          <View
-            style={[
-              styles.caloriePill,
-              {
-                backgroundColor: isDark ? 'rgba(164, 235, 63, 0.15)' : '#F7FEE7',
-                borderColor: theme.colors.primaryLime,
-              },
-            ]}
-          >
-            <Text
-              style={[
-                styles.caloriePillText,
-                { color: isDark ? theme.colors.primaryLime : '#4B6200' },
-              ]}
-            >
-              ≈{kcal} kcal
-            </Text>
-          </View>
-          {isBuildMode ? (
-            <View style={styles.qtyControls}>
-              {qty > 0 && (
-                <>
-                  <TouchableOpacity
-                    style={[styles.qtyBtn, { backgroundColor: theme.colors.surfaceSecondary }]}
-                    onPress={() => removeFromBasket(item)}
-                    hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                    accessibilityRole="button"
-                    accessibilityLabel={t('tracker.hub.removeOne', { name: item.name })}
-                  >
-                    <Icon name="minus" size={14} color={theme.colors.textPrimary} />
-                  </TouchableOpacity>
-                  <Text style={[styles.qtyValue, { color: theme.colors.textPrimary }]}>{qty}</Text>
-                </>
-              )}
-              <View
-                style={[
-                  styles.qtyBtn,
-                  { backgroundColor: qty > 0 ? theme.colors.primaryLime : theme.colors.surfaceSecondary },
-                ]}
-              >
-                <Icon
-                  name="plus"
-                  size={14}
-                  color={qty > 0 ? '#0A0B0D' : theme.colors.textPrimary}
-                />
-              </View>
-            </View>
-          ) : (
-            <Icon name="chevron-right" size={16} color={theme.colors.textMuted} />
-          )}
-        </View>
-      </TouchableOpacity>
-    );
-  };
+  const renderDishCard = (item: NormalizedFood, keyPrefix = '') => (
+    <DishCard
+      key={`${keyPrefix}${item.id ?? item.name}`}
+      item={item}
+      qty={basketQty(item)}
+      isBuildMode={isBuildMode}
+      onPress={() => handleDishPress(item)}
+      onRemoveOne={() => removeFromBasket(item)}
+    />
+  );
 
   return (
     <Modal
@@ -553,48 +338,11 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
 
         {/* Preset naming (top, so the keyboard never covers it) */}
         {isBuildMode && basket.length > 0 && isNamingPreset && (
-          <View
-            style={[
-              styles.basketBar,
-              {
-                backgroundColor: theme.colors.surface,
-                borderTopWidth: 0,
-                borderBottomWidth: 1,
-                borderBottomColor: theme.colors.border,
-              },
-            ]}
-          >
-            <View style={styles.presetNameRow}>
-              <TextInput
-                style={[
-                  styles.presetNameInput,
-                  noOutlineStyle,
-                  {
-                    backgroundColor: theme.colors.canvas,
-                    borderColor: theme.colors.border,
-                    color: theme.colors.textPrimary,
-                  },
-                ]}
-                value={presetNameDraft}
-                onChangeText={setPresetNameDraft}
-                placeholder={t('tracker.hub.presetNamePlaceholder')}
-                placeholderTextColor={theme.colors.textMuted}
-                autoFocus
-                returnKeyType="done"
-                onSubmitEditing={handleSavePreset}
-              />
-              <TouchableOpacity
-                style={[styles.basketConfirmBtn, { backgroundColor: theme.colors.primaryLime }]}
-                onPress={handleSavePreset}
-                activeOpacity={0.8}
-                accessibilityRole="button"
-              >
-                <Text style={[styles.basketConfirmText, { color: theme.colors.limeText }]}>
-                  {t('tracker.hub.savePresetConfirm')}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+          <PresetNamingBar
+            name={presetNameDraft}
+            onChangeName={setPresetNameDraft}
+            onSave={handleSavePreset}
+          />
         )}
 
         {/* Global Search Bar */}
@@ -1000,423 +748,14 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
 
         {/* Custom Meal Summary Bar */}
         {isBuildMode && basket.length > 0 && !isNamingPreset && (
-          <View
-            style={[
-              styles.basketBar,
-              {
-                backgroundColor: theme.colors.surface,
-                borderTopColor: theme.colors.border,
-              },
-            ]}
-          >
-            {(
-              <>
-                <View style={styles.basketInfo}>
-                  <Text style={[styles.basketCount, { color: theme.colors.textPrimary }]}>
-                    {t('tracker.hub.basketCount', { count: basketTotals.count })}
-                  </Text>
-                  <Text
-                    style={[styles.basketKcal, { color: theme.colors.textSecondary }]}
-                    numberOfLines={2}
-                  >
-                    ≈{Math.round(basketTotals.kcal)} kcal ·{' '}
-                    {basket.map((e) => `${e.quantity}x ${e.food.name}`).join(', ')}
-                  </Text>
-                  <TouchableOpacity
-                    onPress={() => setIsNamingPreset(true)}
-                    hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                    accessibilityRole="button"
-                  >
-                    <Text style={[styles.savePresetLink, { color: theme.colors.primary }]}>
-                      {t('tracker.hub.saveAsPreset')}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-
-                <TouchableOpacity
-                  style={[styles.basketConfirmBtn, { backgroundColor: theme.colors.primaryLime }]}
-                  onPress={handleConfirmBasket}
-                  activeOpacity={0.8}
-                  accessibilityRole="button"
-                >
-                  <Text style={[styles.basketConfirmText, { color: theme.colors.limeText }]}>
-                    {t('tracker.hub.logCustomMeal')}
-                  </Text>
-                </TouchableOpacity>
-              </>
-            )}
-          </View>
+          <BasketSummaryBar
+            basket={basket}
+            totals={basketTotals}
+            onStartNaming={() => setIsNamingPreset(true)}
+            onConfirm={handleConfirmBasket}
+          />
         )}
       </SafeAreaView>
     </Modal>
   );
 };
-
-const styles = StyleSheet.create({
-  slotRow: {
-    flexDirection: 'row',
-    gap: 6,
-    paddingHorizontal: 16,
-    paddingBottom: 10,
-  },
-  slotChip: {
-    flex: 1,
-    alignItems: 'center',
-    paddingVertical: 8,
-    borderRadius: 12,
-    borderWidth: 1,
-  },
-  slotChipText: {
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  safeArea: {
-    flex: 1,
-  },
-  header: {
-    height: 60,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    borderBottomWidth: 1,
-  },
-  backButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  headerTitle: {
-    fontSize: 17,
-    fontWeight: '800',
-    letterSpacing: -0.2,
-  },
-  regionPillBtn: {
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 9999,
-    borderWidth: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  regionPillText: {
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  searchContainer: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-  },
-  searchInputWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 14,
-    height: 48,
-    borderRadius: 24,
-  },
-  searchInput: {
-    flex: 1,
-    marginLeft: 10,
-    fontSize: 14,
-    fontWeight: '500',
-    backgroundColor: 'transparent',
-    borderWidth: 0,
-  },
-  buildModeRow: {
-    paddingHorizontal: 16,
-    paddingBottom: 10,
-    borderBottomWidth: 1,
-    gap: 6,
-  },
-  buildModeBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'flex-start',
-    gap: 6,
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderRadius: 9999,
-    borderWidth: 1,
-  },
-  buildModeBtnText: {
-    fontSize: 12,
-    fontWeight: '800',
-  },
-  buildModeHint: {
-    fontSize: 11,
-    lineHeight: 15,
-  },
-  qtyControls: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  qtyBtn: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  qtyValue: {
-    fontSize: 14,
-    fontWeight: '800',
-    minWidth: 14,
-    textAlign: 'center',
-  },
-  basketBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderTopWidth: 1,
-  },
-  basketInfo: {
-    flex: 1,
-  },
-  savePresetLink: {
-    fontSize: 12,
-    fontWeight: '700',
-    marginTop: 4,
-  },
-  presetNameRow: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-  presetNameInput: {
-    flex: 1,
-    height: 40,
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingHorizontal: 12,
-    fontSize: 14,
-  },
-  presetRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-    marginBottom: 14,
-  },
-  presetChip: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 12,
-    borderWidth: 1,
-  },
-  presetChipText: {
-    fontSize: 13,
-    fontWeight: '700',
-    maxWidth: 160,
-  },
-  presetChipMeta: {
-    fontSize: 11,
-    fontWeight: '500',
-    marginTop: 1,
-  },
-  presetChipRemove: {
-    fontSize: 13,
-    fontWeight: '700',
-  },
-  basketCount: {
-    fontSize: 14,
-    fontWeight: '800',
-  },
-  basketKcal: {
-    fontSize: 11,
-    marginTop: 2,
-    lineHeight: 15,
-  },
-  basketConfirmBtn: {
-    paddingVertical: 12,
-    paddingHorizontal: 18,
-    borderRadius: 9999,
-  },
-  basketConfirmText: {
-    fontSize: 13,
-    fontWeight: '800',
-  },
-  groupScrollContainer: {
-    borderBottomWidth: 1,
-    paddingVertical: 10,
-  },
-  groupPillsWrapper: {
-    paddingHorizontal: 16,
-    gap: 8,
-  },
-  groupPill: {
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderRadius: 20,
-  },
-  groupPillText: {
-    fontSize: 13,
-  },
-  content: {
-    flex: 1,
-  },
-  contentContainer: {
-    padding: 16,
-    paddingBottom: 40,
-  },
-  dietGroupHeading: {
-    fontSize: 11,
-    fontWeight: '800',
-    letterSpacing: 0.6,
-    textTransform: 'uppercase',
-    marginTop: 18,
-    marginBottom: 8,
-  },
-  sectionEyebrow: {
-    fontSize: 11,
-    fontWeight: '800',
-    letterSpacing: 0.8,
-    marginBottom: 12,
-    textTransform: 'uppercase',
-  },
-  brandsSection: {
-    marginBottom: 20,
-  },
-  brandCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 12,
-    borderRadius: 18,
-    marginBottom: 10,
-    borderWidth: 1,
-  },
-  brandAvatar: {
-    marginRight: 14,
-  },
-  brandInfo: {
-    flex: 1,
-    marginRight: 8,
-  },
-  brandTitleRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    marginBottom: 2,
-    flexWrap: 'wrap',
-  },
-  brandName: {
-    fontSize: 15,
-    fontWeight: '800',
-    marginRight: 8,
-  },
-  brandNameAr: {
-    fontSize: 13,
-    fontWeight: '700',
-    marginRight: 6,
-  },
-  brandNameUr: {
-    fontSize: 12,
-  },
-  brandTagline: {
-    fontSize: 12,
-  },
-  searchResultsSection: {
-    marginBottom: 24,
-  },
-  dishCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 14,
-    borderRadius: 18,
-    marginBottom: 10,
-    borderWidth: 1,
-  },
-  dishCardLeft: {
-    flex: 1,
-    marginRight: 12,
-  },
-  dishTitleRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    marginBottom: 4,
-    flexWrap: 'wrap',
-  },
-  dishName: {
-    fontSize: 15,
-    fontWeight: '800',
-    marginRight: 6,
-  },
-  dishNameAr: {
-    fontSize: 13,
-    fontWeight: '700',
-    marginRight: 6,
-  },
-  dishNameUr: {
-    fontSize: 12,
-  },
-  dishMetaRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 4,
-    flexWrap: 'wrap',
-  },
-  brandBadge: {
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 6,
-    marginRight: 8,
-  },
-  brandBadgeText: {
-    fontSize: 11,
-    fontWeight: '700',
-  },
-  dishServingText: {
-    fontSize: 12,
-  },
-  dishMacrosText: {
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  dishCardRight: {
-    alignItems: 'flex-end',
-    flexDirection: 'row',
-    gap: 6,
-  },
-  caloriePill: {
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 8,
-    borderWidth: 1,
-  },
-  caloriePillText: {
-    fontSize: 12,
-    fontWeight: '800',
-  },
-  emptyStateContainer: {
-    padding: 32,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  emptyStateTitle: {
-    fontSize: 16,
-    fontWeight: '800',
-    marginBottom: 6,
-  },
-  emptyStateSubtitle: {
-    fontSize: 14,
-    textAlign: 'center',
-    lineHeight: 20,
-  },
-  filterLoadingContainer: {
-    paddingVertical: 36,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 12,
-  },
-  filterLoadingText: {
-    fontSize: 13,
-    fontWeight: '600',
-  },
-});

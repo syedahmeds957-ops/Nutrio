@@ -5,7 +5,6 @@ import {
   View,
   TextInput,
   TextInputProps,
-  TouchableOpacity,
   Platform,
   ViewStyle,
   TextStyle,
@@ -14,9 +13,11 @@ import { useTheme } from '../theme.js';
 import { Icon, IconName } from './Icon.js';
 
 // Global web outline suppressor for React Native Web
-export const noOutlineStyle: any = Platform.select({
+// react-native-web accepts the CSS value 'none' for outlineStyle; React Native's
+// own types only list the native border styles, hence the one narrow cast.
+export const noOutlineStyle: ViewStyle = Platform.select<ViewStyle>({
   web: {
-    outlineStyle: 'none',
+    outlineStyle: 'none' as ViewStyle['outlineStyle'],
     outlineWidth: 0,
     outlineColor: 'transparent',
     boxShadow: 'none',
@@ -228,82 +229,6 @@ export const AppleTextInput: React.FC<AppleTextInputProps> = ({
   );
 };
 
-/* -------------------------------------------------------------------------- */
-/* 3. AppleSearchInput (Sleek Recessed Search Pill for Food & Menus)         */
-/* -------------------------------------------------------------------------- */
-export interface AppleSearchInputProps extends TextInputProps {
-  onClear?: () => void;
-  containerStyle?: ViewStyle;
-}
-
-export const AppleSearchInput: React.FC<AppleSearchInputProps> = ({
-  value,
-  onClear,
-  containerStyle,
-  style,
-  onFocus,
-  onBlur,
-  ...rest
-}) => {
-  const { theme } = useTheme();
-  const [isFocused, setIsFocused] = useState(false);
-
-  return (
-    <View
-      style={[
-        styles.searchBox,
-        {
-          backgroundColor: theme.colors.surfaceSecondary,
-          borderColor: isFocused ? theme.colors.primaryLime : theme.colors.border,
-        },
-        containerStyle,
-      ]}
-    >
-      <Icon
-        name="search"
-        size={16}
-        color={isFocused ? theme.colors.primaryLime : theme.colors.textSecondary}
-      />
-      <TextInput
-        {...rest}
-        value={value}
-        style={[
-          styles.searchInput,
-          noOutlineStyle,
-          { color: theme.colors.textPrimary },
-          style,
-        ]}
-        onFocus={(e) => {
-          setIsFocused(true);
-          onFocus?.(e);
-        }}
-        onBlur={(e) => {
-          setIsFocused(false);
-          onBlur?.(e);
-        }}
-        placeholderTextColor={theme.colors.textMuted}
-      />
-      {value && value.length > 0 && onClear ? (
-        <TouchableOpacity
-          onPress={onClear}
-          style={styles.clearBtn}
-          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-          activeOpacity={0.7}
-        >
-          <View
-            style={[
-              styles.clearCircle,
-              { backgroundColor: theme.colors.border },
-            ]}
-          >
-            <Icon name="x" size={12} color={theme.colors.textSecondary} strokeWidth={2.5} />
-          </View>
-        </TouchableOpacity>
-      ) : null}
-    </View>
-  );
-};
-
 const styles = StyleSheet.create({
   // Grouped Row Styles
   rowContainer: {
@@ -433,44 +358,5 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginTop: 6,
     marginLeft: 4,
-  },
-
-  // Search Box Styles
-  searchBox: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: 46,
-    borderRadius: 14,
-    borderWidth: 1.5,
-    paddingHorizontal: 12,
-    gap: 8,
-    ...Platform.select({
-      web: {
-        transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
-      },
-      default: {},
-    }),
-  },
-  searchInput: {
-    flex: 1,
-    height: '100%',
-    fontSize: 14,
-    fontWeight: '600',
-    backgroundColor: 'transparent',
-    borderWidth: 0,
-  },
-  clearBtn: {
-    padding: 2,
-  },
-  clearCircle: {
-    width: 18,
-    height: 18,
-    borderRadius: 9,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  clearText: {
-    fontSize: 10,
-    fontWeight: '800',
   },
 });

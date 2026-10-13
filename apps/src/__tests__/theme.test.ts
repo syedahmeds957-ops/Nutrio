@@ -44,7 +44,7 @@ describe('Solid Lime Dual Theme System (Task 1)', () => {
 
     // Modern boxShadow without deprecated shadow* props
     expect(dark.shadows.soft.boxShadow).toBeDefined();
-    expect(dark.shadows.soft.shadowColor).toBeUndefined();
+    expect('shadowColor' in dark.shadows.soft).toBe(false);
 
     // High-contrast accessible accents
     expect(dark.colors.primaryAccessible).toBe('#A4EB3F');

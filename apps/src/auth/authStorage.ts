@@ -1,3 +1,4 @@
+import type { User } from '@supabase/supabase-js';
 import { supabase, isSupabaseConfigured, authStorageAdapter } from '../supabase/client.js';
 import {
   AuthSession,
@@ -8,6 +9,7 @@ import {
   VerifyOtpPayload,
   OtpResult,
 } from './types.js';
+import { errorMessage, isNetworkError } from '../common/errors.js';
 
 const STORAGE_KEY = 'nutrio_auth_session';
 const MOCK_USERS_REGISTRY_KEY = 'nutrio_mock_users_registry';
@@ -210,7 +212,7 @@ async function loadPersistedSession(): Promise<AuthSession | null> {
   }
 }
 
-function mapSupabaseUserToAuthUser(sbUser: any): AuthUser {
+function mapSupabaseUserToAuthUser(sbUser: User): AuthUser {
   const metadata = sbUser.user_metadata || {};
   const email = sbUser.email || '';
   const name =
@@ -355,12 +357,8 @@ export async function authenticateUser(
 
       saveAuthSession(session);
       return session;
-    } catch (err: any) {
-      if (
-        err?.message?.includes('Failed to fetch') ||
-        err?.message?.includes('Network request failed') ||
-        err?.name === 'AuthRetryableFetchError'
-      ) {
+    } catch (err) {
+      if (isNetworkError(err)) {
         throw new Error(
           'Unable to reach authentication server. Please check your internet connection or configure active Supabase credentials in .env.'
         );
@@ -477,12 +475,8 @@ export async function registerUser(
         message: 'Account created successfully.',
         session,
       };
-    } catch (err: any) {
-      if (
-        err?.message?.includes('Failed to fetch') ||
-        err?.message?.includes('Network request failed') ||
-        err?.name === 'AuthRetryableFetchError'
-      ) {
+    } catch (err) {
+      if (isNetworkError(err)) {
         throw new Error(
           'Unable to reach authentication server. Please check your internet connection or configure active Supabase credentials in .env.'
         );
@@ -557,12 +551,8 @@ export async function verifyEmailOtp(payload: VerifyOtpPayload): Promise<OtpResu
         session,
         message: 'Email successfully verified.',
       };
-    } catch (err: any) {
-      if (
-        err?.message?.includes('Failed to fetch') ||
-        err?.message?.includes('Network request failed') ||
-        err?.name === 'AuthRetryableFetchError'
-      ) {
+    } catch (err) {
+      if (isNetworkError(err)) {
         throw new Error(
           'Unable to reach authentication server. Please check your internet connection or configure active Supabase credentials in .env.'
         );
@@ -679,9 +669,9 @@ export async function markSurveyCompleted(): Promise<void> {
         if (attempt === 1) {
           console.warn('[authStorage] Failed to update remote survey_completed metadata:', error.message);
         }
-      } catch (err: any) {
+      } catch (err) {
         if (attempt === 1) {
-          console.warn('[authStorage] Failed to update remote survey_completed metadata:', err?.message);
+          console.warn('[authStorage] Failed to update remote survey_completed metadata:', errorMessage(err));
         }
       }
     }
