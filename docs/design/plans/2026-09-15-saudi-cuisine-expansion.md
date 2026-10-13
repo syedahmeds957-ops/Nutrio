@@ -35,7 +35,7 @@ graph TD
 
 **Tech Stack:** React Native (Expo 57), TypeScript 6.0, Vitest, `@nutrio/food-db`, `@nutrio/nutrition-core`.
 
-**Spec:** [`docs/superpowers/specs/2026-09-15-saudi-cuisine-expansion-design.md`](file:///e:/Nutrio/docs/superpowers/specs/2026-09-15-saudi-cuisine-expansion-design.md)
+**Spec:** [`docs/superpowers/specs/2026-09-15-saudi-cuisine-expansion-design.md`](../specs/2026-09-15-saudi-cuisine-expansion-design.md)
 
 ## Global Constraints
 

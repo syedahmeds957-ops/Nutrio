@@ -1,5 +1,5 @@
 /**
- * CI Guard: Enforces Rules 3 and 4 in Part 0 of BUILD_INSTRUCTIONS.md
+ * CI Guard: Enforces Rules 3 and 4 in Part 0 of docs/planning/BUILD_INSTRUCTIONS.md
  * - Rule 3 (every environment): no AI provider key or direct provider call in
  *   the client. All model traffic goes through Supabase Edge Functions.
  * - Rule 4 (production): free-tier keys never reach production builds.

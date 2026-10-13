@@ -1,7 +1,7 @@
 /**
  * Central Model Configuration
  * Enforces Standing Instruction: No inline model strings in feature code.
- * Pinned per GROQ_OPENROUTER_FINDINGS.md (Aug 2026).
+ * Pinned per docs/planning/GROQ_OPENROUTER_FINDINGS.md (Aug 2026).
  */
 export const MODELS = {
   GROQ: {

@@ -48,7 +48,7 @@ graph TD
 
 **Tech Stack:** React Native (Expo SDK 54), TypeScript, `@nutrio/nutrition-core`, `@nutrio/food-db`, Jest.
 
-**Spec:** [`docs/superpowers/specs/2026-09-06-ronasit-lime-minimalist-design.md`](file:///e:/Nutrio/docs/superpowers/specs/2026-09-06-ronasit-lime-minimalist-design.md)
+**Spec:** [`docs/superpowers/specs/2026-09-06-ronasit-lime-minimalist-design.md`](../specs/2026-09-06-ronasit-lime-minimalist-design.md)
 
 ## Global Constraints
 - Primary Hero Accent: **Solid Electric Lime (`#D4FF00`)** with high-contrast pitch-black text (`#0A0B0D`). NO gradient on hero card.

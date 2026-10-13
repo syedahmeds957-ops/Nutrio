@@ -32,6 +32,7 @@ Removed on purpose: meal-photo scanning, the grocery list and the weekly grocery
 | `supabase/migrations/` | Database schema (`core` and `off` schemas, row-level security) |
 | `supabase/functions/` | Edge functions; only `coach-chat` is deployed and used by the app |
 | `scripts/` | CI key guard, edge-function bundler, catalogue builders |
+| `docs/` | Planning documents, design specs, archive and brand assets |
 
 ### Commands
 
@@ -56,12 +57,15 @@ The Groq key is an Edge Function secret (`GROQ_API_KEY`), set in the Supabase da
 | # | File | What it is | Read if you're… |
 |---|---|---|---|
 | 1 | **`README.md`** (this file) | Index + final decisions | Everyone. Start here. |
-| 2 | **`ZERO_BUDGET_PLAN.md`** | The operating constraint: $0 spend. Overrides all cost/infra decisions. | Everyone |
-| 3 | **`BUILD_INSTRUCTIONS.md`** | Phase-by-phase tasks, API signup checklist, `.env`, curl reference, acceptance criteria | The developer. This is your main document. |
-| 4 | **`NUTRITION_APP_PLAN.md`** | Product plan, market analysis, the BMR/TDEE/macro math, DB schema, safety rules | The developer + anyone on product |
-| 5 | **`GROQ_OPENROUTER_FINDINGS.md`** | Current model IDs, Groq's free vision model, OpenRouter verdict | The developer, before writing any AI code |
-| 6 | **`VISION_API_ADDENDUM.md`** | Vision cost analysis, free vs paid, self-host break-even | Reference. Read when Phase 3 starts. |
-| 7 | **`PUBLIC_APIS_AUDIT.md`** | Audit of the public-apis repo (1,696 entries) + the ODbL licence trap | Reference. Read §Traps before touching the food database. |
+| 2 | **[`ZERO_BUDGET_PLAN.md`](docs/planning/ZERO_BUDGET_PLAN.md)** | The operating constraint: $0 spend. Overrides all cost/infra decisions. | Everyone |
+| 3 | **[`BUILD_INSTRUCTIONS.md`](docs/planning/BUILD_INSTRUCTIONS.md)** | Phase-by-phase tasks, API signup checklist, `.env`, curl reference, acceptance criteria | The developer. This is your main document. |
+| 4 | **[`NUTRITION_APP_PLAN.md`](docs/planning/NUTRITION_APP_PLAN.md)** | Product plan, market analysis, the BMR/TDEE/macro math, DB schema, safety rules | The developer + anyone on product |
+| 5 | **[`GROQ_OPENROUTER_FINDINGS.md`](docs/planning/GROQ_OPENROUTER_FINDINGS.md)** | Current model IDs, Groq's free vision model, OpenRouter verdict | The developer, before writing any AI code |
+| 6 | **[`VISION_API_ADDENDUM.md`](docs/archive/VISION_API_ADDENDUM.md)** | Vision cost analysis, free vs paid, self-host break-even | Archived: the photo feature was removed. |
+| 7 | **[`PUBLIC_APIS_AUDIT.md`](docs/planning/PUBLIC_APIS_AUDIT.md)** | Audit of the public-apis repo (1,696 entries) + the ODbL licence trap | Reference. Read §Traps before touching the food database. |
+| 8 | **[`DIET_FOOD_EXPANSION_PLAN.md`](docs/planning/DIET_FOOD_EXPANSION_PLAN.md)** | Diet & Basics catalogue expansion plan | Anyone adding foods |
+
+Feature design specs and implementation plans live in [`docs/design/`](docs/design/); documents for removed features are in [`docs/archive/`](docs/archive/).
 
 **Minimum to start work:** files 1, 2, 3, and §5 of file 4.
 

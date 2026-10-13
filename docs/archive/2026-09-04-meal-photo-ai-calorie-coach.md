@@ -33,7 +33,7 @@ graph TD
 ```
 
 **Tech Stack:** React Native Web, Expo, TypeScript, `@nutrio/food-db`, `@nutrio/nutrition-core`, OpenAI API / Google Gemini API.  
-**Spec:** [`2026-09-04-photo-ai-calorie-coach-design.md`](file:///e:/Nutrio/docs/superpowers/specs/2026-09-04-photo-ai-calorie-coach-design.md)
+**Spec:** [`2026-09-04-photo-ai-calorie-coach-design.md`](./2026-09-04-photo-ai-calorie-coach-design.md)
 
 ---
 
