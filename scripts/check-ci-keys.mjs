@@ -38,6 +38,13 @@ function listClientSources(dir) {
 }
 
 function checkClientHasNoProviderAccess() {
+  // Every app under apps/ ships to users (mobile today; web and admin later).
+  const appsDir = join(repoRoot, 'apps');
+  const appDirs = existsSync(appsDir)
+    ? readdirSync(appsDir, { withFileTypes: true })
+        .filter((entry) => entry.isDirectory())
+        .map((entry) => join(appsDir, entry.name))
+    : [];
   const errors = [];
   // Workspace packages are bundled into the app, so they count as client code.
   const packagesDir = join(repoRoot, 'packages');
@@ -45,8 +52,7 @@ function checkClientHasNoProviderAccess() {
     ? readdirSync(packagesDir).flatMap((pkg) => listClientSources(join(packagesDir, pkg, 'src')))
     : [];
   const sources = [
-    join(repoRoot, 'apps', 'App.tsx'),
-    ...listClientSources(join(repoRoot, 'apps', 'src')),
+    ...appDirs.flatMap((dir) => [join(dir, 'App.tsx'), ...listClientSources(join(dir, 'src'))]),
     ...packageSources,
   ];
   for (const file of sources.filter(existsSync)) {
@@ -63,7 +69,7 @@ function checkClientHasNoProviderAccess() {
 
   const envNames = Object.keys(process.env);
   // Every .env variant (.env, .env.local, .env.production, ...) in the root and the app.
-  const envFiles = [repoRoot, join(repoRoot, 'apps')].flatMap((dir) =>
+  const envFiles = [repoRoot, ...appDirs].flatMap((dir) =>
     readdirSync(dir)
       .filter((name) => name.startsWith('.env') && !name.endsWith('.example'))
       .map((name) => join(dir, name))

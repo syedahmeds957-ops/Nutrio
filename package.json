@@ -5,7 +5,7 @@
   "description": "Nutrio - AI nutrition & calorie coach (Pakistan-first)",
   "workspaces": [
     "packages/*",
-    "apps"
+    "apps/*"
   ],
   "scripts": {
     "postinstall": "patch-package",

@@ -4,7 +4,7 @@
     "strict": true,
     "paths": {
       "phosphor-react-native/src/icons/*": [
-        "../node_modules/phosphor-react-native/lib/typescript/icons/*"
+        "../../node_modules/phosphor-react-native/lib/typescript/icons/*"
       ]
     }
   }
