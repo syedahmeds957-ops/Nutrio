@@ -1,79 +1,48 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import {
-  analyzeMealPhoto,
   getFallbackCoachResponse,
-  getFallbackVisionDetection,
+  purgeLegacyAiKeys,
   sendCoachMessage,
 } from '../ai-service.js';
-import {
-  saveOpenAiKey,
-  saveGeminiKey,
-  getStoredOpenAiKey,
-  getStoredGeminiKey,
-  setActiveAiProvider,
-} from '../apiKeyStorage.js';
+import type { EdgeFunctionInvoker } from '../edgeFunctions.js';
 import { CoachContext } from '@nutrio/nutrition-core';
 
+const mockContext: CoachContext = {
+  displayName: 'Ahmed',
+  sex: 'male',
+  ageYears: 25,
+  weightKg: 75,
+  goal: 'lose',
+  targets: {
+    kcalTarget: 2000,
+    proteinGrams: 140,
+    fatGrams: 55,
+    carbGrams: 230,
+  },
+  todaySummary: {
+    caloriesConsumed: 1250,
+    proteinConsumed: 90,
+    fatConsumed: 40,
+    carbConsumed: 130,
+    remainingCalories: 750,
+  },
+};
+
 describe('AI Service Layer', () => {
+  const realFetch = global.fetch;
+
   beforeEach(() => {
     vi.restoreAllMocks();
-    saveOpenAiKey('');
-    saveGeminiKey('');
-    setActiveAiProvider('auto');
+    // Any direct network call from the client is a rule-3 violation: the
+    // service must go through the injected edge-function invoker only.
+    global.fetch = vi.fn().mockRejectedValue(new Error('client must not call fetch'));
   });
 
-  describe('API Key Storage', () => {
-    it('stores and retrieves OpenAI and Gemini keys', () => {
-      saveOpenAiKey('sk-test-openai-123');
-      expect(getStoredOpenAiKey()).toBe('sk-test-openai-123');
-
-      saveGeminiKey('AIzaSyTestGemini456');
-      expect(getStoredGeminiKey()).toBe('AIzaSyTestGemini456');
-    });
-  });
-
-  describe('Deterministic Vision Fallback', () => {
-    it('detects Biryani from context note', () => {
-      const res = getFallbackVisionDetection('Chicken biryani from ammi');
-      expect(res.dishDetected).toContain('Biryani');
-      expect(res.detectedItems[0].detectedName).toContain('Biryani');
-    });
-
-    it('detects Daal & Roti from context note', () => {
-      const res = getFallbackVisionDetection('Daal chana with 2 rotis');
-      expect(res.dishDetected).toContain('Daal');
-      expect(res.detectedItems.length).toBe(2);
-    });
-
-    it('returns default Karahi & Roti when no note matches', () => {
-      const res = getFallbackVisionDetection('random meal plate');
-      expect(res.dishDetected).toContain('Chicken Karahi');
-      expect(res.detectedItems.length).toBeGreaterThan(0);
-    });
+  afterEach(() => {
+    global.fetch = realFetch;
   });
 
   describe('Deterministic Coach Fallback', () => {
-    const mockContext: CoachContext = {
-      displayName: 'Ahmed',
-      sex: 'male',
-      ageYears: 25,
-      weightKg: 75,
-      goal: 'lose',
-      targets: {
-        kcalTarget: 2000,
-        proteinGrams: 140,
-        fatGrams: 55,
-        carbGrams: 230,
-      },
-      todaySummary: {
-        caloriesConsumed: 1250,
-        proteinConsumed: 90,
-        fatConsumed: 40,
-        carbConsumed: 130,
-        remainingCalories: 750,
-      },
-    };
-
     it('provides oil reduction guidance for karahi/oil query', () => {
       const res = getFallbackCoachResponse('How to reduce oil in karahi?', mockContext);
       expect(res.reply).toContain('oil');
@@ -93,77 +62,138 @@ describe('AI Service Layer', () => {
     });
   });
 
-  describe('OpenAI Vision Integration', () => {
-    it('calls OpenAI vision and parses structured dishes', async () => {
-      global.fetch = vi.fn().mockResolvedValue({
-        ok: true,
-        json: async () => ({
-          choices: [
-            {
-              message: {
-                content: JSON.stringify({
-                  dishDetected: 'Mutton Karahi',
-                  cookingMethod: 'Wok fried in tomatoes',
-                  items: [
-                    { detectedName: 'Mutton Karahi', estimatedGrams: 220 },
-                    { detectedName: 'Roti', estimatedGrams: 80 },
-                  ],
-                }),
-              },
-            },
-          ],
-        }),
+  describe('Coach chat via the coach-chat edge function', () => {
+    it('sends the conversation to coach-chat and returns the server reply', async () => {
+      const invoke = vi.fn<EdgeFunctionInvoker>().mockResolvedValue({
+        success: true,
+        reply: 'You have 750 kcal left today. Daal with roti is a great choice!',
+        suggestedPrompts: ['Can I have chai after?', 'How much daal?', 'Add a salad'],
+        provider: 'groq_gpt_oss_120b',
+        flagsTriggered: [],
       });
-
-      const res = await analyzeMealPhoto('data:image/jpeg;base64,12345', 'lunch', {
-        provider: 'openai',
-        apiKey: 'sk-test',
-      });
-
-      expect(res.providerUsed).toBe('openai');
-      expect(res.dishDetected).toBe('Mutton Karahi');
-      expect(res.detectedItems.length).toBe(2);
-      expect(res.detectedItems[0].estimatedGrams).toBe(220);
-    });
-  });
-
-  describe('Coach Chat Live Integration', () => {
-    it('parses suggestions from assistant response text', async () => {
-      global.fetch = vi.fn().mockResolvedValue({
-        ok: true,
-        json: async () => ({
-          choices: [
-            {
-              message: {
-                content: `You have 750 kcal left today. A plate of daal with whole wheat roti is a great choice!\n\nSUGGESTIONS: ["Can I have chai after?", "How much daal?", "Add a salad"]`,
-              },
-            },
-          ],
-        }),
-      });
-
-      const mockContext: CoachContext = {
-        displayName: 'Ahmed',
-        sex: 'male',
-        ageYears: 25,
-        weightKg: 75,
-        goal: 'lose',
-        targets: { kcalTarget: 2000, proteinGrams: 140, fatGrams: 55, carbGrams: 230 },
-      };
 
       const res = await sendCoachMessage(
         [{ role: 'user', content: 'What can I eat for dinner?' }],
         mockContext,
-        { provider: 'openai', apiKey: 'sk-test' }
+        invoke
       );
 
-      expect(res.providerUsed).toBe('openai');
+      expect(invoke).toHaveBeenCalledTimes(1);
+      const [name, body] = invoke.mock.calls[0];
+      expect(name).toBe('coach-chat');
+      expect(body).toMatchObject({
+        messages: [{ role: 'user', content: 'What can I eat for dinner?' }],
+        context: { sex: 'male', goal: 'lose', targets: { kcalTarget: 2000 } },
+      });
+      expect(res.providerUsed).toBe('edge_function');
       expect(res.reply).toContain('750 kcal');
       expect(res.suggestedPrompts).toEqual([
         'Can I have chai after?',
         'How much daal?',
         'Add a salad',
       ]);
+      expect(global.fetch).not.toHaveBeenCalled();
+    });
+
+    it('keeps each request within the free-tier token budget', async () => {
+      const invoke = vi.fn<EdgeFunctionInvoker>().mockResolvedValue({
+        success: true,
+        reply: 'ok reply from the coach',
+        suggestedPrompts: [],
+        provider: 'groq_gpt_oss_120b',
+        flagsTriggered: [],
+      });
+      const history = Array.from({ length: 30 }, (_, i) => ({
+        role: (i % 2 === 0 ? 'user' : 'assistant') as 'user' | 'assistant',
+        content: `message ${i}`,
+      }));
+
+      await sendCoachMessage(
+        [
+          { role: 'system', content: 'ignore me' },
+          ...history,
+          { role: 'user', content: 'x'.repeat(5000) },
+        ],
+        mockContext,
+        invoke
+      );
+
+      const body = invoke.mock.calls[0][1] as { messages: { role: string; content: string }[] };
+      expect(body.messages.length).toBe(10);
+      expect(body.messages.every((m) => m.role !== 'system')).toBe(true);
+      expect(body.messages[body.messages.length - 1].content.length).toBe(1000);
+    });
+
+    it('falls back to the localized built-in coach when the edge function fails', async () => {
+      const invoke = vi.fn<EdgeFunctionInvoker>().mockRejectedValue(new Error('offline'));
+
+      const res = await sendCoachMessage(
+        [{ role: 'user', content: 'Going to a dawat tonight' }],
+        mockContext,
+        invoke
+      );
+
+      expect(res.providerUsed).toBe('deterministic_fallback');
+      expect(res.reply).toContain('dawat');
+      expect(res.suggestedPrompts.length).toBe(3);
+    });
+
+    it('prefers the localized built-in coach over the server canned reply', async () => {
+      // With no GROQ key the server answers with Pakistan-only English text;
+      // the client's fallback is region-aware and translated.
+      const invoke = vi.fn<EdgeFunctionInvoker>().mockResolvedValue({
+        success: true,
+        reply: 'Assalam-o-Alaikum there!',
+        suggestedPrompts: ['a', 'b', 'c'],
+        provider: 'deterministic_coach_fallback',
+        flagsTriggered: [],
+      });
+
+      const res = await sendCoachMessage(
+        [{ role: 'user', content: 'Can I eat at AlBaik on a cut?' }],
+        { ...mockContext, region: 'SA' },
+        invoke
+      );
+
+      expect(res.providerUsed).toBe('deterministic_fallback');
+      expect(res.reply).toContain('AlBaik');
+    });
+
+    it('falls back when the edge function returns a malformed body', async () => {
+      const invoke = vi.fn<EdgeFunctionInvoker>().mockResolvedValue({ error: 'boom' });
+
+      const res = await sendCoachMessage(
+        [{ role: 'user', content: 'I love doodh patti chai' }],
+        mockContext,
+        invoke
+      );
+
+      expect(res.providerUsed).toBe('deterministic_fallback');
+      expect(res.reply).toContain('doodh patti');
+    });
+  });
+
+  describe('Legacy client-side key cleanup', () => {
+    it('removes API keys earlier builds saved on the device', () => {
+      const store = new Map<string, string>([
+        ['nutrio_api_key_openai', 'sk-old'],
+        ['nutrio_api_key_gemini', 'AIza-old'],
+        ['nutrio_active_ai_provider', 'openai'],
+        ['unrelated', 'keep'],
+      ]);
+      const storage = {
+        removeItem: (key: string) => {
+          store.delete(key);
+        },
+      };
+
+      purgeLegacyAiKeys(storage);
+
+      expect([...store.keys()]).toEqual(['unrelated']);
+    });
+
+    it('does nothing when storage is unavailable', () => {
+      expect(() => purgeLegacyAiKeys(undefined)).not.toThrow();
     });
   });
 });

@@ -1,125 +1,25 @@
-import {
-  buildCoachSystemPrompt,
-  CoachContext,
-} from '@nutrio/nutrition-core';
-import {
-  AiProviderConfig,
-  CoachChatMessage,
-  CoachChatResult,
-  PhotoAnalysisResult,
-  VisionDetectedItem,
-} from './types.js';
-import { resolveAiConfig } from './apiKeyStorage.js';
+import { CoachContext } from '@nutrio/nutrition-core';
+import { CoachChatMessage, CoachChatResult } from './types.js';
+import { EdgeFunctionInvoker, invokeEdgeFunction } from './edgeFunctions.js';
 import { i18n } from '../i18n/config.js';
 
-const DESI_VISION_SYSTEM_PROMPT = `You are a specialized Pakistani and South Asian culinary vision expert.
-Analyze this meal photo and identify the dish, cooking technique, and estimated grams for each food item.
+// How much history each coach request carries. The coach-chat schema accepts
+// up to 20 messages of 2000 chars, but the model runs on Groq's free tier
+// (about 8K tokens/min and 200K tokens/day per account), so the client sends
+// the recent conversation only.
+const COACH_MAX_MESSAGES = 10;
+const COACH_MAX_MESSAGE_CHARS = 1000;
 
-CRITICAL RULES:
-1. NEVER output or estimate calorie numbers or macronutrient numbers.
-2. Estimate the mass in grams for each food component realistically based on visual portion size.
-3. Output strictly valid JSON with keys:
-{
-  "dishDetected": "Name of main dish",
-  "cookingMethod": "Description of preparation (e.g. tarka tempered, karahi shallow fried, tandoor baked)",
-  "items": [
-    { "detectedName": "Chicken Karahi", "estimatedGrams": 200 },
-    { "detectedName": "Roti / Chapati (Whole Wheat)", "estimatedGrams": 90 }
-  ]
-}`;
+// The server's canned reply when it has no provider key. It is Pakistan-only
+// English, so the client's region-aware, translated fallback answers instead.
+const SERVER_COACH_FALLBACK_PROVIDER = 'deterministic_coach_fallback';
 
-export function getFallbackVisionDetection(contextNote?: string): {
-  dishDetected: string;
-  cookingMethod: string;
-  detectedItems: VisionDetectedItem[];
-} {
-  const note = (contextNote || '').toLowerCase();
-
-  if (note.includes('biryani') || note.includes('pulao') || note.includes('rice')) {
-    return {
-      dishDetected: 'Chicken Biryani',
-      cookingMethod: 'Dum cooked layered basmati rice with marinated chicken',
-      detectedItems: [
-        { detectedName: 'Chicken Biryani (Karachi Style)', estimatedGrams: 350 },
-      ],
-    };
-  }
-
-  if (note.includes('daal') || note.includes('lentil') || note.includes('chana') || note.includes('chawal')) {
-    return {
-      dishDetected: 'Daal Chana & Roti',
-      cookingMethod: 'Tarka tempered lentils with tandoor whole wheat roti',
-      detectedItems: [
-        { detectedName: 'Daal Chana Tadka', estimatedGrams: 150 },
-        { detectedName: 'Roti / Chapati (Whole Wheat)', estimatedGrams: 90 },
-      ],
-    };
-  }
-
-  if (note.includes('egg') || note.includes('anda') || note.includes('omelette') || note.includes('paratha')) {
-    return {
-      dishDetected: 'Desi Omelette & Paratha',
-      cookingMethod: 'Pan-fried Pakistani spiced omelette with whole wheat paratha',
-      detectedItems: [
-        { detectedName: 'Pakistani Omelette (Pyaz Mirch)', estimatedGrams: 100 },
-        { detectedName: 'Paratha (Whole Wheat, 1 tsp oil)', estimatedGrams: 90 },
-      ],
-    };
-  }
-
-  if (note.includes('nihari') || note.includes('beef') || note.includes('mutton')) {
-    return {
-      dishDetected: 'Beef Nihari & Naan',
-      cookingMethod: 'Slow-cooked aromatic stew with ginger, green chilies and roghni naan',
-      detectedItems: [
-        { detectedName: 'Beef Nihari', estimatedGrams: 250 },
-        { detectedName: 'Naan (Tandoori)', estimatedGrams: 100 },
-      ],
-    };
-  }
-
-  if (note.includes('kabsa') || note.includes('mandi') || note.includes('saleeg') || note.includes('madhbi')) {
-    return {
-      dishDetected: 'Chicken Kabsa',
-      cookingMethod: 'Traditional Saudi spiced rice with tender bone-in chicken',
-      detectedItems: [
-        { detectedName: 'Chicken Kabsa', estimatedGrams: 350 },
-      ],
-    };
-  }
-
-  if (note.includes('albaik') || note.includes('broast') || note.includes('nugget')) {
-    return {
-      dishDetected: 'AlBaik Chicken Fillet & Garlic Sauce',
-      cookingMethod: 'Fried chicken fillet with signature garlic sauce',
-      detectedItems: [
-        { detectedName: 'AlBaik Chicken Fillet Sandwich', estimatedGrams: 180 },
-        { detectedName: 'AlBaik Garlic Sauce', estimatedGrams: 30 },
-      ],
-    };
-  }
-
-  if (note.includes('gahwa') || note.includes('date') || note.includes('sukari') || note.includes('ajwa')) {
-    return {
-      dishDetected: 'Saudi Gahwa & Sukari Dates',
-      cookingMethod: 'Cardamom and saffron infused Arabic coffee with dates',
-      detectedItems: [
-        { detectedName: 'Saudi Gahwa (Arabic Coffee)', estimatedGrams: 60 },
-        { detectedName: 'Sukari Dates (3 pcs)', estimatedGrams: 30 },
-      ],
-    };
-  }
-
-  // Default balanced Pakistani household plate
-  return {
-    dishDetected: 'Chicken Karahi & Whole Wheat Roti',
-    cookingMethod: 'Wok-seared chicken in tomato-ginger gravy with whole wheat chapati',
-    detectedItems: [
-      { detectedName: 'Chicken Karahi', estimatedGrams: 200 },
-      { detectedName: 'Roti / Chapati (Whole Wheat)', estimatedGrams: 90 },
-    ],
-  };
-}
+// Keys that earlier builds stored on the device in plain text.
+const LEGACY_AI_STORAGE_KEYS = [
+  'nutrio_api_key_openai',
+  'nutrio_api_key_gemini',
+  'nutrio_active_ai_provider',
+];
 
 export function getFallbackCoachResponse(
   userQuery: string,
@@ -183,240 +83,69 @@ export function getFallbackCoachResponse(
   });
 }
 
-export async function analyzeMealPhoto(
-  imageBase64: string,
-  contextNote?: string,
-  customConfig?: AiProviderConfig
-): Promise<PhotoAnalysisResult> {
-  const config = customConfig || resolveAiConfig();
-
-  // Normalize base64
-  const cleanBase64 = imageBase64.includes('base64,')
-    ? imageBase64.split('base64,')[1]
-    : imageBase64;
-  const dataUrl = imageBase64.startsWith('data:')
-    ? imageBase64
-    : `data:image/jpeg;base64,${imageBase64}`;
-
-  // 1. OpenAI Vision
-  if (config.provider === 'openai' && config.apiKey) {
-    try {
-      const res = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${config.apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: config.model || 'gpt-4o-mini',
-          messages: [
-            { role: 'system', content: DESI_VISION_SYSTEM_PROMPT },
-            {
-              role: 'user',
-              content: [
-                {
-                  type: 'text',
-                  text: `Analyze this South Asian meal photo. Note: ${contextNote || 'None'}. Return JSON strictly matching the schema.`,
-                },
-                {
-                  type: 'image_url',
-                  image_url: { url: dataUrl },
-                },
-              ],
-            },
-          ],
-          temperature: 0.2,
-          response_format: { type: 'json_object' },
-        }),
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        const content = data.choices?.[0]?.message?.content;
-        if (content) {
-          const parsed = JSON.parse(content);
-          if (parsed.dishDetected && Array.isArray(parsed.items)) {
-            return {
-              dishDetected: parsed.dishDetected,
-              cookingMethod: parsed.cookingMethod || 'Prepared meal',
-              detectedItems: parsed.items.map((i: any) => ({
-                detectedName: String(i.detectedName || i.name || 'Desi dish'),
-                estimatedGrams: Number(i.estimatedGrams || i.grams || 150),
-              })),
-              providerUsed: 'openai',
-            };
-          }
-        }
-      }
-    } catch {
-      // fallback on failure
-    }
-  }
-
-  // 2. Google Gemini Vision
-  if (config.provider === 'gemini' && config.apiKey) {
-    try {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${
-        config.model || 'gemini-1.5-flash'
-      }:generateContent?key=${config.apiKey}`;
-
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          systemInstruction: {
-            parts: [{ text: DESI_VISION_SYSTEM_PROMPT }],
-          },
-          contents: [
-            {
-              role: 'user',
-              parts: [
-                {
-                  text: `Analyze this South Asian meal photo. Note: ${contextNote || 'None'}. Output valid JSON.`,
-                },
-                {
-                  inlineData: {
-                    mimeType: 'image/jpeg',
-                    data: cleanBase64,
-                  },
-                },
-              ],
-            },
-          ],
-          generationConfig: {
-            responseMimeType: 'application/json',
-          },
-        }),
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        const text =
-          data.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (text) {
-          const parsed = JSON.parse(text);
-          if (parsed.dishDetected && Array.isArray(parsed.items)) {
-            return {
-              dishDetected: parsed.dishDetected,
-              cookingMethod: parsed.cookingMethod || 'Prepared meal',
-              detectedItems: parsed.items.map((i: any) => ({
-                detectedName: String(i.detectedName || i.name || 'Desi dish'),
-                estimatedGrams: Number(i.estimatedGrams || i.grams || 150),
-              })),
-              providerUsed: 'gemini',
-            };
-          }
-        }
-      }
-    } catch {
-      // fallback on failure
-    }
-  }
-
-  // 3. Fallback
-  const fallback = getFallbackVisionDetection(contextNote);
-  return {
-    ...fallback,
-    providerUsed: 'deterministic_fallback',
-  };
+interface CoachEdgeResponse {
+  reply: string;
+  suggestedPrompts: string[];
+  provider: string;
 }
 
+function isCoachEdgeResponse(value: unknown): value is CoachEdgeResponse {
+  if (!value || typeof value !== 'object') return false;
+  const v = value as Record<string, unknown>;
+  return (
+    typeof v.reply === 'string' &&
+    v.reply.trim().length > 0 &&
+    typeof v.provider === 'string' &&
+    Array.isArray(v.suggestedPrompts) &&
+    v.suggestedPrompts.every((p) => typeof p === 'string')
+  );
+}
+
+/** Shapes the chat history to what the coach-chat request schema accepts. */
+function toCoachRequestMessages(
+  messages: CoachChatMessage[]
+): { role: 'user' | 'assistant'; content: string }[] {
+  return messages
+    .filter(
+      (m): m is CoachChatMessage & { role: 'user' | 'assistant' } =>
+        m.role !== 'system' && m.content.trim().length > 0
+    )
+    .slice(-COACH_MAX_MESSAGES)
+    .map((m) => ({ role: m.role, content: m.content.slice(0, COACH_MAX_MESSAGE_CHARS) }));
+}
+
+/**
+ * Sends the conversation to the coach-chat edge function, which holds the
+ * provider key and applies the clinical safety filter. Falls back to the
+ * built-in, translated coach when the backend is unreachable or has no model.
+ */
 export async function sendCoachMessage(
   messages: CoachChatMessage[],
   context: CoachContext,
-  customConfig?: AiProviderConfig
+  invoke: EdgeFunctionInvoker = invokeEdgeFunction
 ): Promise<CoachChatResult> {
-  const config = customConfig || resolveAiConfig();
-  const lastUserMsg = [...messages].reverse().find((m) => m.role === 'user')?.content || '';
-  const safeContext: CoachContext = {
-    ...context,
-    displayName: context.displayName || 'Client',
-    ageYears: context.ageYears ?? 28,
-    sex: context.sex ?? 'male',
-    weightKg: context.weightKg ?? 70,
-    goal: context.goal || 'maintain',
-    targets: context.targets || {
-      kcalTarget: 2000,
-      proteinGrams: 140,
-      fatGrams: 55,
-      carbGrams: 230,
-    },
-  };
-  const systemPrompt = buildCoachSystemPrompt(safeContext);
+  const requestMessages = toCoachRequestMessages(messages);
+  const lastUserMsg =
+    [...requestMessages].reverse().find((m) => m.role === 'user')?.content || '';
 
-  const promptWithInstructions = `${systemPrompt}
-
-OUTPUT FORMAT REQUIREMENT:
-Respond in conversational text. At the very end, provide exactly 3 short follow-up prompts on a new line prefixed with "SUGGESTIONS:":
-[Your natural conversational advice here]
-
-SUGGESTIONS: ["Question 1", "Question 2", "Question 3"]`;
-
-  // 1. OpenAI
-  if (config.provider === 'openai' && config.apiKey) {
+  if (requestMessages.length > 0) {
     try {
-      const res = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${config.apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: config.model || 'gpt-4o-mini',
-          messages: [
-            { role: 'system', content: promptWithInstructions },
-            ...messages.map((m) => ({ role: m.role, content: m.content })),
-          ],
-          temperature: 0.5,
-        }),
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        const content = data.choices?.[0]?.message?.content;
-        if (content) {
-          return parseCoachResponseText(content, 'openai');
-        }
+      const response = await invoke('coach-chat', { messages: requestMessages, context });
+      if (isCoachEdgeResponse(response) && response.provider !== SERVER_COACH_FALLBACK_PROVIDER) {
+        return {
+          reply: response.reply,
+          suggestedPrompts: response.suggestedPrompts.slice(0, 3),
+          providerUsed: 'edge_function',
+        };
       }
-    } catch {
-      // fallback
+      if (!isCoachEdgeResponse(response)) {
+        console.warn('[ai-service] coach-chat returned an unexpected body; using fallback.');
+      }
+    } catch (err) {
+      console.warn('[ai-service] coach-chat failed; using fallback:', (err as Error)?.message);
     }
   }
 
-  // 2. Gemini
-  if (config.provider === 'gemini' && config.apiKey) {
-    try {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${
-        config.model || 'gemini-1.5-flash'
-      }:generateContent?key=${config.apiKey}`;
-
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          systemInstruction: {
-            parts: [{ text: promptWithInstructions }],
-          },
-          contents: messages.map((m) => ({
-            role: m.role === 'assistant' ? 'model' : 'user',
-            parts: [{ text: m.content }],
-          })),
-        }),
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (text) {
-          return parseCoachResponseText(text, 'gemini');
-        }
-      }
-    } catch {
-      // fallback
-    }
-  }
-
-  // 3. Fallback
   const fallback = getFallbackCoachResponse(lastUserMsg, context);
   return {
     reply: fallback.reply,
@@ -425,55 +154,28 @@ SUGGESTIONS: ["Question 1", "Question 2", "Question 3"]`;
   };
 }
 
-function parseCoachResponseText(
-  rawText: string,
-  provider: 'openai' | 'gemini'
-): CoachChatResult {
-  const suggestionsIndex = rawText.indexOf('SUGGESTIONS:');
-  if (suggestionsIndex !== -1) {
-    const reply = rawText.substring(0, suggestionsIndex).trim();
-    const suggestionsPart = rawText.substring(suggestionsIndex + 'SUGGESTIONS:'.length).trim();
-    try {
-      const parsed = JSON.parse(suggestionsPart);
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        return {
-          reply,
-          suggestedPrompts: parsed.map(String).slice(0, 3),
-          providerUsed: provider,
-        };
-      }
-    } catch {
-      // try line splitting
-      const lines = suggestionsPart
-        .split('\n')
-        .map((l) => l.replace(/^[-*•\d.]+\s*/, '').replace(/["[\]]/g, '').trim())
-        .filter(Boolean);
-      if (lines.length > 0) {
-        return {
-          reply,
-          suggestedPrompts: lines.slice(0, 3),
-          providerUsed: provider,
-        };
-      }
-    }
-    return {
-      reply,
-      suggestedPrompts: [
-        'How to reduce oil in cooking?',
-        'High protein Pakistani meal ideas',
-        'Tips for dining at dawats',
-      ],
-      providerUsed: provider,
-    };
+// Merely touching localStorage throws when site data is blocked.
+function deviceLocalStorage(): Storage | undefined {
+  try {
+    return typeof localStorage !== 'undefined' ? localStorage : undefined;
+  } catch {
+    return undefined;
   }
+}
 
-  return {
-    reply: rawText.trim(),
-    suggestedPrompts: [
-      'How to reduce oil in cooking?',
-      'High protein Pakistani meal ideas',
-      'Tips for dining at dawats',
-    ],
-    providerUsed: provider,
-  };
+/**
+ * Removes the provider keys and choice that earlier builds saved on the device
+ * in plain text. Safe to call on every launch.
+ */
+export function purgeLegacyAiKeys(
+  storage: Pick<Storage, 'removeItem'> | undefined = deviceLocalStorage()
+): void {
+  if (!storage) return;
+  for (const key of LEGACY_AI_STORAGE_KEYS) {
+    try {
+      storage.removeItem(key);
+    } catch {
+      // Storage can be blocked (private mode); nothing was readable there either.
+    }
+  }
 }

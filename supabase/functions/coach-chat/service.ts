@@ -10,6 +10,9 @@ import {
   CoachChatResponseSchema,
 } from './schema.js';
 
+// Reasoning plus a short reply; Groq's documented default for gpt-oss.
+const COACH_MAX_COMPLETION_TOKENS = 1024;
+
 function getFallbackCoachResponse(
   userQuery: string,
   context: CoachContext
@@ -107,13 +110,28 @@ SUGGESTIONS: ["Prompt 1", "Prompt 2", "Prompt 3"]`;
           model: MODELS.GROQ.CHAT_NARRATIVE,
           messages,
           temperature: 0.3,
-          max_tokens: 600,
+          // gpt-oss is a reasoning model: hidden reasoning tokens share the
+          // completion budget, and at the default effort they could use all of
+          // it and leave the reply empty. Low effort suits short coaching
+          // replies, and leaving the reasoning text out keeps responses small.
+          reasoning_effort: 'low',
+          include_reasoning: false,
+          max_completion_tokens: COACH_MAX_COMPLETION_TOKENS,
         }),
       });
 
-      if (res.ok) {
+      if (!res.ok) {
+        // Never log the key; Groq's error message says what went wrong
+        // (invalid key, rate limit, unknown model).
+        const detail = await res.text().catch(() => '');
+        console.warn(`[coach-chat] Groq returned HTTP ${res.status}: ${detail.slice(0, 300)}`);
+      } else {
         const data = await res.json();
-        const rawContent = data.choices?.[0]?.message?.content;
+        const choice = data.choices?.[0];
+        const rawContent = choice?.message?.content;
+        if (!rawContent) {
+          console.warn(`[coach-chat] Groq sent an empty reply (finish_reason: ${choice?.finish_reason})`);
+        }
         if (rawContent) {
           const split = rawContent.split(/SUGGESTIONS:\s*/i);
           reply = split[0].trim();
@@ -130,8 +148,8 @@ SUGGESTIONS: ["Prompt 1", "Prompt 2", "Prompt 3"]`;
           provider = 'groq_gpt_oss_120b';
         }
       }
-    } catch {
-      // Fallback
+    } catch (err) {
+      console.warn(`[coach-chat] Groq request failed: ${(err as Error)?.message ?? err}`);
     }
   }
 

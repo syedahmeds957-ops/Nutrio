@@ -45,3 +45,6 @@ coverage/
 # Build outputs
 build/
 .turbo/
+
+# Bundled edge functions (scripts/build-edge-function.mjs)
+supabase/.build/

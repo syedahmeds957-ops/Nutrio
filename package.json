@@ -15,10 +15,12 @@
     "ios": "npm run ios --workspace=@nutrio/mobile",
     "test": "npm run test --workspaces --if-present && vitest run supabase/",
     "build": "npm run build --workspaces --if-present",
-    "lint": "npm run lint --workspaces --if-present"
+    "lint": "npm run lint --workspaces --if-present",
+    "deploy:coach": "node scripts/build-edge-function.mjs coach-chat && npx supabase functions deploy coach-chat --workdir supabase/.build --project-ref qcdfluglkwvmjusncaas --use-api"
   },
   "devDependencies": {
     "@types/node": "^26.4.1",
+    "esbuild": "^0.28.2",
     "patch-package": "^8.0.1",
     "typescript": "^5.8.2",
     "vitest": "^3.0.7"

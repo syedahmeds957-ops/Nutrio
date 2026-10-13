@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import {
   KeyboardAvoidingView,
-  Modal,
   Platform,
   SafeAreaView,
   ScrollView,
@@ -13,26 +12,20 @@ import {
 } from 'react-native';
 import { CoachContext } from '@nutrio/nutrition-core';
 import { sendCoachMessage } from '../../ai/ai-service.js';
-import {
-  getActiveAiProvider,
-  getStoredGeminiKey,
-  getStoredOpenAiKey,
-  saveGeminiKey,
-  saveOpenAiKey,
-  setActiveAiProvider,
-} from '../../ai/apiKeyStorage.js';
-import { AiProvider } from '../../ai/types.js';
 import { Icon } from '../../ui/Icon.js';
 import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
-import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
 
 interface Message {
   id: string;
   role: 'user' | 'assistant';
   text: string;
-  timestamp: string;
+  /** When the message was sent, epoch ms; shown as a local clock time. */
+  sentAt: number;
+  /** Answered by the built-in coach because the AI backend was unreachable. */
+  isOfflineAnswer?: boolean;
 }
 
 interface CoachChatScreenProps {
@@ -50,12 +43,15 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
+  const { language } = useI18nState();
+  // Clock time in the app language (Arabic digits and order for ar).
+  const formatTime = (sentAt: number) =>
+    new Date(sentAt).toLocaleTimeString(language, { hour: 'numeric', minute: '2-digit' });
   const dir = useTextDirection();
   const chatRegion = context.region || activeRegion;
   const isSaudi = chatRegion === 'SA';
   const chips = CHIP_IDS.map((id) => t(`coach.chips.${id}.${chatRegion}`));
   const accentColor = theme.colors.primaryLime;
-  const accentTextColor = theme.colors.limeText;
 
   const initialGreeting = t(`coach.greeting.${chatRegion}`, {
     name: context.displayName || t('coach.defaultName'),
@@ -67,26 +63,13 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
       id: '1',
       role: 'assistant',
       text: initialGreeting,
-      timestamp: 'Just now',
+      sentAt: Date.now(),
     },
   ]);
   const [inputText, setInputText] = useState('');
   const [suggestedChips, setSuggestedChips] = useState<string[]>(chips);
   const [isTyping, setIsTyping] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
-
-  // Settings Modal State
-  const [settingsVisible, setSettingsVisible] = useState(false);
-  const [selectedProvider, setSelectedProvider] = useState<AiProvider>(() => getActiveAiProvider());
-  const [openAiKeyInput, setOpenAiKeyInput] = useState(() => getStoredOpenAiKey() || '');
-  const [geminiKeyInput, setGeminiKeyInput] = useState(() => getStoredGeminiKey() || '');
-
-  const handleSaveSettings = () => {
-    saveOpenAiKey(openAiKeyInput);
-    saveGeminiKey(geminiKeyInput);
-    setActiveAiProvider(selectedProvider);
-    setSettingsVisible(false);
-  };
 
   const handleSend = async (textToSend?: string) => {
     const text = (textToSend || inputText).trim();
@@ -96,7 +79,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
       id: Date.now().toString(),
       role: 'user',
       text,
-      timestamp: 'Just now',
+      sentAt: Date.now(),
     };
 
     const newMessages = [...messages, userMsg];
@@ -121,19 +104,20 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
         id: (Date.now() + 1).toString(),
         role: 'assistant',
         text: response.reply,
-        timestamp: 'Just now',
+        sentAt: Date.now(),
+        isOfflineAnswer: response.providerUsed === 'deterministic_fallback',
       };
 
       setMessages((prev) => [...prev, assistantMsg]);
       if (response.suggestedPrompts && response.suggestedPrompts.length > 0) {
         setSuggestedChips(response.suggestedPrompts);
       }
-    } catch (e: any) {
+    } catch {
       const errorMsg: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
         text: t(`coach.connectionError.${chatRegion}`),
-        timestamp: 'Just now',
+        sentAt: Date.now(),
       };
       setMessages((prev) => [...prev, errorMsg]);
     } finally {
@@ -179,7 +163,8 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
           </Text>
         </View>
 
-        <TouchableOpacity
+        {/* Market badge; also balances the back button so the title stays centred. */}
+        <View
           style={[
             styles.headerRightBadge,
             {
@@ -189,16 +174,11 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
               borderColor: accentColor,
             },
           ]}
-          onPress={() => setSettingsVisible(true)}
-          activeOpacity={0.7}
         >
-          <View style={styles.badgeRow}>
-            <Icon name="settings" size={12} color={isDark ? theme.colors.primaryLime : '#4B6200'} />
-            <Text style={[styles.badgeText, { color: isDark ? theme.colors.primaryLime : '#4B6200' }]}>
-              {selectedProvider.toUpperCase()}
-            </Text>
-          </View>
-        </TouchableOpacity>
+          <Text style={[styles.badgeText, { color: isDark ? theme.colors.primaryLime : '#4B6200' }]}>
+            {chatRegion}
+          </Text>
+        </View>
       </View>
 
       {/* Main Chat Scroll Area */}
@@ -257,7 +237,9 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
                   },
                 ]}
               >
-                {m.timestamp}
+                {m.isOfflineAnswer
+                  ? `${t('coach.offlineAnswer')} · ${formatTime(m.sentAt)}`
+                  : formatTime(m.sentAt)}
               </Text>
             </View>
           ))}
@@ -355,137 +337,6 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
         </View>
       </KeyboardAvoidingView>
 
-      {/* AI Key Settings Modal */}
-      <Modal
-        visible={settingsVisible}
-        animationType="fade"
-        transparent={true}
-        onRequestClose={() => setSettingsVisible(false)}
-      >
-        <View style={styles.settingsOverlay}>
-          <View
-            style={[
-              styles.settingsCard,
-              {
-                backgroundColor: theme.colors.surface,
-                borderColor: theme.colors.border,
-                borderWidth: 1,
-              },
-            ]}
-          >
-            <View style={styles.settingsHeader}>
-              <View style={styles.titleRow}>
-                <Icon
-                  name="settings"
-                  size={18}
-                  color={isDark ? theme.colors.primaryLime : '#4B6200'}
-                />
-                <Text style={[styles.settingsTitle, { color: theme.colors.textPrimary }]}>
-                  {t('coach.settings.title')}
-                </Text>
-              </View>
-              <TouchableOpacity onPress={() => setSettingsVisible(false)}>
-                <Icon name="x" size={20} color={theme.colors.textMuted} />
-              </TouchableOpacity>
-            </View>
-
-            <Text style={[styles.settingsSub, { color: theme.colors.textSecondary }]}>
-              {t(`coach.settings.description.${chatRegion}`)}
-            </Text>
-
-            {/* Provider Selector */}
-            <Text style={[styles.inputLabel, { color: theme.colors.textMuted }]}>
-              {t('coach.settings.activeProvider')}
-            </Text>
-            <View style={styles.providerRow}>
-              {(['auto', 'openai', 'gemini'] as AiProvider[]).map((p) => {
-                const isSelected = selectedProvider === p;
-                return (
-                  <TouchableOpacity
-                    key={p}
-                    style={[
-                      styles.providerPill,
-                      {
-                        backgroundColor: isSelected
-                          ? accentColor
-                          : theme.colors.surfaceSecondary,
-                      },
-                    ]}
-                    onPress={() => setSelectedProvider(p)}
-                  >
-                    <Text
-                      style={[
-                        styles.providerPillText,
-                        {
-                          color: isSelected
-                            ? '#0A0B0D'
-                            : theme.colors.textPrimary,
-                          fontWeight: isSelected ? '800' : '600',
-                        },
-                      ]}
-                    >
-                      {p.toUpperCase()}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-
-            {/* OpenAI Key */}
-            <Text style={[styles.inputLabel, { color: theme.colors.textMuted }]}>
-              {t('coach.settings.openAiKey')}
-            </Text>
-            <TextInput
-              style={[
-                styles.settingsInput,
-                {
-                  backgroundColor: theme.colors.surfaceSecondary,
-                  borderColor: theme.colors.border,
-                  color: theme.colors.textPrimary,
-                },
-              ]}
-              placeholder="sk-proj-..."
-              placeholderTextColor={theme.colors.textMuted}
-              value={openAiKeyInput}
-              onChangeText={setOpenAiKeyInput}
-              secureTextEntry={true}
-            />
-
-            {/* Gemini Key */}
-            <Text style={[styles.inputLabel, { color: theme.colors.textMuted }]}>
-              {t('coach.settings.geminiKey')}
-            </Text>
-            <TextInput
-              style={[
-                styles.settingsInput,
-                {
-                  backgroundColor: theme.colors.surfaceSecondary,
-                  borderColor: theme.colors.border,
-                  color: theme.colors.textPrimary,
-                },
-              ]}
-              placeholder="AIzaSy..."
-              placeholderTextColor={theme.colors.textMuted}
-              value={geminiKeyInput}
-              onChangeText={setGeminiKeyInput}
-              secureTextEntry={true}
-            />
-
-            <TouchableOpacity
-              style={[
-                styles.saveSettingsBtn,
-                { backgroundColor: accentColor },
-              ]}
-              onPress={handleSaveSettings}
-              activeOpacity={0.8}
-            >
-              <Text style={[styles.saveSettingsBtnText, { color: accentTextColor }]}>
-                {t('coach.settings.save')}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
     </SafeAreaView>
   );
 };
@@ -538,11 +389,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 9999,
     borderWidth: 1,
-  },
-  badgeRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
   },
   badgeText: {
     fontSize: 10,
@@ -653,78 +499,5 @@ const styles = StyleSheet.create({
     color: '#0A0B0D',
     fontSize: 18,
     fontWeight: '900',
-  },
-  settingsOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.6)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  settingsCard: {
-    width: '100%',
-    maxWidth: 450,
-    borderRadius: 24,
-    padding: 20,
-    boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.15)',
-  },
-  settingsHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  settingsTitle: {
-    fontSize: 18,
-    fontWeight: '800',
-  },
-  settingsClose: {
-    fontSize: 18,
-    fontWeight: '700',
-    padding: 4,
-  },
-  settingsSub: {
-    fontSize: 12,
-    lineHeight: 18,
-    marginBottom: 16,
-  },
-  inputLabel: {
-    fontSize: 10,
-    fontWeight: '800',
-    letterSpacing: 0.6,
-    marginBottom: 6,
-  },
-  providerRow: {
-    flexDirection: 'row',
-    gap: 8,
-    marginBottom: 14,
-  },
-  providerPill: {
-    flex: 1,
-    paddingVertical: 10,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  providerPillText: {
-    fontSize: 11,
-  },
-  settingsInput: {
-    borderRadius: 14,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    fontSize: 13,
-    borderWidth: 1.5,
-    marginBottom: 14,
-    ...noOutlineStyle,
-  },
-  saveSettingsBtn: {
-    borderRadius: 9999,
-    paddingVertical: 14,
-    alignItems: 'center',
-    marginTop: 4,
-  },
-  saveSettingsBtnText: {
-    fontWeight: '800',
-    fontSize: 14,
   },
 });
