@@ -1,4 +1,5 @@
 import React from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
 import type { IconProps as PhosphorIconProps } from 'phosphor-react-native';
 // Deep imports keep the bundle to the icons actually used; the package root
 // pulls in all ~1,500 of them.
@@ -7,7 +8,6 @@ import { Scales } from 'phosphor-react-native/src/icons/Scales';
 import { Barbell } from 'phosphor-react-native/src/icons/Barbell';
 import { CalendarBlank } from 'phosphor-react-native/src/icons/CalendarBlank';
 import { MagnifyingGlass } from 'phosphor-react-native/src/icons/MagnifyingGlass';
-import { Camera } from 'phosphor-react-native/src/icons/Camera';
 import { Lightning } from 'phosphor-react-native/src/icons/Lightning';
 import { Sparkle } from 'phosphor-react-native/src/icons/Sparkle';
 import { ForkKnife } from 'phosphor-react-native/src/icons/ForkKnife';
@@ -47,7 +47,6 @@ export type IconName =
   | 'dumbbell'
   | 'calendar'
   | 'search'
-  | 'camera'
   | 'zap'
   | 'sparkles'
   | 'utensils'
@@ -88,7 +87,6 @@ const GLYPHS: Record<IconName, React.ComponentType<PhosphorIconProps>> = {
   dumbbell: Barbell,
   calendar: CalendarBlank,
   search: MagnifyingGlass,
-  camera: Camera,
   zap: Lightning,
   sparkles: Sparkle,
   utensils: ForkKnife,
@@ -130,7 +128,7 @@ interface IconProps {
   /** Kept for existing callers: heavier values pick a bolder Phosphor weight. */
   strokeWidth?: number;
   weight?: PhosphorIconProps['weight'];
-  style?: any;
+  style?: StyleProp<ViewStyle>;
 }
 
 export const Icon: React.FC<IconProps> = ({

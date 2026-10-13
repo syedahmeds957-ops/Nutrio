@@ -5,7 +5,7 @@ import {
   SurveyHealthClinical,
   SurveyLifestyleDesi,
   SurveyOccupational,
-  SurveyPreferencesBudget,
+  SurveyPreferences,
 } from './types.js';
 
 export function validateBasics(data: Partial<SurveyBasics>): StepValidationResult {
@@ -166,8 +166,8 @@ export function validateHealthClinical(
   };
 }
 
-export function validatePreferencesBudget(
-  data: Partial<SurveyPreferencesBudget>
+export function validatePreferences(
+  data: Partial<SurveyPreferences>
 ): StepValidationResult {
   const errors: Record<string, string> = {};
 

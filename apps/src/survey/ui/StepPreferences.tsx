@@ -1,18 +1,17 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { BudgetTierPKR, DietPreference, SurveyPreferencesBudget } from '../types.js';
+import { DietPreference, SurveyPreferences } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
-interface StepPreferencesBudgetProps {
-  data: Partial<SurveyPreferencesBudget>;
-  onChange: (updated: Partial<SurveyPreferencesBudget>) => void;
+interface StepPreferencesProps {
+  data: Partial<SurveyPreferences>;
+  onChange: (updated: Partial<SurveyPreferences>) => void;
   errors: Record<string, string>;
 }
 
-// Staple foods, retail brands and grocery prices are market specific, so both
-// the diet labels and the budget ranges are keyed by region.
+// Staple foods are market specific, so the diet labels are keyed by region.
 const DIET_OPTION_IDS: DietPreference[] = [
   'halal_omnivore',
   'halal_meat_moderate',
@@ -21,7 +20,7 @@ const DIET_OPTION_IDS: DietPreference[] = [
   'vegan',
 ];
 
-export const StepPreferencesBudget: React.FC<StepPreferencesBudgetProps> = ({
+export const StepPreferences: React.FC<StepPreferencesProps> = ({
   data,
   onChange,
   errors,
@@ -30,7 +29,6 @@ export const StepPreferencesBudget: React.FC<StepPreferencesBudgetProps> = ({
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
   const dir = useTextDirection();
-  const isSaudi = activeRegion === 'SA';
   const accentColor = theme.colors.primaryLime;
   const activeTextColor = '#0A0B0D';
   const dietOptions = DIET_OPTION_IDS.map((id) => ({
@@ -88,13 +86,6 @@ export const StepPreferencesBudget: React.FC<StepPreferencesBudgetProps> = ({
           <Text style={styles.errorText}>{errors.dietPreference}</Text>
         )}
       </View>
-
-      {/*
-        The weekly budget question is gone. It fed only the grocery list, and
-        the solver never used it — a plan came out identical whether the user
-        picked "under Rs 3,500" or "above Rs 7,000". Asking for something that
-        changed nothing was the worst of both.
-      */}
     </View>
   );
 };

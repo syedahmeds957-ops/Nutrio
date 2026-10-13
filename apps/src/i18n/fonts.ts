@@ -24,27 +24,12 @@ export const ARABIC_FONT_REGULAR = 'IBMPlexSansArabic-Regular';
 export const ARABIC_FONT_MEDIUM = 'IBMPlexSansArabic-Medium';
 export const ARABIC_FONT_BOLD = 'IBMPlexSansArabic-Bold';
 
-export const ARABIC_FONT_NAMES = [
-  ARABIC_FONT_REGULAR,
-  ARABIC_FONT_MEDIUM,
-  ARABIC_FONT_BOLD,
-] as const;
-
 export const LATIN_FONT_REGULAR = 'Inter-Regular';
 export const LATIN_FONT_MEDIUM = 'Inter-Medium';
 export const LATIN_FONT_SEMIBOLD = 'Inter-SemiBold';
 export const LATIN_FONT_BOLD = 'Inter-Bold';
 export const LATIN_FONT_EXTRABOLD = 'Inter-ExtraBold';
 export const LATIN_FONT_BLACK = 'Inter-Black';
-
-export const LATIN_FONT_NAMES = [
-  LATIN_FONT_REGULAR,
-  LATIN_FONT_MEDIUM,
-  LATIN_FONT_SEMIBOLD,
-  LATIN_FONT_BOLD,
-  LATIN_FONT_EXTRABOLD,
-  LATIN_FONT_BLACK,
-] as const;
 
 /**
  * Asset map for `useFonts`.

@@ -14,6 +14,7 @@ import {
   MealSwapOption,
   MealSwapResult,
   PlannedMealSlot,
+  SolverFoodCandidate,
   solveDailyMealPlan,
 } from '@nutrio/nutrition-core';
 import { PAKISTANI_STAPLES_DATA, SAUDI_TRADITIONAL_FOODS } from '@nutrio/food-db';
@@ -43,7 +44,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
   const { t } = useTranslation();
   const dir = useTextDirection();
   const isSaudi = activeRegion === 'SA';
-  const regionalFoodPool = isSaudi ? (SAUDI_TRADITIONAL_FOODS as any) : (PAKISTANI_STAPLES_DATA as any);
+  const regionalFoodPool: SolverFoodCandidate[] = isSaudi ? SAUDI_TRADITIONAL_FOODS : PAKISTANI_STAPLES_DATA;
 
   // Generate a distinct or calibrated 7-day schedule with daily variety
   // The region is passed explicitly rather than left for the solver to infer
@@ -166,13 +167,6 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
             <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>{t('common.back')}</Text>
           </View>
         </TouchableOpacity>
-
-        {/*
-          The Today/Grocery segmented control is gone with the grocery list.
-          A segmented control with one segment is not a control.
-        */}
-
-
       </View>
 
       {/* Horizontal Day Selector */}
@@ -464,7 +458,7 @@ const styles = StyleSheet.create({
   backBtnText: {
     fontSize: 12,
     fontWeight: '700',
-  },
+  },
   daySelectorWrapper: {
     borderBottomWidth: 1,
   },
@@ -569,5 +563,5 @@ const styles = StyleSheet.create({
   },
   slotList: {
     gap: 4,
-  },
+  },
 });

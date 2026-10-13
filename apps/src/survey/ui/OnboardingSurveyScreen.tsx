@@ -17,7 +17,7 @@ import { StepOccupational } from './StepOccupational.js';
 import { StepExercise } from './StepExercise.js';
 import { StepLifestyleDesi } from './StepLifestyleDesi.js';
 import { StepHealthClinical } from './StepHealthClinical.js';
-import { StepPreferencesBudget } from './StepPreferencesBudget.js';
+import { StepPreferences } from './StepPreferences.js';
 import { SurveyStateEngine } from '../state.js';
 import { LifestyleSurveyPayload } from '../types.js';
 import { bridgeSurveyToNutritionCore } from '../nutrition-bridge.js';
@@ -208,11 +208,11 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
               errors={errors}
             />
           )}
-          {currentStep === 'preferences_budget' && (
-            <StepPreferencesBudget
-              data={engine.getPreferencesBudget()}
+          {currentStep === 'preferences' && (
+            <StepPreferences
+              data={engine.getPreferences()}
               onChange={(updated) => {
-                engine.setPreferencesBudget(updated);
+                engine.setPreferences(updated);
                 forceUpdate();
               }}
               errors={errors}

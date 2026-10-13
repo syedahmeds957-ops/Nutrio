@@ -37,11 +37,6 @@ function enqueueDurable(op: () => Promise<void>): Promise<void> {
   return durableQueue;
 }
 
-/** Resolves once every queued durable write has landed. */
-export function flushWeightWrites(): Promise<void> {
-  return durableQueue;
-}
-
 function sortByDate(entries: WeighInEntry[]): WeighInEntry[] {
   return [...entries].sort((a, b) => a.date.localeCompare(b.date));
 }

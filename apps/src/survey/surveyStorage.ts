@@ -29,9 +29,22 @@ function enqueueDurable(op: () => Promise<void>): Promise<void> {
   return durableQueue;
 }
 
-/** Resolves once every queued durable write has landed. */
-export function flushSurveyWrites(): Promise<void> {
-  return durableQueue;
+// Answers the survey no longer asks for, still present in surveys saved before.
+const RETIRED_PREFERENCE_FIELDS = ['budgetTierPKR'];
+
+/**
+ * Returns a copy of a stored survey without fields the app no longer collects,
+ * so they are not carried forward on the next save or cloud sync.
+ */
+export function stripRetiredSurveyFields(payload: LifestyleSurveyPayload): LifestyleSurveyPayload {
+  const preferences = payload.preferencesBudget as unknown as Record<string, unknown> | undefined;
+  if (!preferences || !RETIRED_PREFERENCE_FIELDS.some((field) => field in preferences)) {
+    return payload;
+  }
+  const kept = Object.fromEntries(
+    Object.entries(preferences).filter(([field]) => !RETIRED_PREFERENCE_FIELDS.includes(field))
+  );
+  return { ...payload, preferencesBudget: kept as unknown as LifestyleSurveyPayload['preferencesBudget'] };
 }
 
 /**
@@ -51,27 +64,6 @@ export function savePersistedSurvey(payload: LifestyleSurveyPayload): void {
     }
   }
   void enqueueDurable(() => authStorageAdapter.setItem(key, serialized));
-}
-
-export function loadPersistedSurvey(): LifestyleSurveyPayload | null {
-  const key = surveyKey();
-  const cached = memorySurveys.get(key);
-  if (cached) return cached;
-
-  if (hasStorage()) {
-    try {
-      const raw = window.localStorage.getItem(key);
-      if (raw) {
-        const parsed = JSON.parse(raw) as LifestyleSurveyPayload;
-        memorySurveys.set(key, parsed);
-        return parsed;
-      }
-    } catch (err) {
-      console.warn('[SurveyStorage] Error loading survey:', err);
-    }
-  }
-
-  return null;
 }
 
 /** Restores the survey from durable native storage on boot or re-login. */

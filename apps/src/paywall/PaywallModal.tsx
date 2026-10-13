@@ -19,14 +19,12 @@ import {
 interface PaywallModalProps {
   visible: boolean;
   onClose: () => void;
-  reason?: 'quota_exceeded' | 'feature_gate';
   onSubscribe: (pricing: PlanPricing, provider: PaymentProvider) => void;
 }
 
 export const PaywallModal: React.FC<PaywallModalProps> = ({
   visible,
   onClose,
-  reason = 'quota_exceeded',
   onSubscribe,
 }) => {
   const [currency, setCurrency] = useState<Currency>('PKR');
@@ -57,14 +55,10 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
                 <Text style={styles.premiumBadgeText}>NUTRIO PREMIUM</Text>
               </View>
               <Text style={styles.headline}>
-                {reason === 'quota_exceeded'
-                  ? 'Daily Free Limit Reached'
-                  : 'Upgrade to Unlimited'}
+                Upgrade to Unlimited
               </Text>
               <Text style={styles.subheadline}>
-                {reason === 'quota_exceeded'
-                  ? "You've used your 3 free photo scans for today. Upgrade for unlimited scans and 24/7 AI coaching."
-                  : 'Unlock the full power of Pakistan-first adaptive nutrition and coaching.'}
+                Unlock the full power of Pakistan-first adaptive nutrition and coaching.
               </Text>
             </View>
             <TouchableOpacity style={styles.closeBtn} onPress={onClose} activeOpacity={0.7}>
@@ -145,16 +139,6 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
             {/* Premium Features List */}
             <Text style={styles.sectionHeading}>What You Unlock</Text>
             <View style={styles.featuresList}>
-              <View style={styles.featureRow}>
-                <Icon name="camera" size={20} color="#1E293B" style={styles.featureIcon} />
-                <View style={styles.featureTextCol}>
-                  <Text style={styles.featureTitle}>Unlimited Photo Calorie Scans</Text>
-                  <Text style={styles.featureDesc}>
-                    Scan entire multi-item plates with AI portion breakdown and confidence bands.
-                  </Text>
-                </View>
-              </View>
-
               <View style={styles.featureRow}>
                 <Icon name="coach" size={20} color="#1E293B" style={styles.featureIcon} />
                 <View style={styles.featureTextCol}>

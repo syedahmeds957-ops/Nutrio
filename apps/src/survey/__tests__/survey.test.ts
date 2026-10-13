@@ -7,6 +7,7 @@ import {
   validateBasics,
   validateHealthClinical,
   validateLifestyleDesi,
+  stripRetiredSurveyFields,
 } from '../index.js';
 
 describe('Survey Validation & Step Logic', () => {
@@ -133,13 +134,12 @@ describe('SurveyStateEngine Navigation & Persistence', () => {
       medicalDisclaimerAccepted: true,
     });
     expect(engine.nextStep()).toBe(true);
-    expect(engine.getCurrentStep()).toBe('preferences_budget');
+    expect(engine.getCurrentStep()).toBe('preferences');
 
-    // Step 6: Preferences & Budget
-    engine.setPreferencesBudget({
+    // Step 6: Diet preferences
+    engine.setPreferences({
       dietPreference: 'halal_omnivore',
       dislikedFoods: ['karela'],
-      budgetTierPKR: 'standard_3500_7000',
     });
 
     expect(engine.isComplete()).toBe(true);
@@ -190,7 +190,6 @@ describe('Nutrition Bridge Calculation', () => {
     preferencesBudget: {
       dietPreference: 'halal_omnivore',
       dislikedFoods: [],
-      budgetTierPKR: 'standard_3500_7000',
     },
   };
 
@@ -234,5 +233,38 @@ describe('Nutrition Bridge Calculation', () => {
 
     expect(engine.getBasics().sex).toBe('male');
     expect(engine.getHealthClinical().isPregnantOrBreastfeeding).toBe(false);
+  });
+});
+
+describe('Retired survey fields', () => {
+  it('drops the budget answer that surveys saved before its removal still carry', () => {
+    const legacy = {
+      version: 1,
+      preferencesBudget: {
+        dietPreference: 'halal_omnivore',
+        dislikedFoods: ['karela'],
+        budgetTierPKR: 'standard_3500_7000',
+      },
+    } as unknown as LifestyleSurveyPayload;
+
+    const cleaned = stripRetiredSurveyFields(legacy);
+
+    expect(cleaned.preferencesBudget).toEqual({
+      dietPreference: 'halal_omnivore',
+      dislikedFoods: ['karela'],
+    });
+    // The stored original is left untouched.
+    expect((legacy.preferencesBudget as unknown as Record<string, unknown>).budgetTierPKR).toBe(
+      'standard_3500_7000'
+    );
+  });
+
+  it('returns a survey without retired fields unchanged', () => {
+    const current = {
+      version: 1,
+      preferencesBudget: { dietPreference: 'vegan', dislikedFoods: [] },
+    } as unknown as LifestyleSurveyPayload;
+
+    expect(stripRetiredSurveyFields(current)).toEqual(current);
   });
 });

@@ -9,7 +9,6 @@ describe('Icon Component System', () => {
     'dumbbell',
     'calendar',
     'search',
-    'camera',
     'zap',
     'sparkles',
     'utensils',

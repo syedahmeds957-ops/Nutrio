@@ -5,7 +5,7 @@ import {
   SurveyHealthClinical,
   SurveyLifestyleDesi,
   SurveyOccupational,
-  SurveyPreferencesBudget,
+  SurveyPreferences,
   SurveyStepId,
 } from './types.js';
 import {
@@ -14,7 +14,7 @@ import {
   validateHealthClinical,
   validateLifestyleDesi,
   validateOccupational,
-  validatePreferencesBudget,
+  validatePreferences,
 } from './validation.js';
 
 export const SURVEY_STEPS: SurveyStepId[] = [
@@ -23,7 +23,7 @@ export const SURVEY_STEPS: SurveyStepId[] = [
   'exercise',
   'lifestyle_desi',
   'health_clinical',
-  'preferences_budget',
+  'preferences',
 ];
 
 export class SurveyStateEngine {
@@ -37,7 +37,7 @@ export class SurveyStateEngine {
     isPregnantOrBreastfeeding: false,
     medicalDisclaimerAccepted: true,
   };
-  private preferencesBudget: Partial<SurveyPreferencesBudget> = {};
+  private preferences: Partial<SurveyPreferences> = {};
   private currentErrors: Record<string, string> = {};
 
   constructor(initialDraft?: Partial<LifestyleSurveyPayload>) {
@@ -95,8 +95,8 @@ export class SurveyStateEngine {
     this.currentErrors = {};
   }
 
-  public setPreferencesBudget(data: Partial<SurveyPreferencesBudget>): void {
-    this.preferencesBudget = { ...this.preferencesBudget, ...data };
+  public setPreferences(data: Partial<SurveyPreferences>): void {
+    this.preferences = { ...this.preferences, ...data };
     this.currentErrors = {};
   }
 
@@ -121,8 +121,8 @@ export class SurveyStateEngine {
     return { ...this.healthClinical };
   }
 
-  public getPreferencesBudget(): Partial<SurveyPreferencesBudget> {
-    return { ...this.preferencesBudget };
+  public getPreferences(): Partial<SurveyPreferences> {
+    return { ...this.preferences };
   }
 
   // Validation for current step
@@ -146,8 +146,8 @@ export class SurveyStateEngine {
       case 'health_clinical':
         result = validateHealthClinical(this.healthClinical);
         break;
-      case 'preferences_budget':
-        result = validatePreferencesBudget(this.preferencesBudget);
+      case 'preferences':
+        result = validatePreferences(this.preferences);
         break;
     }
 
@@ -186,7 +186,7 @@ export class SurveyStateEngine {
       validateExercise(this.exercise).isValid &&
       validateLifestyleDesi(this.lifestyleDesi).isValid &&
       validateHealthClinical(this.healthClinical).isValid &&
-      validatePreferencesBudget(this.preferencesBudget).isValid
+      validatePreferences(this.preferences).isValid
     );
   }
 
@@ -203,7 +203,7 @@ export class SurveyStateEngine {
       exercise: this.exercise as SurveyExercise,
       lifestyleDesi: this.lifestyleDesi as SurveyLifestyleDesi,
       healthClinical: this.healthClinical as SurveyHealthClinical,
-      preferencesBudget: this.preferencesBudget as SurveyPreferencesBudget,
+      preferencesBudget: this.preferences as SurveyPreferences,
     };
   }
 
@@ -213,6 +213,6 @@ export class SurveyStateEngine {
     if (draft.exercise) this.exercise = { ...draft.exercise };
     if (draft.lifestyleDesi) this.lifestyleDesi = { ...draft.lifestyleDesi };
     if (draft.healthClinical) this.healthClinical = { ...draft.healthClinical };
-    if (draft.preferencesBudget) this.preferencesBudget = { ...draft.preferencesBudget };
+    if (draft.preferencesBudget) this.preferences = { ...draft.preferencesBudget };
   }
 }

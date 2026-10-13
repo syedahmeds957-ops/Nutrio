@@ -6,7 +6,7 @@ export type SurveyStepId =
   | 'exercise'
   | 'lifestyle_desi'
   | 'health_clinical'
-  | 'preferences_budget';
+  | 'preferences';
 
 export interface SurveyBasics {
   sex: BiologicalSex;
@@ -92,20 +92,9 @@ export type DietPreference =
   | 'vegan'
   | 'eggetarian';
 
-export type BudgetTierPKR =
-  | 'budget_under_3500' // < 3500 PKR/week
-  | 'standard_3500_7000' // 3500-7000 PKR/week
-  | 'premium_above_7000'; // > 7000 PKR/week
-
-export interface SurveyPreferencesBudget {
+export interface SurveyPreferences {
   dietPreference: DietPreference;
   dislikedFoods: string[];
-  /**
-   * No longer asked for. Kept optional so surveys saved before the budget
-   * question was removed still deserialise, and so the field is not silently
-   * dropped from a returning user's stored payload.
-   */
-  budgetTierPKR?: BudgetTierPKR;
 }
 
 export interface LifestyleSurveyPayload {
@@ -116,7 +105,11 @@ export interface LifestyleSurveyPayload {
   exercise: SurveyExercise;
   lifestyleDesi: SurveyLifestyleDesi;
   healthClinical: SurveyHealthClinical;
-  preferencesBudget: SurveyPreferencesBudget;
+  /**
+   * Named from when this step also asked for a weekly budget. The key stays
+   * because it is the shape already stored on devices and in the cloud.
+   */
+  preferencesBudget: SurveyPreferences;
 }
 
 export interface StepValidationResult {

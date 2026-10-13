@@ -51,11 +51,6 @@ function enqueueDurable(op: () => Promise<void>): Promise<void> {
   return durableQueue;
 }
 
-/** Resolves once every queued durable write has landed. */
-export function flushPresetWrites(): Promise<void> {
-  return durableQueue;
-}
-
 function readJson<T>(key: string, fallback: T): T {
   if (!hasStorage()) return fallback;
   try {
