@@ -6,6 +6,8 @@ import {
   resolvePlanFlowBack,
   resolveSurveyBack,
   shouldOpenSavedPlan,
+  resolveCoachDestination,
+  resolveWeeklyCheckInDestination,
 } from '../navigation/planFlowRouting.js';
 
 const GUEST = { hasActivePlan: false, hasSurveyData: false };
@@ -148,5 +150,40 @@ describe('Mode is never inherited from an earlier navigation', () => {
         expect(destination.planFlowMode, JSON.stringify(destination)).toBeDefined();
       }
     }
+  });
+});
+
+describe('Coach pill', () => {
+  it('opens the coach once a plan holds the real profile', () => {
+    expect(resolveCoachDestination(ESTABLISHED)).toEqual({ route: 'coach_chat' });
+  });
+
+  it('resumes the wizard rather than coaching a profile with no goal', () => {
+    expect(resolveCoachDestination(MID_ONBOARDING)).toEqual({
+      route: 'plan_flow',
+      planFlowMode: 'create',
+    });
+  });
+
+  it('sends a user with no answers to the survey instead of inventing a profile', () => {
+    // The coach used to assume male, 28, 75 kg, goal "lose" for this user.
+    expect(resolveCoachDestination(GUEST)).toEqual({ route: 'survey', surveyEntry: 'dashboard' });
+  });
+});
+
+describe('Weekly check-in', () => {
+  it('opens the check-in when a plan exists to recalibrate', () => {
+    expect(resolveWeeklyCheckInDestination(ESTABLISHED)).toEqual({ route: 'weekly_checkin' });
+  });
+
+  it('routes to the plan flow or survey when there is nothing to recalibrate', () => {
+    expect(resolveWeeklyCheckInDestination(MID_ONBOARDING)).toEqual({
+      route: 'plan_flow',
+      planFlowMode: 'create',
+    });
+    expect(resolveWeeklyCheckInDestination(GUEST)).toEqual({
+      route: 'survey',
+      surveyEntry: 'dashboard',
+    });
   });
 });

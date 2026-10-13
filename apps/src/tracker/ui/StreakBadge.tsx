@@ -7,23 +7,23 @@ import {
 } from 'react-native';
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
+import { useTranslation } from '../../i18n/index.js';
+import type { LoggingStreak } from '../streak.js';
 
-interface StreakBadgeProps {
-  streakDays?: number;
-  consistencyPct?: number;
-  completedDays?: number[]; // indices 0 to 6 (Mon to Sun)
-  currentDayIndex?: number;  // 0 to 6
-}
+// Computed by computeLoggingStreak; no defaults, so it can never show a streak
+// the user did not earn.
+type StreakBadgeProps = LoggingStreak;
 
-const DAY_LABELS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+const WEEKDAY_KEYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
 export const StreakBadge: React.FC<StreakBadgeProps> = ({
-  streakDays = 7,
-  consistencyPct = 94,
-  completedDays = [0, 1, 2, 3, 4, 5],
-  currentDayIndex = 6,
+  streakDays,
+  consistencyPct,
+  completedDays,
+  currentDayIndex,
 }) => {
   const { theme, isDark } = useTheme();
+  const { t } = useTranslation();
   const pulseAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
@@ -71,10 +71,10 @@ export const StreakBadge: React.FC<StreakBadgeProps> = ({
           </Animated.View>
           <View>
             <Text style={[styles.streakNumber, { color: theme.colors.textPrimary }]}>
-              {streakDays} Day Streak
+              {t('tracker.streak.days', { count: streakDays })}
             </Text>
             <Text style={[styles.consistencyText, { color: theme.colors.primaryLime }]}>
-              {consistencyPct}% Weekly Adherence
+              {t('tracker.streak.weekly', { pct: consistencyPct })}
             </Text>
           </View>
         </View>
@@ -82,7 +82,7 @@ export const StreakBadge: React.FC<StreakBadgeProps> = ({
 
       {/* Right: 7-Day Micro Dot Tracker */}
       <View style={styles.dotsRow}>
-        {DAY_LABELS.map((label, idx) => {
+        {WEEKDAY_KEYS.map((dayKey, idx) => {
           const isDone = completedDays.includes(idx);
           const isToday = idx === currentDayIndex;
 
@@ -95,7 +95,7 @@ export const StreakBadge: React.FC<StreakBadgeProps> = ({
                   isToday && [styles.dayLabelToday, { color: theme.colors.primaryLime }],
                 ]}
               >
-                {label}
+                {t(`common.weekdayShort.${dayKey}`)}
               </Text>
               <View
                 style={[

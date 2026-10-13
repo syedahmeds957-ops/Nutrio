@@ -1,5 +1,6 @@
 import { NormalizedFood, ServingUnit } from '@nutrio/food-db';
 import { DailyTrackerSummary, LoggedItem, MealSlot } from './types.js';
+import { localDateKey } from '../common/dateKey.js';
 
 export function calculateNutrientsForGrams(
   food: NormalizedFood,
@@ -37,7 +38,7 @@ export class TrackerEngine {
     this.targetFatGrams = targets.targetFatGrams;
     this.targetCarbGrams = targets.targetCarbGrams;
     this.targetWaterMl = targets.targetWaterMl ?? 2500;
-    this.date = targets.date ?? new Date().toISOString().split('T')[0];
+    this.date = targets.date ?? localDateKey();
   }
 
   public logItem(

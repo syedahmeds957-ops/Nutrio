@@ -2,6 +2,15 @@ import { supabase, isSupabaseConfigured } from '../supabase/client.js';
 import { getAuthSession } from '../auth/authStorage.js';
 import { resolveCurrentProfileId } from './userDataSync.js';
 import { LoggedItem } from '../tracker/types.js';
+import { errorMessage } from '../common/errors.js';
+
+/** The columns of core.activity_logs this module reads. */
+interface ActivityLogRow {
+  log_date: string;
+  region: 'PK' | 'SA';
+  items: unknown;
+  water_ml: number | null;
+}
 
 export interface DailyActivityRecord {
   date: string;
@@ -53,9 +62,9 @@ export async function pushDailyActivities(
     }
 
     return { success: true };
-  } catch (err: any) {
-    console.warn('[ActivitySync] Push exception:', err?.message);
-    return { success: false, error: err?.message };
+  } catch (err) {
+    console.warn('[ActivitySync] Push exception:', errorMessage(err));
+    return { success: false, error: errorMessage(err) };
   }
 }
 
@@ -89,14 +98,14 @@ export async function fetchActivityHistory(
       return [];
     }
 
-    return (data || []).map((row: any) => ({
+    return ((data ?? []) as ActivityLogRow[]).map((row) => ({
       date: row.log_date,
       region: row.region,
       items: Array.isArray(row.items) ? row.items : [],
       waterMl: row.water_ml || 0,
     }));
-  } catch (err: any) {
-    console.warn('[ActivitySync] History fetch exception:', err?.message);
+  } catch (err) {
+    console.warn('[ActivitySync] History fetch exception:', errorMessage(err));
     return [];
   }
 }

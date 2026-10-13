@@ -1,9 +1,26 @@
 {
   "app": {
     "checkin": {
-      "headline": "Metabolic Recalibration: Active Pace",
-      "keyAction": "Continue measuring cooking oil in curries and add a 15-minute brisk walk after dinner.",
-      "summary": "Your closed-loop clinical engine analyzes daily food intake and scale trends to continuously calibrate your true energy expenditure."
+      "needs_more_data": {
+        "headline": "Keep logging to unlock your recalibration",
+        "summary": "Your check-in needs at least 7 days with both a weigh-in and logged meals, counted since your last recalibration and within the last 4 weeks. Until then, your targets stay as they are.",
+        "keyAction": "Log every meal and weigh in each morning this week."
+      },
+      "under_logging": {
+        "headline": "Some meals may be missing from your log",
+        "summary": "Your logged intake is too low to explain a steady weight, which usually means meals or snacks went unrecorded. Your target stays the same rather than being cut.",
+        "keyAction": "Log chai, snacks and cooking oil too. They add up quickly."
+      },
+      "adjusted": {
+        "headline": "Your targets have been recalibrated",
+        "summary": "Your weight trend and logged intake show that your real daily energy use differs from the formula estimate. The change is capped so your targets move gradually.",
+        "keyAction": "Apply the new target and keep logging so next week stays accurate."
+      },
+      "on_track": {
+        "headline": "You're on track",
+        "summary": "Your weight trend matches what you are eating, so your current targets suit your goal.",
+        "keyAction": "Keep measuring cooking oil and stay consistent with your logging."
+      }
     },
     "checkinFallbackName": "Client",
     "coachFallbackName": "Friend",
@@ -158,17 +175,7 @@
       "PK": "Ask coach (e.g., how to handle 2 rotis at dinner?)…",
       "SA": "Ask coach (e.g., how do I balance a Kabsa?)…"
     },
-    "settings": {
-      "activeProvider": "Active provider",
-      "description": {
-        "PK": "Connect your OpenAI or Google Gemini API key. If left blank, Nutrio uses its calibrated built-in Pakistani nutrition intelligence.",
-        "SA": "Connect your OpenAI or Google Gemini API key. If left blank, Nutrio uses its calibrated built-in Saudi nutrition intelligence."
-      },
-      "geminiKey": "Google Gemini API key (optional)",
-      "openAiKey": "OpenAI API key (optional)",
-      "save": "Save AI settings",
-      "title": "AI engine settings"
-    },
+    "offlineAnswer": "Offline answer",
     "suggestedTopics": "Suggested topics",
     "title": "AI nutrition coach",
     "typing": "AI coach is typing…"
@@ -376,28 +383,6 @@
       "weeks": "{{count}} week",
       "weeks_other": "{{count}} weeks"
     },
-    "grocery": {
-      "allItems": "All items",
-      "backToPlan": "Back to plan",
-      "budgetTiers": {
-        "budget": {
-          "PK": "Budget (< Rs 3,500)",
-          "SA": "Budget (< 125 SAR)"
-        },
-        "premium": {
-          "PK": "Premium (> Rs 7,000)",
-          "SA": "Premium (> 250 SAR)"
-        },
-        "standard": {
-          "PK": "Standard (Rs 3,500 – 7,000)",
-          "SA": "Standard (125 – 250 SAR)"
-        }
-      },
-      "overBudget": "Over budget",
-      "title": "7-day grocery list",
-      "weeklyBudget": "Weekly budget: {{tier}}",
-      "withinBudget": "Within budget"
-    },
     "mealSlot": {
       "cuisine": {
         "PK": "Pakistani cuisine",
@@ -442,9 +427,7 @@
     },
     "weekly": {
       "dayMealPlan": "{{day}} meal plan",
-      "dayTargetKcal": "Target: {{kcal}} kcal",
-      "grocery": "Grocery",
-      "viewGroceryList": "View 7-day grocery list & budget"
+      "dayTargetKcal": "Target: {{kcal}} kcal"
     }
   },
   "survey": {
@@ -620,36 +603,9 @@
       "workActivityType": "Work activity type"
     },
     "preferences": {
-      "budgetLabel": {
-        "PK": "Weekly grocery budget target (PKR)",
-        "SA": "Monthly household grocery budget target (SAR)"
-      },
-      "budgets": {
-        "budget_under_3500": {
-          "range": {
-            "PK": "Under PKR 3,500 / week (seasonal sabzi, daal, eggs, local grains)",
-            "SA": "Under SAR 125 / week (seasonal produce, lentils, Tamees bread, Almarai dairy, eggs)"
-          },
-          "title": "Economical tier"
-        },
-        "premium_above_7000": {
-          "range": {
-            "PK": "Above PKR 7,000 / week (daily lean meats, fish, premium nuts, protein additions)",
-            "SA": "Above SAR 250 / week (daily fresh Naeemi lamb, fish, premium Ajwa/Sukari dates)"
-          },
-          "title": "High-protein / Premium tier"
-        },
-        "standard_3500_7000": {
-          "range": {
-            "PK": "PKR 3,500 – 7,000 / week (chicken, dairy, yogurt, mixed meat/veg)",
-            "SA": "SAR 125 – 250 / week (fresh Tanmiah poultry, laban, basmati rice, seasonal fruits & dates)"
-          },
-          "title": "Balanced household tier"
-        }
-      },
       "description": {
-        "PK": "Tailoring your nutritional plan to your dietary ethos and realistic household grocery expenditure in Pakistan.",
-        "SA": "Tailoring your nutritional plan to your dietary ethos and realistic household grocery expenditure in Saudi Arabia."
+        "PK": "Tailoring your nutritional plan to how you eat in Pakistan.",
+        "SA": "Tailoring your nutritional plan to how you eat in Saudi Arabia."
       },
       "dietaryPreference": "Dietary preference",
       "diets": {
@@ -700,9 +656,9 @@
         "PK": "Work & daily activity",
         "SA": "Work & daily activity"
       },
-      "preferences_budget": {
-        "PK": "Diet & household budget",
-        "SA": "Diet & budget"
+      "preferences": {
+        "PK": "Diet preferences",
+        "SA": "Diet preferences"
       }
     }
   },
@@ -831,7 +787,8 @@
       "todaysMeals": "Today's logged meals",
       "toggleRegion": "Toggle active region",
       "viewMealPlan": "View 7-day meal plan",
-      "waterGoal": "Water goal"
+      "waterGoal": "Water goal",
+      "weeklyCheckIn": "Weekly check-in"
     },
     "diary": {
       "backToDashboard": "Back to dashboard",
@@ -998,23 +955,11 @@
       "addGlass": "+250 ml (Glass)",
       "dailyTarget": "Target: {{amount}} ml / day",
       "title": "Water Hydration"
-    }
-  },
-  "vision": {
-    "plate": {
-      "clinicalBand": "Clinical band:",
-      "confidence": "confidence",
-      "confidenceLevels": {
-        "high": "HIGH",
-        "low": "LOW",
-        "medium": "MEDIUM"
-      },
-      "cookingOil": "Cooking oil",
-      "estimatedEnergy": "Estimated energy",
-      "eyebrow": "AI multimodal meal scan",
-      "ingredients": "Plate ingredient ({{count}})",
-      "ingredients_other": "Plate ingredients ({{count}})",
-      "logToDiary": "Log meal to diary (~{{value}} kcal)"
+    },
+    "streak": {
+      "days_one": "{{count}} day streak",
+      "days_other": "{{count}} day streak",
+      "weekly": "{{pct}}% of days logged this week"
     }
   },
   "weight": {

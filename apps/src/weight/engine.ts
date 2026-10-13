@@ -1,4 +1,5 @@
 import {
+  AdaptiveTDEEInput,
   calculateAdaptiveTDEE,
   calculateEWMA,
   EWMA_ALPHA,
@@ -10,6 +11,7 @@ import {
   WeightTrendPoint,
   WeightTrendSummary,
 } from './types.js';
+import { daysBetweenKeys, localDateKey } from '../common/dateKey.js';
 
 export function validateWeighIn(weightKg: number): {
   isValid: boolean;
@@ -25,6 +27,30 @@ export function validateWeighIn(weightKg: number): {
     };
   }
   return { isValid: true };
+}
+
+/**
+ * The adaptive TDEE series: only days with both a weigh-in and a food log,
+ * each positioned by its calendar day. Pairing by list position matched one
+ * day's weight with another day's food, and counting logs instead of days made
+ * a change spread over weeks look days long.
+ */
+export function pairDailyLogs(
+  weighIns: WeighInEntry[],
+  intakeLogs: DailyIntakeLog[]
+): Pick<AdaptiveTDEEInput, 'dailyWeighInsKg' | 'dailyIntakeKcal'> {
+  const kcalByDate = new Map(intakeLogs.map((log) => [log.date, log.kcal]));
+  const paired = weighIns
+    .filter((w) => kcalByDate.has(w.date))
+    .sort((a, b) => a.date.localeCompare(b.date));
+  if (paired.length === 0) return { dailyWeighInsKg: [], dailyIntakeKcal: [] };
+
+  const first = paired[0].date;
+  const dayIndex = (date: string) => daysBetweenKeys(first, date) + 1;
+  return {
+    dailyWeighInsKg: paired.map((w) => ({ dayIndex: dayIndex(w.date), weightKg: w.weightKg })),
+    dailyIntakeKcal: paired.map((w) => ({ dayIndex: dayIndex(w.date), kcal: kcalByDate.get(w.date)! })),
+  };
 }
 
 export class WeightTrendEngine {
@@ -49,7 +75,7 @@ export class WeightTrendEngine {
     date?: string,
     notes?: string
   ): WeighInEntry {
-    const entryDate = date ?? new Date().toISOString().split('T')[0];
+    const entryDate = date ?? localDateKey();
     const validation = validateWeighIn(weightKg);
     if (!validation.isValid) {
       throw new Error(validation.error);
@@ -74,7 +100,7 @@ export class WeightTrendEngine {
   }
 
   public logIntake(kcal: number, date?: string): DailyIntakeLog {
-    const entryDate = date ?? new Date().toISOString().split('T')[0];
+    const entryDate = date ?? localDateKey();
     this.intakeLogs = this.intakeLogs.filter((i) => i.date !== entryDate);
     const newIntake: DailyIntakeLog = { date: entryDate, kcal: Math.round(kcal) };
     this.intakeLogs.push(newIntake);
@@ -133,14 +159,7 @@ export class WeightTrendEngine {
     const adaptiveTDEE = calculateAdaptiveTDEE({
       formulaTDEE: this.formulaTDEE,
       bmr: this.bmr,
-      dailyWeighInsKg: this.weighIns.map((w, idx) => ({
-        dayIndex: idx + 1,
-        weightKg: w.weightKg,
-      })),
-      dailyIntakeKcal: this.intakeLogs.map((i, idx) => ({
-        dayIndex: idx + 1,
-        kcal: i.kcal,
-      })),
+      ...pairDailyLogs(this.weighIns, this.intakeLogs),
     });
 
     return {

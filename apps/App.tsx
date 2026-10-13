@@ -21,6 +21,7 @@ import {
   savePersistedSurvey,
   hydratePersistedSurvey,
   releaseSurveyCache,
+  stripRetiredSurveyFields,
 } from './src/survey/index.js';
 import { OnboardingSurveyScreen } from './src/survey/ui/index.js';
 import { ComputedUserPlan, PlanUserContext } from './src/plan/index.js';
@@ -30,6 +31,8 @@ import {
   resolveTargetsDestination,
   resolveWeightTrackerDestination,
   resolveMealPlanDestination,
+  resolveCoachDestination,
+  resolveWeeklyCheckInDestination,
   resolvePlanFlowBack,
   resolveSurveyBack,
   shouldOpenSavedPlan,
@@ -37,11 +40,19 @@ import {
   type SurveyEntry,
 } from './src/navigation/planFlowRouting.js';
 import { WeightTrackerScreen } from './src/weight/ui/index.js';
-import { hydrateWeighIns, releaseWeightCache } from './src/weight/weightStorage.js';
+import { hydrateWeighIns, loadWeighIns, releaseWeightCache } from './src/weight/weightStorage.js';
 import { buildWeighInSeed, collectIntakeLogs } from './src/weight/weightSeed.js';
 import { CoachChatScreen, WeeklyCheckInScreen } from './src/coach/index.js';
+import { buildCoachContext } from './src/coach/coachContext.js';
+import { buildWeeklyCheckIn } from './src/coach/weeklyCheckIn.js';
+import { pickRestoredPlan } from './src/plan/restoredPlan.js';
 import { AuthScreen, getAuthSession, clearAuthSession, restoreSession, markSurveyCompleted } from './src/auth/index.js';
-import { syncCompleteOnboarding, hydrateUserDataFromCloud } from './src/sync/userDataSync.js';
+import {
+  syncCompleteOnboarding,
+  syncNutritionTargets,
+  hydrateUserDataFromCloud,
+  resolveCurrentProfileId,
+} from './src/sync/userDataSync.js';
 import {
   loadPersistedPlan,
   savePersistedPlan,
@@ -57,6 +68,8 @@ import {
   releasePresetCache,
 } from './src/tracker/mealPresets.js';
 import { fetchActivityHistory } from './src/sync/activitySync.js';
+import { purgeLegacyAiKeys } from './src/ai/ai-service.js';
+import { addDaysToKey, localDateKey } from './src/common/dateKey.js';
 
 import { ThemeProvider, useTheme } from './src/theme.js';
 import { RegionProvider, useRegion } from './src/common/region/index.js';
@@ -84,8 +97,24 @@ installFontPatch();
 // would re-resolve every asset per frame for no gain.
 const APP_FONTS = appFontAssets();
 
+// Earlier builds let users paste OpenAI/Gemini keys, saved in plain text on the
+// device. AI now runs only through edge functions, so those copies are erased.
+purgeLegacyAiKeys();
+
+/**
+ * A catch handler that falls back without blocking the app but still logs why.
+ * Restores and background saves must never strand the user on the splash, yet
+ * a silent fallback is how sync and storage bugs went unnoticed.
+ */
+function recoverWith<T>(step: string, fallback: T) {
+  return (err: unknown): T => {
+    console.warn(`[NutrioApp] ${step} failed:`, err instanceof Error ? err.message : err);
+    return fallback;
+  };
+}
+
 // Keep the native splash (app logo) up until the session restore finishes.
-SplashScreen.preventAutoHideAsync().catch(() => {});
+SplashScreen.preventAutoHideAsync().catch(recoverWith('Holding the splash screen', undefined));
 SplashScreen.setOptions({ duration: 300, fade: true });
 
 function NutrioAppContent() {
@@ -164,25 +193,23 @@ function NutrioAppContent() {
   // Pulls the signed-in user's activity history down and seeds local storage,
   // so a re-login or a new device shows the days they already logged.
   const restoreActivityHistory = async () => {
-    const remote = await fetchActivityHistory().catch(() => []);
+    const remote = await fetchActivityHistory().catch(recoverWith('Fetching activity history', []));
     if (remote.length > 0) {
       primeActivitiesFromRemote(remote);
     }
     // Cover today and yesterday from durable native storage for offline days
     // the backend has not seen yet.
-    const today = new Date();
-    const yesterday = new Date(today.getTime() - 86400000);
-    await hydrateActivityStorage([
-      today.toISOString().split('T')[0],
-      yesterday.toISOString().split('T')[0],
-    ]).catch(() => {});
-    await hydrateHistoryStartDate().catch(() => {});
+    const today = localDateKey();
+    await hydrateActivityStorage([today, addDaysToKey(today, -1)]).catch(
+      recoverWith('Restoring recent diary days', undefined)
+    );
+    await hydrateHistoryStartDate().catch(recoverWith('Restoring history start date', undefined));
     // Saved meals and most-logged counts are read synchronously during render,
     // so they have to be in memory before the hub first opens.
     await Promise.all([
-      hydrateMealPresets().catch(() => {}),
-      hydrateFoodUsage().catch(() => {}),
-      hydrateWeighIns().catch(() => {}),
+      hydrateMealPresets().catch(recoverWith('Restoring saved meals', undefined)),
+      hydrateFoodUsage().catch(recoverWith('Restoring food usage', undefined)),
+      hydrateWeighIns().catch(recoverWith('Restoring weigh-ins', undefined)),
     ]);
   };
 
@@ -190,11 +217,12 @@ function NutrioAppContent() {
   // the backend is reachable and from durable on-device storage otherwise, and
   // reports whether onboarding still needs to run.
   const restoreUserData = async (): Promise<{ plan: ComputedUserPlan | null }> => {
-    const hydration = await hydrateUserDataFromCloud().catch(() => null);
+    const hydration = await hydrateUserDataFromCloud().catch(recoverWith('Restoring cloud data', null));
     await restoreActivityHistory();
 
-    const restoredSurvey =
-      hydration?.surveyPayload || (await hydratePersistedSurvey().catch(() => null));
+    const storedSurvey =
+      hydration?.surveyPayload || (await hydratePersistedSurvey().catch(recoverWith('Restoring saved survey', null)));
+    const restoredSurvey = storedSurvey ? stripRetiredSurveyFields(storedSurvey) : null;
     if (restoredSurvey) {
       setSurveyData({
         payload: restoredSurvey,
@@ -203,10 +231,10 @@ function NutrioAppContent() {
       savePersistedSurvey(restoredSurvey);
     }
 
-    const restoredPlan =
-      hydration?.computedPlan ||
-      (await hydratePersistedPlan().catch(() => null)) ||
+    const localPlan =
+      (await hydratePersistedPlan().catch(recoverWith('Restoring saved plan', null))) ||
       loadPersistedPlan();
+    const restoredPlan = pickRestoredPlan(hydration?.computedPlan, localPlan);
     if (restoredPlan) {
       setActivePlan(restoredPlan);
       savePersistedPlan(restoredPlan);
@@ -232,7 +260,7 @@ function NutrioAppContent() {
           }
         }
       })
-      .catch(() => {})
+      .catch(recoverWith('Restoring the session', undefined))
       .finally(() => {
         if (isMounted) {
           setIsBootstrapping(false);
@@ -365,6 +393,31 @@ function NutrioAppContent() {
     </View>
   );
 
+  // Sign-in, shared by the auth route and the fallback for unrenderable routes.
+  const renderAuth = () =>
+    wrapScreen(
+      <AuthScreen
+        initialMode="login"
+        onAuthSuccess={async (session) => {
+          setIsGuest(false);
+          const { plan } = await restoreUserData();
+          if (plan || session.user.surveyCompleted) {
+            // Returning user: their targets and answers are already on record,
+            // so onboarding must not run again.
+            setAppState('active_tracker');
+          } else {
+            // New user without a plan: the survey computes real targets (or
+            // they can tap Skip for Now to track without targets).
+            applyDestination({ route: 'survey', surveyEntry: 'onboarding' });
+          }
+        }}
+        onExploreGuest={() => {
+          setIsGuest(true);
+          setAppState('active_tracker');
+        }}
+      />
+    );
+
   // Startup Splash Screen during session restore & telemetry synchronization
   if (isBootstrapping || isWaitingForFonts) {
     const accentColor = theme.colors.primaryLime;
@@ -395,28 +448,7 @@ function NutrioAppContent() {
 
   // 2. Authentication Screen (Sign In / Register - Primary Entry)
   if (appState === 'auth') {
-    return wrapScreen(
-      <AuthScreen
-        initialMode="login"
-        onAuthSuccess={async (session) => {
-          setIsGuest(false);
-          const { plan } = await restoreUserData();
-          if (plan || session.user.surveyCompleted) {
-            // Returning user: their targets and answers are already on record,
-            // so onboarding must not run again.
-            setAppState('active_tracker');
-          } else {
-            // New user without calculated plan: guide them to survey to calculate real targets
-            // (or user can tap Skip for Now to track without targets)
-            applyDestination({ route: 'survey', surveyEntry: 'onboarding' });
-          }
-        }}
-        onExploreGuest={() => {
-          setIsGuest(true);
-          setAppState('active_tracker');
-        }}
-      />
-    );
+    return renderAuth();
   }
 
   // 3. Survey Flow (Onboarding with Skip for Now option)
@@ -429,13 +461,13 @@ function NutrioAppContent() {
           // Recorded here, not only once a plan is accepted: the answers are in
           // and the user must never be asked for them a second time, even if
           // they leave before the plan screen.
-          markSurveyCompleted().catch(() => {});
+          markSurveyCompleted().catch(recoverWith('Recording survey completion', undefined));
           setPlanFlowMode('create');
           setAppState('plan_flow');
         }}
         onSkip={() => {
           // Skipping survey marks as completed/bypassed and routes directly to user dashboard
-          markSurveyCompleted().catch(() => {});
+          markSurveyCompleted().catch(recoverWith('Recording survey completion', undefined));
           setAppState('active_tracker');
         }}
         onCancel={goBack}
@@ -471,7 +503,7 @@ function NutrioAppContent() {
         onPlanAccepted={(computedPlan) => {
           setActivePlan(computedPlan);
           savePersistedPlan(computedPlan);
-          markSurveyCompleted().catch(() => {});
+          markSurveyCompleted().catch(recoverWith('Recording survey completion', undefined));
           if (surveyData) {
             syncCompleteOnboarding(surveyData.payload, computedPlan).catch((err) => {
               console.warn('[NutrioApp] Background onboarding sync error:', err);
@@ -521,7 +553,7 @@ function NutrioAppContent() {
           releasePresetCache();
           releaseWeightCache();
           releaseSurveyCache();
-          clearAuthSession().catch(() => {});
+          clearAuthSession().catch(recoverWith('Signing out', undefined));
           setIsGuest(false);
           setActivePlan(null);
           setSurveyData(null);
@@ -540,90 +572,59 @@ function NutrioAppContent() {
             })
           )
         }
-        onOpenCoachChat={() => setAppState('coach_chat')}
+        onOpenCoachChat={() => applyDestination(resolveCoachDestination(routingInput))}
+        onOpenWeeklyCheckIn={() =>
+          applyDestination(resolveWeeklyCheckInDestination(routingInput))
+        }
         // Still reachable from the profile sheet, just not from the nav row.
         onOpenSurvey={() => applyDestination({ route: 'survey', surveyEntry: 'dashboard' })}
       />
     );
   }
 
-  // 4. AI Nutritionist Chat Screen (Dynamic from user activity)
-  if (appState === 'coach_chat') {
-    const sessionUser = getAuthSession()?.user;
-    const totalConsumed = trackerSummary ? trackerSummary.totalCaloriesConsumed : 0;
-    const remainingCals = trackerSummary
-      ? trackerSummary.remainingCalories
-      : (activePlan?.targetResult.kcalTarget || 2000);
-    const loggedFoodNames = trackerSummary && trackerSummary.items.length > 0
-      ? trackerSummary.items.map((i) => i.foodName)
-      : [];
-
-    const coachContext = {
-      displayName: sessionUser?.name || t('app.coachFallbackName'),
-      sex: (surveyData?.payload.basics.sex as any) || 'male',
-      ageYears: surveyData?.payload.basics.ageYears || 28,
-      weightKg: activePlan?.userContext.weightKg || 75,
-      goal: (activePlan?.goalSelection.goal as any) || 'lose',
-      region: activeRegion,
-      targets: {
-        kcalTarget: activePlan?.targetResult.kcalTarget || 2000,
-        proteinGrams: activePlan?.macros.proteinGrams || 140,
-        fatGrams: activePlan?.macros.fatGrams || 55,
-        carbGrams: activePlan?.macros.carbGrams || 235,
-        waterMl: activePlan?.macros.waterMl || 3000,
-      },
-      todaySummary: {
-        caloriesConsumed: totalConsumed,
-        proteinConsumed: trackerSummary ? trackerSummary.totalProteinConsumed : 0,
-        fatConsumed: trackerSummary ? trackerSummary.totalFatConsumed : 0,
-        carbConsumed: trackerSummary ? trackerSummary.totalCarbConsumed : 0,
-        remainingCalories: remainingCals,
-        foodsLoggedToday: loggedFoodNames,
-      },
-      medicalFlags: surveyData?.payload.healthClinical.medicalConditions || [],
-      dietaryPreferences: [surveyData?.payload.preferencesBudget?.dietPreference || 'halal_omnivore'],
-    };
-
+  // AI Nutritionist Chat. Reached only with an accepted plan (see
+  // resolveCoachDestination), which is the source of the coach's profile.
+  if (appState === 'coach_chat' && activePlan) {
     return wrapScreen(
       <CoachChatScreen
-        context={coachContext}
+        context={buildCoachContext({
+          plan: activePlan,
+          survey: surveyData?.payload,
+          summary: trackerSummary,
+          displayName: getAuthSession()?.user?.name || t('app.coachFallbackName'),
+          region: activeRegion,
+        })}
         onBack={goBack}
       />
     );
   }
 
-  // 5. Weekly Adaptive Check-In Screen (Dynamic from user activity)
-  if (appState === 'weekly_checkin') {
-    const hasLogs = trackerSummary && trackerSummary.items.length > 0;
-    const daysLogged = hasLogs ? 1 : 0;
-    const meanDailyIntake = hasLogs ? trackerSummary!.totalCaloriesConsumed : 0;
-
-    const dynamicMetrics = {
-      daysLogged: daysLogged,
-      meanDailyIntake: meanDailyIntake || (activePlan?.targetResult.kcalTarget || 1800),
-      currentEWMAWeightKg: activePlan?.userContext.weightKg || 75,
-      weightDeltaKg: 0,
-      adherenceRatePct: daysLogged > 0 ? 100 : 0,
-      oldTDEE: activePlan?.userContext.tdee || 2300,
-      newTDEE: activePlan?.userContext.tdee || 2300,
-      tdeeDelta: 0,
-      oldKcalTarget: activePlan?.targetResult.kcalTarget || 1800,
-      newKcalTarget: activePlan?.targetResult.kcalTarget || 1800,
-      targetDelta: 0,
-    };
-
-    const dynamicNarrative = {
-      headline: t('app.checkin.headline'),
-      summaryText: t('app.checkin.summary'),
-      keyActionLever: t('app.checkin.keyAction'),
-    };
+  // Weekly adaptive check-in, computed from the stored diary and weigh-ins.
+  if (appState === 'weekly_checkin' && activePlan) {
+    const checkIn = buildWeeklyCheckIn({
+      plan: activePlan,
+      weighIns: loadWeighIns(),
+      intakeLogs: collectIntakeLogs(activeRegion),
+    });
 
     return wrapScreen(
       <WeeklyCheckInScreen
         displayName={getAuthSession()?.user?.name || t('app.checkinFallbackName')}
-        metrics={dynamicMetrics}
-        narrative={dynamicNarrative}
-        onAcceptNewTargets={(_newTarget) => {
+        metrics={checkIn.metrics}
+        narrative={{
+          headline: t(`app.checkin.${checkIn.status}.headline`),
+          summaryText: t(`app.checkin.${checkIn.status}.summary`),
+          keyActionLever: t(`app.checkin.${checkIn.status}.keyAction`),
+        }}
+        onAcceptNewTargets={() => {
+          const accepted = checkIn.proposedPlan;
+          setActivePlan(accepted);
+          savePersistedPlan(accepted);
+          resolveCurrentProfileId()
+            .then((profileId) => (profileId ? syncNutritionTargets(profileId, accepted) : false))
+            .catch((err) => {
+              console.warn('[NutrioApp] Syncing recalibrated targets failed:', err);
+            });
           setAppState('active_tracker');
         }}
         onBack={goBack}
@@ -674,21 +675,9 @@ function NutrioAppContent() {
     );
   }
 
-  // 6. Modern Default Landing Fallback (Direct to Login)
-  return wrapScreen(
-    <AuthScreen
-      initialMode="login"
-      onAuthSuccess={async (session) => {
-        setIsGuest(false);
-        const { plan } = await restoreUserData();
-        setAppState(plan || session.user.surveyCompleted ? 'active_tracker' : 'survey');
-      }}
-      onExploreGuest={() => {
-        setIsGuest(true);
-        setAppState('active_tracker');
-      }}
-    />
-  );
+  // A route whose data is missing (say, the weight tracker with no plan) lands
+  // on sign-in, the same screen and behaviour as the auth route itself.
+  return renderAuth();
 }
 
 export default function App() {

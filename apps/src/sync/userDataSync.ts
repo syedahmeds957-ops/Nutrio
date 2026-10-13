@@ -2,6 +2,20 @@ import { supabase, isSupabaseConfigured } from '../supabase/client.js';
 import { getAuthSession } from '../auth/authStorage.js';
 import { LifestyleSurveyPayload } from '../survey/types.js';
 import { ComputedUserPlan } from '../plan/types.js';
+import { buildTargetsRow, planFromTargetsRow } from './targetsRow.js';
+import { errorMessage } from '../common/errors.js';
+
+/** One row of core.body_metrics. */
+export interface BodyMetricRow {
+  id: string;
+  user_id: string;
+  measured_at: string;
+  weight_kg: number;
+  bodyfat_pct: number | null;
+  waist_cm: number | null;
+  hip_cm: number | null;
+  source: string;
+}
 
 export interface SyncResult {
   success: boolean;
@@ -15,7 +29,7 @@ export interface HydrationResult {
   profileId?: string;
   computedPlan?: ComputedUserPlan | null;
   surveyPayload?: LifestyleSurveyPayload | null;
-  bodyMetrics?: any[];
+  bodyMetrics?: BodyMetricRow[];
   error?: string;
   isMock?: boolean;
 }
@@ -47,8 +61,8 @@ export async function resolveCurrentProfileId(): Promise<string | null> {
     }
 
     return data?.id ?? null;
-  } catch (err: any) {
-    console.warn('[UserDataSync] Exception resolving profile:', err?.message);
+  } catch (err) {
+    console.warn('[UserDataSync] Exception resolving profile:', errorMessage(err));
     return null;
   }
 }
@@ -84,8 +98,8 @@ export async function syncLifestyleSurvey(
       return false;
     }
     return true;
-  } catch (err: any) {
-    console.warn('[UserDataSync] Exception saving survey:', err?.message);
+  } catch (err) {
+    console.warn('[UserDataSync] Exception saving survey:', errorMessage(err));
     return false;
   }
 }
@@ -121,8 +135,8 @@ export async function syncBodyMetrics(
       return false;
     }
     return true;
-  } catch (err: any) {
-    console.warn('[UserDataSync] Exception saving body metrics:', err?.message);
+  } catch (err) {
+    console.warn('[UserDataSync] Exception saving body metrics:', errorMessage(err));
     return false;
   }
 }
@@ -139,23 +153,7 @@ export async function syncNutritionTargets(
   }
 
   try {
-    const targetPayload = {
-      user_id: profileId,
-      effective_from: new Date().toISOString(),
-      bmr: Math.round(plan.userContext.bmr),
-      tdee_formula: Math.round(plan.userContext.tdee),
-      goal: plan.goalSelection.goal,
-      rate_kg_per_week: plan.goalSelection.targetRateKgPerWeek,
-      kcal_target: Math.round(plan.targetResult.kcalTarget),
-      protein_g: Math.round(plan.macros.proteinGrams),
-      carb_g: Math.round(plan.macros.carbGrams),
-      fat_g: Math.round(plan.macros.fatGrams),
-      fibre_g: Math.round(plan.macros.fibreGrams ?? 25),
-      water_ml: Math.round(plan.macros.waterMl ?? 2500),
-      method: 'rule',
-      generated_by: 'rule',
-      safety_flags: (plan.targetResult as any).safetyFlags || [],
-    };
+    const targetPayload = buildTargetsRow(profileId, plan);
 
     const { error } = await supabase
       .schema('core')
@@ -167,8 +165,8 @@ export async function syncNutritionTargets(
       return false;
     }
     return true;
-  } catch (err: any) {
-    console.warn('[UserDataSync] Exception saving targets:', err?.message);
+  } catch (err) {
+    console.warn('[UserDataSync] Exception saving targets:', errorMessage(err));
     return false;
   }
 }
@@ -223,8 +221,8 @@ export async function syncCompleteOnboarding(
     await supabase.auth.updateUser({
       data: { survey_completed: true },
     });
-  } catch (err: any) {
-    console.warn('[UserDataSync] Error updating survey_completed metadata:', err?.message);
+  } catch (err) {
+    console.warn('[UserDataSync] Error updating survey_completed metadata:', errorMessage(err));
   }
 
   return {
@@ -236,7 +234,7 @@ export async function syncCompleteOnboarding(
 /**
  * Fetches the user's latest nutrition targets from core.targets.
  */
-export async function fetchUserTargets(profileId: string): Promise<any | null> {
+export async function fetchUserTargets(profileId: string): Promise<unknown | null> {
   if (!isSupabaseConfigured()) {
     return null;
   }
@@ -255,8 +253,8 @@ export async function fetchUserTargets(profileId: string): Promise<any | null> {
       return null;
     }
     return data ?? null;
-  } catch (err: any) {
-    console.warn('[UserDataSync] Exception fetching targets:', err?.message);
+  } catch (err) {
+    console.warn('[UserDataSync] Exception fetching targets:', errorMessage(err));
     return null;
   }
 }
@@ -283,8 +281,8 @@ export async function fetchLatestLifestyleSurvey(profileId: string): Promise<Lif
       return null;
     }
     return (data?.payload as LifestyleSurveyPayload) ?? null;
-  } catch (err: any) {
-    console.warn('[UserDataSync] Exception fetching lifestyle survey:', err?.message);
+  } catch (err) {
+    console.warn('[UserDataSync] Exception fetching lifestyle survey:', errorMessage(err));
     return null;
   }
 }
@@ -292,7 +290,7 @@ export async function fetchLatestLifestyleSurvey(profileId: string): Promise<Lif
 /**
  * Fetches the user's recorded body metrics history from core.body_metrics.
  */
-export async function fetchBodyMetricsHistory(profileId: string, limit: number = 30): Promise<any[]> {
+export async function fetchBodyMetricsHistory(profileId: string, limit: number = 30): Promise<BodyMetricRow[]> {
   if (!isSupabaseConfigured()) {
     return [];
   }
@@ -310,8 +308,8 @@ export async function fetchBodyMetricsHistory(profileId: string, limit: number =
       return [];
     }
     return data ?? [];
-  } catch (err: any) {
-    console.warn('[UserDataSync] Exception fetching body metrics:', err?.message);
+  } catch (err) {
+    console.warn('[UserDataSync] Exception fetching body metrics:', errorMessage(err));
     return [];
   }
 }
@@ -350,50 +348,8 @@ export async function hydrateUserDataFromCloud(profileIdParam?: string): Promise
     fetchBodyMetricsHistory(profileId, 30),
   ]);
 
-  let computedPlan: ComputedUserPlan | null = null;
-  if (targetsRow) {
-    computedPlan = {
-      userContext: {
-        weightKg: surveyPayload?.basics?.weightKg ?? 70,
-        heightCm: surveyPayload?.basics?.heightCm ?? 170,
-        ageYears: surveyPayload?.basics?.ageYears ?? 25,
-        sex: surveyPayload?.basics?.sex ?? 'male',
-        bmr: targetsRow.bmr || 1600,
-        tdee: targetsRow.tdee_formula || 2100,
-        bodyFatPct: surveyPayload?.basics?.bodyFatPct,
-        isPregnantOrBreastfeeding: surveyPayload?.healthClinical?.isPregnantOrBreastfeeding ?? false,
-        medicalConditions: surveyPayload?.healthClinical?.medicalConditions ?? [],
-        chaiSugarKcalPerDay: surveyPayload?.lifestyleDesi?.chaiWithSugarCupsPerDay ? surveyPayload.lifestyleDesi.chaiWithSugarCupsPerDay * 60 : 120,
-        weeklyChaiSugarKcal: 840,
-        isNightShift: surveyPayload?.occupational?.shiftPattern === 'night_shift',
-        dailySittingHours: surveyPayload?.occupational?.dailySittingHours ?? 8,
-      },
-      goalSelection: {
-        goal: targetsRow.goal || 'maintain',
-        targetRateKgPerWeek: Number(targetsRow.rate_kg_per_week) || 0,
-      },
-      targetResult: {
-        kcalTarget: targetsRow.kcal_target,
-        deficitKcal: targetsRow.tdee_formula ? targetsRow.tdee_formula - targetsRow.kcal_target : 0,
-        isSafe: true,
-        safetyFlags: targetsRow.safety_flags || [],
-      } as any,
-      macros: {
-        proteinGrams: targetsRow.protein_g,
-        fatGrams: targetsRow.fat_g,
-        carbGrams: targetsRow.carb_g,
-        fiberGrams: targetsRow.fibre_g || 25,
-        waterMl: targetsRow.water_ml || 2500,
-      } as any,
-      projection: {
-        currentWeightKg: surveyPayload?.basics?.weightKg ?? 70,
-        targetWeightKg: surveyPayload?.basics?.weightKg ?? 70,
-        weeklyRateKg: Number(targetsRow.rate_kg_per_week) || 0,
-        isRealistic: true,
-        pacingAdvice: 'Target loaded from your cloud profile.',
-      },
-    };
-  }
+  // The stored plan or nothing: the local copy or the survey covers the rest.
+  const computedPlan = planFromTargetsRow(targetsRow);
 
   return {
     success: true,

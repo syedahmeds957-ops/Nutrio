@@ -6,6 +6,7 @@ describe('StreakBadge Component', () => {
   it('instantiates StreakBadge with streak count and active days', () => {
     const element = React.createElement(StreakBadge, {
       streakDays: 7,
+      consistencyPct: 86,
       completedDays: [0, 1, 2, 3, 4, 5],
       currentDayIndex: 6,
     });

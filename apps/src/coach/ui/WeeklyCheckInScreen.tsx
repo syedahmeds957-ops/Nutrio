@@ -405,11 +405,15 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
             styles.acceptBtn,
             { backgroundColor: theme.colors.primaryLime },
           ]}
-          onPress={() => onAcceptNewTargets(metrics.newKcalTarget)}
+          // With no change to apply, offering to "apply" the same number would
+          // read as an adjustment that isn't happening.
+          onPress={() => (isTargetChanged ? onAcceptNewTargets(metrics.newKcalTarget) : onBack())}
           activeOpacity={0.85}
         >
           <Text style={[styles.acceptBtnText, { color: theme.colors.limeText }]}>
-            {t('checkin.applyNewTarget', { value: metrics.newKcalTarget })}
+            {isTargetChanged
+              ? t('checkin.applyNewTarget', { value: metrics.newKcalTarget })
+              : t('checkin.dashboard')}
           </Text>
         </TouchableOpacity>
       </ScrollView>

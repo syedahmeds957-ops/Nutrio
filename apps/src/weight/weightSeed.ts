@@ -1,6 +1,7 @@
 import { DailyIntakeLog, WeighInEntry } from './types.js';
 import { loadWeighIns } from './weightStorage.js';
 import { getOrInitHistoryStartDate, loadDailyActivities } from '../tracker/activityStorage.js';
+import { localDateKey } from '../common/dateKey.js';
 
 /** The adaptive TDEE calibrates over 28 days, so there is no point reading more. */
 export const CALIBRATION_WINDOW_DAYS = 28;
@@ -15,7 +16,7 @@ export const CALIBRATION_WINDOW_DAYS = 28;
  */
 export function buildWeighInSeed(
   surveyWeightKg: number,
-  today: string = new Date().toISOString().split('T')[0]
+  today: string = localDateKey()
 ): WeighInEntry[] {
   const stored = loadWeighIns();
   if (stored.length > 0) return stored;
@@ -57,7 +58,7 @@ export function datesInRange(start: string, end: string, maxDays: number): strin
  */
 export function collectIntakeLogs(
   region: 'PK' | 'SA',
-  today: string = new Date().toISOString().split('T')[0]
+  today: string = localDateKey()
 ): DailyIntakeLog[] {
   const start = getOrInitHistoryStartDate();
   const logs: DailyIntakeLog[] = [];

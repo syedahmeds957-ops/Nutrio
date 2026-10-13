@@ -17,7 +17,9 @@ export type AppRoute =
   | 'plan_flow'
   | 'active_tracker'
   | 'weight_tracker'
-  | 'weekly_plan';
+  | 'weekly_plan'
+  | 'coach_chat'
+  | 'weekly_checkin';
 
 /**
  * Why `plan_flow` is open.
@@ -81,6 +83,27 @@ export function resolveMealPlanDestination(
   input: PlanRoutingInput & { hasDietPreference: boolean }
 ): PlanDestination {
   if (input.hasActivePlan && input.hasDietPreference) return { route: 'weekly_plan' };
+  if (input.hasSurveyData) return { route: 'plan_flow', planFlowMode: 'create' };
+  return { route: 'survey', surveyEntry: 'dashboard' };
+}
+
+/**
+ * The dashboard's "Coach" pill. The coach advises on a real profile (sex, age,
+ * weight, goal, targets), which only an accepted plan carries. Without one it
+ * used to assume a 28-year-old, 75 kg man trying to lose weight.
+ */
+export function resolveCoachDestination(input: PlanRoutingInput): PlanDestination {
+  if (input.hasActivePlan) return { route: 'coach_chat' };
+  if (input.hasSurveyData) return { route: 'plan_flow', planFlowMode: 'create' };
+  return { route: 'survey', surveyEntry: 'dashboard' };
+}
+
+/**
+ * The weekly check-in recalibrates an accepted plan from logged intake and
+ * weigh-ins, so it needs that plan to exist.
+ */
+export function resolveWeeklyCheckInDestination(input: PlanRoutingInput): PlanDestination {
+  if (input.hasActivePlan) return { route: 'weekly_checkin' };
   if (input.hasSurveyData) return { route: 'plan_flow', planFlowMode: 'create' };
   return { route: 'survey', surveyEntry: 'dashboard' };
 }

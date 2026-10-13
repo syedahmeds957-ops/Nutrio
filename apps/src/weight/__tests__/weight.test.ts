@@ -78,4 +78,37 @@ describe('Weight Trend & Closed-Loop Adaptive TDEE (Task 1.6)', () => {
     // Blended TDEE must NOT crash below formula TDEE
     expect(adaptive.blendedTDEE).toBe(2500);
   });
+
+  it('pairs weigh-ins with intake by date, not by list position', () => {
+    // Weighed on odd days, logged food on even days: no day has both, so there
+    // is nothing to calibrate from. Pairing by position used to match them up.
+    const engine = new WeightTrendEngine({ weighIns: [], intakeLogs: [], formulaTDEE: 2500, bmr: 1800 });
+    for (let i = 1; i <= 20; i++) {
+      const date = `2026-09-${String(i).padStart(2, '0')}`;
+      if (i % 2 === 1) engine.logWeighIn(85 - i * 0.05, date);
+      else engine.logIntake(2200, date);
+    }
+
+    const adaptive = engine.getSummary().adaptiveTDEE;
+
+    expect(adaptive.daysLogged).toBe(0);
+    expect(adaptive.blendedTDEE).toBe(2500);
+  });
+
+  it('spreads the weight change over the calendar days between paired logs', () => {
+    // 7 paired days, one every 4 days. As positions 1..7 the same change looked
+    // four times faster, inflating the observed TDEE.
+    const engine = new WeightTrendEngine({ weighIns: [], intakeLogs: [], formulaTDEE: 2500, bmr: 1800 });
+    for (let i = 0; i < 7; i++) {
+      const date = `2026-09-${String(1 + i * 4).padStart(2, '0')}`;
+      engine.logWeighIn(85 - i * 0.2, date);
+      engine.logIntake(2200, date);
+    }
+
+    const adaptive = engine.getSummary().adaptiveTDEE;
+    const impliedDailyDeficit = (adaptive.observedTDEE ?? 0) - adaptive.meanDailyIntake;
+
+    // ~0.8 kg of smoothed loss over a 25-day span, not over 7 days.
+    expect(impliedDailyDeficit).toBeLessThan(300);
+  });
 });

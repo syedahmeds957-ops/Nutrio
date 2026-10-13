@@ -2,6 +2,7 @@ import { LoggedItem } from './types.js';
 import { ComputedUserPlan } from '../plan/types.js';
 import { authStorageAdapter } from '../supabase/client.js';
 import { getAuthSession } from '../auth/authStorage.js';
+import { localDateKey } from '../common/dateKey.js';
 
 const STORAGE_PREFIX_ACTIVITIES = 'nutrio_daily_activities_';
 const STORAGE_PREFIX_ACTIVE_PLAN = 'nutrio_active_user_plan_';
@@ -83,7 +84,7 @@ export function getOrInitHistoryStartDate(): string {
     }
   }
 
-  const today = new Date().toISOString().split('T')[0];
+  const today = localDateKey();
   memoryHistoryStart.set(key, today);
   if (hasStorage()) {
     try {

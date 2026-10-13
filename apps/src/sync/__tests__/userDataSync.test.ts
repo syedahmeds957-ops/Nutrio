@@ -54,7 +54,6 @@ const MOCK_SURVEY: LifestyleSurveyPayload = {
   preferencesBudget: {
     dietPreference: 'halal_omnivore',
     dislikedFoods: [],
-    budgetTierPKR: 'standard_3500_7000',
   },
 };
 

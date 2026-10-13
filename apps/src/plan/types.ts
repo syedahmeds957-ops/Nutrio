@@ -54,4 +54,15 @@ export interface ComputedUserPlan {
   macros: MacroSplitResult;
   projection: PlanProjection;
   narrative?: AssessmentNarrative;
+  /**
+   * Day key of the last accepted weekly recalibration. Logs up to this day were
+   * already used to set `userContext.tdee`; the next check-in reads only later
+   * days, so the same evidence is never applied twice.
+   */
+  recalibratedAt?: string;
+  /**
+   * The formula TDEE from onboarding, kept once a recalibration has replaced
+   * `userContext.tdee`, so history can tell the estimate from the measurement.
+   */
+  formulaTdee?: number;
 }
