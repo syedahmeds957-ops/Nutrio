@@ -47,7 +47,6 @@ The Groq key is an Edge Function secret (`GROQ_API_KEY`), set in the Supabase da
 
 ### Pending
 
-- Apply `supabase/migrations/20261013000000_targets_full_plan_and_cleanup.sql` to the live project. Until then, target syncs are rejected by row-level security and plans restore from the device only.
 - `assess`, `ocr-label`, `parse-food-text`, `plan-generate` and `weekly-review` edge functions are built and tested but not deployed or called by the app.
 
 ---
