@@ -179,26 +179,10 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
           </Text>
         </View>
 
-        <TouchableOpacity
-          style={[
-            styles.headerRightBadge,
-            {
-              backgroundColor: isSaudi
-                ? (isDark ? 'rgba(16, 185, 129, 0.15)' : '#ECFDF5')
-                : (isDark ? 'rgba(164, 235, 63, 0.15)' : '#F7FEE7'),
-              borderColor: accentColor,
-            },
-          ]}
-          onPress={() => setSettingsVisible(true)}
-          activeOpacity={0.7}
-        >
-          <View style={styles.badgeRow}>
-            <Icon name="settings" size={12} color={isDark ? theme.colors.primaryLime : '#4B6200'} />
-            <Text style={[styles.badgeText, { color: isDark ? theme.colors.primaryLime : '#4B6200' }]}>
-              {selectedProvider.toUpperCase()}
-            </Text>
-          </View>
-        </TouchableOpacity>
+        {/* Signed-in users get the coach through the Nutrio server, so the
+            bring-your-own-key provider badge is not shown. The spacer keeps
+            the title centred opposite the back button. */}
+        <View style={styles.headerSpacer} />
       </View>
 
       {/* Main Chat Scroll Area */}
@@ -532,6 +516,9 @@ const styles = StyleSheet.create({
   headerSubtitle: {
     fontSize: 11,
     marginTop: 1,
+  },
+  headerSpacer: {
+    width: 80,
   },
   headerRightBadge: {
     paddingVertical: 6,

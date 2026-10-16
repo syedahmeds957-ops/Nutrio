@@ -92,20 +92,9 @@ export type DietPreference =
   | 'vegan'
   | 'eggetarian';
 
-export type BudgetTierPKR =
-  | 'budget_under_3500' // < 3500 PKR/week
-  | 'standard_3500_7000' // 3500-7000 PKR/week
-  | 'premium_above_7000'; // > 7000 PKR/week
-
 export interface SurveyPreferencesBudget {
   dietPreference: DietPreference;
   dislikedFoods: string[];
-  /**
-   * No longer asked for. Kept optional so surveys saved before the budget
-   * question was removed still deserialise, and so the field is not silently
-   * dropped from a returning user's stored payload.
-   */
-  budgetTierPKR?: BudgetTierPKR;
 }
 
 export interface LifestyleSurveyPayload {

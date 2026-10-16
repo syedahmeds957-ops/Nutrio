@@ -37,7 +37,6 @@ describe('Plan Generation Edge Function (Task 2.5)', () => {
         targetFatGrams: 55,
         targetCarbGrams: 235,
         dietPreference: 'halal_omnivore',
-        budgetTierPKR: 'standard_3500_7000',
       }),
     });
 
@@ -65,7 +64,6 @@ describe('Plan Generation Edge Function (Task 2.5)', () => {
         targetFatGrams: 55,
         targetCarbGrams: 235,
         dietPreference: 'halal_omnivore',
-        budgetTierPKR: 'standard_3500_7000',
         familyMode: {
           familyDishName: 'Chicken Karahi',
           familyMealSlot: 'dinner',
@@ -91,7 +89,6 @@ describe('Plan Generation Edge Function (Task 2.5)', () => {
         targetFatGrams: 50,
         targetCarbGrams: 230,
         dietPreference: 'halal_omnivore',
-        budgetTierPKR: 'standard_3500_7000',
         isRamadanMode: true,
       }),
     });

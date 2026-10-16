@@ -180,6 +180,8 @@ export interface DailyMealPlanResult {
   meals: PlannedMealSlot[];
   isWithinTolerance: boolean; // true if Math.abs(calorieDeviationPct) <= 5.0
   dietPreference: PlanDietPreference;
+  // Which regional food rotation the solver built this plan from.
+  region: 'PK' | 'SA';
 }
 
 export interface MealSwapOption {

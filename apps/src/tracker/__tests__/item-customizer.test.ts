@@ -235,7 +235,7 @@ describe('ItemCustomizerModal Component & Macro Engine', () => {
 
       expect(modNames.some((n) => n.includes('Nalli / Bone Marrow'))).toBe(true);
       expect(modNames.some((n) => n.includes('Maghaz / Brain'))).toBe(true);
-      expect(modNames.some((n) => n.includes('Desi Ghee / Tarka Roghan'))).toBe(true);
+      expect(modNames.some((n) => n.includes('Ghee / Tarka Roghan'))).toBe(true);
       expect(modNames.some((n) => n.includes('Low Roghan / Drained Oil'))).toBe(true);
 
       expect(modNames.some((n) => n.toLowerCase().includes('biryani'))).toBe(false);
@@ -253,7 +253,7 @@ describe('ItemCustomizerModal Component & Macro Engine', () => {
       const modNames = mods.map((m) => m.name);
 
       expect(modNames.some((n) => n.includes('Makhan / Butter'))).toBe(true);
-      expect(modNames.some((n) => n.includes('Pure Desi Ghee Tarka'))).toBe(true);
+      expect(modNames.some((n) => n.includes('Pure Ghee Tarka'))).toBe(true);
       expect(modNames.some((n) => n.includes('Extra Masala / Gravy'))).toBe(true);
       expect(modNames.some((n) => n.includes('Low Oil Preparation'))).toBe(true);
     });
@@ -368,7 +368,7 @@ describe('ItemCustomizerModal Component & Macro Engine', () => {
       const mods = getEffectiveModifiers(daalItem);
       const modNames = mods.map((m) => m.name);
 
-      expect(modNames.some((n) => n.includes('Desi Ghee Zeera Tarka'))).toBe(true);
+      expect(modNames.some((n) => n.includes('Ghee Zeera Tarka'))).toBe(true);
       expect(modNames.some((n) => n.includes('Boiled Egg Slice'))).toBe(true);
       expect(modNames.some((n) => n.includes('Spicy Mango Achar'))).toBe(true);
     });

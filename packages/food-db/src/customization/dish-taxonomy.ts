@@ -96,7 +96,7 @@ export const DISH_MODIFIER_TEMPLATES: Record<DishCustomizationType, FoodModifier
     },
     {
       id: 'mod_nihari_roghan',
-      name: 'Desi Ghee / Tarka Roghan (1 tbsp)',
+      name: 'Ghee / Tarka Roghan (1 tbsp)',
       nameUr: 'اضافی تڑکہ روغن',
       calories: 90,
       proteinGrams: 0,
@@ -135,7 +135,7 @@ export const DISH_MODIFIER_TEMPLATES: Record<DishCustomizationType, FoodModifier
     },
     {
       id: 'mod_karahi_ghee',
-      name: 'Pure Desi Ghee Tarka (1 tbsp)',
+      name: 'Pure Ghee Tarka (1 tbsp)',
       nameUr: 'دیسی گھی تڑکہ',
       calories: 90,
       proteinGrams: 0,
@@ -231,7 +231,7 @@ export const DISH_MODIFIER_TEMPLATES: Record<DishCustomizationType, FoodModifier
     },
     {
       id: 'mod_nashta_makhan',
-      name: 'Desi Makhan Cube (10g)',
+      name: 'Butter Cube (10g)',
       nameUr: 'دیسی مکھن',
       calories: 72,
       proteinGrams: 0.1,
@@ -243,7 +243,7 @@ export const DISH_MODIFIER_TEMPLATES: Record<DishCustomizationType, FoodModifier
   [DishCustomizationType.DAAL_SABZI]: [
     {
       id: 'mod_daal_ghee_tarka',
-      name: 'Extra Desi Ghee Zeera Tarka',
+      name: 'Extra Ghee Zeera Tarka',
       nameUr: 'دیسی گھی زیرہ تڑکہ',
       calories: 90,
       proteinGrams: 0,

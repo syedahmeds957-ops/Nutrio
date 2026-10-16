@@ -139,7 +139,6 @@ describe('SurveyStateEngine Navigation & Persistence', () => {
     engine.setPreferencesBudget({
       dietPreference: 'halal_omnivore',
       dislikedFoods: ['karela'],
-      budgetTierPKR: 'standard_3500_7000',
     });
 
     expect(engine.isComplete()).toBe(true);
@@ -190,7 +189,6 @@ describe('Nutrition Bridge Calculation', () => {
     preferencesBudget: {
       dietPreference: 'halal_omnivore',
       dislikedFoods: [],
-      budgetTierPKR: 'standard_3500_7000',
     },
   };
 

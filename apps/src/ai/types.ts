@@ -28,5 +28,5 @@ export interface CoachChatMessage {
 export interface CoachChatResult {
   reply: string;
   suggestedPrompts: string[];
-  providerUsed: 'openai' | 'gemini' | 'deterministic_fallback';
+  providerUsed: 'server' | 'openai' | 'gemini' | 'deterministic_fallback';
 }

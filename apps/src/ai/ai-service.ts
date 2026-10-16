@@ -11,6 +11,40 @@ import {
 } from './types.js';
 import { resolveAiConfig } from './apiKeyStorage.js';
 import { i18n } from '../i18n/config.js';
+import { isSupabaseConfigured, supabase } from '../supabase/client.js';
+
+// The coach-chat edge function holds the LLM key server-side and requires the
+// signed-in user's JWT, so logged-in users never need to supply their own key.
+async function sendCoachMessageViaServer(
+  messages: CoachChatMessage[],
+  context: CoachContext
+): Promise<CoachChatResult | null> {
+  if (!isSupabaseConfigured()) return null;
+  try {
+    const { data: sessionData } = await supabase.auth.getSession();
+    if (!sessionData.session) return null;
+
+    const { data, error } = await supabase.functions.invoke('coach-chat', {
+      body: {
+        // The function accepts at most 20 non-empty messages.
+        messages: messages.filter((m) => m.content.trim()).slice(-20),
+        context,
+      },
+    });
+    if (error || !data?.reply) return null;
+    // The server answers with canned text when its own LLM call fails; treat
+    // that as a miss so a locally configured provider still gets a chance.
+    if (data.provider === 'deterministic_coach_fallback') return null;
+
+    return {
+      reply: data.reply,
+      suggestedPrompts: Array.isArray(data.suggestedPrompts) ? data.suggestedPrompts : [],
+      providerUsed: 'server',
+    };
+  } catch {
+    return null;
+  }
+}
 
 const DESI_VISION_SYSTEM_PROMPT = `You are a specialized Pakistani and South Asian culinary vision expert.
 Analyze this meal photo and identify the dish, cooking technique, and estimated grams for each food item.
@@ -58,7 +92,7 @@ export function getFallbackVisionDetection(contextNote?: string): {
 
   if (note.includes('egg') || note.includes('anda') || note.includes('omelette') || note.includes('paratha')) {
     return {
-      dishDetected: 'Desi Omelette & Paratha',
+      dishDetected: 'Omelette & Paratha',
       cookingMethod: 'Pan-fried Pakistani spiced omelette with whole wheat paratha',
       detectedItems: [
         { detectedName: 'Pakistani Omelette (Pyaz Mirch)', estimatedGrams: 100 },
@@ -240,7 +274,7 @@ export async function analyzeMealPhoto(
               dishDetected: parsed.dishDetected,
               cookingMethod: parsed.cookingMethod || 'Prepared meal',
               detectedItems: parsed.items.map((i: any) => ({
-                detectedName: String(i.detectedName || i.name || 'Desi dish'),
+                detectedName: String(i.detectedName || i.name || 'Mixed dish'),
                 estimatedGrams: Number(i.estimatedGrams || i.grams || 150),
               })),
               providerUsed: 'openai',
@@ -300,7 +334,7 @@ export async function analyzeMealPhoto(
               dishDetected: parsed.dishDetected,
               cookingMethod: parsed.cookingMethod || 'Prepared meal',
               detectedItems: parsed.items.map((i: any) => ({
-                detectedName: String(i.detectedName || i.name || 'Desi dish'),
+                detectedName: String(i.detectedName || i.name || 'Mixed dish'),
                 estimatedGrams: Number(i.estimatedGrams || i.grams || 150),
               })),
               providerUsed: 'gemini',
@@ -351,6 +385,12 @@ Respond in conversational text. At the very end, provide exactly 3 short follow-
 [Your natural conversational advice here]
 
 SUGGESTIONS: ["Question 1", "Question 2", "Question 3"]`;
+
+  // 0. Nutrio server (signed-in users)
+  if (!customConfig) {
+    const serverResult = await sendCoachMessageViaServer(messages, safeContext);
+    if (serverResult) return serverResult;
+  }
 
   // 1. OpenAI
   if (config.provider === 'openai' && config.apiKey) {

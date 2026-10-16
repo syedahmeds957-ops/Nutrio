@@ -86,7 +86,7 @@ export const RICE_BIRYANI_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Mutton Biryani (Degi Style)",
+    "name": "Mutton Biryani",
     "nameUr": "دیگی مٹن بریانی",
     "category": "Rice & Biryani",
     "cuisineTags": [
@@ -1122,7 +1122,7 @@ export const RICE_BIRYANI_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Degi Zarda Rice (Sweet Saffron Rice)",
+    "name": "Zarda Rice (Sweet Saffron Rice)",
     "nameUr": "دیگی زردہ چاول",
     "category": "Rice & Biryani",
     "cuisineTags": [
@@ -1402,7 +1402,7 @@ export const RICE_BIRYANI_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Dhabba Daal Khichdi with Desi Ghee",
+    "name": "Daal Khichdi with Ghee",
     "nameUr": "ڈھابہ کھچڑی مع دیسی گھی",
     "category": "Rice & Biryani",
     "cuisineTags": [

@@ -87,9 +87,12 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   const { theme, isDark } = useTheme();
   const { activeRegion, setRegion } = useRegion();
   const isSaudiRegion = activeRegion === 'SA';
-  /** The local-script name for the active region, falling back to the other. */
-  const localName = (nameUr?: string, nameAr?: string) =>
-    isSaudiRegion ? nameAr || nameUr : nameUr || nameAr;
+  /**
+   * The Arabic name for Saudi users. Urdu names are not displayed (lists show
+   * the English name only) but still match in search.
+   */
+  const localName = (_nameUr?: string, nameAr?: string) =>
+    isSaudiRegion ? nameAr : undefined;
   const { t } = useTranslation();
   const dir = useTextDirection();
   const [searchQuery, setSearchQuery] = useState('');

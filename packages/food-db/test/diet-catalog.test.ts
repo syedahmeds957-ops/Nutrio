@@ -401,7 +401,7 @@ describe('Add-on modifiers', () => {
 
     const pairs: [string, string, number][] = [
       // One row for both, so it has to reconcile with either.
-      ['addon_ghee_tsp', 'Desi Ghee', 5],
+      ['addon_ghee_tsp', 'Ghee', 5],
       ['addon_ghee_tsp', 'Cooking Oil (Any Plain Oil)', 5],
       ['addon_butter_tsp', 'Butter', 5],
       ['addon_sugar_tsp', 'Sugar (White)', 4],
@@ -507,7 +507,7 @@ describe('Diet list grouping', () => {
     const groupOf = (name: string) =>
       sections.find((s) => s.foods.some((f) => f.name === name))?.group;
     expect(groupOf('Olive Oil')).toBe('extras');
-    expect(groupOf('Desi Ghee')).toBe('extras');
+    expect(groupOf('Ghee')).toBe('extras');
     expect(groupOf('Sugar (White)')).toBe('extras');
     expect(groupOf('Ranch Dressing')).toBe('extras');
     expect(sections[sections.length - 1].group).toBe('extras');

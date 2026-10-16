@@ -8,8 +8,9 @@ import { PAKISTANI_STAPLES_DATA, SAUDI_TRADITIONAL_FOODS } from '@nutrio/food-db
  *
  * The solver used to decide which regional plan to build by asking whether the
  * pool contained any Saudi food at all, so those few entries turned a Pakistani
- * user's whole week into "Saudi Protein Breakfast" and "Traditional Saudi
- * Lunch" — with nihari and sajji still listed underneath. These tests run
+ * user's whole week into the Saudi rotation — with nihari and sajji still
+ * listed underneath. Meal titles are region-neutral now, so these tests read
+ * the plan's `region` instead. These tests run
  * against the real catalogues, not a fixture, because a fixture is exactly what
  * failed to catch it.
  */
@@ -22,19 +23,15 @@ describe('Meal plan region selection', () => {
     dietPreference: 'halal_omnivore',
   };
 
-  const titlesFor = (pool: unknown, region: 'PK' | 'SA') =>
-    solveDailyMealPlan(solverInput, pool as never, { dayIndex: 0, region }).meals.map(
-      (m) => m.title
-    );
+  const regionFor = (pool: unknown, region: 'PK' | 'SA') =>
+    solveDailyMealPlan(solverInput, pool as never, { dayIndex: 0, region }).region;
 
   it('builds a Pakistani week from the Pakistani pool', () => {
-    for (const title of titlesFor(PAKISTANI_STAPLES_DATA, 'PK')) {
-      expect(title, `"${title}" is a Saudi title in a Pakistani plan`).not.toMatch(/saudi/i);
-    }
+    expect(regionFor(PAKISTANI_STAPLES_DATA, 'PK')).toBe('PK');
   });
 
   it('builds a Saudi week from the Saudi pool', () => {
-    expect(titlesFor(SAUDI_TRADITIONAL_FOODS, 'SA').join(' | ')).toMatch(/saudi/i);
+    expect(regionFor(SAUDI_TRADITIONAL_FOODS, 'SA')).toBe('SA');
   });
 
   it('keeps every day of the Pakistani week Pakistani', () => {
@@ -45,9 +42,7 @@ describe('Meal plan region selection', () => {
         dayIndex,
         region: 'PK',
       });
-      for (const meal of plan.meals) {
-        expect(meal.title, `day ${dayIndex}: "${meal.title}"`).not.toMatch(/saudi/i);
-      }
+      expect(plan.region, `day ${dayIndex}`).toBe('PK');
     }
   });
 
@@ -58,16 +53,14 @@ describe('Meal plan region selection', () => {
     const inferred = solveDailyMealPlan(solverInput, PAKISTANI_STAPLES_DATA as never, {
       dayIndex: 0,
     });
-    for (const meal of inferred.meals) {
-      expect(meal.title, `inferred: "${meal.title}"`).not.toMatch(/saudi/i);
-    }
+    expect(inferred.region).toBe('PK');
   });
 
   it('still infers Saudi correctly when no region is passed', () => {
     const inferred = solveDailyMealPlan(solverInput, SAUDI_TRADITIONAL_FOODS as never, {
       dayIndex: 0,
     });
-    expect(inferred.meals.map((m) => m.title).join(' | ')).toMatch(/saudi/i);
+    expect(inferred.region).toBe('SA');
   });
 
   it('keeps Saudi diet foods out of the Pakistani pool entirely', () => {

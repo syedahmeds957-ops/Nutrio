@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { BudgetTierPKR, DietPreference, SurveyPreferencesBudget } from '../types.js';
+import { DietPreference, SurveyPreferencesBudget } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
@@ -11,8 +11,8 @@ interface StepPreferencesBudgetProps {
   errors: Record<string, string>;
 }
 
-// Staple foods, retail brands and grocery prices are market specific, so both
-// the diet labels and the budget ranges are keyed by region.
+// Staple foods and retail brands are market specific, so the diet labels are
+// keyed by region.
 const DIET_OPTION_IDS: DietPreference[] = [
   'halal_omnivore',
   'halal_meat_moderate',
@@ -88,13 +88,6 @@ export const StepPreferencesBudget: React.FC<StepPreferencesBudgetProps> = ({
           <Text style={styles.errorText}>{errors.dietPreference}</Text>
         )}
       </View>
-
-      {/*
-        The weekly budget question is gone. It fed only the grocery list, and
-        the solver never used it — a plan came out identical whether the user
-        picked "under Rs 3,500" or "above Rs 7,000". Asking for something that
-        changed nothing was the worst of both.
-      */}
     </View>
   );
 };

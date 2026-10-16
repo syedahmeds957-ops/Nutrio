@@ -8,7 +8,7 @@ import { RegionProvider } from '../../common/region/index.js';
 describe('Step 4: Regional Survey, Preferences & Onboarding Defaults (Saudi vs Pakistani)', () => {
   it('renders StepPreferencesBudget in Pakistani mode (PKR) by default', () => {
     const child = React.createElement(StepPreferencesBudget, {
-      data: { dietPreference: 'halal_omnivore', budgetTierPKR: 'standard_3500_7000' },
+      data: { dietPreference: 'halal_omnivore' },
       onChange: () => {},
       errors: {},
     });
@@ -19,7 +19,7 @@ describe('Step 4: Regional Survey, Preferences & Onboarding Defaults (Saudi vs P
 
   it('renders StepPreferencesBudget in Saudi Arabia mode (SAR) with Saudi diet options and SAR budget tiers', () => {
     const child = React.createElement(StepPreferencesBudget, {
-      data: { dietPreference: 'halal_omnivore', budgetTierPKR: 'standard_3500_7000' },
+      data: { dietPreference: 'halal_omnivore' },
       onChange: () => {},
       errors: {},
     });

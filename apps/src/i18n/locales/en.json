@@ -50,7 +50,7 @@
     "oldTarget": "Old target",
     "recalibration": "Metabolic adaptive recalibration",
     "share": "Share",
-    "shareBody": "📊 Nutrio weekly check-in report ({{name}})\\n- Adherence rate: {{adherence}}% ({{daysLogged}}/7 days logged)\\n- Weight trend: {{weightDelta}} kg\\n- Daily intake avg: {{intake}} kcal\\n- New daily target: {{newTarget}} kcal ({{targetDelta}} kcal)\\n- Next week habit: {{habit}}",
+    "shareBody": "📊 Nutrio weekly check-in report ({{name}})\n- Adherence rate: {{adherence}}% ({{daysLogged}}/7 days logged)\n- Weight trend: {{weightDelta}} kg\n- Daily intake avg: {{intake}} kcal\n- New daily target: {{newTarget}} kcal ({{targetDelta}} kcal)\n- Next week habit: {{habit}}",
     "shareTitle": "Shareable summary",
     "title": "Weekly check-in",
     "weightTrend": "Weight trend"
@@ -91,7 +91,7 @@
           "three": "Healthy dinner options at Al Romansiah",
           "two": "Is Almarai low-fat Laban good for fat loss?"
         },
-        "reply": "For traditional Saudi banquets (Kabsa, Mandi, Saleeg):\\n1. Portion control your rice: 1 standard portion (~150-180g cooked) is around 220-250 kcal.\\n2. Prioritize the lean protein first (chicken breast or lean Naeemi lamb).\\n3. Pair with fresh green salad and a cup of Almarai Laban for high satiety and digestive health!"
+        "reply": "For traditional Saudi banquets (Kabsa, Mandi, Saleeg):\n1. Portion control your rice: 1 standard portion (~150-180g cooked) is around 220-250 kcal.\n2. Prioritize the lean protein first (chicken breast or lean Naeemi lamb).\n3. Pair with fresh green salad and a cup of Almarai Laban for high satiety and digestive health!"
       },
       "chai": {
         "prompts": {
@@ -99,7 +99,7 @@
           "three": "How do I control evening sugar cravings?",
           "two": "What healthy snacks can I have with chai?"
         },
-        "reply": "Traditional doodh patti made with whole milk and 2 teaspoons of sugar easily packs 180-220 kcal per cup!\\n\\n💡 Try the half-milk, half-water technique with half a spoon of sugar or stevia. If you drink 2-3 cups a day, this saves ~300 kcal without giving up your chai ritual."
+        "reply": "Traditional doodh patti made with whole milk and 2 teaspoons of sugar easily packs 180-220 kcal per cup!\n\n💡 Try the half-milk, half-water technique with half a spoon of sugar or stevia. If you drink 2-3 cups a day, this saves ~300 kcal without giving up your chai ritual."
       },
       "cookingOil": {
         "prompts": {
@@ -107,7 +107,7 @@
           "three": "What should I eat for dinner tonight?",
           "two": "Can I use mustard oil or olive oil for desi cooking?"
         },
-        "reply": "In traditional Pakistani handis like chicken karahi, free-pouring cooking oil often adds 30-50g of hidden fat (270-450 kcal) to the pot.\\n\\n💡 Pro habit: Use a tablespoon (1 tbsp = 14g, ~120 kcal) for the entire family handi, or simmer tomatoes early to create a rich, silky gravy with minimal oil."
+        "reply": "In traditional Pakistani handis like chicken karahi, free-pouring cooking oil often adds 30-50g of hidden fat (270-450 kcal) to the pot.\n\n💡 Pro habit: Use a tablespoon (1 tbsp = 14g, ~120 kcal) for the entire family handi, or simmer tomatoes early to create a rich, silky gravy with minimal oil."
       },
       "dawat": {
         "prompts": {
@@ -115,7 +115,7 @@
           "three": "Can I skip lunch before a heavy dinner?",
           "two": "What is the best choice at a BBQ restaurant?"
         },
-        "reply": "For shaadi or dawat nights, use the harm-reduction strategy:\\n1. Fill half your plate first with grilled proteins (chicken tikka, seekh kabab) and fresh cucumber/onion salad.\\n2. Pick ONE primary carb: either 1 naan OR 1 small cup of biryani, not both.\\n3. Drink 2 glasses of water before eating, and enjoy 1 small piece of sweet mindfully."
+        "reply": "For shaadi or dawat nights, use the harm-reduction strategy:\n1. Fill half your plate first with grilled proteins (chicken tikka, seekh kabab) and fresh cucumber/onion salad.\n2. Pick ONE primary carb: either 1 naan OR 1 small cup of biryani, not both.\n3. Drink 2 glasses of water before eating, and enjoy 1 small piece of sweet mindfully."
       },
       "fastFood": {
         "prompts": {
@@ -123,7 +123,7 @@
           "three": "How to log fast food accurately",
           "two": "Healthy options at Shawarmer or Al Tazaj"
         },
-        "reply": "At AlBaik or Kudu, you can stay within your targets by choosing grilled chicken fillet or nuggets (ask for garlic dip on the side and dip lightly) instead of double-fried broast with fries.\\n\\n💡 Pro habit: Skip sugary sodas and opt for water or fresh orange juice. A 4-piece nugget portion with moderate dip is ~420 kcal!"
+        "reply": "At AlBaik or Kudu, you can stay within your targets by choosing grilled chicken fillet or nuggets (ask for garlic dip on the side and dip lightly) instead of double-fried broast with fries.\n\n💡 Pro habit: Skip sugary sodas and opt for water or fresh orange juice. A 4-piece nugget portion with moderate dip is ~420 kcal!"
       },
       "gahwa": {
         "prompts": {
@@ -131,7 +131,7 @@
           "three": "Best snack to pair with afternoon coffee",
           "two": "Benefits of Saudi Gahwa for metabolism"
         },
-        "reply": "Saudi Gahwa with cardamom and saffron has almost zero calories (~2 kcal per finjan) and is rich in antioxidants!\\n\\n💡 Dates note: Companion Sukari or Ajwa dates are nutrient-rich but calorie-dense (~20-25 kcal per date). Having 2-3 dates with your afternoon Gahwa ritual gives sustained energy without spiking your daily calories."
+        "reply": "Saudi Gahwa with cardamom and saffron has almost zero calories (~2 kcal per finjan) and is rich in antioxidants!\n\n💡 Dates note: Companion Sukari or Ajwa dates are nutrient-rich but calorie-dense (~20-25 kcal per date). Having 2-3 dates with your afternoon Gahwa ritual gives sustained energy without spiking your daily calories."
       },
       "greetingPK": {
         "prompts": {
@@ -139,7 +139,7 @@
           "three": "Tips for dining out at dawats",
           "two": "High-protein Pakistani breakfast ideas"
         },
-        "reply": "Assalam-o-Alaikum {{name}}! You currently have approximately {{remaining}} kcal remaining in your daily budget.\\n\\nFocus on getting lean protein (daal, eggs, chicken) and fibre-rich whole wheat roti while keeping cooking oil measured. What specific meal or habit can I help you optimize today?"
+        "reply": "Assalam-o-Alaikum {{name}}! You currently have approximately {{remaining}} kcal remaining in your daily budget.\n\nFocus on getting lean protein (daal, eggs, chicken) and fibre-rich whole wheat roti while keeping cooking oil measured. What specific meal or habit can I help you optimize today?"
       },
       "greetingSA": {
         "prompts": {
@@ -147,12 +147,12 @@
           "three": "Managing dates and Gahwa",
           "two": "Healthy choices at AlBaik & Shawarmer"
         },
-        "reply": "Marhaba {{name}}! You currently have approximately {{remaining}} kcal remaining in your daily budget.\\n\\nFocus on balanced portions of lean protein (Tanmiah chicken, Naeemi lamb, fish), fresh salad, and Almarai Laban, while keeping rice portions measured. How can I help you optimize your meals today?"
+        "reply": "Marhaba {{name}}! You currently have approximately {{remaining}} kcal remaining in your daily budget.\n\nFocus on balanced portions of lean protein (Tanmiah chicken, Naeemi lamb, fish), fresh salad, and Almarai Laban, while keeping rice portions measured. How can I help you optimize your meals today?"
       }
     },
     "greeting": {
-      "PK": "Assalam-o-Alaikum {{name}}! I'm your Nutrio nutrition coach.\\n\\nYou have ~{{remaining}} kcal remaining today. How can I help you adjust your meals, handle a dawat, or cut down on excess cooking oil?",
-      "SA": "Marhaba {{name}}! I'm your Nutrio nutrition coach.\\n\\nYou have ~{{remaining}} kcal remaining today. How can I help you balance your Kabsa portions, choose healthy meals at AlBaik or Al Tazaj, or manage dates with Gahwa?"
+      "PK": "Assalam-o-Alaikum {{name}}! I'm your Nutrio nutrition coach.\n\nYou have ~{{remaining}} kcal remaining today. How can I help you adjust your meals, handle a dawat, or cut down on excess cooking oil?",
+      "SA": "Marhaba {{name}}! I'm your Nutrio nutrition coach.\n\nYou have ~{{remaining}} kcal remaining today. How can I help you balance your Kabsa portions, choose healthy meals at AlBaik or Al Tazaj, or manage dates with Gahwa?"
     },
     "inputPlaceholder": {
       "PK": "Ask coach (e.g., how to handle 2 rotis at dinner?)…",
@@ -379,24 +379,7 @@
     "grocery": {
       "allItems": "All items",
       "backToPlan": "Back to plan",
-      "budgetTiers": {
-        "budget": {
-          "PK": "Budget (< Rs 3,500)",
-          "SA": "Budget (< 125 SAR)"
-        },
-        "premium": {
-          "PK": "Premium (> Rs 7,000)",
-          "SA": "Premium (> 250 SAR)"
-        },
-        "standard": {
-          "PK": "Standard (Rs 3,500 – 7,000)",
-          "SA": "Standard (125 – 250 SAR)"
-        }
-      },
-      "overBudget": "Over budget",
-      "title": "7-day grocery list",
-      "weeklyBudget": "Weekly budget: {{tier}}",
-      "withinBudget": "Within budget"
+      "title": "7-day grocery list"
     },
     "mealSlot": {
       "cuisine": {
@@ -444,7 +427,7 @@
       "dayMealPlan": "{{day}} meal plan",
       "dayTargetKcal": "Target: {{kcal}} kcal",
       "grocery": "Grocery",
-      "viewGroceryList": "View 7-day grocery list & budget"
+      "viewGroceryList": "View 7-day grocery list"
     }
   },
   "survey": {
@@ -620,33 +603,6 @@
       "workActivityType": "Work activity type"
     },
     "preferences": {
-      "budgetLabel": {
-        "PK": "Weekly grocery budget target (PKR)",
-        "SA": "Monthly household grocery budget target (SAR)"
-      },
-      "budgets": {
-        "budget_under_3500": {
-          "range": {
-            "PK": "Under PKR 3,500 / week (seasonal sabzi, daal, eggs, local grains)",
-            "SA": "Under SAR 125 / week (seasonal produce, lentils, Tamees bread, Almarai dairy, eggs)"
-          },
-          "title": "Economical tier"
-        },
-        "premium_above_7000": {
-          "range": {
-            "PK": "Above PKR 7,000 / week (daily lean meats, fish, premium nuts, protein additions)",
-            "SA": "Above SAR 250 / week (daily fresh Naeemi lamb, fish, premium Ajwa/Sukari dates)"
-          },
-          "title": "High-protein / Premium tier"
-        },
-        "standard_3500_7000": {
-          "range": {
-            "PK": "PKR 3,500 – 7,000 / week (chicken, dairy, yogurt, mixed meat/veg)",
-            "SA": "SAR 125 – 250 / week (fresh Tanmiah poultry, laban, basmati rice, seasonal fruits & dates)"
-          },
-          "title": "Balanced household tier"
-        }
-      },
       "description": {
         "PK": "Tailoring your nutritional plan to your dietary ethos and realistic household grocery expenditure in Pakistan.",
         "SA": "Tailoring your nutritional plan to your dietary ethos and realistic household grocery expenditure in Saudi Arabia."
@@ -701,8 +657,8 @@
         "SA": "Work & daily activity"
       },
       "preferences_budget": {
-        "PK": "Diet & household budget",
-        "SA": "Diet & budget"
+        "PK": "Diet preferences",
+        "SA": "Diet preferences"
       }
     }
   },
