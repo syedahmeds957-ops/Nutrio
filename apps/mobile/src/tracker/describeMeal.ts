@@ -119,6 +119,33 @@ export function confirmRow(row: DraftRow): DraftRow {
   return row.food ? { ...row, status: 'ready', flags: [] } : row;
 }
 
+/** A typed weight past this is a slip of the thumb, not one food. */
+export const MAX_ROW_GRAMS = 2000;
+
+/** The user picked one of the food's own servings ("1 katori (150g)"): one of it. */
+export function setRowServing(row: DraftRow, serving: ServingUnit): DraftRow {
+  if (!row.food || !(serving.grams > 0)) return row;
+  return { ...row, serving: { ...serving, isDefault: false }, quantity: 1 };
+}
+
+/**
+ * The user typed the weight they ate. It replaces the serving with exactly that
+ * many grams, so "120" means 120 g however the item was first read.
+ */
+export function setRowGrams(row: DraftRow, grams: number): DraftRow {
+  if (!row.food || !Number.isFinite(grams) || grams <= 0) return row;
+  const g = Math.min(MAX_ROW_GRAMS, Math.round(grams));
+  return { ...row, serving: { label: `${g}g`, grams: g, isDefault: false }, quantity: 1 };
+}
+
+/** The food's own serving sizes worth offering as chips: distinct, real weights, at most `limit`. */
+export function servingChoices(row: DraftRow, limit = 4): ServingUnit[] {
+  const seen = new Set<string>();
+  return (row.food?.servings ?? [])
+    .filter((s) => s.grams > 0 && !seen.has(s.label) && seen.add(s.label))
+    .slice(0, limit);
+}
+
 export function setRowQuantity(row: DraftRow, quantity: number): DraftRow {
   const next = Math.min(MAX_QUANTITY, Math.max(0.5, Math.round(quantity * 2) / 2));
   return { ...row, quantity: next };

@@ -15,6 +15,7 @@ import { saveWeighIns } from '../weightStorage.js';
 import { WeightTrackerState } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { Icon } from '../../ui/Icon.js';
 
 interface WeightTrackerScreenProps {
   initialState: WeightTrackerState;
@@ -53,33 +54,28 @@ export const WeightTrackerScreen: React.FC<WeightTrackerScreenProps> = ({
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.canvas }]}>
       <ScrollView style={styles.container} contentContainerStyle={styles.scrollPad}>
-        {/* Top Header */}
+        {/* Top Header: Back first, where every other screen puts it */}
         <View style={styles.topNav}>
-          <View>
-            <Text style={[styles.headerSubtitle, { color: accentColor }]}>
-              {t('weight.screen.eyebrow')}
-            </Text>
-            <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>
-              {t('weight.screen.title')}
-            </Text>
-          </View>
           {onBackToTracker && (
             <TouchableOpacity
-              style={[
-                styles.backBtn,
-                {
-                  backgroundColor: theme.colors.surface,
-                  borderColor: theme.colors.border,
-                },
-              ]}
+              style={[styles.backBtn, { backgroundColor: theme.colors.surfaceSecondary }]}
               onPress={onBackToTracker}
               activeOpacity={0.7}
+              accessibilityRole="button"
+              accessibilityLabel={t('common.back')}
             >
+              <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={14} color={theme.colors.textPrimary} />
               <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
-                {t('weight.screen.dailyTracker')}
+                {t('common.back')}
               </Text>
             </TouchableOpacity>
           )}
+          <Text style={[styles.headerSubtitle, dir.text, { color: accentColor }]}>
+            {t('weight.screen.eyebrow')}
+          </Text>
+          <Text style={[styles.headerTitle, dir.text, { color: theme.colors.textPrimary }]}>
+            {t('weight.screen.title')}
+          </Text>
         </View>
 
         {/* Action Button: Log Today's Weight */}
@@ -130,9 +126,6 @@ const styles = StyleSheet.create({
     paddingBottom: 48,
   },
   topNav: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
     paddingHorizontal: 20,
     paddingTop: 16,
     paddingBottom: 12,
@@ -149,13 +142,17 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   backBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    gap: 6,
     borderRadius: 9999,
-    paddingVertical: 7,
-    paddingHorizontal: 14,
-    borderWidth: 1,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    marginBottom: 14,
   },
   backBtnText: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '700',
   },
   actionRow: {

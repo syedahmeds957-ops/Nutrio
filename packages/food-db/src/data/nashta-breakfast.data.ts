@@ -272,7 +272,7 @@ export const NASHTA_BREAKFAST_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Plain Paratha (Ghar Ka Tawa Paratha)",
+    "name": "Plain Paratha",
     "nameUr": "سادہ توا پراٹھا",
     "category": "Breakfast & Nashta",
     "cuisineTags": [

@@ -181,7 +181,7 @@ export const DIET_BEVERAGES_DATA: NormalizedFood[] = [
   // Ratio: 150ml cup = 50ml full-fat milk + 100ml water + tea leaves.
   // Sugared variants add 2 tsp (8g) sugar per cup = 5.3g per 100ml.
   {
-    name: 'Home Chai (No Sugar)',
+    name: 'Chai (No Sugar)',
     nameUr: 'گھر کی چائے (بغیر چینی)',
     nameAr: 'شاي بالحليب بدون سكر',
     category: 'Diet & Basics',
@@ -203,7 +203,7 @@ export const DIET_BEVERAGES_DATA: NormalizedFood[] = [
     ],
   },
   {
-    name: 'Home Chai (With Sugar)',
+    name: 'Chai (With Sugar)',
     nameUr: 'گھر کی چائے (چینی کے ساتھ)',
     nameAr: 'شاي بالحليب مع سكر',
     category: 'Diet & Basics',
@@ -225,7 +225,7 @@ export const DIET_BEVERAGES_DATA: NormalizedFood[] = [
     ],
   },
   {
-    name: 'Home Chai (Sugar-Free Sweetener)',
+    name: 'Chai (Sugar-Free Sweetener)',
     nameUr: 'گھر کی چائے (شوگر فری)',
     nameAr: 'شاي بمحلي خالي من السكر',
     category: 'Diet & Basics',
@@ -296,7 +296,7 @@ export const DIET_BEVERAGES_DATA: NormalizedFood[] = [
   // ------------------------------------------------------------ Yogurt drinks
   {
     // 1 part dahi : 1 part water, plus 2.5 tsp sugar per 250ml glass.
-    name: 'Sweet Lassi (Home)',
+    name: 'Sweet Lassi',
     nameUr: 'میٹھی لسی',
     nameAr: 'لبن حلو',
     category: 'Diet & Basics',
@@ -319,7 +319,7 @@ export const DIET_BEVERAGES_DATA: NormalizedFood[] = [
   },
   {
     // 1 part dahi : 1 part water, salt and zeera, no sugar.
-    name: 'Salted Lassi (Home)',
+    name: 'Salted Lassi',
     nameUr: 'نمکین لسی',
     nameAr: 'لبن مالح',
     category: 'Diet & Basics',

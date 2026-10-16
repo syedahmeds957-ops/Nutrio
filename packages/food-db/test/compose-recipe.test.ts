@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import {
   composeRecipeFood,
+  foodFromUsdaRecord,
   getRecipeIngredientFoods,
+  MAX_UNCOUNTED_SHARE,
   USER_DISH_CATEGORY,
 } from '../src/index.js';
 
@@ -62,8 +64,42 @@ describe('composeRecipeFood', () => {
       name: 'x',
       ingredients: [...MALAI_HANDI, { name: 'Imaginary Spice Mix', grams: 20 }],
     })!;
-    expect(recipe.unmatched).toEqual(['Imaginary Spice Mix']);
+    expect(recipe.notCounted).toEqual([{ name: 'Imaginary Spice Mix', grams: 20 }]);
+    expect(recipe.uncountedShare).toBeCloseTo(20 / 270);
     expect(recipe.servingGrams).toBe(250);
+  });
+
+  it('values an ingredient the catalogue lacks from its USDA record', () => {
+    // USDA FoodData Central #170173: coconut milk, canned (SR Legacy).
+    const coconutMilk = foodFromUsdaRecord({
+      fdcId: 170173,
+      description: 'Nuts, coconut milk, canned (liquid expressed from grated meat and water)',
+      per100g: { kcal: 197, protein: 2, carbs: 2.8, fat: 21.3, fibre: 0, sugar: 0, sodiumMg: 13, satFat: 18.9 },
+    });
+    expect(coconutMilk.source).toBe('usda');
+    expect(coconutMilk.sourceRef).toBe('USDA FoodData Central #170173');
+
+    const recipe = composeRecipeFood({
+      name: 'Coconut chicken',
+      ingredients: [
+        { name: 'Grilled Chicken Breast (Skinless)', grams: 150 },
+        { name: 'coconut milk, canned', grams: 100, food: coconutMilk },
+      ],
+    })!;
+    const chicken = Math.round((named('Grilled Chicken Breast (Skinless)').kcal100g * 150) / 100);
+    expect(recipe.kcalPerServing).toBe(chicken + 197);
+    expect(recipe.notCounted).toEqual([]);
+    expect(recipe.uncountedShare).toBe(0);
+  });
+
+  it('carries ingredients given as not counted into the share', () => {
+    const recipe = composeRecipeFood({
+      name: 'x',
+      ingredients: MALAI_HANDI,
+      notCounted: [{ name: 'khoya', grams: 50 }],
+    })!;
+    expect(recipe.uncountedShare).toBeCloseTo(50 / 300);
+    expect(recipe.uncountedShare).toBeGreaterThan(MAX_UNCOUNTED_SHARE);
   });
 
   it('refuses a dish with nothing it can resolve', () => {

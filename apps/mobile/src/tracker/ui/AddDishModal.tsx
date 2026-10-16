@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import type { NormalizedFood, RegionCode } from '@nutrio/food-db';
+import { USDA_INGREDIENT_CATEGORY, type NormalizedFood, type RegionCode } from '@nutrio/food-db';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
@@ -85,7 +85,10 @@ export const AddDishModal: React.FC<AddDishModalProps> = ({
         <View style={styles.centered}>
           <Icon name="alert" size={24} color={theme.colors.textSecondary} />
           <Text style={[styles.mutedText, dir.textCenter, { color: theme.colors.textSecondary }]}>
-            {t(`tracker.addDish.errors.${state.reason}`, { name: dishName })}
+            {t(`tracker.addDish.errors.${state.reason}`, {
+              name: dishName,
+              missing: 'missing' in state ? state.missing.map((m) => m.name).join(', ') : '',
+            })}
           </Text>
           {state.reason === 'unavailable' && (
             <TouchableOpacity
@@ -141,12 +144,27 @@ export const AddDishModal: React.FC<AddDishModalProps> = ({
                   {i.food.name}
                 </Text>
                 <Text style={[styles.mutedText, dir.text, { color: theme.colors.textSecondary }]}>
-                  {t('tracker.addDish.grams', { grams: i.grams })}
+                  {i.food.category === USDA_INGREDIENT_CATEGORY
+                    ? t('tracker.addDish.gramsWithSource', { grams: i.grams, source: i.food.sourceRef })
+                    : t('tracker.addDish.grams', { grams: i.grams })}
                 </Text>
               </View>
               <Text style={[styles.ingredientKcal, { color: theme.colors.textPrimary }]}>
                 {t('common.kcalValue', { value: i.kcal })}
               </Text>
+            </View>
+          ))}
+          {recipe.notCounted.map((i) => (
+            <View key={`missing_${i.name}`} style={styles.ingredientRow}>
+              <View style={styles.ingredientInfo}>
+                <Text style={[styles.ingredientName, dir.text, { color: theme.colors.textPrimary }]}>
+                  {i.name}
+                </Text>
+                <Text style={[styles.mutedText, dir.text, { color: '#B45309' }]}>
+                  {t('tracker.addDish.notCounted', { grams: i.grams })}
+                </Text>
+              </View>
+              <Text style={[styles.ingredientKcal, { color: theme.colors.textMuted }]}>–</Text>
             </View>
           ))}
         </ScrollView>

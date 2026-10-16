@@ -90,8 +90,8 @@ export const RETIRED_DUPLICATE_IDS: Readonly<Record<string, string>> = {
   ghar_expanded_69: 'pak_food_498', // Adrak Wali Chai → Ginger Tea
   ghar_expanded_70: 'pak_food_494', // Gur Wali Chai → Gur Chai (Jaggery Village Tea)
   ghar_expanded_71: 'pak_food_495', // Sulemani Qahwa → Sulaimani Chai
-  ghar_expanded_72: 'diet_bev_14', // Namkeen Lassi → Salted Lassi (Home)
-  pak_food_249: 'diet_bev_14', // Salted Lassi (Namkeen) → Salted Lassi (Home)
+  ghar_expanded_72: 'diet_bev_14', // Namkeen Lassi → Salted Lassi
+  pak_food_249: 'diet_bev_14', // Salted Lassi (Namkeen) → Salted Lassi
   ghar_expanded_73: 'pak_food_248', // Meethi Lassi with Malai → Sweet Lassi
   ghar_expanded_74: 'pak_food_508', // Sattu Sharbat (Namkeen) → Sattu Drink (Savory)
   ghar_expanded_75: 'pak_food_510', // Imli Aloo Bukhara Sharbat
@@ -100,7 +100,7 @@ export const RETIRED_DUPLICATE_IDS: Readonly<Record<string, string>> = {
   pak_food_590: 'diet_bev_2', // Green Tea / Qahwa → Green Tea (No Sugar)
   pak_food_591: 'diet_bev_12', // Coffee (doodh wali) → Coffee with Milk & Sugar
   pak_food_592: 'pak_food_248', // Lassi Meethi → Sweet Lassi
-  pak_food_593: 'diet_bev_14', // Lassi Namkeen → Salted Lassi (Home)
+  pak_food_593: 'diet_bev_14', // Lassi Namkeen → Salted Lassi
   pak_food_611: 'pak_food_488', // Karak Chai → Karak Doodh Patti Chai
 
   // Sweets

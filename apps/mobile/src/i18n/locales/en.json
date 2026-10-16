@@ -80,20 +80,20 @@
     },
     "chips": {
       "four": {
-        "PK": "High-protein Pakistani snacks",
-        "SA": "Healthy dinner options at Al Tazaj or Shawarmer"
+        "PK": "I have a wedding tonight. How should I plan my day?",
+        "SA": "How many dates can I eat a day?"
       },
       "one": {
-        "PK": "How to reduce oil in karahi?",
-        "SA": "Best high-protein choices at AlBaik"
+        "PK": "I'm still hungry after dinner. What can I eat?",
+        "SA": "I'm still hungry after dinner. What can I eat?"
       },
       "three": {
-        "PK": "Healthy doodh patti chai alternatives",
-        "SA": "Balancing dates & Gahwa intake"
+        "PK": "How many rotis can I have today?",
+        "SA": "How much rice can I have with kabsa?"
       },
       "two": {
-        "PK": "Eating at a shaadi dinner tonight",
-        "SA": "How to fit Kabsa & Mandi into my daily macros?"
+        "PK": "What should I eat before the gym?",
+        "SA": "What should I eat before the gym?"
       }
     },
     "connectionError": {
@@ -104,65 +104,65 @@
     "fallback": {
       "banquet": {
         "prompts": {
-          "one": "How many calories are in 1 plate of chicken Kabsa?",
-          "three": "Healthy dinner options at Al Romansiah",
-          "two": "Is Almarai low-fat Laban good for fat loss?"
+          "one": "How much rice should I take at a family dinner?",
+          "two": "Is laban a good snack for weight loss?",
+          "three": "What's the lightest choice at a shawarma place?"
         },
         "reply": "For traditional Saudi banquets (Kabsa, Mandi, Saleeg):\n1. Portion control your rice: 1 standard portion (~150-180g cooked) is around 220-250 kcal.\n2. Prioritize the lean protein first (chicken breast or lean Naeemi lamb).\n3. Pair with fresh green salad and a cup of Almarai Laban for high satiety and digestive health!"
       },
       "chai": {
         "prompts": {
-          "one": "Is green tea or kehwa better for fat loss?",
-          "three": "How do I control evening sugar cravings?",
-          "two": "What healthy snacks can I have with chai?"
+          "one": "Are 3 cups of chai a day too many?",
+          "two": "What can I have with chai instead of biscuits?",
+          "three": "How do I stop craving sweets in the evening?"
         },
         "reply": "Traditional doodh patti made with whole milk and 2 teaspoons of sugar easily packs 180-220 kcal per cup!\n\nTry the half-milk, half-water technique with half a spoon of sugar or stevia. If you drink 2-3 cups a day, this saves ~300 kcal without giving up your chai ritual."
       },
       "cookingOil": {
         "prompts": {
-          "one": "How many spoons of oil should I use for 4 people?",
-          "three": "What should I eat for dinner tonight?",
-          "two": "Can I use mustard oil or olive oil for desi cooking?"
+          "one": "How much oil should I use when cooking for 4 people?",
+          "two": "Is olive oil better than ghee for cooking?",
+          "three": "What should I eat for dinner tonight?"
         },
         "reply": "In traditional Pakistani handis like chicken karahi, free-pouring cooking oil often adds 30-50g of hidden fat (270-450 kcal) to the pot.\n\nPro habit: Use a tablespoon (1 tbsp = 14g, ~120 kcal) for the entire family handi, or simmer tomatoes early to create a rich, silky gravy with minimal oil."
       },
       "dawat": {
         "prompts": {
-          "one": "How do I log food if I eat out at a dawat?",
-          "three": "Can I skip lunch before a heavy dinner?",
-          "two": "What is the best choice at a BBQ restaurant?"
+          "one": "How do I log food I ate at a dawat?",
+          "two": "Should I skip lunch before a big dinner?",
+          "three": "What should I pick at a BBQ restaurant?"
         },
         "reply": "For shaadi or dawat nights, use the harm-reduction strategy:\n1. Fill half your plate first with grilled proteins (chicken tikka, seekh kabab) and fresh cucumber/onion salad.\n2. Pick ONE primary carb: either 1 naan OR 1 small cup of biryani, not both.\n3. Drink 2 glasses of water before eating, and enjoy 1 small piece of sweet mindfully."
       },
       "fastFood": {
         "prompts": {
-          "one": "What are the best low-calorie items at AlBaik?",
-          "three": "How to log fast food accurately",
-          "two": "Healthy options at Shawarmer or Al Tazaj"
+          "one": "What's the lowest-calorie meal at a fast-food place?",
+          "two": "How do I log a burger and fries?",
+          "three": "Is a grilled chicken wrap a good choice?"
         },
         "reply": "At AlBaik or Kudu, you can stay within your targets by choosing grilled chicken fillet or nuggets (ask for garlic dip on the side and dip lightly) instead of double-fried broast with fries.\n\nPro habit: Skip sugary sodas and opt for water or fresh orange juice. A 4-piece nugget portion with moderate dip is ~420 kcal!"
       },
       "gahwa": {
         "prompts": {
-          "one": "How many dates can I eat per day for weight loss?",
-          "three": "Best snack to pair with afternoon coffee",
-          "two": "Benefits of Saudi Gahwa for metabolism"
+          "one": "How many dates can I eat a day?",
+          "two": "Does Arabic coffee affect my diet?",
+          "three": "What's a good snack with afternoon coffee?"
         },
         "reply": "Saudi Gahwa with cardamom and saffron has almost zero calories (~2 kcal per finjan) and is rich in antioxidants!\n\nDates note: Companion Sukari or Ajwa dates are nutrient-rich but calorie-dense (~20-25 kcal per date). Having 2-3 dates with your afternoon Gahwa ritual gives sustained energy without spiking your daily calories."
       },
       "greetingPK": {
         "prompts": {
-          "one": "How to reduce oil in everyday cooking?",
-          "three": "Tips for dining out at dawats",
-          "two": "High-protein Pakistani breakfast ideas"
+          "one": "What breakfast will keep me full until lunch?",
+          "two": "How can I get more protein without much meat?",
+          "three": "I'm still hungry after dinner. What can I eat?"
         },
         "reply": "Assalam-o-Alaikum {{name}}! You currently have approximately {{remaining}} kcal remaining in your daily budget.\n\nFocus on getting lean protein (daal, eggs, chicken) and fibre-rich whole wheat roti while keeping cooking oil measured. What specific meal or habit can I help you optimize today?"
       },
       "greetingSA": {
         "prompts": {
-          "one": "How to fit Kabsa into my daily macros?",
-          "three": "Managing dates and Gahwa",
-          "two": "Healthy choices at AlBaik & Shawarmer"
+          "one": "How much rice can I have with kabsa?",
+          "two": "What breakfast will keep me full until lunch?",
+          "three": "I'm still hungry after dinner. What can I eat?"
         },
         "reply": "Marhaba {{name}}! You currently have approximately {{remaining}} kcal remaining in your daily budget.\n\nFocus on balanced portions of lean protein (Tanmiah chicken, Naeemi lamb, fish), fresh salad, and Almarai Laban, while keeping rice portions measured. How can I help you optimize your meals today?"
       }
@@ -981,25 +981,28 @@
       "errors": {
         "sign_in": "Sign in to add your own dishes.",
         "unknown_dish": "We couldn't recognise \"{{name}}\". Try a more common name, or log its ingredients one by one.",
-        "unavailable": "Couldn't add this dish right now. Check your connection and try again."
+        "unavailable": "Couldn't add this dish right now. Check your connection and try again.",
+        "incomplete": "We couldn't find verified nutrition data for: {{missing}}. Without it the calories for \"{{name}}\" would be too low, so we can't add it. Try logging its parts one by one."
       },
       "retry": "Try again",
       "oneServing": "1 serving ({{grams}} g)",
       "ingredientsHeading": "What's in one serving",
       "grams": "{{grams}} g",
-      "footnote": "Calories are calculated from Nutrio's food database, ingredient by ingredient. Only you can see dishes you add.",
-      "saveAndLog": "Save & log"
+      "footnote": "Calories come from Nutrio's food database and, for ingredients we don't have, from USDA FoodData Central (lab-measured data). Only you can see dishes you add.",
+      "saveAndLog": "Save & log",
+      "gramsWithSource": "{{grams}} g · {{source}}",
+      "notCounted": "{{grams}} g · not counted: no verified nutrition data"
     },
     "describeMeal": {
       "entryTitle": "Describe your meal",
       "entryHint": {
-        "PK": "e.g. \"2 roti, 1 katori daal and a cup of chai\"",
-        "SA": "e.g. \"a plate of chicken kabsa and laban\""
+        "PK": "Type a whole meal in one go",
+        "SA": "Type a whole meal in one go"
       },
       "title": "Describe your meal",
       "placeholder": {
-        "PK": "e.g. in breakfast I had 4 egg whites, 2 whole eggs and a salad",
-        "SA": "e.g. for lunch I had a plate of chicken kabsa, a salad and a cup of laban"
+        "PK": "Write what you ate and how much…",
+        "SA": "Write what you ate and how much…"
       },
       "analyse": "Find foods",
       "analyseAgain": "Find foods again",
@@ -1021,7 +1024,9 @@
       },
       "pending": "{{count}} item to check",
       "pending_other": "{{count}} items to check",
-      "logMeal": "Log meal"
+      "logMeal": "Log meal",
+      "gramsLabel": "Weight in grams",
+      "gramsUnit": "g"
     }
   },
   "weight": {
@@ -1045,7 +1050,6 @@
       "title": "Log body weight"
     },
     "screen": {
-      "dailyTracker": "Daily tracker",
       "eyebrow": "Metabolic feedback",
       "logTodayWeight": "Log today's weight",
       "title": "Weight & adaptive TDEE"

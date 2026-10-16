@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { buildTargetsRow, planFromTargetsRow } from '../targetsRow.js';
+import { buildTargetsRow, planFromTargetsRow, rebuildPlanFromTargetsRow } from '../targetsRow.js';
 import { computePlan } from '../../plan/engine.js';
+import { planUserContextFromSurvey } from '../../plan/userContext.js';
 import type { PlanUserContext } from '../../plan/types.js';
+import type { LifestyleSurveyPayload } from '../../survey/types.js';
 
 const userContext: PlanUserContext = {
   weightKg: 62,
@@ -67,5 +69,62 @@ describe('planFromTargetsRow', () => {
 
   it('rejects a stored plan that is missing required parts', () => {
     expect(planFromTargetsRow({ plan: { userContext: userContext } })).toBeNull();
+  });
+});
+
+describe('rebuildPlanFromTargetsRow', () => {
+  const survey: LifestyleSurveyPayload = {
+    version: 1,
+    basics: { sex: 'male', ageYears: 28, heightCm: 175, weightKg: 78, waistCm: 88 },
+    occupational: {
+      jobCategory: 'desk_sedentary',
+      workingHoursPerDay: 8,
+      shiftPattern: 'regular_day',
+      dailySittingHours: 7,
+      commuteType: 'car_cab',
+    },
+    exercise: { trainingType: 'gym_resistance', frequencyDaysPerWeek: 4, sessionDurationMins: 60, intensity: 'moderate' },
+    lifestyleDesi: {
+      sleepHoursPerNight: 7,
+      stressRating: 3,
+      chaiWithSugarCupsPerDay: 2,
+      eatingOutTimesPerWeek: 2,
+      whoCooksAtHome: 'family_traditional',
+      dailyWaterLitres: 2.5,
+      lateNightEating: false,
+      smoker: false,
+    },
+    healthClinical: { medicalConditions: [], isPregnantOrBreastfeeding: false, medicalDisclaimerAccepted: true },
+    preferencesBudget: { dietPreference: 'halal_omnivore', dislikedFoods: [] },
+  };
+  const accepted = computePlan(planUserContextFromSurvey(survey), { goal: 'lose', targetRateKgPerWeek: 0.5 });
+  /** A row as builds before 2026-10-13 saved it: the summary, no plan. */
+  const oldRow = () => {
+    const { plan: _plan, ...summary } = buildTargetsRow('profile-1', accepted);
+    return summary;
+  };
+
+  it('rebuilds the accepted plan from the survey and the saved goal', () => {
+    const rebuilt = rebuildPlanFromTargetsRow(oldRow(), survey)!;
+    expect(rebuilt.targetResult.kcalTarget).toBe(accepted.targetResult.kcalTarget);
+    expect(rebuilt.macros).toEqual(accepted.macros);
+    expect(rebuilt.goalSelection.goal).toBe('lose');
+    // and it is complete enough to be read back as a stored plan
+    expect(planFromTargetsRow({ plan: rebuilt })).toEqual(rebuilt);
+  });
+
+  it('refuses when the survey no longer reproduces the saved calories', () => {
+    const changed = { ...survey, basics: { ...survey.basics, weightKg: 95 } };
+    expect(rebuildPlanFromTargetsRow(oldRow(), changed)).toBeNull();
+  });
+
+  it('refuses a recalibrated row, whose TDEE came from logged intake', () => {
+    expect(rebuildPlanFromTargetsRow({ ...oldRow(), tdee_adaptive: 2500 }, survey)).toBeNull();
+  });
+
+  it('needs the survey and a known goal', () => {
+    expect(rebuildPlanFromTargetsRow(oldRow(), null)).toBeNull();
+    expect(rebuildPlanFromTargetsRow({ ...oldRow(), goal: 'bulk' }, survey)).toBeNull();
+    expect(rebuildPlanFromTargetsRow(null, survey)).toBeNull();
   });
 });

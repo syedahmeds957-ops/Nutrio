@@ -24,7 +24,10 @@ import {
   draftFromAnalysis,
   draftTotals,
   rowNutrition,
+  servingChoices,
+  setRowGrams,
   setRowQuantity,
+  setRowServing,
   toLogEntries,
   type DraftLogEntry,
   type DraftRow,
@@ -185,6 +188,53 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
             >
               <Icon name="plus" size={14} color={theme.colors.textPrimary} />
             </TouchableOpacity>
+
+            {/* Exact weight: replaces the serving with what the user typed. */}
+            <View style={[styles.gramsBox, { borderColor: theme.colors.border }]}>
+              <TextInput
+                // Remounts when the weight changes elsewhere (stepper, chip), so the box shows it.
+                key={`${row.key}_${nutrition?.grams ?? 0}`}
+                style={[styles.gramsInput, noOutlineStyle, { color: theme.colors.textPrimary }]}
+                defaultValue={nutrition ? String(nutrition.grams) : ''}
+                keyboardType="numeric"
+                inputMode="numeric"
+                maxLength={4}
+                selectTextOnFocus
+                accessibilityLabel={t('tracker.describeMeal.gramsLabel')}
+                onEndEditing={(e) => updateRow(row.key, (r) => setRowGrams(r, Number(e.nativeEvent.text)))}
+                onSubmitEditing={(e) => updateRow(row.key, (r) => setRowGrams(r, Number(e.nativeEvent.text)))}
+              />
+              <Text style={[styles.gramsUnit, { color: theme.colors.textSecondary }]}>
+                {t('tracker.describeMeal.gramsUnit')}
+              </Text>
+            </View>
+          </View>
+        )}
+
+        {row.food && servingChoices(row).length > 1 && (
+          <View style={styles.chips}>
+            {servingChoices(row).map((s) => {
+              const active = row.quantity === 1 && row.serving?.label === s.label;
+              return (
+                <TouchableOpacity
+                  key={s.label}
+                  style={[
+                    styles.chip,
+                    {
+                      backgroundColor: active ? theme.colors.surfaceSecondary : 'transparent',
+                      borderColor: active ? accent : theme.colors.border,
+                    },
+                  ]}
+                  onPress={() => updateRow(row.key, (r) => setRowServing(r, s))}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected: active }}
+                >
+                  <Text style={[styles.chipText, { color: theme.colors.textPrimary }]} numberOfLines={1}>
+                    {s.label}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
           </View>
         )}
 
@@ -428,6 +478,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   stepValue: { fontSize: 15, fontWeight: '700', minWidth: 28, textAlign: 'center' },
+  gramsBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    marginStart: 'auto',
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    height: 32,
+  },
+  gramsInput: { width: 48, fontSize: 14, fontWeight: '700', textAlign: 'right', paddingVertical: 0 },
+  gramsUnit: { fontSize: 13, fontWeight: '600' },
   decision: { gap: 8 },
   reason: { fontSize: 12, fontWeight: '600' },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },

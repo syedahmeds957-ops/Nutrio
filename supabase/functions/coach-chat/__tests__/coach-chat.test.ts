@@ -164,6 +164,55 @@ describe('coachChatService calling Groq', () => {
     expect(result.reply).toBe('Measure oil with a spoon.');
   });
 
+  it('keeps suggestions that read as questions and drops topic headings', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        choices: [
+          {
+            finish_reason: 'stop',
+            message: {
+              content:
+                'Try a boiled egg.\nSUGGESTIONS: ["High-protein snack ideas", "Can I have two eggs at night?", "What should I eat before the gym?"]',
+            },
+          },
+        ],
+      }),
+    });
+
+    const result = await coachChatService(request, 'gsk_test');
+
+    expect(result.suggestedPrompts).toEqual(['Can I have two eggs at night?', 'What should I eat before the gym?']);
+  });
+
+  it('asks the model for questions in the user own words, without brands', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ choices: [{ finish_reason: 'stop', message: { content: 'Ok.' } }] }),
+    });
+    global.fetch = fetchMock;
+
+    await coachChatService(request, 'gsk_test');
+
+    const system = JSON.parse(fetchMock.mock.calls[0][1].body).messages[0].content;
+    expect(system).toMatch(/questions the user is likely to ask/);
+    expect(system).toMatch(/never name brands/);
+  });
+
+  it('asks for a short answer that leads with the direct reply', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ choices: [{ finish_reason: 'stop', message: { content: 'Ok.' } }] }),
+    });
+    global.fetch = fetchMock;
+
+    await coachChatService(request, 'gsk_test');
+
+    const system = JSON.parse(fetchMock.mock.calls[0][1].body).messages[0].content;
+    expect(system).toMatch(/Answer the exact question in the first sentence/);
+    expect(system).toMatch(/under 80 words/);
+  });
+
   it('logs why Groq failed before falling back', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
     global.fetch = vi.fn().mockResolvedValue({

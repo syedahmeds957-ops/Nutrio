@@ -2,7 +2,7 @@ import { supabase, isSupabaseConfigured } from '../supabase/client.js';
 import { getAuthSession } from '../auth/authStorage.js';
 import { LifestyleSurveyPayload } from '../survey/types.js';
 import { ComputedUserPlan } from '../plan/types.js';
-import { buildTargetsRow, planFromTargetsRow } from './targetsRow.js';
+import { buildTargetsRow, planFromTargetsRow, rebuildPlanFromTargetsRow } from './targetsRow.js';
 import { errorMessage } from '../common/errors.js';
 
 /** One row of core.body_metrics. */
@@ -28,6 +28,11 @@ export interface HydrationResult {
   success: boolean;
   profileId?: string;
   computedPlan?: ComputedUserPlan | null;
+  /**
+   * True when `computedPlan` was rebuilt from an older targets row that lacked
+   * the full plan; the caller saves it back so the next restore reads it as-is.
+   */
+  planRebuilt?: boolean;
   surveyPayload?: LifestyleSurveyPayload | null;
   bodyMetrics?: BodyMetricRow[];
   error?: string;
@@ -348,13 +353,15 @@ export async function hydrateUserDataFromCloud(profileIdParam?: string): Promise
     fetchBodyMetricsHistory(profileId, 30),
   ]);
 
-  // The stored plan or nothing: the local copy or the survey covers the rest.
-  const computedPlan = planFromTargetsRow(targetsRow);
+  // The stored plan, or one rebuilt from an older row's goal and the survey.
+  const storedPlan = planFromTargetsRow(targetsRow);
+  const rebuiltPlan = storedPlan ? null : rebuildPlanFromTargetsRow(targetsRow, surveyPayload);
 
   return {
     success: true,
     profileId,
-    computedPlan,
+    computedPlan: storedPlan ?? rebuiltPlan,
+    planRebuilt: !!rebuiltPlan,
     surveyPayload,
     bodyMetrics,
   };

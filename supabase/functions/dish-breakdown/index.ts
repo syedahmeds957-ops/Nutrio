@@ -36,7 +36,13 @@ export async function handleDishBreakdownRequest(req: Request): Promise<Response
       return json({ error: 'Dish lookup is not configured' }, 503);
     }
 
-    const outcome = await breakDownDish(validation.data, apiKey);
+    // FoodData Central values ingredients the app's catalogue lacks. Without a
+    // key those are reported as not counted rather than estimated.
+    const usdaKey =
+      (typeof Deno !== 'undefined' ? Deno.env.get('USDA_FDC_API_KEY') : process.env.USDA_FDC_API_KEY) ||
+      undefined;
+
+    const outcome = await breakDownDish(validation.data, { groq: apiKey, usda: usdaKey });
     if (outcome.kind === 'unknown_dish') {
       return json({ error: 'Dish not recognised', code: 'unknown_dish' }, 422);
     }

@@ -112,7 +112,11 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [debouncedQuery, setDebouncedQuery] = useState('');
   const [isFiltering, setIsFiltering] = useState(false);
-  const [selectedGroup, setSelectedGroup] = useState<string>(DIET_GROUP);
+  /**
+   * The category pill the user picked, or null: nothing is preselected. The
+   * second row of pills appears only once a category with sub-options is picked.
+   */
+  const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
   const [selectedDietGroup, setSelectedDietGroup] = useState<string>(ALL_DIET_GROUPS);
 
   useEffect(() => {
@@ -163,6 +167,11 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
     [dietSections, selectedDietGroup]
   );
   const isDietView = selectedGroup === DIET_GROUP;
+  /**
+   * With no category picked, the hub opens on the user's saved meals, most-logged
+   * foods and the plain-food list — the quickest path for everyday logging.
+   */
+  const showsFoodList = selectedGroup === null || isDietView;
 
   const {
     basket,
@@ -190,18 +199,18 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
    * catalogue to find yesterday's breakfast is the common case, not the edge.
    */
   const recentFoods = useMemo(() => {
-    if (!isDietView) return [];
+    if (!showsFoodList) return [];
     const ranked = getMostLoggedFoodIds(MAX_RECENT_FOODS);
     if (ranked.length === 0) return [];
     const byId = new Map(dietFoods.map((f) => [foodKey(f), f]));
     return ranked
       .map((id) => byId.get(id) ?? byId.get(resolveFoodId(id)))
       .filter((f): f is NormalizedFood => Boolean(f));
-  }, [isDietView, dietFoods, presetsVersion]);
+  }, [showsFoodList, dietFoods, presetsVersion]);
 
   const presets = useMemo(
-    () => (isDietView ? loadMealPresets() : []),
-    [isDietView, presetsVersion]
+    () => (showsFoodList ? loadMealPresets() : []),
+    [showsFoodList, presetsVersion]
   );
 
   const handleDishPress = (item: NormalizedFood) => {
@@ -240,6 +249,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
 
   // Filter brands by active region & selected cuisine group
   const filteredBrands = useMemo(() => {
+    if (!selectedGroup || selectedGroup === DIET_GROUP) return [];
     if (activeRegion === 'SA') {
       if (selectedGroup === 'All') return SAUDI_RESTAURANT_BRANDS;
       if (selectedGroup === 'Home Food') {
@@ -314,7 +324,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
               },
             ]}
             onPress={() => {
-              setSelectedGroup('All');
+              setSelectedGroup(null);
               setRegion(activeRegion === 'SA' ? 'PK' : 'SA');
             }}
             activeOpacity={0.7}
@@ -531,7 +541,13 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                           : theme.colors.surfaceSecondary,
                       },
                     ]}
-                    onPress={() => setSelectedGroup(grp)}
+                    onPress={() => {
+                      // Tapping the picked category again clears it.
+                      setSelectedGroup(isActive ? null : grp);
+                      setSelectedDietGroup(ALL_DIET_GROUPS);
+                    }}
+                    accessibilityRole="button"
+                    accessibilityState={{ selected: isActive }}
                     activeOpacity={0.7}
                   >
                     <Text
@@ -685,8 +701,8 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                 </>
               )}
             </View>
-          ) : isDietView ? (
-            /* Plain Single-Ingredient Foods */
+          ) : showsFoodList ? (
+            /* Plain Single-Ingredient Foods (also the view before any category is picked) */
             <View style={styles.searchResultsSection}>
               {presets.length > 0 && (
                 <>
@@ -771,7 +787,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                 {selectedGroup === 'All'
                   ? t(`tracker.hub.allBrandsHeading.${activeRegion}`)
                   : t('tracker.hub.groupBrandsHeading', {
-                      group: groupLabel(selectedGroup),
+                      group: groupLabel(selectedGroup ?? ''),
                       count: filteredBrands.length,
                     })}
               </Text>

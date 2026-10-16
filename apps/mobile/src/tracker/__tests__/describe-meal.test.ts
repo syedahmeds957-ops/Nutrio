@@ -6,8 +6,12 @@ import {
   confirmRow,
   draftFromAnalysis,
   draftTotals,
+  MAX_ROW_GRAMS,
   rowNutrition,
+  servingChoices,
+  setRowGrams,
   setRowQuantity,
+  setRowServing,
   toLogEntries,
 } from '../describeMeal.js';
 
@@ -87,5 +91,34 @@ describe('describe-your-meal review', () => {
 
   it('refuses to log an empty meal', () => {
     expect(canLogDraft([])).toBe(false);
+  });
+});
+
+describe('changing a row weight', () => {
+  const [whites] = draftFromAnalysis(analyzeMealText('4 egg whites', 'PK'));
+
+  it('sets exactly the grams the user typed', () => {
+    const row = setRowGrams(whites, 150);
+    expect(row.quantity).toBe(1);
+    expect(rowNutrition(row)!.grams).toBe(150);
+    expect(rowNutrition(row)!.kcal).toBe(Math.round((row.food!.kcal100g * 150) / 100));
+  });
+
+  it('ignores an empty, zero or non-numeric weight', () => {
+    expect(setRowGrams(whites, 0)).toBe(whites);
+    expect(setRowGrams(whites, Number(''))).toBe(whites);
+    expect(setRowGrams(whites, Number('abc'))).toBe(whites);
+  });
+
+  it('caps a typo like 20000 g', () => {
+    expect(rowNutrition(setRowGrams(whites, 20000))!.grams).toBe(MAX_ROW_GRAMS);
+  });
+
+  it('switches to one of the food own servings', () => {
+    const choices = servingChoices(whites);
+    expect(choices.length).toBeGreaterThan(0);
+    const row = setRowServing(whites, choices[choices.length - 1]);
+    expect(row.quantity).toBe(1);
+    expect(row.serving!.label).toBe(choices[choices.length - 1].label);
   });
 });

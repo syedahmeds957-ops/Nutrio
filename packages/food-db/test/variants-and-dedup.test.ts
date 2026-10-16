@@ -39,7 +39,7 @@ describe('duplicate retirement', () => {
   });
 
   it('resolves a retired dish name to its replacement', () => {
-    expect(findPakistaniFoodByName('Lassi Namkeen')?.name).toBe('Salted Lassi (Home)');
+    expect(findPakistaniFoodByName('Lassi Namkeen')?.name).toBe('Salted Lassi');
     expect(findPakistaniFoodByName('Aloo Gosht (Mutton Shorba)')?.id).toBe('pak_food_187');
     expect(findPakistaniFoodByName('No Such Dish')).toBeUndefined();
   });

@@ -36,9 +36,18 @@ import {
   resolvePlanFlowBack,
   resolveSurveyBack,
   shouldOpenSavedPlan,
+  type AppRoute,
   type PlanDestination,
   type SurveyEntry,
 } from './src/navigation/planFlowRouting.js';
+import {
+  finishPlan,
+  goBackFrom,
+  navigateTo,
+  openFromDashboard,
+  startAt,
+  type NavState,
+} from './src/navigation/history.js';
 import { WeightTrackerScreen } from './src/weight/ui/index.js';
 import { hydrateWeighIns, loadWeighIns, releaseWeightCache } from './src/weight/weightStorage.js';
 import { buildWeighInSeed, collectIntakeLogs } from './src/weight/weightSeed.js';
@@ -46,6 +55,7 @@ import { CoachChatScreen, WeeklyCheckInScreen } from './src/coach/index.js';
 import { buildCoachContext } from './src/coach/coachContext.js';
 import { buildWeeklyCheckIn } from './src/coach/weeklyCheckIn.js';
 import { pickRestoredPlan } from './src/plan/restoredPlan.js';
+import { planUserContextFromSurvey } from './src/plan/userContext.js';
 import { AuthScreen, getAuthSession, clearAuthSession, restoreSession, markSurveyCompleted } from './src/auth/index.js';
 import {
   syncCompleteOnboarding,
@@ -126,19 +136,15 @@ function NutrioAppContent() {
   const { language } = useI18nState();
   const [fontsLoaded] = useFonts(APP_FONTS);
   const { width: windowWidth } = useWindowDimensions();
-  const [appState, setAppState] = useState<
-    | 'auth'
-    | 'survey'
-    | 'plan_flow'
-    | 'active_tracker'
-    | 'weight_tracker'
-    | 'weekly_plan'
-    | 'coach_chat'
-    | 'weekly_checkin'
-  >(() => {
+  // The current screen plus the screens behind it, so Back returns to where the
+  // user came from (see navigation/history.ts).
+  const [nav, setNav] = useState<NavState>(() =>
     // If user has an active session, boot directly to tracker; otherwise start directly at auth (Login)
-    return getAuthSession() ? 'active_tracker' : 'auth';
-  });
+    startAt(getAuthSession() ? 'active_tracker' : 'auth')
+  );
+  const appState = nav.route;
+  /** Starts over at `route` with nothing behind it: sign-in, sign-out, a finished flow. */
+  const resetTo = (route: AppRoute) => setNav(startAt(route));
   const [isGuest, setIsGuest] = useState<boolean>(false);
   const [isBootstrapping, setIsBootstrapping] = useState<boolean>(() => {
     // In test environment, skip splash to ensure deterministic renders
@@ -177,18 +183,20 @@ function NutrioAppContent() {
   };
 
   /**
-   * Applies a routing decision. The mode is always written before the route, and
-   * always written when the destination names one, so a later navigation can
-   * never inherit a stale 'review' from an earlier one.
+   * Opens a dashboard button's destination on top of the dashboard. The mode is
+   * always written before the route, and always written when the destination
+   * names one, so a later navigation can never inherit a stale 'review' from an
+   * earlier one. `wanted` is the screen the button is for: when the destination
+   * is a detour through goal setting, accepting the plan finishes there.
    */
-  const applyDestination = (destination: PlanDestination) => {
+  const applyDestination = (destination: PlanDestination, wanted: AppRoute = destination.route) => {
     if (destination.planFlowMode) {
       setPlanFlowMode(destination.planFlowMode);
     }
     if (destination.surveyEntry) {
       setSurveyEntry(destination.surveyEntry);
     }
-    setAppState(destination.route);
+    setNav((current) => openFromDashboard(current, destination.route, wanted));
   };
 
   // Pulls the signed-in user's activity history down and seeds local storage,
@@ -241,6 +249,13 @@ function NutrioAppContent() {
       setActivePlan(restoredPlan);
       savePersistedPlan(restoredPlan);
     }
+    // A plan rebuilt from an older targets row is saved back whole, so the next
+    // sign-in anywhere restores it directly.
+    if (restoredPlan && hydration?.planRebuilt && restoredPlan === hydration.computedPlan && hydration.profileId) {
+      syncNutritionTargets(hydration.profileId, restoredPlan).catch(
+        recoverWith('Saving the rebuilt plan', false)
+      );
+    }
 
     return { plan: restoredPlan ?? null };
   };
@@ -254,10 +269,10 @@ function NutrioAppContent() {
           const { plan } = await restoreUserData();
           if (isMounted && appState === 'auth') {
             if (session.user.surveyCompleted || plan) {
-              setAppState('active_tracker');
+              resetTo('active_tracker');
             } else {
               setSurveyEntry('onboarding');
-              setAppState('survey');
+              resetTo('survey');
             }
           }
         }
@@ -300,28 +315,26 @@ function NutrioAppContent() {
     }
   }, [isBootstrapping, isWaitingForFonts]);
 
-  // Edge-swipe-to-go-back: dispatches to the exact same target every screen's
-  // own back button already uses, so a swipe and a tap always agree.
-  const goBack = () => {
+  /**
+   * Where Back goes when nothing is behind the current screen — only the
+   * survey reached straight after sign-in, in practice. Everything else
+   * returns to the screen it was opened from.
+   */
+  const backFallback = (): AppRoute => {
     switch (appState) {
       case 'survey':
-        // Backing out of the survey from the dashboard used to land on the
-        // login screen, which reads as having been signed out.
-        setAppState(resolveSurveyBack(surveyEntry));
-        break;
+        return resolveSurveyBack(surveyEntry);
       case 'plan_flow':
-        setAppState(resolvePlanFlowBack({ planFlowMode, hasSurveyData: !!surveyData }));
-        break;
-      case 'coach_chat':
-      case 'weekly_checkin':
-      case 'weight_tracker':
-      case 'weekly_plan':
-        setAppState('active_tracker');
-        break;
+        return resolvePlanFlowBack({ planFlowMode, hasSurveyData: !!surveyData });
+      case 'auth':
+        return 'auth';
       default:
-        break;
+        return 'active_tracker';
     }
   };
+
+  // Every screen's back button and the edge swipe use this, so they agree.
+  const goBack = () => setNav((current) => goBackFrom(current, backFallback()));
   const canSwipeBack = [
     'survey',
     'plan_flow',
@@ -331,36 +344,42 @@ function NutrioAppContent() {
     'weekly_plan',
   ].includes(appState);
 
-  // Only the leading screen edge starts the gesture (matches iOS/Android edge-back
-  // conventions) so it never fights horizontal ScrollViews/carousels elsewhere on
-  // the screen. Direction flips for RTL: swipe left-to-right is "back" in LTR,
-  // right-to-left is "back" in RTL.
-  const EDGE_WIDTH = 24;
+  // Only the leading edge of the app starts the gesture (matches iOS/Android
+  // edge-back conventions) so it never fights horizontal ScrollViews/carousels
+  // elsewhere on the screen. Direction flips for RTL: swipe left-to-right is
+  // "back" in LTR, right-to-left is "back" in RTL.
+  const EDGE_WIDTH = 32;
+  // The app is a centred column (styles.appConstraint) on a wide browser
+  // window, so the edge is measured from the column. Measuring it from the
+  // window put it outside the app, and the swipe never started on desktop web.
+  const columnWidth = Math.min(windowWidth, APP_MAX_WIDTH);
+  const columnLeft = (windowWidth - columnWidth) / 2;
+  const isAtLeadingEdge = (pageX: number) => {
+    const x = pageX - columnLeft;
+    return dir.isRTL ? x > columnWidth - EDGE_WIDTH && x <= columnWidth : x >= 0 && x < EDGE_WIDTH;
+  };
+  const isBackSwipe = (pageX: number, dx: number, dy: number) => {
+    if (!canSwipeBack || !isAtLeadingEdge(pageX - dx)) return false;
+    const movingBack = dir.isRTL ? dx < -8 : dx > 8;
+    return movingBack && Math.abs(dx) > Math.abs(dy) * 1.5;
+  };
   const swipeTranslateX = useRef(new Animated.Value(0)).current;
   const swipePanResponder = PanResponder.create({
-    onStartShouldSetPanResponder: (evt) => {
-      if (!canSwipeBack) return false;
-      const x = evt.nativeEvent.pageX;
-      return dir.isRTL ? x > windowWidth - EDGE_WIDTH : x < EDGE_WIDTH;
-    },
-    onMoveShouldSetPanResponder: (evt, gestureState) => {
-      if (!canSwipeBack) return false;
-      const startX = evt.nativeEvent.pageX - gestureState.dx;
-      const startedAtEdge = dir.isRTL ? startX > windowWidth - EDGE_WIDTH : startX < EDGE_WIDTH;
-      if (!startedAtEdge) return false;
-      const movingBack = dir.isRTL ? gestureState.dx < -8 : gestureState.dx > 8;
-      return movingBack && Math.abs(gestureState.dx) > Math.abs(gestureState.dy) * 1.5;
-    },
+    onStartShouldSetPanResponder: (evt) => canSwipeBack && isAtLeadingEdge(evt.nativeEvent.pageX),
+    onMoveShouldSetPanResponder: (evt, g) => isBackSwipe(evt.nativeEvent.pageX, g.dx, g.dy),
+    // Taken in the capture phase too, so a button or card under the finger at
+    // the edge cannot keep the gesture once it is clearly a horizontal swipe.
+    onMoveShouldSetPanResponderCapture: (evt, g) => isBackSwipe(evt.nativeEvent.pageX, g.dx, g.dy),
     onPanResponderMove: (_evt, gestureState) => {
       const clamped = dir.isRTL ? Math.min(0, gestureState.dx) : Math.max(0, gestureState.dx);
       swipeTranslateX.setValue(clamped);
     },
     onPanResponderRelease: (_evt, gestureState) => {
       const committed =
-        Math.abs(gestureState.dx) > windowWidth * 0.28 || Math.abs(gestureState.vx) > 0.5;
+        Math.abs(gestureState.dx) > columnWidth * 0.28 || Math.abs(gestureState.vx) > 0.5;
       if (committed) {
         Animated.timing(swipeTranslateX, {
-          toValue: dir.isRTL ? -windowWidth : windowWidth,
+          toValue: dir.isRTL ? -columnWidth : columnWidth,
           duration: 180,
           useNativeDriver: true,
         }).start(() => {
@@ -406,16 +425,17 @@ function NutrioAppContent() {
           if (plan || session.user.surveyCompleted) {
             // Returning user: their targets and answers are already on record,
             // so onboarding must not run again.
-            setAppState('active_tracker');
+            resetTo('active_tracker');
           } else {
             // New user without a plan: the survey computes real targets (or
             // they can tap Skip for Now to track without targets).
-            applyDestination({ route: 'survey', surveyEntry: 'onboarding' });
+            setSurveyEntry('onboarding');
+            resetTo('survey');
           }
         }}
         onExploreGuest={() => {
           setIsGuest(true);
-          setAppState('active_tracker');
+          resetTo('active_tracker');
         }}
       />
     );
@@ -465,12 +485,13 @@ function NutrioAppContent() {
           // they leave before the plan screen.
           markSurveyCompleted().catch(recoverWith('Recording survey completion', undefined));
           setPlanFlowMode('create');
-          setAppState('plan_flow');
+          // On top of the survey, so Back from goal setting returns to it.
+          setNav((current) => navigateTo(current, 'plan_flow'));
         }}
         onSkip={() => {
           // Skipping survey marks as completed/bypassed and routes directly to user dashboard
           markSurveyCompleted().catch(recoverWith('Recording survey completion', undefined));
-          setAppState('active_tracker');
+          resetTo('active_tracker');
         }}
         onCancel={goBack}
       />
@@ -479,21 +500,9 @@ function NutrioAppContent() {
 
   // 4. Plan Workflow (Analysis -> Goal Selection -> Plan Reveal)
   if (appState === 'plan_flow' && (surveyData || activePlan)) {
-    const userContext: PlanUserContext = surveyData ? {
-      weightKg: surveyData.payload.basics.weightKg,
-      heightCm: surveyData.payload.basics.heightCm,
-      ageYears: surveyData.payload.basics.ageYears,
-      sex: surveyData.payload.basics.sex,
-      bmr: surveyData.bridged.bmrResults.selectedBMR,
-      tdee: surveyData.bridged.tdeeResults.tdee,
-      bodyFatPct: surveyData.payload.basics.bodyFatPct,
-      isPregnantOrBreastfeeding: surveyData.payload.healthClinical.isPregnantOrBreastfeeding,
-      medicalConditions: surveyData.payload.healthClinical.medicalConditions,
-      chaiSugarKcalPerDay: surveyData.bridged.culturalMetrics.dailyChaiKcal ?? 130,
-      weeklyChaiSugarKcal: surveyData.bridged.culturalMetrics.weeklyChaiKcal ?? 910,
-      isNightShift: surveyData.bridged.culturalMetrics.isNightShift ?? false,
-      dailySittingHours: surveyData.payload.occupational.dailySittingHours ?? 8,
-    } : activePlan!.userContext;
+    const userContext: PlanUserContext = surveyData
+      ? planUserContextFromSurvey(surveyData.payload, surveyData.bridged)
+      : activePlan!.userContext;
 
     return wrapScreen(
       <PlanWorkflowScreen
@@ -511,7 +520,8 @@ function NutrioAppContent() {
               console.warn('[NutrioApp] Background onboarding sync error:', err);
             });
           }
-          setAppState('active_tracker');
+          // To the screen the user was heading for (Coach, say), else the dashboard.
+          setNav(finishPlan);
         }}
         onCancel={goBack}
       />
@@ -544,9 +554,9 @@ function NutrioAppContent() {
         }
         targets={dynamicTargets}
         isGuest={isGuest}
-        onRequireAuth={() => setAppState('auth')}
+        onRequireAuth={() => resetTo('auth')}
         onSummaryChange={setTrackerSummary}
-        onOpenHome={() => setAppState('auth')}
+        onOpenHome={() => resetTo('auth')}
         onLogout={() => {
           // Drop the in-memory copies so the next account starts clean. The
           // durable records stay: they are keyed by user id, and wiping them
@@ -561,23 +571,24 @@ function NutrioAppContent() {
           setActivePlan(null);
           setSurveyData(null);
           setTrackerSummary(null);
-          setAppState('auth');
+          resetTo('auth');
         }}
-        onBackToPlan={() => applyDestination(resolveTargetsDestination(routingInput))}
+        onBackToPlan={() => applyDestination(resolveTargetsDestination(routingInput), 'plan_flow')}
         onOpenWeightTracker={() =>
-          applyDestination(resolveWeightTrackerDestination(routingInput))
+          applyDestination(resolveWeightTrackerDestination(routingInput), 'weight_tracker')
         }
         onOpenMealPlan={() =>
           applyDestination(
             resolveMealPlanDestination({
               ...routingInput,
               hasDietPreference: !!surveyData?.payload.preferencesBudget?.dietPreference,
-            })
+            }),
+            'weekly_plan'
           )
         }
-        onOpenCoachChat={() => applyDestination(resolveCoachDestination(routingInput))}
+        onOpenCoachChat={() => applyDestination(resolveCoachDestination(routingInput), 'coach_chat')}
         onOpenWeeklyCheckIn={() =>
-          applyDestination(resolveWeeklyCheckInDestination(routingInput))
+          applyDestination(resolveWeeklyCheckInDestination(routingInput), 'weekly_checkin')
         }
         // Still reachable from the profile sheet, just not from the nav row.
         onOpenSurvey={() => applyDestination({ route: 'survey', surveyEntry: 'dashboard' })}
@@ -628,7 +639,7 @@ function NutrioAppContent() {
             .catch((err) => {
               console.warn('[NutrioApp] Syncing recalibrated targets failed:', err);
             });
-          setAppState('active_tracker');
+          goBack();
         }}
         onBack={goBack}
       />
@@ -697,6 +708,9 @@ export default function App() {
   );
 }
 
+/** Width of the centred app column on wide screens; the back swipe measures its edge from it. */
+const APP_MAX_WIDTH = 500;
+
 const styles = StyleSheet.create({
   rootWrapper: {
     flex: 1,
@@ -706,7 +720,7 @@ const styles = StyleSheet.create({
   appConstraint: {
     flex: 1,
     width: '100%',
-    maxWidth: 500,
+    maxWidth: APP_MAX_WIDTH,
   },
   splashContainer: {
     flex: 1,

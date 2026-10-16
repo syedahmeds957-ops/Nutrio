@@ -29,9 +29,9 @@ export const DishCard: React.FC<DishCardProps> = ({ item, qty, isBuildMode, onPr
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
   const isSaudiRegion = activeRegion === 'SA';
-  // One local name, not both: a food carrying nameUr and nameAr used to print
-  // its name three times. The active region's script wins.
-  const localName = isSaudiRegion ? item.nameAr || item.nameUr : item.nameUr || item.nameAr;
+  // At most one local name. Urdu names are not displayed (lists show the
+  // English name; Urdu still matches in search). Saudi users see the Arabic name.
+  const localName = isSaudiRegion ? item.nameAr : undefined;
   const macroColor = isDark ? theme.colors.primaryLime : LIGHT_MACRO_TEXT;
 
   // The serving one tap logs (the user's own, if saved), and its numbers. The
