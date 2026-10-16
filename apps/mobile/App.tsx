@@ -67,6 +67,7 @@ import {
   hydrateFoodUsage,
   releasePresetCache,
 } from './src/tracker/mealPresets.js';
+import { hydrateCustomDishes, releaseCustomDishCache } from './src/tracker/customDishes.js';
 import { fetchActivityHistory } from './src/sync/activitySync.js';
 import { purgeLegacyAiKeys } from './src/ai/ai-service.js';
 import { addDaysToKey, localDateKey } from './src/common/dateKey.js';
@@ -209,6 +210,7 @@ function NutrioAppContent() {
     await Promise.all([
       hydrateMealPresets().catch(recoverWith('Restoring saved meals', undefined)),
       hydrateFoodUsage().catch(recoverWith('Restoring food usage', undefined)),
+      hydrateCustomDishes().catch(recoverWith('Restoring your dishes', undefined)),
       hydrateWeighIns().catch(recoverWith('Restoring weigh-ins', undefined)),
     ]);
   };
@@ -551,6 +553,7 @@ function NutrioAppContent() {
           // here is what made a returning user redo the whole survey.
           releaseLocalUserCache();
           releasePresetCache();
+          releaseCustomDishCache();
           releaseWeightCache();
           releaseSurveyCache();
           clearAuthSession().catch(recoverWith('Signing out', undefined));

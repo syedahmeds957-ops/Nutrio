@@ -109,7 +109,7 @@ describe('custom weight', () => {
   });
 
   it('handles a few grams (5g of ghee is a real entry)', () => {
-    const ghee = ALL_EXPANDED_PAKISTANI_FOODS.find((f) => f.name === 'Desi Ghee')!;
+    const ghee = ALL_EXPANDED_PAKISTANI_FOODS.find((f) => f.name === 'Ghee')!;
     expect(calculateCustomizedMacros(ghee, 1, {}, 5, 0).calories).toBe(Math.round((ghee.kcal100g * 5) / 100));
   });
 });

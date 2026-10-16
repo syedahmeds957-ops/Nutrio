@@ -16,7 +16,9 @@
     "test": "npm run test --workspaces --if-present && vitest run supabase/",
     "build": "npm run build --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
-    "deploy:coach": "node scripts/build-edge-function.mjs coach-chat && npx supabase functions deploy coach-chat --workdir supabase/.build --project-ref qcdfluglkwvmjusncaas --use-api"
+    "deploy:coach": "node scripts/build-edge-function.mjs coach-chat && npx supabase functions deploy coach-chat --workdir supabase/.build --project-ref qcdfluglkwvmjusncaas --use-api",
+    "deploy:dish-breakdown": "node scripts/build-edge-function.mjs dish-breakdown && npx supabase functions deploy dish-breakdown --workdir supabase/.build --project-ref qcdfluglkwvmjusncaas --use-api",
+    "deploy:parse-food-text": "node scripts/build-edge-function.mjs parse-food-text && npx supabase functions deploy parse-food-text --workdir supabase/.build --project-ref qcdfluglkwvmjusncaas --use-api"
   },
   "devDependencies": {
     "@types/node": "^26.4.1",

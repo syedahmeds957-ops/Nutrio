@@ -356,28 +356,28 @@ export function solveDailyMealPlan(
   const meals: PlannedMealSlot[] = [
     {
       slot: 'breakfast',
-      title: isSaudi ? 'Saudi Protein Breakfast' : 'Desi Protein Breakfast',
+      title: 'Protein Breakfast',
       targetCalories: targetBreakfastKcal,
       actualCalories: breakfastItems.reduce((s, i) => s + i.calories, 0),
       items: breakfastItems,
     },
     {
       slot: 'lunch',
-      title: isSaudi ? 'Traditional Saudi Lunch' : 'Traditional Lunch',
+      title: 'Balanced Lunch',
       targetCalories: targetLunchKcal,
       actualCalories: lunchItems.reduce((s, i) => s + i.calories, 0),
       items: lunchItems,
     },
     {
       slot: 'dinner',
-      title: isSaudi ? 'Evening Saudi Dinner' : 'Evening Wholesome Dinner',
+      title: 'Wholesome Dinner',
       targetCalories: targetDinnerKcal,
       actualCalories: dinnerItems.reduce((s, i) => s + i.calories, 0),
       items: dinnerItems,
     },
     {
       slot: 'snacks_chai',
-      title: isSaudi ? 'Saudi Gahwa & Dates' : 'Chai & Light Snack',
+      title: 'Light Snack',
       targetCalories: targetSnackKcal,
       actualCalories: snackItems.reduce((s, i) => s + i.calories, 0),
       items: snackItems,
@@ -478,5 +478,6 @@ export function solveDailyMealPlan(
     meals,
     isWithinTolerance: Math.abs(calorieDeviationPct) <= 5.0,
     dietPreference: input.dietPreference,
+    region: isSaudi ? 'SA' : 'PK',
   };
 }

@@ -170,7 +170,7 @@ export const BEVERAGES_DRINKS_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Gur Wali Chai (Jaggery Village Tea)",
+    "name": "Gur Chai (Jaggery Village Tea)",
     "nameUr": "گڑ والی چائے",
     "category": "Beverages & Drinks",
     "cuisineTags": [

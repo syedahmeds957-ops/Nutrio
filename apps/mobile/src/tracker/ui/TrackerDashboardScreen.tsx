@@ -21,6 +21,7 @@ import { resolveStaple } from '../staples.js';
 import { WeeklyCalorieBankCard } from './WeeklyCalorieBankCard.js';
 import { TrackerEngine } from '../engine.js';
 import { MealSlot, DailyTrackerSummary } from '../types.js';
+import type { DraftLogEntry } from '../describeMeal.js';
 import {
   NormalizedFood,
   PAKISTANI_STAPLES_DATA,
@@ -356,6 +357,20 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
       engine.logItem(activeSlot, food, serving, quantity);
     }
     recordFoodUsage(entries.map(({ food }) => food.id || food.name));
+    setHubVisible(false);
+    persistCurrentActivities();
+    HapticFeedback.notificationSuccess();
+    forceUpdate();
+  };
+
+  // A described meal arrives reviewed: each row already carries its serving
+  // and count, and the engine prices it from the catalogue.
+  const handleLogDescribedMeal = (slot: MealSlot, entries: DraftLogEntry[]) => {
+    for (const { food, serving, quantity } of entries) {
+      engine.logItem(slot, food, serving, quantity);
+    }
+    recordFoodUsage(entries.map(({ food }) => food.id || food.name));
+    setActiveSlot(slot);
     setHubVisible(false);
     persistCurrentActivities();
     HapticFeedback.notificationSuccess();
@@ -801,6 +816,7 @@ const defaultSlotForNow = (): MealSlot => {
         onConfirmBasket={handleConfirmBasket}
         slot={activeSlot}
         onSlotChange={setActiveSlot}
+        onLogDescribedMeal={handleLogDescribedMeal}
       />
 
       {/* Brand Menu View with Sub-Categories */}

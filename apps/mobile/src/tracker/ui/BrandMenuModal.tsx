@@ -398,11 +398,6 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                                 {item.nameAr}
                               </Text>
                             )}
-                            {item.nameUr && (
-                              <Text style={[styles.itemNameUr, { color: theme.colors.textMuted }]}>
-                                {item.nameUr}
-                              </Text>
-                            )}
                           </View>
 
                           <Text style={[styles.itemServing, { color: theme.colors.textSecondary }]}>
@@ -595,9 +590,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '700',
     marginRight: 6,
-  },
-  itemNameUr: {
-    fontSize: 12,
   },
   itemServing: {
     fontSize: 13,

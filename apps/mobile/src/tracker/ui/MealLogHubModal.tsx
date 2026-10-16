@@ -29,6 +29,10 @@ import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { getMostLoggedFoodIds, loadMealPresets, MAX_RECENT_FOODS } from '../mealPresets.js';
+import { searchCustomDishes } from '../customDishes.js';
+import type { DraftLogEntry } from '../describeMeal.js';
+import { AddDishModal } from './AddDishModal.js';
+import { DescribeMealModal } from './DescribeMealModal.js';
 import { styles } from './MealLogHubModal.styles.js';
 import { DishCard } from './DishCard.js';
 import { VariantDishCard } from './VariantDishCard.js';
@@ -48,6 +52,8 @@ export interface MealLogHubModalProps {
   slot?: MealSlot;
   /** Called when the user picks a different meal in the hub. */
   onSlotChange?: (slot: MealSlot) => void;
+  /** Logs a meal the user described in a sentence and reviewed. */
+  onLogDescribedMeal?: (slot: MealSlot, entries: DraftLogEntry[]) => void;
 }
 
 const MEAL_SLOT_IDS: MealSlot[] = ['breakfast', 'lunch', 'dinner', 'snacks_chai'];
@@ -89,13 +95,17 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   onConfirmBasket,
   slot,
   onSlotChange,
+  onLogDescribedMeal,
 }) => {
   const { theme } = useTheme();
   const { activeRegion, setRegion } = useRegion();
   const isSaudiRegion = activeRegion === 'SA';
-  /** The local-script name for the active region, falling back to the other. */
-  const localName = (nameUr?: string, nameAr?: string) =>
-    isSaudiRegion ? nameAr || nameUr : nameUr || nameAr;
+  /**
+   * The Arabic name for Saudi users. Urdu names are not displayed (lists show
+   * the English name only) but still match in search.
+   */
+  const localName = (_nameUr?: string, nameAr?: string) =>
+    isSaudiRegion ? nameAr : undefined;
   const { t } = useTranslation();
   const dir = useTextDirection();
   const [searchQuery, setSearchQuery] = useState('');
@@ -202,17 +212,29 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
     onSelectItem(item);
   };
 
-  // Search across dishes adapted to active region
+  // A dish name the catalogue lacked, being added in AddDishModal; null when closed.
+  const [addDishName, setAddDishName] = useState<string | null>(null);
+  const [isDescribing, setIsDescribing] = useState(false);
+  // Bumped when a dish is added, so search picks it up straight away.
+  const [customDishesVersion, setCustomDishesVersion] = useState(0);
+
+  // Search across dishes adapted to active region. The user's own dishes come
+  // first: they added them because the catalogue had nothing better.
   const searchResults = useMemo(() => {
     const q = (debouncedQuery || searchQuery).trim().toLowerCase();
     if (!q) return [];
 
-    if (activeRegion === 'SA') {
-      return searchSaudiFoods(q, { limit: 40 });
-    }
+    const own = searchCustomDishes(q);
+    const catalogue =
+      activeRegion === 'SA' ? searchSaudiFoods(q, { limit: 40 }) : searchPakistaniFoods(q, { limit: 40 });
+    return [...own, ...catalogue];
+  }, [debouncedQuery, searchQuery, activeRegion, customDishesVersion]);
 
-    return searchPakistaniFoods(q, { limit: 40 });
-  }, [debouncedQuery, searchQuery, activeRegion]);
+  const handleDishAdded = (dish: NormalizedFood) => {
+    setAddDishName(null);
+    setCustomDishesVersion((v) => v + 1);
+    handleDishPress(dish);
+  };
 
   const isSearching = searchQuery.trim().length > 0;
 
@@ -407,6 +429,30 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
             ) : null}
           </View>
         </View>
+
+        {/* Describe a whole meal in one sentence */}
+        {onLogDescribedMeal && !isBuildMode && (
+          <TouchableOpacity
+            style={[
+              styles.describeMealBtn,
+              { backgroundColor: theme.colors.surface, borderColor: theme.colors.primaryLime },
+            ]}
+            onPress={() => setIsDescribing(true)}
+            activeOpacity={0.7}
+            accessibilityRole="button"
+          >
+            <Icon name="sparkles" size={16} color={theme.colors.textPrimary} />
+            <View style={styles.describeMealTextCol}>
+              <Text style={[styles.describeMealTitle, dir.text, { color: theme.colors.textPrimary }]}>
+                {t('tracker.describeMeal.entryTitle')}
+              </Text>
+              <Text style={[styles.describeMealHint, dir.text, { color: theme.colors.textSecondary }]} numberOfLines={1}>
+                {t(`tracker.describeMeal.entryHint.${activeRegion === 'SA' ? 'SA' : 'PK'}`)}
+              </Text>
+            </View>
+            <Icon name="chevron-right" size={16} color={theme.colors.textMuted} />
+          </TouchableOpacity>
+        )}
 
         {/* Custom Meal Mode Toggle */}
         {onConfirmBasket && (
@@ -603,18 +649,40 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                   <Text style={[styles.emptyStateSubtitle, dir.textCenter, { color: theme.colors.textSecondary }]}>
                     {t(`tracker.hub.noDishesHint.${activeRegion}`)}
                   </Text>
+                  <TouchableOpacity
+                    style={[styles.addDishButton, { backgroundColor: theme.colors.primaryLime }]}
+                    onPress={() => setAddDishName(searchQuery.trim())}
+                    accessibilityRole="button"
+                  >
+                    <Icon name="plus" size={16} color="#0A0B0D" />
+                    <Text style={styles.addDishButtonText}>
+                      {t('tracker.addDish.addButton', { name: searchQuery.trim() })}
+                    </Text>
+                  </TouchableOpacity>
                 </View>
               ) : (
-                searchResults.map((food) => (
-                  <VariantDishCard
-                    key={food.id ?? food.name}
-                    item={food}
-                    isBuildMode={isBuildMode}
-                    basketQty={basketQty}
-                    onPressFood={handleDishPress}
-                    onRemoveFood={removeFromBasket}
-                  />
-                ))
+                <>
+                  {searchResults.map((food) => (
+                    <VariantDishCard
+                      key={food.id ?? food.name}
+                      item={food}
+                      isBuildMode={isBuildMode}
+                      basketQty={basketQty}
+                      onPressFood={handleDishPress}
+                      onRemoveFood={removeFromBasket}
+                    />
+                  ))}
+                  {/* The catalogue's nearest names may not be the dish the user means. */}
+                  <TouchableOpacity
+                    style={styles.addDishLink}
+                    onPress={() => setAddDishName(searchQuery.trim())}
+                    accessibilityRole="button"
+                  >
+                    <Text style={[styles.addDishLinkText, dir.textCenter, { color: theme.colors.textSecondary }]}>
+                      {t('tracker.addDish.notListed', { name: searchQuery.trim() })}
+                    </Text>
+                  </TouchableOpacity>
+                </>
               )}
             </View>
           ) : isDietView ? (
@@ -766,6 +834,27 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
             onConfirm={handleConfirmBasket}
           />
         )}
+
+        {onLogDescribedMeal && (
+          <DescribeMealModal
+            visible={isDescribing}
+            region={activeRegion}
+            initialSlot={slot ?? 'breakfast'}
+            onClose={() => setIsDescribing(false)}
+            onLog={(mealSlot, entries) => {
+              setIsDescribing(false);
+              onLogDescribedMeal(mealSlot, entries);
+            }}
+          />
+        )}
+
+        <AddDishModal
+          visible={addDishName !== null}
+          dishName={addDishName ?? ''}
+          region={activeRegion}
+          onClose={() => setAddDishName(null)}
+          onDishAdded={handleDishAdded}
+        />
       </SafeAreaView>
     </Modal>
   );

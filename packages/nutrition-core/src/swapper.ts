@@ -160,9 +160,9 @@ export function generateMealSwaps(
   let option3: MealSwapOption;
 
   if (originalMeal.slot === 'breakfast') {
-    // Option 1: Desi Omelette + Paratha
+    // Option 1: Omelette + Paratha
     const paratha = breads.find((b) => b.name.includes('Paratha')) || defaultRoti;
-    option1 = buildOption('swap_bf_1', 'Desi Omelette & Paratha', [
+    option1 = buildOption('swap_bf_1', 'Omelette & Paratha', [
       { food: defaultEgg, qty: 1 },
       { food: paratha, qty: 1 },
     ]);

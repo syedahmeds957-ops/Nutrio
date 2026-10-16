@@ -88,7 +88,7 @@ export const RETIRED_DUPLICATE_IDS: Readonly<Record<string, string>> = {
   // Drinks
   ghar_expanded_67: 'pak_food_488', // Karak Doodh Patti Chai
   ghar_expanded_69: 'pak_food_498', // Adrak Wali Chai → Ginger Tea
-  ghar_expanded_70: 'pak_food_494', // Gur Wali Chai
+  ghar_expanded_70: 'pak_food_494', // Gur Wali Chai → Gur Chai (Jaggery Village Tea)
   ghar_expanded_71: 'pak_food_495', // Sulemani Qahwa → Sulaimani Chai
   ghar_expanded_72: 'diet_bev_14', // Namkeen Lassi → Salted Lassi (Home)
   pak_food_249: 'diet_bev_14', // Salted Lassi (Namkeen) → Salted Lassi (Home)

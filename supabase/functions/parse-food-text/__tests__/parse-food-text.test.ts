@@ -5,11 +5,14 @@ import { handleParseFoodTextRequest } from '../index.js';
 import { parseFoodTextService } from '../parser.js';
 import { MEAL_UNITS, ParseFoodTextResponseSchema } from '../schema.js';
 
+/** A token whose payload says a signed-in user; the gateway has already checked the signature. */
+const SIGNED_IN_TOKEN = `x.${btoa(JSON.stringify({ role: 'authenticated' })).replace(/=+$/, '')}.y`;
+
 const post = (body: unknown) =>
   handleParseFoodTextRequest(
     new Request('http://localhost/parse-food-text', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${SIGNED_IN_TOKEN}` },
       body: JSON.stringify(body),
     })
   );
@@ -29,6 +32,13 @@ describe('parse-food-text: HTTP handling', () => {
   it('rejects GET', async () => {
     const res = await handleParseFoodTextRequest(new Request('http://localhost/x', { method: 'GET' }));
     expect(res.status).toBe(405);
+  });
+
+  it('refuses the anon key: guests split meals on the device', async () => {
+    const res = await handleParseFoodTextRequest(
+      new Request('http://localhost/x', { method: 'POST', body: JSON.stringify({ text: 'two roti' }) })
+    );
+    expect(res.status).toBe(401);
   });
 
   it('rejects empty text', async () => {

@@ -20,7 +20,6 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
   const dir = useTextDirection();
-  const isSaudi = activeRegion === 'SA';
 
   const getSlotIcon = (slotKey: string) => {
     switch (slotKey) {
@@ -82,9 +81,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
               style={[styles.slotTitle, { color: theme.colors.textPrimary }]}
               numberOfLines={1}
             >
-              {isSaudi
-                ? slot.title?.replace(/Desi/gi, 'Saudi')?.replace(/Chai/gi, 'Gahwa')
-                : slot.title}
+              {slot.title}
             </Text>
           </View>
         </View>
@@ -209,16 +206,6 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
                 >
                   {item.foodName}
                 </Text>
-                {item.foodNameUr ? (
-                  <Text
-                    style={[
-                      styles.itemUrduName,
-                      { color: theme.colors.textSecondary },
-                    ]}
-                  >
-                    {item.foodNameUr}
-                  </Text>
-                ) : null}
               </View>
               <Text
                 style={[
@@ -395,10 +382,6 @@ const styles = StyleSheet.create({
   itemName: {
     fontSize: 14,
     fontWeight: '700',
-  },
-  itemUrduName: {
-    fontSize: 13,
-    fontWeight: '500',
   },
   servingLabel: {
     fontSize: 12,

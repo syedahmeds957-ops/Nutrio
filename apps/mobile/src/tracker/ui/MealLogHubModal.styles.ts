@@ -73,6 +73,28 @@ export const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderWidth: 0,
   },
+  describeMealBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginHorizontal: 16,
+    marginBottom: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    borderRadius: 16,
+    borderWidth: 1.5,
+  },
+  describeMealTextCol: {
+    flex: 1,
+  },
+  describeMealTitle: {
+    fontSize: 14,
+    fontWeight: '800',
+  },
+  describeMealHint: {
+    fontSize: 12,
+    marginTop: 2,
+  },
   buildModeRow: {
     paddingHorizontal: 16,
     paddingBottom: 10,
@@ -375,6 +397,29 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
     lineHeight: 20,
+  },
+  addDishButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginTop: 18,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 9999,
+  },
+  addDishButtonText: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: '#0A0B0D',
+  },
+  addDishLink: {
+    paddingVertical: 16,
+    alignItems: 'center',
+  },
+  addDishLinkText: {
+    fontSize: 13,
+    fontWeight: '600',
+    textDecorationLine: 'underline',
   },
   filterLoadingContainer: {
     paddingVertical: 36,

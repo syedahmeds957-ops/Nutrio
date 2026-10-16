@@ -898,7 +898,7 @@ export const BBQ_GRILLS_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Mutton Dhaba Kabab",
+    "name": "Mutton Kabab",
     "nameUr": "مٹن ڈھابہ کباب",
     "category": "BBQ & Grills",
     "cuisineTags": [
@@ -926,7 +926,7 @@ export const BBQ_GRILLS_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Beef Dhaba Kabab",
+    "name": "Beef Kabab",
     "nameUr": "بیف ڈھابہ کباب",
     "category": "BBQ & Grills",
     "cuisineTags": [
@@ -954,7 +954,7 @@ export const BBQ_GRILLS_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Chicken Dhaba Kabab",
+    "name": "Chicken Kabab",
     "nameUr": "چکن ڈھابہ کباب",
     "category": "BBQ & Grills",
     "cuisineTags": [

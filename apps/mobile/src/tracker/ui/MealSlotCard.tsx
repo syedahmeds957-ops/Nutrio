@@ -134,7 +134,6 @@ export const MealSlotCard: React.FC<MealSlotCardProps> = ({
               <View style={styles.itemInfo}>
                 <Text style={[styles.itemName, { color: theme.colors.textPrimary }]}>
                   {item.foodName}
-                  {item.foodNameUr ? ` (${item.foodNameUr})` : ''}
                 </Text>
                 <Text style={[styles.itemServing, { color: theme.colors.textSecondary }]}>
                   {formatServingLine(item.quantity, item.servingLabel, item.totalGrams)}

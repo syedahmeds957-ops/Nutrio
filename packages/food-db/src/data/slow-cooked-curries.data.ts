@@ -366,7 +366,7 @@ export const SLOW_COOKED_CURRIES_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Degi Chicken Korma (Shadi Style)",
+    "name": "Chicken Korma",
     "nameUr": "دیگی چکن قورمہ",
     "category": "Slow-Cooked Curries",
     "cuisineTags": [
@@ -394,7 +394,7 @@ export const SLOW_COOKED_CURRIES_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Degi Beef Korma",
+    "name": "Beef Korma",
     "nameUr": "دیگی بیف قورمہ",
     "category": "Slow-Cooked Curries",
     "cuisineTags": [
@@ -422,7 +422,7 @@ export const SLOW_COOKED_CURRIES_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Degi Mutton Korma",
+    "name": "Mutton Korma",
     "nameUr": "دیگی مٹن قورمہ",
     "category": "Slow-Cooked Curries",
     "cuisineTags": [
@@ -590,7 +590,7 @@ export const SLOW_COOKED_CURRIES_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Keema Fry (Dhabba Style Dry Spiced Mince)",
+    "name": "Keema Fry (Dry Spiced Mince)",
     "nameUr": "قیمہ فرائی",
     "category": "Slow-Cooked Curries",
     "cuisineTags": [
