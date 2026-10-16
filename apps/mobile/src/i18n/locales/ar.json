@@ -767,21 +767,28 @@
     },
     "customizer": {
       "addModifier": "إضافة {{name}}",
+      "customPortion": "حصة مخصصة {{grams}} جرام",
+      "customTotal": "{{grams}} جرام إجمالًا",
       "customWeight": "وزن مخصص (غرام)",
-      "customWeightHint": "أدخل الوزن الدقيق بالغرامات لحساب السعرات بدقة",
+      "customWeightHint": "اكتب الوزن بالجرام بدقة، أو عدّله بالأزرار",
       "decreaseQty": "إنقاص الكمية",
       "estimated": "تقديري",
       "fallbackBrand": {
         "PK": "طبق باكستاني",
         "SA": "طبق سعودي"
       },
+      "gramsField": "الوزن بالجرام",
+      "gramsInvalid": "أدخل وزنًا بين 1 و3000 جرام",
       "increaseQty": "زيادة الكمية",
       "kcalEach": "{{value}} سعرة لكل واحدة",
       "logThis": "تسجيل الوجبة",
       "logToSlot": "التسجيل في وجبة",
       "makeItYours": "خصّصها كما تحب",
+      "myServing": "حصتي",
       "portionSize": "حجم الحصة",
       "removeModifier": "إزالة {{name}}",
+      "resetMyServing": "العودة إلى الحصة القياسية",
+      "saveAsMyServing": "احفظ {{grams}} جرام كحصتي القياسية",
       "standardServings": "أحجام قياسية"
     },
     "dashboard": {
@@ -912,6 +919,12 @@
       "groupBrandsHeading": "علامات {{group}} ({{count}})",
       "logCustomMeal": "تسجيل الوجبة",
       "noDishes": "لم يتم العثور على أطباق",
+      "variant": {
+        "Mutton": "لحم ضأن",
+        "Beef": "لحم بقر",
+        "Chicken": "دجاج"
+      },
+      "variantPicker": "اختر نوع اللحم لـ {{name}}",
       "noDishesHint": {
         "PK": "جرّب البحث عن «زنجر» أو «برياني» أو «شاي» أو «بيتزا» أو «كراهي».",
         "SA": "جرّب البحث عن «كبسة» أو «البيك» أو «مندي» أو «سليق» أو «قهوة»."

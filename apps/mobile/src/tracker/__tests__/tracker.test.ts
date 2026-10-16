@@ -5,7 +5,10 @@ import { PAKISTANI_STAPLES_DATA } from '@nutrio/food-db';
 describe('Daily Tracker Engine & Offline Queue (Task 1.5)', () => {
   const rotiFood = PAKISTANI_STAPLES_DATA.find((f) => f.name.includes('Roti'))!;
   const biryaniFood = PAKISTANI_STAPLES_DATA.find((f) => f.name.includes('Biryani'))!;
-  const chaiFood = PAKISTANI_STAPLES_DATA.find((f) => f.name.includes('Chai'))!;
+  // By exact name: `includes('Chai')` lands on "Rusk (Dunking Biscuit for Chai)".
+  const chaiFood = PAKISTANI_STAPLES_DATA.find(
+    (f) => f.name === 'Doodh Patti Chai (1 tsp Sugar / Kam Cheeni)'
+  )!;
 
   it('strictly computes calories and macros from food database using (grams / 100) rule', () => {
     // Roti: 265 kcal / 100g
@@ -57,13 +60,13 @@ describe('Daily Tracker Engine & Offline Queue (Task 1.5)', () => {
       targetCarbGrams: 210,
     });
 
-    // 1. Log Lunch: 1 plate Biryani (350g)
-    const biryaniServing = biryaniFood.servings[0]; // 350g
+    // 1. Log Lunch: 1 serving of Biryani
+    const biryaniServing = biryaniFood.servings[0];
     const loggedBiryani = engine.logItem('lunch', biryaniFood, biryaniServing, 1);
 
-    // 2. Log Snacks: 1 cup Chai (150g)
-    const chaiServing = chaiFood.servings[0]; // 150g
-    engine.logItem('snacks_chai', chaiFood, chaiServing, 1);
+    // 2. Log Snacks: 1 serving of Chai
+    const chaiServing = chaiFood.servings[0];
+    const loggedChai = engine.logItem('snacks_chai', chaiFood, chaiServing, 1);
 
     // 3. Log Water: 500 ml
     engine.logWater(500);
@@ -71,7 +74,8 @@ describe('Daily Tracker Engine & Offline Queue (Task 1.5)', () => {
     let summary = engine.getSummary();
     expect(summary.items).toHaveLength(2);
     expect(summary.waterMlConsumed).toBe(500);
-    expect(summary.totalCaloriesConsumed).toBeGreaterThan(600);
+    expect(summary.totalCaloriesConsumed).toBe(loggedBiryani.calories + loggedChai.calories);
+    expect(summary.totalCaloriesConsumed).toBeGreaterThan(400);
 
     // 4. Delete Biryani
     const deleted = engine.deleteItem(loggedBiryani.id);

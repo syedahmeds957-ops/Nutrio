@@ -21,8 +21,12 @@ import { resolveStaple } from '../staples.js';
 import { WeeklyCalorieBankCard } from './WeeklyCalorieBankCard.js';
 import { TrackerEngine } from '../engine.js';
 import { MealSlot, DailyTrackerSummary } from '../types.js';
-import { NormalizedFood, PAKISTANI_STAPLES_DATA, SAUDI_TRADITIONAL_FOODS, ServingUnit } from '@nutrio/food-db';
-import { ResolvedFoodItem } from '@nutrio/nutrition-core';
+import {
+  NormalizedFood,
+  PAKISTANI_STAPLES_DATA,
+  SAUDI_TRADITIONAL_FOODS,
+  ServingUnit,
+} from '@nutrio/food-db';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
@@ -31,6 +35,8 @@ import { ProfileSheet } from './ProfileSheet.js';
 import { Icon } from '../../ui/Icon.js';
 import { saveDailyActivities, loadDailyActivities, getOrInitHistoryStartDate } from '../activityStorage.js';
 import { recordFoodUsage } from '../mealPresets.js';
+import { defaultServingFor } from '../personalServings.js';
+import { foodKey } from './useMealBasket.js';
 import { pushDailyActivities } from '../../sync/activitySync.js';
 import { HapticFeedback } from '../../ui/haptics.js';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -345,7 +351,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   // slot — the slot card already renders and lets you delete them individually.
   const handleConfirmBasket = (entries: MealBasketEntry[]) => {
     for (const { food, quantity } of entries) {
-      const serving = food.servings[0];
+      const serving = defaultServingFor(food, foodKey(food), t('tracker.customizer.myServing'));
       if (!serving) continue;
       engine.logItem(activeSlot, food, serving, quantity);
     }
@@ -353,26 +359,6 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     setHubVisible(false);
     persistCurrentActivities();
     HapticFeedback.notificationSuccess();
-    forceUpdate();
-  };
-
-  const handleConfirmPlateItems = (
-    slot: MealSlot,
-    items: ResolvedFoodItem[]
-  ) => {
-    const foodPool = activeRegion === 'SA' ? SAUDI_TRADITIONAL_FOODS : PAKISTANI_STAPLES_DATA;
-    for (const item of items) {
-      const found =
-        foodPool.find((f) => f.name === item.matchedFoodName) ||
-        foodPool[0];
-      const serving = found.servings[0] || {
-        label: item.servingLabel,
-        grams: item.servingGrams,
-      };
-      const qty = item.resolvedGrams / serving.grams;
-      engine.logItem(slot, found, serving, Number(qty.toFixed(1)));
-    }
-    persistCurrentActivities();
     forceUpdate();
   };
 

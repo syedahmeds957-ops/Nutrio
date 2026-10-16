@@ -225,6 +225,57 @@ export const styles = StyleSheet.create({
     color: '#1C1917',
     fontVariant: ['tabular-nums'],
   },
+  gramsInputBox: {
+    alignSelf: 'center',
+    marginBottom: 12,
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    borderRadius: 12,
+    borderWidth: 1,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    gap: 2,
+  },
+  gramsInput: {
+    // Fixed: a web TextInput otherwise takes its large default width.
+    width: 88,
+    padding: 0,
+    textAlign: 'center',
+  },
+  gramsErrorText: {
+    fontSize: 12,
+    fontWeight: '600',
+    marginTop: 8,
+    textAlign: 'center',
+  },
+  saveMineButton: {
+    alignSelf: 'center',
+    marginTop: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    borderWidth: 1,
+    minHeight: 44,
+    justifyContent: 'center',
+  },
+  saveMineButtonDisabled: {
+    opacity: 0.4,
+  },
+  saveMineText: {
+    fontSize: 13,
+    fontWeight: '700',
+  },
+  portionFooterRow: {
+    alignSelf: 'flex-start',
+    marginTop: 10,
+    minHeight: 32,
+    justifyContent: 'center',
+  },
+  resetMineText: {
+    fontSize: 12,
+    fontWeight: '600',
+    textDecorationLine: 'underline',
+  },
   gramDisplayUnit: {
     fontSize: 11,
     color: '#78716C',

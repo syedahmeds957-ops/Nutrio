@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
-import { NormalizedFood } from '@nutrio/food-db';
+import { NormalizedFood, resolveFoodId } from '@nutrio/food-db';
 import { deleteMealPreset, saveMealPreset, type MealPreset } from '../mealPresets.js';
+import { defaultServingFor, servingNutrition } from '../personalServings.js';
 
 /** One line of a custom meal: a food plus how many of its default serving. */
 export interface MealBasketEntry {
@@ -78,9 +79,8 @@ export function useMealBasket({
   const basketTotals = useMemo(() => {
     return basket.reduce(
       (acc, { food, quantity }) => {
-        const serving = food.servings[0];
-        const grams = (serving?.grams ?? 100) * quantity;
-        acc.kcal += (food.kcal100g * grams) / 100;
+        const serving = defaultServingFor(food, foodKey(food), '');
+        acc.kcal += servingNutrition(food, serving).kcal * quantity;
         acc.count += quantity;
         return acc;
       },
@@ -119,7 +119,8 @@ export function useMealBasket({
     const byId = new Map(dietFoods.map((f) => [foodKey(f), f]));
     const entries = preset.entries
       .map(({ foodId, quantity }) => {
-        const food = byId.get(foodId);
+        // A preset saved before a duplicate was retired still names the old id.
+        const food = byId.get(foodId) ?? byId.get(resolveFoodId(foodId));
         return food ? { food, quantity } : null;
       })
       .filter((e): e is MealBasketEntry => e !== null);

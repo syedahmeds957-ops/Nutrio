@@ -10,7 +10,6 @@ import {
 import {
   NormalizedFood,
   FoodModifier,
-  FoodServingItem,
   getDishCustomizationModifiers,
 } from '@nutrio/food-db';
 import { MealSlot } from '../types.js';
@@ -19,6 +18,18 @@ import { Icon } from '../../ui/Icon.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { HapticFeedback } from '../../ui/haptics.js';
+import {
+  clearPersonalServing,
+  getPersonalServing,
+  LabelledServing,
+  MAX_PORTION_GRAMS,
+  MIN_PORTION_GRAMS,
+  parseGramsInput,
+  savePersonalServing,
+  withPersonalServing,
+} from '../personalServings.js';
+import { foodKey } from './useMealBasket.js';
+import { PortionPicker } from './PortionPicker.js';
 import { styles } from './ItemCustomizerModal.styles.js';
 
 export interface CustomizedLogPayload {
@@ -160,6 +171,20 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
   const [selectedServingIdx, setSelectedServingIdx] = useState<number>(0);
   const [isCustomWeightMode, setIsCustomWeightMode] = useState<boolean>(false);
   const [customGrams, setCustomGrams] = useState<number>(200);
+  /** The grams field as typed; `customGrams` only takes it when it parses. */
+  const [gramsText, setGramsText] = useState<string>('200');
+  /** Bumped when the saved serving changes, to re-read it. */
+  const [personalVersion, setPersonalVersion] = useState(0);
+
+  /** The item with this user's saved standard serving, if any, as its default. */
+  const servingItem = useMemo(() => {
+    if (!item) return null;
+    return withPersonalServing(item, getPersonalServing(foodKey(item)), t('tracker.customizer.myServing'));
+    // personalVersion re-reads the store after a save or reset.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [item, personalVersion, t]);
+
+  const gramsValid = parseGramsInput(gramsText) !== null;
 
   // Reset state on new item or visibility change. This modal stays mounted
   // for the dashboard's whole lifetime (only `visible` toggles), so
@@ -172,9 +197,10 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
       setSelectedServingIdx(0);
       setIsCustomWeightMode(false);
       setSelectedSlot(initialMealSlot);
-      const defaultServing = item.servings?.[0];
+      const defaultServing = withPersonalServing(item, getPersonalServing(foodKey(item)), '').servings[0];
       const initialG = defaultServing?.servingWeightGrams || defaultServing?.grams || 100;
       setCustomGrams(initialG);
+      setGramsText(String(initialG));
     }
   }, [visible, item, initialMealSlot]);
 
@@ -184,27 +210,30 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
   }, [item]);
 
   const activeServing = useMemo(() => {
-    if (!item || !item.servings || item.servings.length === 0) return null;
-    return item.servings[selectedServingIdx] || item.servings[0];
-  }, [item, selectedServingIdx]);
+    if (!servingItem || servingItem.servings.length === 0) return null;
+    return servingItem.servings[selectedServingIdx] || servingItem.servings[0];
+  }, [servingItem, selectedServingIdx]);
+
+  // A typed weight is the whole portion, so the count does not multiply it.
+  const effectiveQuantity = isCustomWeightMode ? 1 : quantity;
 
   // Recalculate totals live
   const macros: CalculatedMacros = useMemo(() => {
-    if (!item) return { calories: 0, protein: 0, carbs: 0, fat: 0 };
+    if (!servingItem) return { calories: 0, protein: 0, carbs: 0, fat: 0 };
     return calculateCustomizedMacros(
-      item,
-      quantity,
+      servingItem,
+      effectiveQuantity,
       selectedModifiers,
       isCustomWeightMode ? customGrams : null,
       selectedServingIdx,
       activeModifiers
     );
-  }, [item, quantity, selectedModifiers, isCustomWeightMode, customGrams, selectedServingIdx, activeModifiers]);
+  }, [servingItem, effectiveQuantity, selectedModifiers, isCustomWeightMode, customGrams, selectedServingIdx, activeModifiers]);
 
   // Determine portion summary text for HOW MANY? section
   const portionSummaryText = useMemo(() => {
     if (isCustomWeightMode) {
-      return `${quantity * customGrams}g total (${quantity}x ${customGrams}g)`;
+      return gramsValid ? t('tracker.customizer.customTotal', { grams: customGrams }) : '—';
     }
     if (activeServing) {
       const label = activeServing.label || activeServing.description || 'portion';
@@ -214,7 +243,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
       return `${quantity}x ${label} · ${quantity * activeServing.grams}g`;
     }
     return `${quantity} standard serving`;
-  }, [isCustomWeightMode, customGrams, activeServing, quantity]);
+  }, [isCustomWeightMode, customGrams, gramsValid, activeServing, quantity, t]);
 
   if (!visible || !item) return null;
 
@@ -231,20 +260,59 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
     });
   };
 
-  const handleAdjustGrams = (delta: number) => {
-    HapticFeedback.impactLight();
-    setCustomGrams((prev) => Math.max(20, Math.min(1500, prev + delta)));
+  const setGrams = (grams: number) => {
+    setCustomGrams(grams);
+    setGramsText(String(grams));
   };
 
+  const handleAdjustGrams = (delta: number) => {
+    HapticFeedback.impactLight();
+    // Steps start from the last valid weight, so a half-typed field still steps sensibly.
+    const base = parseGramsInput(gramsText) ?? customGrams;
+    setGrams(Math.round(Math.max(MIN_PORTION_GRAMS, Math.min(MAX_PORTION_GRAMS, base + delta)) * 10) / 10);
+  };
+
+  const handleGramsTextChange = (text: string) => {
+    setGramsText(text);
+    const grams = parseGramsInput(text);
+    if (grams !== null) setCustomGrams(grams);
+  };
+
+  const handleSaveAsMine = () => {
+    const grams = parseGramsInput(gramsText);
+    if (grams === null || !savePersonalServing(foodKey(item), grams)) return;
+    HapticFeedback.notificationSuccess();
+    setPersonalVersion((v) => v + 1);
+    setSelectedServingIdx(0);
+    setIsCustomWeightMode(false);
+  };
+
+  const handleResetMine = () => {
+    HapticFeedback.selection();
+    clearPersonalServing(foodKey(item));
+    setPersonalVersion((v) => v + 1);
+    setSelectedServingIdx(0);
+  };
+
+  // Entering custom weight starts from the portion already chosen (2 roti → 90g),
+  // so the user corrects it rather than typing it from scratch.
+  const handleToggleCustomWeight = () => {
+    if (!isCustomWeightMode) setGrams((activeServing?.grams || 100) * quantity);
+    setIsCustomWeightMode((prev) => !prev);
+  };
+
+  const canLog = !isCustomWeightMode || gramsValid;
+
   const handleConfirmLog = () => {
+    if (!canLog) return;
     HapticFeedback.impactMedium();
     const servingDesc = isCustomWeightMode
-      ? `${customGrams}g custom portion`
+      ? t('tracker.customizer.customPortion', { grams: customGrams })
       : activeServing?.description || activeServing?.label || 'serving';
 
     handleLog({
       food: item,
-      quantity,
+      quantity: effectiveQuantity,
       selectedModifiers,
       totalCalories: macros.calories,
       totalProtein: macros.protein,
@@ -252,11 +320,11 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
       totalFat: macros.fat,
       mealSlot: selectedSlot,
       portionDescription: servingDesc,
-      actualGrams: isCustomWeightMode ? customGrams * quantity : (activeServing?.grams || 100) * quantity,
+      actualGrams: isCustomWeightMode ? customGrams : (activeServing?.grams || 100) * quantity,
     });
   };
 
-  const servingsList: FoodServingItem[] = item.servings || [];
+  const servingsList: LabelledServing[] = servingItem?.servings ?? [];
   const fallbackBrand = t(`tracker.customizer.fallbackBrand.${activeRegion}`);
   const brandName = (item.brand || fallbackBrand).toUpperCase();
 
@@ -314,6 +382,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
               </Text>
             </View>
 
+            {!isCustomWeightMode && (
             <View style={styles.peachStepperContainer}>
               <TouchableOpacity
                 style={[
@@ -351,147 +420,22 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                 <Icon name="plus" size={18} color={theme.colors.text} strokeWidth={2.5} />
               </TouchableOpacity>
             </View>
-          </View>
-
-          {/* Portion Size & Custom Grams Customizer */}
-          <View style={[styles.portionControlCard, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}>
-            <View style={styles.portionHeaderRow}>
-              <Text style={[styles.portionSectionTitle, dir.text, { color: theme.colors.textMuted }]}>
-                {t('tracker.customizer.portionSize')}
-              </Text>
-              <TouchableOpacity
-                onPress={() => {
-                  HapticFeedback.selection();
-                  setIsCustomWeightMode((prev) => !prev);
-                }}
-                activeOpacity={0.7}
-              >
-                <Text style={[styles.toggleCustomGramsText, { color: isDark ? '#A4EB3F' : '#16A34A' }]}>
-                  {isCustomWeightMode
-                    ? `${t('tracker.customizer.standardServings')}`
-                    : `${t('tracker.customizer.customWeight')}`}
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            {!isCustomWeightMode ? (
-              /* Servings Pills */
-              <View style={styles.servingsPillRow}>
-                {servingsList.map((srv, idx) => {
-                  const isSelected = selectedServingIdx === idx;
-                  return (
-                    <TouchableOpacity
-                      key={idx}
-                      style={[
-                        styles.servingPill,
-                        { backgroundColor: isDark ? '#1C1D24' : '#F8FAFC', borderColor: theme.colors.border },
-                        isSelected && styles.servingPillActive,
-                      ]}
-                      onPress={() => {
-                        HapticFeedback.selection();
-                        setSelectedServingIdx(idx);
-                      }}
-                      activeOpacity={0.7}
-                    >
-                      <Text
-                        style={[
-                          styles.servingPillText,
-                          { color: theme.colors.textMuted },
-                          isSelected && styles.servingPillTextActive,
-                        ]}
-                      >
-                        {srv.label || srv.description}
-                      </Text>
-                      <Text
-                        style={[
-                          styles.servingPillGrams,
-                          { color: theme.colors.textMuted },
-                          isSelected && styles.servingPillGramsActive,
-                        ]}
-                      >
-                        {srv.grams}g
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
-              </View>
-            ) : (
-              /* Custom Weight Gram Stepper */
-              <View style={styles.customGramsBox}>
-                <Text style={[styles.customGramsPrompt, { color: theme.colors.textMuted }]}>
-                  {t('tracker.customizer.customWeightHint')}
-                </Text>
-
-                <View style={styles.gramsAdjustRow}>
-                  <TouchableOpacity
-                    style={[styles.gramChip, { backgroundColor: isDark ? '#272A33' : '#E2E8F0' }]}
-                    onPress={() => handleAdjustGrams(-50)}
-                    activeOpacity={0.7}
-                  >
-                    <Text style={[styles.gramChipText, { color: theme.colors.text }]}>-50g</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[styles.gramChip, { backgroundColor: isDark ? '#272A33' : '#E2E8F0' }]}
-                    onPress={() => handleAdjustGrams(-10)}
-                    activeOpacity={0.7}
-                  >
-                    <Text style={[styles.gramChipText, { color: theme.colors.text }]}>-10g</Text>
-                  </TouchableOpacity>
-
-                  {/* Centered Gram Display Box */}
-                  <View
-                    style={[
-                      styles.gramDisplayBadge,
-                      {
-                        backgroundColor: isDark ? '#1F2410' : '#F4FCE3',
-                        borderColor: '#A4EB3F',
-                        borderRadius: 12,
-                        paddingVertical: 6,
-                        paddingHorizontal: 16,
-                        borderWidth: 1,
-                      },
-                    ]}
-                  >
-                    <Text
-                      style={[
-                        styles.gramDisplayNumber,
-                        {
-                          color: isDark ? '#A4EB3F' : '#1C1917',
-                        },
-                      ]}
-                    >
-                      {customGrams}
-                    </Text>
-                    <Text
-                      style={[
-                        styles.gramDisplayUnit,
-                        {
-                          color: isDark ? '#A4EB3F' : '#4D7C0F',
-                        },
-                      ]}
-                    >
-                      grams
-                    </Text>
-                  </View>
-
-                  <TouchableOpacity
-                    style={[styles.gramChip, { backgroundColor: isDark ? '#272A33' : '#E2E8F0' }]}
-                    onPress={() => handleAdjustGrams(10)}
-                    activeOpacity={0.7}
-                  >
-                    <Text style={[styles.gramChipText, { color: theme.colors.text }]}>+10g</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[styles.gramChip, { backgroundColor: isDark ? '#272A33' : '#E2E8F0' }]}
-                    onPress={() => handleAdjustGrams(50)}
-                    activeOpacity={0.7}
-                  >
-                    <Text style={[styles.gramChipText, { color: theme.colors.text }]}>+50g</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
             )}
           </View>
+
+          <PortionPicker
+            servings={servingsList}
+            selectedIndex={selectedServingIdx}
+            onSelectServing={setSelectedServingIdx}
+            isCustomWeight={isCustomWeightMode}
+            onToggleCustomWeight={handleToggleCustomWeight}
+            gramsText={gramsText}
+            gramsValid={gramsValid}
+            onGramsTextChange={handleGramsTextChange}
+            onAdjustGrams={handleAdjustGrams}
+            onSaveAsMine={handleSaveAsMine}
+            onResetMine={handleResetMine}
+          />
 
           {/* "Make it yours" Section */}
           {activeModifiers.length > 0 && (
@@ -605,21 +549,23 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
         <View style={[styles.bottomStickyBar, { backgroundColor: theme.colors.card, borderTopColor: theme.colors.border }]}>
           <View style={styles.bottomTotalsLeft}>
             <View style={styles.calorieRow}>
-              <Text style={[styles.totalCalorieNumber, { color: theme.colors.text }]}>≈{macros.calories}</Text>
+              <Text style={[styles.totalCalorieNumber, { color: theme.colors.text }]}>{canLog ? `≈${macros.calories}` : '—'}</Text>
               <Text style={[styles.totalCalorieUnit, { color: theme.colors.text }]}>
                 {t('common.kcal')}
               </Text>
             </View>
             <Text style={[styles.totalMacroBreakdown, { color: theme.colors.textMuted }]}>
-              P {macros.protein}g · C {macros.carbs}g · F {macros.fat}g
+              {canLog ? `P ${macros.protein}g · C ${macros.carbs}g · F ${macros.fat}g` : '—'}
             </Text>
           </View>
 
           <TouchableOpacity
-            style={styles.logThisButton}
+            style={[styles.logThisButton, !canLog && styles.saveMineButtonDisabled]}
             onPress={handleConfirmLog}
+            disabled={!canLog}
             activeOpacity={0.85}
             accessibilityRole="button"
+            accessibilityState={{ disabled: !canLog }}
             accessibilityLabel={t('tracker.customizer.logThis')}
           >
             <Text style={styles.logThisButtonText}>

@@ -238,53 +238,6 @@ export interface RamadanPlanResult {
   iftarAdvice: string;
 }
 
-export interface DetectedFoodItem {
-  detectedName: string;
-  estimatedGrams?: number;
-  portionSize?: 'S' | 'M' | 'L';
-  servingMultiplier?: number;
-}
-
-export type VisionConfidence = 'high' | 'medium' | 'low';
-
-export interface ResolvedFoodItem {
-  detectedName: string;
-  matchedFoodName: string;
-  matchedFoodNameUr?: string;
-  category: string;
-  servingLabel: string;
-  servingGrams: number;
-  resolvedGrams: number;
-  calories: number;
-  proteinGrams: number;
-  fatGrams: number;
-  carbGrams: number;
-  fibreGrams: number;
-  oilAddedG: number;
-  matchScore: number;
-  portionSource:
-    | 'user_grams'
-    | 'detected_grams'
-    | 'portion_size'
-    | 'default_serving';
-}
-
-export interface VisionResolutionResult {
-  totalCalories: number;
-  calorieBand: {
-    min: number;
-    max: number;
-    displayEstimate: string; // e.g. "~620 kcal (±10%)"
-  };
-  totalProteinGrams: number;
-  totalFatGrams: number;
-  totalCarbGrams: number;
-  totalFibreGrams: number;
-  totalOilAddedG: number;
-  confidence: VisionConfidence;
-  items: ResolvedFoodItem[];
-}
-
 export interface CoachContext {
   displayName?: string;
   region?: 'PK' | 'SA';

@@ -6,6 +6,8 @@ import { Icon } from '../../ui/Icon.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation } from '../../i18n/index.js';
+import { defaultServingFor, servingNutrition } from '../personalServings.js';
+import { foodKey } from './useMealBasket.js';
 import { styles } from './MealLogHubModal.styles.js';
 
 const ACCENT_TEXT = '#0A0B0D';
@@ -32,11 +34,15 @@ export const DishCard: React.FC<DishCardProps> = ({ item, qty, isBuildMode, onPr
   const localName = isSaudiRegion ? item.nameAr || item.nameUr : item.nameUr || item.nameAr;
   const macroColor = isDark ? theme.colors.primaryLime : LIGHT_MACRO_TEXT;
 
-  const serving = item.servings[0];
-  const kcal = serving ? Math.round(serving.kcal || item.kcal100g) : Math.round(item.kcal100g);
-  const p = serving ? Math.round(serving.proteinGrams || item.protein100g) : Math.round(item.protein100g);
-  const c = serving ? Math.round(serving.carbGrams || item.carb100g) : Math.round(item.carb100g);
-  const f = serving ? Math.round(serving.fatGrams || item.fat100g) : Math.round(item.fat100g);
+  // The serving one tap logs (the user's own, if saved), and its numbers. The
+  // per-100g values used to be shown as the serving's when it had no kcal of
+  // its own, so a 200g curry read as its 100g calories.
+  const serving = defaultServingFor(item, foodKey(item), t('tracker.customizer.myServing'));
+  const nutrition = servingNutrition(item, serving);
+  const kcal = Math.round(nutrition.kcal);
+  const p = Math.round(nutrition.protein);
+  const c = Math.round(nutrition.carbs);
+  const f = Math.round(nutrition.fat);
 
   return (
     <TouchableOpacity

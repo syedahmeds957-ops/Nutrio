@@ -19,6 +19,7 @@ import {
   searchSaudiFoods,
   getDietBasicsForRegion,
   groupDietFoods,
+  resolveFoodId,
 } from '@nutrio/food-db';
 import { MealSlot } from '../types.js';
 import { Icon } from '../../ui/Icon.js';
@@ -30,6 +31,7 @@ import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { getMostLoggedFoodIds, loadMealPresets, MAX_RECENT_FOODS } from '../mealPresets.js';
 import { styles } from './MealLogHubModal.styles.js';
 import { DishCard } from './DishCard.js';
+import { VariantDishCard } from './VariantDishCard.js';
 import { BasketSummaryBar, PresetNamingBar } from './MealBasketBars.js';
 import { foodKey, useMealBasket, type MealBasketEntry } from './useMealBasket.js';
 
@@ -183,7 +185,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
     if (ranked.length === 0) return [];
     const byId = new Map(dietFoods.map((f) => [foodKey(f), f]));
     return ranked
-      .map((id) => byId.get(id))
+      .map((id) => byId.get(id) ?? byId.get(resolveFoodId(id)))
       .filter((f): f is NormalizedFood => Boolean(f));
   }, [isDietView, dietFoods, presetsVersion]);
 
@@ -603,7 +605,16 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                   </Text>
                 </View>
               ) : (
-                searchResults.map((food) => renderDishCard(food))
+                searchResults.map((food) => (
+                  <VariantDishCard
+                    key={food.id ?? food.name}
+                    item={food}
+                    isBuildMode={isBuildMode}
+                    basketQty={basketQty}
+                    onPressFood={handleDishPress}
+                    onRemoveFood={removeFromBasket}
+                  />
+                ))
               )}
             </View>
           ) : isDietView ? (

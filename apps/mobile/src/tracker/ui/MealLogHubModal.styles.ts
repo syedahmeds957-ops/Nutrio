@@ -328,6 +328,24 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '700',
   },
+  variantChipRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginTop: -4,
+    marginBottom: 10,
+    paddingHorizontal: 4,
+  },
+  variantChip: {
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 16,
+    borderWidth: 1,
+  },
+  variantChipText: {
+    fontSize: 13,
+    fontWeight: '700',
+  },
   dishCardRight: {
     alignItems: 'flex-end',
     flexDirection: 'row',

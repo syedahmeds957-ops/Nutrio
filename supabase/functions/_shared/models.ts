@@ -9,12 +9,8 @@ export const MODELS = {
     CHAT_NARRATIVE: 'openai/gpt-oss-120b',
     // Meal text parsing, classifier, fast extraction
     TEXT_FAST: 'openai/gpt-oss-20b',
-    // Vision meal estimation (Preview - verified before releases)
+    // Nutrition-label OCR (Preview - verified before releases). Meal photo
+    // estimation was removed; this reads printed labels only.
     VISION_PREVIEW: 'qwen/qwen3.6-27b',
-  },
-  OPENROUTER: {
-    // Paid ZDR-only gateway fallbacks
-    VISION_FALLBACK_MINI: 'openai/gpt-5-mini',
-    VISION_FALLBACK_FLASH: 'google/gemini-3.1-flash-lite',
   },
 } as const;

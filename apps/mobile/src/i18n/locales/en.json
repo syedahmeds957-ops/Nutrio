@@ -743,21 +743,28 @@
     },
     "customizer": {
       "addModifier": "Add {{name}}",
+      "customPortion": "{{grams}}g custom portion",
+      "customTotal": "{{grams}}g total",
       "customWeight": "Custom weight (g)",
-      "customWeightHint": "Enter custom weight in grams for precise calorie calculation",
+      "customWeightHint": "Type the exact weight in grams, or step it with the buttons",
       "decreaseQty": "Decrease quantity",
       "estimated": "Estimated",
       "fallbackBrand": {
         "PK": "Pakistani dish",
         "SA": "Saudi dish"
       },
+      "gramsField": "Weight in grams",
+      "gramsInvalid": "Enter a weight between 1 and 3000 g",
       "increaseQty": "Increase quantity",
       "kcalEach": "{{value}} kcal each",
       "logThis": "Log this",
       "logToSlot": "Log to meal slot",
       "makeItYours": "Make it yours",
+      "myServing": "My serving",
       "portionSize": "Portion size",
       "removeModifier": "Remove {{name}}",
+      "resetMyServing": "Reset to standard serving",
+      "saveAsMyServing": "Save {{grams}}g as my standard serving",
       "standardServings": "Standard servings"
     },
     "dashboard": {
@@ -872,6 +879,12 @@
       "groupBrandsHeading": "{{group}} brands ({{count}})",
       "logCustomMeal": "Log meal",
       "noDishes": "No dishes found",
+      "variant": {
+        "Mutton": "Mutton",
+        "Beef": "Beef",
+        "Chicken": "Chicken"
+      },
+      "variantPicker": "Choose the meat for {{name}}",
       "noDishesHint": {
         "PK": "Try searching for \"Zinger\", \"Biryani\", \"Chai\", \"Pizza\", or \"Karahi\".",
         "SA": "Try searching for \"Kabsa\", \"AlBaik\", \"Mandi\", \"Saleeg\", or \"Gahwa\"."

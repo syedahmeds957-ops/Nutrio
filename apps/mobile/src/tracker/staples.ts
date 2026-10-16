@@ -92,7 +92,7 @@ const PK_STAPLES: StapleDefinition[] = [
   },
   {
     id: 'green_tea',
-    foodName: 'Green Tea / Qahwa',
+    foodName: 'Green Tea (No Sugar)',
     name: 'Green Tea / Qahwa',
     calories: 0,
     proteinGrams: 0,

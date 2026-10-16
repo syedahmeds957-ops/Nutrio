@@ -9,7 +9,6 @@ export * from './diet-suitability.js';
 export * from './solver.js';
 export * from './swapper.js';
 export * from './cultural-modes.js';
-export * from './vision-resolver.js';
 export * from './coach-context.js';
 
 
