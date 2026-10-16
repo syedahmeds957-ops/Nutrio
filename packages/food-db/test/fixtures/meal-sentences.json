@@ -1,0 +1,1209 @@
+[
+  {
+    "id": "egg-breakfast",
+    "note": "The sentence that logged White Shadi Korma, 800g, 2,188 kcal before the matcher rewrite.",
+    "text": "in breakfast i had 4 egg white and 2 whole egg and greek yogurt",
+    "slot": "breakfast",
+    "items": [
+      {
+        "food": [
+          "Egg White (Boiled)"
+        ],
+        "grams": [
+          125,
+          140
+        ],
+        "status": "matched"
+      },
+      {
+        "food": [
+          "Boiled Egg (Whole)"
+        ],
+        "grams": [
+          95,
+          105
+        ],
+        "status": "matched"
+      },
+      {
+        "food": [
+          "Greek Yogurt (Plain, Non-Fat)",
+          "Greek Yogurt (Plain, Full Fat)"
+        ],
+        "grams": [
+          140,
+          175
+        ],
+        "status": "ambiguous"
+      }
+    ],
+    "totalKcal": [
+      280,
+      360
+    ]
+  },
+  {
+    "id": "roti-daal-roman-urdu",
+    "text": "2 roti aur 1 katori daal",
+    "items": [
+      {
+        "food": [
+          "Plain Roti / Chapati (No Ghee)",
+          "Roti / Chapati (Whole Wheat)"
+        ],
+        "grams": [
+          85,
+          95
+        ]
+      },
+      {
+        "nameIncludes": [
+          "daal"
+        ],
+        "grams": [
+          140,
+          160
+        ]
+      }
+    ]
+  },
+  {
+    "id": "anday-paratha",
+    "text": "do anday aur ek paratha",
+    "items": [
+      {
+        "food": [
+          "Boiled Egg (Whole)",
+          "Fried Egg"
+        ],
+        "grams": [
+          95,
+          110
+        ]
+      },
+      {
+        "nameIncludes": [
+          "paratha"
+        ],
+        "grams": [
+          70,
+          120
+        ]
+      }
+    ]
+  },
+  {
+    "id": "nashta-aloo-paratha-chai",
+    "text": "nashta mein 1 aloo paratha aur 1 cup chai",
+    "slot": "breakfast",
+    "items": [
+      {
+        "food": [
+          "Aloo Paratha (Stuffed Potato)"
+        ],
+        "grams": [
+          140,
+          160
+        ]
+      },
+      {
+        "nameIncludes": [
+          "chai"
+        ],
+        "grams": [
+          140,
+          210
+        ]
+      }
+    ]
+  },
+  {
+    "id": "lunch-biryani-plate",
+    "text": "lunch: 1 plate chicken biryani and raita",
+    "slot": "lunch",
+    "items": [
+      {
+        "nameIncludes": [
+          "chicken",
+          "biryani"
+        ],
+        "grams": [
+          300,
+          400
+        ]
+      },
+      {
+        "nameIncludes": [
+          "raita"
+        ],
+        "grams": [
+          100,
+          220
+        ]
+      }
+    ]
+  },
+  {
+    "id": "seekh-naan",
+    "text": "3 seekh kabab with 1 naan",
+    "items": [
+      {
+        "nameIncludes": [
+          "seekh"
+        ],
+        "notNameIncludes": [
+          "karahi"
+        ],
+        "grams": [
+          150,
+          240
+        ]
+      },
+      {
+        "nameIncludes": [
+          "naan"
+        ],
+        "notNameIncludes": [
+          "no naan"
+        ],
+        "grams": [
+          80,
+          130
+        ]
+      }
+    ]
+  },
+  {
+    "id": "shami-count",
+    "text": "2 shami kabab",
+    "items": [
+      {
+        "nameIncludes": [
+          "shami"
+        ],
+        "notNameIncludes": [
+          "bun"
+        ],
+        "grams": [
+          90,
+          130
+        ]
+      }
+    ]
+  },
+  {
+    "id": "samosa-jalebi",
+    "text": "1 samosa and 2 jalebi",
+    "items": [
+      {
+        "nameIncludes": [
+          "samosa"
+        ],
+        "notNameIncludes": [
+          "chaat"
+        ],
+        "grams": [
+          55,
+          90
+        ]
+      },
+      {
+        "nameIncludes": [
+          "jalebi"
+        ],
+        "grams": [
+          55,
+          65
+        ]
+      }
+    ]
+  },
+  {
+    "id": "aadha-pao-dahi",
+    "text": "aadha pao dahi",
+    "items": [
+      {
+        "food": [
+          "Plain Yogurt / Dahi"
+        ],
+        "grams": [
+          120,
+          130
+        ]
+      }
+    ]
+  },
+  {
+    "id": "glass-doodh",
+    "text": "1 glass doodh",
+    "items": [
+      {
+        "food": [
+          "Milk (Full Fat)",
+          "Milk (Skim / Low Fat)"
+        ],
+        "grams": [
+          240,
+          260
+        ]
+      }
+    ]
+  },
+  {
+    "id": "milk-sugar-tsp",
+    "text": "1 glass milk and 2 tsp sugar",
+    "items": [
+      {
+        "food": [
+          "Milk (Full Fat)",
+          "Milk (Skim / Low Fat)"
+        ],
+        "grams": [
+          240,
+          260
+        ]
+      },
+      {
+        "nameIncludes": [
+          "sugar"
+        ],
+        "notNameIncludes": [
+          "jalebi",
+          "syrup"
+        ],
+        "grams": [
+          7,
+          12
+        ]
+      }
+    ]
+  },
+  {
+    "id": "chamach-ghee",
+    "text": "1 chamach ghee",
+    "items": [
+      {
+        "nameIncludes": [
+          "ghee"
+        ],
+        "notNameIncludes": [
+          "roti",
+          "ladoo",
+          "jamun"
+        ],
+        "grams": [
+          10,
+          16
+        ]
+      }
+    ]
+  },
+  {
+    "id": "plate-chawal-daal",
+    "text": "ek plate chawal aur daal",
+    "items": [
+      {
+        "nameIncludes": [
+          "rice"
+        ],
+        "notNameIncludes": [
+          "daal",
+          "cake"
+        ],
+        "grams": [
+          300,
+          400
+        ]
+      },
+      {
+        "nameIncludes": [
+          "daal"
+        ],
+        "notNameIncludes": [
+          "chawal"
+        ],
+        "grams": [
+          140,
+          260
+        ]
+      }
+    ]
+  },
+  {
+    "id": "grams-chicken-breast",
+    "text": "200g chicken breast",
+    "items": [
+      {
+        "nameIncludes": [
+          "chicken",
+          "breast"
+        ],
+        "grams": [
+          200,
+          200
+        ]
+      }
+    ]
+  },
+  {
+    "id": "dinner-aloo-gosht",
+    "text": "dinner mein aloo gosht 1 katori aur 2 chapati",
+    "slot": "dinner",
+    "items": [
+      {
+        "food": [
+          "Aloo Gosht (Mutton Shorba)"
+        ],
+        "grams": [
+          140,
+          160
+        ]
+      },
+      {
+        "nameIncludes": [
+          "chapati"
+        ],
+        "grams": [
+          85,
+          95
+        ]
+      }
+    ]
+  },
+  {
+    "id": "spelling-aloo-ghosht",
+    "text": "aloo ghosht",
+    "items": [
+      {
+        "food": [
+          "Aloo Gosht (Mutton Shorba)"
+        ],
+        "grams": [
+          190,
+          210
+        ]
+      }
+    ]
+  },
+  {
+    "id": "palak-kofta",
+    "text": "palak kofta",
+    "items": [
+      {
+        "food": [
+          "Palak Kofta (Beef Meatballs in Spinach)"
+        ],
+        "grams": [
+          190,
+          210
+        ]
+      }
+    ]
+  },
+  {
+    "id": "qeema-matar-katori",
+    "text": "qeema matar 1 katori",
+    "items": [
+      {
+        "food": [
+          "Matar Keema (Minced Beef with Peas)"
+        ],
+        "grams": [
+          140,
+          160
+        ]
+      }
+    ]
+  },
+  {
+    "id": "palak-chicken-variant",
+    "text": "1 katori palak chicken",
+    "items": [
+      {
+        "food": [
+          "Palak Chicken (Chicken in Spinach)"
+        ],
+        "grams": [
+          140,
+          160
+        ]
+      }
+    ]
+  },
+  {
+    "id": "half-plate-pulao",
+    "text": "half plate chicken pulao",
+    "items": [
+      {
+        "nameIncludes": [
+          "chicken",
+          "pulao"
+        ],
+        "grams": [
+          150,
+          200
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fruit",
+    "text": "1 banana and 1 apple",
+    "items": [
+      {
+        "food": [
+          "Banana"
+        ],
+        "grams": [
+          100,
+          130
+        ]
+      },
+      {
+        "food": [
+          "Apple"
+        ],
+        "grams": [
+          150,
+          200
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bread-butter",
+    "text": "2 slice bread with butter",
+    "items": [
+      {
+        "nameIncludes": [
+          "bread"
+        ],
+        "notNameIncludes": [
+          "chicken",
+          "pakora"
+        ],
+        "grams": [
+          45,
+          75
+        ]
+      },
+      {
+        "food": [
+          "Butter"
+        ],
+        "grams": [
+          4,
+          15
+        ]
+      }
+    ]
+  },
+  {
+    "id": "chicken-karahi-bowl",
+    "text": "chicken karahi",
+    "items": [
+      {
+        "nameIncludes": [
+          "chicken",
+          "karahi"
+        ],
+        "notNameIncludes": [
+          "seekh"
+        ],
+        "grams": [
+          190,
+          260
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gulab-jamun-count",
+    "text": "2 gulab jamun",
+    "items": [
+      {
+        "nameIncludes": [
+          "gulab jamun"
+        ],
+        "grams": [
+          80,
+          110
+        ]
+      }
+    ]
+  },
+  {
+    "id": "biryani-typo",
+    "text": "1 plate chicken biriyani",
+    "items": [
+      {
+        "nameIncludes": [
+          "chicken",
+          "biryani"
+        ],
+        "grams": [
+          300,
+          400
+        ],
+        "flags": [
+          "typo_corrected"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kofte-spelling",
+    "text": "kofte 1 katori",
+    "items": [
+      {
+        "nameIncludes": [
+          "kofta"
+        ],
+        "grams": [
+          140,
+          160
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pakoray-count",
+    "text": "3 pakoray",
+    "items": [
+      {
+        "nameIncludes": [
+          "pakora"
+        ],
+        "grams": [
+          40,
+          140
+        ]
+      }
+    ]
+  },
+  {
+    "id": "subah-eggs-coffee",
+    "text": "subah 2 boiled eggs aur black coffee",
+    "slot": "breakfast",
+    "items": [
+      {
+        "food": [
+          "Boiled Egg (Whole)"
+        ],
+        "grams": [
+          95,
+          105
+        ]
+      },
+      {
+        "nameIncludes": [
+          "black coffee"
+        ],
+        "grams": [
+          100,
+          300
+        ]
+      }
+    ]
+  },
+  {
+    "id": "evening-tea-rusk",
+    "text": "evening tea with 2 rusk",
+    "slot": "snacks_chai",
+    "items": [
+      {
+        "nameIncludes": [
+          "rusk"
+        ],
+        "grams": [
+          25,
+          35
+        ]
+      }
+    ]
+  },
+  {
+    "id": "orange-juice-ml",
+    "text": "250 ml orange juice",
+    "items": [
+      {
+        "nameIncludes": [
+          "orange juice"
+        ],
+        "grams": [
+          250,
+          250
+        ]
+      }
+    ]
+  },
+  {
+    "id": "handful-almonds",
+    "text": "a handful of almonds",
+    "items": [
+      {
+        "nameIncludes": [
+          "almond"
+        ],
+        "notNameIncludes": [
+          "milk",
+          "halwa"
+        ],
+        "grams": [
+          20,
+          35
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kheer-katori",
+    "text": "1 katori kheer",
+    "items": [
+      {
+        "nameIncludes": [
+          "kheer"
+        ],
+        "grams": [
+          120,
+          180
+        ]
+      }
+    ]
+  },
+  {
+    "id": "nihari-naan",
+    "text": "1 plate nihari with 2 naan",
+    "items": [
+      {
+        "nameIncludes": [
+          "nihari"
+        ],
+        "grams": [
+          250,
+          400
+        ]
+      },
+      {
+        "nameIncludes": [
+          "naan"
+        ],
+        "notNameIncludes": [
+          "no naan"
+        ],
+        "grams": [
+          160,
+          260
+        ]
+      }
+    ]
+  },
+  {
+    "id": "urdu-script",
+    "text": "دو روٹی اور ایک کٹوری دال",
+    "items": [
+      {
+        "nameIncludes": [
+          "roti"
+        ],
+        "grams": [
+          85,
+          95
+        ]
+      },
+      {
+        "nameIncludes": [
+          "daal"
+        ],
+        "grams": [
+          140,
+          160
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unknown-dish",
+    "note": "Not in the catalogue: must come back unknown, never a near miss.",
+    "text": "dragon fruit smoothie bowl",
+    "items": [
+      {
+        "status": "unknown"
+      }
+    ]
+  },
+  {
+    "id": "unknown-alongside-known",
+    "text": "2 roti and tinday gosht",
+    "items": [
+      {
+        "nameIncludes": [
+          "roti"
+        ],
+        "grams": [
+          85,
+          95
+        ]
+      },
+      {
+        "status": "unknown"
+      }
+    ]
+  },
+  {
+    "id": "unknown-sushi",
+    "text": "6 pieces sushi",
+    "items": [
+      {
+        "status": "unknown"
+      }
+    ]
+  },
+  {
+    "id": "implausible-amount",
+    "note": "A kilogram of karahi is a misreading far more often than a meal; it must be flagged.",
+    "text": "1 kg chicken karahi",
+    "items": [
+      {
+        "nameIncludes": [
+          "chicken",
+          "karahi"
+        ],
+        "grams": [
+          1000,
+          1000
+        ],
+        "flags": [
+          "implausible_amount"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "count-against-bowl-serving",
+    "note": "A count of a food that only has a bowl serving is a guess the user must confirm.",
+    "text": "3 chicken karahi",
+    "items": [
+      {
+        "nameIncludes": [
+          "chicken",
+          "karahi"
+        ],
+        "flags": [
+          "needs_portion"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "zinger",
+    "text": "1 zinger burger",
+    "items": [
+      {
+        "nameIncludes": [
+          "zinger",
+          "burger"
+        ],
+        "grams": [
+          150,
+          300
+        ]
+      }
+    ]
+  },
+  {
+    "id": "generic-bacon",
+    "text": "bacon",
+    "note": "Word appears only inside a bigger dish; logging it unconfirmed would be a silent mistake.",
+    "items": [
+      {
+        "blocked": true
+      }
+    ]
+  },
+  {
+    "id": "generic-cake",
+    "text": "1 slice cake",
+    "note": "Word appears only inside a bigger dish; logging it unconfirmed would be a silent mistake.",
+    "items": [
+      {
+        "blocked": true
+      }
+    ]
+  },
+  {
+    "id": "generic-chips",
+    "text": "chips",
+    "note": "Word appears only inside a bigger dish; logging it unconfirmed would be a silent mistake.",
+    "items": [
+      {
+        "blocked": true
+      }
+    ]
+  },
+  {
+    "id": "generic-lime",
+    "text": "lime",
+    "note": "Word appears only inside a bigger dish; logging it unconfirmed would be a silent mistake.",
+    "items": [
+      {
+        "blocked": true
+      }
+    ]
+  },
+  {
+    "id": "generic-date",
+    "text": "1 date",
+    "note": "Word appears only inside a bigger dish; logging it unconfirmed would be a silent mistake.",
+    "items": [
+      {
+        "blocked": true
+      }
+    ]
+  },
+  {
+    "id": "generic-pav",
+    "text": "1 pav",
+    "note": "Word appears only inside a bigger dish; logging it unconfirmed would be a silent mistake.",
+    "items": [
+      {
+        "blocked": true
+      }
+    ]
+  },
+  {
+    "id": "generic-mutton",
+    "text": "mutton",
+    "note": "Word appears only inside a bigger dish; logging it unconfirmed would be a silent mistake.",
+    "items": [
+      {
+        "blocked": true
+      }
+    ]
+  },
+  {
+    "id": "generic-beef",
+    "text": "beef",
+    "note": "Word appears only inside a bigger dish; logging it unconfirmed would be a silent mistake.",
+    "items": [
+      {
+        "blocked": true
+      }
+    ]
+  },
+  {
+    "id": "generic-lamb",
+    "text": "lamb",
+    "note": "Word appears only inside a bigger dish; logging it unconfirmed would be a silent mistake.",
+    "items": [
+      {
+        "blocked": true
+      }
+    ]
+  },
+  {
+    "id": "spoken-number-dish",
+    "text": "seven up",
+    "note": "Word appears only inside a bigger dish; logging it unconfirmed would be a silent mistake.",
+    "items": [
+      {
+        "blocked": true
+      }
+    ]
+  },
+  {
+    "id": "unit-word-dish",
+    "text": "pao bhaji",
+    "note": "Word appears only inside a bigger dish; logging it unconfirmed would be a silent mistake.",
+    "items": [
+      {
+        "blocked": true
+      }
+    ]
+  },
+  {
+    "id": "kheera-is-cucumber",
+    "text": "kheera",
+    "items": [
+      {
+        "food": [
+          "Cucumber (Raw)"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mixed-fraction",
+    "text": "1 1/2 roti",
+    "items": [
+      {
+        "nameIncludes": [
+          "roti"
+        ],
+        "grams": [
+          65,
+          70
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unicode-fraction",
+    "text": "3 ½ roti",
+    "items": [
+      {
+        "nameIncludes": [
+          "roti"
+        ],
+        "grams": [
+          155,
+          160
+        ]
+      }
+    ]
+  },
+  {
+    "id": "spoken-half",
+    "text": "one and half roti",
+    "items": [
+      {
+        "nameIncludes": [
+          "roti"
+        ],
+        "grams": [
+          65,
+          70
+        ]
+      }
+    ]
+  },
+  {
+    "id": "urdu-spoken-half",
+    "text": "do aur aadhi roti",
+    "items": [
+      {
+        "nameIncludes": [
+          "roti"
+        ],
+        "grams": [
+          110,
+          115
+        ]
+      }
+    ]
+  },
+  {
+    "id": "urdu-digits",
+    "text": "۲ روٹی",
+    "items": [
+      {
+        "nameIncludes": [
+          "roti"
+        ],
+        "grams": [
+          85,
+          95
+        ]
+      }
+    ]
+  },
+  {
+    "id": "range-quantity",
+    "text": "2-3 roti",
+    "items": [
+      {
+        "nameIncludes": [
+          "roti"
+        ],
+        "flags": [
+          "unclear_quantity"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "comma-quantity",
+    "text": "1,5 roti",
+    "items": [
+      {
+        "nameIncludes": [
+          "roti"
+        ],
+        "flags": [
+          "unclear_quantity"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "zero-denominator",
+    "text": "1/0 roti",
+    "items": [
+      {
+        "nameIncludes": [
+          "roti"
+        ],
+        "flags": [
+          "unclear_quantity"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "zero-quantity",
+    "text": "0 roti",
+    "items": [
+      {
+        "nameIncludes": [
+          "roti"
+        ],
+        "flags": [
+          "unclear_quantity"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "count-and-weight",
+    "text": "2 roti 100g",
+    "items": [
+      {
+        "nameIncludes": [
+          "roti"
+        ],
+        "flags": [
+          "unclear_quantity"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "count-times-weight",
+    "text": "2 x 100g roti",
+    "items": [
+      {
+        "nameIncludes": [
+          "roti"
+        ],
+        "grams": [
+          200,
+          200
+        ]
+      }
+    ]
+  },
+  {
+    "id": "chay-is-tea",
+    "text": "chay aur biscuit",
+    "items": [
+      {
+        "nameIncludes": [
+          "chai"
+        ]
+      },
+      {
+        "blocked": true
+      }
+    ]
+  },
+  {
+    "id": "dhai-is-dahi",
+    "text": "roti aur dhai",
+    "items": [
+      {
+        "nameIncludes": [
+          "roti"
+        ],
+        "grams": [
+          40,
+          50
+        ]
+      },
+      {
+        "food": [
+          "Plain Yogurt / Dahi"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "number-word-in-dish",
+    "text": "Four Cheese Lover Pizza",
+    "items": [
+      {
+        "food": [
+          "Four Cheese Lover Pizza (Slice)"
+        ],
+        "grams": [
+          100,
+          120
+        ]
+      }
+    ]
+  },
+  {
+    "id": "number-word-in-salad",
+    "text": "Three Bean Salad",
+    "items": [
+      {
+        "food": [
+          "Three Bean Salad"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "half-fry-egg",
+    "text": "half fry egg",
+    "items": [
+      {
+        "nameIncludes": [
+          "half fry"
+        ],
+        "grams": [
+          45,
+          55
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unit-word-inside-name",
+    "text": "Kung Pao Chicken Wok Bowl",
+    "items": [
+      {
+        "food": [
+          "Kung Pao Chicken Wok Bowl"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "slot-word-in-food",
+    "text": "2 dinner rolls",
+    "noSlot": true,
+    "items": [
+      {
+        "nameIncludes": [
+          "dinner roll"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "slot-phrase-wins",
+    "text": "I had breakfast cereal for dinner",
+    "slot": "dinner",
+    "items": [
+      {
+        "status": "unknown"
+      }
+    ]
+  },
+  {
+    "id": "nothing-but-filler",
+    "text": "i had, and then",
+    "needsReview": true,
+    "items": []
+  }
+]

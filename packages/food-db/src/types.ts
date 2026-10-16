@@ -26,6 +26,13 @@ export interface NormalizedFood {
   verifiedBy?: string;
   confidence?: number;
   isRecipe?: boolean;
+  /**
+   * Foods that are one dish cooked different ways (Aloo Gosht with mutton,
+   * beef or chicken) share a group, so search shows the dish once and the
+   * picker offers `variantLabel` as the choice.
+   */
+  variantGroup?: string;
+  variantLabel?: string;
   oilAddedG: number;
   servings: FoodServingItem[];
 }
