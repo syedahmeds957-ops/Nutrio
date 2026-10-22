@@ -2,6 +2,8 @@
 
 **Size:** M · **Blocked by:** none · **Risk:** highest (bundling ~400 images through Metro on web and native), so it goes first.
 
+> **Status: done 2026-10-22, not committed (waiting for the user's command).** See "Execution record" at the end for what changed from this plan.
+
 ## Outcome
 
 A new `@nutrio/workout-core` package holds about 200 curated exercises with English and Arabic text. The app bundles 2 compressed photos per exercise and can show them as a loop on web and phone.
@@ -98,3 +100,61 @@ Temporarily mount `ExerciseImageLoop` for three exercises (bodyweight, dumbbell,
 - About 200 exercises, with every coverage target met or its gap documented in this file.
 - Images total ≤ 12 MB, and the loop works on web and one native platform.
 - Commit: `feat(workout-core): curated exercise catalogue with bundled images`.
+
+## Execution record (2026-10-22)
+
+### What shipped
+
+- **`packages/workout-core`:** `Exercise` and related types, `EXERCISES`, `getExercise`, `exercisesFor`, `MUSCLE_NAMES`, and 37 tests.
+- **The catalogue:** **169 exercises** (139 beginner, 30 intermediate, 0 expert).
+  - 37 need no equipment or only a bench or pull-up bar.
+  - 55 use dumbbells, bands or a kettlebell.
+  - 77 are gym only.
+- **Images:** 338 at 400 px JPEG, **10 MB** total (limit 12 MB). Source pinned at `f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5`.
+- **App side:**
+  - `scripts/build-exercise-catalogue.mjs`
+  - the generated `apps/mobile/src/workout/exerciseImages.ts`
+  - `ExerciseImageLoop` (2-frame loop; still frame under reduced motion)
+  - an image-map test
+  - a Metro `WORKSPACE_PACKAGES` map
+- **README:** a repository-layout row with the free-exercise-db credit.
+
+### Changes from the plan
+
+1. **Our own instructions instead of the source's.** The source text didn't match its exercises in places:
+   - its "Chair squat" is a Smith-machine squat
+   - "Side bridge" has no steps
+   - the floor back extension needs a partner
+
+   It was also long and first-person ("my preference", "Tip:"). Every exercise now has 3–4 short steps written by us, in `curation/text/*.json`, with Arabic matching English step for step. The Arabic still needs a native speaker's spot-check before release.
+2. **169 exercises, not "about 200".** Coverage targets drove the count. Two source entries were dropped after checking their photos (chair squat, floor back extension). Every photo was checked by eye against its exercise name on contact sheets.
+3. **`Exercise.timed` added** for planks and conditioning (they're done for time, not reps). `tracksLoad` = has weighted equipment and isn't timed, with a `noLoad` override for the back-extension bench and the dip-station knee raise.
+4. **Image stub:** a Vitest setup file (`apps/mobile/test/setup/image-assets.ts`) instead of an import alias. The image map uses `require()`, which goes to Node's loader, not Vite's, so an alias can't intercept it.
+5. **Flutter kicks** in this dataset are done face-down on a bench, so the exercise is filed under `glutes` and needs a `bench`.
+
+### Known gaps (pinned in `catalogue.test.ts`)
+
+With no equipment at all, the public-domain dataset gives:
+- 2 squats (bodyweight, jump)
+- 2 hinges (glute bridge, single-leg bridge)
+- **no** horizontal pull, vertical push or vertical pull.
+
+Phase 2 must fall back to a related pattern for these slots (see phase-02 task 4). The setup screen already plans a "band unlocks pulling" tip.
+
+### Verification evidence
+
+| Check | Result |
+|---|---|
+| `npx vitest run packages/workout-core` | 37 / 37 pass |
+| `cd apps/mobile && npx vitest run src/workout` | 2 / 2 pass |
+| `npx tsc --noEmit` (workout-core, apps/mobile) | 0 errors |
+| `npm run build` | all 3 packages build |
+| `npm test` (whole repo) | 1,045 tests, 0 failures |
+| `node scripts/check-ci-keys.mjs` | pass |
+| `du -sh apps/mobile/assets/exercises` | 10M |
+| `expo export --platform web` with a temporary demo screen | 338 JPEGs emitted as separate files; headless Chrome screenshots 0.9 s apart show the frames alternating, and the Arabic text renders |
+| `expo export --platform ios` / `android` | both exit 0, each bundle carries 338 JPEGs |
+| iPhone 17 Pro Max simulator (iOS 27.1, Expo Go 57.0.9) | app bundles (1,535 modules); screenshots half a frame apart show all three demos alternating frames; Arabic text renders |
+| Android emulator | not run (none installed); the Android bundle export above passes |
+
+The temporary demo screen was removed afterwards; `App.tsx` has no diff.

@@ -1,0 +1,387 @@
+{
+  "barbell-squat": {
+    "name_ar": "القرفصاء الخلفية بالبار",
+    "steps_en": ["Set the bar on a rack at shoulder height and rest it across your upper back.", "Lift it off and stand with your feet shoulder-width apart.", "Squat down until your thighs are about parallel, keeping your chest up and back straight.", "Drive up through your whole foot to stand."],
+    "steps_ar": ["ضع البار على الحامل بمستوى الكتفين وأسنده على أعلى ظهرك.", "ارفعه عن الحامل وقف وقدماك بعرض الكتفين.", "انزل في القرفصاء حتى يصبح فخذاك موازيين للأرض تقريباً مع إبقاء صدرك مرفوعاً وظهرك مستقيماً.", "ادفع بكامل قدميك للعودة إلى الوقوف."]
+  },
+  "barbell-full-squat": {
+    "name_ar": "القرفصاء الكاملة بالبار",
+    "steps_en": ["Rest the bar across your upper back and stand with feet shoulder-width apart.", "Keep your chest up and brace your core.", "Squat down as deep as you can while keeping your back straight.", "Drive back up to standing."],
+    "steps_ar": ["أسند البار على أعلى ظهرك وقف وقدماك بعرض الكتفين.", "أبقِ صدرك مرفوعاً وشدّ عضلات بطنك.", "انزل في القرفصاء لأعمق نقطة ممكنة مع إبقاء ظهرك مستقيماً.", "ادفع للعودة إلى الوقوف."]
+  },
+  "front-squat": {
+    "name_ar": "القرفصاء الأمامية بالبار",
+    "steps_en": ["Rest the bar on the front of your shoulders, elbows high.", "Stand with your feet shoulder-width apart.", "Squat down while keeping your torso upright and elbows up.", "Drive back up to standing."],
+    "steps_ar": ["أسند البار على مقدمة كتفيك والمرفقان مرفوعان.", "قف وقدماك بعرض الكتفين.", "انزل في القرفصاء مع إبقاء جذعك مستقيماً ومرفقيك مرفوعين.", "ادفع للعودة إلى الوقوف."]
+  },
+  "leg-press": {
+    "name_ar": "ضغط الرجلين على الجهاز",
+    "steps_en": ["Sit in the machine with your feet shoulder-width apart on the platform.", "Release the safety and lower the platform by bending your knees.", "Stop before your lower back lifts off the seat.", "Push the platform back up without locking your knees."],
+    "steps_ar": ["اجلس في الجهاز وقدماك على المنصة بعرض الكتفين.", "حرّر قفل الأمان وأنزل المنصة بثني ركبتيك.", "توقف قبل أن يرتفع أسفل ظهرك عن المقعد.", "ادفع المنصة للأعلى دون قفل ركبتيك."]
+  },
+  "hack-squat": {
+    "name_ar": "قرفصاء الهاك على الجهاز",
+    "steps_en": ["Stand on the platform with your back against the pad and shoulders under the supports.", "Release the safety handles.", "Squat down until your thighs are about parallel to the platform.", "Push back up through your feet."],
+    "steps_ar": ["قف على المنصة وظهرك على المسند وكتفاك تحت الدعامات.", "حرّر مقابض الأمان.", "انزل في القرفصاء حتى يصبح فخذاك موازيين للمنصة تقريباً.", "ادفع بقدميك للعودة للأعلى."]
+  },
+  "smith-machine-squat": {
+    "name_ar": "القرفصاء على جهاز سميث",
+    "steps_en": ["Set the bar across your upper back with your feet slightly in front of you.", "Unhook the bar by turning it.", "Squat down until your thighs are about parallel.", "Push back up, then hook the bar when you finish."],
+    "steps_ar": ["ضع البار على أعلى ظهرك وقدماك أمامك قليلاً.", "حرّر البار بتدويره.", "انزل في القرفصاء حتى يصبح فخذاك موازيين للأرض تقريباً.", "ادفع للأعلى، ثم أعِد تثبيت البار عند الانتهاء."]
+  },
+  "leg-extension": {
+    "name_ar": "مدّ الرجلين على الجهاز",
+    "steps_en": ["Sit on the machine with the pad on the front of your lower shins.", "Hold the handles and keep your back against the seat.", "Straighten your legs until they are almost locked.", "Lower slowly."],
+    "steps_ar": ["اجلس على الجهاز والمسند على مقدمة أسفل ساقيك.", "أمسك المقابض وأبقِ ظهرك ملتصقاً بالمقعد.", "مدّ رجليك حتى تكادا تستقيمان تماماً.", "انزل ببطء."]
+  },
+  "romanian-deadlift": {
+    "name_ar": "الرفعة الرومانية",
+    "steps_en": ["Stand holding a barbell in front of your thighs.", "With soft knees, push your hips back and slide the bar down your legs.", "Keep your back flat and stop when you feel a strong stretch in your hamstrings.", "Drive your hips forward to stand tall."],
+    "steps_ar": ["قف ممسكاً البار أمام فخذيك.", "مع ثني خفيف في الركبتين، ادفع وركيك للخلف وأنزل البار على امتداد رجليك.", "أبقِ ظهرك مستقيماً وتوقف عندما تشعر بشدّ قوي في أوتار الركبة.", "ادفع وركيك للأمام لتقف مستقيماً."]
+  },
+  "barbell-deadlift": {
+    "name_ar": "الرفعة الميتة بالبار",
+    "steps_en": ["Stand with the bar over the middle of your feet, feet hip-width apart.", "Bend down and grip the bar just outside your legs, back flat and chest up.", "Push the floor away and stand up, keeping the bar close to your body.", "Lower the bar the same way, hips back first."],
+    "steps_ar": ["قف والبار فوق منتصف قدميك والقدمان بعرض الورك.", "انحنِ وأمسك البار خارج رجليك مباشرة مع إبقاء ظهرك مستقيماً وصدرك مرفوعاً.", "ادفع الأرض بقدميك وقف مع إبقاء البار قريباً من جسمك.", "أنزل البار بالطريقة نفسها مبتدئاً بدفع الوركين للخلف."]
+  },
+  "trap-bar-deadlift": {
+    "name_ar": "الرفعة الميتة بالبار السداسي",
+    "steps_en": ["Stand inside the trap bar with feet hip-width apart.", "Bend down and grip the handles with a flat back.", "Drive through your feet to stand up straight.", "Lower the bar back down with control."],
+    "steps_ar": ["قف داخل البار السداسي وقدماك بعرض الورك.", "انحنِ وأمسك المقابض مع إبقاء ظهرك مستقيماً.", "ادفع بقدميك لتقف مستقيماً.", "أنزل البار بتحكّم."]
+  },
+  "machine-deadlift": {
+    "name_ar": "الرفعة الميتة على الجهاز",
+    "steps_en": ["Stand on the machine platform and grip the handles.", "Bend your knees and hips with a flat back.", "Stand up by driving through your feet and pushing your hips forward.", "Lower back down slowly."],
+    "steps_ar": ["قف على منصة الجهاز وأمسك المقابض.", "اثنِ ركبتيك ووركيك مع إبقاء ظهرك مستقيماً.", "قف بالدفع بقدميك ودفع وركيك للأمام.", "انزل ببطء."]
+  },
+  "cable-pull-through": {
+    "name_ar": "السحب بين الرجلين بالكابل",
+    "steps_en": ["Attach a rope to a low cable and stand facing away from it, rope between your legs.", "Walk forward until there is tension.", "Hinge at your hips, letting the rope pull back between your legs.", "Drive your hips forward to stand tall, squeezing your glutes."],
+    "steps_ar": ["ثبّت حبلاً في كابل منخفض وقف معطياً ظهرك له والحبل بين رجليك.", "تقدّم حتى يُشدّ الكابل.", "انحنِ من الوركين ودع الحبل يرجع بين رجليك.", "ادفع وركيك للأمام لتقف مستقيماً مع شدّ أردافك."]
+  },
+  "back-extension": {
+    "name_ar": "مدّ الظهر على الجهاز",
+    "steps_en": ["Set up on the back extension bench with your hips on the pad and ankles secured.", "Cross your arms over your chest.", "Lower your upper body slowly with a straight back.", "Raise back up until your body is in a straight line. Don't over-arch."],
+    "steps_ar": ["اتخذ وضعك على جهاز مدّ الظهر ووركاك على المسند وكاحلاك مثبتان.", "ضع ذراعيك متقاطعتين على صدرك.", "أنزل الجزء العلوي من جسمك ببطء مع إبقاء ظهرك مستقيماً.", "ارتفع حتى يصبح جسمك على خط مستقيم. لا تقوّس ظهرك أكثر من ذلك."]
+  },
+  "good-morning": {
+    "name_ar": "تمرين صباح الخير",
+    "steps_en": ["Rest a light barbell across your upper back.", "With a slight bend in your knees, push your hips back and lower your chest forward.", "Keep your back flat and stop at about parallel to the floor.", "Drive your hips forward to stand back up."],
+    "steps_ar": ["أسند باراً خفيفاً على أعلى ظهرك.", "مع ثني خفيف في الركبتين، ادفع وركيك للخلف وأمِل صدرك للأمام.", "أبقِ ظهرك مستقيماً وتوقف عندما يصبح موازياً للأرض تقريباً.", "ادفع وركيك للأمام للعودة إلى الوقوف."]
+  },
+  "lying-leg-curl": {
+    "name_ar": "ثني الرجلين استلقاءً على الجهاز",
+    "steps_en": ["Lie face down on the machine with the pad just above your heels.", "Hold the handles and keep your hips on the bench.", "Curl your heels towards your glutes.", "Lower slowly."],
+    "steps_ar": ["استلقِ على بطنك فوق الجهاز والمسند فوق كعبيك مباشرة.", "أمسك المقابض وأبقِ وركيك على المقعد.", "اثنِ رجليك لتقرّب كعبيك من مؤخرتك.", "انزل ببطء."]
+  },
+  "seated-leg-curl": {
+    "name_ar": "ثني الرجلين جلوساً على الجهاز",
+    "steps_en": ["Sit on the machine with the pad behind your lower legs and the thigh pad locked in.", "Hold the handles.", "Pull your heels down and back as far as you can.", "Return slowly."],
+    "steps_ar": ["اجلس على الجهاز والمسند خلف أسفل ساقيك ومسند الفخذ مثبت.", "أمسك المقابض.", "اسحب كعبيك للأسفل وللخلف بأقصى ما تستطيع.", "عُد ببطء."]
+  },
+  "barbell-walking-lunge": {
+    "name_ar": "الطعن مع المشي بالبار",
+    "steps_en": ["Rest a barbell across your upper back.", "Step forward and lower until your back knee almost touches the floor.", "Push through your front foot and bring your back foot forward into the next step.", "Keep your torso upright throughout."],
+    "steps_ar": ["أسند البار على أعلى ظهرك.", "تقدّم بخطوة وانزل حتى تكاد ركبتك الخلفية تلمس الأرض.", "ادفع بقدمك الأمامية وأحضر قدمك الخلفية للأمام في الخطوة التالية.", "أبقِ جذعك مستقيماً طوال الحركة."]
+  },
+  "barbell-lunge": {
+    "name_ar": "الطعن بالبار",
+    "steps_en": ["Rest a barbell across your upper back and stand tall.", "Step forward and lower until both knees are bent at about 90 degrees.", "Push back to the start through your front heel.", "Alternate legs."],
+    "steps_ar": ["أسند البار على أعلى ظهرك وقف مستقيماً.", "تقدّم بخطوة وانزل حتى تنثني الركبتان بزاوية قائمة تقريباً.", "ادفع بكعب قدمك الأمامية للعودة إلى البداية.", "بدّل الرجلين."]
+  },
+  "smith-machine-split-squat": {
+    "name_ar": "القرفصاء المنفصلة على جهاز سميث",
+    "steps_en": ["Set the Smith bar across your upper back and stand in a long split stance.", "Unhook the bar.", "Lower straight down until your back knee nearly touches the floor.", "Push back up and switch legs after your reps."],
+    "steps_ar": ["ضع بار سميث على أعلى ظهرك وقف بخطوة طويلة بين القدمين.", "حرّر البار.", "انزل للأسفل مباشرة حتى تكاد ركبتك الخلفية تلمس الأرض.", "ادفع للأعلى وبدّل الرجل بعد التكرارات."]
+  },
+  "barbell-step-up": {
+    "name_ar": "الصعود على المقعد بالبار",
+    "steps_en": ["Rest a barbell across your upper back and face a sturdy box or bench.", "Place one foot fully on top.", "Drive through that heel to stand up on the box.", "Step down with control and alternate legs."],
+    "steps_ar": ["أسند البار على أعلى ظهرك وقف مواجهاً لصندوق أو مقعد ثابت.", "ضع قدماً كاملة فوقه.", "ادفع بكعبها لتقف فوق الصندوق.", "انزل بتحكّم وبدّل الرجلين."]
+  },
+  "barbell-bench-press": {
+    "name_ar": "ضغط البنش بالبار",
+    "steps_en": ["Lie on the bench with your feet flat and your eyes under the bar.", "Grip the bar a little wider than shoulder-width and lift it off the rack.", "Lower it slowly to the middle of your chest.", "Press it back up until your arms are straight."],
+    "steps_ar": ["استلقِ على المقعد مع تثبيت قدميك على الأرض وعيناك تحت البار.", "أمسك البار بقبضة أعرض قليلاً من الكتفين وارفعه عن الحامل.", "أنزله ببطء إلى منتصف صدرك.", "ادفعه للأعلى حتى تستقيم ذراعاك."]
+  },
+  "incline-barbell-bench-press": {
+    "name_ar": "ضغط البنش المائل بالبار",
+    "steps_en": ["Lie on an incline bench with your feet flat.", "Grip the bar slightly wider than your shoulders and lift it off the rack.", "Lower it to your upper chest.", "Press it back up over your shoulders."],
+    "steps_ar": ["استلقِ على مقعد مائل مع تثبيت قدميك على الأرض.", "أمسك البار بقبضة أعرض قليلاً من الكتفين وارفعه عن الحامل.", "أنزله إلى أعلى صدرك.", "ادفعه للأعلى فوق كتفيك."]
+  },
+  "decline-barbell-bench-press": {
+    "name_ar": "ضغط البنش المنحدر بالبار",
+    "steps_en": ["Lie on a decline bench with your legs secured.", "Grip the bar slightly wider than your shoulders and lift it off the rack.", "Lower it to your lower chest.", "Press it back up until your arms are straight."],
+    "steps_ar": ["استلقِ على مقعد منحدر مع تثبيت رجليك.", "أمسك البار بقبضة أعرض قليلاً من الكتفين وارفعه عن الحامل.", "أنزله إلى أسفل صدرك.", "ادفعه للأعلى حتى تستقيم ذراعاك."]
+  },
+  "machine-chest-press": {
+    "name_ar": "ضغط الصدر على الجهاز",
+    "steps_en": ["Adjust the seat so the handles are at chest height.", "Sit with your back against the pad and grip the handles.", "Press the handles forward until your arms are straight.", "Return slowly without letting the weights touch."],
+    "steps_ar": ["اضبط المقعد بحيث تكون المقابض بمستوى الصدر.", "اجلس وظهرك على المسند وأمسك المقابض.", "ادفع المقابض للأمام حتى تستقيم ذراعاك.", "عُد ببطء دون أن تلامس الأثقال بعضها."]
+  },
+  "machine-incline-chest-press": {
+    "name_ar": "ضغط الصدر المائل على الجهاز",
+    "steps_en": ["Sit in the incline press machine with your back flat against the pad.", "Grip the handles at upper chest height.", "Press up and forward until your arms are straight.", "Lower slowly."],
+    "steps_ar": ["اجلس في جهاز الضغط المائل وظهرك ملتصق بالمسند.", "أمسك المقابض بمستوى أعلى الصدر.", "ادفع للأعلى وللأمام حتى تستقيم ذراعاك.", "انزل ببطء."]
+  },
+  "smith-machine-bench-press": {
+    "name_ar": "ضغط البنش على جهاز سميث",
+    "steps_en": ["Lie on a bench under the Smith bar, bar above your chest.", "Grip it slightly wider than your shoulders and unhook it.", "Lower it to your mid-chest.", "Press it back up, then hook the bar when you finish."],
+    "steps_ar": ["استلقِ على مقعد تحت بار سميث والبار فوق صدرك.", "أمسكه بقبضة أعرض قليلاً من الكتفين وحرّره.", "أنزله إلى منتصف صدرك.", "ادفعه للأعلى، ثم أعِد تثبيته عند الانتهاء."]
+  },
+  "cable-chest-press": {
+    "name_ar": "ضغط الصدر بالكابل",
+    "steps_en": ["Set the cables at chest height and stand between them holding a handle in each hand.", "Step forward into a split stance.", "Press the handles forward until your arms are straight.", "Return slowly."],
+    "steps_ar": ["اضبط الكابلات على ارتفاع الصدر وقف بينها ممسكاً مقبضاً في كل يد.", "تقدّم بخطوة في وضع قدم للأمام وأخرى للخلف.", "ادفع المقابض للأمام حتى تستقيم ذراعاك.", "عُد ببطء."]
+  },
+  "cable-crossover": {
+    "name_ar": "التقاطع بالكابل",
+    "steps_en": ["Set both cables high and hold a handle in each hand.", "Step forward and lean slightly, arms open with a small bend at the elbows.", "Bring your hands down and together in front of your hips.", "Return slowly to the open position."],
+    "steps_ar": ["اضبط الكابلين في الأعلى وأمسك مقبضاً في كل يد.", "تقدّم بخطوة وامِل قليلاً للأمام والذراعان مفتوحتان مع ثني خفيف في المرفقين.", "أنزل يديك واجمعهما أمام وركيك.", "عُد ببطء إلى الوضع المفتوح."]
+  },
+  "pec-deck": {
+    "name_ar": "جهاز الفراشة للصدر",
+    "steps_en": ["Sit with your back against the pad and grip the handles or pads at chest height.", "Keep a slight bend in your elbows.", "Bring the handles together in front of your chest.", "Open your arms slowly."],
+    "steps_ar": ["اجلس وظهرك على المسند وأمسك المقابض أو المساند بمستوى الصدر.", "أبقِ ثنياً خفيفاً في مرفقيك.", "اجمع المقابض أمام صدرك.", "افتح ذراعيك ببطء."]
+  },
+  "barbell-row": {
+    "name_ar": "التجديف بالبار منحنياً",
+    "steps_en": ["Hold a barbell with an overhand grip and hinge forward with a flat back.", "Let the bar hang below your shoulders, knees slightly bent.", "Pull the bar to your lower chest, squeezing your shoulder blades.", "Lower slowly."],
+    "steps_ar": ["أمسك البار بقبضة علوية وانحنِ للأمام مع إبقاء ظهرك مستقيماً.", "دع البار يتدلى تحت كتفيك مع ثني الركبتين قليلاً.", "اسحب البار نحو أسفل صدرك مع ضمّ لوحَي كتفيك.", "انزل ببطء."]
+  },
+  "t-bar-row": {
+    "name_ar": "تجديف التي بار",
+    "steps_en": ["Straddle the bar and hold the handle with both hands.", "Hinge forward with a flat back and slightly bent knees.", "Pull the weight up towards your chest.", "Lower slowly to a full stretch."],
+    "steps_ar": ["قف والبار بين رجليك وأمسك المقبض بكلتا يديك.", "انحنِ للأمام مع إبقاء ظهرك مستقيماً وركبتيك مثنيتين قليلاً.", "اسحب الوزن نحو صدرك.", "انزل ببطء حتى يكتمل الشدّ."]
+  },
+  "seated-cable-row": {
+    "name_ar": "التجديف بالكابل جلوساً",
+    "steps_en": ["Sit at the row station with your feet on the platform and knees slightly bent.", "Hold the handle with straight arms and a tall back.", "Pull the handle to your stomach, squeezing your shoulder blades.", "Return slowly without rounding your back."],
+    "steps_ar": ["اجلس في جهاز التجديف وقدماك على المنصة وركبتاك مثنيتان قليلاً.", "أمسك المقبض والذراعان مستقيمتان والظهر منتصب.", "اسحب المقبض نحو بطنك مع ضمّ لوحَي كتفيك.", "عُد ببطء دون تقويس ظهرك."]
+  },
+  "one-arm-cable-row": {
+    "name_ar": "التجديف بالكابل بذراع واحدة",
+    "steps_en": ["Sit at the row station holding a single handle in one hand.", "Start with your arm straight and your back tall.", "Pull the handle to your side, rotating your palm up slightly.", "Return slowly and switch arms after your reps."],
+    "steps_ar": ["اجلس في جهاز التجديف ممسكاً مقبضاً واحداً بيد واحدة.", "ابدأ والذراع مستقيمة والظهر منتصب.", "اسحب المقبض نحو جانبك مع تدوير راحة يدك للأعلى قليلاً.", "عُد ببطء وبدّل الذراع بعد التكرارات."]
+  },
+  "machine-row": {
+    "name_ar": "التجديف على الجهاز",
+    "steps_en": ["Adjust the seat so your chest rests on the pad and the handles are at chest height.", "Grip the handles with straight arms.", "Pull the handles back, squeezing your shoulder blades.", "Return slowly."],
+    "steps_ar": ["اضبط المقعد بحيث يستند صدرك على المسند والمقابض بمستوى الصدر.", "أمسك المقابض والذراعان مستقيمتان.", "اسحب المقابض للخلف مع ضمّ لوحَي كتفيك.", "عُد ببطء."]
+  },
+  "machine-high-row": {
+    "name_ar": "التجديف العالي على الجهاز",
+    "steps_en": ["Sit facing the machine and grip the high handles.", "Keep your chest up and back straight.", "Pull the handles down and back towards your chest.", "Return slowly to straight arms."],
+    "steps_ar": ["اجلس مواجهاً للجهاز وأمسك المقابض العالية.", "أبقِ صدرك مرفوعاً وظهرك مستقيماً.", "اسحب المقابض للأسفل وللخلف نحو صدرك.", "عُد ببطء حتى تستقيم ذراعاك."]
+  },
+  "standing-military-press": {
+    "name_ar": "ضغط البار للأعلى وقوفاً",
+    "steps_en": ["Hold a barbell at the front of your shoulders, hands just wider than shoulder-width.", "Squeeze your glutes and brace your core.", "Press the bar straight overhead, moving your head back slightly to clear it.", "Lower it back to your shoulders."],
+    "steps_ar": ["أمسك البار أمام كتفيك بقبضة أعرض قليلاً من الكتفين.", "شدّ أردافك وعضلات بطنك.", "ادفع البار للأعلى فوق رأسك مباشرة مع إرجاع رأسك قليلاً ليمرّ البار.", "أنزله إلى كتفيك."]
+  },
+  "seated-barbell-press": {
+    "name_ar": "ضغط الكتف بالبار جلوساً",
+    "steps_en": ["Sit on a bench with back support and hold the bar at the front of your shoulders.", "Keep your back against the pad.", "Press the bar overhead until your arms are straight.", "Lower it slowly to your shoulders."],
+    "steps_ar": ["اجلس على مقعد بمسند للظهر وأمسك البار أمام كتفيك.", "أبقِ ظهرك ملتصقاً بالمسند.", "ادفع البار فوق رأسك حتى تستقيم ذراعاك.", "أنزله ببطء إلى كتفيك."]
+  },
+  "machine-shoulder-press": {
+    "name_ar": "ضغط الكتف على الجهاز",
+    "steps_en": ["Adjust the seat so the handles are at shoulder height.", "Sit with your back against the pad and grip the handles.", "Press the handles overhead.", "Lower slowly to shoulder height."],
+    "steps_ar": ["اضبط المقعد بحيث تكون المقابض بمستوى الكتفين.", "اجلس وظهرك على المسند وأمسك المقابض.", "ادفع المقابض فوق رأسك.", "انزل ببطء إلى مستوى الكتفين."]
+  },
+  "cable-shoulder-press": {
+    "name_ar": "ضغط الكتف بالكابل جلوساً",
+    "steps_en": ["Place a bench between two low cables and sit holding a handle in each hand at your shoulders.", "Keep your back straight.", "Press the handles overhead.", "Lower slowly to your shoulders."],
+    "steps_ar": ["ضع مقعداً بين كابلين منخفضين واجلس ممسكاً مقبضاً في كل يد عند كتفيك.", "أبقِ ظهرك مستقيماً.", "ادفع المقابض فوق رأسك.", "انزل ببطء إلى كتفيك."]
+  },
+  "smith-machine-shoulder-press": {
+    "name_ar": "ضغط الكتف على جهاز سميث",
+    "steps_en": ["Sit on a bench under the Smith bar, bar at the front of your shoulders.", "Grip it slightly wider than your shoulders and unhook it.", "Press the bar overhead.", "Lower it to just below your chin, then hook it when you finish."],
+    "steps_ar": ["اجلس على مقعد تحت بار سميث والبار أمام كتفيك.", "أمسكه بقبضة أعرض قليلاً من الكتفين وحرّره.", "ادفع البار فوق رأسك.", "أنزله إلى ما تحت ذقنك مباشرة، ثم أعِد تثبيته عند الانتهاء."]
+  },
+  "wide-grip-lat-pulldown": {
+    "name_ar": "السحب الأمامي بقبضة واسعة",
+    "steps_en": ["Sit at the pulldown machine with your thighs under the pads.", "Grip the bar wide with palms facing away.", "Pull the bar down to your upper chest, leaning back slightly.", "Return slowly until your arms are straight."],
+    "steps_ar": ["اجلس في جهاز السحب وفخذاك تحت المساند.", "أمسك البار بقبضة واسعة وراحتا يديك للخارج.", "اسحب البار نحو أعلى صدرك مع الميل للخلف قليلاً.", "عُد ببطء حتى تستقيم ذراعاك."]
+  },
+  "close-grip-lat-pulldown": {
+    "name_ar": "السحب الأمامي بقبضة ضيقة",
+    "steps_en": ["Sit at the pulldown machine and grip the bar with hands close together.", "Lean back slightly with your chest up.", "Pull the bar down to your upper chest.", "Return slowly to straight arms."],
+    "steps_ar": ["اجلس في جهاز السحب وأمسك البار بقبضة ضيقة.", "امِل للخلف قليلاً مع رفع صدرك.", "اسحب البار نحو أعلى صدرك.", "عُد ببطء حتى تستقيم ذراعاك."]
+  },
+  "underhand-pulldown": {
+    "name_ar": "السحب الأمامي بقبضة معكوسة",
+    "steps_en": ["Sit at the pulldown machine and grip the bar with palms facing you, shoulder-width apart.", "Keep your chest up.", "Pull the bar down to your upper chest, elbows close to your body.", "Return slowly."],
+    "steps_ar": ["اجلس في جهاز السحب وأمسك البار وراحتا يديك نحوك بعرض الكتفين.", "أبقِ صدرك مرفوعاً.", "اسحب البار نحو أعلى صدرك مع إبقاء المرفقين قريبين من جسمك.", "عُد ببطء."]
+  },
+  "one-arm-lat-pulldown": {
+    "name_ar": "السحب الأمامي بذراع واحدة",
+    "steps_en": ["Attach a single handle to the high cable and sit holding it with one hand.", "Start with your arm straight overhead.", "Pull the handle down to your shoulder, elbow towards your side.", "Return slowly and switch arms after your reps."],
+    "steps_ar": ["ثبّت مقبضاً واحداً في الكابل العالي واجلس ممسكاً به بيد واحدة.", "ابدأ والذراع مستقيمة فوق رأسك.", "اسحب المقبض نحو كتفك والمرفق باتجاه جانبك.", "عُد ببطء وبدّل الذراع بعد التكرارات."]
+  },
+  "straight-arm-pulldown": {
+    "name_ar": "السحب بذراعين مستقيمتين",
+    "steps_en": ["Stand facing a high cable holding a straight bar at shoulder height.", "Lean forward slightly and keep your arms straight.", "Pull the bar down in an arc to your thighs.", "Return slowly to shoulder height."],
+    "steps_ar": ["قف مواجهاً لكابل عالٍ ممسكاً باراً مستقيماً بمستوى الكتفين.", "امِل للأمام قليلاً وأبقِ ذراعيك مستقيمتين.", "اسحب البار بحركة قوسية نحو فخذيك.", "عُد ببطء إلى مستوى الكتفين."]
+  },
+  "cable-crunch": {
+    "name_ar": "الكرانش بالكابل",
+    "steps_en": ["Kneel below a high cable holding a rope beside your head.", "Keep your hips still.", "Curl your chest down towards your knees by tightening your stomach.", "Return slowly to upright."],
+    "steps_ar": ["اركع تحت كابل عالٍ ممسكاً الحبل بجانب رأسك.", "أبقِ وركيك ثابتين.", "اثنِ صدرك نحو ركبتيك بشدّ عضلات بطنك.", "عُد ببطء إلى الوضع المنتصب."]
+  },
+  "pallof-press": {
+    "name_ar": "ضغط بالوف",
+    "steps_en": ["Stand side-on to a cable set at chest height, holding the handle at your chest.", "Step away until there is tension.", "Press the handle straight out in front of you without letting your body twist.", "Bring it back to your chest and switch sides after your reps."],
+    "steps_ar": ["قف بجانب كابل مضبوط على ارتفاع الصدر ممسكاً المقبض عند صدرك.", "ابتعد حتى يُشدّ الكابل.", "ادفع المقبض للأمام مباشرة دون أن يلتف جسمك.", "أعِده إلى صدرك وبدّل الجانب بعد التكرارات."]
+  },
+  "cable-wood-chop": {
+    "name_ar": "تقطيع الخشب بالكابل",
+    "steps_en": ["Set a cable high and stand side-on, holding the handle with both hands.", "Pull the handle down and across your body towards your opposite knee.", "Rotate through your torso and pivot your back foot.", "Return slowly and switch sides after your reps."],
+    "steps_ar": ["اضبط الكابل في الأعلى وقف بجانبه ممسكاً المقبض بكلتا يديك.", "اسحب المقبض للأسفل وعبر جسمك نحو ركبتك المعاكسة.", "أدِر جذعك ودوّر قدمك الخلفية.", "عُد ببطء وبدّل الجانب بعد التكرارات."]
+  },
+  "hanging-knee-raise": {
+    "name_ar": "رفع الركبتين على جهاز الغطس",
+    "steps_en": ["Support yourself on a dip station with your forearms on the pads and back against the rest.", "Let your legs hang straight.", "Raise your knees towards your chest.", "Lower slowly without swinging."],
+    "steps_ar": ["استند على جهاز الغطس وساعداك على المساند وظهرك على المسند.", "دع رجليك تتدليان مستقيمتين.", "ارفع ركبتيك نحو صدرك.", "انزل ببطء دون أرجحة."]
+  },
+  "ab-crunch-machine": {
+    "name_ar": "جهاز الكرانش للبطن",
+    "steps_en": ["Sit in the machine and hold the handles or rest your arms on the pads.", "Hook your feet under the foot pads.", "Curl your upper body forward by tightening your stomach.", "Return slowly."],
+    "steps_ar": ["اجلس في الجهاز وأمسك المقابض أو ضع ذراعيك على المساند.", "ثبّت قدميك تحت مساند القدمين.", "اثنِ الجزء العلوي من جسمك للأمام بشدّ عضلات بطنك.", "عُد ببطء."]
+  },
+  "barbell-curl": {
+    "name_ar": "ثني البايسبس بالبار",
+    "steps_en": ["Stand holding a barbell with palms facing forward, hands shoulder-width apart.", "Keep your elbows by your sides.", "Curl the bar up towards your shoulders.", "Lower slowly to straight arms."],
+    "steps_ar": ["قف ممسكاً البار وراحتا يديك للأمام بعرض الكتفين.", "أبقِ مرفقيك بجانبك.", "اثنِ ذراعيك لرفع البار نحو كتفيك.", "انزل ببطء حتى تستقيم ذراعاك."]
+  },
+  "ez-bar-curl": {
+    "name_ar": "ثني البايسبس بالبار المتعرّج",
+    "steps_en": ["Stand holding an EZ bar on the angled grips, palms up.", "Keep your elbows close to your sides.", "Curl the bar up towards your shoulders.", "Lower slowly."],
+    "steps_ar": ["قف ممسكاً البار المتعرّج من مقابضه المائلة وراحتا يديك للأعلى.", "أبقِ مرفقيك قريبين من جانبيك.", "اثنِ ذراعيك لرفع البار نحو كتفيك.", "انزل ببطء."]
+  },
+  "preacher-curl": {
+    "name_ar": "ثني البايسبس على مقعد الواعظ",
+    "steps_en": ["Sit at the preacher bench with your upper arms resting on the pad.", "Hold the bar with palms up and arms almost straight.", "Curl the bar up towards your shoulders.", "Lower slowly, stopping just before your arms lock."],
+    "steps_ar": ["اجلس على مقعد الواعظ وعضد ذراعيك مستند على المسند.", "أمسك البار وراحتا يديك للأعلى والذراعان مستقيمتان تقريباً.", "ارفع البار نحو كتفيك.", "انزل ببطء وتوقف قبل أن تستقيم ذراعاك تماماً."]
+  },
+  "cable-curl": {
+    "name_ar": "ثني البايسبس بالكابل",
+    "steps_en": ["Stand facing a low cable holding a straight bar with palms up.", "Keep your elbows by your sides.", "Curl the bar up towards your shoulders.", "Lower slowly."],
+    "steps_ar": ["قف مواجهاً لكابل منخفض ممسكاً باراً مستقيماً وراحتا يديك للأعلى.", "أبقِ مرفقيك بجانبك.", "ارفع البار نحو كتفيك.", "انزل ببطء."]
+  },
+  "cable-hammer-curl": {
+    "name_ar": "ثني المطرقة بحبل الكابل",
+    "steps_en": ["Attach a rope to a low cable and hold it with palms facing each other.", "Keep your elbows by your sides.", "Curl the rope up towards your shoulders.", "Lower slowly."],
+    "steps_ar": ["ثبّت حبلاً في كابل منخفض وأمسكه وراحتا يديك متقابلتان.", "أبقِ مرفقيك بجانبك.", "ارفع الحبل نحو كتفيك.", "انزل ببطء."]
+  },
+  "machine-curl": {
+    "name_ar": "ثني البايسبس على الجهاز",
+    "steps_en": ["Adjust the seat so your upper arms rest flat on the pad.", "Grip the handles with palms up.", "Curl the handles up towards your shoulders.", "Lower slowly."],
+    "steps_ar": ["اضبط المقعد بحيث يستند عضد ذراعيك على المسند.", "أمسك المقابض وراحتا يديك للأعلى.", "ارفع المقابض نحو كتفيك.", "انزل ببطء."]
+  },
+  "triceps-pushdown": {
+    "name_ar": "دفع الترايسبس بالكابل",
+    "steps_en": ["Stand facing a high cable holding a short bar, elbows tucked at your sides.", "Push the bar down until your arms are straight.", "Keep your upper arms still.", "Let the bar rise slowly to chest height."],
+    "steps_ar": ["قف مواجهاً لكابل عالٍ ممسكاً باراً قصيراً والمرفقان ملتصقان بجانبيك.", "ادفع البار للأسفل حتى تستقيم ذراعاك.", "أبقِ عضد ذراعيك ثابتاً.", "دع البار يرتفع ببطء إلى مستوى الصدر."]
+  },
+  "rope-pushdown": {
+    "name_ar": "دفع الترايسبس بالحبل",
+    "steps_en": ["Stand facing a high cable holding a rope, elbows at your sides.", "Push the rope down and pull the ends apart at the bottom.", "Keep your upper arms still.", "Return slowly."],
+    "steps_ar": ["قف مواجهاً لكابل عالٍ ممسكاً الحبل والمرفقان بجانبيك.", "ادفع الحبل للأسفل وافتح طرفيه في الأسفل.", "أبقِ عضد ذراعيك ثابتاً.", "عُد ببطء."]
+  },
+  "cable-overhead-triceps-extension": {
+    "name_ar": "مدّ الترايسبس فوق الرأس بالكابل",
+    "steps_en": ["Face away from a cable holding a rope behind your head.", "Step forward into a split stance and lean slightly.", "Straighten your arms forward and up, keeping your elbows close to your head.", "Return slowly."],
+    "steps_ar": ["قف معطياً ظهرك للكابل ممسكاً الحبل خلف رأسك.", "تقدّم بخطوة في وضع قدم للأمام وأخرى للخلف وامِل قليلاً.", "مدّ ذراعيك للأمام وللأعلى مع إبقاء المرفقين قريبين من رأسك.", "عُد ببطء."]
+  },
+  "ez-bar-skull-crusher": {
+    "name_ar": "تمرين الجمجمة بالبار المتعرّج",
+    "steps_en": ["Lie on a bench holding an EZ bar above your chest with straight arms.", "Keeping your upper arms still, bend your elbows to lower the bar towards your forehead.", "Stop just above your head.", "Straighten your arms to lift it back up."],
+    "steps_ar": ["استلقِ على المقعد ممسكاً البار المتعرّج فوق صدرك والذراعان مستقيمتان.", "مع تثبيت عضد ذراعيك، اثنِ مرفقيك لإنزال البار نحو جبهتك.", "توقف فوق رأسك مباشرة.", "مدّ ذراعيك لرفعه مجدداً."]
+  },
+  "close-grip-bench-press": {
+    "name_ar": "ضغط البنش بقبضة ضيقة",
+    "steps_en": ["Lie on the bench and grip the bar with hands about shoulder-width apart.", "Lift it off the rack.", "Lower it to your lower chest, keeping your elbows close to your body.", "Press it back up until your arms are straight."],
+    "steps_ar": ["استلقِ على المقعد وأمسك البار بقبضة بعرض الكتفين تقريباً.", "ارفعه عن الحامل.", "أنزله إلى أسفل صدرك مع إبقاء المرفقين قريبين من جسمك.", "ادفعه للأعلى حتى تستقيم ذراعاك."]
+  },
+  "machine-dip": {
+    "name_ar": "الغطس على الجهاز",
+    "steps_en": ["Sit in the dip machine and grip the handles beside you.", "Keep your back against the pad.", "Push the handles down until your arms are straight.", "Return slowly."],
+    "steps_ar": ["اجلس في جهاز الغطس وأمسك المقابض بجانبك.", "أبقِ ظهرك ملتصقاً بالمسند.", "ادفع المقابض للأسفل حتى تستقيم ذراعاك.", "عُد ببطء."]
+  },
+  "machine-triceps-extension": {
+    "name_ar": "مدّ الترايسبس على الجهاز",
+    "steps_en": ["Sit in the machine with your upper arms on the pad.", "Grip the handles with your elbows bent.", "Straighten your arms against the resistance.", "Return slowly."],
+    "steps_ar": ["اجلس في الجهاز وعضد ذراعيك على المسند.", "أمسك المقابض والمرفقان مثنيان.", "مدّ ذراعيك عكس المقاومة.", "عُد ببطء."]
+  },
+  "cable-lateral-raise": {
+    "name_ar": "الرفع الجانبي بالكابل",
+    "steps_en": ["Stand or sit beside a low cable and hold the handle with the far hand.", "Keep a slight bend in your elbow.", "Raise your arm out to the side up to shoulder height.", "Lower slowly and switch sides after your reps."],
+    "steps_ar": ["قف أو اجلس بجانب كابل منخفض وأمسك المقبض باليد البعيدة.", "أبقِ ثنياً خفيفاً في مرفقك.", "ارفع ذراعك إلى الجانب حتى مستوى الكتف.", "انزل ببطء وبدّل الجانب بعد التكرارات."]
+  },
+  "face-pull": {
+    "name_ar": "السحب نحو الوجه",
+    "steps_en": ["Set a rope on a cable at about face height and hold the ends.", "Step back until there is tension.", "Pull the rope towards your face, spreading the ends and lifting your elbows high.", "Return slowly."],
+    "steps_ar": ["اضبط الحبل على كابل بمستوى الوجه تقريباً وأمسك طرفيه.", "تراجع حتى يُشدّ الكابل.", "اسحب الحبل نحو وجهك مع فتح طرفيه ورفع مرفقيك عالياً.", "عُد ببطء."]
+  },
+  "reverse-machine-fly": {
+    "name_ar": "التفتيح العكسي على الجهاز",
+    "steps_en": ["Sit facing the pec deck machine with your chest against the pad.", "Grip the handles with straight arms in front of you.", "Pull your arms back and out until they are in line with your body.", "Return slowly."],
+    "steps_ar": ["اجلس مواجهاً لجهاز الفراشة وصدرك على المسند.", "أمسك المقابض والذراعان مستقيمتان أمامك.", "اسحب ذراعيك للخلف وللخارج حتى تصبحا على خط جسمك.", "عُد ببطء."]
+  },
+  "cable-rear-delt-fly": {
+    "name_ar": "تفتيح الكتف الخلفي بالكابل",
+    "steps_en": ["Set both cables at shoulder height and cross them, holding the left cable in your right hand and the right in your left.", "Stand in the middle with arms straight in front.", "Pull your arms out and back to your sides.", "Return slowly."],
+    "steps_ar": ["اضبط الكابلين على ارتفاع الكتفين وقاطعهما، فتمسك الكابل الأيسر بيدك اليمنى والأيمن بيدك اليسرى.", "قف في المنتصف والذراعان مستقيمتان أمامك.", "اسحب ذراعيك للخارج وللخلف إلى جانبيك.", "عُد ببطء."]
+  },
+  "barbell-shrug": {
+    "name_ar": "رفع الكتفين بالبار",
+    "steps_en": ["Stand holding a barbell in front of your thighs with straight arms.", "Lift your shoulders straight up towards your ears.", "Hold for a second at the top.", "Lower slowly."],
+    "steps_ar": ["قف ممسكاً البار أمام فخذيك والذراعان مستقيمتان.", "ارفع كتفيك للأعلى مباشرة نحو أذنيك.", "اثبت ثانية في الأعلى.", "انزل ببطء."]
+  },
+  "standing-calf-raise-machine": {
+    "name_ar": "رفع السمانة وقوفاً على الجهاز",
+    "steps_en": ["Stand in the machine with your shoulders under the pads and the balls of your feet on the step.", "Let your heels drop below the step.", "Rise up onto your toes as high as you can.", "Lower slowly."],
+    "steps_ar": ["قف في الجهاز وكتفاك تحت المساند ومقدمة قدميك على الدرجة.", "دع كعبيك ينزلان تحت مستوى الدرجة.", "ارتفع على أصابع قدميك بأقصى ما تستطيع.", "انزل ببطء."]
+  },
+  "seated-calf-raise": {
+    "name_ar": "رفع السمانة جلوساً على الجهاز",
+    "steps_en": ["Sit in the machine with the pad on your lower thighs and the balls of your feet on the step.", "Release the safety.", "Lift your heels as high as you can.", "Lower your heels slowly below the step."],
+    "steps_ar": ["اجلس في الجهاز والمسند على أسفل فخذيك ومقدمة قدميك على الدرجة.", "حرّر قفل الأمان.", "ارفع كعبيك بأقصى ما تستطيع.", "أنزل كعبيك ببطء تحت مستوى الدرجة."]
+  },
+  "leg-press-calf-raise": {
+    "name_ar": "رفع السمانة على جهاز ضغط الرجلين",
+    "steps_en": ["Sit in the leg press with the balls of your feet on the bottom edge of the platform.", "Straighten your legs without locking your knees.", "Push the platform away by pointing your toes.", "Return slowly."],
+    "steps_ar": ["اجلس في جهاز ضغط الرجلين ومقدمة قدميك على الحافة السفلية للمنصة.", "مدّ رجليك دون قفل ركبتيك.", "ادفع المنصة بمدّ أصابع قدميك.", "عُد ببطء."]
+  },
+  "cable-kickback": {
+    "name_ar": "ركلة الأرداف بالكابل",
+    "steps_en": ["Attach an ankle strap to a low cable and face the machine.", "Hold the frame for balance.", "Kick your leg straight back, squeezing your glute.", "Return slowly and switch legs after your reps."],
+    "steps_ar": ["ثبّت حزام الكاحل في كابل منخفض وقف مواجهاً للجهاز.", "أمسك بإطار الجهاز للتوازن.", "اركل رجلك للخلف مستقيمة مع شدّ أردافك.", "عُد ببطء وبدّل الرجل بعد التكرارات."]
+  },
+  "hip-abduction-machine": {
+    "name_ar": "جهاز فتح الفخذين",
+    "steps_en": ["Sit in the machine with the pads on the outside of your knees.", "Hold the handles and sit tall.", "Push your knees out as far as you can.", "Return slowly."],
+    "steps_ar": ["اجلس في الجهاز والمساند على الجانب الخارجي من ركبتيك.", "أمسك المقابض واجلس منتصباً.", "ادفع ركبتيك للخارج بأقصى ما تستطيع.", "عُد ببطء."]
+  },
+  "rowing-machine": {
+    "name_ar": "جهاز التجديف",
+    "steps_en": ["Sit with your feet strapped in and hold the handle with straight arms.", "Push with your legs first, then lean back slightly and pull the handle to your ribs.", "Return by extending your arms, leaning forward, then bending your knees.", "Keep a smooth, steady rhythm."],
+    "steps_ar": ["اجلس وقدماك مثبتتان وأمسك المقبض والذراعان مستقيمتان.", "ادفع برجليك أولاً، ثم امِل للخلف قليلاً واسحب المقبض نحو أضلاعك.", "عُد بمدّ ذراعيك ثم الميل للأمام ثم ثني ركبتيك.", "حافظ على إيقاع سلس وثابت."]
+  },
+  "stationary-bike": {
+    "name_ar": "الدراجة الثابتة",
+    "steps_en": ["Adjust the seat so your knee is slightly bent at the bottom of each pedal stroke.", "Hold the handlebars lightly and sit tall.", "Pedal at a steady pace.", "Raise the resistance for harder intervals."],
+    "steps_ar": ["اضبط المقعد بحيث تبقى ركبتك مثنية قليلاً في أسفل كل دورة.", "أمسك المقود برفق واجلس منتصباً.", "دوّس بإيقاع ثابت.", "زِد المقاومة في الفترات الأصعب."]
+  },
+  "treadmill-jog": {
+    "name_ar": "الهرولة على جهاز المشي",
+    "steps_en": ["Start walking, then raise the speed to an easy jog.", "Stand tall and land softly under your hips.", "Swing your arms naturally.", "Slow down gradually at the end."],
+    "steps_ar": ["ابدأ بالمشي ثم زِد السرعة إلى هرولة خفيفة.", "قف منتصباً واهبط بنعومة تحت وركيك.", "حرّك ذراعيك بشكل طبيعي.", "خفّف السرعة تدريجياً في النهاية."]
+  },
+  "elliptical": {
+    "name_ar": "جهاز الإليبتيكال",
+    "steps_en": ["Step onto the pedals and hold the moving handles.", "Push and pull the handles as your legs move.", "Keep your back straight and your heels down.", "Raise the resistance for harder intervals."],
+    "steps_ar": ["اصعد على الدواسات وأمسك المقابض المتحركة.", "ادفع واسحب المقابض مع حركة رجليك.", "أبقِ ظهرك مستقيماً وكعبيك للأسفل.", "زِد المقاومة في الفترات الأصعب."]
+  }
+}

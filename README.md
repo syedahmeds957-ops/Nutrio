@@ -29,6 +29,7 @@ Removed on purpose: meal-photo scanning, the grocery list and the weekly grocery
 | `apps/mobile/` | Expo 57 / React Native app (`App.tsx` routes between screens). Future web and admin apps go alongside it in `apps/`. |
 | `packages/nutrition-core/` | BMR, TDEE, targets, macros, safety, adaptive TDEE, meal-plan solver, coach prompt |
 | `packages/food-db/` | Local food catalogue, restaurant menus, search index |
+| `packages/workout-core/` | Exercise catalogue for the upcoming workout plans (in progress). Exercise data and photos: [free-exercise-db](https://github.com/yuhonas/free-exercise-db), public domain |
 | `supabase/migrations/` | Database schema (`core` and `off` schemas, row-level security) |
 | `supabase/functions/` | Edge functions; only `coach-chat` is deployed and used by the app |
 | `scripts/` | CI key guard, edge-function bundler, catalogue builders |

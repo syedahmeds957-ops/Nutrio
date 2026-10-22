@@ -81,6 +81,7 @@
    - Filter by level ≤ experience (new → beginner only) and drop any exercise whose `jointLoads` overlap `protectedJoints`.
    - Main slots prefer compound exercises.
    - Ties break by a stable hash of `seed + slotId` (no `Math.random`).
+   - **Empty pools (from phase 1's known gaps).** When no exercise fits a slot, fall back in order: `horizontal_pull` → `hinge`; `vertical_pull` → `horizontal_pull` → `hinge`; `vertical_push` → `horizontal_push`; `squat` → `lunge`. Use the fallback pattern's prescription. Never leave a slot empty, and test this for `home_none`.
    - No repeats within a session; avoid repeats within the week unless the pool has one exercise.
    - Accessories rotate every 4 weeks (`Math.floor(weekIndex / 4)` shifts the pick); main slots never rotate.
    - `exerciseForWeek(plan, slotId, weekIndex)` applies `plan.swaps` first.

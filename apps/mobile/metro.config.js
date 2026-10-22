@@ -13,11 +13,16 @@ const monorepoRoot = path.resolve(projectRoot, '..', '..');
 // 1. Watch all files within the monorepo
 config.watchFolders = [monorepoRoot];
 
-// 2. Extra node modules mapping for workspace packages
-config.resolver.extraNodeModules = {
-  '@nutrio/nutrition-core': path.resolve(monorepoRoot, 'packages/nutrition-core'),
-  '@nutrio/food-db': path.resolve(monorepoRoot, 'packages/food-db'),
+// 2. Workspace packages resolve to their TypeScript source, so edits show up live
+const WORKSPACE_PACKAGES = {
+  '@nutrio/nutrition-core': 'packages/nutrition-core',
+  '@nutrio/food-db': 'packages/food-db',
+  '@nutrio/workout-core': 'packages/workout-core',
 };
+
+config.resolver.extraNodeModules = Object.fromEntries(
+  Object.entries(WORKSPACE_PACKAGES).map(([name, dir]) => [name, path.resolve(monorepoRoot, dir)])
+);
 
 config.resolver.nodeModulesPaths = [
   path.resolve(projectRoot, 'node_modules'),
@@ -28,18 +33,10 @@ config.resolver.nodeModulesPaths = [
 const originalResolveRequest = config.resolver.resolveRequest;
 config.resolver.resolveRequest = (context, moduleName, platform) => {
   // Direct mapping for internal workspace packages
-  if (moduleName === '@nutrio/nutrition-core') {
+  if (WORKSPACE_PACKAGES[moduleName]) {
     return (originalResolveRequest || context.resolveRequest)(
       context,
-      path.resolve(monorepoRoot, 'packages/nutrition-core/src/index.ts'),
-      platform
-    );
-  }
-
-  if (moduleName === '@nutrio/food-db') {
-    return (originalResolveRequest || context.resolveRequest)(
-      context,
-      path.resolve(monorepoRoot, 'packages/food-db/src/index.ts'),
+      path.resolve(monorepoRoot, WORKSPACE_PACKAGES[moduleName], 'src/index.ts'),
       platform
     );
   }

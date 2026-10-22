@@ -12,7 +12,7 @@ A signed-in user or a guest can set up a weekly workout plan for home or gym. Th
 
 1. One phase at a time, in the order below. Each phase has its own file with tasks, files, tests and a finish check.
 2. A phase is done when its **Verify** commands pass and its **Demo** steps work. I then stop, report what changed with the evidence, and wait for "next".
-3. One commit per phase on `feat/workout-plans` (in the `../Nutrio-workouts` worktree). Nothing is pushed and no PR is opened until you ask.
+3. Commits happen **only when the user says so** (one per phase, on `feat/workout-plans` in the `../Nutrio-workouts` worktree). Nothing is pushed and no PR is opened until you ask.
 4. If a phase turns up a decision the plan didn't cover, I stop and ask instead of guessing, and record it in the decision log below.
 5. After each phase: update the Progress table, run `graphify update .`, and keep `npm run build && npm test` green.
 
@@ -99,6 +99,8 @@ Assumptions accepted with the approval:
 | 2026-10-22 | 0 | The week view shows the current calendar week (Mon start for PK, Sun for SA), not "7 days from today" | Done/missed days must stay visible; phase 4 updated |
 | 2026-10-22 | 0 | Nav pills become content-width and scroll horizontally, 44 px tall | 5 equal-width pills clip at 360–390 px |
 | 2026-10-22 | 0 | `textSecondary` (light) → `#556275`, `floatingBarInactive` (dark) → `#9CA3AF` in phase 3 | Existing values fail AA contrast on small labels |
+| 2026-10-22 | 1 | Own EN/AR instructions, 169 exercises, `timed` field, Vitest image setup file, flutter kicks moved to glutes/bench | Source text didn't match its photos; see the phase 1 record |
+| 2026-10-22 | 2 | Empty-pool fallback patterns for home with no equipment | Phase 1 known gaps |
 | 2026-10-22 | all | Every workout feature works for PK, SA and global; region-specific behaviour only through a helper with a default, tested for all three | User's standing rule for the whole app |
 
 ## Progress
@@ -106,7 +108,7 @@ Assumptions accepted with the approval:
 | Phase | Status | Commit |
 |---|---|---|
 | 0 Screen designs | done 2026-10-22, approved. [Mockups](https://claude.ai/artifact/7dEqPJ6ZK2bgkYL32owMRu) (English + Arabic pages), [spec](../../specs/2026-10-22-workout-screens-design.md) | see `git log feat/workout-plans` |
-| 1 Catalogue + images | not started | |
+| 1 Catalogue + images | done 2026-10-22: 169 exercises, 10 MB images, all checks green ([record](phase-01-catalogue-and-images.md#execution-record-2026-10-22)) | not committed (waits for the user's command) |
 | 2 Generator | not started | |
 | 3 Setup, storage, navigation | not started | |
 | 4 Week + day screens | not started | |
