@@ -3,7 +3,7 @@ import { z } from 'zod';
 /** Upper bounds that keep one request inside the Groq free-tier token budget. */
 export const MAX_CATALOGUE_NAMES = 400;
 export const MAX_INGREDIENTS = 20;
-/** Ingredients looked up in USDA per dish; each costs one FoodData Central call. */
+/** Ingredients looked up in USDA per dish; bounds the record-picking prompt. */
 export const MAX_USDA_LOOKUPS = 6;
 /** A single ingredient past this is a model error, not a recipe. */
 export const MAX_INGREDIENT_GRAMS = 1000;
@@ -51,7 +51,7 @@ export const UsdaIngredientSchema = z.object({
   name: z.string().min(1).max(80),
   grams: z.number().positive().max(MAX_INGREDIENT_GRAMS),
   fdcId: z.number().int().positive(),
-  /** The USDA record's own name, shown to the user as the source. */
+  /** The USDA record's own name, kept with the ingredient so its values stay traceable. */
   description: z.string().min(1).max(120),
   per100g: UsdaPer100gSchema,
 });

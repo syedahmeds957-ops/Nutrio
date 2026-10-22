@@ -11,7 +11,7 @@ import {
   MAX_USDA_LOOKUPS,
   UsdaIngredient,
 } from './schema.js';
-import { searchUsda, UsdaCandidate } from './usda.js';
+import { searchUsda, UsdaCandidate, UsdaDatabase } from './usda.js';
 
 /** Searching the web is slow; past this the user is better told to try again. */
 export const MODEL_TIMEOUT_MS = 25_000;
@@ -201,8 +201,8 @@ export async function pickUsdaRecords(
 
 export interface BreakdownKeys {
   groq: string;
-  /** A data.gov key for FoodData Central; without one nothing is looked up. */
-  usda?: string;
+  /** Where the imported USDA foods are searched; without it nothing is looked up. */
+  usda?: UsdaDatabase;
 }
 
 /**
@@ -225,7 +225,7 @@ export async function resolveExternal(
   const searched = await Promise.all(
     toLookUp.map(async (ingredient) => ({
       ingredient,
-      candidates: await searchUsda(ingredient.name, keys.usda as string, fetchImpl).catch((err) => {
+      candidates: await searchUsda(ingredient.name, keys.usda as UsdaDatabase, fetchImpl).catch((err) => {
         console.warn(`[dish-breakdown] USDA search failed for "${ingredient.name}": ${err?.message ?? err}`);
         return [] as UsdaCandidate[];
       }),

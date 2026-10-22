@@ -5,10 +5,12 @@ import { UsdaPer100g } from './schema.js';
  * database, public domain (CC0). Used only for ingredients the app's own
  * catalogue lacks, so every number in a dish is still a measured value, never
  * one a model produced.
+ *
+ * The generic reference foods (Foundation and SR Legacy; Branded rows are
+ * single products, not ingredients) are imported into our own `usda.foods`
+ * table by scripts/import-usda.mjs, so a search needs no data.gov key and has
+ * no hourly cap. The function searches it through the search_usda_foods RPC.
  */
-const FDC_SEARCH_URL = 'https://api.nal.usda.gov/fdc/v1/foods/search';
-/** Generic reference foods only; Branded rows are single products, not ingredients. */
-const FDC_DATA_TYPES = ['Foundation', 'SR Legacy'];
 export const FDC_CANDIDATES_PER_QUERY = 5;
 const FDC_TIMEOUT_MS = 6000;
 
@@ -47,9 +49,10 @@ interface FdcFood {
 const round1 = (n: number) => Math.round(n * 10) / 10;
 
 /**
- * Per-100 g values of one FDC search hit, or undefined when it lacks energy or
+ * Per-100 g values of one FDC record, or undefined when it lacks energy or
  * a macro, or the values are physically impossible (more than 100 g of
  * macronutrients in 100 g of food, more energy than pure fat).
+ * scripts/import-usda.mjs runs every record through this before storing it.
  */
 export function per100gFrom(food: FdcFood): UsdaPer100g | undefined {
   const nutrients = food.foodNutrients ?? [];
@@ -81,35 +84,61 @@ export function per100gFrom(food: FdcFood): UsdaPer100g | undefined {
   };
 }
 
+/** The project's own API and a key that may call search_usda_foods (service role only). */
+export interface UsdaDatabase {
+  url: string;
+  key: string;
+}
+
+/** One search_usda_foods row; per100gFrom() checked its values at import. */
+interface UsdaRow {
+  fdc_id: number;
+  data_type: string;
+  description: string;
+  kcal: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+  fibre: number;
+  sugar: number;
+  sodium_mg: number;
+  sat_fat: number;
+}
+
 /**
- * The usable FDC records for an ingredient name, best search rank first.
- * Throws on a network or HTTP failure so the caller can mark the ingredient
- * not counted rather than guess.
+ * The FDC records for an ingredient name, best match first. Throws on a
+ * network or HTTP failure so the caller can mark the ingredient not counted
+ * rather than guess.
  */
 export async function searchUsda(
   query: string,
-  apiKey: string,
+  db: UsdaDatabase,
   fetchImpl: typeof fetch = fetch
 ): Promise<UsdaCandidate[]> {
-  const res = await fetchImpl(`${FDC_SEARCH_URL}?api_key=${encodeURIComponent(apiKey)}`, {
+  const res = await fetchImpl(`${db.url}/rest/v1/rpc/search_usda_foods`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query, dataType: FDC_DATA_TYPES, pageSize: FDC_CANDIDATES_PER_QUERY }),
+    // Secret keys (sb_secret_...) are not JWTs, so they go on `apikey` only;
+    // the gateway rejects one sent as a Bearer token.
+    headers: { 'Content-Type': 'application/json', apikey: db.key },
+    body: JSON.stringify({ query, max_results: FDC_CANDIDATES_PER_QUERY }),
     signal: AbortSignal.timeout(FDC_TIMEOUT_MS),
   });
-  if (!res.ok) throw new Error(`FoodData Central returned HTTP ${res.status}`);
-  const data = (await res.json()) as { foods?: FdcFood[] };
+  if (!res.ok) throw new Error(`USDA food search returned HTTP ${res.status}`);
+  const rows = (await res.json()) as UsdaRow[];
 
-  const candidates: UsdaCandidate[] = [];
-  for (const food of data.foods ?? []) {
-    const per100g = per100gFrom(food);
-    if (!per100g || typeof food.fdcId !== 'number' || !food.description) continue;
-    candidates.push({
-      fdcId: food.fdcId,
-      description: food.description.slice(0, 120),
-      dataType: food.dataType ?? '',
-      per100g,
-    });
-  }
-  return candidates;
+  return rows.map((row) => ({
+    fdcId: row.fdc_id,
+    description: row.description.slice(0, 120),
+    dataType: row.data_type,
+    per100g: {
+      kcal: Number(row.kcal),
+      protein: Number(row.protein),
+      carbs: Number(row.carbs),
+      fat: Number(row.fat),
+      fibre: Number(row.fibre),
+      sugar: Number(row.sugar),
+      sodiumMg: Number(row.sodium_mg),
+      satFat: Number(row.sat_fat),
+    },
+  }));
 }

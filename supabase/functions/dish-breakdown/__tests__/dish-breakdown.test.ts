@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { handleDishBreakdownRequest } from '../index.js';
+import { handleDishBreakdownRequest, usdaDatabaseFromEnv } from '../index.js';
 import { breakDownDish, extractJsonObject, resolveExternal, splitIngredients } from '../breakdown.js';
-import { per100gFrom } from '../usda.js';
+import { per100gFrom, searchUsda } from '../usda.js';
 import { DishBreakdownResponseSchema } from '../schema.js';
 
 const CATALOGUE = [
@@ -27,43 +27,50 @@ const post = (body: unknown, role = 'authenticated') =>
 const groqMessage = (content: string) =>
   new Response(JSON.stringify({ choices: [{ message: { content } }] }), { status: 200 });
 
-/** USDA's real top two hits for "coconut milk canned": the first is the wrong food. */
-const USDA_COCONUT = {
-  foods: [
-    {
-      fdcId: 170171,
-      dataType: 'SR Legacy',
-      description: 'Nuts, coconut cream, canned, sweetened',
-      foodNutrients: [
-        { nutrientId: 1008, value: 357 },
-        { nutrientId: 1003, value: 1.17 },
-        { nutrientId: 1004, value: 16.3 },
-        { nutrientId: 1005, value: 53.2 },
-      ],
-    },
-    {
-      fdcId: 170173,
-      dataType: 'SR Legacy',
-      description: 'Nuts, coconut milk, canned (liquid expressed from grated meat and water)',
-      foodNutrients: [
-        { nutrientId: 1008, value: 197 },
-        { nutrientId: 1003, value: 2.02 },
-        { nutrientId: 1004, value: 21.3 },
-        { nutrientId: 1005, value: 2.81 },
-        { nutrientId: 1258, value: 18.9 },
-      ],
-    },
-  ],
-};
+/**
+ * search_usda_foods rows for "coconut milk canned": the first is the wrong
+ * food, as it was in USDA's own API search.
+ */
+const USDA_COCONUT = [
+  {
+    fdc_id: 170171,
+    data_type: 'SR Legacy',
+    description: 'Nuts, coconut cream, canned, sweetened',
+    kcal: 357,
+    protein: 1.2,
+    carbs: 53.2,
+    fat: 16.3,
+    fibre: 0,
+    sugar: 0,
+    sodium_mg: 0,
+    sat_fat: 0,
+  },
+  {
+    fdc_id: 170173,
+    data_type: 'SR Legacy',
+    description: 'Nuts, coconut milk, canned (liquid expressed from grated meat and water)',
+    kcal: 197,
+    protein: 2.0,
+    carbs: 2.8,
+    fat: 21.3,
+    fibre: 0,
+    sugar: 0,
+    sodium_mg: 0,
+    sat_fat: 18.9,
+  },
+];
+
+const USDA_DB = { url: 'https://project.supabase.co', key: 'sb_secret_test' };
 
 /**
- * A fetch that answers Groq and USDA by URL: Groq replies are queued in order
- * (a number is an HTTP error status), USDA answers with `usda`.
+ * A fetch that answers Groq and the USDA search by URL: Groq replies are
+ * queued in order (a number is an HTTP error status), the search answers with
+ * `usda`.
  */
 const fakeNetwork = (groqReplies: (string | number)[], usda: unknown = USDA_COCONUT) => {
   const queue = [...groqReplies];
   return vi.fn(async (url: string) => {
-    if (String(url).includes('api.nal.usda.gov')) {
+    if (String(url).endsWith('/rest/v1/rpc/search_usda_foods')) {
       return new Response(JSON.stringify(usda), { status: 200 });
     }
     const next = queue.shift();
@@ -86,7 +93,7 @@ const COCONUT_CURRY = JSON.stringify({
 const PICK_COCONUT_MILK = JSON.stringify({ choices: [{ index: 0, fdcId: 170173 }] });
 
 const request = { dishName: 'coconut chicken curry', region: 'PK' as const, catalogueNames: CATALOGUE };
-const keys = { groq: 'groq-key', usda: 'usda-key' };
+const keys = { groq: 'groq-key', usda: USDA_DB };
 
 describe('dish-breakdown: HTTP handling', () => {
   afterEach(() => {
@@ -224,11 +231,54 @@ describe('dish-breakdown: valuing what the catalogue lacks from USDA', () => {
     expect(notCounted).toEqual([{ name: 'khoya', grams: 30 }]);
   });
 
-  it('marks everything not counted without a USDA key, rather than guessing', async () => {
+  it('marks everything not counted without database access, rather than guessing', async () => {
     const fetchImpl = fakeNetwork([]);
     const { notCounted } = await resolveExternal('x', [{ name: 'khoya', grams: 30 }], { groq: 'k' }, fetchImpl);
     expect(notCounted).toEqual([{ name: 'khoya', grams: 30 }]);
     expect(fetchImpl).not.toHaveBeenCalled();
+  });
+});
+
+describe('dish-breakdown: searching the imported USDA foods', () => {
+  afterEach(() => {
+    delete process.env.SUPABASE_URL;
+    delete process.env.SUPABASE_SECRET_KEYS;
+    delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+  });
+
+  it('calls the search RPC with the key on apikey only, never as a Bearer token', async () => {
+    const fetchImpl = fakeNetwork([]);
+    const candidates = await searchUsda('coconut milk, canned', USDA_DB, fetchImpl);
+
+    const [url, init] = (fetchImpl as unknown as ReturnType<typeof vi.fn>).mock.calls[0];
+    expect(url).toBe('https://project.supabase.co/rest/v1/rpc/search_usda_foods');
+    expect(init.headers).toEqual({ 'Content-Type': 'application/json', apikey: 'sb_secret_test' });
+    expect(JSON.parse(init.body)).toEqual({ query: 'coconut milk, canned', max_results: 5 });
+    expect(candidates[1]).toEqual({
+      fdcId: 170173,
+      dataType: 'SR Legacy',
+      description: 'Nuts, coconut milk, canned (liquid expressed from grated meat and water)',
+      per100g: { kcal: 197, protein: 2, carbs: 2.8, fat: 21.3, fibre: 0, sugar: 0, sodiumMg: 0, satFat: 18.9 },
+    });
+  });
+
+  it('throws on an HTTP error so the ingredient is not counted', async () => {
+    const fetchImpl = vi.fn(async () => new Response('denied', { status: 401 })) as unknown as typeof fetch;
+    await expect(searchUsda('ghee', USDA_DB, fetchImpl)).rejects.toThrow('HTTP 401');
+  });
+
+  it('prefers the secret key over the legacy service-role key', () => {
+    process.env.SUPABASE_URL = 'https://project.supabase.co';
+    process.env.SUPABASE_SERVICE_ROLE_KEY = 'legacy-jwt';
+    expect(usdaDatabaseFromEnv()?.key).toBe('legacy-jwt');
+
+    process.env.SUPABASE_SECRET_KEYS = JSON.stringify({ default: 'sb_secret_abc' });
+    expect(usdaDatabaseFromEnv()).toEqual({ url: 'https://project.supabase.co', key: 'sb_secret_abc' });
+  });
+
+  it('has no database without the project URL', () => {
+    process.env.SUPABASE_SECRET_KEYS = JSON.stringify({ default: 'sb_secret_abc' });
+    expect(usdaDatabaseFromEnv()).toBeUndefined();
   });
 });
 

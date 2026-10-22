@@ -1,6 +1,7 @@
 import { DishBreakdownRequestSchema } from './schema.js';
 import { breakDownDish } from './breakdown.js';
 import { isSignedInUser } from '../_shared/auth.js';
+import { UsdaDatabase } from './usda.js';
 
 export const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -10,6 +11,28 @@ export const CORS_HEADERS = {
 
 const json = (body: unknown, status: number) =>
   new Response(JSON.stringify(body), { status, headers: CORS_HEADERS });
+
+const env = (name: string) =>
+  (typeof Deno !== 'undefined' ? Deno.env.get(name) : process.env[name]) || undefined;
+
+/**
+ * The project's API and a service key for the imported USDA foods. Supabase
+ * injects both into every function: the secret key (`SUPABASE_SECRET_KEYS`,
+ * JSON keyed by name) where the project has one, else the legacy service-role
+ * key, which stops working at the end of 2026.
+ */
+export function usdaDatabaseFromEnv(): UsdaDatabase | undefined {
+  const url = env('SUPABASE_URL');
+  let key: string | undefined;
+  try {
+    const secret = JSON.parse(env('SUPABASE_SECRET_KEYS') ?? '{}').default;
+    if (typeof secret === 'string' && secret) key = secret;
+  } catch {
+    // Malformed: fall through to the legacy key.
+  }
+  key ??= env('SUPABASE_SERVICE_ROLE_KEY');
+  return url && key ? { url, key } : undefined;
+}
 
 export async function handleDishBreakdownRequest(req: Request): Promise<Response> {
   if (req.method === 'OPTIONS') {
@@ -29,20 +52,14 @@ export async function handleDishBreakdownRequest(req: Request): Promise<Response
       return json({ error: 'Invalid request payload', details: validation.error.flatten() }, 400);
     }
 
-    const apiKey =
-      (typeof Deno !== 'undefined' ? Deno.env.get('GROQ_API_KEY') : process.env.GROQ_API_KEY) ||
-      undefined;
+    const apiKey = env('GROQ_API_KEY');
     if (!apiKey) {
       return json({ error: 'Dish lookup is not configured' }, 503);
     }
 
-    // FoodData Central values ingredients the app's catalogue lacks. Without a
-    // key those are reported as not counted rather than estimated.
-    const usdaKey =
-      (typeof Deno !== 'undefined' ? Deno.env.get('USDA_FDC_API_KEY') : process.env.USDA_FDC_API_KEY) ||
-      undefined;
-
-    const outcome = await breakDownDish(validation.data, { groq: apiKey, usda: usdaKey });
+    // The imported USDA foods value ingredients the app's catalogue lacks.
+    // Without database access those are reported as not counted, not estimated.
+    const outcome = await breakDownDish(validation.data, { groq: apiKey, usda: usdaDatabaseFromEnv() });
     if (outcome.kind === 'unknown_dish') {
       return json({ error: 'Dish not recognised', code: 'unknown_dish' }, 422);
     }
