@@ -63,6 +63,7 @@ The Groq key is an Edge Function secret (`GROQ_API_KEY`), set in the Supabase da
 | 6 | **[`VISION_API_ADDENDUM.md`](docs/archive/VISION_API_ADDENDUM.md)** | Vision cost analysis, free vs paid, self-host break-even | Archived: the photo feature was removed. |
 | 7 | **[`PUBLIC_APIS_AUDIT.md`](docs/planning/PUBLIC_APIS_AUDIT.md)** | Audit of the public-apis repo (1,696 entries) + the ODbL licence trap | Reference. Read §Traps before touching the food database. |
 | 8 | **[`DIET_FOOD_EXPANSION_PLAN.md`](docs/planning/DIET_FOOD_EXPANSION_PLAN.md)** | Diet & Basics catalogue expansion plan | Anyone adding foods |
+| 9 | **[`EXERCISE_APPS_RESEARCH.md`](docs/planning/EXERCISE_APPS_RESEARCH.md)** | Workout-app market research: how plans are generated, reviews, exercise-data licences | Anyone planning the exercise feature |
 
 Feature design specs and implementation plans live in [`docs/design/`](docs/design/); documents for removed features are in [`docs/archive/`](docs/archive/).
 
