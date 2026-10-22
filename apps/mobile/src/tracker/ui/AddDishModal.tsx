@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { USDA_INGREDIENT_CATEGORY, type NormalizedFood, type RegionCode } from '@nutrio/food-db';
+import { type NormalizedFood, type RegionCode } from '@nutrio/food-db';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
@@ -144,9 +144,7 @@ export const AddDishModal: React.FC<AddDishModalProps> = ({
                   {i.food.name}
                 </Text>
                 <Text style={[styles.mutedText, dir.text, { color: theme.colors.textSecondary }]}>
-                  {i.food.category === USDA_INGREDIENT_CATEGORY
-                    ? t('tracker.addDish.gramsWithSource', { grams: i.grams, source: i.food.sourceRef })
-                    : t('tracker.addDish.grams', { grams: i.grams })}
+                  {t('tracker.addDish.grams', { grams: i.grams })}
                 </Text>
               </View>
               <Text style={[styles.ingredientKcal, { color: theme.colors.textPrimary }]}>

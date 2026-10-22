@@ -988,9 +988,8 @@
       "oneServing": "1 serving ({{grams}} g)",
       "ingredientsHeading": "What's in one serving",
       "grams": "{{grams}} g",
-      "footnote": "Calories come from Nutrio's food database and, for ingredients we don't have, from USDA FoodData Central (lab-measured data). Only you can see dishes you add.",
+      "footnote": "Only you can see dishes you add.",
       "saveAndLog": "Save & log",
-      "gramsWithSource": "{{grams}} g · {{source}}",
       "notCounted": "{{grams}} g · not counted: no verified nutrition data"
     },
     "describeMeal": {
