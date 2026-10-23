@@ -30,10 +30,35 @@ const isGeneric = (s: FoodServingItem) => GENERIC_SERVING.test(s.label);
 const defaultServingOf = (food: NormalizedFood) =>
   food.servings.find((s) => s.isDefault) ?? food.servings[0];
 
-/** The food's serving for one piece, if it has one ("1 egg (50g)", "1 seekh (60g)"). */
+/** Labels for one dish made of several things: "2 egg portion", "4 pc Meal", "3 roll platter". */
+const ONE_DISH_SERVING = /\b(portion|omelette|meal|combo|deal|box|bucket|platter)\b/i;
+/** "4 skewers (200g)", "2 pieces (240g)": a count, a space, then what is counted. */
+const COUNTED_SERVING = /^(\d+)\s+\D/;
+
+/**
+ * How many pieces a serving counts: 2 for "2 pieces (240g)", 1 for "1 egg
+ * (50g)". "2-egg omelette" (no space) and "2 egg portion" are one dish.
+ */
+function piecesIn(label: string): number {
+  const count = label.match(COUNTED_SERVING);
+  if (!count || ONE_DISH_SERVING.test(label.split('(')[0])) return 1;
+  return Math.max(1, Number(count[1]));
+}
+
+/**
+ * The food's serving for one piece, if it has one ("1 egg (50g)", "1 seekh
+ * (60g)"). A serving of several ("4 skewers (200g)") gives one piece's share,
+ * so "2 seekh kabab" is two skewers, not two plates of four.
+ */
 function pieceServing(food: NormalizedFood): FoodServingItem | undefined {
   const pieces = food.servings.filter((s) => !isGeneric(s) && !CONTAINER_SERVING.test(s.label));
-  return pieces.find((s) => s.isDefault) ?? pieces[0];
+  const serving = pieces.find((s) => s.isDefault) ?? pieces[0];
+  if (!serving) return undefined;
+  const count = piecesIn(serving.label);
+  if (count === 1) return serving;
+  // Unrounded, so "10 almonds" from "10 almonds (12g)" is 12 g, not 10 × 1 g.
+  const grams = serving.grams / count;
+  return { ...serving, label: `1 piece (${Math.round(grams * 10) / 10}g)`, grams };
 }
 
 const round = (n: number) => Math.round(n);

@@ -5,6 +5,11 @@ export interface NormalizedFood {
   name: string;
   nameUr?: string;
   nameAr?: string;
+  /**
+   * Other names people use for this food ("cold drink", "pepsi" for a regular
+   * cola). Search and meal matching treat each like the name; never shown.
+   */
+  aliases?: string[];
   brand?: string;
   brandId?: string;
   brandCategory?: string;

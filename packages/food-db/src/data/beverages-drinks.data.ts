@@ -842,7 +842,7 @@ export const BEVERAGES_DRINKS_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Cold Coffee (Pakistani Bakery / Cafe Style)",
+    "name": "Cold Coffee",
     "nameUr": "کولڈ کافی",
     "category": "Beverages & Drinks",
     "cuisineTags": [

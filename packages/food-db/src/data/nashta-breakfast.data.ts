@@ -188,7 +188,7 @@ export const NASHTA_BREAKFAST_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Anda Ghotala (Karachi Egg Scramble)",
+    "name": "Anda Ghotala (Egg Scramble)",
     "nameUr": "انڈا گھوٹالہ",
     "category": "Breakfast & Nashta",
     "cuisineTags": [

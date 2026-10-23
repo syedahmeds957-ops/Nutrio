@@ -71,6 +71,29 @@ const FILLER_WORDS = new Set([
   'li', 'liye', 'piya', 'pi', 'pee', 'peeya', 'bhi', 'tha', 'thi', 'thay', 'hai', 'hain',
 ]);
 
+/** Fillers that are food nouns after a describing word: "cold drink", "energy drink". */
+const NOUN_AFTER_WORD = new Set(['drink']);
+/** Units that are also verbs, so a unit only after a number: "1 can coke", not "i can eat". */
+const UNIT_AFTER_NUMBER = new Set(['can']);
+
+/**
+ * Words whose meaning depends on the word before them. "drink" is the verb in
+ * "i drink tea" and the food in "cold drink"; "can" is the unit in "a can of
+ * coke" and the verb in "i can eat".
+ */
+function readInContext(tokens: Token[], raw: string[]): Token[] {
+  return tokens.map((token, i) => {
+    const previous = tokens[i - 1];
+    if (token.kind === 'filler' && NOUN_AFTER_WORD.has(raw[i]) && previous?.kind === 'word') {
+      return { kind: 'word', raw: raw[i] };
+    }
+    if (token.kind === 'unit' && UNIT_AFTER_NUMBER.has(raw[i]) && previous?.kind !== 'number') {
+      return { kind: 'filler' };
+    }
+    return token;
+  });
+}
+
 /**
  * Item separators: punctuation and joining words. A full stop or comma
  * separates only outside a number, so "1.5kg" and "1,5 roti" stay one amount.
@@ -172,7 +195,8 @@ function joinTokens(raw: string[]): string[] {
  * words are kept as name words throughout.
  */
 function readSegment(segment: string, literal: boolean): Omit<ParsedMealItem, 'literal'> | undefined {
-  const tokens = joinTokens(segment.split(/\s+/).filter(Boolean)).map(classify);
+  const raw = joinTokens(segment.split(/\s+/).filter(Boolean));
+  const tokens = readInContext(raw.map(classify), raw);
   const isNameWord = (t: Token) =>
     t.kind === 'word' || (literal && ((t.kind === 'number' && t.spoken) || t.kind === 'unit'));
   const first = tokens.findIndex(isNameWord);

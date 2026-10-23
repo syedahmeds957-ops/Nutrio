@@ -282,7 +282,7 @@ export const RICE_BIRYANI_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Prawn Biryani (Karachi Coastal)",
+    "name": "Prawn Biryani",
     "nameUr": "پران بریانی (جھینگا)",
     "category": "Rice & Biryani",
     "cuisineTags": [

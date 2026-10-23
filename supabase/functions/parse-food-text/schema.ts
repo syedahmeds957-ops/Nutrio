@@ -15,6 +15,8 @@ export const MEAL_UNITS = [
   'slice',
   'pao',
   'handful',
+  'can',
+  'bottle',
   'serving',
 ] as const;
 

@@ -155,6 +155,7 @@ export const DIET_BEVERAGES_DATA: NormalizedFood[] = [
   },
   {
     name: 'Diet Soda / Zero Cola',
+    aliases: ['diet cold drink', 'diet coke', 'coke zero', 'diet pepsi', 'pepsi diet', 'pepsi max', 'sprite zero', 'diet 7up', '7up zero'],
     nameUr: 'ڈائٹ سوڈا',
     nameAr: 'صودا دايت',
     category: 'Diet & Basics',
@@ -387,6 +388,8 @@ export const DIET_BEVERAGES_DATA: NormalizedFood[] = [
   },
   {
     name: 'Regular Cola / Soft Drink',
+    // Brand sodas run 38-48 kcal/100ml; this regular cola stands in for all of them.
+    aliases: ['cold drink', 'fizzy drink', 'soda', 'coke', 'coca cola', 'pepsi', '7up', 'sprite', 'fanta', 'mirinda', 'mountain dew'],
     nameUr: 'کولا ڈرنک',
     nameAr: 'مشروب غازي',
     category: 'Diet & Basics',

@@ -57,6 +57,18 @@ describe('parseMealText', () => {
   it('drops segments with no food in them', () => {
     expect(parseMealText('i had, and then').items).toEqual([]);
   });
+
+  it('keeps "drink" when it is the food, not the verb', () => {
+    expect(parseMealText('one glass of cold drink').items[0]).toMatchObject({ name: 'cold drink', unit: 'glass' });
+    expect(parseMealText('i drink tea').items[0].name).toBe('tea');
+  });
+
+  it('reads "can" as a unit only after a number', () => {
+    expect(parseMealText('1 can coke').items[0]).toMatchObject({ name: 'coke', quantity: 1, unit: 'can' });
+    expect(parseMealText('a can of pepsi').items[0]).toMatchObject({ name: 'pepsi', unit: 'can' });
+    expect(parseMealText('i can eat 2 roti').items[0]).toMatchObject({ name: 'roti', quantity: 2 });
+    expect(parseMealText('i can eat 2 roti').items[0].unit).toBeUndefined();
+  });
 });
 
 describe('matchMealItem', () => {
@@ -94,6 +106,35 @@ describe('matchMealItem', () => {
   it('reports a typo correction', () => {
     expect(matchMealItem('chicken biriyani').certainty).toBe('typo');
   });
+
+  it('finds a food by its other names: cold drink and brand sodas are a soft drink', () => {
+    for (const name of ['cold drink', 'pepsi', '7up', 'coke']) {
+      expect(matchMealItem(name)).toMatchObject({ status: 'matched', loose: false, food: { name: 'Regular Cola / Soft Drink' } });
+    }
+    expect(matchMealItem('diet pepsi').food?.name).toBe('Diet Soda / Zero Cola');
+    // Plain "fries" are French fries, not a branded or loaded variety.
+    expect(matchMealItem('fries')).toMatchObject({ status: 'matched', food: { name: 'French Fries' } });
+    expect(matchMealItem('curly fries').food?.name).toMatch(/curly/i);
+  });
+
+  it('finds plain fried chicken by the piece in both regions', () => {
+    for (const region of ['PK', 'SA'] as const) {
+      const [chicken] = analyzeMealText('2 piece fried chicken', region).items;
+      expect(chicken).toMatchObject({ match: { status: 'matched', food: { name: 'Fried Chicken' } }, portion: { grams: 200 } });
+      const [wings] = analyzeMealText('6 fried chicken wings', region).items;
+      expect(wings).toMatchObject({ match: { status: 'matched', food: { name: 'Fried Chicken Wings' } }, portion: { grams: 270 } });
+    }
+    // An Arabic query is compared with the Arabic name, not the Urdu one.
+    expect(matchMealItem('دجاج مقلي', 'SA')).toMatchObject({ status: 'matched', loose: false, food: { name: 'Fried Chicken' } });
+    // An alias word alone is not the alias: "cold coffee" is still coffee.
+    expect(matchMealItem('cold coffee').food?.name).toBe('Cold Coffee');
+  });
+
+  it('offers each alternative name once, though several restaurants sell it', () => {
+    const names = matchMealItem('cold coffee').alternatives.map((f) => f.name);
+    expect(names.length).toBeGreaterThan(1);
+    expect(new Set(names).size).toBe(names.length);
+  });
 });
 
 describe('resolvePortion', () => {
@@ -102,14 +143,38 @@ describe('resolvePortion', () => {
     expect(portion).toEqual({ grams: 132, servingLabel: '1 egg white (33g)', certainty: 'food_serving' });
   });
 
+  it('counts pieces, not servings, when a serving holds several', () => {
+    const chicken = resolvePortion(food('Crispy Fried Chicken (2 pcs)'), item('fried chicken', { unit: 'piece', quantity: 2, quantityGiven: true }));
+    expect(chicken).toEqual({ grams: 240, servingLabel: '1 piece (120g)', certainty: 'food_serving' });
+
+    const withServing = (label: string, grams: number) => ({
+      ...food('Egg White (Boiled)'),
+      servings: [{ label, grams, isDefault: true }],
+    });
+    const ten = item('almonds', { quantity: 10, quantityGiven: true });
+    expect(resolvePortion(withServing('10 almonds (12g)', 12), ten).grams).toBe(12);
+    // One dish of several things stays one dish.
+    const two = item('omelette', { quantity: 2, quantityGiven: true });
+    expect(resolvePortion(withServing('2-egg omelette (120g)', 120), two).grams).toBe(240);
+    expect(resolvePortion(withServing('2 egg portion (100g)', 100), two).grams).toBe(200);
+    expect(resolvePortion(withServing('4 pc Meal (500g)', 500), two).grams).toBe(1000);
+  });
+
   it('never multiplies a generic bowl serving by a count without asking', () => {
-    const portion = resolvePortion(food('Chicken Karahi (Lahori Restaurant)'), item('chicken karahi', { quantity: 3, quantityGiven: true }));
+    const portion = resolvePortion(food('Chicken Karahi (Restaurant Style)'), item('chicken karahi', { quantity: 3, quantityGiven: true }));
     expect(portion.certainty).toBe('needs_portion');
   });
 
   it("uses the food's own katori serving when it has one", () => {
     const portion = resolvePortion(food('Plain Yogurt / Dahi'), item('dahi', { unit: 'katori' }));
     expect(portion).toMatchObject({ grams: 150, certainty: 'food_serving' });
+  });
+
+  it('uses a 330 ml can when the food has no can serving of its own', () => {
+    const portion = resolvePortion(food('Aloo Gosht (Mutton Shorba)'), item('aloo gosht', { unit: 'can' }));
+    expect(portion).toMatchObject({ grams: 330, certainty: 'unit_default' });
+    const cola = resolvePortion(food('Regular Cola / Soft Drink'), item('coke', { unit: 'bottle', quantity: 2, quantityGiven: true }));
+    expect(cola).toMatchObject({ grams: 1000, servingLabel: '1 bottle (500ml)', certainty: 'food_serving' });
   });
 
   it('falls back to a standard unit size', () => {

@@ -2,7 +2,7 @@ import { NormalizedFood } from '../types.js';
 
 export const KARAHI_HANDI_DATA: NormalizedFood[] = [
   {
-    "name": "Chicken Karahi (Lahori Restaurant)",
+    "name": "Chicken Karahi (Restaurant Style)",
     "nameUr": "لاہوری چکن کڑاہی",
     "category": "Karahi & Handi",
     "cuisineTags": [

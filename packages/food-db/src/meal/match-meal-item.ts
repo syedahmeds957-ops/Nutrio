@@ -82,20 +82,24 @@ interface Specificity {
  * How much more a food's name says than the query. A name with "/" lists
  * synonyms ("Roti / Chapati", "Plain Yogurt / Dahi"), so each side is scored on
  * its own and the closest counts: "dahi" is an exact name, not a dish with an
- * extra word "yogurt".
+ * extra word "yogurt". Each of the food's `aliases` counts as a side too.
  */
 function specificity(ranked: RankedFood, query: QueryWords): Specificity {
   // An Urdu or Arabic query is compared with the food's name in that script;
-  // against the English name every word would look "extra".
+  // against the English name every word would look "extra". Both scripts share
+  // letters, so the Urdu or Arabic name that holds the query's words is used.
   const { food } = ranked;
-  const name = query.isScript ? food.nameUr || food.nameAr || food.name : food.name;
+  const scriptNames = [food.nameUr, food.nameAr].filter((n): n is string => !!n);
+  const name = query.isScript
+    ? (scriptNames.find((n) => query.covers(words(n))) ?? scriptNames[0] ?? food.name)
+    : food.name;
   const main = name.replace(/\(.*?\)/g, ' ');
   const detail = (name.match(/\((.*?)\)/g) ?? []).join(' ');
   const extra = (text: string) => words(text).filter((w) => !query.all.has(w)).length;
 
   // A synonym side only stands for the food if it names everything asked for:
   // "Beef Seekh Kebab / Kabab" is not an exact "kabab" for "seekh kabab".
-  const sides = main.split('/');
+  const sides = [...main.split('/'), ...(query.isScript ? [] : (food.aliases ?? []))];
   const coveringSides = sides.filter((side) => query.covers(words(side)));
   const candidates = coveringSides.length > 0 ? coveringSides : [main.replace(/\//g, ' ')];
   const extraMain = Math.min(...candidates.map(extra));
@@ -174,6 +178,21 @@ export function matchMealItem(name: string, region: RegionCode = 'PK'): MealItem
     food: best.ranked.food,
     certainty,
     loose: !best.headMatches || best.extraMain > 0,
-    alternatives: ordered.slice(1, 1 + MAX_ALTERNATIVES).map((s) => s.ranked.food),
+    alternatives: distinctByName(ordered.map((s) => s.ranked.food)).slice(1, 1 + MAX_ALTERNATIVES),
   };
+}
+
+/**
+ * The first food of each name. Restaurants share dish names ("Classic Cold
+ * Coffee with Ice Cream" at three cafes), and a list repeating one name gives
+ * the user nothing to choose between.
+ */
+function distinctByName(foods: NormalizedFood[]): NormalizedFood[] {
+  const seen = new Set<string>();
+  return foods.filter((food) => {
+    const key = food.name.trim().toLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }

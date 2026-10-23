@@ -38,7 +38,7 @@ describe('Animal content classification', () => {
 
   it('recognises eggs, including the ones not spelled "egg"', () => {
     for (const name of [
-      'Anda Ghotala (Karachi Egg Scramble)',
+      'Anda Ghotala (Egg Scramble)',
       'Khagina (Egg Bhurji)',
       'Fried Omelette',
       'Onsen Tamago (Japanese Slow-Cooked Egg)',

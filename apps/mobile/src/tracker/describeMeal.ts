@@ -71,7 +71,7 @@ function servingFor(
     return { serving: { label, grams: portion.grams, isDefault: false }, quantity: 1 };
   }
   return {
-    serving: { label: portion.servingLabel, grams: Math.round(portion.grams / count), isDefault: false },
+    serving: { label: portion.servingLabel, grams: Math.round((portion.grams / count) * 10) / 10, isDefault: false },
     quantity: count,
   };
 }

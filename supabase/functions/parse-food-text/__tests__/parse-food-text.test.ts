@@ -163,7 +163,7 @@ describe('parse-food-text: unit list', () => {
     const listed: readonly MealUnit[] = MEAL_UNITS;
     const all: Record<MealUnit, true> = {
       piece: true, katori: true, bowl: true, plate: true, cup: true, glass: true,
-      tbsp: true, tsp: true, slice: true, pao: true, handful: true, serving: true,
+      tbsp: true, tsp: true, slice: true, pao: true, handful: true, can: true, bottle: true, serving: true,
     };
     expect([...listed].sort()).toEqual(Object.keys(all).sort());
   });

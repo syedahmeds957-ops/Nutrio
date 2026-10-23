@@ -14,6 +14,8 @@ export type MealUnit =
   | 'slice'
   | 'pao'
   | 'handful'
+  | 'can'
+  | 'bottle'
   | 'serving';
 
 export const UNIT_ALIASES: Readonly<Record<string, MealUnit>> = {
@@ -62,6 +64,14 @@ export const UNIT_ALIASES: Readonly<Record<string, MealUnit>> = {
   handfuls: 'handful',
   mutthi: 'handful',
   muthi: 'handful',
+  can: 'can',
+  cans: 'can',
+  tin: 'can',
+  bottle: 'bottle',
+  bottles: 'bottle',
+  botal: 'bottle',
+  'کین': 'can',
+  'بوتل': 'bottle',
   'کٹوری': 'katori',
   'پیالہ': 'bowl',
   'پلیٹ': 'plate',
@@ -81,7 +91,8 @@ export const UNIT_ALIASES: Readonly<Record<string, MealUnit>> = {
  * the small home bowl; a bowl or katora the larger one. A pao is a quarter
  * seer, 250g. A handful is about 28g of nuts or dried fruit. Spoons are a
  * level tablespoon / teaspoon by weight of a typical food (oil, sugar and
- * ghee are close enough for logging).
+ * ghee are close enough for logging). A can is the 330 ml soft-drink can; a
+ * bottle the 500 ml one.
  */
 export const UNIT_DEFAULT_GRAMS: Readonly<Record<Exclude<MealUnit, 'piece' | 'serving'>, number>> = {
   katori: 150,
@@ -94,6 +105,8 @@ export const UNIT_DEFAULT_GRAMS: Readonly<Record<Exclude<MealUnit, 'piece' | 'se
   slice: 30,
   pao: 250,
   handful: 28,
+  can: 330,
+  bottle: 500,
 };
 
 /** Serving-label words that mean a food already defines this unit. */
@@ -106,6 +119,8 @@ export const UNIT_SERVING_PATTERN: Readonly<Partial<Record<MealUnit, RegExp>>> =
   slice: /\bslice\b/i,
   tbsp: /\b(tbsp|tablespoon|spoon)\b/i,
   tsp: /\b(tsp|teaspoon)\b/i,
+  can: /\b(can|tin)\b/i,
+  bottle: /\bbottle\b/i,
 };
 
 /** Weight units, turned straight into grams by the parser. */

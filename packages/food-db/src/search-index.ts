@@ -56,9 +56,11 @@ interface SearchIndex {
   vocabulary: Set<string>;
   /** Each food's name as spelling-folded words joined by spaces. */
   canonicalNames: string[];
+  /** Each food's `aliases`, folded the same way. */
+  canonicalAliases: string[][];
   /**
    * Per food, every form of the words a search may match it on: its name,
-   * native-script name and brand. Category words are deliberately absent —
+   * aliases, native-script name and brand. Category words are deliberately absent —
    * "curry" should find dishes called curry, not everything filed under one.
    */
   matchWords: Set<string>[];
@@ -95,20 +97,23 @@ function buildIndex(catalog: RegionCatalog): SearchIndex {
   const tokens = new Map<string, number[]>();
   const vocabulary = new Set<string>();
   const canonicalNames: string[] = [];
+  const canonicalAliases: string[][] = [];
   const matchWords: Set<string>[] = [];
   const dishWords: Set<string>[] = [];
 
   catalog.foods.forEach((food, i) => {
     const foodTokens = new Set<string>();
     const nameWords = tokenize(food.name);
+    const aliasWords = (food.aliases ?? []).flatMap(tokenize);
 
-    for (const word of nameWords) {
+    for (const word of [...nameWords, ...aliasWords]) {
       addNameWordTokens(foodTokens, word);
       vocabulary.add(normalizeToken(word));
     }
     canonicalNames.push(nameWords.map(normalizeToken).join(' '));
+    canonicalAliases.push((food.aliases ?? []).map((alias) => tokenize(alias).map(normalizeToken).join(' ')));
     const withForms = (words: string[]) => new Set(words.flatMap((word) => [word, ...wordForms(word)]));
-    const dish = withForms([...nameWords, ...tokenize(catalog.scriptName(food) ?? '')]);
+    const dish = withForms([...nameWords, ...aliasWords, ...tokenize(catalog.scriptName(food) ?? '')]);
     dishWords.push(dish);
     matchWords.push(new Set([...dish, ...withForms(tokenize(food.brand ?? ''))]));
 
@@ -129,7 +134,7 @@ function buildIndex(catalog: RegionCatalog): SearchIndex {
     }
   });
 
-  return { tokens, vocabulary, canonicalNames, matchWords, dishWords };
+  return { tokens, vocabulary, canonicalNames, canonicalAliases, matchWords, dishWords };
 }
 
 function getIndex(catalog: RegionCatalog): SearchIndex {
@@ -247,8 +252,10 @@ function collapseVariants(ranked: Candidate[], queryWords: ResolvedQueryWord[]):
   return result;
 }
 
+const EXACT_NAME_BONUS = 150;
+
 function nameMatchBonus(canonicalName: string, canonicalQuery: string): number {
-  if (canonicalName === canonicalQuery) return 150;
+  if (canonicalName === canonicalQuery) return EXACT_NAME_BONUS;
   if (canonicalName.startsWith(canonicalQuery)) return 80;
   if (canonicalName.includes(canonicalQuery)) return 40;
   return 0;
@@ -301,7 +308,11 @@ function rankCatalog(catalog: RegionCatalog, query: string, options: RankOptions
     const scriptName = catalog.scriptName(food);
     const score =
       baseScore +
-      nameMatchBonus(index.canonicalNames[idx], canonicalQuery) +
+      Math.max(
+        nameMatchBonus(index.canonicalNames[idx], canonicalQuery),
+        // Only an alias said in full: "cold" is not a request for a cold drink.
+        index.canonicalAliases[idx].includes(canonicalQuery) ? EXACT_NAME_BONUS : 0
+      ) +
       (scriptName && scriptName.includes(rawQ) ? catalog.scriptNameBonus : 0) +
       (isDietBasic(food) ? DIET_BASIC_RANK_BOOST : 0);
 
