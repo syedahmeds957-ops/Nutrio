@@ -41,6 +41,7 @@ import { WarningCircle } from 'phosphor-react-native/src/icons/WarningCircle';
 import { Info } from 'phosphor-react-native/src/icons/Info';
 import { ArrowsClockwise } from 'phosphor-react-native/src/icons/ArrowsClockwise';
 import { Buildings } from 'phosphor-react-native/src/icons/Buildings';
+import { DotsThree } from 'phosphor-react-native/src/icons/DotsThree';
 
 export type IconName =
   | 'flame'
@@ -80,7 +81,8 @@ export type IconName =
   | 'info'
   | 'sync'
   | 'x'
-  | 'building';
+  | 'building'
+  | 'more';
 
 /** Phosphor (https://phosphoricons.com) glyph behind each app icon name. */
 const GLYPHS: Record<IconName, React.ComponentType<PhosphorIconProps>> = {
@@ -122,6 +124,7 @@ const GLYPHS: Record<IconName, React.ComponentType<PhosphorIconProps>> = {
   sync: ArrowsClockwise,
   x: X,
   building: Buildings,
+  more: DotsThree,
 };
 
 interface IconProps {

@@ -86,3 +86,33 @@ describe('TrackerDashboardScreen Integrated Components', () => {
     expect(saEngine.getSummary().items[0].foodName).toBe('Chicken Kabsa');
   });
 });
+
+describe('Today’s workout card on the dashboard', () => {
+  const targets = { targetCalories: 1960, targetProteinGrams: 120, targetFatGrams: 60, targetCarbGrams: 220, targetWaterMl: 2500 };
+
+  it('invites setup when there is no plan, and shows today’s session once there is one', async () => {
+    const { renderToStaticMarkup } = await import('react-dom/server');
+    const { initI18n } = await import('../../i18n/config.js');
+    const { localDateKey } = await import('../../common/dateKey.js');
+    const { generateWeeklyPlan } = await import('@nutrio/workout-core');
+    initI18n('en');
+    const base = { userName: 'Ali', targets, isGuest: false, onRequireAuth: () => {}, onOpenWorkouts: () => {}, onOpenWorkoutDay: () => {} };
+
+    const noPlan = renderToStaticMarkup(React.createElement(TrackerDashboardScreen, { ...base, workoutPlan: null }));
+    expect(noPlan).toContain('Set up workouts');
+
+    // Train every day so "today" is always a training day, whatever day the test runs.
+    const plan = generateWeeklyPlan(
+      {
+        goal: 'muscle', experience: 'some', location: 'gym', homeEquipment: [], dumbbellWeightsKg: [],
+        trainingDays: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat'], sessionMinutes: 45, focus: [], protectedJoints: [],
+        lowIntensity: false, ramadan: { enabled: false },
+      },
+      { seed: 2, today: localDateKey() }
+    );
+    const withPlan = renderToStaticMarkup(React.createElement(TrackerDashboardScreen, { ...base, workoutPlan: plan }));
+    const isSunday = new Date().getDay() === 0;
+    expect(withPlan).toContain(isSunday ? 'See the week' : '>Start<');
+    expect(withPlan).not.toContain('Set up workouts');
+  });
+});

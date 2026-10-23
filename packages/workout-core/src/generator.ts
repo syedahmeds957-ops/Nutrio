@@ -1,8 +1,10 @@
-import { EXERCISES, getExercise } from './catalogue.js';
-import { capsApply, Caps, prescribe } from './prescription.js';
-import { alternatesFor, hashString, isAllowed, pickExercise } from './select.js';
+import { cardioIntensity, cardioMinutes, cardioPool, REST_DAY_WALK } from './cardio.js';
+import { getExercise } from './catalogue.js';
+import { Caps, prescribe } from './prescription.js';
+import { alternatesFor, isAllowed, pickExercise } from './select.js';
 import { chooseSplit, SLOTS_FOR_MINUTES, slotsWithFocus } from './split.js';
 import {
+  CardioBlock,
   Equipment,
   Finisher,
   FocusArea,
@@ -27,7 +29,6 @@ const WARM_UP_SEC = 5 * 60;
 const WORK_SEC_PER_SET = 40;
 /** Ramadan sessions aim for 40 minutes so the +5 margin keeps them within 45. */
 const RAMADAN_TARGET_MINUTES = 40;
-const FINISHER = { workSec: 30, restSec: 30, minRounds: 4, maxRounds: 8 } as const;
 const MIN_SETS = 2;
 
 export class InvalidWorkoutSettings extends Error {
@@ -57,9 +58,10 @@ function slotSeconds(slot: PlannedSlot): number {
   return slot.sets * (WORK_SEC_PER_SET + slot.restSec);
 }
 
-export function estimateMinutes(slots: readonly PlannedSlot[], finisher?: Finisher): number {
+/** Warm-up, every set with its rest, and the cardio block (or an old plan's finisher). */
+export function estimateMinutes(slots: readonly PlannedSlot[], finisher?: Finisher, cardioMinutesInSession = 0): number {
   const finisherSec = finisher ? finisher.rounds * (finisher.workSec + finisher.restSec) : 0;
-  const total = WARM_UP_SEC + slots.reduce((sum, slot) => sum + slotSeconds(slot), 0) + finisherSec;
+  const total = WARM_UP_SEC + slots.reduce((sum, slot) => sum + slotSeconds(slot), 0) + finisherSec + cardioMinutesInSession * 60;
   return Math.round(total / 60);
 }
 
@@ -86,20 +88,6 @@ function fitToTime(slots: PlannedSlot[], targetMinutes: number): PlannedSlot[] {
     reducible.sets -= 1;
   }
   return fitted;
-}
-
-function finisherFor(settings: WorkoutSettings, seed: number, key: string, slots: readonly PlannedSlot[], targetMinutes: number): Finisher | undefined {
-  const leftSec = (targetMinutes - estimateMinutes(slots)) * 60;
-  const rounds = Math.min(FINISHER.maxRounds, Math.floor(leftSec / (FINISHER.workSec + FINISHER.restSec)));
-  if (rounds < FINISHER.minRounds) return undefined;
-  const used = new Set(slots.map((slot) => slot.exerciseId));
-  const pool = EXERCISES.filter((e) => e.pattern === 'conditioning' && !used.has(e.id) && isAllowed(e, settings));
-  if (pool.length === 0) return undefined;
-  const exerciseIds = [...pool]
-    .sort((a, b) => hashString(`${seed}:${key}:${a.id}`) - hashString(`${seed}:${key}:${b.id}`))
-    .slice(0, 2)
-    .map((e) => e.id);
-  return { exerciseIds, workSec: FINISHER.workSec, restSec: FINISHER.restSec, rounds };
 }
 
 interface SessionInput {
@@ -157,17 +145,21 @@ function buildSession(input: SessionInput): WorkoutSession {
   }
   for (const id of usedInSession) input.usedInWeek.set(id, (input.usedInWeek.get(id) ?? 0) + 1);
 
-  const fitted = fitToTime(slots, input.targetMinutes);
-  const wantsFinisher = (settings.goal === 'fat_loss' || settings.goal === 'general') && !capsApply(caps);
-  const finisher = wantsFinisher ? finisherFor(settings, seed, `${prefix}:finisher`, fitted, input.targetMinutes) : undefined;
+  // The cardio block is counted inside the session length, so strength work fits in what is left.
+  const minutes = cardioMinutes(settings);
+  const fitted = fitToTime(slots, input.targetMinutes - minutes);
+  const pool = cardioPool(settings, seed, prefix);
+  const cardio: CardioBlock | undefined = pool.length
+    ? { slotId: `${prefix}:cardio:0`, exerciseId: pool[0].id, minutes, intensity: cardioIntensity(settings), alternates: pool.map((e) => e.id) }
+    : undefined;
 
   return {
     day: input.day,
     template: input.template,
     variant: input.variant,
     slots: fitted,
-    ...(finisher ? { finisher } : {}),
-    estimatedMinutes: estimateMinutes(fitted, finisher),
+    ...(cardio ? { cardio } : {}),
+    estimatedMinutes: estimateMinutes(fitted, undefined, cardio ? cardio.minutes : 0),
   };
 }
 
@@ -213,6 +205,7 @@ export function generateWeeklyPlan(settings: WorkoutSettings, options: GenerateO
     split,
     sessions,
     swaps: {},
+    restDayWalk: { ...REST_DAY_WALK },
   };
 }
 
@@ -228,13 +221,24 @@ export function regeneratePlan(
 ): WeeklyWorkoutPlan {
   const next = generateWeeklyPlan(settings, { seed: previous.seed, today: previous.blockStart, now: options.now });
   const slotPattern = new Map(next.sessions.flatMap((session) => session.slots.map((slot) => [slot.slotId, slot.pattern] as const)));
+  const cardioChoices = new Map(next.sessions.flatMap((session) => (session.cardio ? [[session.cardio.slotId, session.cardio.alternates] as const] : [])));
   for (const [slotId, exerciseId] of Object.entries(previous.swaps)) {
     const exercise = getExercise(exerciseId);
-    if (exercise && slotPattern.get(slotId) === exercise.pattern && isAllowed(exercise, settings)) {
-      next.swaps[slotId] = exerciseId;
-    }
+    const fitsSlot = exercise && slotPattern.get(slotId) === exercise.pattern && isAllowed(exercise, settings);
+    const fitsCardio = cardioChoices.get(slotId)?.includes(exerciseId);
+    if (fitsSlot || fitsCardio) next.swaps[slotId] = exerciseId;
   }
   return next;
+}
+
+/**
+ * A saved plan brought up to date with what the generator now adds (the
+ * cardio block and rest-day walk, phase 6b), keeping its seed, week numbers,
+ * swaps and creation time. Returns the same object when nothing is missing.
+ */
+export function upgradePlan(plan: WeeklyWorkoutPlan): WeeklyWorkoutPlan {
+  if (plan.restDayWalk) return plan;
+  return { ...regeneratePlan(plan, plan.settings), createdAt: plan.createdAt };
 }
 
 /** Whole weeks since the block started (0 in the first week). */
@@ -248,7 +252,7 @@ export function weekIndexFor(blockStart: string, dateKey: string): number {
 export function exerciseForWeek(plan: WeeklyWorkoutPlan, slotId: string, weekIndex: number): string | undefined {
   if (plan.swaps[slotId]) return plan.swaps[slotId];
   const slot = plan.sessions.flatMap((session) => session.slots).find((s) => s.slotId === slotId);
-  if (!slot) return undefined;
+  if (!slot) return plan.sessions.find((session) => session.cardio?.slotId === slotId)?.cardio?.exerciseId;
   if (slot.role === 'main' || slot.alternates.length === 0) return slot.exerciseId;
   return slot.alternates[Math.floor(weekIndex / 4) % slot.alternates.length];
 }

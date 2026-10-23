@@ -27,6 +27,8 @@ A signed-in user or a guest can set up a weekly workout plan for home or gym. Th
 | 4 | Week and day screens, Today card | M | 3 | [phase-04](phase-04-week-and-day-screens.md) |
 | 5 | Set logging + progression with reasons | M | 4 | [phase-05](phase-05-logging-and-progression.md) |
 | 6 | Manual exercise swap | S | 4 | [phase-06](phase-06-manual-swap.md) |
+| 6b | Cardio block + rest-day walks (added 2026-10-23) | M | 5, 6 | [phase-06b](phase-06b-cardio.md) |
+| 6c | "Tell us more" setup + improve an existing routine (added 2026-10-23; 3 slices) | L | 6b | [phase-06c](phase-06c-tell-us-more-and-routine-import.md) |
 | 7 | Ramadan mode | S | 4 | [phase-07](phase-07-ramadan-mode.md) |
 | 8 | Cloud sync | M | 5 | [phase-08](phase-08-cloud-sync.md) |
 | 9 | Calorie target link | S | 3 | [phase-09](phase-09-calorie-link.md) |
@@ -85,6 +87,8 @@ Assumptions accepted with the approval:
 
 **Never:** model-produced sets, reps or weights. Silent calorie-target changes. Gym visual / ExerciseDB media. wger data in our tables. A paywall or trial on any workout feature. Session-to-session regeneration.
 
+**Follow-up found during the build, fixed in phase 5 at the user's request:** the startup splash in `App.tsx` waited on `restoreSession()` and font loading with no timeout. Boot now has time limits on fonts and network steps, plus a 15 s backstop (see the phase 5 record).
+
 **Out of scope:** reminders/notifications, Apple Health / Google Fit, heart rate, video, social, warm-up/stretching routines, automatic Ramadan date detection, Ramadan in the meal plan, Urdu.
 
 ## Decision log (changes during build)
@@ -101,6 +105,11 @@ Assumptions accepted with the approval:
 | 2026-10-22 | 0 | `textSecondary` (light) → `#556275`, `floatingBarInactive` (dark) → `#9CA3AF` in phase 3 | Existing values fail AA contrast on small labels |
 | 2026-10-22 | 1 | Own EN/AR instructions, 169 exercises, `timed` field, Vitest image setup file, flutter kicks moved to glutes/bench | Source text didn't match its photos; see the phase 1 record |
 | 2026-10-22 | 2 | Empty-pool fallback patterns for home with no equipment | Phase 1 known gaps |
+| 2026-10-23 | 6b | Cardio built as planned. Interval moves keep up to 3 places in the cardio swap list; stored plans gain cardio through `upgradePlan`; the finisher display was removed | See the phase 6b record |
+| 2026-10-23 | 6b/6c | User: cardio as a block after every session plus rest-day walks, built next as 6b. Then 6c: an optional "Tell us more" step (current training and lifts, cardio habits, likes/dislikes, sports days), an existing routine entered by picking from our catalogue, improved as "keep it, fix the gaps" with a reason per change. Mockups first for both | Phase 6b and 6c files |
+| 2026-10-23 | 6 | `swapCandidates(plan, slotId)`; ladder climbs aren't shown as swaps; step-up reason needs a real top-out; no device checks with hooks that save data while a real account is signed in on the simulator | See the phase 6 record |
+| 2026-10-23 | 5 | Added reasons `first_time` and `top_dumbbell_hold`; a target carries the reps to aim for; logs keyed by date + planned day; climbs never duplicate a move; Start on any day logs under today; ticks use `aria-checked` | See the phase 5 record |
+| 2026-10-23 | 4 | Demo sizes 68/72 px per the mockups; no options button until phases 6/10; Arabic rep ranges kept left-to-right with LRM marks | See the phase 4 record |
 | 2026-10-23 | 3 | Prefill note only with survey answers; server-render tests with a local `react-dom/server` declaration; adjustable dumbbells stored as no fixed weights | See the phase 3 record |
 | 2026-10-23 | 2 | `highImpact` flag, `unit` for timed holds, full-body splits for no-equipment users, ranked (not banned) week repeats, even main-set trimming | Found by reading generated plans; see the phase 2 record |
 | 2026-10-22 | all | Every workout feature works for PK, SA and global; region-specific behaviour only through a helper with a default, tested for all three | User's standing rule for the whole app |
@@ -111,11 +120,13 @@ Assumptions accepted with the approval:
 |---|---|---|
 | 0 Screen designs | done 2026-10-22, approved. [Mockups](https://claude.ai/artifact/7dEqPJ6ZK2bgkYL32owMRu) (English + Arabic pages), [spec](../../specs/2026-10-22-workout-screens-design.md) | see `git log feat/workout-plans` |
 | 1 Catalogue + images | done 2026-10-22: 169 exercises, 10 MB images, all checks green ([record](phase-01-catalogue-and-images.md#execution-record-2026-10-22)) | `33c16ca` |
-| 2 Generator | done 2026-10-23: 1,620-plan grid green ([record](phase-02-generator.md#execution-record-2026-10-23)) | not committed (waits for the user's command) |
-| 3 Setup, storage, navigation | done 2026-10-23: web flow 13/13, iPhone checked ([record](phase-03-setup-storage-navigation.md#execution-record-2026-10-23)) | not committed (waits for the user's command) |
-| 4 Week + day screens | not started | |
-| 5 Logging + progression | not started | |
-| 6 Manual swap | not started | |
+| 2 Generator | done 2026-10-23: 1,620-plan grid green ([record](phase-02-generator.md#execution-record-2026-10-23)) | `ada5c3d` |
+| 3 Setup, storage, navigation | done 2026-10-23: web flow 13/13, iPhone checked ([record](phase-03-setup-storage-navigation.md#execution-record-2026-10-23)) | `5b7268e` |
+| 4 Week + day screens | done 2026-10-23: web flow 17/17, iPhone checked ([record](phase-04-week-and-day-screens.md#execution-record-2026-10-23)) | not committed (waits for the user's command) |
+| 5 Logging + progression | done 2026-10-23: Checkpoint A, web flow 30/30, iPhone checked; startup hang fixed ([record](phase-05-logging-and-progression.md#execution-record-2026-10-23)) | not committed (waits for the user's command) |
+| 6 Manual swap | done 2026-10-23: web flow 18/18; iPhone check skipped, a real account is signed in there ([record](phase-06-manual-swap.md#execution-record-2026-10-23)) | not committed (waits for the user's command) |
+| 6b Cardio | done 2026-10-23: mockups approved, web flow 18/18 ([record](phase-06b-cardio.md#execution-record-2026-10-23)) | not committed (waits for the user's command) |
+| 6c Tell us more + routine import | planned, waits for the user's command | |
 | 7 Ramadan mode | not started | |
 | 8 Cloud sync | not started | |
 | 9 Calorie link | not started | |

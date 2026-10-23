@@ -166,8 +166,13 @@
   { "id": "leg-press-calf-raise", "src": "Calf_Press_On_The_Leg_Press_Machine", "en": "Leg press calf raise", "pattern": "calves", "eq": ["machine"], "joints": [] },
   { "id": "cable-kickback", "src": "One-Legged_Cable_Kickback", "en": "Cable glute kickback", "pattern": "glutes", "eq": ["cable"], "joints": [] },
   { "id": "hip-abduction-machine", "src": "Thigh_Abductor", "en": "Hip abduction machine", "pattern": "glutes", "eq": ["machine"], "joints": [] },
-  { "id": "rowing-machine", "src": "Rowing_Stationary", "en": "Rowing machine", "pattern": "conditioning", "eq": ["machine"], "joints": ["lower_back"], "timed": true },
-  { "id": "stationary-bike", "src": "Bicycling_Stationary", "en": "Stationary bike", "pattern": "conditioning", "eq": ["machine"], "joints": [], "timed": true },
-  { "id": "treadmill-jog", "src": "Jogging_Treadmill", "en": "Treadmill jog", "pattern": "conditioning", "eq": ["machine"], "joints": ["knee"], "timed": true },
-  { "id": "elliptical", "src": "Elliptical_Trainer", "en": "Elliptical trainer", "pattern": "conditioning", "eq": ["machine"], "joints": [], "timed": true }
+  { "id": "rowing-machine", "src": "Rowing_Stationary", "en": "Rowing machine", "pattern": "cardio", "eq": ["machine"], "joints": ["lower_back"], "timed": true },
+  { "id": "stationary-bike", "src": "Bicycling_Stationary", "en": "Stationary bike", "pattern": "cardio", "eq": ["machine"], "joints": [], "timed": true },
+  { "id": "treadmill-jog", "src": "Jogging_Treadmill", "en": "Treadmill jog", "pattern": "cardio", "eq": ["machine"], "joints": ["knee"], "timed": true },
+  { "id": "elliptical", "src": "Elliptical_Trainer", "en": "Elliptical trainer", "pattern": "cardio", "eq": ["machine"], "joints": [], "timed": true },
+  { "id": "treadmill-walk", "src": "Walking_Treadmill", "en": "Incline treadmill walk", "pattern": "cardio", "eq": ["machine"], "joints": [], "timed": true },
+  { "id": "recumbent-bike", "src": "Recumbent_Bike", "en": "Recumbent bike", "pattern": "cardio", "eq": ["machine"], "joints": [], "timed": true },
+  { "id": "stair-machine", "src": "Stairmaster", "en": "Stair machine", "pattern": "cardio", "eq": ["machine"], "joints": ["knee"], "timed": true },
+  { "id": "brisk-walk", "src": "Trail_Running_Walking", "en": "Brisk walk", "pattern": "cardio", "eq": ["bodyweight"], "joints": [], "timed": true },
+  { "id": "stair-step-ups", "src": "Step-up_with_Knee_Raise", "en": "Step-ups on a stair", "pattern": "cardio", "eq": ["bodyweight"], "joints": ["knee"], "timed": true }
 ]

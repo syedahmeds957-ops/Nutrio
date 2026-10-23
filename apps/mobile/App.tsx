@@ -78,9 +78,11 @@ import {
   releasePresetCache,
 } from './src/tracker/mealPresets.js';
 import { hydrateCustomDishes, releaseCustomDishCache } from './src/tracker/customDishes.js';
-import { hydrateWorkoutPlan, releaseWorkoutCache } from './src/workout/workoutStorage.js';
-import { WorkoutsScreen } from './src/workout/ui/WorkoutsScreen.js';
+import { hydrateWorkoutPlan, loadWorkoutPlan, releaseWorkoutCache } from './src/workout/workoutStorage.js';
+import { hydrateWorkoutLogs, loadWorkoutLogs, releaseWorkoutLogCache } from './src/workout/workoutLogStorage.js';
+import { setActiveDraft } from './src/workout/workoutDraft.js';
 import { TimeoutError, withTimeout } from './src/common/withTimeout.js';
+import { WorkoutsScreen } from './src/workout/ui/WorkoutsScreen.js';
 import { fetchActivityHistory } from './src/sync/activitySync.js';
 import { purgeLegacyAiKeys } from './src/ai/ai-service.js';
 import { addDaysToKey, localDateKey } from './src/common/dateKey.js';
@@ -163,6 +165,8 @@ function NutrioAppContent() {
   /** Starts over at `route` with nothing behind it: sign-in, sign-out, a finished flow. */
   const resetTo = (route: AppRoute) => setNav(startAt(route));
   const [isGuest, setIsGuest] = useState<boolean>(false);
+  /** The day the dashboard's Start opened Workouts on; null opens the week. */
+  const [workoutDayKey, setWorkoutDayKey] = useState<string | null>(null);
   const [isBootstrapping, setIsBootstrapping] = useState<boolean>(() => {
     // In test environment, skip splash to ensure deterministic renders
     if (typeof process !== 'undefined' && process.env?.NODE_ENV === 'test') {
@@ -240,6 +244,7 @@ function NutrioAppContent() {
       hydrateCustomDishes().catch(recoverWith('Restoring your dishes', undefined)),
       hydrateWeighIns().catch(recoverWith('Restoring weigh-ins', undefined)),
       hydrateWorkoutPlan().catch(recoverWith('Restoring workout plan', undefined)),
+      hydrateWorkoutLogs().catch(recoverWith('Restoring workout logs', undefined)),
     ]);
   };
 
@@ -505,7 +510,12 @@ function NutrioAppContent() {
         }}
         onExploreGuest={() => {
           setIsGuest(true);
-          resetTo('active_tracker');
+          // Guests skip the signed-in restore, so their workout plan and logs are
+          // loaded here before the dashboard's Today card reads them.
+          Promise.all([
+            hydrateWorkoutPlan().catch(recoverWith('Restoring guest workout plan', undefined)),
+            hydrateWorkoutLogs().catch(recoverWith('Restoring guest workout logs', undefined)),
+          ]).finally(() => resetTo('active_tracker'));
         }}
       />
     );
@@ -636,6 +646,8 @@ function NutrioAppContent() {
           releaseCustomDishCache();
           releaseWeightCache();
           releaseWorkoutCache();
+          releaseWorkoutLogCache();
+          setActiveDraft(null);
           releaseSurveyCache();
           clearAuthSession().catch(recoverWith('Signing out', undefined));
           setIsGuest(false);
@@ -658,7 +670,16 @@ function NutrioAppContent() {
           )
         }
         onOpenCoachChat={() => applyDestination(resolveCoachDestination(routingInput), 'coach_chat')}
-        onOpenWorkouts={() => applyDestination({ route: 'workouts' })}
+        onOpenWorkouts={() => {
+          setWorkoutDayKey(null);
+          applyDestination({ route: 'workouts' });
+        }}
+        onOpenWorkoutDay={(dateKey: string) => {
+          setWorkoutDayKey(dateKey);
+          applyDestination({ route: 'workouts' });
+        }}
+        workoutPlan={loadWorkoutPlan()}
+        workoutLogs={loadWorkoutLogs()}
         onOpenWeeklyCheckIn={() =>
           applyDestination(resolveWeeklyCheckInDestination(routingInput), 'weekly_checkin')
         }
@@ -764,7 +785,12 @@ function NutrioAppContent() {
   // Workouts need no plan or survey: setup asks for anything they would have given.
   if (appState === 'workouts') {
     return wrapScreen(
-      <WorkoutsScreen survey={surveyData?.payload ?? null} activePlan={activePlan} onBack={goBack} />
+      <WorkoutsScreen
+        survey={surveyData?.payload ?? null}
+        activePlan={activePlan}
+        initialDayKey={workoutDayKey}
+        onBack={goBack}
+      />
     );
   }
 

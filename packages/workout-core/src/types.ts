@@ -30,7 +30,10 @@ export type MovementPattern =
   | 'triceps'
   | 'calves'
   | 'shoulders_iso'
-  | 'conditioning';
+  /** Short intervals (30 s on, 30 s off): the old finisher moves, now a cardio option. */
+  | 'conditioning'
+  /** Steady cardio for the block that ends each session: walking, bike, treadmill. */
+  | 'cardio';
 
 /** A joint a user can ask to protect; exercises that load it are left out. */
 export type JointLoad = 'knee' | 'lower_back' | 'shoulder' | 'wrist';
@@ -159,13 +162,28 @@ export interface Finisher {
   rounds: number;
 }
 
+export type CardioIntensity = 'easy' | 'moderate';
+
+/** The steady cardio that ends a session, counted inside its length. */
+export interface CardioBlock {
+  /** e.g. 'upper-a:cardio:0'; swaps and logs use it like any slot. */
+  slotId: string;
+  exerciseId: string;
+  minutes: number;
+  intensity: CardioIntensity;
+  /** Other cardio the user can do, for the swap list (the session's pick first). */
+  alternates: string[];
+}
+
 export interface WorkoutSession {
   day: Weekday;
   template: SessionTemplateId;
   /** 'a' or 'b' when a template appears twice in the week (Upper body A / B). */
   variant: 'a' | 'b' | null;
   slots: PlannedSlot[];
+  /** Only on plans made before the cardio block (phase 6b); new plans have `cardio` instead. */
   finisher?: Finisher;
+  cardio?: CardioBlock;
   estimatedMinutes: number;
 }
 
@@ -180,4 +198,61 @@ export interface WeeklyWorkoutPlan {
   sessions: WorkoutSession[];
   /** slotId -> exerciseId chosen by the user or a confirmed coach swap. */
   swaps: Record<string, string>;
+  /** The optional walk suggested on rest days, in minutes. Absent on plans made before phase 6b. */
+  restDayWalk?: { minMinutes: number; maxMinutes: number };
+}
+
+// ----- Logging and progression -----
+
+export interface LoggedSet {
+  /** Reps, or seconds for a timed hold. */
+  reps: number;
+  loadKg?: number;
+  done: boolean;
+}
+
+export interface LoggedExercise {
+  slotId: string;
+  exerciseId: string;
+  sets: LoggedSet[];
+}
+
+export type SessionRating = 'easy' | 'right' | 'hard';
+
+export interface WorkoutLog {
+  /** The date the workout was done (YYYY-MM-DD). */
+  dateKey: string;
+  /** The planned session's day, which differs from `dateKey`'s weekday when a missed session is done later. */
+  day: Weekday;
+  template: SessionTemplateId;
+  exercises: LoggedExercise[];
+  rating?: SessionRating;
+  startedAt: string;
+  finishedAt?: string;
+}
+
+export type ProgressReason =
+  | 'first_time_pick_weight'
+  | 'first_time'
+  | 'hit_top_add_load'
+  | 'in_range_add_reps'
+  | 'failed_twice_reduce'
+  | 'felt_hard_hold'
+  | 'top_dumbbell_hold'
+  | 'ladder_step_up'
+  | 'add_set'
+  | 'hold';
+
+/** What to do next time on one slot, and why. Every number here comes from `nextTarget`. */
+export interface Target {
+  exerciseId: string;
+  sets: number;
+  repMin: number;
+  repMax: number;
+  /** The reps (or seconds) to aim for on each set; the logger starts from this. */
+  reps: number;
+  /** Absent for bodyweight work and when the user picks the first weight. */
+  loadKg?: number;
+  reason: ProgressReason;
+  reasonParams?: Record<string, number | string>;
 }

@@ -172,4 +172,9 @@ export const EXERCISE_IMAGES: Record<string, readonly [ImageSourcePropType, Imag
   'stationary-bike': [require('../../assets/exercises/stationary-bike-0.jpg'), require('../../assets/exercises/stationary-bike-1.jpg')],
   'treadmill-jog': [require('../../assets/exercises/treadmill-jog-0.jpg'), require('../../assets/exercises/treadmill-jog-1.jpg')],
   'elliptical': [require('../../assets/exercises/elliptical-0.jpg'), require('../../assets/exercises/elliptical-1.jpg')],
+  'treadmill-walk': [require('../../assets/exercises/treadmill-walk-0.jpg'), require('../../assets/exercises/treadmill-walk-1.jpg')],
+  'recumbent-bike': [require('../../assets/exercises/recumbent-bike-0.jpg'), require('../../assets/exercises/recumbent-bike-1.jpg')],
+  'stair-machine': [require('../../assets/exercises/stair-machine-0.jpg'), require('../../assets/exercises/stair-machine-1.jpg')],
+  'brisk-walk': [require('../../assets/exercises/brisk-walk-0.jpg'), require('../../assets/exercises/brisk-walk-1.jpg')],
+  'stair-step-ups': [require('../../assets/exercises/stair-step-ups-0.jpg'), require('../../assets/exercises/stair-step-ups-1.jpg')],
 };

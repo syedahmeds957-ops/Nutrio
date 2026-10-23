@@ -2,6 +2,8 @@
 
 **Size:** M · **Blocked by:** 3
 
+> **Status: done 2026-10-23, not committed (waiting for the user's command).** See "Execution record" at the end.
+
 ## Outcome
 
 The user sees the whole week as day cards, opens a day to see each exercise with its image loop, sets × reps and instructions, and sees today's workout on the dashboard.
@@ -53,3 +55,42 @@ npm test
 ## Done when
 
 Commit: `feat(workout): week and day screens with exercise demos and Today card`.
+
+## Execution record (2026-10-23)
+
+### What shipped
+
+- **Logic:**
+  - `workout/weekView.ts`: `weekStartFor`, `weekdayOf`, `buildWeekView`, `slotsForWeek` (swaps and rotation applied), `nextTrainingDay`
+  - `workout/format.ts`: prescription, sets × reps, rest, effort hint and date text in both languages
+- **Screens:**
+  - `WorkoutWeekScreen`: today's workout listing every exercise (72 px demo, sets × reps, rest, Start), then "This week" with the summary card and day rows; a rest-day card names the next session
+  - `WorkoutDayScreen`: 68 px demos (paused while scrolling), prescription, effort hint, finisher, and a held Start button with a "logging arrives next" note
+  - `ExerciseDetailSheet`: demo, muscles, numbered steps
+  - `TodayWorkoutCard`: setup / training with thumbnails / rest
+  - `WorkoutHeader`: the shared header
+- **Removed:** `WorkoutWeekList`.
+- **App wiring:**
+  - the dashboard card's Start opens Workouts straight on that day (`initialDayKey`); Back from the day goes to the week
+  - guests' plans are loaded when they choose "Continue as guest", so the card reads them on phones too
+- **i18n:** months, statuses, split names, today/week/day/detail/card text, with Arabic plurals for sets and reps-left.
+
+### Changes from the plan
+
+1. **Bigger demos:** 68 px on day rows and 72 px in the today list (the approved mockup sizes), instead of 56 px.
+2. **No ⋯ options button yet.** Tapping a row opens the detail sheet. The options menu (swap / ask coach) arrives with phases 6 and 10, so there's no dead menu.
+3. **Arabic rep ranges** are wrapped in left-to-right marks (`\u200e10–15\u200e`). Without them the range displayed as "15–10" inside Arabic text. Measured afterwards: "10" now renders left of "15".
+
+### Verification evidence
+
+| Check | Result |
+|---|---|
+| `cd apps/mobile && npx vitest run src/workout src/tracker src/i18n` | all pass (20 new: week view 12, screens and formatting 7, dashboard card 1) |
+| `npm test` (whole repo) | 1,137 tests, 0 failures |
+| `npm run build`, `npx tsc --noEmit` (apps/mobile), CI key guard | pass |
+| **Web, end to end** (headless Chrome, real clicks) | 17 / 17 checks pass: the card invites setup; Workouts opens on today with sets × reps and rest; no meal content; the day screen shows prescription and effort with Start held; the detail sheet opens and its X closes it; Back day → week → dashboard; the card's Start opens the day; no overflow at 360 px; a home no-equipment plan uses bodyweight moves; the Saudi week starts on Sunday; the Arabic detail sheet |
+| **iPhone 17 Pro Max simulator** | the week (today's list) and day screens render, via a temporary demo flag that was removed afterwards (`App.tsx` restored) |
+
+### Found, not fixed (outside this phase)
+
+The app's startup splash waits for the session check and the fonts with no timeout. In headless Chrome on a flaky connection, the font load sometimes stalled and the splash never cleared. A reload always recovered it. This was already in the app before the workout work. Logged as a follow-up in the plan README.

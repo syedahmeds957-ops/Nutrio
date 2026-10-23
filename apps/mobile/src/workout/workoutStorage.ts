@@ -1,4 +1,4 @@
-import type { WeeklyWorkoutPlan } from '@nutrio/workout-core';
+import { upgradePlan, type WeeklyWorkoutPlan } from '@nutrio/workout-core';
 import { authStorageAdapter } from '../supabase/client.js';
 import { getAuthSession } from '../auth/authStorage.js';
 
@@ -38,13 +38,17 @@ export function flushWorkoutWrites(): Promise<void> {
   return durableQueue;
 }
 
-/** A stored plan we can trust enough to render; anything else reads as no plan. */
-function parsePlan(raw: string | null): WeeklyWorkoutPlan | null {
+/**
+ * A stored plan we can trust enough to render; anything else reads as no plan.
+ * Plans saved before the cardio block (phase 6b) come back upgraded.
+ */
+function parsePlan(raw: string | null): { plan: WeeklyWorkoutPlan; upgraded: boolean } | null {
   if (!raw) return null;
   try {
     const parsed = JSON.parse(raw) as WeeklyWorkoutPlan;
     if (parsed?.version !== 1 || !Array.isArray(parsed.sessions) || !parsed.settings) return null;
-    return parsed;
+    const plan = upgradePlan(parsed);
+    return { plan, upgraded: plan !== parsed };
   } catch {
     return null;
   }
@@ -54,7 +58,7 @@ export function loadWorkoutPlan(): WeeklyWorkoutPlan | null {
   const key = planKey();
   if (memoryPlans.has(key)) return memoryPlans.get(key) ?? null;
 
-  let stored: WeeklyWorkoutPlan | null = null;
+  let stored: ReturnType<typeof parsePlan> = null;
   if (hasStorage()) {
     try {
       stored = parsePlan(window.localStorage.getItem(key));
@@ -62,8 +66,9 @@ export function loadWorkoutPlan(): WeeklyWorkoutPlan | null {
       // Ignore storage error
     }
   }
-  memoryPlans.set(key, stored);
-  return stored;
+  if (stored?.upgraded) saveWorkoutPlan(stored.plan);
+  else memoryPlans.set(key, stored?.plan ?? null);
+  return stored?.plan ?? null;
 }
 
 export function saveWorkoutPlan(plan: WeeklyWorkoutPlan): void {
@@ -102,8 +107,9 @@ export async function hydrateWorkoutPlan(): Promise<void> {
   const key = planKey();
   if (memoryPlans.get(key)) return;
   try {
-    const plan = parsePlan(await authStorageAdapter.getItem(key));
-    if (plan) memoryPlans.set(key, plan);
+    const stored = parsePlan(await authStorageAdapter.getItem(key));
+    if (stored?.upgraded) saveWorkoutPlan(stored.plan);
+    else if (stored) memoryPlans.set(key, stored.plan);
   } catch {
     // Ignore hydration error
   }

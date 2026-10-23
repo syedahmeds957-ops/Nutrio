@@ -34,6 +34,8 @@ import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { GuestAuthModal } from './GuestAuthModal.js';
 import { ProfileSheet } from './ProfileSheet.js';
 import { Icon } from '../../ui/Icon.js';
+import type { WeeklyWorkoutPlan, WorkoutLog } from '@nutrio/workout-core';
+import { TodayWorkoutCard } from '../../workout/ui/TodayWorkoutCard.js';
 import { saveDailyActivities, loadDailyActivities, getOrInitHistoryStartDate } from '../activityStorage.js';
 import { recordFoodUsage } from '../mealPresets.js';
 import { defaultServingFor } from '../personalServings.js';
@@ -62,6 +64,12 @@ interface TrackerDashboardScreenProps {
   onOpenMealPlan?: () => void;
   onOpenCoachChat?: () => void;
   onOpenWorkouts?: () => void;
+  /** Opens Workouts straight on a day (the Today card's Start). */
+  onOpenWorkoutDay?: (dateKey: string) => void;
+  /** The user's workout plan, for the Today card; null when they have none. */
+  workoutPlan?: WeeklyWorkoutPlan | null;
+  /** Finished workouts, so the Today card can show today as done. */
+  workoutLogs?: readonly WorkoutLog[];
   onOpenWeeklyCheckIn?: () => void;
   onOpenSurvey?: () => void;
   onOpenHome?: () => void;
@@ -80,6 +88,9 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   onOpenMealPlan,
   onOpenCoachChat,
   onOpenWorkouts,
+  onOpenWorkoutDay,
+  workoutPlan = null,
+  workoutLogs,
   onOpenWeeklyCheckIn,
   onOpenSurvey,
   onOpenHome,
@@ -625,6 +636,17 @@ const defaultSlotForNow = (): MealSlot => {
         <DailyProgressHeader summary={summary} weeklyHistoryFills={weeklyHistoryFills} />
 
         {!isGuest && <StreakBadge {...loggingStreak} />}
+
+        {onOpenWorkouts && (
+          <TodayWorkoutCard
+            plan={workoutPlan}
+            logs={workoutLogs}
+            todayKey={localDateKey()}
+            onSetUp={onOpenWorkouts}
+            onSeeWeek={onOpenWorkouts}
+            onOpenDay={onOpenWorkoutDay ?? (() => onOpenWorkouts())}
+          />
+        )}
 
         {/* 2. Dynamic AI Recommendation Card */}
         <AiRecommendationCard

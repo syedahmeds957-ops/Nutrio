@@ -285,11 +285,11 @@ describe('time and finishers', () => {
     }
   });
 
-  it('adds a conditioning finisher for fat loss when there is time, never for muscle or under caps', () => {
-    const fatLoss = plan(settings({ goal: 'fat_loss', sessionMinutes: 45 }));
-    expect(fatLoss.sessions.every((s) => s.finisher && s.finisher.rounds >= 4)).toBe(true);
-    expect(plan(settings({ goal: 'muscle', sessionMinutes: 45 })).sessions.some((s) => s.finisher)).toBe(false);
-    expect(plan(settings({ goal: 'fat_loss', lowIntensity: true })).sessions.some((s) => s.finisher)).toBe(false);
+  it('ends every session with a cardio block instead of the old finisher', () => {
+    for (const goal of ['fat_loss', 'muscle'] as const) {
+      const p = plan(settings({ goal, sessionMinutes: 45 }));
+      expect(p.sessions.every((s) => s.cardio && !s.finisher)).toBe(true);
+    }
   });
 
   it('caps Ramadan sessions at four exercises and 45 minutes', () => {

@@ -74,7 +74,7 @@ const Chip: React.FC<{ label: string; selected: boolean; onPress: () => void; st
   return (
     <TouchableOpacity
       accessibilityRole="button"
-      accessibilityState={{ selected }}
+      aria-selected={selected}
       onPress={onPress}
       activeOpacity={0.7}
       style={[styles.chip, colors.container, style]}
@@ -174,7 +174,7 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
                   <TouchableOpacity
                     key={goal}
                     accessibilityRole="button"
-                    accessibilityState={{ selected: settings.goal === goal }}
+                    aria-selected={settings.goal === goal}
                     onPress={() => update({ ...settings, goal })}
                     activeOpacity={0.7}
                     style={[styles.optionCard, colors.container]}
@@ -197,7 +197,7 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
                   <TouchableOpacity
                     key={level}
                     accessibilityRole="button"
-                    accessibilityState={{ selected }}
+                    aria-selected={selected}
                     onPress={() => update({ ...settings, experience: level })}
                     activeOpacity={0.7}
                     style={[styles.optionRow, colors.container]}
@@ -224,7 +224,7 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
                   <TouchableOpacity
                     key={id}
                     accessibilityRole="button"
-                    accessibilityState={{ selected }}
+                    aria-selected={selected}
                     onPress={() => update({ ...settings, location: id })}
                     activeOpacity={0.7}
                     style={[styles.locationCard, colors.container]}
@@ -321,7 +321,7 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
                   <TouchableOpacity
                     key={minutes}
                     accessibilityRole="button"
-                    accessibilityState={{ selected }}
+                    aria-selected={selected}
                     accessibilityLabel={`${minutes} ${t('workout.setup.minutesShort')}`}
                     onPress={() => update({ ...settings, sessionMinutes: minutes })}
                     activeOpacity={0.7}

@@ -1398,7 +1398,196 @@
       "restDay": "Rest day",
       "exercises": "{{count}} exercise",
       "exercises_other": "{{count}} exercises",
-      "minutes": "~{{count}} min"
+      "minutes": "~{{count}} min",
+      "heading": "This week",
+      "label": "WEEK {{number}}",
+      "done": "{{done}} of {{count}} workouts done",
+      "doToday": "Do it today",
+      "saved": "Workout saved"
+    },
+    "months": {
+      "jan": "Jan",
+      "feb": "Feb",
+      "mar": "Mar",
+      "apr": "Apr",
+      "may": "May",
+      "jun": "Jun",
+      "jul": "Jul",
+      "aug": "Aug",
+      "sep": "Sep",
+      "oct": "Oct",
+      "nov": "Nov",
+      "dec": "Dec"
+    },
+    "format": {
+      "date": "{{weekday}} {{day}} {{month}}",
+      "reps": "{{min}}–{{max}}",
+      "seconds": "{{min}}–{{max}} s",
+      "presc": "{{sets}} × {{reps}} · {{rest}} s rest",
+      "setsReps": "{{count}} set × {{reps}}",
+      "setsReps_other": "{{count}} sets × {{reps}}",
+      "restBetween": "{{rest}} s rest between sets",
+      "rirOne": "Stop with 1–2 reps left",
+      "rir": "Stop with {{count}} rep left",
+      "rir_other": "Stop with {{count}} reps left",
+      "hold": "Hold with good form the whole time"
+    },
+    "status": {
+      "planned": "Coming up",
+      "today": "Today",
+      "done": "Done",
+      "missed": "Missed"
+    },
+    "split": {
+      "full_body_2": "Full body",
+      "full_body_3": "Full body",
+      "full_body_4": "Full body",
+      "full_body_5": "Full body",
+      "full_body_6": "Full body",
+      "ppl_3": "Push / pull / legs",
+      "upper_lower_4": "Upper / lower",
+      "upper_lower_ppl_5": "Upper / lower + push / pull / legs",
+      "ppl_6": "Push / pull / legs"
+    },
+    "today": {
+      "overline": "TODAY'S WORKOUT",
+      "startWorkout": "Start workout",
+      "restTitle": "Rest day today",
+      "restNext": "Next: {{title}} on {{day}}",
+      "seeLogged": "See what you logged"
+    },
+    "day": {
+      "startWorkout": "Start workout",
+      "details": "Details for {{name}}",
+      "doneOn": "Done · {{date}}"
+    },
+    "detail": {
+      "muscles": "MUSCLES WORKED",
+      "howTo": "HOW TO DO IT",
+      "close": "Close"
+    },
+    "card": {
+      "overline": "TODAY'S WORKOUT",
+      "setupTitle": "Get a weekly workout plan",
+      "setupBody": "Home or gym, built around your goal. Setup takes about a minute.",
+      "setupCta": "Set up workouts",
+      "start": "Start",
+      "restTitle": "Rest day",
+      "seeWeek": "See the week"
+    },
+    "target": {
+      "load": "{{kg}} kg × {{reps}}",
+      "pickWeight": "— kg × {{reps}}",
+      "bodyweight": "Bodyweight × {{reps}}"
+    },
+    "reason": {
+      "first_time_pick_weight": "First time: pick a weight you could lift {{reps}} times with 2–3 reps to spare",
+      "first_time": "First time: find a steady pace with good form",
+      "hit_top_add_load": "+{{inc}} kg: you hit {{reps}} on every set last time",
+      "in_range_add_reps": "Same weight: aim for one more rep",
+      "in_range_add_reps_bodyweight": "Aim for one more rep than last time",
+      "failed_twice_reduce": "Lighter at {{kg}} kg: two tough sessions in a row, so build back up",
+      "felt_hard_hold": "Felt hard last time: same weight today",
+      "felt_hard_hold_bodyweight": "Felt hard last time: same move today",
+      "top_dumbbell_hold": "Your heaviest dumbbell: aim for more reps instead",
+      "ladder_step_up": "Harder move: you hit {{reps}} on every set, so step up",
+      "add_set": "One more set: you reached the top of the range on every set",
+      "hold": "Same as last time: keep every set strong"
+    },
+    "log": {
+      "finish": "Finish",
+      "today": "Today",
+      "movedFrom": "Today · moved from {{day}}",
+      "set": "Set",
+      "kg": "kg",
+      "reps": "Reps",
+      "seconds": "Sec",
+      "bodyweight": "Bodyweight",
+      "lessWeight": "Less weight, set {{number}}",
+      "moreWeight": "More weight, set {{number}}",
+      "weightField": "Weight in kg, set {{number}}",
+      "fewerReps": "Fewer reps, set {{number}}",
+      "moreReps": "More reps, set {{number}}",
+      "repsField": "Reps, set {{number}}",
+      "tick": "Set {{number}} done",
+      "rest": "Rest",
+      "addRest": "+30 s",
+      "skipRest": "Skip",
+      "discardTitle": "Discard this workout?",
+      "discardBody": "The sets you've ticked won't be saved.",
+      "keepGoing": "Keep going",
+      "discard": "Discard"
+    },
+    "finish": {
+      "title": "Nice work!",
+      "sessionDone": "{{title}} done",
+      "time": "Time",
+      "sets": "Sets",
+      "kg": "kg lifted",
+      "feel": "How did it feel?",
+      "easy": "Easy",
+      "easyBody": "I could have done more",
+      "right": "Just right",
+      "rightBody": "Challenging, with good form to the end",
+      "hard": "Hard",
+      "hardBody": "I struggled to finish the sets",
+      "help": "This helps set your next targets",
+      "save": "Save workout"
+    },
+    "logged": {
+      "load": "{{kg}} kg × {{reps}}",
+      "reps": "× {{reps}}",
+      "seconds": "{{secs}} s",
+      "skipped": "Not done this time"
+    },
+    "swap": {
+      "title": "Swap {{name}}",
+      "subtitle": "Same muscles, using your equipment",
+      "emptyTitle": "No other safe option with your equipment",
+      "emptyBody": "Add equipment in Edit plan to see more options",
+      "tag": "Swapped",
+      "reset": "Reset to original"
+    },
+    "options": {
+      "label": "Options for {{name}}",
+      "swap": "Swap exercise",
+      "details": "View details",
+      "cancel": "Cancel"
+    },
+    "equipmentName": {
+      "bodyweight": "Bodyweight",
+      "dumbbell": "Dumbbells",
+      "barbell": "Barbell",
+      "kettlebell": "Kettlebell",
+      "bands": "Resistance band",
+      "cable": "Cable machine",
+      "machine": "Machine",
+      "bench": "Bench",
+      "pullup_bar": "Pull-up bar",
+      "ez_bar": "EZ bar"
+    },
+    "cardio": {
+      "overline": "CARDIO",
+      "presc": "{{count}} min · {{pace}}",
+      "pace": {
+        "easy": "easy pace",
+        "moderate": "moderate pace"
+      },
+      "intervals": "30 s on, 30 s off",
+      "cue": {
+        "easy": "Easy: you could hold a conversation",
+        "moderate": "Moderate: you can talk in short sentences",
+        "intervals": "Go hard for 30 s, then rest 30 s, until the time is up"
+      },
+      "minutes": "Minutes",
+      "minutesField": "Cardio minutes",
+      "fewer": "Fewer minutes",
+      "more": "More minutes",
+      "done": "Cardio done",
+      "loggedMinutes": "Cardio · {{count}} min",
+      "stat": "Cardio: {{count}} min",
+      "walk": "Optional: {{min}}–{{max}} min walk",
+      "swapSubtitle": "Cardio you can do with your equipment"
     }
   }
 }

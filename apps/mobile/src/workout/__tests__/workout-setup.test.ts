@@ -19,7 +19,8 @@ import {
 import { sessionTitle } from '../sessionTitle.js';
 import { loadWorkoutPlan, releaseWorkoutCache } from '../workoutStorage.js';
 import { WorkoutSetupScreen } from '../ui/WorkoutSetupScreen.js';
-import { WorkoutWeekList } from '../ui/WorkoutWeekList.js';
+import { WorkoutWeekScreen } from '../ui/WorkoutWeekScreen.js';
+import { buildWeekView } from '../weekView.js';
 
 const BASE: WorkoutSettings = {
   goal: 'general',
@@ -128,7 +129,10 @@ describe('workout screens render in English and Arabic', () => {
 
   it('lists the saved week with session titles and exercise names', async () => {
     const plan = generateWeeklyPlan({ ...BASE, location: 'gym', trainingDays: ['mon', 'tue', 'thu', 'fri'] }, { seed: 3, today: '2026-10-19' });
-    const html = renderToStaticMarkup(React.createElement(WorkoutWeekList, { plan, onBack: () => {}, onEdit: () => {} }));
+    const week = buildWeekView(plan, '2026-10-19', 'PK');
+    const html = renderToStaticMarkup(
+      React.createElement(WorkoutWeekScreen, { plan, week, onBack: () => {}, onEdit: () => {}, onOpenDay: () => {}, onDoToday: () => {} })
+    );
     expect(html).toContain('Upper body A');
     expect(html).toContain('Lower body B');
     expect(html).toContain('Edit plan');

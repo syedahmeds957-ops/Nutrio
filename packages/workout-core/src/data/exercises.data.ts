@@ -6601,7 +6601,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
         "حافظ على إيقاع سلس وثابت."
       ]
     },
-    "pattern": "conditioning",
+    "pattern": "cardio",
     "primaryMuscles": [
       "quadriceps"
     ],
@@ -6646,7 +6646,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
         "زِد المقاومة في الفترات الأصعب."
       ]
     },
-    "pattern": "conditioning",
+    "pattern": "cardio",
     "primaryMuscles": [
       "quadriceps"
     ],
@@ -6686,7 +6686,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
         "خفّف السرعة تدريجياً في النهاية."
       ]
     },
-    "pattern": "conditioning",
+    "pattern": "cardio",
     "primaryMuscles": [
       "quadriceps"
     ],
@@ -6727,7 +6727,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
         "زِد المقاومة في الفترات الأصعب."
       ]
     },
-    "pattern": "conditioning",
+    "pattern": "cardio",
     "primaryMuscles": [
       "quadriceps"
     ],
@@ -6742,6 +6742,209 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "level": "intermediate",
     "compound": false,
     "jointLoads": [],
+    "timed": true,
+    "highImpact": false,
+    "tracksLoad": false
+  },
+  {
+    "id": "treadmill-walk",
+    "sourceId": "Walking_Treadmill",
+    "name": {
+      "en": "Incline treadmill walk",
+      "ar": "المشي على جهاز المشي المائل"
+    },
+    "instructions": {
+      "en": [
+        "Start walking slowly, then raise the incline to a level that makes you breathe harder.",
+        "Walk at a brisk pace without holding the handrails.",
+        "Stand tall and keep your steps short and quick.",
+        "Lower the incline and slow down for the last minute."
+      ],
+      "ar": [
+        "ابدأ بالمشي ببطء، ثم ارفع الميل إلى مستوى يجعل تنفّسك أسرع.",
+        "امشِ بوتيرة سريعة دون التمسّك بالمقابض.",
+        "قف منتصباً واجعل خطواتك قصيرة وسريعة.",
+        "خفّض الميل وأبطئ في الدقيقة الأخيرة."
+      ]
+    },
+    "pattern": "cardio",
+    "primaryMuscles": [
+      "quadriceps"
+    ],
+    "secondaryMuscles": [
+      "calves",
+      "glutes",
+      "hamstrings"
+    ],
+    "equipment": [
+      "machine"
+    ],
+    "level": "beginner",
+    "compound": false,
+    "jointLoads": [],
+    "timed": true,
+    "highImpact": false,
+    "tracksLoad": false
+  },
+  {
+    "id": "recumbent-bike",
+    "sourceId": "Recumbent_Bike",
+    "name": {
+      "en": "Recumbent bike",
+      "ar": "الدراجة ذات المسند"
+    },
+    "instructions": {
+      "en": [
+        "Sit back against the seat and set it so your knees stay slightly bent at full reach.",
+        "Hold the side handles lightly.",
+        "Pedal at a steady pace.",
+        "Raise the resistance a little if it feels too easy."
+      ],
+      "ar": [
+        "اجلس مستنداً إلى المقعد واضبطه بحيث تبقى ركبتاك مثنيتين قليلاً عند أبعد نقطة.",
+        "أمسك المقابض الجانبية برفق.",
+        "دوّس بإيقاع ثابت.",
+        "زِد المقاومة قليلاً إن شعرت أنها سهلة جداً."
+      ]
+    },
+    "pattern": "cardio",
+    "primaryMuscles": [
+      "quadriceps"
+    ],
+    "secondaryMuscles": [
+      "calves",
+      "glutes",
+      "hamstrings"
+    ],
+    "equipment": [
+      "machine"
+    ],
+    "level": "beginner",
+    "compound": false,
+    "jointLoads": [],
+    "timed": true,
+    "highImpact": false,
+    "tracksLoad": false
+  },
+  {
+    "id": "stair-machine",
+    "sourceId": "Stairmaster",
+    "name": {
+      "en": "Stair machine",
+      "ar": "جهاز صعود الدرج"
+    },
+    "instructions": {
+      "en": [
+        "Step onto the machine and hold the rails lightly for balance.",
+        "Start at a slow speed.",
+        "Step with your whole foot, standing tall, without leaning on the rails.",
+        "Raise the speed slowly to a pace you can keep."
+      ],
+      "ar": [
+        "اصعد على الجهاز وأمسك المقابض برفق للتوازن.",
+        "ابدأ بسرعة بطيئة.",
+        "اخطُ بكامل قدمك وأنت منتصب دون الاتكاء على المقابض.",
+        "زِد السرعة تدريجياً إلى وتيرة تستطيع الاستمرار عليها."
+      ]
+    },
+    "pattern": "cardio",
+    "primaryMuscles": [
+      "quadriceps"
+    ],
+    "secondaryMuscles": [
+      "calves",
+      "glutes",
+      "hamstrings"
+    ],
+    "equipment": [
+      "machine"
+    ],
+    "level": "intermediate",
+    "compound": false,
+    "jointLoads": [
+      "knee"
+    ],
+    "timed": true,
+    "highImpact": false,
+    "tracksLoad": false
+  },
+  {
+    "id": "brisk-walk",
+    "sourceId": "Trail_Running_Walking",
+    "name": {
+      "en": "Brisk walk",
+      "ar": "المشي السريع"
+    },
+    "instructions": {
+      "en": [
+        "Walk outdoors, in a corridor or around your home at a pace that raises your breathing.",
+        "Stand tall, look ahead and swing your arms.",
+        "Take quick, natural steps, landing heel first and rolling through to your toes.",
+        "Keep a pace you can hold for the whole time."
+      ],
+      "ar": [
+        "امشِ في الخارج أو في ممر أو داخل المنزل بوتيرة ترفع تنفّسك.",
+        "قف منتصباً وانظر للأمام وحرّك ذراعيك.",
+        "خذ خطوات سريعة وطبيعية، تهبط على الكعب ثم تنتقل إلى أصابع القدم.",
+        "حافظ على وتيرة تستطيع الاستمرار عليها طوال المدة."
+      ]
+    },
+    "pattern": "cardio",
+    "primaryMuscles": [
+      "quadriceps"
+    ],
+    "secondaryMuscles": [
+      "calves",
+      "glutes",
+      "hamstrings"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "level": "beginner",
+    "compound": false,
+    "jointLoads": [],
+    "timed": true,
+    "highImpact": false,
+    "tracksLoad": false
+  },
+  {
+    "id": "stair-step-ups",
+    "sourceId": "Step-up_with_Knee_Raise",
+    "name": {
+      "en": "Step-ups on a stair",
+      "ar": "الصعود على الدرج"
+    },
+    "instructions": {
+      "en": [
+        "Stand facing the bottom step of a stair or a sturdy low step.",
+        "Step up with one foot, then the other, standing tall at the top.",
+        "Step back down one foot at a time.",
+        "Keep a steady rhythm, switch the leading foot every minute, and hold the rail if you need to."
+      ],
+      "ar": [
+        "قف مواجهاً لأول درجة في السلّم أو لدرجة منخفضة ثابتة.",
+        "اصعد بقدم ثم بالأخرى وقف منتصباً في الأعلى.",
+        "انزل بقدم ثم بالأخرى.",
+        "حافظ على إيقاع ثابت وبدّل القدم الأمامية كل دقيقة، وأمسك الدرابزين إن احتجت."
+      ]
+    },
+    "pattern": "cardio",
+    "primaryMuscles": [
+      "glutes"
+    ],
+    "secondaryMuscles": [
+      "hamstrings",
+      "quadriceps"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "level": "beginner",
+    "compound": true,
+    "jointLoads": [
+      "knee"
+    ],
     "timed": true,
     "highImpact": false,
     "tracksLoad": false
