@@ -14,9 +14,15 @@ import { Icon, IconName } from '../../ui/Icon.js';
 import { Notice } from '../../ui/Notice.js';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { Chip, Question, useChipColors } from './SetupChips.js';
+import { TellUsMore } from './TellUsMore.js';
+import { RoutineBuilder } from './RoutineBuilder.js';
 import {
   canContinue,
   DUMBBELL_CHOICES_KG,
+  isBeginner,
+  LAST_STEP,
+  MORE_STEPS,
   SETUP_STEPS,
   SetupStep,
   toggleDay,
@@ -46,62 +52,15 @@ interface WorkoutSetupScreenProps {
   /** True when the answers came from the user's survey, so the screen says so. Guests have none. */
   prefilled?: boolean;
   onCancel: () => void;
-  onSave: (settings: WorkoutSettings) => void;
+  /** `improve` is set when the user built their routine, so "What we improved" follows. */
+  onSave: (settings: WorkoutSettings, options?: { improve: boolean }) => void;
 }
-
-/** Lime when selected, quiet surface otherwise: the survey's chip language. */
-function useChipColors() {
-  const { theme } = useTheme();
-  const c = theme.colors;
-  return (selected: boolean) => ({
-    container: {
-      backgroundColor: selected ? c.primaryLime : c.surface,
-      borderColor: selected ? c.primaryLime : c.border,
-    },
-    text: { color: selected ? c.limeText : c.textSecondary, fontWeight: selected ? ('800' as const) : ('600' as const) },
-    sub: { color: selected ? c.limeText : c.textSecondary },
-  });
-}
-
-const Chip: React.FC<{ label: string; selected: boolean; onPress: () => void; style?: object }> = ({
-  label,
-  selected,
-  onPress,
-  style,
-}) => {
-  const colors = useChipColors()(selected);
-  const dir = useTextDirection();
-  return (
-    <TouchableOpacity
-      accessibilityRole="button"
-      aria-selected={selected}
-      onPress={onPress}
-      activeOpacity={0.7}
-      style={[styles.chip, colors.container, style]}
-    >
-      <Text style={[styles.chipText, colors.text, dir.textCenter]}>{label}</Text>
-    </TouchableOpacity>
-  );
-};
-
-const Question: React.FC<{ children: string; optional?: boolean }> = ({ children, optional }) => {
-  const { theme } = useTheme();
-  const { t } = useTranslation();
-  const dir = useTextDirection();
-  return (
-    <Text style={[styles.question, dir.text, { color: theme.colors.textPrimary }]}>
-      {children}
-      {optional ? (
-        <Text style={{ color: theme.colors.textSecondary, fontWeight: '500' }}>{` · ${t('workout.setup.optional')}`}</Text>
-      ) : null}
-    </Text>
-  );
-};
 
 /**
- * Three short steps that turn into a weekly plan: goal and experience, where
- * you train, then days, length and preferences. Answers start from the survey,
- * so most users only confirm.
+ * Three short steps that turn into a weekly plan (goal and experience, where
+ * you train, then days, length and preferences), then the optional "Tell us
+ * more", which asks beginners and people already training different
+ * questions. Answers start from the survey, so most users only confirm.
  */
 export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialSettings, mode, prefilled, onCancel, onSave }) => {
   const { theme } = useTheme();
@@ -111,9 +70,13 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
   const [step, setStep] = useState<SetupStep>(1);
   const [settings, setSettings] = useState<WorkoutSettings>(initialSettings);
   const scrollRef = useRef<ScrollView>(null);
+  /** The routine builder, opened from "Tell us more" by people training now. */
+  const [building, setBuilding] = useState(false);
 
   const ready = canContinue(step, settings);
-  const isLast = step === SETUP_STEPS;
+  const isLast = step === LAST_STEP;
+  const more = step > SETUP_STEPS;
+  const beginner = isBeginner(settings);
   const update = (next: WorkoutSettings) => setSettings(next);
 
   const goTo = (next: SetupStep) => {
@@ -128,6 +91,17 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
   };
 
   const chipColors = useChipColors();
+
+  if (building) {
+    return (
+      <RoutineBuilder
+        settings={settings}
+        update={update}
+        onBack={() => setBuilding(false)}
+        onImprove={() => onSave(settings, { improve: true })}
+      />
+    );
+  }
 
   const dayCount = settings.trainingDays.length;
 
@@ -144,20 +118,35 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
         </TouchableOpacity>
         <View style={styles.headerProgress}>
           <Text style={[styles.stepLabel, dir.text, { color: c.textSecondary }]}>
-            {t('workout.setup.step', { current: step, total: SETUP_STEPS })}
+            {more
+              ? t('workout.more.step', { current: step - SETUP_STEPS, total: MORE_STEPS })
+              : t('workout.setup.step', { current: step, total: SETUP_STEPS })}
           </Text>
           <View style={styles.segments}>
             {[1, 2, 3].map((n) => (
-              <View key={n} style={[styles.segment, { backgroundColor: n <= step ? c.primaryLime : c.border }]} />
+              <View
+                key={n}
+                style={[styles.segment, { backgroundColor: n <= (more ? step - SETUP_STEPS : step) ? c.primaryLime : c.border }]}
+              />
             ))}
           </View>
         </View>
+        {more ? (
+          <TouchableOpacity accessibilityRole="button" onPress={() => onSave(settings)} style={styles.skip}>
+            <Text style={[styles.skipText, { color: c.primaryAccessible }]}>{t('workout.more.skip')}</Text>
+          </TouchableOpacity>
+        ) : null}
       </View>
 
       <ScrollView ref={scrollRef} style={styles.flex} contentContainerStyle={styles.content}>
-        <Text accessibilityRole="header" style={[styles.title, dir.text, { color: c.textPrimary }]}>
-          {t('workout.setup.title')}
+        <Text accessibilityRole="header" style={[styles.title, more && styles.titleMore, dir.text, { color: c.textPrimary }]}>
+          {more ? t('workout.more.title') : t('workout.setup.title')}
         </Text>
+        {more ? (
+          <Text style={[styles.subtitle, dir.text, { color: c.textSecondary }]}>
+            {beginner ? t('workout.more.subtitleBeginner') : t('workout.more.subtitle')}
+          </Text>
+        ) : null}
 
         {step === 1 && (
           <>
@@ -282,7 +271,9 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
               </>
             )}
 
-            {settings.location === 'gym' && <Notice style={styles.notice}>{t('workout.setup.gymNote')}</Notice>}
+            {settings.location === 'gym' && (
+              <Notice style={styles.notice}>{beginner ? t('workout.setup.gymNoteBeginner') : t('workout.setup.gymNote')}</Notice>
+            )}
           </>
         )}
 
@@ -294,6 +285,7 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
               </Notice>
             )}
             <Question>{t('workout.setup.daysQuestion')}</Question>
+            {beginner ? <Text style={[styles.hint, dir.text, { color: c.textSecondary }]}>{t('workout.setup.beginnerDaysHint')}</Text> : null}
             <View style={styles.grid4}>
               {DAYS.map((day) => (
                 <Chip
@@ -313,6 +305,7 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
             </Text>
 
             <Question>{t('workout.setup.lengthQuestion')}</Question>
+            {beginner ? <Text style={[styles.hint, dir.text, { color: c.textSecondary }]}>{t('workout.setup.beginnerLengthHint')}</Text> : null}
             <View style={styles.row}>
               {LENGTHS.map((minutes) => {
                 const selected = settings.sessionMinutes === minutes;
@@ -359,6 +352,9 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
             </View>
           </>
         )}
+        {more ? (
+          <TellUsMore part={(step - SETUP_STEPS) as 1 | 2 | 3} settings={settings} update={update} onOpenRoutine={() => setBuilding(true)} />
+        ) : null}
       </ScrollView>
 
       <View style={[styles.bottomBar, { backgroundColor: c.surface, borderTopColor: c.border }]}>
@@ -401,8 +397,11 @@ const styles = StyleSheet.create({
   segment: { flex: 1, height: 4, borderRadius: 999 },
   content: { paddingHorizontal: 20, paddingTop: 10, paddingBottom: 28 },
   title: { fontSize: 22, fontWeight: '800', letterSpacing: -0.4, marginBottom: 14 },
+  titleMore: { marginBottom: 4 },
+  subtitle: { fontSize: 13, lineHeight: 19, marginBottom: 18 },
+  skip: { minHeight: 44, paddingHorizontal: 6, justifyContent: 'center' },
+  skipText: { fontSize: 14, fontWeight: '700' },
   notice: { marginBottom: 18 },
-  question: { fontSize: 14, fontWeight: '700', marginBottom: 10 },
   hint: { fontSize: 12, marginTop: -6, marginBottom: 10 },
   grid2: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 22 },
   optionCard: { width: '48.5%', minHeight: 76, paddingVertical: 12, paddingHorizontal: 14, borderRadius: 16, borderWidth: 1, gap: 4 },
@@ -424,8 +423,6 @@ const styles = StyleSheet.create({
   wrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 22 },
   grid4: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 8 },
   gridCell: { width: '23%', paddingHorizontal: 4 },
-  chip: { minHeight: 44, paddingHorizontal: 16, borderRadius: 14, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
-  chipText: { fontSize: 13 },
   daysCount: { fontSize: 13, fontWeight: '600', marginBottom: 20 },
   row: { flexDirection: 'row', gap: 8, marginBottom: 22 },
   lengthTile: { flex: 1, minHeight: 52, borderRadius: 12, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },

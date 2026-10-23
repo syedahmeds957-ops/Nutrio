@@ -53,8 +53,10 @@ export function targetText(t: TFunction, target: Target, unit: Prescription['uni
 /** The one-line reason under a target, in the user's language. */
 export function reasonText(t: TFunction, target: Target, tracksLoad: boolean): string {
   const params = { ...target.reasonParams, reps: target.reasonParams?.reps ?? target.repMax };
-  const bodyweightVariant = !tracksLoad && (target.reason === 'in_range_add_reps' || target.reason === 'felt_hard_hold');
-  return t(`workout.reason.${target.reason}${bodyweightVariant ? '_bodyweight' : ''}`, params);
+  const bodyweightVariant =
+    !tracksLoad && (target.reason === 'in_range_add_reps' || target.reason === 'felt_hard_hold' || target.reason === 'from_current_lift');
+  const backAfterBreak = target.reason === 'from_current_lift' && Boolean(target.reasonParams?.back);
+  return t(`workout.reason.${target.reason}${bodyweightVariant ? '_bodyweight' : backAfterBreak ? '_back' : ''}`, params);
 }
 
 export type ReasonTone = 'up' | 'same' | 'new' | 'down';
@@ -68,6 +70,7 @@ export function reasonTone(target: Target): ReasonTone {
       return 'up';
     case 'first_time':
     case 'first_time_pick_weight':
+    case 'from_current_lift':
       return 'new';
     case 'failed_twice_reduce':
       return 'down';

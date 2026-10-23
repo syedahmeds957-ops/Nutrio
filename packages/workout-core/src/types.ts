@@ -101,6 +101,70 @@ export type FocusArea = 'full_body' | 'upper' | 'lower_glutes' | 'core' | 'arms'
 export type SessionMinutes = 20 | 30 | 45 | 60 | 75;
 export type RamadanSlot = 'after_suhoor' | 'before_iftar' | 'after_taraweeh';
 
+// ----- "Tell us more" (phase 6c): all optional -----
+
+export type RoutineSplit = 'full_body' | 'upper_lower' | 'ppl' | 'body_part' | 'classes' | 'other';
+export type TrainingDuration = 'under_3_months' | '3_to_12_months' | 'over_a_year';
+/** Cardio on a typical day, as people count it (not per week). */
+export type CardioHabit = 'none' | 'under_15' | '15_to_30' | '30_to_60' | 'over_60';
+export type CardioKind = 'walking' | 'cycling' | 'running' | 'rowing' | 'elliptical' | 'stairs' | 'swimming';
+export type SportKind = 'football' | 'cricket' | 'padel' | 'running' | 'swimming' | 'physical_job' | 'other';
+/** Beginners: training before, as they would describe it. */
+export type TrainingBackground = 'never' | 'a_little' | 'used_to';
+/** People not training right now: time since they stopped. */
+export type BreakLength = 'under_1_month' | '1_to_6_months' | 'over_6_months';
+export type PushUpAbility = 'none' | '1_to_5' | '6_to_15' | '16_plus';
+export type PlankAbility = 'under_20' | '20_to_45' | 'over_45';
+export type WalkAbility = 'under_10' | '10_to_20' | '20_to_40' | 'over_40';
+
+/** What the user can lift now: weight × reps, or reps alone for bodyweight moves. */
+export interface CurrentLift {
+  exerciseId: string;
+  loadKg?: number;
+  reps: number;
+}
+
+/** A day of the user's own routine, as entered in the routine builder (sets and reps optional). */
+export interface RoutineDay {
+  day: Weekday;
+  exercises: { exerciseId: string; sets?: number; reps?: number }[];
+}
+
+/** The routine a user already follows; the plan keeps its days, kind of split and exercises where safe. */
+export interface ImportedRoutine {
+  days: RoutineDay[];
+}
+
+/**
+ * The setup asks different questions by experience: beginners get simple
+ * checks they can answer (push-ups, plank, walking), people training now get
+ * their routine and lifts, and people returning get how long they've stopped.
+ */
+export interface TrainingProfile {
+  trainingNow?: {
+    active: boolean;
+    daysPerWeek?: number;
+    split?: RoutineSplit;
+    duration?: TrainingDuration;
+    /** Only when not active: their lifts are what they used to do. */
+    breakLength?: BreakLength;
+  };
+  background?: TrainingBackground;
+  ability?: { pushUps?: PushUpAbility; plank?: PlankAbility; walk?: WalkAbility };
+  /** Leave out jumping moves. */
+  avoidJumping?: boolean;
+  lifts?: CurrentLift[];
+  cardio?: { habit?: CardioHabit; likes: CardioKind[] };
+  /** Exercise ids kept when they fit a slot. */
+  likes?: string[];
+  /** Exercise ids never picked, not even as alternates or swaps. */
+  dislikes?: string[];
+  /** The routine they follow now, from the routine builder. */
+  routine?: ImportedRoutine;
+  /** Sports or physical work: no heavy leg day on these days or the day before. */
+  sports?: { kind: SportKind; days: Weekday[] }[];
+}
+
 export interface WorkoutSettings {
   goal: WorkoutGoal;
   experience: Experience;
@@ -117,6 +181,8 @@ export interface WorkoutSettings {
   /** Set from pregnancy or hypertension answers: gentler effort, no jumping. */
   lowIntensity: boolean;
   ramadan: { enabled: boolean; slot?: RamadanSlot };
+  /** Answers from the optional "Tell us more" step. */
+  profile?: TrainingProfile;
 }
 
 export interface Prescription {
@@ -234,6 +300,7 @@ export interface WorkoutLog {
 export type ProgressReason =
   | 'first_time_pick_weight'
   | 'first_time'
+  | 'from_current_lift'
   | 'hit_top_add_load'
   | 'in_range_add_reps'
   | 'failed_twice_reduce'

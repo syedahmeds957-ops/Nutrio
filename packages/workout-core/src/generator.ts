@@ -1,6 +1,7 @@
 import { cardioIntensity, cardioMinutes, cardioPool, REST_DAY_WALK } from './cardio.js';
 import { getExercise } from './catalogue.js';
 import { Caps, prescribe } from './prescription.js';
+import { layoutForRoutine, routineExercisesFor } from './routine.js';
 import { alternatesFor, isAllowed, pickExercise } from './select.js';
 import { chooseSplit, SLOTS_FOR_MINUTES, slotsWithFocus } from './split.js';
 import {
@@ -90,6 +91,44 @@ function fitToTime(slots: PlannedSlot[], targetMinutes: number): PlannedSlot[] {
   return fitted;
 }
 
+/** Leg-heavy sessions and the lower-body main lifts kept off sports days (and the day before). */
+const LEG_TEMPLATES: ReadonlySet<SessionTemplateId> = new Set(['lower', 'legs']);
+const LEG_MAIN_PATTERNS: ReadonlySet<string> = new Set(['squat', 'hinge', 'lunge']);
+
+/** Days a sport or physical job needs fresh legs for: the day itself and the day before. */
+function sportDays(settings: WorkoutSettings): Set<Weekday> {
+  const blocked = new Set<Weekday>();
+  for (const sport of settings.profile?.sports ?? []) {
+    for (const day of sport.days) {
+      blocked.add(day);
+      blocked.add(WEEKDAYS[(WEEKDAYS.indexOf(day) + 6) % 7]);
+    }
+  }
+  return blocked;
+}
+
+/**
+ * The split's sessions laid over the training days. The order of the split
+ * is kept, but it may start further along so leg days miss sports days;
+ * without sports (or with no better order) it is unchanged.
+ */
+function arrangeTemplates(days: readonly Weekday[], templates: readonly SessionTemplateId[], blocked: ReadonlySet<Weekday>): SessionTemplateId[] {
+  const clashes = (order: readonly SessionTemplateId[]) =>
+    days.filter((day, i) => blocked.has(day) && LEG_TEMPLATES.has(order[i])).length;
+  let best = [...templates];
+  for (let shift = 1; shift < templates.length; shift++) {
+    const rotated = templates.map((_, i) => templates[(i + shift) % templates.length]);
+    if (clashes(rotated) < clashes(best)) best = rotated;
+  }
+  return best;
+}
+
+/** Someone who has trained for over a year gets the volume of "some" experience even if they called themselves new. */
+function experienceForVolume(settings: WorkoutSettings): WorkoutSettings['experience'] {
+  const now = settings.profile?.trainingNow;
+  return settings.experience === 'new' && now?.active && now.duration === 'over_a_year' ? 'some' : settings.experience;
+}
+
 interface SessionInput {
   day: Weekday;
   template: SessionTemplateId;
@@ -100,6 +139,10 @@ interface SessionInput {
   slotCount: number;
   targetMinutes: number;
   usedInWeek: Map<string, number>;
+  /** A sports day or the day before: lower-body main lifts get the lighter accessory prescription. */
+  easyLegs: boolean;
+  /** The user's own exercises for this day, kept where they fit. */
+  preferred: ReadonlySet<string>;
 }
 
 function buildSession(input: SessionInput): WorkoutSession {
@@ -122,6 +165,7 @@ function buildSession(input: SessionInput): WorkoutSession {
       slotId,
       usedInSession,
       usedInWeek: input.usedInWeek,
+      preferred: input.preferred,
     });
     if (!pick) continue;
     usedInSession.add(pick.exercise.id);
@@ -131,7 +175,13 @@ function buildSession(input: SessionInput): WorkoutSession {
       role: planned.role,
       exerciseId: pick.exercise.id,
       alternates: [pick.exercise.id],
-      ...prescribe(settings.goal, settings.experience, planned.role, caps, pick.exercise.timed),
+      ...prescribe(
+        settings.goal,
+        experienceForVolume(settings),
+        input.easyLegs && planned.role === 'main' && LEG_MAIN_PATTERNS.has(pick.pattern) ? 'accessory' : planned.role,
+        caps,
+        pick.exercise.timed
+      ),
     });
   }
 
@@ -176,7 +226,13 @@ export function generateWeeklyPlan(settings: WorkoutSettings, options: GenerateO
   if (!/^\d{4}-\d{2}-\d{2}$/.test(options.today)) throw new InvalidWorkoutSettings(`Bad date key ${options.today}`);
 
   const days = WEEKDAYS.filter((day) => settings.trainingDays.includes(day));
-  const { split, templates } = chooseSplit(days.length, settings.experience, settings.location);
+  const blocked = sportDays(settings);
+  const routine = settings.profile?.routine;
+  // A routine the user already follows sets the structure; otherwise the split comes from the day count.
+  const layout = routine ? layoutForRoutine(days, routine, settings) : null;
+  const chosen = chooseSplit(days.length, settings.experience, settings.location);
+  const split = layout ? layout.split : chosen.split;
+  const templates = layout ? layout.templates : arrangeTemplates(days, chosen.templates, blocked);
   const caps: Caps = { ramadan: settings.ramadan.enabled, lowIntensity: settings.lowIntensity };
   const slotCount = Math.min(SLOTS_FOR_MINUTES[settings.sessionMinutes], settings.ramadan.enabled ? 4 : Infinity);
   const targetMinutes = settings.ramadan.enabled
@@ -193,7 +249,10 @@ export function generateWeeklyPlan(settings: WorkoutSettings, options: GenerateO
     const index = seen.get(template) ?? 0;
     seen.set(template, index + 1);
     const variant = (totals.get(template) ?? 0) > 1 ? (index === 0 ? 'a' : 'b') : null;
-    return buildSession({ day, template, variant, settings, seed: options.seed, caps, slotCount, targetMinutes, usedInWeek });
+    return buildSession({
+      day, template, variant, settings, seed: options.seed, caps, slotCount, targetMinutes, usedInWeek, easyLegs: blocked.has(day),
+      preferred: routineExercisesFor(routine, day),
+    });
   });
 
   return {

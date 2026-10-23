@@ -1,6 +1,18 @@
 import { getExercise } from './catalogue.js';
 import { isAllowed } from './select.js';
-import { Exercise, LoggedExercise, PlannedSlot, Target, WeeklyWorkoutPlan, WorkoutLog, WorkoutSettings } from './types.js';
+import {
+  BreakLength,
+  CurrentLift,
+  Exercise,
+  LoggedExercise,
+  PlankAbility,
+  PlannedSlot,
+  PushUpAbility,
+  Target,
+  WeeklyWorkoutPlan,
+  WorkoutLog,
+  WorkoutSettings,
+} from './types.js';
 
 /** The most sets the bodyweight ladder adds up to once there is no harder move. */
 const MAX_LADDER_SETS = 4;
@@ -86,6 +98,36 @@ function reducedLoad(exercise: Exercise, settings: WorkoutSettings, kg: number):
 
 const doneSets = (entry: LoggedExercise) => entry.sets.filter((set) => set.done);
 
+/** Share of an old lift to start from after time off. */
+const BREAK_FACTOR: Record<BreakLength, number> = { under_1_month: 1, '1_to_6_months': 0.9, over_6_months: 0.8 };
+/** Beginners' quick checks, read as a lift: reps of push-ups, seconds of plank. */
+const PUSH_UP_REPS: Record<PushUpAbility, number> = { none: 0, '1_to_5': 4, '6_to_15': 10, '16_plus': 18 };
+const PLANK_SECONDS: Record<PlankAbility, number> = { under_20: 20, '20_to_45': 35, over_45: 50 };
+
+/** A lift the user told us about, or one their beginner checks stand for. */
+function liftFor(exerciseId: string, settings: WorkoutSettings): CurrentLift | undefined {
+  const told = settings.profile?.lifts?.find((l) => l.exerciseId === exerciseId && l.reps > 0);
+  if (told) return told;
+  const ability = settings.profile?.ability;
+  if (exerciseId === 'push-up' && ability?.pushUps && PUSH_UP_REPS[ability.pushUps] > 0) return { exerciseId, reps: PUSH_UP_REPS[ability.pushUps] };
+  if (exerciseId === 'plank' && ability?.plank) return { exerciseId, reps: PLANK_SECONDS[ability.plank] };
+  return undefined;
+}
+
+/**
+ * A starting weight for the slot's range from a lift the user can do now:
+ * their estimated one-rep max (Epley) brought down to the bottom of the
+ * range with the slot's reps in reserve, rounded down to a real step.
+ */
+function loadFromLift(exercise: Exercise, settings: WorkoutSettings, slot: PlannedSlot, loadKg: number, reps: number): number {
+  const oneRepMax = loadKg * (1 + reps / 30);
+  const goal = oneRepMax / (1 + (slot.repMin + slot.targetRir) / 30);
+  const owned = ownedDumbbells(exercise, settings);
+  if (owned.length > 0) return [...owned].reverse().find((w) => w <= goal) ?? owned[0];
+  const inc = loadIncrement(exercise);
+  return Math.max(inc, round2(Math.floor(round2(goal / inc)) * inc));
+}
+
 /** This slot's entries, newest first, with the rating of the session each came from. */
 function entriesFor(slotId: string, history: readonly WorkoutLog[]): { entry: LoggedExercise; log: WorkoutLog }[] {
   return history
@@ -121,6 +163,18 @@ export function nextTarget(
     const previousSets = all[0] ? doneSets(all[0].entry) : [];
     const climbed = previousSets.length >= slot.sets && previousSets.every((set) => set.reps >= slot.repMax);
     if (previous?.harder === exercise.id && climbed) return { ...base, reason: 'ladder_step_up', reasonParams: { reps: slot.repMax } };
+    // What they told us they can lift now beats a guess.
+    const lift = liftFor(exercise.id, settings);
+    if (lift && exercise.tracksLoad && lift.loadKg && lift.loadKg > 0) {
+      // Back after a break: start lighter than they used to lift.
+      const back = BREAK_FACTOR[settings.profile?.trainingNow?.active === false ? (settings.profile.trainingNow.breakLength ?? 'under_1_month') : 'under_1_month'];
+      const loadKg = loadFromLift(exercise, settings, slot, lift.loadKg * back, lift.reps);
+      return { ...base, loadKg, reason: 'from_current_lift', reasonParams: { kg: lift.loadKg, reps: lift.reps, ...(back < 1 ? { back: 1 } : {}) } };
+    }
+    if (lift && !exercise.tracksLoad) {
+      const reps = Math.min(slot.repMax, Math.max(slot.repMin, lift.reps - slot.targetRir));
+      return { ...base, reps, reason: 'from_current_lift', reasonParams: { reps: lift.reps } };
+    }
     return { ...base, reason: exercise.tracksLoad ? 'first_time_pick_weight' : 'first_time' };
   }
 

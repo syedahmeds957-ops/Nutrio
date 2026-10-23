@@ -1373,7 +1373,10 @@
       },
       "lowIntensityNote": "Because of your health answers, sessions stay gentle: no jumping and no lifting to failure. Check with your doctor before you start.",
       "createPlan": "Create my plan",
-      "saveChanges": "Save changes"
+      "saveChanges": "Save changes",
+      "gymNoteBeginner": "You'll start on machines and dumbbells: easier to learn safely.",
+      "beginnerDaysHint": "2–3 days a week, with rest days between, is a great start.",
+      "beginnerLengthHint": "30–45 minutes is plenty while you learn the moves."
     },
     "days": {
       "mon": "Mon",
@@ -1492,7 +1495,10 @@
       "top_dumbbell_hold": "Your heaviest dumbbell: aim for more reps instead",
       "ladder_step_up": "Harder move: you hit {{reps}} on every set, so step up",
       "add_set": "One more set: you reached the top of the range on every set",
-      "hold": "Same as last time: keep every set strong"
+      "hold": "Same as last time: keep every set strong",
+      "from_current_lift": "From your current lift: {{kg}} kg × {{reps}}",
+      "from_current_lift_bodyweight": "From what you can do now: {{reps}}",
+      "from_current_lift_back": "Back after a break: a little lighter than your {{kg}} kg × {{reps}}"
     },
     "log": {
       "finish": "Finish",
@@ -1588,6 +1594,189 @@
       "stat": "Cardio: {{count}} min",
       "walk": "Optional: {{min}}–{{max}} min walk",
       "swapSubtitle": "Cardio you can do with your equipment"
+    },
+    "more": {
+      "step": "Tell us more · {{current}} of {{total}} · optional",
+      "skip": "Skip for now",
+      "title": "Tell us more",
+      "subtitle": "The more we know, the better your plan fits. Every question is optional.",
+      "subtitleBeginner": "A few quick checks so day one feels right. No wrong answers, and every question is optional.",
+      "backgroundQ": "Have you trained before?",
+      "background": {
+        "never": "Never",
+        "a_little": "A little, a while ago",
+        "used_to": "I used to train regularly"
+      },
+      "switchNote": "Sounds like you have some experience. Your plan can start a step up.",
+      "switchCta": "Switch to \"Some experience\"",
+      "pushUpsQ": "How many push-ups can you do in a row?",
+      "pushUpsHint": "On your knees counts.",
+      "pushUps": {
+        "none": "None yet",
+        "1_to_5": "1–5",
+        "6_to_15": "6–15",
+        "16_plus": "16 or more"
+      },
+      "plankQ": "How long can you hold a plank?",
+      "plank": {
+        "under_20": "Under 20 s",
+        "20_to_45": "20–45 s",
+        "over_45": "Over 45 s"
+      },
+      "trainingNowQ": "Are you training now?",
+      "yes": "Yes",
+      "notNow": "Not right now",
+      "daysNowQ": "How many days a week?",
+      "splitQ": "What kind of routine?",
+      "split": {
+        "full_body": "Full body",
+        "upper_lower": "Upper & lower",
+        "ppl": "Push, pull, legs",
+        "body_part": "One body part a day",
+        "classes": "Classes or sport",
+        "other": "Other"
+      },
+      "durationQ": "For how long?",
+      "duration": {
+        "under_3_months": "Under 3 months",
+        "3_to_12_months": "3–12 months",
+        "over_a_year": "Over a year"
+      },
+      "breakQ": "How long since you last trained?",
+      "break": {
+        "under_1_month": "Under a month",
+        "1_to_6_months": "1–6 months",
+        "over_6_months": "Over 6 months"
+      },
+      "liftsQ": "Your current lifts",
+      "liftsHint": "Weight × reps you can do now. We start you from here instead of guessing.",
+      "usedToLiftQ": "What you used to lift",
+      "usedToLiftHint": "We start you a little lighter after a break, then build back up.",
+      "kgField": "Weight in kg for {{name}}",
+      "repsField": "Reps for {{name}}",
+      "repsSuffix": "reps",
+      "addLift": "+ Add a lift",
+      "addLiftTitle": "Add a lift",
+      "walkQ": "How long can you walk briskly without stopping?",
+      "walk": {
+        "under_10": "Under 10 min",
+        "10_to_20": "10–20 min",
+        "20_to_40": "20–40 min",
+        "over_40": "Over 40 min"
+      },
+      "habitQ": "On a typical day, how much cardio do you do?",
+      "habit": {
+        "none": "None",
+        "under_15": "Under 15 min",
+        "15_to_30": "15–30 min",
+        "30_to_60": "30–60 min",
+        "over_60": "Over an hour"
+      },
+      "cardioLikesQ": "Which cardio do you enjoy?",
+      "cardioKind": {
+        "walking": "Walking",
+        "cycling": "Cycling",
+        "running": "Running",
+        "rowing": "Rowing",
+        "elliptical": "Elliptical",
+        "stairs": "Stairs",
+        "swimming": "Swimming"
+      },
+      "avoidJumping": "Leave out jumping exercises",
+      "likesQ": "Exercises you like",
+      "likesHint": "We keep these in your plan when they fit.",
+      "dislikesQ": "Exercises to avoid",
+      "dislikesHint": "We never pick these, not even as a swap.",
+      "remove": "Remove {{name}}",
+      "add": "+ Add",
+      "sportsQ": "Do you play a sport or have a physical job?",
+      "sportsHint": "So heavy leg work never lands on those days or the day before.",
+      "sport": {
+        "football": "Football",
+        "cricket": "Cricket",
+        "padel": "Padel",
+        "running": "Running",
+        "swimming": "Swimming",
+        "physical_job": "Physical job",
+        "other": "Other"
+      },
+      "sportDaysQ": "{{sport}} · which days?",
+      "sportNote": "No heavy leg day on these days or the day before.",
+      "searchLabel": "Search exercises",
+      "searchPlaceholder": "Exercise name",
+      "searchHint": "Search in English or Arabic, e.g. “bench” or “ضغط”.",
+      "noResults": "Nothing found. Try another name.",
+      "added": "Added",
+      "haveRoutine": "Already follow a routine?",
+      "editRoutine": "Your routine is entered",
+      "haveRoutineSub": "Enter it and we'll keep what works and fix the rest"
+    },
+    "routine": {
+      "title": "Your current routine",
+      "subtitle": "Add what you do now, day by day. We'll keep what works and fix the rest.",
+      "daysQ": "Which days do you train?",
+      "emptyDay": "No exercises yet for this day.",
+      "addExercise": "Add exercise",
+      "setsField": "Sets for {{name}}",
+      "repsField": "Reps for {{name}}",
+      "moveUp": "Move {{name}} up",
+      "moveDown": "Move {{name}} down",
+      "clear": "Clear my routine",
+      "needs": "Add 2–6 days, each with at least one exercise.",
+      "improve": "Improve my routine"
+    },
+    "improved": {
+      "over": "YOUR ROUTINE, IMPROVED",
+      "title": "What we improved",
+      "subtitle": "We kept your {{days}} training days and {{count}} of your exercises.",
+      "kept": "KEPT",
+      "changed": "CHANGED",
+      "added": "ADDED",
+      "listSeparator": ", ",
+      "andSeparator": " and ",
+      "keptDays": "Your days: {{days}}",
+      "keptDaysWhy": "You train on these days now, so we kept them.",
+      "keptMore": "{{names}} and {{count}} more",
+      "keptExercisesWhy": "Your exercises stay where they fit.",
+      "leftOutOne": "Left out: {{name}}",
+      "leftOut": "{{day}}: {{names}} left out",
+      "leftOutWhy": "{{count}} exercises fit in your session length.",
+      "why": {
+        "equipment": "Needs equipment you don't have.",
+        "joint": "Loads a joint you asked us to protect.",
+        "level": "Better once you have some training behind you.",
+        "jumping": "A jumping move, left out as you asked.",
+        "dislike": "You asked us to avoid it."
+      },
+      "rebalanced": "Every muscle, every week",
+      "rebalancedWhy": "Your week had no {{missing}} work, so we used a balanced split ({{split}}).",
+      "group": {
+        "push": "pushing",
+        "pull": "pulling",
+        "lower": "leg"
+      },
+      "moved": "{{session}} moved from {{from}} to {{to}}",
+      "movedWhy": "So the same muscles aren't worked hard on back-to-back days or right before your sport.",
+      "pushPull": "Pushing {{fromPush}} → {{toPush}} sets, pulling {{fromPull}} → {{toPull}} sets a week",
+      "pushPullWhy": "Balanced pushing and pulling protects your shoulders and posture.",
+      "volume": "{{group}}: {{from}} → {{to}} sets a week",
+      "volumeHighWhy": "Over 20 hard sets a week adds tiredness, not muscle.",
+      "volumeLowWhy": "Too few sets a week to keep improving.",
+      "muscle": {
+        "chest": "Chest",
+        "back": "Back",
+        "legs": "Legs",
+        "shoulders": "Shoulders",
+        "arms": "Arms"
+      },
+      "goalReps": "Reps set for your goal",
+      "goalRepsWhy": "Your rep ranges now match what you're training for.",
+      "cardio": "Cardio · {{count}} min after each session",
+      "cardioWhy": "Good for your heart and your recovery.",
+      "startWeights": "Starting weights from your lifts",
+      "startWeightsWhy": "Your first targets come from what you lift now, not a guess.",
+      "foot": "You can still swap any exercise from the day screen.",
+      "seePlan": "See my plan"
     }
   }
 }

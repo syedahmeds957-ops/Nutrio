@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import type { PlannedSlot, WeeklyWorkoutPlan, WorkoutLog, WorkoutSettings } from '@nutrio/workout-core';
+import { describeRoutineChanges, type PlannedSlot, type RoutineChange, type WeeklyWorkoutPlan, type WorkoutLog, type WorkoutSettings } from '@nutrio/workout-core';
 import type { LifestyleSurveyPayload } from '../../survey/types.js';
 import type { ComputedUserPlan } from '../../plan/types.js';
 import { useTheme } from '../../theme.js';
@@ -12,6 +12,7 @@ import { settingsForEdit } from '../setupState.js';
 import { hydrateWorkoutPlan, loadWorkoutPlan } from '../workoutStorage.js';
 import { hydrateWorkoutLogs, loadWorkoutLogs } from '../workoutLogStorage.js';
 import { WorkoutSetupScreen } from './WorkoutSetupScreen.js';
+import { ImprovedScreen } from './ImprovedScreen.js';
 import { buildWeekView } from '../weekView.js';
 import { WorkoutDayScreen } from './WorkoutDayScreen.js';
 import { WorkoutWeekScreen } from './WorkoutWeekScreen.js';
@@ -37,6 +38,8 @@ export const WorkoutsScreen: React.FC<WorkoutsScreenProps> = ({ survey, activePl
   /** The missed day "Do it today" opened, which starts logging straight away. */
   const [autoStartKey, setAutoStartKey] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
+  /** Shown once after a routine the user entered becomes their plan. */
+  const [improvements, setImprovements] = useState<RoutineChange[] | null>(null);
   const savedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -66,6 +69,17 @@ export const WorkoutsScreen: React.FC<WorkoutsScreenProps> = ({ survey, activePl
   // Health answers can change after the plan was made; the survey is the source for the intensity cap.
   const fromSurvey = defaultWorkoutSettings({ survey, plan: activePlan });
 
+  /** A new or edited plan; when it came from the user's own routine, show what changed and why. */
+  const adopt = (next: WeeklyWorkoutPlan, options?: { improve: boolean }) => {
+    setPlan(next);
+    const routine = next.settings.profile?.routine;
+    if (options?.improve && routine) setImprovements(describeRoutineChanges(routine, next));
+  };
+
+  if (plan && improvements) {
+    return <ImprovedScreen plan={plan} changes={improvements} onDone={() => setImprovements(null)} />;
+  }
+
   if (!plan) {
     return (
       <WorkoutSetupScreen
@@ -73,7 +87,7 @@ export const WorkoutsScreen: React.FC<WorkoutsScreenProps> = ({ survey, activePl
         prefilled={survey !== null}
         initialSettings={fromSurvey}
         onCancel={onBack}
-        onSave={(settings: WorkoutSettings) => setPlan(createWorkoutPlan(settings))}
+        onSave={(settings: WorkoutSettings, options) => adopt(createWorkoutPlan(settings), options)}
       />
     );
   }
@@ -84,8 +98,8 @@ export const WorkoutsScreen: React.FC<WorkoutsScreenProps> = ({ survey, activePl
         mode="edit"
         initialSettings={{ ...settingsForEdit(plan.settings), lowIntensity: fromSurvey.lowIntensity }}
         onCancel={() => setEditing(false)}
-        onSave={(settings: WorkoutSettings) => {
-          setPlan(updateWorkoutPlan(plan, settings));
+        onSave={(settings: WorkoutSettings, options) => {
+          adopt(updateWorkoutPlan(plan, settings), options);
           setEditing(false);
         }}
       />

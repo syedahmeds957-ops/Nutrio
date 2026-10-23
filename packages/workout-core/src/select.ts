@@ -52,8 +52,19 @@ export function isAllowed(exercise: Exercise, settings: WorkoutSettings): boolea
   if (exercise.jointLoads.some((joint) => settings.protectedJoints.includes(joint))) return false;
   const capped = capsApply({ ramadan: settings.ramadan.enabled, lowIntensity: settings.lowIntensity });
   if (capped && exercise.highImpact) return false;
+  if (settings.profile?.dislikes?.includes(exercise.id)) return false;
+  if (settings.profile?.avoidJumping && exercise.highImpact) return false;
   return true;
 }
+
+/** Someone who can do few or no push-ups starts on the easier variation of a pushing move. */
+function tooHardToStart(exercise: Exercise, settings: WorkoutSettings): boolean {
+  const pushUps = settings.profile?.ability?.pushUps;
+  return (pushUps === 'none' || pushUps === '1_to_5') && exercise.pattern === 'horizontal_push' && Boolean(exercise.easier);
+}
+
+/** A liked (or already lifted) exercise wins over equals and small preferences, never over a clearly worse fit (an isolation move as a main lift). */
+const LIKED_BONUS = 2.5;
 
 /** FNV-1a: a stable, seedable tie-breaker so the same seed always gives the same plan. */
 export function hashString(value: string): number {
@@ -79,6 +90,10 @@ function preference(exercise: Exercise, role: SlotRole, settings: WorkoutSetting
   } else if (settings.location === 'home_equipment') {
     if (!exercise.equipment.some((item) => OWNED_HOME_LOAD.has(item))) score += 2;
   }
+  // A lift the user told us about is one they do and know: keep it like a liked exercise.
+  const known = settings.profile?.likes?.includes(exercise.id) || settings.profile?.lifts?.some((lift) => lift.exerciseId === exercise.id && lift.reps > 0);
+  if (known) score -= LIKED_BONUS;
+  if (tooHardToStart(exercise, settings)) score += 4;
   return score;
 }
 
@@ -126,6 +141,8 @@ export interface PickInput {
   usedInSession: ReadonlySet<string>;
   /** Exercises used earlier in the week: allowed, but ranked lower each time they repeat. */
   usedInWeek: WeekUsage;
+  /** The user's own exercises for this day (their routine): taken first when they fit. */
+  preferred?: ReadonlySet<string>;
 }
 
 /** The best exercise for a slot, falling back to related patterns; null only when nothing at all fits. */
@@ -138,7 +155,8 @@ export function pickExercise(input: PickInput): Pick | null {
     );
     if (pool.length === 0) continue;
     const ranked = rankCandidates(pool, input.role, input.settings, input.seed, input.slotId, input.usedInWeek);
-    return { exercise: ranked[0], pattern };
+    const theirs = input.preferred ? ranked.find((exercise) => input.preferred!.has(exercise.id)) : undefined;
+    return { exercise: theirs ?? ranked[0], pattern };
   }
   return null;
 }

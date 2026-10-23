@@ -105,6 +105,7 @@ Assumptions accepted with the approval:
 | 2026-10-22 | 0 | `textSecondary` (light) → `#556275`, `floatingBarInactive` (dark) → `#9CA3AF` in phase 3 | Existing values fail AA contrast on small labels |
 | 2026-10-22 | 1 | Own EN/AR instructions, 169 exercises, `timed` field, Vitest image setup file, flutter kicks moved to glutes/bench | Source text didn't match its photos; see the phase 1 record |
 | 2026-10-22 | 2 | Empty-pool fallback patterns for home with no equipment | Phase 1 known gaps |
+| 2026-10-23 | 6c | User: questions follow earlier answers (beginner checks vs current lifts vs returning after a break); cardio asked per day. Routine stored in the profile so edits keep it; lifts count like likes; push-only surplus days become upper days; move up/down instead of drag | See the phase 6c record |
 | 2026-10-23 | 6b | Cardio built as planned. Interval moves keep up to 3 places in the cardio swap list; stored plans gain cardio through `upgradePlan`; the finisher display was removed | See the phase 6b record |
 | 2026-10-23 | 6b/6c | User: cardio as a block after every session plus rest-day walks, built next as 6b. Then 6c: an optional "Tell us more" step (current training and lifts, cardio habits, likes/dislikes, sports days), an existing routine entered by picking from our catalogue, improved as "keep it, fix the gaps" with a reason per change. Mockups first for both | Phase 6b and 6c files |
 | 2026-10-23 | 6 | `swapCandidates(plan, slotId)`; ladder climbs aren't shown as swaps; step-up reason needs a real top-out; no device checks with hooks that save data while a real account is signed in on the simulator | See the phase 6 record |
@@ -122,11 +123,11 @@ Assumptions accepted with the approval:
 | 1 Catalogue + images | done 2026-10-22: 169 exercises, 10 MB images, all checks green ([record](phase-01-catalogue-and-images.md#execution-record-2026-10-22)) | `33c16ca` |
 | 2 Generator | done 2026-10-23: 1,620-plan grid green ([record](phase-02-generator.md#execution-record-2026-10-23)) | `ada5c3d` |
 | 3 Setup, storage, navigation | done 2026-10-23: web flow 13/13, iPhone checked ([record](phase-03-setup-storage-navigation.md#execution-record-2026-10-23)) | `5b7268e` |
-| 4 Week + day screens | done 2026-10-23: web flow 17/17, iPhone checked ([record](phase-04-week-and-day-screens.md#execution-record-2026-10-23)) | not committed (waits for the user's command) |
-| 5 Logging + progression | done 2026-10-23: Checkpoint A, web flow 30/30, iPhone checked; startup hang fixed ([record](phase-05-logging-and-progression.md#execution-record-2026-10-23)) | not committed (waits for the user's command) |
-| 6 Manual swap | done 2026-10-23: web flow 18/18; iPhone check skipped, a real account is signed in there ([record](phase-06-manual-swap.md#execution-record-2026-10-23)) | not committed (waits for the user's command) |
-| 6b Cardio | done 2026-10-23: mockups approved, web flow 18/18 ([record](phase-06b-cardio.md#execution-record-2026-10-23)) | not committed (waits for the user's command) |
-| 6c Tell us more + routine import | planned, waits for the user's command | |
+| 4 Week + day screens | done 2026-10-23: web flow 17/17, iPhone checked ([record](phase-04-week-and-day-screens.md#execution-record-2026-10-23)) | `1e6dc74` (one commit for 4–6b, built on top of each other) |
+| 5 Logging + progression | done 2026-10-23: Checkpoint A, web flow 30/30, iPhone checked; startup hang fixed ([record](phase-05-logging-and-progression.md#execution-record-2026-10-23)) | `1e6dc74` (one commit for 4–6b, built on top of each other) |
+| 6 Manual swap | done 2026-10-23: web flow 18/18; iPhone check skipped, a real account is signed in there ([record](phase-06-manual-swap.md#execution-record-2026-10-23)) | `1e6dc74` (one commit for 4–6b, built on top of each other) |
+| 6b Cardio | done 2026-10-23: mockups approved, web flow 18/18 ([record](phase-06b-cardio.md#execution-record-2026-10-23)) | `1e6dc74` (one commit for 4–6b, built on top of each other) |
+| 6c Tell us more + routine import | done 2026-10-23: questions follow experience, routine builder, "What we improved"; web 18/18 + 13/13 ([record](phase-06c-tell-us-more-and-routine-import.md#execution-record-2026-10-23)) | not committed (waits for the user's command) |
 | 7 Ramadan mode | not started | |
 | 8 Cloud sync | not started | |
 | 9 Calorie link | not started | |
