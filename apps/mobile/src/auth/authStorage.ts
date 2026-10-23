@@ -10,6 +10,10 @@ import {
   OtpResult,
 } from './types.js';
 import { errorMessage, isNetworkError } from '../common/errors.js';
+import { withTimeout } from '../common/withTimeout.js';
+
+/** How long boot waits for Supabase to hand back the saved session before using the device copy. */
+const SESSION_TIMEOUT_MS = 6000;
 
 const STORAGE_KEY = 'nutrio_auth_session';
 const MOCK_USERS_REGISTRY_KEY = 'nutrio_mock_users_registry';
@@ -298,7 +302,9 @@ export async function restoreSession(): Promise<AuthSession | null> {
   }
 
   try {
-    const { data, error } = await supabase.auth.getSession();
+    // Reading the session can refresh the token over the network; a stalled
+    // refresh must not hold the app on its splash screen.
+    const { data, error } = await withTimeout(supabase.auth.getSession(), SESSION_TIMEOUT_MS, 'Reading the Supabase session');
     if (error || !data.session) {
       return loadPersistedSession();
     }

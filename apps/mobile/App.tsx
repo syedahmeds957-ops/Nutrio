@@ -80,6 +80,7 @@ import {
 import { hydrateCustomDishes, releaseCustomDishCache } from './src/tracker/customDishes.js';
 import { hydrateWorkoutPlan, releaseWorkoutCache } from './src/workout/workoutStorage.js';
 import { WorkoutsScreen } from './src/workout/ui/WorkoutsScreen.js';
+import { TimeoutError, withTimeout } from './src/common/withTimeout.js';
 import { fetchActivityHistory } from './src/sync/activitySync.js';
 import { purgeLegacyAiKeys } from './src/ai/ai-service.js';
 import { addDaysToKey, localDateKey } from './src/common/dateKey.js';
@@ -126,6 +127,15 @@ function recoverWith<T>(step: string, fallback: T) {
   };
 }
 
+/**
+ * Boot time limits. Each network step falls back to on-device data when it
+ * stalls, fonts fall back to the system face, and the backstop guarantees the
+ * splash clears even if something unforeseen never settles.
+ */
+const CLOUD_TIMEOUT_MS = 8000;
+const FONT_WAIT_MS = 3000;
+const BOOT_MAX_MS = 15000;
+
 // Keep the native splash (app logo) up until the session restore finishes.
 SplashScreen.preventAutoHideAsync().catch(recoverWith('Holding the splash screen', undefined));
 SplashScreen.setOptions({ duration: 300, fade: true });
@@ -136,7 +146,9 @@ function NutrioAppContent() {
   const { t } = useTranslation();
   const dir = useTextDirection();
   const { language } = useI18nState();
-  const [fontsLoaded] = useFonts(APP_FONTS);
+  const [fontsLoaded, fontError] = useFonts(APP_FONTS);
+  /** Set once fonts have had their chance; the app then shows in the system face and switches when they arrive. */
+  const [fontWaitOver, setFontWaitOver] = useState(false);
   const { width: windowWidth } = useWindowDimensions();
   // The current screen plus the screens behind it, so Back returns to where the
   // user came from (see navigation/history.ts).
@@ -145,6 +157,9 @@ function NutrioAppContent() {
     startAt(getAuthSession() ? 'active_tracker' : 'auth')
   );
   const appState = nav.route;
+  /** The live route, for async boot work that finishes after the user has moved on. */
+  const routeRef = useRef(appState);
+  routeRef.current = appState;
   /** Starts over at `route` with nothing behind it: sign-in, sign-out, a finished flow. */
   const resetTo = (route: AppRoute) => setNav(startAt(route));
   const [isGuest, setIsGuest] = useState<boolean>(false);
@@ -204,7 +219,9 @@ function NutrioAppContent() {
   // Pulls the signed-in user's activity history down and seeds local storage,
   // so a re-login or a new device shows the days they already logged.
   const restoreActivityHistory = async () => {
-    const remote = await fetchActivityHistory().catch(recoverWith('Fetching activity history', []));
+    const remote = await withTimeout(fetchActivityHistory(), CLOUD_TIMEOUT_MS, 'Fetching activity history').catch(
+      recoverWith('Fetching activity history', [])
+    );
     if (remote.length > 0) {
       primeActivitiesFromRemote(remote);
     }
@@ -226,11 +243,40 @@ function NutrioAppContent() {
     ]);
   };
 
+  // A cloud restore that missed the boot time limit. It only fills gaps: the
+  // device copy (or anything the user has done since) is never overwritten.
+  const applyLateCloudData = (hydration: Awaited<ReturnType<typeof hydrateUserDataFromCloud>>) => {
+    if (hydration?.surveyPayload) {
+      const survey = stripRetiredSurveyFields(hydration.surveyPayload);
+      setSurveyData((current) => {
+        if (current) return current;
+        savePersistedSurvey(survey);
+        return { payload: survey, bridged: bridgeSurveyToNutritionCore(survey) };
+      });
+    }
+    const latePlan = hydration?.computedPlan;
+    if (latePlan) {
+      setActivePlan((current) => {
+        if (current) return current;
+        savePersistedPlan(latePlan);
+        return latePlan;
+      });
+    }
+  };
+
   // Brings a signed-in user's plan and survey answers back, from the cloud when
   // the backend is reachable and from durable on-device storage otherwise, and
   // reports whether onboarding still needs to run.
   const restoreUserData = async (): Promise<{ plan: ComputedUserPlan | null }> => {
-    const hydration = await hydrateUserDataFromCloud().catch(recoverWith('Restoring cloud data', null));
+    const cloud = hydrateUserDataFromCloud();
+    const hydration = await withTimeout(cloud, CLOUD_TIMEOUT_MS, 'Restoring cloud data').catch((err: unknown) => {
+      // Too slow to hold the splash for, but still the user's data: fill in
+      // whatever the device didn't have once it lands.
+      if (err instanceof TimeoutError) {
+        cloud.then(applyLateCloudData).catch(recoverWith('Restoring cloud data late', undefined));
+      }
+      return recoverWith('Restoring cloud data', null)(err);
+    });
     await restoreActivityHistory();
 
     const storedSurvey =
@@ -266,11 +312,17 @@ function NutrioAppContent() {
   // Restore Supabase session on boot & hydrate personalized cloud data
   useEffect(() => {
     let isMounted = true;
+    const backstop = setTimeout(() => {
+      if (!isMounted) return;
+      console.warn(`[NutrioApp] Boot still restoring after ${BOOT_MAX_MS} ms; showing the app anyway`);
+      setIsBootstrapping(false);
+    }, BOOT_MAX_MS);
     restoreSession()
       .then(async (session) => {
         if (session) {
           const { plan } = await restoreUserData();
-          if (isMounted && appState === 'auth') {
+          // Read live: after the backstop the user may already have signed in or gone on as a guest.
+          if (isMounted && routeRef.current === 'auth') {
             if (session.user.surveyCompleted || plan) {
               resetTo('active_tracker');
             } else {
@@ -282,6 +334,7 @@ function NutrioAppContent() {
       })
       .catch(recoverWith('Restoring the session', undefined))
       .finally(() => {
+        clearTimeout(backstop);
         if (isMounted) {
           setIsBootstrapping(false);
         }
@@ -289,8 +342,20 @@ function NutrioAppContent() {
 
     return () => {
       isMounted = false;
+      clearTimeout(backstop);
     };
   }, []);
+
+  // Fonts that fail or stall must not hold the splash: the system face is
+  // used until (unless) they register.
+  useEffect(() => {
+    const timer = setTimeout(() => setFontWaitOver(true), FONT_WAIT_MS);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (fontError) recoverWith('Loading fonts', undefined)(fontError);
+  }, [fontError]);
 
   // Text only switches off the platform font once the files are registered —
   // naming a font the platform has not loaded renders nothing at all.
@@ -309,8 +374,9 @@ function NutrioAppContent() {
   }, [language]);
 
   // The splash holds until the typefaces are ready, so no screen paints in
-  // the system fallback face and then reflows into Inter.
-  const isWaitingForFonts = !fontsLoaded;
+  // the system fallback face and then reflows into Inter, but only for a
+  // few seconds, and not at all once loading has failed.
+  const isWaitingForFonts = !fontsLoaded && !fontError && !fontWaitOver;
 
   useEffect(() => {
     if (!isBootstrapping && !isWaitingForFonts) {
