@@ -1,6 +1,7 @@
 import { cardioIntensity, cardioMinutes, cardioPool, REST_DAY_WALK } from './cardio.js';
 import { getExercise } from './catalogue.js';
 import { Caps, prescribe } from './prescription.js';
+import { isRamadan, settingsOn } from './ramadan.js';
 import { layoutForRoutine, routineExercisesFor } from './routine.js';
 import { alternatesFor, isAllowed, pickExercise } from './select.js';
 import { chooseSplit, SLOTS_FOR_MINUTES, slotsWithFocus } from './split.js';
@@ -219,11 +220,15 @@ export interface GenerateOptions {
   today: string;
   /** ISO timestamp for `createdAt`; defaults to the start of `today`. */
   now?: string;
+  /** The date the Ramadan caps are judged on (defaults to `today`). */
+  asOf?: string;
 }
 
-export function generateWeeklyPlan(settings: WorkoutSettings, options: GenerateOptions): WeeklyWorkoutPlan {
-  validateSettings(settings);
+export function generateWeeklyPlan(userSettings: WorkoutSettings, options: GenerateOptions): WeeklyWorkoutPlan {
+  validateSettings(userSettings);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(options.today)) throw new InvalidWorkoutSettings(`Bad date key ${options.today}`);
+  // Ramadan mode only applies during Ramadan; the plan is built with the settings as they apply then.
+  const settings = settingsOn(userSettings, options.asOf ?? options.today);
 
   const days = WEEKDAYS.filter((day) => settings.trainingDays.includes(day));
   const blocked = sportDays(settings);
@@ -260,11 +265,12 @@ export function generateWeeklyPlan(settings: WorkoutSettings, options: GenerateO
     createdAt: options.now ?? `${options.today}T00:00:00.000Z`,
     blockStart: options.today,
     seed: options.seed,
-    settings,
+    settings: userSettings,
     split,
     sessions,
     swaps: {},
     restDayWalk: { ...REST_DAY_WALK },
+    fasting: settings.ramadan.enabled,
   };
 }
 
@@ -276,14 +282,16 @@ export function generateWeeklyPlan(settings: WorkoutSettings, options: GenerateO
 export function regeneratePlan(
   previous: WeeklyWorkoutPlan,
   settings: WorkoutSettings,
-  options: { now?: string } = {}
+  options: { now?: string; asOf?: string } = {}
 ): WeeklyWorkoutPlan {
-  const next = generateWeeklyPlan(settings, { seed: previous.seed, today: previous.blockStart, now: options.now });
+  const asOf = options.asOf ?? options.now?.slice(0, 10) ?? previous.blockStart;
+  const next = generateWeeklyPlan(settings, { seed: previous.seed, today: previous.blockStart, now: options.now, asOf });
+  const applied = settingsOn(settings, asOf);
   const slotPattern = new Map(next.sessions.flatMap((session) => session.slots.map((slot) => [slot.slotId, slot.pattern] as const)));
   const cardioChoices = new Map(next.sessions.flatMap((session) => (session.cardio ? [[session.cardio.slotId, session.cardio.alternates] as const] : [])));
   for (const [slotId, exerciseId] of Object.entries(previous.swaps)) {
     const exercise = getExercise(exerciseId);
-    const fitsSlot = exercise && slotPattern.get(slotId) === exercise.pattern && isAllowed(exercise, settings);
+    const fitsSlot = exercise && slotPattern.get(slotId) === exercise.pattern && isAllowed(exercise, applied);
     const fitsCardio = cardioChoices.get(slotId)?.includes(exerciseId);
     if (fitsSlot || fitsCardio) next.swaps[slotId] = exerciseId;
   }
@@ -298,6 +306,18 @@ export function regeneratePlan(
 export function upgradePlan(plan: WeeklyWorkoutPlan): WeeklyWorkoutPlan {
   if (plan.restDayWalk) return plan;
   return { ...regeneratePlan(plan, plan.settings), createdAt: plan.createdAt };
+}
+
+/**
+ * The plan as it should be on a date: rebuilt when Ramadan has started or
+ * ended since it was made (for users who use Ramadan mode), keeping its seed,
+ * week numbers, swaps and creation time. Returns the same object otherwise.
+ */
+export function planForDate(plan: WeeklyWorkoutPlan, dateKey: string): WeeklyWorkoutPlan {
+  const shouldFast = plan.settings.ramadan.enabled && isRamadan(dateKey);
+  const fasting = plan.fasting ?? plan.settings.ramadan.enabled;
+  if (shouldFast === fasting && plan.fasting !== undefined) return plan;
+  return { ...regeneratePlan(plan, plan.settings, { asOf: dateKey }), createdAt: plan.createdAt };
 }
 
 /** Whole weeks since the block started (0 in the first week). */

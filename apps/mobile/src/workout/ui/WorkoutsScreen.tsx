@@ -6,7 +6,7 @@ import type { ComputedUserPlan } from '../../plan/types.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { localDateKey } from '../../common/dateKey.js';
-import { createWorkoutPlan, recordWorkout, resetExercise, swapExercise, updateWorkoutPlan } from '../planActions.js';
+import { createWorkoutPlan, recordWorkout, resetExercise, setRamadanMode, swapExercise, updateWorkoutPlan } from '../planActions.js';
 import { defaultWorkoutSettings } from '../settingsFromSurvey.js';
 import { settingsForEdit } from '../setupState.js';
 import { hydrateWorkoutPlan, loadWorkoutPlan } from '../workoutStorage.js';
@@ -148,6 +148,7 @@ export const WorkoutsScreen: React.FC<WorkoutsScreenProps> = ({ survey, activePl
       plan={plan}
       week={week}
       saved={saved}
+      onRamadanChange={(ramadan) => setPlan(setRamadanMode(plan, ramadan))}
       onBack={onBack}
       onEdit={() => setEditing(true)}
       onOpenDay={setSelectedDayKey}

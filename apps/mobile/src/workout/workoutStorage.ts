@@ -1,4 +1,5 @@
-import { upgradePlan, type WeeklyWorkoutPlan } from '@nutrio/workout-core';
+import { planForDate, upgradePlan, type WeeklyWorkoutPlan } from '@nutrio/workout-core';
+import { localDateKey } from '../common/dateKey.js';
 import { authStorageAdapter } from '../supabase/client.js';
 import { getAuthSession } from '../auth/authStorage.js';
 
@@ -47,7 +48,8 @@ function parsePlan(raw: string | null): { plan: WeeklyWorkoutPlan; upgraded: boo
   try {
     const parsed = JSON.parse(raw) as WeeklyWorkoutPlan;
     if (parsed?.version !== 1 || !Array.isArray(parsed.sessions) || !parsed.settings) return null;
-    const plan = upgradePlan(parsed);
+    // Older plans gain what the generator now adds, and every plan follows the calendar (Ramadan mode).
+    const plan = planForDate(upgradePlan(parsed), localDateKey());
     return { plan, upgraded: plan !== parsed };
   } catch {
     return null;
@@ -56,7 +58,13 @@ function parsePlan(raw: string | null): { plan: WeeklyWorkoutPlan; upgraded: boo
 
 export function loadWorkoutPlan(): WeeklyWorkoutPlan | null {
   const key = planKey();
-  if (memoryPlans.has(key)) return memoryPlans.get(key) ?? null;
+  if (memoryPlans.has(key)) {
+    const cached = memoryPlans.get(key) ?? null;
+    // An app left open across the start or end of Ramadan catches up on the next read.
+    const dated = cached ? planForDate(cached, localDateKey()) : null;
+    if (dated && dated !== cached) saveWorkoutPlan(dated);
+    return dated;
+  }
 
   let stored: ReturnType<typeof parsePlan> = null;
   if (hasStorage()) {

@@ -28,7 +28,7 @@ export function createWorkoutPlan(settings: WorkoutSettings, now: Date = new Dat
 
 /** The plan after "Edit plan": same seed and week numbering, swaps kept where they still fit. */
 export function updateWorkoutPlan(previous: WeeklyWorkoutPlan, settings: WorkoutSettings, now: Date = new Date()): WeeklyWorkoutPlan {
-  const plan = regeneratePlan(previous, settingsForSave(settings), { now: now.toISOString() });
+  const plan = regeneratePlan(previous, settingsForSave(settings), { now: now.toISOString(), asOf: localDateKey(now) });
   saveWorkoutPlan(plan);
   return plan;
 }
@@ -60,4 +60,13 @@ export function resetExercise(plan: WeeklyWorkoutPlan, slotId: string): WeeklyWo
   const next = resetSwap(plan, slotId);
   if (next !== plan) saveWorkoutPlan(next);
   return next;
+}
+
+/**
+ * Ramadan mode switched from the week: the plan regenerates with the fasting
+ * caps (or without them), keeping its seed, week numbers and swaps that still
+ * fit. Logs are separate and untouched.
+ */
+export function setRamadanMode(plan: WeeklyWorkoutPlan, ramadan: WorkoutSettings['ramadan'], now: Date = new Date()): WeeklyWorkoutPlan {
+  return updateWorkoutPlan(plan, { ...plan.settings, ramadan }, now);
 }

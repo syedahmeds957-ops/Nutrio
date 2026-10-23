@@ -266,6 +266,12 @@ export interface WeeklyWorkoutPlan {
   swaps: Record<string, string>;
   /** The optional walk suggested on rest days, in minutes. Absent on plans made before phase 6b. */
   restDayWalk?: { minMinutes: number; maxMinutes: number };
+  /**
+   * Whether the Ramadan fasting caps are applied. `settings.ramadan.enabled`
+   * is the user's "use during Ramadan"; this is whether it was Ramadan when
+   * the plan was last built. Absent on older plans (then it equals the setting).
+   */
+  fasting?: boolean;
 }
 
 // ----- Logging and progression -----
@@ -305,6 +311,7 @@ export type ProgressReason =
   | 'in_range_add_reps'
   | 'failed_twice_reduce'
   | 'felt_hard_hold'
+  | 'ramadan_hold'
   | 'top_dumbbell_hold'
   | 'ladder_step_up'
   | 'add_set'

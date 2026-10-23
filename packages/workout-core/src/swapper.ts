@@ -1,4 +1,5 @@
 import { cardioPool } from './cardio.js';
+import { planSettings } from './ramadan.js';
 import { EXERCISES, getExercise } from './catalogue.js';
 import { exerciseForWeek } from './generator.js';
 import { isAllowed } from './select.js';
@@ -50,7 +51,7 @@ export function swapCandidates(plan: WeeklyWorkoutPlan, slotId: string, options:
     // moves where they suit. Intervals get their own places so a long steady
     // list (a full gym) never hides them.
     const current = plan.swaps[slotId] ?? cardio.exerciseId;
-    const pool = cardioPool(plan.settings).filter((e) => e.id !== current);
+    const pool = cardioPool(planSettings(plan)).filter((e) => e.id !== current);
     const steady = pool.filter((e) => e.pattern === 'cardio').slice(0, limit);
     const intervals = pool.filter((e) => e.pattern === 'conditioning').slice(0, Math.min(limit, MAX_INTERVAL_CHOICES));
     return [...steady, ...intervals];
@@ -64,7 +65,8 @@ export function swapCandidates(plan: WeeklyWorkoutPlan, slotId: string, options:
   const primary = new Set(current.primaryMuscles);
   const overlap = (e: Exercise) => e.primaryMuscles.filter((m) => primary.has(m)).length;
 
-  return EXERCISES.filter((e) => e.pattern === found.slot.pattern && !taken.has(e.id) && isAllowed(e, plan.settings))
+  const applied = planSettings(plan);
+  return EXERCISES.filter((e) => e.pattern === found.slot.pattern && !taken.has(e.id) && isAllowed(e, applied))
     .sort(
       (a, b) =>
         overlap(b) - overlap(a) ||

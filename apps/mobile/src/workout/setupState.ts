@@ -4,6 +4,7 @@ import {
   type CurrentLift,
   type Equipment,
   type ImportedRoutine,
+  type RamadanSlot,
   type FocusArea,
   type JointLoad,
   type SportKind,
@@ -249,4 +250,19 @@ export function setRoutineExercise(settings: WorkoutSettings, day: Weekday, inde
 export function clearRoutine(settings: WorkoutSettings): WorkoutSettings {
   const { routine: _routine, ...profile } = profileOf(settings);
   return { ...settings, profile };
+}
+
+// ----- Ramadan mode -----
+
+/** Before iftar is where the approved design starts; the user can change it. */
+const DEFAULT_RAMADAN_SLOT: RamadanSlot = 'before_iftar';
+
+/** Switching on keeps the timing picked last time, or starts before iftar. */
+export function toggleRamadan(settings: WorkoutSettings): WorkoutSettings {
+  const enabled = !settings.ramadan.enabled;
+  return { ...settings, ramadan: { enabled, slot: settings.ramadan.slot ?? DEFAULT_RAMADAN_SLOT } };
+}
+
+export function setRamadanSlot(settings: WorkoutSettings, slot: RamadanSlot): WorkoutSettings {
+  return { ...settings, ramadan: { enabled: true, slot } };
 }

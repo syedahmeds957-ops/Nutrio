@@ -21,7 +21,7 @@ function settings(overrides: Partial<WorkoutSettings> = {}): WorkoutSettings {
     ...overrides,
   };
 }
-const make = (s: WorkoutSettings, seed = 7) => generateWeeklyPlan(s, { seed, today: '2026-10-19' });
+const make = (s: WorkoutSettings, seed = 7) => generateWeeklyPlan(s, { seed, today: '2026-10-19', asOf: s.ramadan.enabled ? '2027-02-15' : '2026-10-19' });
 
 const TABLE: Record<WorkoutGoal, number[]> = {
   fat_loss: [8, 10, 15, 20, 20],

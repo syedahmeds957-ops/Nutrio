@@ -1,6 +1,7 @@
 import {
   getExercise,
   nextTarget,
+  planSettings,
   type LoggedSet,
   type PlannedSlot,
   type SessionRating,
@@ -31,7 +32,7 @@ export function targetsForSession(
     target: nextTarget(
       slot,
       historyForSlot(logs, slot.slotId),
-      plan.settings,
+      planSettings(plan),
       new Set(slots.filter((other) => other.slotId !== slot.slotId).map((other) => other.exerciseId))
     ),
   }));

@@ -179,6 +179,13 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
         onMomentumScrollEnd={() => setScrolling(false)}
         onScrollEndDrag={() => setScrolling(false)}
       >
+        {plan.fasting && plan.settings.ramadan.slot ? (
+          <View style={[styles.guide, { backgroundColor: c.primaryLight }]}>
+            <Icon name="moon" size={18} color={c.primaryTintText} />
+            <Text style={[styles.guideText, dir.text, { color: c.primaryTintText }]}>{t(`workout.ramadan.guide.${plan.settings.ramadan.slot}`)}</Text>
+          </View>
+        ) : null}
+
         {targets.map(({ slot, target }, index) => {
           const exercise = getExercise(target.exerciseId);
           const name = exercise?.name[language] ?? target.exerciseId;
@@ -396,6 +403,8 @@ const styles = StyleSheet.create({
   contentLogging: { paddingBottom: 110 },
   card: { padding: 12, borderRadius: 22, borderWidth: 1, gap: 10 },
   cardTop: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  guide: { flexDirection: 'row', gap: 10, paddingHorizontal: 14, paddingVertical: 12, borderRadius: 16 },
+  guideText: { flex: 1, fontSize: 13, lineHeight: 19, fontWeight: '600' },
   cardMain: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 12 },
   more: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
   swappedTag: { alignSelf: 'flex-start', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 999, marginTop: 3 },

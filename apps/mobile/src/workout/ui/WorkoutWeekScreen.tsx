@@ -1,6 +1,7 @@
 import React from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { getExercise, type WeeklyWorkoutPlan } from '@nutrio/workout-core';
+import { currentOrNextRamadan, getExercise, type WeeklyWorkoutPlan, type WorkoutSettings } from '@nutrio/workout-core';
+import { addDaysToKey } from '../../common/dateKey.js';
 import { useTheme } from '../../theme.js';
 import { useI18nState, useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
@@ -9,6 +10,10 @@ import { cardioCueText, cardioText, restText, setsRepsText } from '../format.js'
 import { cardioForWeek, exerciseCount, nextTrainingDay, slotsForWeek, type DayStatus, type WeekView } from '../weekView.js';
 import { ExerciseImageLoop } from './ExerciseImageLoop.js';
 import { WorkoutHeader } from './WorkoutHeader.js';
+import { RamadanCard } from './RamadanCard.js';
+
+/** How long before Ramadan the week starts offering the Ramadan switch. */
+const RAMADAN_NOTICE_DAYS = 30;
 
 interface WorkoutWeekScreenProps {
   plan: WeeklyWorkoutPlan;
@@ -20,13 +25,15 @@ interface WorkoutWeekScreenProps {
   onDoToday: (dateKey: string) => void;
   /** Shows the "Workout saved" toast after finishing. */
   saved?: boolean;
+  /** Ramadan mode switched from the week; regenerates the plan. */
+  onRamadanChange?: (ramadan: WorkoutSettings['ramadan']) => void;
 }
 
 /**
  * The Workouts home: today's workout with every exercise listed, then the
  * week. Training only; meals stay on the dashboard.
  */
-export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({ plan, week, onBack, onEdit, onOpenDay, onDoToday, saved }) => {
+export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({ plan, week, onBack, onEdit, onOpenDay, onDoToday, saved, onRamadanChange }) => {
   const { theme } = useTheme();
   const c = theme.colors;
   const { t } = useTranslation();
@@ -36,6 +43,12 @@ export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({ plan, week
   const todaySlots = today.session ? slotsForWeek(plan, today.session, week.weekIndex) : [];
   const todayCardio = today.session ? cardioForWeek(plan, today.session, week.weekIndex) : null;
   const walk = plan.restDayWalk;
+  const ramadan = plan.settings.ramadan;
+  // Badges and timings only while the fasting plan is actually in use.
+  const slotLabel = plan.fasting && ramadan.slot ? t(`workout.ramadan.slot.${ramadan.slot}`) : null;
+  // The switch shows on the week during Ramadan and in the month before it; the rest of the year it lives in Edit plan.
+  const nextRamadan = currentOrNextRamadan(today.dateKey);
+  const ramadanNear = Boolean(nextRamadan && addDaysToKey(today.dateKey, RAMADAN_NOTICE_DAYS) >= nextRamadan.start);
   const next = today.session ? null : nextTrainingDay(plan, today.dateKey);
   const todayDone = today.status === 'done';
   const doneFg = theme.isDark ? c.success : '#166534';
@@ -157,7 +170,15 @@ export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({ plan, week
               <View key={i} style={[styles.segment, { backgroundColor: i < week.doneDays ? c.limeText : 'rgba(10, 11, 13, 0.18)' }]} />
             ))}
           </View>
+          {slotLabel ? (
+            <View style={[styles.ramadanBadge, { backgroundColor: c.limeText }]}>
+              <Icon name="moon" size={14} color={c.primaryLime} />
+              <Text style={[styles.ramadanBadgeText, { color: c.primaryLime }]}>{t('workout.ramadan.badge', { slot: slotLabel })}</Text>
+            </View>
+          ) : null}
         </View>
+
+        {onRamadanChange && ramadanNear ? <RamadanCard ramadan={ramadan} todayKey={today.dateKey} onChange={onRamadanChange} /> : null}
 
         {week.days.map((day) => {
           const dayName = t(`workout.days.${day.weekday}`);
@@ -205,6 +226,12 @@ export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({ plan, week
                 <Text style={[styles.meta, dir.text, { color: c.textSecondary }]}>
                   {meta(exerciseCount(day.session), day.session.estimatedMinutes)}
                 </Text>
+                {slotLabel ? (
+                  <View style={styles.slotRow}>
+                    <Icon name="moon" size={12} color={c.textSecondary} />
+                    <Text style={[styles.slotText, { color: c.textSecondary }]}>{slotLabel}</Text>
+                  </View>
+                ) : null}
                 {day.status === 'missed' ? (
                   <TouchableOpacity
                     accessibilityRole="button"
@@ -287,4 +314,8 @@ const styles = StyleSheet.create({
   restRow: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 12, paddingVertical: 4 },
   restLabel: { fontSize: 14, fontWeight: '600' },
   walk: { fontSize: 12, marginTop: 1 },
+  ramadanBadge: { alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 10, paddingVertical: 6, borderRadius: 999 },
+  ramadanBadgeText: { fontSize: 12, fontWeight: '700' },
+  slotRow: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 2 },
+  slotText: { fontSize: 12, fontWeight: '600' },
 });

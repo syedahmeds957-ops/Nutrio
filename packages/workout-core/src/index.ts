@@ -10,3 +10,4 @@ export * from './swapper.js';
 export * from './cardio.js';
 export * from './search.js';
 export * from './routine.js';
+export * from './ramadan.js';

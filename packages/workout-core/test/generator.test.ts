@@ -48,7 +48,9 @@ function settings(overrides: Partial<WorkoutSettings> = {}): WorkoutSettings {
   };
 }
 
-const plan = (s: WorkoutSettings, seed = 7) => generateWeeklyPlan(s, { seed, today: TODAY });
+/** A day inside Ramadan 1448, so plans that use Ramadan mode get its caps. */
+const IN_RAMADAN = '2027-02-15';
+const plan = (s: WorkoutSettings, seed = 7) => generateWeeklyPlan(s, { seed, today: TODAY, asOf: s.ramadan.enabled ? IN_RAMADAN : TODAY });
 
 function targetMinutes(s: WorkoutSettings): number {
   return s.ramadan.enabled ? Math.min(s.sessionMinutes, 40) : s.sessionMinutes;

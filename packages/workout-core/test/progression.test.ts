@@ -234,3 +234,28 @@ describe('applyLadder', () => {
     expect(applyLadder(plan, history, [bridge, other])).toBe(plan);
   });
 });
+
+describe('Ramadan mode', () => {
+  const fasting = settings({ ramadan: { enabled: true, slot: 'before_iftar' } });
+
+  it('never raises the weight while fasting, even at the top of the range', () => {
+    const target = nextTarget(slot('barbell-squat'), [log('barbell-squat', sets([12, 12, 12], 60))], fasting);
+    expect(target).toMatchObject({ reason: 'ramadan_hold', loadKg: 60, reps: 12 });
+  });
+
+  it('still lets reps creep up inside the range', () => {
+    expect(nextTarget(slot('barbell-squat'), [log('barbell-squat', sets([10, 9, 9], 60))], fasting)).toMatchObject({ reason: 'ramadan_hold', loadKg: 60, reps: 10 });
+  });
+
+  it('keeps the 10% cut after two sessions below the range', () => {
+    const history = [log('barbell-squat', sets([8, 7, 6], 60)), log('barbell-squat', sets([8, 8, 7], 60))];
+    expect(nextTarget(slot('barbell-squat'), history, fasting)).toMatchObject({ reason: 'failed_twice_reduce', loadKg: 52.5 });
+  });
+
+  it('does not climb the bodyweight ladder or add sets while fasting', () => {
+    const homeFasting = settings({ location: 'home_none', ramadan: { enabled: true, slot: 'after_taraweeh' } });
+    const push = slot('push-up', { slotId: 'full_a:horizontal_push:0' });
+    const target = nextTarget(push, [log('push-up', sets([12, 12, 12]), undefined, 'full_a:horizontal_push:0')], homeFasting);
+    expect(target).toMatchObject({ reason: 'ramadan_hold', exerciseId: 'push-up', sets: 3 });
+  });
+});

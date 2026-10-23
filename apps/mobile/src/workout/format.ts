@@ -54,7 +54,8 @@ export function targetText(t: TFunction, target: Target, unit: Prescription['uni
 export function reasonText(t: TFunction, target: Target, tracksLoad: boolean): string {
   const params = { ...target.reasonParams, reps: target.reasonParams?.reps ?? target.repMax };
   const bodyweightVariant =
-    !tracksLoad && (target.reason === 'in_range_add_reps' || target.reason === 'felt_hard_hold' || target.reason === 'from_current_lift');
+    !tracksLoad &&
+    (target.reason === 'in_range_add_reps' || target.reason === 'felt_hard_hold' || target.reason === 'from_current_lift' || target.reason === 'ramadan_hold');
   const backAfterBreak = target.reason === 'from_current_lift' && Boolean(target.reasonParams?.back);
   return t(`workout.reason.${target.reason}${bodyweightVariant ? '_bodyweight' : backAfterBreak ? '_back' : ''}`, params);
 }

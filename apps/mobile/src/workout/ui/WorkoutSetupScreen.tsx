@@ -17,6 +17,8 @@ import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Chip, Question, useChipColors } from './SetupChips.js';
 import { TellUsMore } from './TellUsMore.js';
 import { RoutineBuilder } from './RoutineBuilder.js';
+import { RamadanCard } from './RamadanCard.js';
+import { localDateKey } from '../../common/dateKey.js';
 import {
   canContinue,
   DUMBBELL_CHOICES_KG,
@@ -350,6 +352,7 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
                 />
               ))}
             </View>
+            <RamadanCard ramadan={settings.ramadan} todayKey={localDateKey()} onChange={(ramadan) => update({ ...settings, ramadan })} />
           </>
         )}
         {more ? (

@@ -89,7 +89,9 @@ Assumptions accepted with the approval:
 
 **Follow-up found during the build, fixed in phase 5 at the user's request:** the startup splash in `App.tsx` waited on `restoreSession()` and font loading with no timeout. Boot now has time limits on fonts and network steps, plus a 15 s backstop (see the phase 5 record).
 
-**Out of scope:** reminders/notifications, Apple Health / Google Fit, heart rate, video, social, warm-up/stretching routines, automatic Ramadan date detection, Ramadan in the meal plan, Urdu.
+**Follow-up agreed with the user (later):** a Ramadan date setting so a user whose country sights the moon locally (e.g. Pakistan, often a day later than Umm al-Qura) can shift the start and end.
+
+**Out of scope:** reminders/notifications, Apple Health / Google Fit, heart rate, video, social, warm-up/stretching routines, Ramadan in the meal plan, Urdu.
 
 ## Decision log (changes during build)
 
@@ -105,6 +107,7 @@ Assumptions accepted with the approval:
 | 2026-10-22 | 0 | `textSecondary` (light) → `#556275`, `floatingBarInactive` (dark) → `#9CA3AF` in phase 3 | Existing values fail AA contrast on small labels |
 | 2026-10-22 | 1 | Own EN/AR instructions, 169 exercises, `timed` field, Vitest image setup file, flutter kicks moved to glutes/bench | Source text didn't match its photos; see the phase 1 record |
 | 2026-10-22 | 2 | Empty-pool fallback patterns for home with no equipment | Phase 1 known gaps |
+| 2026-10-23 | 7 | User: Ramadan mode only during Ramadan. The switch means "use during Ramadan"; Umm al-Qura dates 2025–2040 stored as data; plans rebuild when Ramadan starts and ends (`planForDate`); the week shows the switch only near or during Ramadan. Automatic Ramadan dates moved from out of scope into phase 7 | See the phase 7 record |
 | 2026-10-23 | 6c | User: questions follow earlier answers (beginner checks vs current lifts vs returning after a break); cardio asked per day. Routine stored in the profile so edits keep it; lifts count like likes; push-only surplus days become upper days; move up/down instead of drag | See the phase 6c record |
 | 2026-10-23 | 6b | Cardio built as planned. Interval moves keep up to 3 places in the cardio swap list; stored plans gain cardio through `upgradePlan`; the finisher display was removed | See the phase 6b record |
 | 2026-10-23 | 6b/6c | User: cardio as a block after every session plus rest-day walks, built next as 6b. Then 6c: an optional "Tell us more" step (current training and lifts, cardio habits, likes/dislikes, sports days), an existing routine entered by picking from our catalogue, improved as "keep it, fix the gaps" with a reason per change. Mockups first for both | Phase 6b and 6c files |
@@ -127,8 +130,8 @@ Assumptions accepted with the approval:
 | 5 Logging + progression | done 2026-10-23: Checkpoint A, web flow 30/30, iPhone checked; startup hang fixed ([record](phase-05-logging-and-progression.md#execution-record-2026-10-23)) | `1e6dc74` (one commit for 4–6b, built on top of each other) |
 | 6 Manual swap | done 2026-10-23: web flow 18/18; iPhone check skipped, a real account is signed in there ([record](phase-06-manual-swap.md#execution-record-2026-10-23)) | `1e6dc74` (one commit for 4–6b, built on top of each other) |
 | 6b Cardio | done 2026-10-23: mockups approved, web flow 18/18 ([record](phase-06b-cardio.md#execution-record-2026-10-23)) | `1e6dc74` (one commit for 4–6b, built on top of each other) |
-| 6c Tell us more + routine import | done 2026-10-23: questions follow experience, routine builder, "What we improved"; web 18/18 + 13/13 ([record](phase-06c-tell-us-more-and-routine-import.md#execution-record-2026-10-23)) | not committed (waits for the user's command) |
-| 7 Ramadan mode | not started | |
+| 6c Tell us more + routine import | done 2026-10-23: questions follow experience, routine builder, "What we improved"; web 18/18 + 13/13 ([record](phase-06c-tell-us-more-and-routine-import.md#execution-record-2026-10-23)) | `faa16e8` |
+| 7 Ramadan mode | done 2026-10-23: web 14/14 ([record](phase-07-ramadan-mode.md#execution-record-2026-10-23)) | not committed (waits for the user's command) |
 | 8 Cloud sync | not started | |
 | 9 Calorie link | not started | |
 | 10 Coach | not started | |

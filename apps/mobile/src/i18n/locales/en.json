@@ -1498,7 +1498,9 @@
       "hold": "Same as last time: keep every set strong",
       "from_current_lift": "From your current lift: {{kg}} kg × {{reps}}",
       "from_current_lift_bodyweight": "From what you can do now: {{reps}}",
-      "from_current_lift_back": "Back after a break: a little lighter than your {{kg}} kg × {{reps}}"
+      "from_current_lift_back": "Back after a break: a little lighter than your {{kg}} kg × {{reps}}",
+      "ramadan_hold": "Ramadan: same weight while you're fasting",
+      "ramadan_hold_bodyweight": "Ramadan: same move while you're fasting"
     },
     "log": {
       "finish": "Finish",
@@ -1777,6 +1779,27 @@
       "startWeightsWhy": "Your first targets come from what you lift now, not a guess.",
       "foot": "You can still swap any exercise from the day screen.",
       "seePlan": "See my plan"
+    },
+    "ramadan": {
+      "title": "Ramadan mode",
+      "subtitle": "Shorter, gentler sessions on Ramadan days only",
+      "whenQ": "When will you train?",
+      "slot": {
+        "after_suhoor": "After suhoor",
+        "before_iftar": "Before iftar",
+        "after_taraweeh": "After taraweeh"
+      },
+      "badge": "Ramadan mode · {{slot}}",
+      "guide": {
+        "before_iftar": "Before iftar: keep it light. Break your fast with water and dates afterwards.",
+        "after_taraweeh": "After taraweeh: finish at least an hour before you sleep.",
+        "after_suhoor": "After suhoor: drink plenty of water during suhoor."
+      },
+      "date": "{{day}} {{month}} {{year}}",
+      "onNow": "On now · until {{date}}",
+      "isRamadan": "It's Ramadan · until {{date}}",
+      "turnsOn": "Turns on by itself on {{date}}, and off after Eid",
+      "next": "Next Ramadan starts {{date}}"
     }
   }
 }

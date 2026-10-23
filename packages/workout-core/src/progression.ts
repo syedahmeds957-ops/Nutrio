@@ -1,4 +1,5 @@
 import { getExercise } from './catalogue.js';
+import { planSettings } from './ramadan.js';
 import { isAllowed } from './select.js';
 import {
   BreakLength,
@@ -183,7 +184,13 @@ export function nextTarget(
   const allAtTop = last.length >= slot.sets && lowestReps >= slot.repMax;
   const aimOneMore = Math.min(slot.repMax, Math.max(slot.repMin, lowestReps + 1));
 
+  // While fasting, nothing gets heavier or harder: a tired session isn't a failure, and reps can still creep up.
+  const fasting = settings.ramadan.enabled;
+
   if (!exercise.tracksLoad) {
+    if (fasting) {
+      return { ...base, sets: Math.max(slot.sets, last.length), reps: allAtTop ? slot.repMax : aimOneMore, reason: 'ramadan_hold' };
+    }
     if (own[0].log.rating === 'hard') {
       return { ...base, sets: Math.max(slot.sets, last.length), reps: Math.min(slot.repMax, Math.max(slot.repMin, lowestReps)), reason: 'felt_hard_hold' };
     }
@@ -210,6 +217,10 @@ export function nextTarget(
     // Already on the lightest dumbbell they own: nothing lighter to drop to.
     if (loadKg === lastLoad) return { ...base, loadKg, reason: 'hold' };
     return { ...base, loadKg, reason: 'failed_twice_reduce', reasonParams: { kg: loadKg } };
+  }
+
+  if (fasting) {
+    return { ...base, loadKg: lastLoad, reps: allAtTop ? slot.repMax : aimOneMore, reason: 'ramadan_hold' };
   }
 
   if (own[0].log.rating === 'hard') {
@@ -243,7 +254,7 @@ export function applyLadder(plan: WeeklyWorkoutPlan, history: readonly WorkoutLo
   const inSession = new Map(slots.map((slot) => [slot.slotId, slot.exerciseId]));
   for (const slot of slots) {
     const taken = new Set([...inSession].filter(([slotId]) => slotId !== slot.slotId).map(([, id]) => id));
-    const target = nextTarget(slot, history, plan.settings, taken);
+    const target = nextTarget(slot, history, planSettings(plan), taken);
     if (target.reason === 'ladder_step_up' && target.exerciseId !== slot.exerciseId) {
       climbs[slot.slotId] = target.exerciseId;
       inSession.set(slot.slotId, target.exerciseId);
