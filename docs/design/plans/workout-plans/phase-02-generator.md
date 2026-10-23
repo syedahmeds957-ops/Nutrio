@@ -2,6 +2,8 @@
 
 **Size:** M · **Blocked by:** 1
 
+> **Status: done 2026-10-23, not committed (waiting for the user's command).** See "Execution record" at the end.
+
 ## Outcome
 
 `generateWeeklyPlan(settings, options)` in `workout-core` returns a valid, stable weekly plan for any combination of the setup answers. It's pure and table-tested.
@@ -115,3 +117,41 @@ npm test
 ## Done when
 
 All grid cases pass. Commit: `feat(workout-core): deterministic weekly plan generator`.
+
+## Execution record (2026-10-23)
+
+### What shipped
+
+- **New modules:**
+  - `src/split.ts`: 8 session templates, split choice, focus promotion
+  - `src/prescription.ts`
+  - `src/select.ts`: filters, ranking, fallback patterns, rotation alternates
+  - `src/generator.ts`: `generateWeeklyPlan`, `regeneratePlan`, `estimateMinutes`, `exerciseForWeek`, `weekIndexFor`, `validateSettings`
+- **Plan types** added to `src/types.ts`.
+- **46 new tests**, including the full grid: 5 day counts × 3 locations × 3 experience levels × 4 goals × 3 lengths (20/45/75 min) × 3 modes (normal / Ramadan / low intensity), which is 1,620 plans.
+
+### Changes from the plan
+
+1. **`Exercise.highImpact`.** Added to the 6 jumping moves (jump squat, split jump, star jumps, knee tuck jump, scissor jumps, fast skipping) so Ramadan and low-intensity plans can leave them out. Phase 1 hadn't kept the source's plyometric label.
+2. **`Prescription.unit`** (`'reps' | 'seconds'`). Planks and other timed holds are prescribed as 30–45 s.
+3. **No-equipment users get full-body days whatever the day count:** `full_body_4/5/6` rotate A/B/C. An upper/lower split had no pulling options at home, so "upper" days were push-ups plus glute bridges.
+4. **Week repeats are ranked lower instead of avoided.** Each earlier use costs 1.5 points (a bodyweight-only option costs 2 at home and 4 at the gym). Strict avoidance swapped a home user's dumbbell Romanian deadlift for a glute bridge just because Monday used it. Now at most 2 uses per week when alternatives exist (tested).
+5. **Time fit also trims main sets** once no accessories are left, evenly from the lift with the most sets, never below 2. A 20-minute strength session doesn't fit otherwise.
+6. **Rotation lists are stored on each slot** (`alternates`, up to 4, never overlapping another slot in the same session), so `exerciseForWeek` needs no catalogue lookup.
+7. **Ranking preferences:**
+   - gym: weighted exercises first, barbell main lifts for some/experienced lifters, machines and dumbbells for new lifters
+   - home: owned equipment before bodyweight
+   - main slots: compound exercises first
+
+### Verification evidence
+
+| Check | Result |
+|---|---|
+| `npx vitest run packages/workout-core` | 83 / 83 pass (37 catalogue + 46 generator) |
+| Deliberate bugs | turning off joint protection, the Ramadan jumping filter, or the no-repeat-in-session rule fails 1, 5 and 12 tests |
+| `npm run build` | pass |
+| `npm test` (whole repo) | 1,091 tests, 0 failures |
+| `node scripts/check-ci-keys.mjs` | pass |
+| `npx tsc --noEmit` (apps/mobile) | 0 errors |
+
+Sample plans were also printed and read by eye (gym 4-day muscle, new lifter fat loss, home dumbbells, home no equipment, Ramadan, 20-minute strength).

@@ -42,6 +42,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false,
     "harder": "jump-squat"
   },
@@ -84,6 +85,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": true,
     "tracksLoad": false,
     "easier": "bodyweight-squat"
   },
@@ -126,6 +128,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false,
     "harder": "split-jump"
   },
@@ -168,6 +171,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": true,
     "tracksLoad": false,
     "easier": "walking-lunge"
   },
@@ -209,6 +213,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -246,6 +251,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false,
     "harder": "single-leg-glute-bridge"
   },
@@ -284,6 +290,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false,
     "easier": "glute-bridge"
   },
@@ -322,6 +329,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -362,6 +370,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "wrist"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false,
     "harder": "push-up"
   },
@@ -403,6 +412,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "wrist"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false,
     "harder": "feet-elevated-push-up",
     "easier": "incline-push-up"
@@ -446,6 +456,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false,
     "easier": "push-up"
   },
@@ -489,6 +500,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -529,6 +541,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "wrist"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false,
     "harder": "close-grip-push-up"
   },
@@ -570,6 +583,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "wrist"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false,
     "easier": "close-grip-incline-push-up"
   },
@@ -612,6 +626,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "wrist"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -647,6 +662,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": true,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -686,6 +702,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": true,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -721,6 +738,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -756,6 +774,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false,
     "harder": "sit-up"
   },
@@ -794,6 +813,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "lower_back"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false,
     "harder": "jackknife-sit-up",
     "easier": "crunch"
@@ -833,6 +853,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "lower_back"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false,
     "easier": "sit-up"
   },
@@ -869,6 +890,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -904,6 +926,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -943,6 +966,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "lower_back"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -982,6 +1006,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "lower_back"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -1017,6 +1042,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -1058,6 +1084,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "wrist"
     ],
     "timed": true,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -1100,6 +1127,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": true,
+    "highImpact": true,
     "tracksLoad": false
   },
   {
@@ -1143,6 +1171,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": true,
+    "highImpact": true,
     "tracksLoad": false
   },
   {
@@ -1183,6 +1212,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": true,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -1226,6 +1256,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": true,
+    "highImpact": true,
     "tracksLoad": false
   },
   {
@@ -1266,6 +1297,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": true,
+    "highImpact": true,
     "tracksLoad": false
   },
   {
@@ -1303,6 +1335,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -1345,6 +1378,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false,
     "harder": "chin-up"
   },
@@ -1387,6 +1421,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false,
     "harder": "pull-up",
     "easier": "band-assisted-pull-up"
@@ -1429,6 +1464,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false,
     "easier": "chin-up"
   },
@@ -1470,6 +1506,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -1512,6 +1549,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -1554,6 +1592,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -1596,6 +1635,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -1638,6 +1678,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -1678,6 +1719,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -1718,6 +1760,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "lower_back"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -1760,6 +1803,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "lower_back"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -1800,6 +1844,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "lower_back"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -1837,6 +1882,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -1874,6 +1920,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -1915,6 +1962,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -1956,6 +2004,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -1996,6 +2045,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -2038,6 +2088,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -2079,6 +2130,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -2120,6 +2172,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -2158,6 +2211,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -2197,6 +2251,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -2235,6 +2290,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -2275,6 +2331,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -2314,6 +2371,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -2355,6 +2413,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "lower_back"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -2396,6 +2455,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -2434,6 +2494,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -2472,6 +2533,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -2510,6 +2572,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -2552,6 +2615,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -2591,6 +2655,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -2631,6 +2696,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -2670,6 +2736,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -2709,6 +2776,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -2748,6 +2816,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -2787,6 +2856,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -2824,6 +2894,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -2861,6 +2932,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -2896,6 +2968,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -2933,6 +3006,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -2968,6 +3042,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -3003,6 +3078,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -3040,6 +3116,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -3077,6 +3154,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -3112,6 +3190,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -3149,6 +3228,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -3185,6 +3265,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -3222,6 +3303,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -3257,6 +3339,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -3296,6 +3379,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -3331,6 +3415,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -3368,6 +3453,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -3403,6 +3489,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -3438,6 +3525,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -3473,6 +3561,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -3514,6 +3603,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": true,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -3549,6 +3639,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -3592,6 +3683,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -3635,6 +3727,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "lower_back"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -3678,6 +3771,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "lower_back"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -3720,6 +3814,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "wrist"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -3761,6 +3856,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -3802,6 +3898,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -3844,6 +3941,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -3881,6 +3979,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -3922,6 +4021,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "lower_back"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -3968,6 +4068,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "lower_back"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4009,6 +4110,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4049,6 +4151,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "lower_back"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4087,6 +4190,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4127,6 +4231,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "lower_back"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -4167,6 +4272,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "lower_back"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4204,6 +4310,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4241,6 +4348,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4282,6 +4390,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4323,6 +4432,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4364,6 +4474,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4407,6 +4518,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4448,6 +4560,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4489,6 +4602,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4530,6 +4644,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4568,6 +4683,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4608,6 +4724,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4648,6 +4765,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4686,6 +4804,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4725,6 +4844,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4762,6 +4882,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4803,6 +4924,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "lower_back"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4843,6 +4965,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "lower_back"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4882,6 +5005,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4921,6 +5045,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4959,6 +5084,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -4996,6 +5122,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5036,6 +5163,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "lower_back"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5077,6 +5205,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5116,6 +5245,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5155,6 +5285,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5194,6 +5325,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5235,6 +5367,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5274,6 +5407,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5313,6 +5447,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5351,6 +5486,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5388,6 +5524,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5423,6 +5560,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5462,6 +5600,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5501,6 +5640,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "lower_back"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5538,6 +5678,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -5573,6 +5714,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5612,6 +5754,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "wrist"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5647,6 +5790,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5683,6 +5827,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5718,6 +5863,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5753,6 +5899,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5788,6 +5935,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5823,6 +5971,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5858,6 +6007,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5895,6 +6045,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5935,6 +6086,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "wrist"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -5977,6 +6129,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -6017,6 +6170,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -6052,6 +6206,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -6092,6 +6247,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "shoulder"
     ],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -6129,6 +6285,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": true,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -6164,6 +6321,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -6199,6 +6357,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -6234,6 +6393,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -6269,6 +6429,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -6304,6 +6465,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -6339,6 +6501,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -6376,6 +6539,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -6413,6 +6577,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": false,
+    "highImpact": false,
     "tracksLoad": true
   },
   {
@@ -6457,6 +6622,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "lower_back"
     ],
     "timed": true,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -6496,6 +6662,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": true,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -6536,6 +6703,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
       "knee"
     ],
     "timed": true,
+    "highImpact": false,
     "tracksLoad": false
   },
   {
@@ -6575,6 +6743,7 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "compound": false,
     "jointLoads": [],
     "timed": true,
+    "highImpact": false,
     "tracksLoad": false
   }
 ];

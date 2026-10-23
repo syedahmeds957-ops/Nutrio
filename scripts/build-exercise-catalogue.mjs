@@ -98,6 +98,7 @@ if (!imagesOnly) {
       compound: entry.compound ?? record?.mechanic === 'compound',
       jointLoads: entry.joints,
       timed,
+      highImpact: entry.highImpact === true,
       tracksLoad: !timed && !entry.noLoad && entry.eq.some((item) => LOAD_EQUIPMENT.has(item)),
       ...(entry.harder ? { harder: entry.harder } : {}),
       ...(entry.easier ? { easier: entry.easier } : {}),
