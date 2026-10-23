@@ -1,5 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { initI18n } from '../i18n/config.js';
 import { AuthScreen } from '../auth/ui/AuthScreen.js';
 import { OnboardingSurveyScreen } from '../survey/ui/OnboardingSurveyScreen.js';
 import { TrackerDashboardScreen } from '../tracker/ui/TrackerDashboardScreen.js';
@@ -54,6 +56,21 @@ describe('Phase 3: New App Onboarding & Guest Exploration Flow Integration', () 
     expect(trackerEl.props.isGuest).toBe(true);
     expect(trackerEl.props.userName).toBe('Guest');
     expect(trackerEl.props.onRequireAuth).toBe(onRequireAuth);
+  });
+
+  it('shows guests the Workouts pill: workouts are not behind sign-in', () => {
+    initI18n('en');
+    const html = renderToStaticMarkup(
+      React.createElement(TrackerDashboardScreen, {
+        userName: 'Guest',
+        targets: { targetCalories: 0, targetProteinGrams: 0, targetFatGrams: 0, targetCarbGrams: 0, targetWaterMl: 0 },
+        isGuest: true,
+        onRequireAuth: vi.fn(),
+        onOpenWorkouts: vi.fn(),
+      })
+    );
+    expect(html).toContain('Workouts');
+    expect(html).toContain('New');
   });
 
   it('GuestAuthModal triggers onSignIn when prompt primary action is clicked', () => {

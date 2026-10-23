@@ -101,6 +101,8 @@ Assumptions accepted with the approval:
 | 2026-10-22 | 0 | `textSecondary` (light) → `#556275`, `floatingBarInactive` (dark) → `#9CA3AF` in phase 3 | Existing values fail AA contrast on small labels |
 | 2026-10-22 | 1 | Own EN/AR instructions, 169 exercises, `timed` field, Vitest image setup file, flutter kicks moved to glutes/bench | Source text didn't match its photos; see the phase 1 record |
 | 2026-10-22 | 2 | Empty-pool fallback patterns for home with no equipment | Phase 1 known gaps |
+| 2026-10-23 | 3 | Prefill note only with survey answers; server-render tests with a local `react-dom/server` declaration; adjustable dumbbells stored as no fixed weights | See the phase 3 record |
+| 2026-10-23 | 2 | `highImpact` flag, `unit` for timed holds, full-body splits for no-equipment users, ranked (not banned) week repeats, even main-set trimming | Found by reading generated plans; see the phase 2 record |
 | 2026-10-22 | all | Every workout feature works for PK, SA and global; region-specific behaviour only through a helper with a default, tested for all three | User's standing rule for the whole app |
 
 ## Progress
@@ -108,9 +110,9 @@ Assumptions accepted with the approval:
 | Phase | Status | Commit |
 |---|---|---|
 | 0 Screen designs | done 2026-10-22, approved. [Mockups](https://claude.ai/artifact/7dEqPJ6ZK2bgkYL32owMRu) (English + Arabic pages), [spec](../../specs/2026-10-22-workout-screens-design.md) | see `git log feat/workout-plans` |
-| 1 Catalogue + images | done 2026-10-22: 169 exercises, 10 MB images, all checks green ([record](phase-01-catalogue-and-images.md#execution-record-2026-10-22)) | not committed (waits for the user's command) |
-| 2 Generator | not started | |
-| 3 Setup, storage, navigation | not started | |
+| 1 Catalogue + images | done 2026-10-22: 169 exercises, 10 MB images, all checks green ([record](phase-01-catalogue-and-images.md#execution-record-2026-10-22)) | `33c16ca` |
+| 2 Generator | done 2026-10-23: 1,620-plan grid green ([record](phase-02-generator.md#execution-record-2026-10-23)) | not committed (waits for the user's command) |
+| 3 Setup, storage, navigation | done 2026-10-23: web flow 13/13, iPhone checked ([record](phase-03-setup-storage-navigation.md#execution-record-2026-10-23)) | not committed (waits for the user's command) |
 | 4 Week + day screens | not started | |
 | 5 Logging + progression | not started | |
 | 6 Manual swap | not started | |

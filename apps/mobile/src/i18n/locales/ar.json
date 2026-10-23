@@ -806,7 +806,8 @@
         "meals": "الوجبات",
         "survey": "الاستبيان",
         "targets": "الأهداف",
-        "weight": "الوزن"
+        "weight": "الوزن",
+        "workouts": "التمارين"
       },
       "planBlurb": {
         "PK": "خطة مجانية ١٠٠٪ • أكثر من ٦٠ علامة تجارية",
@@ -1125,6 +1126,133 @@
       "title": "منحنى مسار الوزن",
       "trendWeight": "مسار الأنسجة",
       "trueTissue": "الوزن الحقيقي"
+    }
+  },
+  "workout": {
+    "title": "التمارين",
+    "newBadge": "جديد",
+    "editPlan": "تعديل الخطة",
+    "setup": {
+      "title": "خطة تمارينك",
+      "step": "الخطوة {{current}} من {{total}}",
+      "prefillNote": "عبّأنا ما أخبرتنا به في الاستبيان. يمكنك تغيير أي شيء.",
+      "goalQuestion": "ما هدفك الأساسي؟",
+      "goal": {
+        "muscle": {
+          "label": "بناء العضل",
+          "desc": "زيادة الحجم وتشكيل الجسم"
+        },
+        "strength": {
+          "label": "زيادة القوة",
+          "desc": "رفع أوزان أثقل"
+        },
+        "fat_loss": {
+          "label": "خسارة الدهون",
+          "desc": "حافظ على عضلاتك وأنت تخسر الدهون"
+        },
+        "general": {
+          "label": "لياقة عامة",
+          "desc": "لياقة أفضل كل يوم"
+        }
+      },
+      "experienceQuestion": "ما مدى خبرتك في التمرين؟",
+      "experience": {
+        "new": "مبتدئ في التمرين",
+        "some": "بعض الخبرة، أقل من سنة",
+        "experienced": "متمرّس، سنة أو أكثر"
+      },
+      "locationQuestion": "أين ستتمرن؟",
+      "location": {
+        "home_none": {
+          "label": "المنزل بدون أدوات",
+          "desc": "بوزن الجسم فقط"
+        },
+        "home_equipment": {
+          "label": "المنزل مع أدوات",
+          "desc": "دمبل أو أحزمة مقاومة أو كيتل بيل"
+        },
+        "gym": {
+          "label": "النادي الرياضي",
+          "desc": "بار وأجهزة وكابلات"
+        }
+      },
+      "bandTip": "نصيحة: حزام المقاومة يتيح لك تمارين سحب حقيقية لعضلات ظهرك.",
+      "equipmentQuestion": "ما الأدوات المتوفرة لديك؟",
+      "equipment": {
+        "dumbbell": "دمبل",
+        "bands": "أحزمة مقاومة",
+        "kettlebell": "كيتل بيل",
+        "bench": "مقعد تمرين",
+        "pullup_bar": "عقلة"
+      },
+      "dumbbellQuestion": "ما أوزان الدمبل التي تملكها؟",
+      "dumbbellHint": "حتى لا نقترح عليك وزناً لا تملكه.",
+      "adjustable": "قابل للتعديل",
+      "kg": "{{kg}} كغ",
+      "gymNote": "ستستخدم البار والدمبل والكابلات والأجهزة.",
+      "daysQuestion": "ما الأيام التي يمكنك التمرن فيها؟",
+      "daysCount_zero": "لا أيام",
+      "daysCount_one": "يوم واحد في الأسبوع",
+      "daysCount_two": "يومان في الأسبوع",
+      "daysCount_few": "{{count}} أيام في الأسبوع",
+      "daysCount_many": "{{count}} يوماً في الأسبوع",
+      "daysCount_other": "{{count}} يوم في الأسبوع",
+      "daysError": "اختر يومين على الأقل",
+      "lengthQuestion": "كم مدة كل جلسة؟",
+      "minutesShort": "دقيقة",
+      "focusQuestion": "هل تريد التركيز على منطقة معيّنة؟",
+      "optional": "اختياري",
+      "focus": {
+        "full_body": "الجسم كاملاً",
+        "upper": "الجزء العلوي",
+        "lower_glutes": "الجزء السفلي والأرداف",
+        "core": "عضلات الجذع",
+        "arms": "الذراعان"
+      },
+      "protectQuestion": "هل هناك منطقة تريد حمايتها؟",
+      "protect": {
+        "knee": "الركبتان",
+        "lower_back": "أسفل الظهر",
+        "shoulder": "الكتفان",
+        "wrist": "المعصمان"
+      },
+      "lowIntensityNote": "بناءً على إجاباتك الصحية، ستبقى الجلسات خفيفة: بلا قفز وبلا رفع حتى الإجهاد التام. استشر طبيبك قبل البدء.",
+      "createPlan": "أنشئ خطتي",
+      "saveChanges": "حفظ التغييرات"
+    },
+    "days": {
+      "mon": "الاثنين",
+      "tue": "الثلاثاء",
+      "wed": "الأربعاء",
+      "thu": "الخميس",
+      "fri": "الجمعة",
+      "sat": "السبت",
+      "sun": "الأحد"
+    },
+    "template": {
+      "full_a": "الجسم كاملاً A",
+      "full_b": "الجسم كاملاً B",
+      "full_c": "الجسم كاملاً C",
+      "upper": "الجزء العلوي",
+      "lower": "الجزء السفلي",
+      "push": "الدفع",
+      "pull": "السحب",
+      "legs": "الرجلان"
+    },
+    "week": {
+      "restDay": "يوم راحة",
+      "exercises_zero": "لا تمارين",
+      "exercises_one": "تمرين واحد",
+      "exercises_two": "تمرينان",
+      "exercises_few": "{{count}} تمارين",
+      "exercises_many": "{{count}} تمريناً",
+      "exercises_other": "{{count}} تمرين",
+      "minutes_zero": "~{{count}} دقيقة",
+      "minutes_one": "~دقيقة واحدة",
+      "minutes_two": "~دقيقتان",
+      "minutes_few": "~{{count}} دقائق",
+      "minutes_many": "~{{count}} دقيقة",
+      "minutes_other": "~{{count}} دقيقة"
     }
   }
 }

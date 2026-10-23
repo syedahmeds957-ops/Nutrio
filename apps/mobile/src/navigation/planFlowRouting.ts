@@ -19,7 +19,8 @@ export type AppRoute =
   | 'weight_tracker'
   | 'weekly_plan'
   | 'coach_chat'
-  | 'weekly_checkin';
+  | 'weekly_checkin'
+  | 'workouts';
 
 /**
  * Why `plan_flow` is open.

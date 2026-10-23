@@ -782,7 +782,8 @@
         "meals": "Meals",
         "survey": "Survey",
         "targets": "Targets",
-        "weight": "Weight"
+        "weight": "Weight",
+        "workouts": "Workouts"
       },
       "planBlurb": {
         "PK": "100% free plan • All 60+ brands unlocked",
@@ -1065,6 +1066,120 @@
       "title": "Weight trend (EWMA smoothed)",
       "trendWeight": "Trend weight",
       "trueTissue": "True tissue trend"
+    }
+  },
+  "workout": {
+    "title": "Workouts",
+    "newBadge": "New",
+    "editPlan": "Edit plan",
+    "setup": {
+      "title": "Your workout plan",
+      "step": "Step {{current}} of {{total}}",
+      "prefillNote": "We filled in what you told us in your survey. Change anything.",
+      "goalQuestion": "What's your main goal?",
+      "goal": {
+        "muscle": {
+          "label": "Build muscle",
+          "desc": "Grow and shape"
+        },
+        "strength": {
+          "label": "Get stronger",
+          "desc": "Lift heavier"
+        },
+        "fat_loss": {
+          "label": "Lose fat",
+          "desc": "Keep muscle while you lose fat"
+        },
+        "general": {
+          "label": "General fitness",
+          "desc": "Feel fitter every day"
+        }
+      },
+      "experienceQuestion": "How much training experience do you have?",
+      "experience": {
+        "new": "New to training",
+        "some": "Some, under 1 year",
+        "experienced": "Experienced, 1 year or more"
+      },
+      "locationQuestion": "Where will you train?",
+      "location": {
+        "home_none": {
+          "label": "Home, no equipment",
+          "desc": "Bodyweight only"
+        },
+        "home_equipment": {
+          "label": "Home with equipment",
+          "desc": "Dumbbells, bands or a kettlebell"
+        },
+        "gym": {
+          "label": "Gym",
+          "desc": "Barbells, machines and cables"
+        }
+      },
+      "bandTip": "Tip: a resistance band unlocks proper pulling exercises for your back.",
+      "equipmentQuestion": "What do you have?",
+      "equipment": {
+        "dumbbell": "Dumbbells",
+        "bands": "Resistance bands",
+        "kettlebell": "Kettlebell",
+        "bench": "Bench",
+        "pullup_bar": "Pull-up bar"
+      },
+      "dumbbellQuestion": "Which dumbbells do you own?",
+      "dumbbellHint": "So we never suggest a weight you don't have.",
+      "adjustable": "Adjustable",
+      "kg": "{{kg}} kg",
+      "gymNote": "You'll use barbells, dumbbells, cables and machines.",
+      "daysQuestion": "Which days can you train?",
+      "daysCount": "{{count}} day a week",
+      "daysCount_other": "{{count}} days a week",
+      "daysError": "Pick at least 2 days",
+      "lengthQuestion": "How long per session?",
+      "minutesShort": "min",
+      "focusQuestion": "Anything to focus on?",
+      "optional": "optional",
+      "focus": {
+        "full_body": "Full body",
+        "upper": "Upper body",
+        "lower_glutes": "Lower body & glutes",
+        "core": "Core",
+        "arms": "Arms"
+      },
+      "protectQuestion": "Protect any area?",
+      "protect": {
+        "knee": "Knees",
+        "lower_back": "Lower back",
+        "shoulder": "Shoulders",
+        "wrist": "Wrists"
+      },
+      "lowIntensityNote": "Because of your health answers, sessions stay gentle: no jumping and no lifting to failure. Check with your doctor before you start.",
+      "createPlan": "Create my plan",
+      "saveChanges": "Save changes"
+    },
+    "days": {
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun"
+    },
+    "template": {
+      "full_a": "Full body A",
+      "full_b": "Full body B",
+      "full_c": "Full body C",
+      "upper": "Upper body",
+      "lower": "Lower body",
+      "push": "Push",
+      "pull": "Pull",
+      "legs": "Legs"
+    },
+    "week": {
+      "restDay": "Rest day",
+      "exercises": "{{count}} exercise",
+      "exercises_other": "{{count}} exercises",
+      "minutes": "~{{count}} min"
     }
   }
 }

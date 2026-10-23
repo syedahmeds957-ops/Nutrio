@@ -44,3 +44,4 @@ export const X = Icon;
 export const WarningCircle = Icon;
 export const Info = Icon;
 export const ArrowsClockwise = Icon;
+export const Buildings = Icon;

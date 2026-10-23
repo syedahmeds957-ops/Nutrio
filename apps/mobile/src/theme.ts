@@ -78,7 +78,7 @@ export const darkColors: ThemeColors = {
 
   floatingBarBg: '#18191E',
   floatingBarActive: '#A4EB3F',
-  floatingBarInactive: '#636674',
+  floatingBarInactive: '#9CA3AF',     // #636674 was ~3:1 on the bar; 11 px labels need 4.5:1
 
   textPrimary: '#FFFFFF',
   text: '#FFFFFF',
@@ -126,7 +126,7 @@ export const lightColors: ThemeColors = {
 
   textPrimary: '#0F172A',
   text: '#0F172A',
-  textSecondary: '#64748B',
+  textSecondary: '#556275',  // #64748B was ~4.4:1 on the canvas, just under AA for small labels
   textMuted: '#94A3B8',
   textInverse: '#FFFFFF',
 

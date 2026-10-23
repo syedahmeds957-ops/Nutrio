@@ -78,6 +78,8 @@ import {
   releasePresetCache,
 } from './src/tracker/mealPresets.js';
 import { hydrateCustomDishes, releaseCustomDishCache } from './src/tracker/customDishes.js';
+import { hydrateWorkoutPlan, releaseWorkoutCache } from './src/workout/workoutStorage.js';
+import { WorkoutsScreen } from './src/workout/ui/WorkoutsScreen.js';
 import { fetchActivityHistory } from './src/sync/activitySync.js';
 import { purgeLegacyAiKeys } from './src/ai/ai-service.js';
 import { addDaysToKey, localDateKey } from './src/common/dateKey.js';
@@ -220,6 +222,7 @@ function NutrioAppContent() {
       hydrateFoodUsage().catch(recoverWith('Restoring food usage', undefined)),
       hydrateCustomDishes().catch(recoverWith('Restoring your dishes', undefined)),
       hydrateWeighIns().catch(recoverWith('Restoring weigh-ins', undefined)),
+      hydrateWorkoutPlan().catch(recoverWith('Restoring workout plan', undefined)),
     ]);
   };
 
@@ -342,6 +345,7 @@ function NutrioAppContent() {
     'weekly_checkin',
     'weight_tracker',
     'weekly_plan',
+    'workouts',
   ].includes(appState);
 
   // Only the leading edge of the app starts the gesture (matches iOS/Android
@@ -565,6 +569,7 @@ function NutrioAppContent() {
           releasePresetCache();
           releaseCustomDishCache();
           releaseWeightCache();
+          releaseWorkoutCache();
           releaseSurveyCache();
           clearAuthSession().catch(recoverWith('Signing out', undefined));
           setIsGuest(false);
@@ -587,6 +592,7 @@ function NutrioAppContent() {
           )
         }
         onOpenCoachChat={() => applyDestination(resolveCoachDestination(routingInput), 'coach_chat')}
+        onOpenWorkouts={() => applyDestination({ route: 'workouts' })}
         onOpenWeeklyCheckIn={() =>
           applyDestination(resolveWeeklyCheckInDestination(routingInput), 'weekly_checkin')
         }
@@ -686,6 +692,13 @@ function NutrioAppContent() {
         }}
         onBackToDashboard={goBack}
       />
+    );
+  }
+
+  // Workouts need no plan or survey: setup asks for anything they would have given.
+  if (appState === 'workouts') {
+    return wrapScreen(
+      <WorkoutsScreen survey={surveyData?.payload ?? null} activePlan={activePlan} onBack={goBack} />
     );
   }
 

@@ -45,6 +45,14 @@ describe('navigation history', () => {
     expect(finishPlan(navigateTo(back, 'plan_flow')).route).toBe('active_tracker');
   });
 
+  it('opens Workouts from the dashboard with no detour, and Back returns to the dashboard', () => {
+    // Workouts need no plan or survey, so the pill always opens the screen itself.
+    const atWorkouts = openFromDashboard(startAt('active_tracker'), 'workouts', 'workouts');
+    expect(atWorkouts.route).toBe('workouts');
+    expect(atWorkouts.afterPlan).toBeNull();
+    expect(goBackFrom(atWorkouts, 'auth').route).toBe('active_tracker');
+  });
+
   it('uses the fallback when nothing is behind the current screen', () => {
     expect(goBackFrom(startAt('survey'), 'auth').route).toBe('auth');
   });

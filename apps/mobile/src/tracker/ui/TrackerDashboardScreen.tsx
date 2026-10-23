@@ -61,6 +61,7 @@ interface TrackerDashboardScreenProps {
   onOpenWeightTracker?: () => void;
   onOpenMealPlan?: () => void;
   onOpenCoachChat?: () => void;
+  onOpenWorkouts?: () => void;
   onOpenWeeklyCheckIn?: () => void;
   onOpenSurvey?: () => void;
   onOpenHome?: () => void;
@@ -78,6 +79,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   onOpenWeightTracker,
   onOpenMealPlan,
   onOpenCoachChat,
+  onOpenWorkouts,
   onOpenWeeklyCheckIn,
   onOpenSurvey,
   onOpenHome,
@@ -496,8 +498,14 @@ const defaultSlotForNow = (): MealSlot => {
             </View>
           </View>
 
-          {/* Navigation Action Chips */}
-          <View style={styles.navActionsRow}>
+          {/* Navigation Action Chips. Content-width and scrollable: five equal-width
+              pills clip their labels on a 360-390 px phone. */}
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.navActionsScroll}
+            contentContainerStyle={styles.navActionsRow}
+          >
             {onOpenMealPlan && (
               <TouchableOpacity
                 style={[
@@ -512,6 +520,28 @@ const defaultSlotForNow = (): MealSlot => {
                   <Text numberOfLines={1} style={[styles.navPillBtnText, { color: theme.colors.textPrimary }]}>
                     {t('tracker.dashboard.nav.meals')}
                   </Text>
+                </View>
+              </TouchableOpacity>
+            )}
+
+            {onOpenWorkouts && (
+              <TouchableOpacity
+                style={[
+                  styles.navPillBtn,
+                  { backgroundColor: theme.colors.surface, borderColor: theme.colors.border },
+                ]}
+                onPress={onOpenWorkouts}
+                activeOpacity={0.7}
+                accessibilityRole="button"
+              >
+                <View style={styles.navPillContent}>
+                  <Icon name="dumbbell" size={13} color={theme.colors.textPrimary} />
+                  <Text numberOfLines={1} style={[styles.navPillBtnText, { color: theme.colors.textPrimary }]}>
+                    {t('tracker.dashboard.nav.workouts')}
+                  </Text>
+                  <View style={[styles.newBadge, { backgroundColor: theme.colors.primaryLime }]}>
+                    <Text style={[styles.newBadgeText, { color: theme.colors.limeText }]}>{t('workout.newBadge')}</Text>
+                  </View>
                 </View>
               </TouchableOpacity>
             )}
@@ -588,7 +618,7 @@ const defaultSlotForNow = (): MealSlot => {
               whole onboarding survey is not one of them. It still lives in the
               profile sheet, where settings-shaped actions belong.
             */}
-          </View>
+          </ScrollView>
         </View>
 
         {/* 1. Daily Progress Hero Card + 2x2 Metric Grid */}

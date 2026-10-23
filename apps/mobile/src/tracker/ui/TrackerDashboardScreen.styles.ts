@@ -82,16 +82,20 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '700',
   },
+  navActionsScroll: {
+    // Bleeds to the screen edges so pills scroll under the gutter, not into it.
+    marginHorizontal: -20,
+  },
   navActionsRow: {
     flexDirection: 'row',
     gap: 6,
     paddingVertical: 4,
+    paddingHorizontal: 20,
   },
   navPillBtn: {
-    flex: 1,
-    minWidth: 0,
-    paddingVertical: 7,
-    paddingHorizontal: 8,
+    minHeight: 44,
+    justifyContent: 'center',
+    paddingHorizontal: 14,
     borderRadius: 9999,
     borderWidth: 1,
   },
@@ -102,20 +106,26 @@ export const styles = StyleSheet.create({
     gap: 5,
   },
   navPillBtnText: {
-    flexShrink: 1,
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '600',
   },
   navPillBtnActive: {
-    flex: 1,
-    minWidth: 0,
-    paddingVertical: 7,
-    paddingHorizontal: 8,
+    minHeight: 44,
+    justifyContent: 'center',
+    paddingHorizontal: 14,
     borderRadius: 9999,
   },
   navPillBtnActiveText: {
-    flexShrink: 1,
-    fontSize: 12,
+    fontSize: 13,
+    fontWeight: '800',
+  },
+  newBadge: {
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 9999,
+  },
+  newBadgeText: {
+    fontSize: 10,
     fontWeight: '800',
   },
   slotsSection: {
