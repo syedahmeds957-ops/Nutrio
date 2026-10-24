@@ -131,7 +131,7 @@ Assumptions accepted with the approval:
 | 6 Manual swap | done 2026-10-23: web flow 18/18; iPhone check skipped, a real account is signed in there ([record](phase-06-manual-swap.md#execution-record-2026-10-23)) | `1e6dc74` (one commit for 4–6b, built on top of each other) |
 | 6b Cardio | done 2026-10-23: mockups approved, web flow 18/18 ([record](phase-06b-cardio.md#execution-record-2026-10-23)) | `1e6dc74` (one commit for 4–6b, built on top of each other) |
 | 6c Tell us more + routine import | done 2026-10-23: questions follow experience, routine builder, "What we improved"; web 18/18 + 13/13 ([record](phase-06c-tell-us-more-and-routine-import.md#execution-record-2026-10-23)) | `faa16e8` |
-| 7 Ramadan mode | done 2026-10-23: web 14/14 ([record](phase-07-ramadan-mode.md#execution-record-2026-10-23)) | not committed (waits for the user's command) |
+| 7 Ramadan mode | done 2026-10-23: web 14/14 ([record](phase-07-ramadan-mode.md#execution-record-2026-10-23)) | `3845a85` |
 | 8 Cloud sync | not started | |
 | 9 Calorie link | not started | |
 | 10 Coach | not started | |

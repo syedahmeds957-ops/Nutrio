@@ -18,6 +18,13 @@
 - Weekly check-in that proposes a capped, safety-floored target adjustment from real logs.
 - 7-day meal plan with one-tap swaps, filtered by diet preference.
 - AI coach (Groq `openai/gpt-oss-120b`, free tier) with a translated offline fallback.
+- Weekly workout plans (home or gym), built on the device with no AI and no internet:
+  - **Setup:** three short steps (goal and experience, where you train, days and session length), then an optional "Tell us more" whose questions follow your answers. Beginners get simple checks (push-ups, plank, brisk walking); people already training give their routine and current lifts. Likes, dislikes and sports days are asked too.
+  - **Your routine, improved:** someone who already follows a routine enters it day by day. The plan keeps their days, split and exercises where safe, fixes the gaps, and shows "What we improved" with a reason for each change.
+  - **The week and each day:** today's workout lists every exercise with an animated demo, sets × reps and rest. Every session ends with a cardio block, and rest days suggest a walk. Exercises can be swapped for safe alternatives.
+  - **Logging:** set-by-set, with a rest timer and a how-did-it-feel rating. Each next target (more weight, more reps, a harder variation) comes with a one-line reason.
+  - **Ramadan mode** switches on by itself during Ramadan (Umm al-Qura dates) for shorter, gentler sessions timed after suhoor, before iftar or after taraweeh, and switches off after Eid.
+  - Pakistan, Saudi Arabia (week starts Sunday) and every other region; English and Arabic.
 - English and Arabic, with right-to-left layout for Saudi Arabia; light and dark themes.
 
 Removed on purpose: meal-photo scanning, the grocery list and the weekly grocery budget. The paywall component exists but is not shown until the paid version.
@@ -29,7 +36,7 @@ Removed on purpose: meal-photo scanning, the grocery list and the weekly grocery
 | `apps/mobile/` | Expo 57 / React Native app (`App.tsx` routes between screens). Future web and admin apps go alongside it in `apps/`. |
 | `packages/nutrition-core/` | BMR, TDEE, targets, macros, safety, adaptive TDEE, meal-plan solver, coach prompt |
 | `packages/food-db/` | Local food catalogue, restaurant menus, search index |
-| `packages/workout-core/` | Exercise catalogue for the upcoming workout plans (in progress). Exercise data and photos: [free-exercise-db](https://github.com/yuhonas/free-exercise-db), public domain |
+| `packages/workout-core/` | Workout plans: exercise catalogue (174 moves, English and Arabic), weekly plan generator, progression with reasons, swaps, cardio, routine improvement, Ramadan dates. Pure and deterministic: no AI produces sets, reps or weights. Exercise data and photos: [free-exercise-db](https://github.com/yuhonas/free-exercise-db), public domain |
 | `supabase/migrations/` | Database schema (`core` and `off` schemas, row-level security) |
 | `supabase/functions/` | Edge functions; only `coach-chat` is deployed and used by the app |
 | `scripts/` | CI key guard, edge-function bundler, catalogue builders |
@@ -49,6 +56,7 @@ The Groq key is an Edge Function secret (`GROQ_API_KEY`), set in the Supabase da
 ### Pending
 
 - `assess`, `ocr-label`, `parse-food-text`, `plan-generate` and `weekly-review` edge functions are built and tested but not deployed or called by the app.
+- Workout plans: workout data is stored on the device only for now. Still to come are cloud sync (phase 8), linking training to the calorie target (9), the coach knowing the plan (10) and training in the weekly check-in (11). A Ramadan date setting for countries that start a day later is planned too. Plan and progress: [`docs/design/plans/workout-plans/`](docs/design/plans/workout-plans/README.md).
 
 ---
 
@@ -65,6 +73,7 @@ The Groq key is an Edge Function secret (`GROQ_API_KEY`), set in the Supabase da
 | 7 | **[`PUBLIC_APIS_AUDIT.md`](docs/planning/PUBLIC_APIS_AUDIT.md)** | Audit of the public-apis repo (1,696 entries) + the ODbL licence trap | Reference. Read §Traps before touching the food database. |
 | 8 | **[`DIET_FOOD_EXPANSION_PLAN.md`](docs/planning/DIET_FOOD_EXPANSION_PLAN.md)** | Diet & Basics catalogue expansion plan | Anyone adding foods |
 | 9 | **[`EXERCISE_APPS_RESEARCH.md`](docs/planning/EXERCISE_APPS_RESEARCH.md)** | Workout-app market research: how plans are generated, reviews, exercise-data licences | Anyone planning the exercise feature |
+| 10 | **[`workout-plans/README.md`](docs/design/plans/workout-plans/README.md)** | The workout feature's phased plan, decisions and progress, with an execution record per phase | Anyone working on workouts |
 
 Feature design specs and implementation plans live in [`docs/design/`](docs/design/); documents for removed features are in [`docs/archive/`](docs/archive/).
 
