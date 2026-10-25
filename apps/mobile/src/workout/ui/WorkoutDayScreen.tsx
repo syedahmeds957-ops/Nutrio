@@ -52,6 +52,8 @@ interface WorkoutDayScreenProps {
   /** Puts a chosen alternative in the slot (from the swap sheet's own list). */
   onSwap: (slotId: string, exerciseId: string) => void;
   onResetSwap: (slotId: string) => void;
+  /** Opens the coach about the exercise in a slot; offered wherever Swap is. */
+  onAskCoach?: (slotId: string) => void;
   /** Set for guests: the day is read-only, and starting it asks them to create an account. */
   onRequireAccount?: () => void;
 }
@@ -80,6 +82,7 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
   onSaved,
   onSwap,
   onResetSwap,
+  onAskCoach,
   onRequireAccount,
 }) => {
   const { theme } = useTheme();
@@ -380,6 +383,14 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
               }
             : undefined
         }
+        onAskCoach={
+          detailSlotId && onAskCoach && !logging && !doneLog && !sample
+            ? () => {
+                setDetailId(null);
+                onAskCoach(detailSlotId);
+              }
+            : undefined
+        }
       />
       <ExerciseOptionsSheet
         name={optionsExerciseId ? (getExercise(optionsExerciseId)?.name[language] ?? null) : null}
@@ -389,6 +400,14 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
           setOptionsSlotId(null);
           setSwapSlotId(optionsSlotId);
         }}
+        onAskCoach={
+          onAskCoach
+            ? () => {
+                setOptionsSlotId(null);
+                if (optionsSlotId) onAskCoach(optionsSlotId);
+              }
+            : undefined
+        }
         onDetails={() => {
           setOptionsSlotId(null);
           setDetailId(optionsExerciseId);

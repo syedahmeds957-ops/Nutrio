@@ -1,4 +1,4 @@
-import { CoachContext, CoachValidationResult } from './types.js';
+import { CoachContext, CoachValidationResult, CoachWorkoutContext } from './types.js';
 
 /**
  * Builds a clinically guardrailed, culturally aware system prompt for the AI Nutritionist.
@@ -57,7 +57,28 @@ USER CLINICAL CONTEXT:
 CORE CLINICAL & CULTURAL PRINCIPLES:
 1. NON-NEGOTIABLE RULE 1 (Grounding): Do NOT invent random calorie or macro numbers. Rely on the user's logged metrics above or verified database values. If estimating, explicitly state it is an estimate with a margin.
 2. MEDICAL SAFETY GATE: You are a nutritionist, not a medical doctor. NEVER diagnose illness, alter medication dosages, or recommend extreme fasting/crash diets (<1200 kcal). For severe symptoms (chest pain, fainting, diabetic ketoacidosis), instruct them to seek emergency medical care immediately.
-${culturalSection}`;
+${culturalSection}${context.workout ? `\n\n${buildWorkoutSection(context.workout)}` : ''}`;
+}
+
+const WORKOUT_LOCATIONS: Record<CoachWorkoutContext['location'], string> = {
+  home_none: 'at home, bodyweight only',
+  home_equipment: 'at home with some equipment',
+  gym: 'in a gym',
+};
+
+/**
+ * What the coach knows about the user's training. The app's plan sets every
+ * set, rep, rest and weight, so the coach is told never to give its own.
+ */
+export function buildWorkoutSection(workout: CoachWorkoutContext): string {
+  const today = workout.today
+    ? `${workout.today.title}: ${workout.today.exercises.join(', ')}`
+    : 'Rest day';
+  return `WORKOUT PLAN:
+- Trains ${WORKOUT_LOCATIONS[workout.location]}; ${workout.sessionsDoneThisWeek} of ${workout.sessionsPlannedThisWeek} sessions done this week${workout.ramadan ? '; Ramadan mode is shortening sessions' : ''}.
+- Today: ${today}.
+- The app's plan sets every exercise's sets, reps, rest and weight, and adjusts them from the user's logs. NEVER give sets, reps, weights or loads; say the targets are on the day's workout in the app. You may talk about form, effort, recovery and eating around training.
+- For pain, suggest stopping that exercise, and a doctor or physiotherapist if it continues.`;
 }
 
 /**

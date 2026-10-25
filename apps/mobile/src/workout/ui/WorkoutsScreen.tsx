@@ -42,6 +42,8 @@ interface WorkoutsScreenProps {
   onRequireAuth?: () => void;
   /** The user accepted the calorie target their new workout plan implies. */
   onAcceptPlan?: (plan: ComputedUserPlan) => void;
+  /** Opens the coach about one exercise on a day (Back returns to that day). */
+  onAskCoach?: (topic: { slotId: string; weekIndex: number; dateKey: string }) => void;
 }
 
 /** The Workouts route: a sample to explore for guests, the user's own plan for everyone signed in. */
@@ -122,6 +124,7 @@ const AccountWorkouts: React.FC<Omit<WorkoutsScreenProps, 'isGuest' | 'onRequire
   initialDayKey,
   onBack,
   onAcceptPlan,
+  onAskCoach,
 }) => {
   const { theme } = useTheme();
   const { activeRegion } = useRegion();
@@ -257,6 +260,7 @@ const AccountWorkouts: React.FC<Omit<WorkoutsScreenProps, 'isGuest' | 'onRequire
           onSaved={onSaved}
           onSwap={(slotId, exerciseId) => setPlan(swapExercise(plan, slotId, exerciseId, week.weekIndex))}
           onResetSwap={(slotId) => setPlan(resetExercise(plan, slotId))}
+          onAskCoach={onAskCoach ? (slotId) => onAskCoach({ slotId, weekIndex: week.weekIndex, dateKey: selectedDay.dateKey }) : undefined}
         />
         {targetSheet}
       </>

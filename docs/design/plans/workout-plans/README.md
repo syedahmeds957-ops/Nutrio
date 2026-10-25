@@ -98,6 +98,7 @@ Assumptions accepted with the approval:
 
 | Date | Phase | Change | Why |
 |---|---|---|---|
+| 2026-10-25 | 10 | User: fix the coach region bug (the schema dropped `region`, so SA got the PK prompt); add only the chip and Apply card to the current coach screen; I deploy coach-chat; candidates carry joint loads. Apply goes through `planActions.swapExercise` (save time + sync), not a raw save. After Apply the chip moves to the new exercise. A new proposal hides an unanswered one. A SWAP-only answer uses its reason as the reply | Phase 10 was written before phase 8; see the phase 10 record |
 | 2026-10-25 | 9 | User: the cardio block counts by intensity (easy 4.0, moderate or intervals 8.0 kcal/min); the rest-day walk isn't counted; no offer while Ramadan shortens sessions. No offer without a known baseline or when a floor holds the target. "Not now" is stored on the workout plan (`targetOfferDeclinedKcal`, synced, kept through rebuilds) and asked again only when the training changes. `acceptPlan` is shared with the check-in | Phase 9 was written before 6b, 7 and 8b; see the phase 9 record |
 | 2026-10-22 | plan | Old phase 3 split into phases 3 and 4 (11 phases now) | It touched 12+ files across storage, navigation and three screens |
 | 2026-10-22 | plan | No `resolveWorkoutsDestination`; workouts need no plan or survey | Nothing to resolve; a resolver would be dead indirection |
@@ -140,5 +141,5 @@ Assumptions accepted with the approval:
 | 8 Cloud sync | done 2026-10-25: migration applied, Checkpoint B 12/12 on web ([record](phase-08-cloud-sync.md#execution-record-2026-10-25)) | `70b79f8` |
 | 8b Guest preview | done 2026-10-25: mockups approved, web guest run 20/20 ([record](phase-08b-guest-preview.md#execution-record-2026-10-25)) | `17704fa` |
 | 9 Calorie link | done 2026-10-25: web run (EN + AR, accept, decline, re-save, cloud restore) ([record](phase-09-calorie-link.md#execution-record-2026-10-25)) | `ecc4ef7` |
-| 10 Coach | not started | |
+| 10 Coach | done 2026-10-25: coach-chat deployed, web run on the live coach (EN + AR) ([record](phase-10-coach.md#execution-record-2026-10-25)) | |
 | 11 Check-in adherence | not started | |

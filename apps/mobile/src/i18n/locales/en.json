@@ -165,6 +165,14 @@
           "three": "I'm still hungry after dinner. What can I eat?"
         },
         "reply": "Marhaba {{name}}! You currently have approximately {{remaining}} kcal remaining in your daily budget.\n\nFocus on balanced portions of lean protein (Tanmiah chicken, Naeemi lamb, fish), fresh salad, and Almarai Laban, while keeping rice portions measured. How can I help you optimize your meals today?"
+      },
+      "swapTopic": {
+        "reply": "I can't reach the coach right now. You can still pick a safe alternative yourself: open the exercise's ⋯ menu and choose Swap exercise.",
+        "prompts": {
+          "one": "What else can I do instead?",
+          "two": "Is this exercise safe for my knees?",
+          "three": "How do I know if the weight is too heavy?"
+        }
       }
     },
     "greeting": {
@@ -178,7 +186,20 @@
     "offlineAnswer": "Offline answer",
     "suggestedTopics": "Suggested topics",
     "title": "AI nutrition coach",
-    "typing": "AI coach is typing…"
+    "typing": "AI coach is typing…",
+    "topic": {
+      "talkingAbout": "Talking about",
+      "remove": "Stop talking about this exercise"
+    },
+    "swap": {
+      "title": "Swap to {{name}}?",
+      "note": "Sets and weights still come from your plan.",
+      "apply": "Apply swap",
+      "keep": "Keep current",
+      "applied": "Swapped. {{name}} is now in {{day}}.",
+      "refused": "This swap is no longer available because your plan changed. Open the day to choose another.",
+      "from": "From {{from}} to {{to}}"
+    }
   },
   "common": {
     "back": "Back",
@@ -1560,7 +1581,8 @@
       "label": "Options for {{name}}",
       "swap": "Swap exercise",
       "details": "View details",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "askCoach": "Ask coach about this"
     },
     "equipmentName": {
       "bodyweight": "Bodyweight",

@@ -17,8 +17,10 @@ import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
+import type { CoachSwapResult, CoachSwapTopic } from '../../workout/coachWorkout.js';
+import { ApplySwapCard, type SwapCardState } from './ApplySwapCard.js';
 
-interface Message {
+export interface Message {
   id: string;
   role: 'user' | 'assistant';
   text: string;
@@ -26,11 +28,29 @@ interface Message {
   sentAt: number;
   /** Answered by the built-in coach because the AI backend was unreachable. */
   isOfflineAnswer?: boolean;
+  /** A swap the coach proposed in this answer; 'kept' hides the card. */
+  swap?: { topic: CoachSwapTopic; toId: string; state: SwapCardState | 'kept'; dayTitle?: string };
 }
 
 interface CoachChatScreenProps {
   context: CoachContext;
   onBack: () => void;
+  /** The exercise the user asked about ("Ask coach about this"), sent with each message until closed. */
+  swapTopic?: CoachSwapTopic | null;
+  /** Applies a proposed swap the user accepted; refused when the plan no longer allows it. */
+  onApplySwap?: (topic: CoachSwapTopic, toId: string) => CoachSwapResult;
+}
+
+/**
+ * Adds a coach answer. A new proposal replaces any earlier one the user hasn't
+ * answered (the model sometimes proposes before the user agrees, then again
+ * after), so only one card is live.
+ */
+export function appendCoachMessage(messages: readonly Message[], next: Message): Message[] {
+  const earlier = next.swap
+    ? messages.map((m) => (m.swap?.state === 'proposed' ? { ...m, swap: { ...m.swap, state: 'kept' as const } } : m))
+    : messages;
+  return [...earlier, next];
 }
 
 // Starter questions differ by market; the ids are stable and the text is translated.
@@ -39,6 +59,8 @@ const CHIP_IDS = ['one', 'two', 'three', 'four'];
 export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
   context,
   onBack,
+  swapTopic,
+  onApplySwap,
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
@@ -69,7 +91,25 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
   const [inputText, setInputText] = useState('');
   const [suggestedChips, setSuggestedChips] = useState<string[]>(chips);
   const [isTyping, setIsTyping] = useState(false);
+  const [topic, setTopic] = useState<CoachSwapTopic | null>(swapTopic ?? null);
   const scrollViewRef = useRef<ScrollView>(null);
+  // Only the newest proposal can be applied; older cards stay for the record.
+  const latestProposalId = [...messages].reverse().find((m) => m.swap)?.id;
+
+  const setSwapState = (id: string, swap: Partial<NonNullable<Message['swap']>>) =>
+    setMessages((prev) => prev.map((m) => (m.id === id && m.swap ? { ...m, swap: { ...m.swap, ...swap } } : m)));
+
+  const applySwap = (m: Message) => {
+    if (!m.swap || !onApplySwap) return;
+    const result = onApplySwap(m.swap.topic, m.swap.toId);
+    if (result.applied) {
+      setSwapState(m.id, { state: 'applied', dayTitle: result.dayTitle });
+      // The chat is now about the exercise in the slot, with its own safe swaps.
+      setTopic(result.topic);
+    } else {
+      setSwapState(m.id, { state: 'refused' });
+    }
+  };
 
   const handleSend = async (textToSend?: string) => {
     const text = (textToSend || inputText).trim();
@@ -92,12 +132,17 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
     }, 100);
 
     try {
+      const askedAbout = topic;
       const response = await sendCoachMessage(
         newMessages.map((m) => ({
           role: m.role,
           content: m.text,
         })),
-        context
+        context,
+        undefined,
+        askedAbout
+          ? { exerciseId: askedAbout.exerciseId, exerciseName: askedAbout.exerciseName, candidates: askedAbout.candidates }
+          : undefined
       );
 
       const assistantMsg: Message = {
@@ -106,9 +151,12 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
         text: response.reply,
         sentAt: Date.now(),
         isOfflineAnswer: response.providerUsed === 'deterministic_fallback',
+        ...(askedAbout && response.proposedSwap
+          ? { swap: { topic: askedAbout, toId: response.proposedSwap.toId, state: 'proposed' as const } }
+          : {}),
       };
 
-      setMessages((prev) => [...prev, assistantMsg]);
+      setMessages((prev) => appendCoachMessage(prev, assistantMsg));
       if (response.suggestedPrompts && response.suggestedPrompts.length > 0) {
         setSuggestedChips(response.suggestedPrompts);
       }
@@ -181,6 +229,25 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
         </View>
       </View>
 
+      {topic ? (
+        <View style={styles.topicWrap}>
+          <View style={[styles.topicChip, { backgroundColor: theme.colors.surfaceSecondary }]}>
+            <Icon name="dumbbell" size={16} color={theme.colors.textPrimary} />
+            <Text numberOfLines={1} style={[styles.topicText, dir.text, { color: theme.colors.textPrimary }]}>
+              {t('coach.topic.talkingAbout')}: <Text style={styles.topicName}>{topic.exerciseName}</Text>
+            </Text>
+            <TouchableOpacity
+              accessibilityRole="button"
+              accessibilityLabel={t('coach.topic.remove')}
+              onPress={() => setTopic(null)}
+              style={styles.topicClose}
+            >
+              <Icon name="x" size={16} color={theme.colors.textSecondary} strokeWidth={2.4} />
+            </TouchableOpacity>
+          </View>
+        </View>
+      ) : null}
+
       {/* Main Chat Scroll Area */}
       <KeyboardAvoidingView
         style={styles.keyboardContainer}
@@ -194,54 +261,65 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
           showsVerticalScrollIndicator={false}
         >
           {messages.map((m) => (
-            <View
-              key={m.id}
-              style={[
-                styles.messageBubble,
-                m.role === 'user'
-                  ? [styles.userBubble, { backgroundColor: accentColor }]
-                  : styles.assistantBubble,
-                m.role === 'assistant' && {
-                  backgroundColor: theme.colors.surface,
-                  borderColor: theme.colors.border,
-                },
-              ]}
-            >
-              {m.role === 'assistant' && (
-                <Text
-                  style={[
-                    styles.avatarLabel,
-                    { color: isDark ? theme.colors.primaryLime : '#4B6200' },
-                  ]}
-                >
-                  {t('coach.badge')}
-                </Text>
-              )}
-              <Text
+            <React.Fragment key={m.id}>
+              <View
                 style={[
-                  styles.messageText,
+                  styles.messageBubble,
                   m.role === 'user'
-                    ? [styles.userText, { color: '#0A0B0D' }]
-                    : [styles.assistantText, { color: theme.colors.textPrimary }],
-                ]}
-              >
-                {m.text}
-              </Text>
-              <Text
-                style={[
-                  styles.timestamp,
-                  {
-                    color: m.role === 'user'
-                      ? '#333A00'
-                      : theme.colors.textMuted,
+                    ? [styles.userBubble, { backgroundColor: accentColor }]
+                    : styles.assistantBubble,
+                  m.role === 'assistant' && {
+                    backgroundColor: theme.colors.surface,
+                    borderColor: theme.colors.border,
                   },
                 ]}
               >
-                {m.isOfflineAnswer
-                  ? `${t('coach.offlineAnswer')} · ${formatTime(m.sentAt)}`
-                  : formatTime(m.sentAt)}
-              </Text>
-            </View>
+                {m.role === 'assistant' && (
+                  <Text
+                    style={[
+                      styles.avatarLabel,
+                      { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                    ]}
+                  >
+                    {t('coach.badge')}
+                  </Text>
+                )}
+                <Text
+                  style={[
+                    styles.messageText,
+                    m.role === 'user'
+                      ? [styles.userText, { color: '#0A0B0D' }]
+                      : [styles.assistantText, { color: theme.colors.textPrimary }],
+                  ]}
+                >
+                  {m.text}
+                </Text>
+                <Text
+                  style={[
+                    styles.timestamp,
+                    {
+                      color: m.role === 'user'
+                        ? '#333A00'
+                        : theme.colors.textMuted,
+                    },
+                  ]}
+                >
+                  {m.isOfflineAnswer
+                    ? `${t('coach.offlineAnswer')} · ${formatTime(m.sentAt)}`
+                    : formatTime(m.sentAt)}
+                </Text>
+              </View>
+              {m.swap && m.swap.state !== 'kept' ? (
+                <ApplySwapCard
+                  fromId={m.swap.topic.exerciseId}
+                  toId={m.swap.toId}
+                  state={m.swap.state}
+                  dayTitle={m.swap.dayTitle}
+                  onApply={m.id === latestProposalId && m.swap.state === 'proposed' ? () => applySwap(m) : undefined}
+                  onKeep={m.id === latestProposalId && m.swap.state === 'proposed' ? () => setSwapState(m.id, { state: 'kept' }) : undefined}
+                />
+              ) : null}
+            </React.Fragment>
           ))}
 
           {isTyping && (
@@ -342,6 +420,11 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
 };
 
 const styles = StyleSheet.create({
+  topicWrap: { paddingHorizontal: 16, paddingTop: 8 },
+  topicChip: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingStart: 12, borderRadius: 999 },
+  topicText: { flex: 1, minWidth: 0, fontSize: 13, fontWeight: '600' },
+  topicName: { fontWeight: '800' },
+  topicClose: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
   safeArea: {
     flex: 1,
   },

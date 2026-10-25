@@ -11,12 +11,14 @@ interface ExerciseDetailSheetProps {
   onClose: () => void;
   /** Shows a Swap button when the exercise can be swapped from where the sheet was opened. */
   onSwap?: () => void;
+  /** Shows an Ask coach button next to Swap. */
+  onAskCoach?: () => void;
 }
 
 const MAX_SHEET_WIDTH = 500;
 
 /** A bottom sheet with the exercise's demo, the muscles it works and how to do it, in the user's language. */
-export const ExerciseDetailSheet: React.FC<ExerciseDetailSheetProps> = ({ exerciseId, onClose, onSwap }) => {
+export const ExerciseDetailSheet: React.FC<ExerciseDetailSheetProps> = ({ exerciseId, onClose, onSwap, onAskCoach }) => {
   const { theme } = useTheme();
   const c = theme.colors;
   const { t } = useTranslation();
@@ -70,6 +72,16 @@ export const ExerciseDetailSheet: React.FC<ExerciseDetailSheetProps> = ({ exerci
               >
                 <Icon name="swap" size={16} color={c.textPrimary} />
                 <Text style={[styles.swapText, { color: c.textPrimary }]}>{t('workout.options.swap')}</Text>
+              </TouchableOpacity>
+            ) : null}
+            {onAskCoach ? (
+              <TouchableOpacity
+                accessibilityRole="button"
+                onPress={onAskCoach}
+                style={[styles.swap, { backgroundColor: c.surfaceSecondary, borderColor: c.border }]}
+              >
+                <Icon name="sparkles" size={16} color={c.textPrimary} />
+                <Text style={[styles.swapText, { color: c.textPrimary }]}>{t('workout.options.askCoach')}</Text>
               </TouchableOpacity>
             ) : null}
           </ScrollView>

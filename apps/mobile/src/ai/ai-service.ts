@@ -1,5 +1,5 @@
 import { CoachContext } from '@nutrio/nutrition-core';
-import { CoachChatMessage, CoachChatResult } from './types.js';
+import { CoachChatMessage, CoachChatResult, CoachSwapRequest } from './types.js';
 import { EdgeFunctionInvoker, invokeEdgeFunction } from './edgeFunctions.js';
 import { i18n } from '../i18n/config.js';
 
@@ -21,6 +21,19 @@ const LEGACY_AI_STORAGE_KEYS = [
   'nutrio_active_ai_provider',
 ];
 
+// This runs outside React, so it reads the shared i18n instance rather than
+// the hook. Each topic owns a reply plus three follow-up prompts.
+function fallbackTopic(key: string, vars?: Record<string, unknown>) {
+  return {
+    reply: i18n.t(`coach.fallback.${key}.reply`, vars ?? {}),
+    suggestedPrompts: [
+      i18n.t(`coach.fallback.${key}.prompts.one`),
+      i18n.t(`coach.fallback.${key}.prompts.two`),
+      i18n.t(`coach.fallback.${key}.prompts.three`),
+    ],
+  };
+}
+
 export function getFallbackCoachResponse(
   userQuery: string,
   context: CoachContext
@@ -29,20 +42,10 @@ export function getFallbackCoachResponse(
   const remaining = context.todaySummary?.remainingCalories ?? 500;
   const isSaudi = context.region === 'SA';
 
-  // This runs outside React, so it reads the shared i18n instance rather than
-  // the hook. Each topic owns a reply plus three follow-up prompts.
-  const topic = (key: string, vars?: Record<string, unknown>) => ({
-    reply: i18n.t(`coach.fallback.${key}.reply`, vars ?? {}),
-    suggestedPrompts: [
-      i18n.t(`coach.fallback.${key}.prompts.one`),
-      i18n.t(`coach.fallback.${key}.prompts.two`),
-      i18n.t(`coach.fallback.${key}.prompts.three`),
-    ],
-  });
 
   // 1. AlBaik / Fast Food Advice
   if (query.includes('albaik') || query.includes('broast') || query.includes('nugget') || query.includes('kudu')) {
-    return topic('fastFood');
+    return fallbackTopic('fastFood');
   }
 
   // 2. Kabsa / Mandi / Social Banquets
@@ -53,31 +56,31 @@ export function getFallbackCoachResponse(
     query.includes('madhbi') ||
     (isSaudi && (query.includes('rice') || query.includes('dawat') || query.includes('dinner')))
   ) {
-    return topic('banquet');
+    return fallbackTopic('banquet');
   }
 
   // 3. Saudi Gahwa & Dates
   if (query.includes('gahwa') || query.includes('coffee') || query.includes('date') || query.includes('tamr')) {
-    return topic('gahwa');
+    return fallbackTopic('gahwa');
   }
 
   // 4. Pakistani Oil Reduction
   if (query.includes('oil') || query.includes('karahi') || query.includes('tel') || query.includes('ghee')) {
-    return topic('cookingOil');
+    return fallbackTopic('cookingOil');
   }
 
   // 5. Pakistani Shaadi / Dawat
   if (query.includes('shaadi') || query.includes('dawat') || query.includes('buffet') || query.includes('party')) {
-    return topic('dawat');
+    return fallbackTopic('dawat');
   }
 
   // 6. Pakistani Chai
   if (query.includes('chai') || query.includes('tea') || query.includes('doodh patti')) {
-    return topic('chai');
+    return fallbackTopic('chai');
   }
 
   // Default regional greeting
-  return topic(isSaudi ? 'greetingSA' : 'greetingPK', {
+  return fallbackTopic(isSaudi ? 'greetingSA' : 'greetingPK', {
     name: context.displayName || i18n.t('coach.defaultName'),
     remaining,
   });
@@ -87,6 +90,15 @@ interface CoachEdgeResponse {
   reply: string;
   suggestedPrompts: string[];
   provider: string;
+  proposedSwap?: unknown;
+}
+
+/** The server's proposal, kept only when it names one of the candidates this request sent. */
+function proposedSwapFrom(value: unknown, swapRequest: CoachSwapRequest | undefined): CoachChatResult['proposedSwap'] {
+  if (!swapRequest || !value || typeof value !== 'object') return undefined;
+  const { toId, reason } = value as Record<string, unknown>;
+  if (typeof toId !== 'string' || !swapRequest.candidates.some((c) => c.id === toId)) return undefined;
+  return { toId, reason: typeof reason === 'string' ? reason : '' };
 }
 
 function isCoachEdgeResponse(value: unknown): value is CoachEdgeResponse {
@@ -122,7 +134,8 @@ function toCoachRequestMessages(
 export async function sendCoachMessage(
   messages: CoachChatMessage[],
   context: CoachContext,
-  invoke: EdgeFunctionInvoker = invokeEdgeFunction
+  invoke: EdgeFunctionInvoker = invokeEdgeFunction,
+  swapRequest?: CoachSwapRequest
 ): Promise<CoachChatResult> {
   const requestMessages = toCoachRequestMessages(messages);
   const lastUserMsg =
@@ -130,12 +143,14 @@ export async function sendCoachMessage(
 
   if (requestMessages.length > 0) {
     try {
-      const response = await invoke('coach-chat', { messages: requestMessages, context });
+      const response = await invoke('coach-chat', { messages: requestMessages, context, ...(swapRequest ? { swapRequest } : {}) });
       if (isCoachEdgeResponse(response) && response.provider !== SERVER_COACH_FALLBACK_PROVIDER) {
+        const proposedSwap = proposedSwapFrom(response.proposedSwap, swapRequest);
         return {
           reply: response.reply,
           suggestedPrompts: response.suggestedPrompts.slice(0, 3),
           providerUsed: 'edge_function',
+          ...(proposedSwap ? { proposedSwap } : {}),
         };
       }
       if (!isCoachEdgeResponse(response)) {
@@ -146,7 +161,8 @@ export async function sendCoachMessage(
     }
   }
 
-  const fallback = getFallbackCoachResponse(lastUserMsg, context);
+  // Offline about an exercise: point to the Swap menu, which works without the coach.
+  const fallback = swapRequest ? fallbackTopic('swapTopic') : getFallbackCoachResponse(lastUserMsg, context);
   return {
     reply: fallback.reply,
     suggestedPrompts: fallback.suggestedPrompts,

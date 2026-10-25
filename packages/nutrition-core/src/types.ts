@@ -265,6 +265,18 @@ export interface CoachContext {
   medicalFlags?: string[];
   dietaryPreferences?: string[];
   isRamadanMode?: boolean;
+  /** The user's workout plan this week, when they have one. */
+  workout?: CoachWorkoutContext;
+}
+
+export interface CoachWorkoutContext {
+  location: 'home_none' | 'home_equipment' | 'gym';
+  sessionsPlannedThisWeek: number;
+  sessionsDoneThisWeek: number;
+  /** Today's session, in the app's language; absent on a rest day. */
+  today?: { title: string; exercises: string[] };
+  /** Ramadan mode is shortening sessions now. */
+  ramadan: boolean;
 }
 
 export interface CoachValidationResult {

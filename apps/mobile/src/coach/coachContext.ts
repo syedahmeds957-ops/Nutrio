@@ -1,4 +1,4 @@
-import { CoachContext } from '@nutrio/nutrition-core';
+import { CoachContext, CoachWorkoutContext } from '@nutrio/nutrition-core';
 import type { ComputedUserPlan } from '../plan/types.js';
 import type { LifestyleSurveyPayload } from '../survey/types.js';
 import type { DailyTrackerSummary } from '../tracker/types.js';
@@ -12,6 +12,8 @@ export interface CoachContextInput {
   summary?: DailyTrackerSummary | null;
   displayName: string;
   region: 'PK' | 'SA';
+  /** The user's training this week, when they have a workout plan. */
+  workout?: CoachWorkoutContext;
 }
 
 /**
@@ -28,6 +30,7 @@ export function buildCoachContext({
   summary,
   displayName,
   region,
+  workout,
 }: CoachContextInput): CoachContext {
   const conditions =
     survey?.healthClinical?.medicalConditions ?? plan.userContext.medicalConditions ?? [];
@@ -66,5 +69,6 @@ export function buildCoachContext({
         },
     medicalFlags: conditions.filter((condition) => condition !== NO_CONDITION),
     dietaryPreferences: diet ? [diet] : [],
+    ...(workout ? { workout } : {}),
   };
 }

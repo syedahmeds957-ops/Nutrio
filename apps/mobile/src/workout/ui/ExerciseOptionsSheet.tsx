@@ -9,13 +9,15 @@ interface ExerciseOptionsSheetProps {
   name: string | null;
   swapped: boolean;
   onSwap: () => void;
+  /** Opens the coach about this exercise; absent where the coach can't help (or for guests). */
+  onAskCoach?: () => void;
   onDetails: () => void;
   onReset: () => void;
   onClose: () => void;
 }
 
-/** The ⋯ menu on an exercise: swap it, see how to do it, or undo a swap. */
-export const ExerciseOptionsSheet: React.FC<ExerciseOptionsSheetProps> = ({ name, swapped, onSwap, onDetails, onReset, onClose }) => {
+/** The ⋯ menu on an exercise: swap it, ask the coach, see how to do it, or undo a swap. */
+export const ExerciseOptionsSheet: React.FC<ExerciseOptionsSheetProps> = ({ name, swapped, onSwap, onAskCoach, onDetails, onReset, onClose }) => {
   const { theme } = useTheme();
   const c = theme.colors;
   const { t } = useTranslation();
@@ -41,6 +43,7 @@ export const ExerciseOptionsSheet: React.FC<ExerciseOptionsSheetProps> = ({ name
           {name}
         </Text>
         {option('swap', t('workout.options.swap'), onSwap)}
+        {onAskCoach ? option('sparkles', t('workout.options.askCoach'), onAskCoach) : null}
         {option('info', t('workout.options.details'), onDetails)}
         {swapped ? option('arrow-left', t('workout.swap.reset'), onReset) : null}
         <TouchableOpacity accessibilityRole="button" onPress={onClose} style={[styles.cancel, { backgroundColor: c.surfaceSecondary }]}>

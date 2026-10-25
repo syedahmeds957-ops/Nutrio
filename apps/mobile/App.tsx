@@ -84,6 +84,7 @@ import { setActiveDraft } from './src/workout/workoutDraft.js';
 import { TimeoutError, withTimeout } from './src/common/withTimeout.js';
 import { WorkoutsScreen } from './src/workout/ui/WorkoutsScreen.js';
 import { samplePlan } from './src/workout/samplePlan.js';
+import { applyCoachSwap, coachSwapTopic, coachWorkoutContext } from './src/workout/coachWorkout.js';
 import { fetchActivityHistory } from './src/sync/activitySync.js';
 import { applyWorkoutBackup, fetchWorkoutBackup } from './src/sync/workoutSync.js';
 import { purgeLegacyAiKeys } from './src/ai/ai-service.js';
@@ -169,6 +170,10 @@ function NutrioAppContent() {
   const [isGuest, setIsGuest] = useState<boolean>(false);
   /** The day the dashboard's Start opened Workouts on; null opens the week. */
   const [workoutDayKey, setWorkoutDayKey] = useState<string | null>(null);
+  /** The exercise "Ask coach about this" opened the coach on; null for a general chat. */
+  const [coachTopic, setCoachTopic] = useState<{ slotId: string; weekIndex: number } | null>(null);
+  /** Bumped when the coach applies a swap, so its picture of today's workout is rebuilt from storage. */
+  const [, setWorkoutRevision] = useState(0);
   const [isBootstrapping, setIsBootstrapping] = useState<boolean>(() => {
     // In test environment, skip splash to ensure deterministic renders
     if (typeof process !== 'undefined' && process.env?.NODE_ENV === 'test') {
@@ -689,7 +694,10 @@ function NutrioAppContent() {
             'weekly_plan'
           )
         }
-        onOpenCoachChat={() => applyDestination(resolveCoachDestination(routingInput), 'coach_chat')}
+        onOpenCoachChat={() => {
+          setCoachTopic(null);
+          applyDestination(resolveCoachDestination(routingInput), 'coach_chat');
+        }}
         onOpenWorkouts={() => {
           setWorkoutDayKey(null);
           applyDestination({ route: 'workouts' });
@@ -712,6 +720,8 @@ function NutrioAppContent() {
   // AI Nutritionist Chat. Reached only with an accepted plan (see
   // resolveCoachDestination), which is the source of the coach's profile.
   if (appState === 'coach_chat' && activePlan) {
+    // Stored data only: guests never reach the coach, so there is no sample plan here.
+    const workoutPlan = loadWorkoutPlan();
     return wrapScreen(
       <CoachChatScreen
         context={buildCoachContext({
@@ -720,7 +730,16 @@ function NutrioAppContent() {
           summary: trackerSummary,
           displayName: getAuthSession()?.user?.name || t('app.coachFallbackName'),
           region: activeRegion,
+          workout: workoutPlan
+            ? coachWorkoutContext({ plan: workoutPlan, logs: loadWorkoutLogs(), todayKey: localDateKey(), region: activeRegion, language, t })
+            : undefined,
         })}
+        swapTopic={coachTopic && workoutPlan ? coachSwapTopic(workoutPlan, coachTopic.slotId, coachTopic.weekIndex, language) : null}
+        onApplySwap={(topic, toId) => {
+          const result = applyCoachSwap(topic, toId, language, t);
+          if (result.applied) setWorkoutRevision((n) => n + 1);
+          return result;
+        }}
         onBack={goBack}
       />
     );
@@ -806,6 +825,12 @@ function NutrioAppContent() {
         isGuest={isGuest}
         onRequireAuth={() => resetTo('auth')}
         onAcceptPlan={acceptPlan}
+        onAskCoach={({ slotId, weekIndex, dateKey }) => {
+          setCoachTopic({ slotId, weekIndex });
+          // Back from the coach returns to this day.
+          setWorkoutDayKey(dateKey);
+          applyDestination(resolveCoachDestination(routingInput), 'coach_chat');
+        }}
       />
     );
   }

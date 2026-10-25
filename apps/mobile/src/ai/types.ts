@@ -13,4 +13,13 @@ export interface CoachChatResult {
   reply: string;
   suggestedPrompts: string[];
   providerUsed: AiAnswerSource;
+  /** A swap the coach proposes; always one of the request's candidates, applied only if the user taps Apply. */
+  proposedSwap?: { toId: string; reason: string };
+}
+
+/** The exercise a chat is about, and the only swaps the app allows for it. */
+export interface CoachSwapRequest {
+  exerciseId: string;
+  exerciseName: string;
+  candidates: { id: string; name: string; jointLoads: string[] }[];
 }

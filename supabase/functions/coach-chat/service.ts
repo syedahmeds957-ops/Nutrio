@@ -8,6 +8,7 @@ import {
   CoachChatRequest,
   CoachChatResponse,
   CoachChatResponseSchema,
+  SwapRequest,
 } from './schema.js';
 
 // Reasoning plus a short reply; Groq's documented default for gpt-oss.
@@ -82,6 +83,64 @@ export function isSuggestedQuestion(text: string): boolean {
   return q.length > 5 && q.length <= MAX_SUGGESTION_CHARS && q.endsWith('?');
 }
 
+const JOINT_NAMES: Record<string, string> = {
+  knee: 'knees',
+  lower_back: 'lower back',
+  shoulder: 'shoulders',
+  wrist: 'wrists',
+};
+
+/**
+ * The prompt block for a chat about one exercise: the only alternatives the
+ * app allows, with the joints each one loads, and how to propose one. The
+ * model may only pick an id from this list; the app asks the user before
+ * changing anything.
+ */
+export function buildSwapInstructions(swap: SwapRequest): string {
+  const options = swap.candidates.length
+    ? swap.candidates
+        .map((c) => {
+          const loads = c.jointLoads.map((j) => JOINT_NAMES[j] ?? j).join(', ');
+          return `- ${c.id}: ${c.name} (${loads ? `loads ${loads}` : 'no joint flagged'})`;
+        })
+        .join('\n')
+    : '- (none: there is no safe alternative with their equipment and plan)';
+
+  return `EXERCISE BEING DISCUSSED: ${swap.exerciseName} (id ${swap.exerciseId}).
+Safe alternatives from the user's plan (the ONLY exercises you may suggest instead):
+${options}
+- If the user mentions pain in a joint, prefer an alternative that does not load it, and say so. If every alternative loads that joint, say that none avoids it fully, and suggest a lighter weight or skipping it today.
+- If there is no alternative, say you couldn't find a safe swap with their equipment, and suggest lowering the weight or skipping it today.
+- Suggest an alternative in words first and ask whether they want to swap. Only after the user clearly agrees, write one short sentence about the swap, then end your answer with one line, just before SUGGESTIONS:
+SWAP: {"toId": "<an id from the list above>", "reason": "<a full sentence in the user's language, no numbers>"}
+- Never write the SWAP line otherwise, and never with an id that is not in the list.`;
+}
+
+const SWAP_LINE = /SWAP:\s*(\{[^{}]*\})/i;
+
+/**
+ * Takes the SWAP line out of the model's text wherever it appears, and keeps
+ * the proposal only when its id is one of the candidates the app sent.
+ */
+export function takeProposedSwap(
+  content: string,
+  swap: SwapRequest | undefined
+): { content: string; proposedSwap?: { toId: string; reason: string }; rejected: boolean } {
+  const match = content.match(SWAP_LINE);
+  if (!match) return { content, rejected: false };
+  const rest = content.replace(match[0], '').replace(/```(?:json)?\s*```/g, '').replace(/\n{3,}/g, '\n\n');
+  try {
+    const parsed = JSON.parse(match[1]);
+    const toId = typeof parsed?.toId === 'string' ? parsed.toId : '';
+    const allowed = swap?.candidates.some((c) => c.id === toId) ?? false;
+    if (!allowed) return { content: rest, rejected: true };
+    const reason = typeof parsed.reason === 'string' ? parsed.reason.trim().slice(0, 300) : '';
+    return { content: rest, proposedSwap: { toId, reason }, rejected: false };
+  } catch {
+    return { content: rest, rejected: true };
+  }
+}
+
 export async function coachChatService(
   request: CoachChatRequest,
   apiKey?: string
@@ -97,10 +156,13 @@ export async function coachChatService(
     "I'm still hungry after dinner. What can I eat?",
   ];
   let provider = 'deterministic_coach_fallback';
+  let proposedSwap: CoachChatResponse['proposedSwap'];
+  let swapRejected = false;
+  const swapSection = request.swapRequest ? `\n\n${buildSwapInstructions(request.swapRequest)}` : '';
 
   if (apiKey) {
     try {
-      const promptInstructions = `${systemPrompt}
+      const promptInstructions = `${systemPrompt}${swapSection}
 
 ANSWER STYLE (strict):
 - Answer the exact question in the first sentence. No greeting, no restating the question, no preamble.
@@ -154,7 +216,11 @@ SUGGESTIONS: ["Question 1?", "Question 2?", "Question 3?"]`;
           console.warn(`[coach-chat] Groq sent an empty reply (finish_reason: ${choice?.finish_reason})`);
         }
         if (rawContent) {
-          const split = rawContent.split(/SUGGESTIONS:\s*/i);
+          const swap = takeProposedSwap(rawContent, request.swapRequest);
+          proposedSwap = swap.proposedSwap;
+          swapRejected = swap.rejected;
+          if (swapRejected) console.warn('[coach-chat] Dropped a proposed swap that was not one of the candidates');
+          const split = swap.content.split(/SUGGESTIONS:\s*/i);
           reply = split[0].trim();
           if (split[1]) {
             try {
@@ -175,6 +241,10 @@ SUGGESTIONS: ["Question 1?", "Question 2?", "Question 3?"]`;
     }
   }
 
+  // The model sometimes answers an agreed swap with the SWAP line alone; the
+  // reason it gave reads as the answer, not the generic greeting.
+  if (!reply && proposedSwap) reply = proposedSwap.reason;
+
   if (!reply) {
     const fallback = getFallbackCoachResponse(
       lastUserMessage,
@@ -192,7 +262,8 @@ SUGGESTIONS: ["Question 1?", "Question 2?", "Question 3?"]`;
     reply: validation.sanitizedText,
     suggestedPrompts: suggestedPrompts.slice(0, 3),
     provider,
-    flagsTriggered: validation.flagsTriggered,
+    flagsTriggered: swapRejected ? [...validation.flagsTriggered, 'SWAP_NOT_IN_CANDIDATES'] : validation.flagsTriggered,
+    ...(proposedSwap ? { proposedSwap } : {}),
   };
 
   return CoachChatResponseSchema.parse(response);
