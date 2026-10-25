@@ -13,6 +13,20 @@ import { localDateKey } from '../common/dateKey.js';
 import { settingsForSave } from './setupState.js';
 import { saveWorkoutLog } from './workoutLogStorage.js';
 import { saveWorkoutPlan } from './workoutStorage.js';
+import { pushWorkoutLogs, pushWorkoutPlan } from '../sync/workoutSync.js';
+
+/**
+ * A change the user made: stamped with its save time, kept on the device and
+ * backed up when signed in (not awaited; a failed push never blocks the app).
+ * Rebuilds the user didn't ask for (upgrades, Ramadan start and end) are saved
+ * by storage alone and keep the old save time.
+ */
+function commitPlan(plan: WeeklyWorkoutPlan, now: Date): WeeklyWorkoutPlan {
+  const saved = { ...plan, updatedAt: now.toISOString() };
+  saveWorkoutPlan(saved);
+  void pushWorkoutPlan(saved);
+  return saved;
+}
 
 /** A fresh plan from setup answers, saved for this user. */
 export function createWorkoutPlan(settings: WorkoutSettings, now: Date = new Date()): WeeklyWorkoutPlan {
@@ -22,15 +36,13 @@ export function createWorkoutPlan(settings: WorkoutSettings, now: Date = new Dat
     today: localDateKey(now),
     now: now.toISOString(),
   });
-  saveWorkoutPlan(plan);
-  return plan;
+  return commitPlan(plan, now);
 }
 
 /** The plan after "Edit plan": same seed and week numbering, swaps kept where they still fit. */
 export function updateWorkoutPlan(previous: WeeklyWorkoutPlan, settings: WorkoutSettings, now: Date = new Date()): WeeklyWorkoutPlan {
   const plan = regeneratePlan(previous, settingsForSave(settings), { now: now.toISOString(), asOf: localDateKey(now) });
-  saveWorkoutPlan(plan);
-  return plan;
+  return commitPlan(plan, now);
 }
 
 /**
@@ -40,26 +52,30 @@ export function updateWorkoutPlan(previous: WeeklyWorkoutPlan, settings: Workout
 export function recordWorkout(
   plan: WeeklyWorkoutPlan,
   log: WorkoutLog,
-  slots: readonly PlannedSlot[]
+  slots: readonly PlannedSlot[],
+  now: Date = new Date()
 ): { plan: WeeklyWorkoutPlan; logs: WorkoutLog[] } {
   const logs = saveWorkoutLog(log);
+  void pushWorkoutLogs([{ dateKey: log.dateKey, logs: logs.filter((other) => other.dateKey === log.dateKey) }]);
   const next = applyLadder(plan, logs, slots);
-  if (next !== plan) saveWorkoutPlan(next);
-  return { plan: next, logs };
+  return { plan: next !== plan ? commitPlan(next, now) : plan, logs };
 }
 
 /** Puts a chosen safe alternative in a slot from now on, saved for this user. */
-export function swapExercise(plan: WeeklyWorkoutPlan, slotId: string, exerciseId: string, weekIndex: number): WeeklyWorkoutPlan {
-  const next = applySwap(plan, slotId, exerciseId, weekIndex);
-  saveWorkoutPlan(next);
-  return next;
+export function swapExercise(
+  plan: WeeklyWorkoutPlan,
+  slotId: string,
+  exerciseId: string,
+  weekIndex: number,
+  now: Date = new Date()
+): WeeklyWorkoutPlan {
+  return commitPlan(applySwap(plan, slotId, exerciseId, weekIndex), now);
 }
 
 /** Undoes a swap: the slot goes back to its own exercise. */
-export function resetExercise(plan: WeeklyWorkoutPlan, slotId: string): WeeklyWorkoutPlan {
+export function resetExercise(plan: WeeklyWorkoutPlan, slotId: string, now: Date = new Date()): WeeklyWorkoutPlan {
   const next = resetSwap(plan, slotId);
-  if (next !== plan) saveWorkoutPlan(next);
-  return next;
+  return next !== plan ? commitPlan(next, now) : plan;
 }
 
 /**

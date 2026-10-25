@@ -84,6 +84,7 @@ import { setActiveDraft } from './src/workout/workoutDraft.js';
 import { TimeoutError, withTimeout } from './src/common/withTimeout.js';
 import { WorkoutsScreen } from './src/workout/ui/WorkoutsScreen.js';
 import { fetchActivityHistory } from './src/sync/activitySync.js';
+import { applyWorkoutBackup, fetchWorkoutBackup } from './src/sync/workoutSync.js';
 import { purgeLegacyAiKeys } from './src/ai/ai-service.js';
 import { addDaysToKey, localDateKey } from './src/common/dateKey.js';
 
@@ -274,6 +275,10 @@ function NutrioAppContent() {
   // reports whether onboarding still needs to run.
   const restoreUserData = async (): Promise<{ plan: ComputedUserPlan | null }> => {
     const cloud = hydrateUserDataFromCloud();
+    // Fetched alongside the rest, merged once the device copy is loaded below.
+    // Its time limit runs from now, so a stalled network doesn't add a third wait.
+    const workoutBackup = fetchWorkoutBackup();
+    const workoutDeadline = Date.now() + CLOUD_TIMEOUT_MS;
     const hydration = await withTimeout(cloud, CLOUD_TIMEOUT_MS, 'Restoring cloud data').catch((err: unknown) => {
       // Too slow to hold the splash for, but still the user's data: fill in
       // whatever the device didn't have once it lands.
@@ -283,6 +288,13 @@ function NutrioAppContent() {
       return recoverWith('Restoring cloud data', null)(err);
     });
     await restoreActivityHistory();
+    // A backup that misses the time limit still merges when it lands; the
+    // newer copy wins, so nothing done meanwhile is lost.
+    await withTimeout(
+      workoutBackup.then((backup) => applyWorkoutBackup(backup)),
+      Math.max(0, workoutDeadline - Date.now()),
+      'Restoring workouts'
+    ).catch(recoverWith('Restoring workouts', undefined));
 
     const storedSurvey =
       hydration?.surveyPayload || (await hydratePersistedSurvey().catch(recoverWith('Restoring saved survey', null)));

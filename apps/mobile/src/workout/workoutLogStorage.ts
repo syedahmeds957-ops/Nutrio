@@ -55,8 +55,22 @@ function parseLogs(raw: string | null): WorkoutLog[] | null {
   }
 }
 
-const newestFirst = (a: WorkoutLog, b: WorkoutLog) =>
-  b.dateKey.localeCompare(a.dateKey) || (b.finishedAt ?? b.startedAt).localeCompare(a.finishedAt ?? a.startedAt);
+/** The usable logs in one day of the cloud backup. */
+export function logsFromBackup(value: unknown): WorkoutLog[] {
+  return Array.isArray(value) ? value.filter(isLog) : [];
+}
+
+/** When a log was last touched: finishing it, or starting it if it never finished. */
+export const loggedAt = (log: WorkoutLog): string => log.finishedAt ?? log.startedAt;
+
+/** One planned session done on one date is one log. */
+export const sameWorkout = (a: WorkoutLog, b: WorkoutLog): boolean => a.dateKey === b.dateKey && a.day === b.day;
+
+/** The oldest date key still kept on the device. */
+export const keptSince = (todayKey: string): string => addDaysToKey(todayKey, -KEEP_DAYS);
+
+export const newestFirst = (a: WorkoutLog, b: WorkoutLog) =>
+  b.dateKey.localeCompare(a.dateKey) || loggedAt(b).localeCompare(loggedAt(a));
 
 export function loadWorkoutLogs(): WorkoutLog[] {
   const key = logsKey();
@@ -94,13 +108,16 @@ function persist(key: string, logs: WorkoutLog[]): void {
  */
 export function saveWorkoutLog(log: WorkoutLog, todayKey: string = localDateKey()): WorkoutLog[] {
   const key = logsKey();
-  const cutoff = addDaysToKey(todayKey, -KEEP_DAYS);
-  const kept = loadWorkoutLogs().filter(
-    (existing) => !(existing.dateKey === log.dateKey && existing.day === log.day) && existing.dateKey >= cutoff
-  );
+  const cutoff = keptSince(todayKey);
+  const kept = loadWorkoutLogs().filter((existing) => !sameWorkout(existing, log) && existing.dateKey >= cutoff);
   const next = [log, ...kept].sort(newestFirst);
   persist(key, next);
   return next;
+}
+
+/** Replaces this user's logs with a merged set (the cloud restore). */
+export function replaceWorkoutLogs(logs: WorkoutLog[]): void {
+  persist(logsKey(), [...logs].sort(newestFirst));
 }
 
 /** Pulls the durable copy into memory before it is read. Safe to call more than once. */

@@ -60,14 +60,14 @@ describe('Ramadan mode is only on during Ramadan', () => {
     expect(outside.settings.ramadan.enabled).toBe(true);
   });
 
-  it('switches on the first day of Ramadan and off after it ends, keeping seed, swaps and creation time', () => {
+  it('switches on the first day of Ramadan and off after it ends, keeping seed, swaps, creation and save times', () => {
     const before = generateWeeklyPlan(settings({ sessionMinutes: 60 }), { seed: 4, today: '2027-01-25', now: '2027-01-25T08:00:00.000Z' });
     const accessory = before.sessions[0].slots.find((s) => s.role === 'accessory')!;
-    const withSwap = applySwap(before, accessory.slotId, swapCandidates(before, accessory.slotId)[0].id);
+    const withSwap = { ...applySwap(before, accessory.slotId, swapCandidates(before, accessory.slotId)[0].id), updatedAt: '2027-01-30T10:00:00.000Z' };
     expect(planForDate(withSwap, '2027-02-07')).toBe(withSwap);
     const fasting = planForDate(withSwap, '2027-02-08');
     expect(fasting.fasting).toBe(true);
-    expect(fasting).toMatchObject({ seed: 4, blockStart: '2027-01-25', createdAt: '2027-01-25T08:00:00.000Z' });
+    expect(fasting).toMatchObject({ seed: 4, blockStart: '2027-01-25', createdAt: '2027-01-25T08:00:00.000Z', updatedAt: '2027-01-30T10:00:00.000Z' });
     expect(planForDate(fasting, '2027-02-20')).toBe(fasting);
     const after = planForDate(fasting, '2027-03-09');
     expect(after.fasting).toBe(false);

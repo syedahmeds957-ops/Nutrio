@@ -43,14 +43,27 @@ export function flushWorkoutWrites(): Promise<void> {
  * A stored plan we can trust enough to render; anything else reads as no plan.
  * Plans saved before the cardio block (phase 6b) come back upgraded.
  */
+function readPlan(value: unknown): { plan: WeeklyWorkoutPlan; upgraded: boolean } | null {
+  const parsed = value as WeeklyWorkoutPlan;
+  if (parsed?.version !== 1 || !Array.isArray(parsed.sessions) || !parsed.settings) return null;
+  // Older plans gain what the generator now adds, and every plan follows the calendar (Ramadan mode).
+  const plan = planForDate(upgradePlan(parsed), localDateKey());
+  return { plan, upgraded: plan !== parsed };
+}
+
 function parsePlan(raw: string | null): { plan: WeeklyWorkoutPlan; upgraded: boolean } | null {
   if (!raw) return null;
   try {
-    const parsed = JSON.parse(raw) as WeeklyWorkoutPlan;
-    if (parsed?.version !== 1 || !Array.isArray(parsed.sessions) || !parsed.settings) return null;
-    // Older plans gain what the generator now adds, and every plan follows the calendar (Ramadan mode).
-    const plan = planForDate(upgradePlan(parsed), localDateKey());
-    return { plan, upgraded: plan !== parsed };
+    return readPlan(JSON.parse(raw));
+  } catch {
+    return null;
+  }
+}
+
+/** A plan from the cloud backup, checked and brought up to date like a stored one; null when unusable. */
+export function planFromBackup(value: unknown): WeeklyWorkoutPlan | null {
+  try {
+    return readPlan(value)?.plan ?? null;
   } catch {
     return null;
   }

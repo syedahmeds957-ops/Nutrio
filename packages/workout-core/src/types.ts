@@ -256,6 +256,8 @@ export interface WorkoutSession {
 export interface WeeklyWorkoutPlan {
   version: 1;
   createdAt: string;
+  /** When the user last changed the plan (ISO); sync keeps the newer copy. Absent on plans saved before sync, where `createdAt` stands in. */
+  updatedAt?: string;
   /** Date key (YYYY-MM-DD); week numbers count from here. */
   blockStart: string;
   seed: number;

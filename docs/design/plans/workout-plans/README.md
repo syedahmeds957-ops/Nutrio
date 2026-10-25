@@ -107,6 +107,7 @@ Assumptions accepted with the approval:
 | 2026-10-22 | 0 | `textSecondary` (light) → `#556275`, `floatingBarInactive` (dark) → `#9CA3AF` in phase 3 | Existing values fail AA contrast on small labels |
 | 2026-10-22 | 1 | Own EN/AR instructions, 169 exercises, `timed` field, Vitest image setup file, flutter kicks moved to glutes/bench | Source text didn't match its photos; see the phase 1 record |
 | 2026-10-22 | 2 | Empty-pool fallback patterns for home with no equipment | Phase 1 known gaps |
+| 2026-10-25 | 8 | Pushes from `planActions` (user edits only), not storage. New `updatedAt` save time sent as the row's `updated_at`. Logs merge on `dateKey + day`. Logs are pushed as a batch of days and fetched for the year the device keeps. A failed fetch leaves that side untouched | See the phase 8 record |
 | 2026-10-23 | 7 | User: Ramadan mode only during Ramadan. The switch means "use during Ramadan"; Umm al-Qura dates 2025–2040 stored as data; plans rebuild when Ramadan starts and ends (`planForDate`); the week shows the switch only near or during Ramadan. Automatic Ramadan dates moved from out of scope into phase 7 | See the phase 7 record |
 | 2026-10-23 | 6c | User: questions follow earlier answers (beginner checks vs current lifts vs returning after a break); cardio asked per day. Routine stored in the profile so edits keep it; lifts count like likes; push-only surplus days become upper days; move up/down instead of drag | See the phase 6c record |
 | 2026-10-23 | 6b | Cardio built as planned. Interval moves keep up to 3 places in the cardio swap list; stored plans gain cardio through `upgradePlan`; the finisher display was removed | See the phase 6b record |
@@ -132,7 +133,7 @@ Assumptions accepted with the approval:
 | 6b Cardio | done 2026-10-23: mockups approved, web flow 18/18 ([record](phase-06b-cardio.md#execution-record-2026-10-23)) | `c88f8a2` (one commit for 4–6b, built on top of each other) |
 | 6c Tell us more + routine import | done 2026-10-23: questions follow experience, routine builder, "What we improved"; web 18/18 + 13/13 ([record](phase-06c-tell-us-more-and-routine-import.md#execution-record-2026-10-23)) | `ed98d43` |
 | 7 Ramadan mode | done 2026-10-23: web 14/14 ([record](phase-07-ramadan-mode.md#execution-record-2026-10-23)) | `a9828f3` |
-| 8 Cloud sync | not started | |
+| 8 Cloud sync | done 2026-10-25: migration applied, Checkpoint B 12/12 on web ([record](phase-08-cloud-sync.md#execution-record-2026-10-25)) | |
 | 9 Calorie link | not started | |
 | 10 Coach | not started | |
 | 11 Check-in adherence | not started | |

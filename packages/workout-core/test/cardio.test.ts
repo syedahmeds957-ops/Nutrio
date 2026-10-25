@@ -133,20 +133,21 @@ describe('swapping cardio', () => {
 });
 
 describe('upgradePlan', () => {
-  it('adds cardio to a plan saved before phase 6b, keeping its seed, start, swaps and creation time', () => {
+  it('adds cardio to a plan saved before phase 6b, keeping its seed, start, swaps, creation and save times', () => {
     const fresh = make(settings());
     const slotId = fresh.sessions[0].slots[0].slotId;
     const choice = swapCandidates(fresh, slotId)[0].id;
     const old: WeeklyWorkoutPlan = {
       ...applySwap(fresh, slotId, choice),
       createdAt: '2026-10-19T08:00:00.000Z',
+      updatedAt: '2026-10-21T09:30:00.000Z',
       sessions: fresh.sessions.map(({ cardio: _cardio, ...session }) => session),
     };
     delete old.restDayWalk;
     const upgraded = upgradePlan(old);
     expect(upgraded.sessions.every((s) => s.cardio)).toBe(true);
     expect(upgraded.restDayWalk).toBeDefined();
-    expect(upgraded).toMatchObject({ seed: old.seed, blockStart: old.blockStart, createdAt: old.createdAt });
+    expect(upgraded).toMatchObject({ seed: old.seed, blockStart: old.blockStart, createdAt: old.createdAt, updatedAt: old.updatedAt });
     expect(upgraded.swaps[slotId]).toBe(choice);
     expect(upgradePlan(upgraded)).toBe(upgraded);
   });

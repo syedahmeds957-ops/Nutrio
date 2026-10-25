@@ -298,26 +298,31 @@ export function regeneratePlan(
   return next;
 }
 
+/** A rebuild the user didn't ask for keeps the plan's creation and save times. */
+function keepSaveTimes(plan: WeeklyWorkoutPlan, rebuilt: WeeklyWorkoutPlan): WeeklyWorkoutPlan {
+  return { ...rebuilt, createdAt: plan.createdAt, ...(plan.updatedAt ? { updatedAt: plan.updatedAt } : {}) };
+}
+
 /**
  * A saved plan brought up to date with what the generator now adds (the
  * cardio block and rest-day walk, phase 6b), keeping its seed, week numbers,
- * swaps and creation time. Returns the same object when nothing is missing.
+ * swaps, creation and save times. Returns the same object when nothing is missing.
  */
 export function upgradePlan(plan: WeeklyWorkoutPlan): WeeklyWorkoutPlan {
   if (plan.restDayWalk) return plan;
-  return { ...regeneratePlan(plan, plan.settings), createdAt: plan.createdAt };
+  return keepSaveTimes(plan, regeneratePlan(plan, plan.settings));
 }
 
 /**
  * The plan as it should be on a date: rebuilt when Ramadan has started or
  * ended since it was made (for users who use Ramadan mode), keeping its seed,
- * week numbers, swaps and creation time. Returns the same object otherwise.
+ * week numbers, swaps, creation and save times. Returns the same object otherwise.
  */
 export function planForDate(plan: WeeklyWorkoutPlan, dateKey: string): WeeklyWorkoutPlan {
   const shouldFast = plan.settings.ramadan.enabled && isRamadan(dateKey);
   const fasting = plan.fasting ?? plan.settings.ramadan.enabled;
   if (shouldFast === fasting && plan.fasting !== undefined) return plan;
-  return { ...regeneratePlan(plan, plan.settings, { asOf: dateKey }), createdAt: plan.createdAt };
+  return keepSaveTimes(plan, regeneratePlan(plan, plan.settings, { asOf: dateKey }));
 }
 
 /** Whole weeks since the block started (0 in the first week). */
