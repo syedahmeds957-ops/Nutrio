@@ -139,6 +139,6 @@ Assumptions accepted with the approval:
 | 7 Ramadan mode | done 2026-10-23: web 14/14 ([record](phase-07-ramadan-mode.md#execution-record-2026-10-23)) | `a9828f3` |
 | 8 Cloud sync | done 2026-10-25: migration applied, Checkpoint B 12/12 on web ([record](phase-08-cloud-sync.md#execution-record-2026-10-25)) | `70b79f8` |
 | 8b Guest preview | done 2026-10-25: mockups approved, web guest run 20/20 ([record](phase-08b-guest-preview.md#execution-record-2026-10-25)) | `17704fa` |
-| 9 Calorie link | done 2026-10-25: web run (EN + AR, accept, decline, re-save, cloud restore) ([record](phase-09-calorie-link.md#execution-record-2026-10-25)) | |
+| 9 Calorie link | done 2026-10-25: web run (EN + AR, accept, decline, re-save, cloud restore) ([record](phase-09-calorie-link.md#execution-record-2026-10-25)) | `ecc4ef7` |
 | 10 Coach | not started | |
 | 11 Check-in adherence | not started | |
