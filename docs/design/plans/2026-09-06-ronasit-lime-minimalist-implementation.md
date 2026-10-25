@@ -1,5 +1,7 @@
 # Nutrio Solid Lime Minimalist End-to-End Redesign Implementation Plan (Dark/Light Mode & 100% Free)
 
+> **Status (2026-10-25):** Implemented in September 2026 (the theme commits from `3e4a6f8` onwards). The checkboxes below were never ticked; they don't show what's left.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Transform the Nutrio mobile application into an ultra-modern, distinctive experience using a **Solid Electric Lime** aesthetic with refined Swiss typography, full **Dark Mode & Light Mode support** in user settings, and **100% free functionality with all paywalls, payment methods, and tier restrictions permanently removed**.

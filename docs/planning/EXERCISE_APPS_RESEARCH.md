@@ -1,5 +1,11 @@
 # Exercise plan: market research
 
+> **Built (2026-10-25).** Workout plans shipped as a 12-phase plan, using most of §6. See [`docs/design/plans/workout-plans/`](../design/plans/workout-plans/README.md) (decisions and an execution record per phase) and [`packages/workout-core`](../../packages/workout-core). In short:
+> - **Engine:** a deterministic fixed split with double progression and a reason code per change, and Ramadan mode.
+> - **App:** the set logger, a calorie target offer, the coach suggesting safe swaps (applied only on the user's tap), and workouts in the weekly check-in.
+> - **Data:** exercises are from free-exercise-db (public domain, images bundled). The `hasaneyldrm/exercises-dataset` media wasn't used.
+> - **Done differently:** a missed day can be done later with "Do it today" instead of an automatic recovery-aware swap. There's no scheduled deload; two failed sessions cut the load by 10% instead.
+
 Research for adding workout plans to Nutrio. Covers how the top-rated workout apps build plans, what their users praise and complain about, where Nutrio can do better, and which exercise data we can legally ship at $0.
 
 Researched 2026-10-22. A caution on sources: most "best workout app 2026" rankings are published by one of the apps being ranked (Alpha Progression, Jefit, SensAI, Planfit, Load Muscle each rank themselves first). Review figures from aggregators (Kimola, JustUseApp) are machine summaries. Treat every number below as indicative, not measured.

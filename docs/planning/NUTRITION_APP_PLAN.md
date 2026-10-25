@@ -2,7 +2,23 @@
 
 **Owner:** eCube (Lahore)
 **Date:** August 2026
-**Status:** Planning / pre-build
+**Status:** Original product plan (August 2026). Mostly built, with the changes below. The live description of the app is the root `README.md`, and the code architecture is in `CLAUDE.md`.
+
+## As built (2026-10-25)
+
+| Plan section | What exists | Difference from the plan |
+|---|---|---|
+| §3 Stack | Expo 57 / React Native app (web, iOS, Android) and Supabase (Postgres, Auth, Edge Functions, RLS) | No PostHog, Langfuse, RevenueCat or push yet ($0 constraint, `ZERO_BUDGET_PLAN.md`). Offline storage is an in-memory cache over AsyncStorage, not SQLite/MMKV. Model calls go through Edge Functions, with model IDs in `supabase/functions/_shared/models.ts` (no `/ai/providers`) |
+| §4 Food data | `packages/food-db`: an in-app catalogue of diet basics, Pakistani and Saudi dishes, and restaurant menus, with spelling-aware search. `usda.foods` (imported USDA FoodData Central) values dish ingredients the catalogue lacks | The catalogue lives in the app bundle, not in `core.foods`. INDB isn't imported. Open Food Facts stays isolated in the `off` schema |
+| §5 Maths | All in `packages/nutrition-core`, with tests: BMR, TDEE, targets, safety floors, macros, adaptive TDEE | As specified. Exercise kcal (the survey's estimate and a workout plan's) also lives here |
+| §6.1 Analyst | The plan screens are deterministic | The `assess` Edge Function is built and tested but not wired up |
+| §6.2 Coach | `coach-chat` on Groq `openai/gpt-oss-120b`. It sees the user's targets, today's log, region and workout week, has clinical guardrails, and has a translated offline fallback. It can propose a swap from the app's safe list, applied only on the user's tap | No RAG or pgvector knowledge base. The weekly check-in is deterministic: an adaptive TDEE correction capped at ±150 kcal/week, plus workouts done |
+| §6.3 Vision | Removed on purpose | Describe-your-meal (`parse-food-text`) and the AI dish breakdown (`dish-breakdown`) replace it. Models name foods and grams only |
+| §7 Data model | `core.profiles`, `lifestyle_surveys`, `targets` (with the full plan), `body_metrics`, `activity_logs` (day logs), `workout_plans`, `workout_logs`; `usda.foods`; `off.products` | `meal_entries`, `meal_items` and `vision_corrections` were dropped. `foods`, `food_servings`, `recipe_items` and `ai_jobs` exist but are unused |
+| §8 Phase 1 | Built: survey, analysis, goal, targets, tracker, weight tracking, adaptive check-in | Label OCR (`ocr-label`) is built but not wired. Its Groq vision model was shut down on 2026-09-14 |
+| §9 Phase 2 | A 7-day meal plan with one-tap swaps, filtered by diet preference (solver in `nutrition-core`) | The `plan-generate` Edge Function is built but not wired |
+| §10 Phase 3 | Removed (see §6.3) | |
+| Beyond the plan | The Saudi Arabia version (SFDA-style menus, Arabic, RTL); weekly workout plans (`packages/workout-core`, `docs/design/plans/workout-plans/`); guest explore mode | |
 
 ---
 
@@ -299,6 +315,8 @@ Guardrails in the system prompt **and** in code:
 
 ### 6.3 The Vision Estimator (photo → calories) — Phase 3
 
+> **Removed (as built).** Kept for the record; see the As built table.
+
 Pipeline, not a single call:
 
 ```
@@ -474,6 +492,8 @@ Also ship:
 ---
 
 ## 10. Phase 3 — Photo calorie estimation
+
+> **Removed (as built).** See §6.3.
 
 **Timeline: 5–7 weeks after Phase 2.**
 

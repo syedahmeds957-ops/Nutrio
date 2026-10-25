@@ -2,6 +2,7 @@
 
 **Date:** 2026-09-04  
 **Status:** Approved  
+**As built (2026-10-25):** Implemented, except that meal-photo scanning was removed, so there is no Scan Plate button. The bottom bar's logging button is "Quick log". The dashboard also has a Today's workout card and a Workouts pill.  
 **Topic:** Impressive, Efficient & Animated User Dashboard Enhancements (Option C: AI Recommendation, Weekly Bank, Quick Staples, Streak Halo)
 
 ---

@@ -2,6 +2,10 @@
 
 **Date:** 2026-09-04  
 **Status:** Approved  
+**As built (2026-10-25):** Implemented, with two differences:
+- The photo-scanner pitch and preview were removed along with meal-photo scanning.
+- Explore as Guest is explore-only: guests see the dashboard and a sample workout week, read nothing saved on the device, and every log or create action asks them to sign up.
+
 **Topic:** Home/Landing Screen, Login & Register Authentication, Session Management, Back Navigation, and Screen Architecture
 
 ---

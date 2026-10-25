@@ -4,6 +4,10 @@
 **Status:** Approved by user (2026-10-22), with the "today's workout" change below applied before approval.
 **Mockups:** https://claude.ai/artifact/7dEqPJ6ZK2bgkYL32owMRu (private canvas: an English page and an Arabic RTL page, 31 screens each, plus a clickable prototype)
 **Plan:** [`docs/design/plans/workout-plans/`](../plans/workout-plans/README.md). This is Phase 0's deliverable; phases 3–11 build to match it.
+**Built:** phases 3–11 are complete (2026-10-25). Where the build differs from these mockups, the phase's execution record says why. The main differences:
+- **Coach screen (phase 10):** it keeps its existing look; only the "Talking about" chip and the Apply swap card were added.
+- **Guests (phase 8b):** they preview a sample week and can't build or log.
+- **Week view and check-in (phase 11):** days before a plan was created are never shown as missed.
 
 ---
 

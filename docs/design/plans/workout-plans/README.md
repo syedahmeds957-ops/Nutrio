@@ -1,12 +1,12 @@
 # Workout plans: implementation plan
 
-**Status:** approved 2026-10-22, split into phases. Phase 0 (designs) is done and approved; each later phase starts only on the user's command.
+**Status:** complete 2026-10-25. All phases (0–11) are built; see the Progress table and each phase's execution record. Approved 2026-10-22 and built one phase at a time on the user's command.
 **Research behind it:** [`docs/planning/EXERCISE_APPS_RESEARCH.md`](../../../planning/EXERCISE_APPS_RESEARCH.md)
 **Branch:** `feat/workout-plans`, branched from `diet-catalogue-and-plan-fixes` at `d8c41fc` (main is behind and lacks `apps/mobile`). It lives in a separate worktree at `../Nutrio-workouts` so work on the diet branch is never touched.
 
 ## Goal
 
-A signed-in user or a guest can set up a weekly workout plan for home or gym. They see the whole week, follow each session, log sets, and get automatic progression where every change carries a one-line reason. They can swap exercises by hand or by agreeing a swap with the coach. A Ramadan mode shortens and softens sessions around suhoor and iftar. The plan can feed the user's calorie target. Everything works offline, in English and Arabic (RTL), at $0.
+A signed-in user can set up a weekly workout plan for home or gym (guests preview a sample week; decision D5, replaced in phase 8b). They see the whole week, follow each session, log sets, and get automatic progression where every change carries a one-line reason. They can swap exercises by hand or by agreeing a swap with the coach. A Ramadan mode shortens and softens sessions around suhoor and iftar. The plan can feed the user's calorie target. Everything works offline, in English and Arabic (RTL), at $0.
 
 ## How we work through it
 
@@ -98,6 +98,7 @@ Assumptions accepted with the approval:
 
 | Date | Phase | Change | Why |
 |---|---|---|---|
+| 2026-10-25 | 11 | User: days before a workout plan was created count only if their session was done and are never "Missed", in the check-in and the Workouts week (changes phase 4's week view). The check-in's hard-coded "7-Day Progress Stats" heading is translated | The week showed days before the plan existed as missed; see the phase 11 record |
 | 2026-10-25 | 10 | User: fix the coach region bug (the schema dropped `region`, so SA got the PK prompt); add only the chip and Apply card to the current coach screen; I deploy coach-chat; candidates carry joint loads. Apply goes through `planActions.swapExercise` (save time + sync), not a raw save. After Apply the chip moves to the new exercise. A new proposal hides an unanswered one. A SWAP-only answer uses its reason as the reply | Phase 10 was written before phase 8; see the phase 10 record |
 | 2026-10-25 | 9 | User: the cardio block counts by intensity (easy 4.0, moderate or intervals 8.0 kcal/min); the rest-day walk isn't counted; no offer while Ramadan shortens sessions. No offer without a known baseline or when a floor holds the target. "Not now" is stored on the workout plan (`targetOfferDeclinedKcal`, synced, kept through rebuilds) and asked again only when the training changes. `acceptPlan` is shared with the check-in | Phase 9 was written before 6b, 7 and 8b; see the phase 9 record |
 | 2026-10-22 | plan | Old phase 3 split into phases 3 and 4 (11 phases now) | It touched 12+ files across storage, navigation and three screens |
@@ -142,4 +143,4 @@ Assumptions accepted with the approval:
 | 8b Guest preview | done 2026-10-25: mockups approved, web guest run 20/20 ([record](phase-08b-guest-preview.md#execution-record-2026-10-25)) | `17704fa` |
 | 9 Calorie link | done 2026-10-25: web run (EN + AR, accept, decline, re-save, cloud restore) ([record](phase-09-calorie-link.md#execution-record-2026-10-25)) | `ecc4ef7` |
 | 10 Coach | done 2026-10-25: coach-chat deployed, web run on the live coach (EN + AR) ([record](phase-10-coach.md#execution-record-2026-10-25)) | `8f4d201` |
-| 11 Check-in adherence | not started | |
+| 11 Check-in adherence | done 2026-10-25: Workouts card on the check-in; pre-plan days never missed (both screens); web PK + SA ([record](phase-11-checkin-adherence.md#execution-record-2026-10-25)) | |

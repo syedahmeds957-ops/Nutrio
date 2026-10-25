@@ -3,6 +3,11 @@
 **Updates:** `BUILD_INSTRUCTIONS.md` Part 2 (`.env`) and Part 3.3 · `VISION_API_ADDENDUM.md` §4
 **Date:** August 2026
 
+> **Update (2026-10-25, from `console.groq.com/docs/deprecations`):**
+> - **Text:** `openai/gpt-oss-120b` and `openai/gpt-oss-20b` are current. They are Groq's recommended replacements for the deprecated Llama, Qwen3-32B and Llama 4 models, and are what `supabase/functions/_shared/models.ts` uses.
+> - **Vision:** **`qwen/qwen3.6-27b` was shut down on 2026-09-14** in favour of `qwen/qwen3.8-27b`. Meal-photo scanning was removed from the app, so the only user was the unwired `ocr-label` function; switch its `VISION_PREVIEW` to `qwen/qwen3.8-27b` before wiring it up.
+> - **Also shutting down:** `groq/compound` and `compound-mini`, on 2026-09-21.
+
 ---
 
 ## Headline
@@ -15,7 +20,7 @@
 
 ## Groq
 
-### ✅ Current vision model: `qwen/qwen3.6-27b`
+### ✅ Current vision model: `qwen/qwen3.6-27b` *(shut down 2026-09-14; see the update above)*
 
 27B dense multimodal model (Alibaba Qwen). Accepts text **and image** input. Built for image analysis, OCR, and visual Q&A — exactly our use case.
 

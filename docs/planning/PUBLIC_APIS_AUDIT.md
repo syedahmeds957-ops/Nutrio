@@ -4,6 +4,12 @@
 **Parsed:** 1,696 entries across 50 categories, pulled from `master` and filtered locally
 **Date:** August 2026
 
+> **As built (2026-10-25).** The two-database rule and the OFF isolation were adopted: OFF data is in its own `off` schema. Differences:
+> - **USDA** comes from a bulk import into `usda.foods`, with no API key.
+> - **Coach and parsing** run on Groq's free tier with Zero Data Retention (`openai/gpt-oss-*`), under the $0 plan.
+> - **Photo vision** was removed.
+> - **Exercise data** is free-exercise-db (public domain), not wger.
+
 ---
 
 ## Verdict first
@@ -134,12 +140,12 @@ The three things that make this product defensible are exactly the three things 
 | Barcode | Open Food Facts, isolated DB, bulk export + local index | $0 |
 | Nutrition label scan | OCR.Space free tier | $0 |
 | Pakistani dishes | **Hand-built, dietitian-verified, 400–600 items** | one-off ~PKR 150–250k |
-| Coach chat + narratives | Groq Developer tier (Llama 3.3 70B / GPT-OSS 120B) | ~$0.05–0.15/user |
-| Vision (photo→items+mass) | **Paid** GPT-5-class or Claude vision | ~$0.30–0.90/user |
+| Coach chat + narratives | Groq Developer tier (Llama 3.3 70B / GPT-OSS 120B) | ~$0.05–0.15/user *(as built: Groq free tier, `openai/gpt-oss-120b`; Llama is deprecated)* |
+| Vision (photo→items+mass) | **Paid** GPT-5-class or Claude vision | ~$0.30–0.90/user *(as built: removed)* |
 | Nutrient math | Our own DB, always | $0 |
 | Embeddings | HF Inference or Jina free tier | $0 |
 | Activity data | HealthKit / Google Fit / Fitbit OAuth | $0 |
-| Exercise DB | wger, self-hosted | $0 |
+| Exercise DB | wger, self-hosted | $0 *(as built: free-exercise-db, public domain, bundled)* |
 | Push | OneSignal free | $0 |
 | Charts for sharing | QuickChart | $0 |
 | Backend | Supabase | ~$0.05–0.15/user |

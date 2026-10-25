@@ -1,7 +1,9 @@
 # Describe-Your-Meal Logging Design Specification
 
 **Date:** 2026-10-14
-**Status:** In progress. Phases 1 and 2 are built; Phase 3 onward is not
+**Status:** Phases 1–3 are built, and Phase 4 is built differently. Phase 5 is not built (updated 2026-10-25).
+- **Phase 4:** an unknown dish is broken into ingredients by `dish-breakdown`, which values any the catalogue lacks from USDA. The dish is saved per account on the device (`tracker/customDishes.ts`), not in a shared `composed_dishes` table.
+- **Phase 5:** the learning loop (misses report and promotion) isn't built.
 **Topic:** Log a meal by describing it ("in breakfast I had 4 egg whites, 2 whole eggs and greek yogurt"), with AI-composed estimates for dishes not in the catalogue
 
 ---

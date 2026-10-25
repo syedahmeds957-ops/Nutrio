@@ -2,6 +2,7 @@
 
 **Date:** 2026-09-06  
 **Status:** Approved by User  
+**As built (2026-10-25):** Implemented; it is the app's design system (`apps/mobile/src/theme.ts`). The workout screens (2026-10-22 spec) build on it, with two small-text contrast fixes.  
 **Target:** End-to-end screen redesign, Dark & Light Mode toggle, Solid Lime hero card, and 100% Free with zero paywalls.
 
 ---

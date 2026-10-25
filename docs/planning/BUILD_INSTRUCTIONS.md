@@ -5,6 +5,12 @@
 **Date:** August 2026
 **Read with:** `NUTRITION_APP_PLAN.md` (product plan + math) and `PUBLIC_APIS_AUDIT.md` (why these APIs)
 
+> **As built (2026-10-25).** This is the August 2026 build guide. Where the build differs, a note in the section says so. The current architecture is in the root `README.md` and `CLAUDE.md`. In short:
+> - **$0.** `ZERO_BUDGET_PLAN.md` replaced the paid parts.
+> - **AI.** It runs on Groq (`openai/gpt-oss-120b` / `gpt-oss-20b`) with Zero Data Retention, through Supabase Edge Functions, with model IDs only in `supabase/functions/_shared/models.ts`.
+> - **Removed.** Meal-photo estimation (Part 8).
+> - **Added beyond this guide.** The Saudi Arabia version (Arabic, RTL), describe-your-meal logging and weekly workout plans.
+
 ---
 
 ## How to read this
@@ -23,6 +29,7 @@
 2. **All calorie/macro targets are computed in `nutrition-core` with unit tests.** No model call is involved in producing a target.
 3. **No API key touches the client.** Every third-party call goes through a Supabase Edge Function. If a key appears in the React Native bundle, it is compromised — assume it will be extracted.
 4. **Free-tier LLM keys never see user data.** Free Gemini/Groq keys are for local dev and synthetic-data testing only. Production uses paid keys. Enforce it in CI (Part 4.4).
+   *As built:* `ZERO_BUDGET_PLAN.md` relaxed this. Groq's free tier is allowed because it doesn't train on inputs and has Zero Data Retention turned on. Endpoints that train on inputs (Gemini free, OpenRouter `:free`) stay banned. The CI guard (`scripts/check-ci-keys.mjs`) now blocks provider hosts, `EXPO_PUBLIC_*` AI key names and literal keys in client code.
 5. **Open Food Facts data stays in its own database.** Never joined at rest with our own food tables. This is a licence obligation, not a preference. See Part 4.2.
 
 ---
@@ -90,9 +97,9 @@ USDA_FDC_API_KEY=              # https://fdc.nal.usda.gov/api-key-signup
 OFF_USER_AGENT=                # e.g. "eCubeNutrition/1.0 (dev@ecube.example)"
 
 # ---------- LLM: text ----------
-GROQ_API_KEY=
-GROQ_MODEL_CHAT=llama-3.3-70b-versatile
-GROQ_MODEL_FAST=llama-3.1-8b-instant
+GROQ_API_KEY=                  # As built: an Edge Function secret only, never in .env
+GROQ_MODEL_CHAT=llama-3.3-70b-versatile   # deprecated; as built, model IDs live in supabase/functions/_shared/models.ts (openai/gpt-oss-120b)
+GROQ_MODEL_FAST=llama-3.1-8b-instant      # deprecated; as built: openai/gpt-oss-20b
 
 # ---------- LLM: vision (PAID ONLY) ----------
 VISION_PROVIDER=               # anthropic | openai
@@ -181,7 +188,7 @@ curl https://api.groq.com/openai/v1/chat/completions \
   -H "Authorization: Bearer $GROQ_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "llama-3.3-70b-versatile",
+    "model": "openai/gpt-oss-120b",
     "messages": [{"role":"user","content":"..."}],
     "response_format": {"type":"json_object"},
     "temperature": 0.3
@@ -258,13 +265,17 @@ Used to match "chicken karahi" / "murgh karahi" / "karahi chicken" to one DB row
 ### 4.1 Repo layout
 
 ```
-/apps              React Native (Expo dev client)
-/packages/nutrition-core  BMR/TDEE/macros/safety — pure functions, no I/O, no network
-/packages/food-db         ingestion + normalisation scripts
+/apps/mobile              Expo 57 / React Native app (no router library; App.tsx routes)
+/packages/nutrition-core  BMR/TDEE/macros/safety/adaptive TDEE/coach prompt — pure functions, no I/O, no network
+/packages/food-db         the food catalogue itself (Pakistani, Saudi, diet basics, restaurant menus), search, normalisation
+/packages/workout-core    exercise catalogue, plan generator, progression, swaps — pure and deterministic
 /supabase/functions       Edge Functions (all third-party calls live here)
-/supabase/migrations      SQL
+/supabase/migrations      SQL (core, off and usda schemas)
+/scripts                  CI key guard, edge-function bundler, catalogue and USDA importers
 /docs
 ```
+
+*As built:* the layout above is the current one (updated 2026-10-25). The food catalogue ships in the app as `food-db` data files rather than a Postgres table. USDA FoodData Central records are imported into `usda.foods` and used only to value dish ingredients the catalogue lacks.
 
 `nutrition-core` must have **zero dependencies on network or database**. It takes numbers, returns numbers. It is the most testable and most important code in the project.
 
@@ -304,6 +315,11 @@ client → supabase.functions.invoke('...') → Edge Function
 
 If schema validation fails: retry once, then return a graceful fallback. Never surface a raw model error.
 
+*As built:* the deployed functions are `coach-chat`, `parse-food-text` and `dish-breakdown`.
+- **Done:** each verifies the JWT and accepts only a signed-in user (every call spends the shared Groq quota), and each validates its request and response with zod.
+- **Not done yet:** per-user rate limiting and `ai_jobs` audit rows.
+- **Client:** every caller has a deterministic offline fallback.
+
 ### 4.4 CI guard on free keys
 
 Add a check that fails the build if `APP_ENV=production` and any of: `VISION_TIER != paid`, a known free-tier key prefix is present, or `ANTHROPIC_API_KEY`/`OPENAI_API_KEY` is empty while `VISION_PROVIDER` is set. Rule 4 in Part 0 has to be mechanically enforced or it will be violated on a deadline.
@@ -311,6 +327,12 @@ Add a check that fails the build if `APP_ENV=production` and any of: `VISION_TIE
 ### 4.5 Offline-first
 
 Logging writes to local SQLite/MMKV first, then syncs. Pakistani mobile data is unreliable, and a failed log is a lost user. Queue with retry, conflict resolution last-write-wins on `meal_entries`.
+
+*As built:*
+- **Storage:** each feature keeps a synchronous in-memory cache over AsyncStorage (localStorage on web), hydrated at boot and released on logout.
+- **Sync:** `apps/mobile/src/sync/` pushes and pulls the signed-in user's data to `core.*`: profile, survey, targets, day logs, weigh-ins, and workout plans and logs. For workout plans the newer `updatedAt` wins.
+- **Guests:** they only explore and can't log.
+- **Removed:** `meal_entries`, `meal_items` and `vision_corrections` were dropped in the 2026-10-13 migration.
 
 ---
 
@@ -439,6 +461,8 @@ Route diabetic/renal/PCOS plans through a restricted, dietitian-approved templat
 ---
 
 ## Part 8 — Phase 3: Photo calories (5–7 weeks)
+
+> **Removed.** Meal-photo estimation was dropped on purpose and its code deleted. This part is kept for the record only. Described meals go through describe-your-meal (`parse-food-text`) and the dish breakdown instead.
 
 ### Pipeline
 

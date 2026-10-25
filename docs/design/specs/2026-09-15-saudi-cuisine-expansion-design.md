@@ -1,5 +1,7 @@
 # Architectural Design: Saudi Arabia Cuisine, Restaurant Catalog & Multi-Region Expansion
 
+**Status (2026-10-25):** Implemented. The Saudi version (`SA`) ships with Saudi restaurant menus and traditional dishes in `packages/food-db`, Arabic with RTL, a Saudi-tuned coach and the Saudi week start (Sunday) for workouts. Pakistan (`PK`) and every other region use the default behaviour; region-specific code goes through one helper with a default.
+
 ## 1. Overview & Objectives
 
 Nutrio is expanding from Pakistan to the Kingdom of Saudi Arabia (KSA). This design establishes a native multi-region architecture (`PK` and `SA`) providing:

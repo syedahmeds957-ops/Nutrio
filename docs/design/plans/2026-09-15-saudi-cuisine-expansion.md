@@ -1,5 +1,7 @@
 # Saudi Arabia Cuisine, Restaurant Catalog & Multi-Region Implementation Plan
 
+> **Status (2026-10-25):** Implemented (see the design spec's status). The checkboxes below were never ticked as the plan ran; they don't show what's left.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Expand Nutrio to Saudi Arabia with automated IP-based geolocation, SFDA-compliant menus for 12+ Saudi restaurant chains (AlBaik, Kudu, Al Tazaj, etc.), 150+ traditional Saudi home foods (Kabsa, Mandi, Jareesh, etc.), vector brand logos, bilingual Arabic/English names, and Saudi cultural AI Coach context.

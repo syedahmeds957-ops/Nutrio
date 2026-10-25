@@ -4,6 +4,11 @@
 **Supersedes:** cost sections of `BUILD_INSTRUCTIONS.md` and `VISION_API_ADDENDUM.md`
 **Date:** August 2026
 
+> **As built (2026-10-25).** The $0 constraint still holds, and this is the plan the build follows.
+> - **Live:** Supabase Free and Groq's free tier with Zero Data Retention (`openai/gpt-oss-120b` for the coach and dish breakdown, `gpt-oss-20b` for meal-text parsing).
+> - **Not built:** photo calories (Phase 3) was dropped; the PWA, OneSignal, PostHog, Sentry and Langfuse aren't set up.
+> - **Changed:** the exercise library is free-exercise-db (public domain, bundled in the app), not wger. Groq shut down `qwen/qwen3.6-27b` on 2026-09-14; the replacement is `qwen/qwen3.8-27b`.
+
 ---
 
 ## Verdict
@@ -21,12 +26,12 @@ There is exactly **one place where $0 costs you real quality**, and I'll be dire
 | Layer | Service | Free allowance | Enough for |
 |---|---|---|---|
 | Backend / DB | **Supabase Free** | 500 MB DB × 2 projects, 1 GB storage, 5 GB egress, 50k MAU, 500k edge invocations/mo | Yes, with §3 discipline |
-| Vision (photo→food) | **Groq `qwen/qwen3.6-27b`** | 30 RPM · 1,000 RPD · 200k TPD | ~500 DAU at 2 scans/day |
+| Vision (photo→food) | **Groq `qwen/qwen3.6-27b`** | 30 RPM · 1,000 RPD · 200k TPD | ~500 DAU at 2 scans/day *(as built: photo scanning removed; this model was shut down on 2026-09-14)* |
 | Text LLM | **Groq `gpt-oss-120b` / `gpt-oss-20b`** | 30 RPM · up to 14,400 RPD | Yes |
 | Label OCR | **OCR.space Free** | 25,000/mo · 500/day · 1 MB/file | Yes |
 | Food data | **USDA FDC** (CC0) + **INDB** (CC BY 4.0) + **Open Food Facts** (ODbL) | Free, bulk export | Yes |
 | Embeddings | **Hugging Face Inference** free tier | Rate-limited | Yes (and mostly avoidable — see §3) |
-| Exercise DB | **wger** public API | Free | Yes |
+| Exercise DB | **wger** public API | Free | Yes *(as built: [free-exercise-db](https://github.com/yuhonas/free-exercise-db), public domain, images bundled; no wger data in our tables)* |
 | Charts for sharing | **QuickChart** | Free, no key | Yes |
 | Push | **OneSignal Free** | ~10k subscribers | Yes |
 | Analytics | **PostHog Free** | ~1M events/mo | Yes |
@@ -204,6 +209,7 @@ As specified in `BUILD_INSTRUCTIONS.md`, with these changes:
 Unchanged. Constraint solver in code + Groq for assembly. Costs nothing.
 
 ### Phase 3 — Photo calories (weeks 19–25)
+*As built: removed on purpose.*
 Groq `qwen/qwen3.6-27b`, free tier. 2 scans/day cap.
 **Benchmark first** on 50 Nutrition5k images + 50 real Pakistani plates before building the UI.
 

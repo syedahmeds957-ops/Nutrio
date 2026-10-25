@@ -2,6 +2,13 @@
 
 **Date:** 2026-09-10  
 **Status:** Approved (Approach A)  
+**As built (2026-10-25):** Implemented. Since then:
+- `core.targets` stores the full accepted plan (2026-10-13).
+- `meal_entries`, `meal_items` and `vision_corrections` were dropped.
+- `core.workout_plans` and `core.workout_logs` sync workout data (2026-10-25).
+- Guests no longer keep local data.
+
+See `CLAUDE.md` § Client data flow.  
 **Author:** Antigravity Engineering  
 
 ---
