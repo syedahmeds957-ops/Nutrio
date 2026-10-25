@@ -147,7 +147,7 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
       {/* Sleep Duration */}
       <AppleTextInput
         label={t('survey.lifestyle.sleepDuration')}
-        placeholder="e.g. 7"
+        placeholder={t('survey.placeholderExample', { value: 7 })}
         keyboardType="numeric"
         value={
           data.sleepHoursPerNight !== undefined

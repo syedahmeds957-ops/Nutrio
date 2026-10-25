@@ -118,7 +118,7 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
       {/* Sitting Hours */}
       <AppleTextInput
         label={t('survey.occupational.sittingHours')}
-        placeholder="e.g. 8"
+        placeholder={t('survey.placeholderExample', { value: 8 })}
         keyboardType="numeric"
         value={
           data.dailySittingHours !== undefined

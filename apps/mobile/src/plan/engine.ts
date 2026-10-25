@@ -25,6 +25,7 @@ export function computeProjection(
       weeklyRateKg: 0,
       isRealistic: true,
       pacingAdvice: 'Steady weight maintenance supporting metabolic recovery and athletic performance.',
+      pacingAdviceKey: 'maintain',
     };
   }
 
@@ -43,21 +44,27 @@ export function computeProjection(
   const ratePctOfBW = (rateKgPerWeek / currentWeightKg) * 100;
   let isRealistic = true;
   let pacingAdvice = '';
+  let pacingAdviceKey: PlanProjection['pacingAdviceKey'];
 
   if (goal === 'lose') {
     if (ratePctOfBW > 1.0) {
       isRealistic = false;
       pacingAdvice = 'Aggressive pace (>1% bodyweight/week) increases risk of lean muscle and water loss.';
+      pacingAdviceKey = 'aggressive';
     } else if (ratePctOfBW >= 0.5) {
       pacingAdvice = 'Optimal fat loss pace (~0.5–1% BW/week). Strongly protects lean body mass.';
+      pacingAdviceKey = 'optimal';
     } else {
       pacingAdvice = 'Gentle, sustainable deficit. Easiest for long-term lifestyle adherence.';
+      pacingAdviceKey = 'gentle';
     }
   } else if (goal === 'gain') {
     if (rateKgPerWeek > 0.4) {
       pacingAdvice = 'Rapid mass gain. A significant portion of weight gained may be body fat.';
+      pacingAdviceKey = 'rapidGain';
     } else {
       pacingAdvice = 'Lean hypertrophy pace (~0.25 kg/week). Maximizes muscle synthesis over fat storage.';
+      pacingAdviceKey = 'leanGain';
     }
   }
 
@@ -70,6 +77,7 @@ export function computeProjection(
     projectedDate,
     isRealistic,
     pacingAdvice,
+    pacingAdviceKey,
   };
 }
 

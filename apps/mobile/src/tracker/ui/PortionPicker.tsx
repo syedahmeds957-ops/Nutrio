@@ -99,7 +99,7 @@ export const PortionPicker: React.FC<PortionPickerProps> = ({
                     {srv.label || srv.description}
                   </Text>
                   <Text style={[styles.servingPillGrams, { color: theme.colors.textMuted }, isSelected && styles.servingPillGramsActive]}>
-                    {srv.grams}g
+                    {t('common.gramsValue', { value: srv.grams })}
                   </Text>
                 </TouchableOpacity>
               );
@@ -175,7 +175,8 @@ export const PortionPicker: React.FC<PortionPickerProps> = ({
 
 const GramChip: React.FC<{ delta: number; onPress: (delta: number) => void }> = ({ delta, onPress }) => {
   const { theme, isDark } = useTheme();
-  const label = `${delta > 0 ? '+' : ''}${delta}g`;
+  const { t } = useTranslation();
+  const label = `${delta > 0 ? '+' : ''}${t('common.gramsValue', { value: delta })}`;
   return (
     <TouchableOpacity
       style={[styles.gramChip, { backgroundColor: isDark ? '#272A33' : '#E2E8F0' }]}

@@ -5,6 +5,7 @@ import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { foodDisplayName } from '../../tracker/foodDisplayName.js';
 import { formatServingLine } from '../../tracker/formatServing.js';
 
 interface PlannedMealSlotCardProps {
@@ -81,7 +82,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
               style={[styles.slotTitle, { color: theme.colors.textPrimary }]}
               numberOfLines={1}
             >
-              {slot.title}
+              {t(`plan.slotTitle.${slot.slot}`, { defaultValue: slot.title })}
             </Text>
           </View>
         </View>
@@ -118,7 +119,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
           ]}
         >
           <Text style={[styles.macroChipText, { color: theme.colors.textSecondary }]}>
-            {totalProtein}g Protein
+            {t('plan.slotCard.proteinChip', { value: totalProtein })}
           </Text>
         </View>
         <View
@@ -131,7 +132,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
           ]}
         >
           <Text style={[styles.macroChipText, { color: theme.colors.textSecondary }]}>
-            {totalCarbs}g Carbs
+            {t('plan.slotCard.carbsChip', { value: totalCarbs })}
           </Text>
         </View>
         <View
@@ -150,7 +151,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
               { color: isDark ? '#FBBF24' : '#B45309' },
             ]}
           >
-            {oilTsps} tsp oil
+            {t('plan.slotCard.oil', { count: oilTsps })}
           </Text>
         </View>
       </View>
@@ -172,7 +173,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
               { color: isDark ? theme.colors.primaryLime : '#365314' },
             ]}
           >
-            Dietitian Approved
+            {t('plan.slotCard.dietitianApproved')}
           </Text>
         </View>
         <View
@@ -204,7 +205,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
                 <Text
                   style={[styles.itemName, { color: theme.colors.textPrimary }]}
                 >
-                  {item.foodName}
+                  {foodDisplayName(item.foodName, item.foodNameAr, dir.isRTL).primary}
                 </Text>
               </View>
               <Text
@@ -250,7 +251,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
                 { color: isDark ? theme.colors.primaryLime : '#166534' },
               ]}
             >
-              Swap Alternatives
+              {t('plan.slotCard.swapAlternatives')}
             </Text>
           </View>
         </TouchableOpacity>

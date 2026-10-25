@@ -49,6 +49,8 @@ export interface PlanProjection {
   projectedDate?: string;
   isRealistic: boolean;
   pacingAdvice: string;
+  /** Selects the translated advice; absent on plans saved before it existed. */
+  pacingAdviceKey?: 'maintain' | 'aggressive' | 'optimal' | 'gentle' | 'rapidGain' | 'leanGain';
 }
 
 export interface ComputedUserPlan {

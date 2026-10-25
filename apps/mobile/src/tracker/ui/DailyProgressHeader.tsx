@@ -173,7 +173,12 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
         <View style={styles.heroBodyRow}>
           {/* Main Calorie Numbers */}
           <View style={styles.heroNumbersCol}>
-            <Text style={[styles.heroValue, { color: heroTextColor }]}>
+            <Text
+              style={[styles.heroValue, { color: heroTextColor }]}
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.6}
+            >
               {targetCalories > 0
                 ? Math.abs(remainingCalories).toLocaleString('en-US')
                 : Math.round(totalCaloriesConsumed).toLocaleString('en-US')}
@@ -244,7 +249,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
         <MacroTile
           label={t('common.protein')}
           value={totalProteinConsumed}
-          unit="g"
+          unit={t('common.gramsUnit')}
           goal={targetProteinGrams}
           color={theme.colors.protein}
           overKey="tracker.header.gramsOver"
@@ -254,7 +259,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
         <MacroTile
           label={t('common.carbs')}
           value={totalCarbConsumed}
-          unit="g"
+          unit={t('common.gramsUnit')}
           goal={targetCarbGrams}
           color={theme.colors.carbs}
           overKey="tracker.header.gramsOver"
@@ -264,7 +269,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
         <MacroTile
           label={t('common.fat')}
           value={totalFatConsumed}
-          unit="g"
+          unit={t('common.gramsUnit')}
           goal={targetFatGrams}
           color={theme.colors.fat}
           overKey="tracker.header.gramsOver"
@@ -275,7 +280,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
           label={t('tracker.header.dailyTarget')}
           targetMode
           value={totalCaloriesConsumed}
-          unit=" kcal"
+          unit={` ${t('common.kcal')}`}
           goal={targetCalories}
           color={theme.colors.primaryAccessible}
           overKey="tracker.header.kcalOver"
@@ -354,9 +359,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
+    gap: 16,
   },
   heroNumbersCol: {
     flex: 1,
+    minWidth: 0,
   },
   heroValue: {
     fontSize: 48,

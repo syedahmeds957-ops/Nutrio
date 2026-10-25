@@ -83,7 +83,13 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
   const forceUpdate = () => setRerender((prev) => prev + 1);
 
   const currentStep = engine.getCurrentStep();
-  const errors = engine.getErrors();
+  // The validators return English; translate by field so Arabic shows Arabic.
+  const errors = Object.fromEntries(
+    Object.entries(engine.getErrors()).map(([field, message]) => [
+      field,
+      t(`survey.fieldErrors.${field}`, { defaultValue: message }),
+    ]),
+  );
   const isFirstStep = stepIndex === 0;
   const isLastStep = stepIndex === engine.getTotalSteps() - 1;
 

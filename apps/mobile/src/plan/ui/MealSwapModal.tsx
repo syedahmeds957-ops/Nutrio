@@ -127,7 +127,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                           { color: isDark ? theme.colors.primaryLime : '#4D7C0F' },
                         ]}
                       >
-                        Option {index + 1}
+                        {t('plan.swap.option', { number: index + 1 })}
                       </Text>
                       <Text
                         style={[
@@ -153,7 +153,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                           { color: isDark ? theme.colors.primaryLime : '#2E4D08' },
                         ]}
                       >
-                        {option.calories} kcal
+                        {t('common.kcalValue', { value: option.calories })}
                       </Text>
                       <Text
                         style={[
@@ -218,7 +218,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                       </Text>
                     </View>
                     <View style={[styles.macroPill, styles.oilPill]}>
-                      <Text style={styles.oilLabel}>Oil</Text>
+                      <Text style={styles.oilLabel}>{t('plan.swap.oil')}</Text>
                       <Text style={styles.oilVal}>{option.oilAddedG}g</Text>
                     </View>
                   </View>

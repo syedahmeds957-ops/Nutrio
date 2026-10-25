@@ -411,7 +411,9 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                 ~{t('plan.goal.weeks', { count: projection.estimatedWeeks })} ({projection.projectedDate})
               </Text>
               <Text style={[styles.projectionAdvice, { color: theme.colors.textSecondary }]}>
-                {projection.pacingAdvice}
+                {projection.pacingAdviceKey
+                  ? t(`plan.goal.pacingAdvice.${projection.pacingAdviceKey}`)
+                  : projection.pacingAdvice}
               </Text>
             </View>
           )}

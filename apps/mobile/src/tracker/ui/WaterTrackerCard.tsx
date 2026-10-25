@@ -81,10 +81,10 @@ export const WaterTrackerCard: React.FC<WaterTrackerCardProps> = ({
       <View style={styles.metricRow}>
         <View style={styles.numCol}>
           <Text style={[styles.mainNum, { color: theme.colors.textPrimary }]}>
-            {(actualConsumed / 1000).toFixed(2)}L
+            {t('common.litresValue', { value: (actualConsumed / 1000).toFixed(2) })}
           </Text>
           <Text style={[styles.subNum, { color: theme.colors.textMuted }]}>
-            {actualConsumed.toLocaleString('en-US')} / {actualTarget.toLocaleString('en-US')} ml
+            {actualConsumed.toLocaleString('en-US')} / {t('common.mlValue', { value: actualTarget.toLocaleString('en-US') })}
           </Text>
         </View>
       </View>

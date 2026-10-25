@@ -229,7 +229,7 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
       {/* Safety & Medical Disclaimer */}
       <View style={styles.fieldGroup}>
         <Text style={[styles.label, { color: theme.colors.textPrimary }]}>
-          Safety & Medical Disclaimer
+          {t('survey.health.disclaimerTitle')}
         </Text>
         <TouchableOpacity
           style={[

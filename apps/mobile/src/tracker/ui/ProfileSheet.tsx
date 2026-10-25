@@ -157,7 +157,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
             {divider}
             {stat(t('common.protein'), `${targets.targetProteinGrams}g`)}
             {divider}
-            {stat(t('tracker.dashboard.waterGoal'), `${targets.targetWaterMl || 3000} ml`)}
+            {stat(t('tracker.dashboard.waterGoal'), t('common.mlValue', { value: targets.targetWaterMl || 3000 }))}
           </View>
 
           {/* Action Buttons */}

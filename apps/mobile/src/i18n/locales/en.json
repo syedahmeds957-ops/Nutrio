@@ -1,25 +1,25 @@
 {
   "app": {
     "checkin": {
-      "needs_more_data": {
-        "headline": "Keep logging to unlock your recalibration",
-        "summary": "Your check-in needs at least 7 days with both a weigh-in and logged meals, counted since your last recalibration and within the last 4 weeks. Until then, your targets stay as they are.",
-        "keyAction": "Log every meal and weigh in each morning this week."
-      },
-      "under_logging": {
-        "headline": "Some meals may be missing from your log",
-        "summary": "Your logged intake is too low to explain a steady weight, which usually means meals or snacks went unrecorded. Your target stays the same rather than being cut.",
-        "keyAction": "Log chai, snacks and cooking oil too. They add up quickly."
-      },
       "adjusted": {
         "headline": "Your targets have been recalibrated",
-        "summary": "Your weight trend and logged intake show that your real daily energy use differs from the formula estimate. The change is capped so your targets move gradually.",
-        "keyAction": "Apply the new target and keep logging so next week stays accurate."
+        "keyAction": "Apply the new target and keep logging so next week stays accurate.",
+        "summary": "Your weight trend and logged intake show that your real daily energy use differs from the formula estimate. The change is capped so your targets move gradually."
+      },
+      "needs_more_data": {
+        "headline": "Keep logging to unlock your recalibration",
+        "keyAction": "Log every meal and weigh in each morning this week.",
+        "summary": "Your check-in needs at least 7 days with both a weigh-in and logged meals, counted since your last recalibration and within the last 4 weeks. Until then, your targets stay as they are."
       },
       "on_track": {
         "headline": "You're on track",
-        "summary": "Your weight trend matches what you are eating, so your current targets suit your goal.",
-        "keyAction": "Keep measuring cooking oil and stay consistent with your logging."
+        "keyAction": "Keep measuring cooking oil and stay consistent with your logging.",
+        "summary": "Your weight trend matches what you are eating, so your current targets suit your goal."
+      },
+      "under_logging": {
+        "headline": "Some meals may be missing from your log",
+        "keyAction": "Log chai, snacks and cooking oil too. They add up quickly.",
+        "summary": "Your logged intake is too low to explain a steady weight, which usually means meals or snacks went unrecorded. Your target stays the same rather than being cut."
       }
     },
     "checkinFallbackName": "Client",
@@ -108,64 +108,64 @@
       "banquet": {
         "prompts": {
           "one": "How much rice should I take at a family dinner?",
-          "two": "Is laban a good snack for weight loss?",
-          "three": "What's the lightest choice at a shawarma place?"
+          "three": "What's the lightest choice at a shawarma place?",
+          "two": "Is laban a good snack for weight loss?"
         },
         "reply": "For traditional Saudi banquets (Kabsa, Mandi, Saleeg):\n1. Portion control your rice: 1 standard portion (~150-180g cooked) is around 220-250 kcal.\n2. Prioritize the lean protein first (chicken breast or lean Naeemi lamb).\n3. Pair with fresh green salad and a cup of Almarai Laban for high satiety and digestive health!"
       },
       "chai": {
         "prompts": {
           "one": "Are 3 cups of chai a day too many?",
-          "two": "What can I have with chai instead of biscuits?",
-          "three": "How do I stop craving sweets in the evening?"
+          "three": "How do I stop craving sweets in the evening?",
+          "two": "What can I have with chai instead of biscuits?"
         },
         "reply": "Traditional doodh patti made with whole milk and 2 teaspoons of sugar easily packs 180-220 kcal per cup!\n\nTry the half-milk, half-water technique with half a spoon of sugar or stevia. If you drink 2-3 cups a day, this saves ~300 kcal without giving up your chai ritual."
       },
       "cookingOil": {
         "prompts": {
           "one": "How much oil should I use when cooking for 4 people?",
-          "two": "Is olive oil better than ghee for cooking?",
-          "three": "What should I eat for dinner tonight?"
+          "three": "What should I eat for dinner tonight?",
+          "two": "Is olive oil better than ghee for cooking?"
         },
         "reply": "In traditional Pakistani handis like chicken karahi, free-pouring cooking oil often adds 30-50g of hidden fat (270-450 kcal) to the pot.\n\nPro habit: Use a tablespoon (1 tbsp = 14g, ~120 kcal) for the entire family handi, or simmer tomatoes early to create a rich, silky gravy with minimal oil."
       },
       "dawat": {
         "prompts": {
           "one": "How do I log food I ate at a dawat?",
-          "two": "Should I skip lunch before a big dinner?",
-          "three": "What should I pick at a BBQ restaurant?"
+          "three": "What should I pick at a BBQ restaurant?",
+          "two": "Should I skip lunch before a big dinner?"
         },
         "reply": "For shaadi or dawat nights, use the harm-reduction strategy:\n1. Fill half your plate first with grilled proteins (chicken tikka, seekh kabab) and fresh cucumber/onion salad.\n2. Pick ONE primary carb: either 1 naan OR 1 small cup of biryani, not both.\n3. Drink 2 glasses of water before eating, and enjoy 1 small piece of sweet mindfully."
       },
       "fastFood": {
         "prompts": {
           "one": "What's the lowest-calorie meal at a fast-food place?",
-          "two": "How do I log a burger and fries?",
-          "three": "Is a grilled chicken wrap a good choice?"
+          "three": "Is a grilled chicken wrap a good choice?",
+          "two": "How do I log a burger and fries?"
         },
         "reply": "At AlBaik or Kudu, you can stay within your targets by choosing grilled chicken fillet or nuggets (ask for garlic dip on the side and dip lightly) instead of double-fried broast with fries.\n\nPro habit: Skip sugary sodas and opt for water or fresh orange juice. A 4-piece nugget portion with moderate dip is ~420 kcal!"
       },
       "gahwa": {
         "prompts": {
           "one": "How many dates can I eat a day?",
-          "two": "Does Arabic coffee affect my diet?",
-          "three": "What's a good snack with afternoon coffee?"
+          "three": "What's a good snack with afternoon coffee?",
+          "two": "Does Arabic coffee affect my diet?"
         },
         "reply": "Saudi Gahwa with cardamom and saffron has almost zero calories (~2 kcal per finjan) and is rich in antioxidants!\n\nDates note: Companion Sukari or Ajwa dates are nutrient-rich but calorie-dense (~20-25 kcal per date). Having 2-3 dates with your afternoon Gahwa ritual gives sustained energy without spiking your daily calories."
       },
       "greetingPK": {
         "prompts": {
           "one": "What breakfast will keep me full until lunch?",
-          "two": "How can I get more protein without much meat?",
-          "three": "I'm still hungry after dinner. What can I eat?"
+          "three": "I'm still hungry after dinner. What can I eat?",
+          "two": "How can I get more protein without much meat?"
         },
         "reply": "Assalam-o-Alaikum {{name}}! You currently have approximately {{remaining}} kcal remaining in your daily budget.\n\nFocus on getting lean protein (daal, eggs, chicken) and fibre-rich whole wheat roti while keeping cooking oil measured. What specific meal or habit can I help you optimize today?"
       },
       "greetingSA": {
         "prompts": {
           "one": "How much rice can I have with kabsa?",
-          "two": "What breakfast will keep me full until lunch?",
-          "three": "I'm still hungry after dinner. What can I eat?"
+          "three": "I'm still hungry after dinner. What can I eat?",
+          "two": "What breakfast will keep me full until lunch?"
         },
         "reply": "Marhaba {{name}}! You currently have approximately {{remaining}} kcal remaining in your daily budget.\n\nFocus on balanced portions of lean protein (Tanmiah chicken, Naeemi lamb, fish), fresh salad, and Almarai Laban, while keeping rice portions measured. How can I help you optimize your meals today?"
       }
@@ -195,14 +195,20 @@
     "daysAhead": "{{count}} day ahead",
     "daysAhead_other": "{{count}} days ahead",
     "fat": "Fat",
+    "gramsUnit": "g",
+    "gramsValue": "{{value}}g",
     "kcal": "kcal",
     "kcalValue": "{{value}} kcal",
+    "litresValue": "{{value}} L",
     "macroLine": "P {{protein}}g · C {{carbs}}g · F {{fat}}g",
+    "mlValue": "{{value}} ml",
     "no": "No",
     "oil": "Oil",
+    "portion": "portion",
     "protein": "Protein",
     "requiredMarker": "*(Required)",
     "selected": "Selected",
+    "standardServing": "{{count}} standard serving",
     "today": "Today",
     "tomorrow": "Tomorrow",
     "weekday": {
@@ -277,13 +283,8 @@
       "activateRamadan": "Activate Ramadan mode",
       "applyDish": "Apply {{dish}} to plan",
       "calorieSplit": "Daily calorie split:",
-      "dishActiveStatus": "{{dish}} is active",
       "disableRamadan": "Disable Ramadan mode",
-      "fastingBadge": "Fasting",
-      "modesDefaultLabel": "Modes",
-      "ramadanActiveStatus": "Ramadan mode is active",
-      "ramadanInactiveStatus": "Ramadan mode is off",
-      "updateDish": "Update to {{dish}}",
+      "dishActiveStatus": "{{dish}} is active",
       "dishes": {
         "aaloGosht": "Aalo gosht",
         "beefNihari": "Beef nihari",
@@ -313,6 +314,7 @@
       },
       "familyDinner": "Family dinner",
       "familyLunch": "Family lunch",
+      "fastingBadge": "Fasting",
       "hydration": {
         "iftarOpening": "Iftar opening:",
         "iftarOpeningDetail": "500ml water + dates",
@@ -331,6 +333,7 @@
         "PK": "Fruit chaat, baked samosa or grilled kebab with mint chutney.",
         "SA": "Dates & water break, followed by grilled chicken/meat Kabsa with a balanced rice portion."
       },
+      "modesDefaultLabel": "Modes",
       "otherDishLabel": "Or type another family dish",
       "otherDishPlaceholder": {
         "PK": "e.g. Haleem, Karelay Gosht…",
@@ -344,6 +347,8 @@
         "PK": "Doodh patti chai + protein oats bowl or roasted almonds.",
         "SA": "Saudi Gahwa with 3 Sukari dates or protein pudding before sleep."
       },
+      "ramadanActiveStatus": "Ramadan mode is active",
+      "ramadanInactiveStatus": "Ramadan mode is off",
       "ramadanSubtitle": "Shifts eating window between Maghrib and Fajr",
       "selectDish": "Select today's family dish",
       "suhoor": "Suhoor — 40%:",
@@ -359,6 +364,7 @@
         "ramadan": "Ramadan mode"
       },
       "title": "Cultural diet modes",
+      "updateDish": "Update to {{dish}}",
       "whenEat": "When will you eat this?"
     },
     "goal": {
@@ -377,6 +383,14 @@
         "title": "Maintenance & performance"
       },
       "maxSafeRate": "Max clinically safe rate: {{rate}} kg/week (1% of your bodyweight)",
+      "pacingAdvice": {
+        "aggressive": "Aggressive pace (>1% bodyweight/week) increases risk of lean muscle and water loss.",
+        "gentle": "Gentle, sustainable deficit. Easiest for long-term lifestyle adherence.",
+        "leanGain": "Lean hypertrophy pace (~0.25 kg/week). Maximizes muscle synthesis over fat storage.",
+        "maintain": "Steady weight maintenance supporting metabolic recovery and athletic performance.",
+        "optimal": "Optimal fat loss pace (~0.5–1% BW/week). Strongly protects lean body mass.",
+        "rapidGain": "Rapid mass gain. A significant portion of weight gained may be body fat."
+      },
       "primaryTarget": "Primary target",
       "projectedMilestone": "Projected milestone",
       "subtitle": "Set your primary focus and weekly pace. Safety bounds are strictly enforced by our clinical engine.",
@@ -412,9 +426,24 @@
       "surplus": "+{{value}} kcal surplus above maintenance ({{tdee}} kcal)",
       "title": "Your personalized targets"
     },
+    "slotCard": {
+      "carbsChip": "{{value}}g Carbs",
+      "dietitianApproved": "Dietitian Approved",
+      "oil": "{{count}} tsp oil",
+      "proteinChip": "{{value}}g Protein",
+      "swapAlternatives": "Swap Alternatives"
+    },
+    "slotTitle": {
+      "breakfast": "Protein Breakfast",
+      "dinner": "Wholesome Dinner",
+      "lunch": "Balanced Lunch",
+      "snacks_chai": "Light Snack"
+    },
     "swap": {
       "current": "Current: {{value}} kcal",
       "eyebrow": "One-tap macro match",
+      "oil": "Oil",
+      "option": "Option {{number}}",
       "selectMeal": "Select this meal",
       "title": "Swap {{slot}}"
     },
@@ -492,6 +521,29 @@
         }
       }
     },
+    "fieldErrors": {
+      "ageYears": "Please enter a valid age between 12 and 100.",
+      "bodyFatPct": "Body fat percentage must be between 3% and 65%.",
+      "chaiWithSugarCupsPerDay": "Please specify daily sweetened tea/chai cups (0 or more).",
+      "dailySittingHours": "Sitting hours must be between 0 and 24.",
+      "dailyWaterLitres": "Daily water intake must be between 0.5 and 15 litres.",
+      "dietPreference": "Please select your preferred dietary pattern.",
+      "frequencyDaysPerWeek": "Workout frequency must be between 0 and 7 days per week.",
+      "heightCm": "Please enter a valid height between 100 cm and 250 cm.",
+      "isPregnantOrBreastfeeding": "Please indicate pregnancy or active lactation status for nutritional safety.",
+      "jobCategory": "Please select your primary job / daily work activity.",
+      "medicalDisclaimerAccepted": "You must acknowledge the clinical disclaimer to proceed.",
+      "sessionDurationMins": "Session duration must be between 0 and 360 minutes.",
+      "sex": "Biological sex is required for metabolic BMR calculation.",
+      "shiftPattern": "Please select your typical work shift pattern.",
+      "sleepHoursPerNight": "Please enter typical sleep duration between 2 and 16 hours.",
+      "stressRating": "Stress rating must be between 1 (low) and 5 (extreme).",
+      "trainingType": "Please select your exercise or workout type.",
+      "waistCm": "Waist circumference must be between 40 cm and 220 cm.",
+      "weightKg": "Please enter a valid weight between 30 kg and 300 kg.",
+      "whoCooksAtHome": "Please select how meals are typically prepared at home.",
+      "workingHoursPerDay": "Working hours must be between 0 and 24."
+    },
     "health": {
       "conditions": {
         "ckd_renal": "Kidney / Renal condition",
@@ -504,6 +556,7 @@
       "description": "Your safety is non-negotiable. Medical conditions adjust your safety floors and prevent unsafe caloric restrictions.",
       "diagnosesLabel": "Known medical & health diagnoses",
       "disclaimer": "I acknowledge that Nutrio provides algorithmic nutritional guidance and is not a substitute for clinical diagnosis or prescription by a physician.",
+      "disclaimerTitle": "Safety & medical disclaimer",
       "medications": "Medications or clinical notes (optional)",
       "pregnancyQuestion": "Are you pregnant or currently breastfeeding?",
       "pregnancyWarning": "Note: Caloric restriction is clinically disabled during pregnancy and active lactation. Your plan will be set to nourishing maintenance only."
@@ -617,6 +670,7 @@
       "sittingHours": "Daily sitting hours",
       "workActivityType": "Work activity type"
     },
+    "placeholderExample": "e.g. {{value}}",
     "preferences": {
       "description": {
         "PK": "Tailoring your nutritional plan to how you eat in Pakistan.",
@@ -678,6 +732,24 @@
     }
   },
   "tracker": {
+    "addDish": {
+      "addButton": "Add \"{{name}}\"",
+      "errors": {
+        "incomplete": "We couldn't find verified nutrition data for: {{missing}}. Without it the calories for \"{{name}}\" would be too low, so we can't add it. Try logging its parts one by one.",
+        "sign_in": "Sign in to add your own dishes.",
+        "unavailable": "Couldn't add this dish right now. Check your connection and try again.",
+        "unknown_dish": "We couldn't recognise \"{{name}}\". Try a more common name, or log its ingredients one by one."
+      },
+      "footnote": "Only you can see dishes you add.",
+      "grams": "{{grams}} g",
+      "ingredientsHeading": "What's in one serving",
+      "loading": "Looking up how {{name}} is made…",
+      "notCounted": "{{grams}} g · not counted: no verified nutrition data",
+      "notListed": "Not the dish you meant? Add \"{{name}}\"",
+      "oneServing": "1 serving ({{grams}} g)",
+      "retry": "Try again",
+      "saveAndLog": "Save & log"
+    },
     "aiCard": {
       "askCoach": "Ask coach",
       "awaitingFirstMeal": "Awaiting first meal",
@@ -818,6 +890,41 @@
       "waterGoal": "Water goal",
       "weeklyCheckIn": "Weekly check-in"
     },
+    "describeMeal": {
+      "amount": "{{quantity}} × {{serving}} · {{grams}} g",
+      "analyse": "Find foods",
+      "analyseAgain": "Find foods again",
+      "entryHint": {
+        "PK": "Type a whole meal in one go",
+        "SA": "Type a whole meal in one go"
+      },
+      "entryTitle": "Describe your meal",
+      "gramsLabel": "Weight in grams",
+      "gramsUnit": "g",
+      "less": "Less",
+      "logMeal": "Log meal",
+      "looksRight": "Looks right",
+      "more": "More",
+      "notFound": "Not in our food list",
+      "nothingFound": "We couldn't find any foods in that. Try naming each food, like \"2 roti and 1 katori daal\".",
+      "pending": "{{count}} item to check",
+      "pending_other": "{{count}} items to check",
+      "placeholder": {
+        "PK": "Write what you ate and how much…",
+        "SA": "Write what you ate and how much…"
+      },
+      "reasons": {
+        "ambiguous_food": "Several foods match. Is this the one?",
+        "implausible_amount": "That amount looks very large. Check it below.",
+        "loose_match": "Closest match we have. Is this what you ate?",
+        "needs_portion": "Check the amount: we guessed the portion size.",
+        "typo_corrected": "We corrected the spelling. Is this right?",
+        "unclear_quantity": "We couldn't read the amount. Check it below.",
+        "unknown_food": "Not in our food database yet."
+      },
+      "remove": "Remove",
+      "title": "Describe your meal"
+    },
     "diary": {
       "backToDashboard": "Back to dashboard",
       "deleteItem": "Delete item",
@@ -848,15 +955,14 @@
       "consumed": "Consumed",
       "consumedToday": "Consumed today",
       "dailyGoal": "Daily goal: {{target}} kcal ({{eaten}} eaten)",
+      "dailyTarget": "Daily target",
       "energyBudget": "Energy budget",
       "free": "100% free",
-      "dailyTarget": "Daily target",
-      "kcalEatenLeft": "{{eaten}} eaten · {{value}} left",
-      "kcalEatenOver": "{{eaten}} eaten · {{value}} over",
-      "targetNotSet": "Not set",
       "goalCaption": "Goal",
       "gramsLeft": "{{value}} g left",
       "gramsOver": "{{value}} g over",
+      "kcalEatenLeft": "{{eaten}} eaten · {{value}} left",
+      "kcalEatenOver": "{{eaten}} eaten · {{value}} over",
       "kcalLeft": "{{value}} kcal left",
       "kcalOver": "{{value}} kcal over",
       "noTargetHint": "Start logging meals · Set daily target in survey",
@@ -865,6 +971,7 @@
       "pendingSync": "{{count}} offline entry pending sync",
       "pendingSync_other": "{{count}} offline entries pending sync",
       "readyFirstMeal": "Ready for first meal",
+      "targetNotSet": "Not set",
       "trackYourDay": "Track your day"
     },
     "hub": {
@@ -900,12 +1007,6 @@
       "groupBrandsHeading": "{{group}} brands ({{count}})",
       "logCustomMeal": "Log meal",
       "noDishes": "No dishes found",
-      "variant": {
-        "Mutton": "Mutton",
-        "Beef": "Beef",
-        "Chicken": "Chicken"
-      },
-      "variantPicker": "Choose the meat for {{name}}",
       "noDishesHint": {
         "PK": "Try searching for \"Zinger\", \"Biryani\", \"Chai\", \"Pizza\", or \"Karahi\".",
         "SA": "Try searching for \"Kabsa\", \"AlBaik\", \"Mandi\", \"Saleeg\", or \"Gahwa\"."
@@ -920,13 +1021,19 @@
       "resultsFound_other": "{{count}} results found",
       "saveAsPreset": "Save as a meal",
       "savePresetConfirm": "Save",
-      "searching": "Searching…",
       "searchPlaceholder": {
         "PK": "Search 2,700+ dishes, Zinger, pulao, fries…",
         "SA": "Search Kabsa, AlBaik, Mandi, Gahwa, Shawarma…"
       },
+      "searching": "Searching…",
       "switchRegion": "Switch region",
-      "title": "Log a meal"
+      "title": "Log a meal",
+      "variant": {
+        "Beef": "Beef",
+        "Chicken": "Chicken",
+        "Mutton": "Mutton"
+      },
+      "variantPicker": "Choose the meat for {{name}}"
     },
     "mealSlots": {
       "breakfast": {
@@ -984,69 +1091,16 @@
       "sa_tamees": "+ Tamees",
       "sa_yogurt": "+ Greek yogurt"
     },
-    "water": {
-      "addBottle": "+500 ml (Bottle)",
-      "addGlass": "+250 ml (Glass)",
-      "dailyTarget": "Target: {{amount}} ml / day",
-      "title": "Water Hydration"
-    },
     "streak": {
       "days_one": "{{count}} day streak",
       "days_other": "{{count}} day streak",
       "weekly": "{{pct}}% of days logged this week"
     },
-    "addDish": {
-      "addButton": "Add \"{{name}}\"",
-      "notListed": "Not the dish you meant? Add \"{{name}}\"",
-      "loading": "Looking up how {{name}} is made…",
-      "errors": {
-        "sign_in": "Sign in to add your own dishes.",
-        "unknown_dish": "We couldn't recognise \"{{name}}\". Try a more common name, or log its ingredients one by one.",
-        "unavailable": "Couldn't add this dish right now. Check your connection and try again.",
-        "incomplete": "We couldn't find verified nutrition data for: {{missing}}. Without it the calories for \"{{name}}\" would be too low, so we can't add it. Try logging its parts one by one."
-      },
-      "retry": "Try again",
-      "oneServing": "1 serving ({{grams}} g)",
-      "ingredientsHeading": "What's in one serving",
-      "grams": "{{grams}} g",
-      "footnote": "Only you can see dishes you add.",
-      "saveAndLog": "Save & log",
-      "notCounted": "{{grams}} g · not counted: no verified nutrition data"
-    },
-    "describeMeal": {
-      "entryTitle": "Describe your meal",
-      "entryHint": {
-        "PK": "Type a whole meal in one go",
-        "SA": "Type a whole meal in one go"
-      },
-      "title": "Describe your meal",
-      "placeholder": {
-        "PK": "Write what you ate and how much…",
-        "SA": "Write what you ate and how much…"
-      },
-      "analyse": "Find foods",
-      "analyseAgain": "Find foods again",
-      "nothingFound": "We couldn't find any foods in that. Try naming each food, like \"2 roti and 1 katori daal\".",
-      "notFound": "Not in our food list",
-      "amount": "{{quantity}} × {{serving}} · {{grams}} g",
-      "remove": "Remove",
-      "less": "Less",
-      "more": "More",
-      "looksRight": "Looks right",
-      "reasons": {
-        "ambiguous_food": "Several foods match. Is this the one?",
-        "loose_match": "Closest match we have. Is this what you ate?",
-        "typo_corrected": "We corrected the spelling. Is this right?",
-        "unclear_quantity": "We couldn't read the amount. Check it below.",
-        "needs_portion": "Check the amount: we guessed the portion size.",
-        "implausible_amount": "That amount looks very large. Check it below.",
-        "unknown_food": "Not in our food database yet."
-      },
-      "pending": "{{count}} item to check",
-      "pending_other": "{{count}} items to check",
-      "logMeal": "Log meal",
-      "gramsLabel": "Weight in grams",
-      "gramsUnit": "g"
+    "water": {
+      "addBottle": "+500 ml (Bottle)",
+      "addGlass": "+250 ml (Glass)",
+      "dailyTarget": "Target: {{amount}} ml / day",
+      "title": "Water Hydration"
     }
   },
   "weight": {
@@ -1062,6 +1116,7 @@
       "underLoggingTitle": "Under-logging detected",
       "weightFactor": "Weight factor: {{observed}}% observed data / {{formula}}% formula"
     },
+    "kcalPerWeek": "kcal/wk",
     "log": {
       "description": "Weigh yourself under consistent conditions (ideally in the morning, fasted, after using the restroom).",
       "notesLabel": "Notes (optional)",

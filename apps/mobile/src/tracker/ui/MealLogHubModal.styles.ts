@@ -67,7 +67,7 @@ export const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    marginLeft: 10,
+    marginStart: 10,
     fontSize: 14,
     fontWeight: '500',
     backgroundColor: 'transparent',
@@ -309,10 +309,7 @@ export const styles = StyleSheet.create({
     marginRight: 12,
   },
   dishTitleRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
     marginBottom: 4,
-    flexWrap: 'wrap',
   },
   dishName: {
     fontSize: 15,

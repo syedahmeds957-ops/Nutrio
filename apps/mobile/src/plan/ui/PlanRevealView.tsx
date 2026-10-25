@@ -169,7 +169,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
           >
             <Text style={[styles.macroName, { color: theme.colors.textSecondary }]}>{t('common.protein')}</Text>
             <Text style={[styles.macroValue, { color: theme.colors.textPrimary }]}>
-              {macros.proteinGrams}g
+              {t('common.gramsValue', { value: macros.proteinGrams })}
             </Text>
             <Text style={[styles.macroSub, { color: theme.colors.textMuted }]}>
               {t('common.kcalValue', { value: macros.proteinKcal })} ({macros.proteinPct}%)
@@ -189,7 +189,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
           >
             <Text style={[styles.macroName, { color: theme.colors.textSecondary }]}>{t('common.carbs')}</Text>
             <Text style={[styles.macroValue, { color: theme.colors.textPrimary }]}>
-              {macros.carbGrams}g
+              {t('common.gramsValue', { value: macros.carbGrams })}
             </Text>
             <Text style={[styles.macroSub, { color: theme.colors.textMuted }]}>
               {t('common.kcalValue', { value: macros.carbKcal })} ({macros.carbPct}%)
@@ -209,7 +209,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
           >
             <Text style={[styles.macroName, { color: theme.colors.textSecondary }]}>{t('common.fat')}</Text>
             <Text style={[styles.macroValue, { color: theme.colors.textPrimary }]}>
-              {macros.fatGrams}g
+              {t('common.gramsValue', { value: macros.fatGrams })}
             </Text>
             <Text style={[styles.macroSub, { color: theme.colors.textMuted }]}>
               {t('common.kcalValue', { value: macros.fatKcal })} ({macros.fatPct}%)
@@ -224,7 +224,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
               {t('plan.reveal.dailyFibre')}
             </Text>
             <Text style={[styles.subMacroValue, { color: theme.colors.textPrimary }]}>
-              {macros.fibreGrams}g
+              {t('common.gramsValue', { value: macros.fibreGrams })}
             </Text>
           </View>
           <View style={styles.subMacroItem}>
@@ -232,7 +232,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
               {t('plan.reveal.hydration')}
             </Text>
             <Text style={[styles.subMacroValue, { color: theme.colors.textPrimary }]}>
-              {(macros.waterMl / 1000).toFixed(1)} L
+              {t('common.litresValue', { value: (macros.waterMl / 1000).toFixed(1) })}
             </Text>
           </View>
         </View>

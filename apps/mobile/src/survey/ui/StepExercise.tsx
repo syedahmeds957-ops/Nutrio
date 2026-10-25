@@ -142,7 +142,7 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
           {/* Session Duration */}
           <AppleTextInput
             label={t('survey.exercise.sessionDuration')}
-            placeholder="e.g. 45"
+            placeholder={t('survey.placeholderExample', { value: 45 })}
             keyboardType="numeric"
             value={
               data.sessionDurationMins !== undefined

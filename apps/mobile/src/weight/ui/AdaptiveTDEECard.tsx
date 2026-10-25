@@ -66,7 +66,7 @@ export const AdaptiveTDEECard: React.FC<AdaptiveTDEECardProps> = ({
             {recommendedKcalDelta > 0
               ? `+${recommendedKcalDelta}`
               : recommendedKcalDelta}{' '}
-            kcal/wk
+            {t('weight.kcalPerWeek')}
           </Text>
           <Text style={[styles.deltaSub, { color: theme.colors.textMuted }]}>
             {t('weight.adaptive.targetAdjustment')}

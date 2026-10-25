@@ -236,13 +236,13 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
       return gramsValid ? t('tracker.customizer.customTotal', { grams: customGrams }) : '—';
     }
     if (activeServing) {
-      const label = activeServing.label || activeServing.description || 'portion';
+      const label = activeServing.label || activeServing.description || t('common.portion');
       if (quantity === 1) {
-        return `${label} · ${activeServing.grams}g`;
+        return `${label} · ${t('common.gramsValue', { value: activeServing.grams })}`;
       }
-      return `${quantity}x ${label} · ${quantity * activeServing.grams}g`;
+      return `${quantity}x ${label} · ${t('common.gramsValue', { value: quantity * activeServing.grams })}`;
     }
-    return `${quantity} standard serving`;
+    return t('common.standardServing', { count: quantity });
   }, [isCustomWeightMode, customGrams, gramsValid, activeServing, quantity, t]);
 
   if (!visible || !item) return null;
@@ -555,7 +555,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
               </Text>
             </View>
             <Text style={[styles.totalMacroBreakdown, { color: theme.colors.textMuted }]}>
-              {canLog ? `P ${macros.protein}g · C ${macros.carbs}g · F ${macros.fat}g` : '—'}
+              {canLog ? t('common.macroLine', { protein: macros.protein, carbs: macros.carbs, fat: macros.fat }) : '—'}
             </Text>
           </View>
 

@@ -144,6 +144,7 @@ export interface MealPlanSolverInput {
 export interface PlannedMealItem {
   foodName: string;
   foodNameUr?: string;
+  foodNameAr?: string;
   category: string;
   servingLabel: string;
   servingGrams: number;

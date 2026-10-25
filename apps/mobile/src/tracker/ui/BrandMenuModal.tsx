@@ -23,6 +23,7 @@ import { Icon } from '../../ui/Icon.js';
 import { BrandLogo } from '../../ui/BrandLogo.js';
 import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
+import { foodDisplayName } from '../foodDisplayName.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 export interface BrandMenuModalProps {
@@ -259,6 +260,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                 styles.searchInput,
                 { color: theme.colors.textPrimary },
                 noOutlineStyle,
+                dir.text,
               ]}
               placeholder={t('tracker.brandMenu.searchPlaceholder', {
                 brand: brandName || t('tracker.brandMenu.menuWord'),
@@ -391,21 +393,21 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                         <View style={styles.itemCardLeft}>
                           <View style={styles.itemNameRow}>
                             <Text style={[styles.itemName, { color: theme.colors.textPrimary }]}>
-                              {item.name}
+                              {foodDisplayName(item.name, item.nameAr, dir.isRTL).primary}
                             </Text>
-                            {item.nameAr && (
-                              <Text style={[styles.itemNameAr, { color: theme.colors.primaryAccessible }]}>
-                                {item.nameAr}
+                            {foodDisplayName(item.name, item.nameAr, dir.isRTL).secondary && (
+                              <Text style={[styles.itemNameAr, dir.text, { color: theme.colors.textMuted }]}>
+                                {foodDisplayName(item.name, item.nameAr, dir.isRTL).secondary}
                               </Text>
                             )}
                           </View>
 
                           <Text style={[styles.itemServing, { color: theme.colors.textSecondary }]}>
                             {serving
-                              ? `${serving.grams || serving.servingWeightGrams || 100}g · ${
+                              ? `${t('common.gramsValue', { value: serving.grams || serving.servingWeightGrams || 100 })} · ${
                                   serving.description || serving.label || t('tracker.brandMenu.oneServing')
                                 }`
-                              : '100g'}
+                              : t('common.gramsValue', { value: 100 })}
                           </Text>
 
                           <Text
@@ -576,10 +578,7 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   itemNameRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
     marginBottom: 4,
-    flexWrap: 'wrap',
   },
   itemName: {
     fontSize: 15,

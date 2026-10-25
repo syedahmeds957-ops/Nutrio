@@ -307,6 +307,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
           <TextInput
             style={[
               styles.textInput,
+              dir.text,
               {
                 backgroundColor: theme.colors.surfaceSecondary,
                 color: theme.colors.textPrimary,

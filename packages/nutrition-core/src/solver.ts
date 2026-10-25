@@ -78,6 +78,7 @@ export function createPlannedItem(
   return {
     foodName: food.name,
     foodNameUr: food.nameUr,
+    foodNameAr: food.nameAr,
     category: food.category,
     servingLabel: serving.label,
     servingGrams: serving.grams,

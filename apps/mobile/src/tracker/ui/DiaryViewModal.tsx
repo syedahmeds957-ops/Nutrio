@@ -12,6 +12,7 @@ import { DailyTrackerSummary, LoggedItem } from '../types.js';
 import { Icon } from '../../ui/Icon.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { foodDisplayName } from '../foodDisplayName.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { formatServingLine } from '../formatServing.js';
 
@@ -267,11 +268,11 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
                   <View style={styles.itemLeft}>
                     <View style={styles.itemTitleRow}>
                       <Text style={[styles.itemName, { color: theme.colors.textPrimary }]}>
-                        {item.foodName}
+                        {foodDisplayName(item.foodName, item.foodNameAr, dir.isRTL).primary}
                       </Text>
-                      {isSaudi && item.foodNameAr ? (
-                        <Text style={[styles.itemNameUr, { color: theme.colors.textMuted }]}>
-                          {item.foodNameAr}
+                      {foodDisplayName(item.foodName, item.foodNameAr, dir.isRTL).secondary ? (
+                        <Text style={[styles.itemNameUr, dir.text, { color: theme.colors.textMuted }]}>
+                          {foodDisplayName(item.foodName, item.foodNameAr, dir.isRTL).secondary}
                         </Text>
                       ) : null}
                     </View>
@@ -505,10 +506,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   itemTitleRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
     marginBottom: 3,
-    flexWrap: 'wrap',
   },
   itemName: {
     fontSize: 15,

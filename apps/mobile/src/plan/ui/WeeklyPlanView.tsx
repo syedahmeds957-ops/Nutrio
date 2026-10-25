@@ -212,6 +212,9 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
                 activeOpacity={0.7}
               >
                 <Text
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                  minimumFontScale={0.7}
                   style={[
                     styles.dayTabShort,
                     {
@@ -337,7 +340,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
                 numberOfLines={1}
                 adjustsFontSizeToFit
               >
-                {currentDayPlan.actualProteinGrams}g
+                {t('common.gramsValue', { value: currentDayPlan.actualProteinGrams })}
               </Text>
               {targetLine(macroStatus.protein)}
               <Text
@@ -360,7 +363,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
                 numberOfLines={1}
                 adjustsFontSizeToFit
               >
-                {currentDayPlan.actualCarbGrams}g
+                {t('common.gramsValue', { value: currentDayPlan.actualCarbGrams })}
               </Text>
               {targetLine(macroStatus.carbs)}
               <Text
@@ -383,7 +386,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
                 numberOfLines={1}
                 adjustsFontSizeToFit
               >
-                {currentDayPlan.actualFatGrams}g
+                {t('common.gramsValue', { value: currentDayPlan.actualFatGrams })}
               </Text>
               {targetLine(macroStatus.fat)}
               <Text
@@ -407,7 +410,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
                 numberOfLines={1}
                 adjustsFontSizeToFit
               >
-                {currentDayPlan.totalOilAddedG}g
+                {t('common.gramsValue', { value: currentDayPlan.totalOilAddedG })}
               </Text>
               <Text
                 style={[styles.oilLabel, { color: isDark ? '#FBBF24' : '#B45309' }]}

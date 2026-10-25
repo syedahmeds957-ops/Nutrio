@@ -407,6 +407,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
               style={[
                 styles.searchInput,
                 noOutlineStyle,
+                dir.text,
                 { color: theme.colors.textPrimary },
               ]}
               placeholder={t(`tracker.hub.searchPlaceholder.${activeRegion}`)}

@@ -234,6 +234,9 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
                   />
                 </View>
                 <Text
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                  minimumFontScale={0.7}
                   style={[
                     styles.dayLabel,
                     { color: theme.colors.textMuted },
