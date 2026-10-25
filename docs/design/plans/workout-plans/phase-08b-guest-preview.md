@@ -2,7 +2,7 @@
 
 **Size:** S · **Blocked by:** 8 · **Added:** 2026-10-25, replacing decision D5 at the user's request ("guest mode is just to explore the app").
 
-> **Status: done 2026-10-25, not committed.** Mockups (design canvas row "Guest preview: explore only") approved by the user the same day. See "Execution record" at the end.
+> **Status: done 2026-10-25, committed as `17704fa`.** Mockups (design canvas row "Guest preview: explore only") approved by the user the same day. See "Execution record" at the end.
 
 ## Outcome
 

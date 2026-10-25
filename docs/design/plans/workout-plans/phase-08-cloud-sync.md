@@ -2,7 +2,7 @@
 
 **Size:** M · **Blocked by:** 5 · Ends at **Checkpoint B**. **Needs you:** OK to apply the migration to the live project.
 
-> **Status: done 2026-10-25: tests green, migration applied, Checkpoint B 12/12 on web. Not committed.** See "Execution record" at the end.
+> **Status: done 2026-10-25: tests green, migration applied, Checkpoint B 12/12 on web. Committed as `70b79f8`.** See "Execution record" at the end.
 
 ## Outcome
 
