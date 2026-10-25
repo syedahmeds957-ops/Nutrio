@@ -350,7 +350,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
             accessibilityRole="button"
             accessibilityLabel={t('common.back')}
           >
-            <Icon name="arrow-left" size={24} color={theme.colors.text} />
+            <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={24} color={theme.colors.text} />
           </TouchableOpacity>
 
           {/* Dish Brand & Title */}
@@ -362,7 +362,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
           {/* Estimated Badge */}
           <View style={styles.estimatedBadgeContainer}>
             <View style={[styles.estimatedBadge, { borderColor: isDark ? '#272A33' : '#E2E8F0', backgroundColor: isDark ? '#18191E' : '#F1F5F9' }]}>
-              <Text style={[styles.estimatedBadgeText, { color: isDark ? '#94A3B8' : '#64748B' }]}>
+              <Text style={[styles.estimatedBadgeText, { color: theme.colors.textSecondary }]}>
                 ≈ {t('tracker.customizer.estimated')}
               </Text>
             </View>

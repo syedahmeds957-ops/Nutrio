@@ -67,7 +67,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
           activeOpacity={0.7}
         >
           <View style={styles.topBackContent}>
-            <Icon name="arrow-left" size={14} color={theme.colors.textPrimary} />
+            <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={14} color={theme.colors.textPrimary} />
             <Text style={[styles.topBackText, { color: theme.colors.textPrimary }]}>
               {t('common.back')}
             </Text>
@@ -121,7 +121,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
         </View>
 
         <Text style={[styles.heroValue, { color: accentTextColor }]}>
-          {targetResult.kcalTarget.toLocaleString()}
+          {targetResult.kcalTarget.toLocaleString('en-US')}
         </Text>
         <Text style={[styles.heroUnit, { color: accentTextColor }]}>
           {t('plan.reveal.caloriesPerDay')}

@@ -131,7 +131,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 activeOpacity={0.7}
               >
                 <View style={styles.btnRow}>
-                  <Icon name="arrow-left" size={14} color={theme.colors.textPrimary} />
+                  <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={14} color={theme.colors.textPrimary} />
                   <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
                     {t('common.back')}
                   </Text>
@@ -141,7 +141,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
 
             <View style={styles.brandRow}>
               <Image
-                source={require('../../../assets/logo.png')}
+                source={require('../../../assets/logo.webp')}
                 style={styles.logo}
                 resizeMode="contain"
                 accessibilityIgnoresInvertColors

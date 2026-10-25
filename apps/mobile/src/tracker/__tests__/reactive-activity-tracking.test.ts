@@ -4,6 +4,7 @@ import { TrackerEngine } from '../engine.js';
 import { WaterTrackerCard } from '../ui/WaterTrackerCard.js';
 import { DailyProgressHeader } from '../ui/DailyProgressHeader.js';
 import { WeeklyCalorieBankCard } from '../ui/WeeklyCalorieBankCard.js';
+import { weeklyCalorieBank } from '../calorieBank.js';
 import { ALL_SAUDI_FOODS, ALL_EXPANDED_PAKISTANI_FOODS } from '@nutrio/food-db';
 
 describe('Phase 5: Activity Tracking & Reactive State Verification', () => {
@@ -134,11 +135,13 @@ describe('Phase 5: Activity Tracking & Reactive State Verification', () => {
     expect(headerEl).toBeDefined();
     expect(headerEl.props.summary.remainingCalories).toBe(2000);
 
+    const today = { consumed: summary.totalCaloriesConsumed, target: summary.targetCalories, isLogged: true, isToday: true };
     const bankEl = React.createElement(WeeklyCalorieBankCard, {
       targetCalories: summary.targetCalories,
-      weeklyDeficitKcal: summary.targetCalories - summary.totalCaloriesConsumed,
+      dailyHistory: [{ day: 'Mon', ...today }],
     });
     expect(bankEl).toBeDefined();
-    expect(bankEl.props.weeklyDeficitKcal).toBe(2000);
+    // Today's unspent target is not banked while the day is still running.
+    expect(weeklyCalorieBank([today])).toEqual({ balanceKcal: 0, countedDays: 0 });
   });
 });

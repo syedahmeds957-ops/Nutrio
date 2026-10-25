@@ -35,7 +35,8 @@ export class SurveyStateEngine {
   private healthClinical: Partial<SurveyHealthClinical> = {
     medicalConditions: ['none'],
     isPregnantOrBreastfeeding: false,
-    medicalDisclaimerAccepted: true,
+    // Consent starts unticked: the user has to agree, not be agreed for.
+    medicalDisclaimerAccepted: false,
   };
   private preferences: Partial<SurveyPreferences> = {};
   private currentErrors: Record<string, string> = {};

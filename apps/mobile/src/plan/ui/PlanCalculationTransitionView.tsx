@@ -66,7 +66,7 @@ export const PlanCalculationTransitionView: React.FC<PlanCalculationTransitionVi
 
         {/* Clinical Eyebrow & Title */}
         <View style={styles.headerArea}>
-          <Text style={[styles.eyebrow, { color: accentColor }]}>
+          <Text style={[styles.eyebrow, { color: theme.colors.primaryAccessible }]}>
             {t('plan.transition.eyebrow')}
           </Text>
           <Text style={[styles.title, dir.textCenter, { color: theme.colors.textPrimary }]}>
@@ -157,7 +157,7 @@ export const PlanCalculationTransitionView: React.FC<PlanCalculationTransitionVi
           <Text style={[styles.skipButtonText, { color: theme.colors.textSecondary }]}>
             {t('plan.transition.viewPlanNow')}
           </Text>
-          <Icon name="arrow-right" size={14} color={theme.colors.textSecondary} />
+          <Icon name={dir.isRTL ? 'arrow-left' : 'arrow-right'} size={14} color={theme.colors.textSecondary} />
         </TouchableOpacity>
       </View>
     </View>

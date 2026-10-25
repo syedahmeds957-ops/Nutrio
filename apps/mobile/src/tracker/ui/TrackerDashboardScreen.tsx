@@ -15,19 +15,15 @@ import { MealLogHubModal, MealBasketEntry } from './MealLogHubModal.js';
 import { BrandMenuModal } from './BrandMenuModal.js';
 import { ItemCustomizerModal, CustomizedLogPayload } from './ItemCustomizerModal.js';
 import { DiaryViewModal } from './DiaryViewModal.js';
-import { AiRecommendationCard, RecommendedFood } from './AiRecommendationCard.js';
+import { AiRecommendationCard } from './AiRecommendationCard.js';
+import type { SuggestionItem } from '../suggestions.js';
 import { QuickStaplesBar, StapleItem } from './QuickStaplesBar.js';
 import { resolveStaple } from '../staples.js';
 import { WeeklyCalorieBankCard } from './WeeklyCalorieBankCard.js';
 import { TrackerEngine } from '../engine.js';
 import { MealSlot, DailyTrackerSummary } from '../types.js';
 import type { DraftLogEntry } from '../describeMeal.js';
-import {
-  NormalizedFood,
-  PAKISTANI_STAPLES_DATA,
-  SAUDI_TRADITIONAL_FOODS,
-  ServingUnit,
-} from '@nutrio/food-db';
+import { NormalizedFood, ServingUnit } from '@nutrio/food-db';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
@@ -247,23 +243,32 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
           return pastEngine.getSummary();
         })();
 
-  // Fill (0-1) of the daily calorie target for each day of the current
-  // Mon-Sun week, read from what was saved on those days. Days that have not
-  // happened yet, or were never logged, stay 0 so their bars stay empty.
-  const weeklyHistoryFills = (() => {
+  // Calories eaten on each day of the current Mon-Sun week: past days from what
+  // was saved, today from the live summary, later days not yet. The hero bars
+  // and the calorie bank both read it; the bank used to get today alone, with
+  // every other day hard-coded to zero.
+  const weekDays = (() => {
     const today = new Date(`${summary.date}T00:00:00Z`);
     const todayIdx = (today.getUTCDay() + 6) % 7;
     return Array.from({ length: 7 }, (_, idx) => {
-      if (idx >= todayIdx) return 0;
+      if (idx === todayIdx) {
+        return { consumed: summary.totalCaloriesConsumed, isLogged: summary.items.length > 0, isToday: true };
+      }
+      if (idx > todayIdx) return { consumed: 0, isLogged: false, isToday: false };
       const date = addDaysToKey(summary.date, -(todayIdx - idx));
       const saved = loadDailyActivities(date, activeRegion);
-      if (!saved?.items?.length) return 0;
+      if (!saved?.items?.length) return { consumed: 0, isLogged: false, isToday: false };
       const dayEngine = new TrackerEngine({ ...targets, date });
       dayEngine.loadItems(saved.items, saved.waterMl || 0);
-      const eaten = dayEngine.getSummary().totalCaloriesConsumed;
-      return Math.min(1, eaten / Math.max(1, targets.targetCalories));
+      return { consumed: dayEngine.getSummary().totalCaloriesConsumed, isLogged: true, isToday: false };
     });
   })();
+
+  // Fill (0-1) of the daily calorie target for each finished day of the week.
+  // Today and later days stay 0 here; the hero draws today separately.
+  const weeklyHistoryFills = weekDays.map((d) =>
+    d.isToday ? 0 : Math.min(1, d.consumed / Math.max(1, targets.targetCalories))
+  );
 
   // Today reads from the live summary so a meal logged a moment ago counts at once.
   const loggingStreak = computeLoggingStreak(
@@ -389,16 +394,12 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     forceUpdate();
   };
 
-  const handleLogRecommendation = (items: RecommendedFood[]) => {
-    const foodPool = activeRegion === 'SA' ? SAUDI_TRADITIONAL_FOODS : PAKISTANI_STAPLES_DATA;
+  // Items arrive already resolved to catalogue foods and servings; nothing is
+  // looked up by name here, so nothing can fall back to an unrelated dish.
+  const handleLogRecommendation = (items: SuggestionItem[]) => {
+    const slot = defaultSlotForNow();
     for (const item of items) {
-      const found =
-        foodPool.find((f) =>
-          f.name.toLowerCase().includes(item.name.toLowerCase())
-        ) || foodPool[0];
-      const serving = found.servings[0] || { label: 'serving', grams: 100 };
-      const qty = Number((item.calories / (serving.kcal || found.kcal100g || 100)).toFixed(1));
-      engine.logItem('dinner', found, serving, Math.max(0.5, qty));
+      engine.logItem(slot, item.food, item.serving, item.quantity);
     }
     persistCurrentActivities();
     forceUpdate();
@@ -448,7 +449,7 @@ const defaultSlotForNow = (): MealSlot => {
                   },
                 ]}
               >
-                <Text style={[styles.avatarInitial, { color: accentColor }]}>
+                <Text style={[styles.avatarInitial, { color: theme.colors.primaryAccessible }]}>
                   {userName.charAt(0).toUpperCase()}
                 </Text>
               </View>
@@ -706,28 +707,13 @@ const defaultSlotForNow = (): MealSlot => {
         {/* Rolling Weekly Calorie Bank Card (Dynamic Real Data) */}
         <WeeklyCalorieBankCard
           targetCalories={targets.targetCalories}
-          dailyHistory={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, idx) => {
-            const currentDayOfWeek = (new Date().getDay() + 6) % 7;
-            if (idx === currentDayOfWeek) {
-              return {
-                day,
-                consumed: Math.round(summary.totalCaloriesConsumed),
-                target: targets.targetCalories,
-                isLogged: true,
-              };
-            }
-            return {
-              day,
-              consumed: 0,
-              target: targets.targetCalories,
-              isLogged: false,
-            };
-          })}
-          weeklyDeficitKcal={
-            summary.totalCaloriesConsumed > 0
-              ? Math.max(0, targets.targetCalories - summary.totalCaloriesConsumed)
-              : 0
-          }
+          dailyHistory={weekDays.map((d, idx) => ({
+            day: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][idx],
+            consumed: Math.round(d.consumed),
+            target: targets.targetCalories,
+            isLogged: d.isLogged,
+            isToday: d.isToday,
+          }))}
         />
       </ScrollView>
 

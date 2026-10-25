@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import { PlanUserContext, AssessmentNarrative } from '../types.js';
+import { ritualCupKcal } from '../../common/ritualDrinks.js';
 import { Icon } from '../../ui/Icon.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
@@ -26,8 +27,15 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
   const isSaudi = activeRegion === 'SA';
 
   const sittingHours = Number.isFinite(context.dailySittingHours) ? context.dailySittingHours : 8;
-  const chaiKcalDay = Number.isFinite(context.chaiSugarKcalPerDay) ? context.chaiSugarKcalPerDay : 130;
-  const chaiKcalWeek = Number.isFinite(context.weeklyChaiSugarKcal) ? context.weeklyChaiSugarKcal : chaiKcalDay * 7;
+  // Priced for the region from the survey's cup count. The Saudi card used to
+  // show a fixed 175 kcal/day whatever the user had answered.
+  const ritualKcalDay =
+    context.ritualCupsPerDay !== undefined
+      ? context.ritualCupsPerDay * ritualCupKcal(activeRegion)
+      : Number.isFinite(context.chaiSugarKcalPerDay)
+      ? context.chaiSugarKcalPerDay
+      : 2 * ritualCupKcal(activeRegion);
+  const ritualKcalWeek = ritualKcalDay * 7;
 
   return (
     <ScrollView
@@ -49,7 +57,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
         >
           <View style={styles.topBackContent}>
             <Icon
-              name="arrow-left"
+              name={dir.isRTL ? 'arrow-right' : 'arrow-left'}
               size={14}
               color={theme.colors.textPrimary}
             />
@@ -220,7 +228,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
               },
             ]}
           >
-            {t('plan.analysis.levers.perDay', { value: isSaudi ? 175 : chaiKcalDay })}
+            {t('plan.analysis.levers.perDay', { value: ritualKcalDay })}
           </Text>
         </View>
 
@@ -243,7 +251,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
             ]}
           >
             {t('plan.analysis.levers.perWeek', {
-              value: (isSaudi ? 1225 : chaiKcalWeek).toLocaleString(),
+              value: ritualKcalWeek.toLocaleString('en-US'),
             })}
           </Text>
         </View>
@@ -329,7 +337,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
             activeOpacity={0.7}
           >
             <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
-              Back
+              {t('common.back')}
             </Text>
           </TouchableOpacity>
         )}
@@ -345,9 +353,9 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
         >
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, justifyContent: 'center' }}>
             <Text style={[styles.actionBtnText, { color: theme.colors.limeText }]}>
-              Select Your Goal & Pace
+              {t('plan.analysis.selectGoal')}
             </Text>
-            <Icon name="arrow-right" size={18} color={theme.colors.limeText} />
+            <Icon name={dir.isRTL ? 'arrow-left' : 'arrow-right'} size={18} color={theme.colors.limeText} />
           </View>
         </TouchableOpacity>
       </View>

@@ -208,7 +208,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
             onPress={onBack}
             activeOpacity={0.7}
           >
-            <Icon name="arrow-left" size={18} color={theme.colors.textPrimary} />
+            <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={18} color={theme.colors.textPrimary} />
           </TouchableOpacity>
 
           <View style={styles.headerTitleContainer}>
@@ -219,7 +219,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                   {brandName || t('tracker.brandMenu.fallbackTitle')}
                 </Text>
                 {currentBrand?.nameAr && (
-                  <Text style={{ fontSize: 13, fontWeight: '700', color: theme.colors.primaryLime }}>
+                  <Text style={{ fontSize: 13, fontWeight: '700', color: theme.colors.primaryAccessible }}>
                     {currentBrand.nameAr}
                   </Text>
                 )}
@@ -394,7 +394,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                               {item.name}
                             </Text>
                             {item.nameAr && (
-                              <Text style={[styles.itemNameAr, { color: theme.colors.primaryLime }]}>
+                              <Text style={[styles.itemNameAr, { color: theme.colors.primaryAccessible }]}>
                                 {item.nameAr}
                               </Text>
                             )}
@@ -437,7 +437,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                               ≈{t('common.kcalValue', { value: kcal })}
                             </Text>
                           </View>
-                          <Icon name="chevron-right" size={16} color={theme.colors.textMuted} />
+                          <Icon name={dir.isRTL ? 'chevron-left' : 'chevron-right'} size={16} color={theme.colors.textMuted} />
                         </View>
                       </TouchableOpacity>
                     );

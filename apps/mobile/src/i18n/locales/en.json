@@ -55,6 +55,7 @@
     "applyNewTarget": "Apply new target ({{value}} kcal/day)",
     "avgIntake": "Avg daily intake",
     "coachAssessment": "Coach's metabolic assessment",
+    "currentTarget": "Current target",
     "dashboard": "Dashboard",
     "daysOnTarget": "{{count}} of 7 days on-target",
     "daysOnTarget_other": "{{count}} of 7 days on-target",
@@ -64,7 +65,9 @@
     "kcalShift": "{{value}} kcal shift",
     "myProgress": "My progress",
     "newTarget": "New target",
+    "noChange": "No change this week",
     "oldTarget": "Old target",
+    "progressStats": "7-day progress",
     "recalibration": "Metabolic adaptive recalibration",
     "share": "Share",
     "shareBody": "Nutrio weekly check-in report ({{name}})\n- Adherence rate: {{adherence}}% ({{daysLogged}}/7 days logged)\n- Weight trend: {{weightDelta}} kg\n- Daily intake avg: {{intake}} kcal\n- New daily target: {{newTarget}} kcal ({{targetDelta}} kcal)\n- Next week habit: {{habit}}",
@@ -260,6 +263,7 @@
         }
       },
       "sedentary": "Sedentary",
+      "selectGoal": "Choose your goal & pace",
       "sittingHours": "{{count}} hour seated per day",
       "sittingHours_other": "{{count}} hours seated per day",
       "sittingLoad": "Daily sitting load",
@@ -400,7 +404,7 @@
       "hydration": "Hydration:",
       "macroBreakdown": "Daily macronutrient breakdown",
       "maintenance": "Matched to maintenance TDEE ({{tdee}} kcal)",
-      "safeguardBmr": "Target strictly exceeds resting BMR floor ({{bmr}} kcal).",
+      "safeguardBmr": "Target never goes below your resting BMR ({{bmr}} kcal).",
       "safeguardDeficit": "Caloric deficit safely capped at 25% of TDEE to prevent muscle catabolism.",
       "safeguardFat": "Hormonal fat floor preserved (≥0.6 g/kg & ≥20% kcal).",
       "safeguards": "Clinical safety safeguards",
@@ -426,18 +430,27 @@
       "viewPlanNow": "View plan now"
     },
     "weekly": {
+      "calorieDeviation": "Calories {{value}}%",
       "dayMealPlan": "{{day}} meal plan",
-      "dayTargetKcal": "Target: {{kcal}} kcal"
+      "dayTargetKcal": "Target: {{kcal}} kcal",
+      "fatOver": "About {{grams}} g over your fat target today.",
+      "notEnoughFoods": "We don't have enough dishes for your diet in this region yet, so we can't build this day's plan.",
+      "ofTarget": "of {{grams}}g",
+      "proteinShort": "About {{grams}} g short of your protein target today. Add a protein side to close the gap."
     }
   },
   "survey": {
     "basics": {
       "age": "Age",
+      "description": "These measurements set your resting energy needs (BMR), the base of your daily calorie target.",
       "female": "Female",
       "height": "Height",
       "male": "Male",
       "measurementsEyebrow": "Body measurements",
       "sexEyebrow": "Biological sex (for BMR)",
+      "unitCm": "cm",
+      "unitKg": "kg",
+      "unitYears": "yrs",
       "weight": "Current weight"
     },
     "completeAssessment": "Complete assessment",
@@ -497,10 +510,12 @@
     },
     "lifestyle": {
       "chai": {
+        "addsPrefix": "Adds ~",
         "badge": {
           "PK": "Key desi factor",
           "SA": "Saudi tradition"
         },
+        "kcalPerDay": "{{kcal}} kcal/day",
         "subtitle": {
           "PK": "Doodh patti / tea brewed with 1-2 tsp of sugar",
           "SA": "Finjans of Saudi Gahwa paired with companion dates (Sukari / Ajwa)"
@@ -672,17 +687,18 @@
         "subtitle": "Log your breakfast or lunch to activate personalized AI meal suggestions",
         "title": "Ready for your first meal"
       },
-      "logFirstMeal": "+ Log first meal",
-      "logSuggestion": "+ Log suggestion",
+      "logFirstMeal": "Log first meal",
+      "logSuggestion": "Log suggestion",
       "logged": "Logged!",
+      "proteinValue": "{{grams}}g protein",
       "suggestions": {
         "PK.full": {
-          "rationale": "Matches your remaining {{remaining}} kcal with high protein to reach target.",
+          "rationale": "Fits within your remaining {{remaining}} kcal, with plenty of protein toward your target.",
           "subtitle": "Chicken tikka boti (150g) + 1 whole wheat roti + mint raita",
           "title": "Chicken tikka plate"
         },
         "PK.light": {
-          "rationale": "Protects your calorie deficit with ~140 kcal while adding 8g clean protein.",
+          "rationale": "A light {{kcal}} kcal snack with {{protein}}g of protein.",
           "subtitle": "1 boiled egg + fresh cucumber lemon salad",
           "title": "Light protein snack"
         },
@@ -692,18 +708,18 @@
           "title": "Comfort desi daal & roti"
         },
         "SA.full": {
-          "rationale": "High-protein charcoal grilled meal matching your remaining {{remaining}} kcal.",
+          "rationale": "A high-protein charcoal-grilled meal that fits within your remaining {{remaining}} kcal.",
           "subtitle": "Half charcoal farrouj + fresh salad + tahina",
           "title": "Tazaj farrouj & salad"
         },
         "SA.light": {
-          "rationale": "Protects your calorie deficit with ~195 kcal while adding 14.5g clean protein.",
+          "rationale": "A light {{kcal}} kcal snack with {{protein}}g of protein.",
           "subtitle": "Almarai fresh laban (200ml) + 1 boiled egg",
           "title": "Laban & boiled egg"
         },
         "SA.medium": {
           "rationale": "Traditional Saudi meal fitting cleanly within {{remaining}} kcal with balanced macros.",
-          "subtitle": "Fresh tomato shakshuka + half tamees bread",
+          "subtitle": "Fresh tomato shakshuka + a quarter of tamees bread",
           "title": "Shakshuka & warm tamees"
         }
       }
@@ -735,11 +751,16 @@
       "verifiedItems_other": "{{count}} verified food items"
     },
     "calorieBank": {
+      "balanceNone": "No full days yet",
+      "balanceOver": "{{kcal}} kcal over",
+      "balanceUnder": "{{kcal}} kcal under",
       "emptyHint": "Start logging your meals today. Nutrio dynamically banks your rolling weekly energy balance to keep your progress protected.",
       "onTrackHint": "On track! Rolling weekly energy balance is accumulating to safeguard your sustainable fat loss target.",
+      "overHint": "This week's finished days are over your target. A lighter day or two will even it out.",
       "subtitle": "Rolling energy balance",
       "targetLabel": "Target",
-      "title": "Weekly calorie bank"
+      "title": "Weekly calorie bank",
+      "todayPendingHint": "Today counts once it's over. The bank compares this week's finished days with your target."
     },
     "customizer": {
       "addModifier": "Add {{name}}",
@@ -778,7 +799,7 @@
       "logMeal": "Quick log",
       "logout": "Log out / Return to home",
       "nav": {
-        "coach": "AI coach",
+        "coach": "Coach",
         "meals": "Meals",
         "survey": "Survey",
         "targets": "Targets",

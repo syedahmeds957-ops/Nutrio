@@ -448,7 +448,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
             <Text style={[styles.confirmBtnText, { color: theme.colors.limeText }]}>
               {t('plan.goal.calculatePlan')}
             </Text>
-            <Icon name="arrow-right" size={16} color={theme.colors.limeText} />
+            <Icon name={dir.isRTL ? 'arrow-left' : 'arrow-right'} size={16} color={theme.colors.limeText} />
           </View>
         </TouchableOpacity>
       </View>

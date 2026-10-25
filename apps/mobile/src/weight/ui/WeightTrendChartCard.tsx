@@ -50,7 +50,7 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
           <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>
             {t('weight.trend.trendWeight')}
           </Text>
-          <Text style={[styles.statVal, { color: accentColor, fontWeight: '800' }]}>{currentEWMAKg} kg</Text>
+          <Text style={[styles.statVal, { color: theme.colors.primaryAccessible, fontWeight: '800' }]}>{currentEWMAKg} kg</Text>
           <Text style={[styles.statSub, { color: theme.colors.textMuted }]}>
             {t('weight.trend.trueTissue')}
           </Text>
@@ -63,7 +63,7 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
           <Text
             style={[
               styles.statVal,
-              isLoss ? { color: accentColor } : styles.gainText,
+              isLoss ? { color: theme.colors.primaryAccessible } : styles.gainText,
             ]}
           >
             {totalDeltaKg > 0 ? `+${totalDeltaKg}` : totalDeltaKg} kg
@@ -94,7 +94,7 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
                 </Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                   <Icon name={dir.isRTL ? 'arrow-left' : 'arrow-right'} size={14} color={accentColor} />
-                  <Text style={[styles.pointEwma, { color: accentColor }]}>
+                  <Text style={[styles.pointEwma, { color: theme.colors.primaryAccessible }]}>
                     {t('weight.trend.kgTrend', { value: pt.ewmaWeightKg })}
                   </Text>
                 </View>
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
   },
   sub: {
     fontSize: 12,
-    color: '#64748B',
+    color: '#556274',
     marginTop: 2,
     lineHeight: 18,
   },
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   statLabel: {
     fontSize: 11,
     fontWeight: '700',
-    color: '#64748B',
+    color: '#556274',
     textTransform: 'uppercase',
   },
   statVal: {
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
   },
   statSub: {
     fontSize: 10,
-    color: '#64748B',
+    color: '#556274',
     marginTop: 2,
   },
   spikeBox: {
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   pointsTitle: {
     fontSize: 11,
     fontWeight: '800',
-    color: '#64748B',
+    color: '#556274',
     textTransform: 'uppercase',
     letterSpacing: 0.8,
     marginBottom: 8,
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   pointRaw: {
-    color: '#64748B',
+    color: '#556274',
     fontSize: 13,
   },
   pointEwma: {

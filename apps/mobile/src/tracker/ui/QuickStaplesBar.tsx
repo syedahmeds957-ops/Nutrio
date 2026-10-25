@@ -153,7 +153,8 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
           >
             <Text style={[styles.sheetTitle, dir.text, { color: theme.colors.textPrimary }]}>
               {t('tracker.staples.chooseSlotTitle', {
-                item: pendingStaple?.label ?? '',
+                // The chip label reads "+ 1 Chai"; the question names just the food.
+                item: (pendingStaple?.label ?? '').replace(/^\+\s*/, ''),
               })}
             </Text>
             <Text style={[styles.sheetSubtitle, dir.text, { color: theme.colors.textMuted }]}>

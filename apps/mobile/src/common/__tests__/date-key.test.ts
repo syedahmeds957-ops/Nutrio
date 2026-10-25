@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { addDaysToKey, daysBetweenKeys, localDateKey } from '../dateKey.js';
+import { addDaysToKey, daysBetweenKeys, localDateKey, weekKeysFromMonday } from '../dateKey.js';
 
 describe('localDateKey', () => {
   const originalTz = process.env.TZ;
@@ -66,5 +66,21 @@ describe('daysBetweenKeys', () => {
     expect(daysBetweenKeys('2026-12-30', '2027-01-02')).toBe(3);
     expect(daysBetweenKeys('2026-10-14', '2026-10-01')).toBe(-13);
     expect(daysBetweenKeys('2026-10-14', '2026-10-14')).toBe(0);
+  });
+});
+
+describe('weekKeysFromMonday', () => {
+  it('starts the week on the Monday before a Sunday', () => {
+    // 2026-10-25 is a Sunday.
+    expect(weekKeysFromMonday(new Date(2026, 9, 25, 12))).toEqual([
+      '2026-10-19', '2026-10-20', '2026-10-21', '2026-10-22',
+      '2026-10-23', '2026-10-24', '2026-10-25',
+    ]);
+  });
+
+  it('keeps a Monday as the first day and crosses month ends', () => {
+    const week = weekKeysFromMonday(new Date(2026, 10, 30, 9)); // Monday 30 Nov
+    expect(week[0]).toBe('2026-11-30');
+    expect(week[6]).toBe('2026-12-06');
   });
 });

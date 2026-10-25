@@ -447,7 +447,7 @@ function NutrioAppContent() {
       <View style={[styles.rootWrapper, { backgroundColor: theme.colors.canvas }]}>
         <View style={styles.splashContainer}>
           <Image
-            source={require('./assets/logo.png')}
+            source={require('./assets/logo.webp')}
             style={styles.splashLogo}
             resizeMode="contain"
           />

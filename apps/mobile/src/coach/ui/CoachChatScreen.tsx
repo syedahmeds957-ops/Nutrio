@@ -146,7 +146,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
           activeOpacity={0.7}
         >
           <View style={styles.btnRow}>
-            <Icon name="arrow-left" size={14} color={theme.colors.textPrimary} />
+            <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={14} color={theme.colors.textPrimary} />
             <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>{t('common.back')}</Text>
           </View>
         </TouchableOpacity>

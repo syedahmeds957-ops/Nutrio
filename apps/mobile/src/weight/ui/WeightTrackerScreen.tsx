@@ -70,7 +70,7 @@ export const WeightTrackerScreen: React.FC<WeightTrackerScreenProps> = ({
               </Text>
             </TouchableOpacity>
           )}
-          <Text style={[styles.headerSubtitle, dir.text, { color: accentColor }]}>
+          <Text style={[styles.headerSubtitle, dir.text, { color: theme.colors.primaryAccessible }]}>
             {t('weight.screen.eyebrow')}
           </Text>
           <Text style={[styles.headerTitle, dir.text, { color: theme.colors.textPrimary }]}>

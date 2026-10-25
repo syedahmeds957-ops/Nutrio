@@ -10,21 +10,14 @@ import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
-
-export interface RecommendedFood {
-  name: string;
-  calories: number;
-  proteinGrams: number;
-  fatGrams: number;
-  carbGrams: number;
-}
+import { SuggestionItem, suggestionFor } from '../suggestions.js';
 
 interface AiRecommendationCardProps {
   remainingCalories: number;
   remainingProtein: number;
   totalCaloriesConsumed?: number;
   itemsLoggedCount?: number;
-  onLogRecommendation: (items: RecommendedFood[]) => void;
+  onLogRecommendation: (items: SuggestionItem[]) => void;
   onAskCoach?: () => void;
   onOpenLogMeal?: () => void;
 }
@@ -68,46 +61,16 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
     ]).start();
   }, [activeRegion]);
 
-  const isCleanSlate = totalCaloriesConsumed === 0 || itemsLoggedCount === 0;
-
-  // Which dish is suggested is regional and depends on the calories left;
-  // the macros stay in code while every visible name comes from i18n.
-  // Names here are the keys the dashboard matches against the food database,
-  // so they stay in the database's own spelling. Nothing on this card renders
-  // them; the visible copy is the title, subtitle and rationale below.
-  const SUGGESTION_ITEMS: Record<string, RecommendedFood[]> = {
-    'SA.light': [
-      { name: 'Almarai Laban (لبن المراعي)', calories: 120, proteinGrams: 8, fatGrams: 6, carbGrams: 10 },
-      { name: 'Boiled Egg (بيض مسلوق)', calories: 75, proteinGrams: 6.5, fatGrams: 5, carbGrams: 0.5 },
-    ],
-    'SA.medium': [
-      { name: 'Fresh Shakshuka (شكشوكة)', calories: 160, proteinGrams: 10, fatGrams: 10, carbGrams: 8 },
-      { name: 'Half Tamees Bread (نصف تميس)', calories: 150, proteinGrams: 5, fatGrams: 1, carbGrams: 35 },
-    ],
-    'SA.full': [
-      { name: 'Al Tazaj Half Farrouj (نصف فروج)', calories: 280, proteinGrams: 35, fatGrams: 14, carbGrams: 2 },
-      { name: 'Tazaj Fresh Salad (سلطة خضراء)', calories: 26, proteinGrams: 1.2, fatGrams: 0.3, carbGrams: 4.5 },
-      { name: 'Tazaj Tahina Dip (طحينة)', calories: 156, proteinGrams: 3, fatGrams: 14, carbGrams: 4.5 },
-    ],
-    'PK.light': [
-      { name: 'Boiled Egg', calories: 75, proteinGrams: 6.5, fatGrams: 5, carbGrams: 0.5 },
-      { name: 'Cucumber Salad with Lemon', calories: 35, proteinGrams: 1.5, fatGrams: 0.2, carbGrams: 7 },
-    ],
-    'PK.medium': [
-      { name: 'Daal Chana', calories: 160, proteinGrams: 9, fatGrams: 5, carbGrams: 20 },
-      { name: 'Roti (Whole Wheat)', calories: 120, proteinGrams: 4, fatGrams: 1, carbGrams: 24 },
-    ],
-    'PK.full': [
-      { name: 'Chicken Tikka Boti', calories: 280, proteinGrams: 35, fatGrams: 7, carbGrams: 2 },
-      { name: 'Roti (Whole Wheat)', calories: 120, proteinGrams: 4, fatGrams: 1, carbGrams: 24 },
-      { name: 'Mint Raita', calories: 60, proteinGrams: 3, fatGrams: 2, carbGrams: 6 },
-    ],
+  // The suggestion and every number on it come from food-db (suggestions.ts).
+  const suggestion =
+    totalCaloriesConsumed === 0 || itemsLoggedCount === 0 ? null : suggestionFor(activeRegion, remainingCalories);
+  const isCleanSlate = !suggestion;
+  const suggestionBase = suggestion ? `tracker.aiCard.suggestions.${activeRegion}.${suggestion.size}` : '';
+  const copyValues = {
+    remaining: remainingCalories,
+    kcal: suggestion?.calories ?? 0,
+    protein: suggestion?.proteinGrams ?? 0,
   };
-
-  const bucket =
-    remainingCalories < 250 ? 'light' : remainingCalories < 420 ? 'medium' : 'full';
-  const suggestionKey = `${activeRegion}.${bucket}`;
-  const suggestionBase = `tracker.aiCard.suggestions.${suggestionKey}`;
 
   const title = isCleanSlate ? t('tracker.aiCard.cleanSlate.title') : t(`${suggestionBase}.title`);
   const subtitle = isCleanSlate
@@ -115,11 +78,10 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
     : t(`${suggestionBase}.subtitle`);
   const rationale = isCleanSlate
     ? t('tracker.aiCard.cleanSlate.rationale')
-    : t(`${suggestionBase}.rationale`, { remaining: remainingCalories });
-  const items: RecommendedFood[] = isCleanSlate ? [] : SUGGESTION_ITEMS[suggestionKey] ?? [];
-
-  const totalKcal = items.reduce((s, i) => s + i.calories, 0);
-  const totalProtein = items.reduce((s, i) => s + i.proteinGrams, 0);
+    : t(`${suggestionBase}.rationale`, copyValues);
+  const items: SuggestionItem[] = suggestion?.items ?? [];
+  const totalKcal = suggestion?.calories ?? 0;
+  const totalProtein = suggestion?.proteinGrams ?? 0;
 
   const handleLog = () => {
     if (isCleanSlate) {
@@ -157,7 +119,7 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
           ]}
         >
           <Icon name="sparkles" size={13} color={accentColor} />
-          <Text style={[styles.badgeText, { color: accentColor }]}>
+          <Text style={[styles.badgeText, { color: theme.colors.primaryAccessible }]}>
             {t('tracker.aiCard.badge')}
           </Text>
         </View>
@@ -219,7 +181,7 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
             >
               <Icon name="flame" size={11} color="#EF4444" />
               <Text style={[styles.macroVal, { color: theme.colors.textSecondary }]}>
-                {totalKcal} kcal
+                {t('common.kcalValue', { value: totalKcal })}
               </Text>
             </View>
             <View
@@ -232,7 +194,9 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
               ]}
             >
               <Icon name="zap" size={11} color="#3B82F6" />
-              <Text style={[styles.macroVal, { color: '#3B82F6' }]}>{totalProtein}g protein</Text>
+              <Text style={[styles.macroVal, { color: '#3B82F6' }]}>
+                {t('tracker.aiCard.proteinValue', { grams: totalProtein })}
+              </Text>
             </View>
           </View>
         )}

@@ -86,7 +86,7 @@ export const BasketSummaryBar: React.FC<{
           ≈{Math.round(totals.kcal)} kcal · {basket.map((e) => `${e.quantity}x ${e.food.name}`).join(', ')}
         </Text>
         <TouchableOpacity onPress={onStartNaming} hitSlop={HIT_SLOP} accessibilityRole="button">
-          <Text style={[styles.savePresetLink, { color: theme.colors.primary }]}>
+          <Text style={[styles.savePresetLink, { color: theme.colors.primaryAccessible }]}>
             {t('tracker.hub.saveAsPreset')}
           </Text>
         </TouchableOpacity>

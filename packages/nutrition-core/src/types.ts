@@ -182,6 +182,11 @@ export interface DailyMealPlanResult {
   dietPreference: PlanDietPreference;
   // Which regional food rotation the solver built this plan from.
   region: 'PK' | 'SA';
+  /**
+   * Set when the diet leaves no foods to plan from (a Saudi vegan, today).
+   * The plan has empty slots; the UI should say so rather than show zeros.
+   */
+  insufficientFoodPool?: true;
 }
 
 export interface MealSwapOption {
@@ -200,7 +205,8 @@ export interface MealSwapResult {
   originalSlot: 'breakfast' | 'lunch' | 'dinner' | 'snacks_chai';
   originalCalories: number;
   originalProteinGrams: number;
-  options: [MealSwapOption, MealSwapOption, MealSwapOption];
+  /** Up to three: a thin diet pool can offer fewer, never a dish outside the diet. */
+  options: MealSwapOption[];
 }
 
 

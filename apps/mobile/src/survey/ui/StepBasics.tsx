@@ -27,7 +27,7 @@ export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }
   return (
     <View style={styles.container}>
       <Text style={[styles.description, { color: theme.colors.textSecondary }]}>
-        These physical metrics are used to calculate your baseline resting metabolic rate (BMR) with clinical precision.
+        {t('survey.basics.description')}
       </Text>
 
       {/* 1. Biological Sex: iOS Segmented Pill Control */}
@@ -124,7 +124,7 @@ export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }
           {/* Row 1: Age */}
           <AppleGroupedRowInput
             label={t('survey.basics.age')}
-            unit="yrs"
+            unit={t('survey.basics.unitYears')}
             placeholder="28"
             keyboardType="numeric"
             value={data.ageYears !== undefined ? String(data.ageYears) : ''}
@@ -140,7 +140,7 @@ export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }
           {/* Row 2: Height */}
           <AppleGroupedRowInput
             label={t('survey.basics.height')}
-            unit="cm"
+            unit={t('survey.basics.unitCm')}
             placeholder="170"
             keyboardType="numeric"
             value={data.heightCm !== undefined ? String(data.heightCm) : ''}
@@ -156,7 +156,7 @@ export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }
           {/* Row 3: Current Weight */}
           <AppleGroupedRowInput
             label={t('survey.basics.weight')}
-            unit="kg"
+            unit={t('survey.basics.unitKg')}
             placeholder="78"
             keyboardType="numeric"
             value={data.weightKg !== undefined ? String(data.weightKg) : ''}

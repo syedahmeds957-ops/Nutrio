@@ -25,6 +25,11 @@ export interface PlanUserContext {
   medicalConditions?: string[];
   chaiSugarKcalPerDay: number;
   weeklyChaiSugarKcal: number;
+  /**
+   * Cups of the daily ritual (chai, or gahwa with dates) from the survey, so a
+   * screen can price them for its region. Absent on plans saved before it.
+   */
+  ritualCupsPerDay?: number;
   isNightShift: boolean;
   dailySittingHours: number;
 }

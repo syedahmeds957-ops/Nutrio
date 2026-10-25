@@ -25,6 +25,7 @@ export function planUserContextFromSurvey(
     medicalConditions: payload.healthClinical.medicalConditions,
     chaiSugarKcalPerDay: bridged.culturalMetrics.dailyChaiKcal ?? 130,
     weeklyChaiSugarKcal: bridged.culturalMetrics.weeklyChaiKcal ?? 910,
+    ritualCupsPerDay: bridged.culturalMetrics.ritualCupsPerDay,
     isNightShift: bridged.culturalMetrics.isNightShift ?? false,
     dailySittingHours: payload.occupational.dailySittingHours ?? 8,
   };

@@ -28,3 +28,13 @@ export function addDaysToKey(key: string, days: number): string {
   d.setUTCDate(d.getUTCDate() + days);
   return d.toISOString().split('T')[0];
 }
+
+/**
+ * Day keys Monday to Sunday of the local calendar week that contains `date`
+ * (default: now), matching the Mon-first day order the weekly plan uses.
+ */
+export function weekKeysFromMonday(date: Date = new Date()): string[] {
+  const mondayOffset = (date.getDay() + 6) % 7;
+  const monday = addDaysToKey(localDateKey(date), -mondayOffset);
+  return Array.from({ length: 7 }, (_, i) => addDaysToKey(monday, i));
+}

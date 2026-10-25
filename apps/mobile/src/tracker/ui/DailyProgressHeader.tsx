@@ -60,7 +60,7 @@ const MacroTile: React.FC<MacroTileProps> = ({
     >
       <View style={styles.tileHeader}>
         <Text style={[styles.tileValue, { color: theme.colors.textPrimary }]}>
-          {targetMode && !hasGoal ? t('tracker.header.targetNotSet') : (targetMode ? Math.round(goal) : eaten).toLocaleString()}
+          {targetMode && !hasGoal ? t('tracker.header.targetNotSet') : (targetMode ? Math.round(goal) : eaten).toLocaleString('en-US')}
           {(!targetMode || hasGoal) && (
             <Text style={[styles.tileUnit, { color: theme.colors.textSecondary }]}>{unit}</Text>
           )}
@@ -71,7 +71,7 @@ const MacroTile: React.FC<MacroTileProps> = ({
               {t('tracker.header.goalCaption')}
             </Text>
             <Text style={[styles.goalValue, { color: theme.colors.textSecondary }]}>
-              {Math.round(goal).toLocaleString()}
+              {Math.round(goal).toLocaleString('en-US')}
             </Text>
           </View>
         )}
@@ -91,12 +91,12 @@ const MacroTile: React.FC<MacroTileProps> = ({
         {targetMode
           ? hasGoal
             ? t(isOver ? 'tracker.header.kcalEatenOver' : 'tracker.header.kcalEatenLeft', {
-                eaten: eaten.toLocaleString(),
-                value: Math.abs(diff).toLocaleString(),
+                eaten: eaten.toLocaleString('en-US'),
+                value: Math.abs(diff).toLocaleString('en-US'),
               })
             : fallback
           : hasGoal
-          ? t(isOver ? overKey : leftKey, { value: Math.abs(diff).toLocaleString() })
+          ? t(isOver ? overKey : leftKey, { value: Math.abs(diff).toLocaleString('en-US') })
           : fallback}
       </Text>
     </View>
@@ -175,8 +175,8 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
           <View style={styles.heroNumbersCol}>
             <Text style={[styles.heroValue, { color: heroTextColor }]}>
               {targetCalories > 0
-                ? Math.abs(remainingCalories).toLocaleString()
-                : Math.round(totalCaloriesConsumed).toLocaleString()}
+                ? Math.abs(remainingCalories).toLocaleString('en-US')
+                : Math.round(totalCaloriesConsumed).toLocaleString('en-US')}
             </Text>
             <Text style={[styles.heroLabel, { color: heroTextColor }]}>
               {targetCalories > 0
@@ -188,7 +188,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
             <Text style={[styles.heroTargetSub, { color: heroSubTextColor }]}>
               {targetCalories > 0
                 ? t('tracker.header.dailyGoal', {
-                    target: targetCalories.toLocaleString(),
+                    target: targetCalories.toLocaleString('en-US'),
                     eaten: Math.round(totalCaloriesConsumed),
                   })
                 : t('tracker.header.noTargetHint')}

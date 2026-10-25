@@ -86,7 +86,7 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
             accessibilityRole="button"
             accessibilityLabel={t('tracker.diary.backToDashboard')}
           >
-            <Icon name="arrow-left" size={18} color={theme.colors.textPrimary} />
+            <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={18} color={theme.colors.textPrimary} />
           </TouchableOpacity>
 
           <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>
@@ -115,7 +115,7 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
             onPress={() => onDayOffsetChange((d) => Math.max(minDayOffset, d - 1))}
             disabled={dayOffset <= minDayOffset}
           >
-            <Icon name="arrow-left" size={16} color={theme.colors.textPrimary} />
+            <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={16} color={theme.colors.textPrimary} />
           </TouchableOpacity>
 
           <View style={styles.dateCenter}>
@@ -136,7 +136,7 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
             onPress={() => onDayOffsetChange((d) => Math.min(0, d + 1))}
             disabled={dayOffset >= 0}
           >
-            <Icon name="arrow-right" size={16} color={theme.colors.textPrimary} />
+            <Icon name={dir.isRTL ? 'arrow-left' : 'arrow-right'} size={16} color={theme.colors.textPrimary} />
           </TouchableOpacity>
         </View>
 

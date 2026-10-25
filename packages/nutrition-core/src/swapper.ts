@@ -6,223 +6,148 @@ import {
   PlannedMealSlot,
 } from './types.js';
 import {
+  classifyFoodRoles,
   createPlannedItem,
   filterFoodPool,
+  leanRotation,
+  pick,
   SolverFoodCandidate,
 } from './solver.js';
 
 
+/** "Chicken Tikka (Breast / Chest Piece)" → "Chicken Tikka". */
+const shortName = (name: string) =>
+  name.replace(/\s*\([^)]*\)\s*/g, ' ').replace(/\s+/g, ' ').trim();
+
+/**
+ * The option's title, read from its own items. Titles used to be fixed per
+ * slot ("Omelette & Paratha"), and whatever the fallbacks resolved to — egg
+ * fried rice and chicken tikka — was listed underneath them.
+ */
+export function swapTitle(foods: SolverFoodCandidate[]): string {
+  const names = Array.from(new Set(foods.map((f) => shortName(f.name))));
+  if (names.length <= 1) return names[0] ?? '';
+  return `${names.slice(0, -1).join(', ')} & ${names[names.length - 1]}`;
+}
+
+/**
+ * Scales an option to the original meal's calories, one 0.1 step at a time,
+ * always taking the step that lands closest. Each item is rebuilt from its own
+ * food: the old loop looked items up by name and fell back to the first food
+ * in the unfiltered pool.
+ */
 function calibrateMealCalories(
-  items: PlannedMealItem[],
-  targetCalories: number,
-  foodPool: SolverFoodCandidate[]
+  lines: Array<{ food: SolverFoodCandidate; item: PlannedMealItem }>,
+  targetCalories: number
 ): PlannedMealItem[] {
-  let currentCalories = items.reduce((sum, item) => sum + item.calories, 0);
-
-  let iterations = 0;
-  while (
-    Math.abs(currentCalories - targetCalories) > targetCalories * 0.03 &&
-    iterations < 40
-  ) {
-    iterations++;
-    const diff = currentCalories - targetCalories;
-
-    if (diff > 0) {
-      // Too high: reduce an item by 0.1
-      let reduced = false;
-      for (const item of items) {
-        if (item.quantity > 0.2) {
-          item.quantity = Number((item.quantity - 0.1).toFixed(1));
-          const foodObj =
-            foodPool.find((f) => f.name === item.foodName) || foodPool[0];
-          const updated = createPlannedItem(foodObj, 0, item.quantity);
-          Object.assign(item, updated);
-          currentCalories = items.reduce((s, i) => s + i.calories, 0);
-          reduced = true;
-          break;
-        }
+  const total = () => lines.reduce((sum, l) => sum + l.item.calories, 0);
+  for (let iteration = 0; iteration < 60; iteration++) {
+    const miss = total() - targetCalories;
+    if (Math.abs(miss) <= targetCalories * 0.03) break;
+    let best: { line: (typeof lines)[number]; quantity: number; miss: number } | undefined;
+    for (const line of lines) {
+      for (const delta of [0.1, -0.1]) {
+        const quantity = Number((line.item.quantity + delta).toFixed(1));
+        if (quantity < 0.2 || quantity > 4) continue;
+        const next = Math.abs(miss + createPlannedItem(line.food, 0, quantity).calories - line.item.calories);
+        if (next < (best?.miss ?? Math.abs(miss))) best = { line, quantity, miss: next };
       }
-      if (!reduced) break;
-    } else {
-      // Too low: increase grain or protein by 0.1
-      let increased = false;
-      for (const item of items) {
-        if (
-          item.category.includes('Breads') ||
-          item.category.includes('Rice') ||
-          item.category.includes('Daals') ||
-          item.category.includes('Meat') ||
-          item.category.includes('Breakfast')
-        ) {
-          item.quantity = Number((item.quantity + 0.1).toFixed(1));
-          const foodObj =
-            foodPool.find((f) => f.name === item.foodName) || foodPool[0];
-          const updated = createPlannedItem(foodObj, 0, item.quantity);
-          Object.assign(item, updated);
-          currentCalories = items.reduce((s, i) => s + i.calories, 0);
-          increased = true;
-          break;
-        }
-      }
-      if (!increased) break;
     }
+    if (!best) break;
+    Object.assign(best.line.item, createPlannedItem(best.line.food, 0, best.quantity));
   }
-
-  return items;
+  return lines.map((l) => l.item);
 }
 
 /**
  * One-Tap Macro-Matched Meal Swapper
- * Generates 3 culturally diverse alternative meals matching original meal calories within ±5%.
+ * Generates up to 3 culturally coherent alternatives matching the original meal's calories within ±5%.
  */
 export function generateMealSwaps(
   originalMeal: PlannedMealSlot,
   input: MealPlanSolverInput,
   foodPool: SolverFoodCandidate[]
 ): MealSwapResult {
-  const filtered = filterFoodPool(foodPool, input);
-  const targetCalories = originalMeal.actualCalories;
+  // A slot holding only a cup of kehwa (4 kcal) left nothing to match, so
+  // every option shrank to a fifth of a portion; aim at the slot's plan then.
+  const targetCalories =
+    originalMeal.actualCalories >= 100 ? originalMeal.actualCalories : originalMeal.targetCalories;
   const originalNames = new Set(originalMeal.items.map((i) => i.foodName));
+  // Only diet-safe foods. The dish that defines the meal must change; the
+  // roti, rice or chai beside it may stay ("Daal & Roti" → "Bhindi & Roti").
+  const dietSafe = filterFoodPool(foodPool, input);
+  const roles = classifyFoodRoles(dietSafe.filter((f) => !originalNames.has(f.name)));
+  const sides = classifyFoodRoles(dietSafe);
 
-  // Eligible pools excluding original dishes
-  const candidates = filtered.filter((f) => !originalNames.has(f.name));
+  const mains = leanRotation(roles.curries);
+  const vegMains = leanRotation(roles.daals);
+  const eggs = leanRotation(roles.eggs);
+  const snacks = leanRotation(roles.proteinSnacks);
+  const breads = [...sides.breads].sort((a, b) => a.fat100g - b.fat100g);
+  const rices = sides.plainRices.length > 0 ? sides.plainRices : sides.rices;
+  const drinks = sides.beverages;
+  const isRiceDish = (f: SolverFoodCandidate | undefined) =>
+    !!f && (rices.includes(f) || sides.rices.includes(f) || /kabsa|biryani|pulao|mandi/i.test(f.name));
+  const withCarb = (main: SolverFoodCandidate | undefined, carb: SolverFoodCandidate | undefined) =>
+    !main ? [] : isRiceDish(main) ? [main] : [main, carb];
 
-  const breads = candidates.filter((f) => f.category.includes('Breads'));
-  const rices = candidates.filter((f) => f.category.includes('Rice'));
-  const daals = candidates.filter((f) => f.category.includes('Daals'));
-  const meats = candidates.filter(
-    (f) =>
-      f.category.includes('Meat') ||
-      f.category.includes('Barbecue') ||
-      f.category.includes('Curries')
-  );
-  const sabzis = candidates.filter((f) => f.category.includes('Vegetables'));
-  const eggs = candidates.filter(
-    (f) => f.name.includes('Egg') || f.name.includes('Omelette')
-  );
-  const snacks = candidates.filter((f) => f.name.includes('Shami') || f.category.includes('Snacks'));
-  const drinks = candidates.filter((f) => f.category.includes('Beverages'));
+  // Compositions in order of preference; empty roles simply drop out.
+  const compositions: Array<Array<SolverFoodCandidate | undefined>> =
+    originalMeal.slot === 'breakfast'
+      ? [
+          [pick(eggs, 0), pick(breads, 0)],
+          [pick(eggs, 1), pick(breads, 1), pick(drinks, 0)],
+          [pick(vegMains, 0), pick(breads, 0)],
+          [pick(eggs, 2), pick(breads, 2)],
+          [pick(snacks, 0), pick(breads, 1)],
+          [pick(roles.sabzis, 0), pick(breads, 2)],
+        ]
+      : originalMeal.slot === 'snacks_chai'
+      ? [
+          [pick(snacks, 0), pick(drinks, 0)],
+          [pick(snacks, 1), pick(drinks, 1)],
+          [pick(eggs, 0), pick(drinks, 0)],
+          [pick(snacks, 2)],
+        ]
+      : [
+          withCarb(pick(mains, 0), pick(rices, 0)),
+          withCarb(pick(vegMains, 0), pick(breads, 0)),
+          withCarb(pick(mains, 1), pick(breads, 1)),
+          withCarb(pick(vegMains, 1), pick(rices, 1)),
+          withCarb(pick(mains, 2), pick(breads, 2)),
+          [pick(roles.sabzis, 0), pick(breads, 0)],
+          [pick(roles.sabzis, 1), pick(rices, 0)],
+          [pick(vegMains, 0), pick(roles.sabzis, 0), pick(breads, 1)],
+        ];
 
-  const defaultRoti =
-    breads.find((b) => b.name.includes('Roti')) || breads[0] || foodPool[0];
-  const defaultRice =
-    rices.find((r) => r.name.includes('Rice')) || rices[0] || defaultRoti;
-  const defaultDaal =
-    daals.find((d) => d.name.includes('Chana')) || daals[0] || defaultRoti;
-  const defaultMeat =
-    meats.find((m) => m.name.includes('Tikka') || m.name.includes('Kebab')) ||
-    meats[0] ||
-    defaultDaal;
-  const defaultSabzi = sabzis[0] || defaultDaal;
-  const defaultEgg = eggs[0] || defaultDaal;
-  const defaultChai = drinks[0];
+  const options: MealSwapOption[] = [];
+  const seenTitles = new Set<string>();
+  for (const composition of compositions) {
+    if (options.length === 3) break;
+    // The first food defines the option ("an egg breakfast"); without it the
+    // rest is a plate of plain rice or bread.
+    if (!composition[0]) continue;
+    const foods = Array.from(new Set(composition.filter((f): f is SolverFoodCandidate => !!f)));
+    const title = swapTitle(foods);
+    if (seenTitles.has(title)) continue;
+    seenTitles.add(title);
 
-  const buildOption = (
-    optionId: string,
-    title: string,
-    rawItems: Array<{ food: SolverFoodCandidate; qty: number }>
-  ): MealSwapOption => {
-    let planned = rawItems.map((r) => createPlannedItem(r.food, 0, r.qty));
-    planned = calibrateMealCalories(planned, targetCalories, foodPool);
-
+    const lines = foods.map((food) => ({ food, item: createPlannedItem(food, 0, 1) }));
+    const planned = calibrateMealCalories(lines, targetCalories);
     const calories = planned.reduce((sum, i) => sum + i.calories, 0);
-    const proteinGrams = Number(
-      planned.reduce((sum, i) => sum + i.proteinGrams, 0).toFixed(1)
-    );
-    const fatGrams = Number(
-      planned.reduce((sum, i) => sum + i.fatGrams, 0).toFixed(1)
-    );
-    const carbGrams = Number(
-      planned.reduce((sum, i) => sum + i.carbGrams, 0).toFixed(1)
-    );
-    const oilAddedG = Number(
-      planned.reduce((sum, i) => sum + i.oilAddedG, 0).toFixed(1)
-    );
-    const calorieDeltaPct = Number(
-      (((calories - targetCalories) / targetCalories) * 100).toFixed(1)
-    );
-
-    return {
-      optionId,
+    const sum = (get: (i: PlannedMealItem) => number) =>
+      Number(planned.reduce((s, i) => s + get(i), 0).toFixed(1));
+    options.push({
+      optionId: `swap_${originalMeal.slot}_${options.length + 1}`,
       title,
       calories,
-      proteinGrams,
-      fatGrams,
-      carbGrams,
-      oilAddedG,
-      calorieDeltaPct,
+      proteinGrams: sum((i) => i.proteinGrams),
+      fatGrams: sum((i) => i.fatGrams),
+      carbGrams: sum((i) => i.carbGrams),
+      oilAddedG: sum((i) => i.oilAddedG),
+      calorieDeltaPct: Number((((calories - targetCalories) / targetCalories) * 100).toFixed(1)),
       items: planned,
-    };
-  };
-
-  let option1: MealSwapOption;
-  let option2: MealSwapOption;
-  let option3: MealSwapOption;
-
-  if (originalMeal.slot === 'breakfast') {
-    // Option 1: Omelette + Paratha
-    const paratha = breads.find((b) => b.name.includes('Paratha')) || defaultRoti;
-    option1 = buildOption('swap_bf_1', 'Omelette & Paratha', [
-      { food: defaultEgg, qty: 1 },
-      { food: paratha, qty: 1 },
-    ]);
-
-    // Option 2: Boiled Eggs + Roti + Karak Chai
-    const chai = defaultChai || defaultEgg;
-    option2 = buildOption('swap_bf_2', 'Boiled Eggs, Roti & Chai', [
-      { food: defaultEgg, qty: 2 },
-      { food: defaultRoti, qty: 1 },
-      { food: chai, qty: 1 },
-    ]);
-
-    // Option 3: Chana Curry & Roti
-    option3 = buildOption('swap_bf_3', 'Lahori Chana & Roti', [
-      { food: defaultDaal, qty: 1 },
-      { food: defaultRoti, qty: 2 },
-    ]);
-  } else if (originalMeal.slot === 'snacks_chai') {
-    // Option 1: Shami Kebab & Karak Chai
-    const shami = snacks[0] || defaultEgg;
-    const chai = defaultChai || defaultEgg;
-    option1 = buildOption('swap_sn_1', 'Shami Kebab & Karak Chai', [
-      { food: shami, qty: 1 },
-      { food: chai, qty: 1 },
-    ]);
-
-    // Option 2: Boiled Egg & Tea
-    option2 = buildOption('swap_sn_2', 'Boiled Egg & Chai', [
-      { food: defaultEgg, qty: 1 },
-      { food: chai, qty: 1 },
-    ]);
-
-    // Option 3: Half Portion Roti & Daal
-    option3 = buildOption('swap_sn_3', 'Light Daal & Phulka', [
-      { food: defaultDaal, qty: 0.5 },
-      { food: defaultRoti, qty: 1 },
-    ]);
-  } else {
-    // Lunch or Dinner Swaps
-    // Option 1: Rice + Protein/Daal Combo
-    const isVeg = input.dietPreference === 'vegetarian_desi';
-    const main1 = isVeg ? defaultDaal : defaultMeat;
-    option1 = buildOption('swap_main_1', isVeg ? 'Daal Chawal Platter' : 'Basmati Rice & Meat Curry', [
-      { food: defaultRice, qty: 1 },
-      { food: main1, qty: 1 },
-    ]);
-
-    // Option 2: Traditional Daal & Tandoori Roti
-    option2 = buildOption('swap_main_2', 'Daal Tadka & Warm Rotis', [
-      { food: defaultDaal, qty: 1 },
-      { food: defaultRoti, qty: 2 },
-      { food: defaultEgg, qty: 1 },
-    ]);
-
-    // Option 3: High Protein Barbecue / Sabzi Option
-    const main3 = isVeg ? defaultSabzi : defaultMeat;
-    option3 = buildOption('swap_main_3', isVeg ? 'Wholesome Sabzi & Rotis' : 'BBQ Tikka & Roti Platter', [
-      { food: main3, qty: 1 },
-      { food: defaultRoti, qty: 2 },
-    ]);
+    });
   }
 
   const originalProtein = Number(
@@ -233,6 +158,6 @@ export function generateMealSwaps(
     originalSlot: originalMeal.slot,
     originalCalories: originalMeal.actualCalories,
     originalProteinGrams: originalProtein,
-    options: [option1, option2, option3],
+    options,
   };
 }

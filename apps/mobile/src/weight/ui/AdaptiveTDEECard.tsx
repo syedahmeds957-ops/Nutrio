@@ -53,7 +53,7 @@ export const AdaptiveTDEECard: React.FC<AdaptiveTDEECardProps> = ({
           <Text style={[styles.heroLabel, { color: theme.colors.textMuted }]}>
             {t('weight.adaptive.blendedTdee')}
           </Text>
-          <Text style={[styles.heroVal, { color: accentColor, fontWeight: '800' }]}>
+          <Text style={[styles.heroVal, { color: theme.colors.primaryAccessible, fontWeight: '800' }]}>
             {t('common.kcalValue', { value: blendedTDEE })}
           </Text>
           <Text style={[styles.heroSub, { color: theme.colors.textMuted }]}>
@@ -62,7 +62,7 @@ export const AdaptiveTDEECard: React.FC<AdaptiveTDEECardProps> = ({
         </View>
 
         <View style={[styles.deltaBadge, { backgroundColor: badgeBg, borderColor: badgeBorder, borderWidth: 1 }]}>
-          <Text style={[styles.deltaText, { color: accentColor }]}>
+          <Text style={[styles.deltaText, { color: theme.colors.primaryAccessible }]}>
             {recommendedKcalDelta > 0
               ? `+${recommendedKcalDelta}`
               : recommendedKcalDelta}{' '}
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   },
   sub: {
     fontSize: 12,
-    color: '#64748B',
+    color: '#556274',
     marginTop: 2,
     lineHeight: 18,
   },
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   },
   heroLabel: {
     fontSize: 11,
-    color: '#64748B',
+    color: '#556274',
     fontWeight: '700',
     textTransform: 'uppercase',
   },
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   },
   heroSub: {
     fontSize: 12,
-    color: '#64748B',
+    color: '#556274',
     marginTop: 2,
   },
   deltaBadge: {
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
   },
   calibNote: {
     fontSize: 11,
-    color: '#64748B',
+    color: '#556274',
     marginTop: 6,
   },
   underLoggingAlert: {

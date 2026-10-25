@@ -310,7 +310,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
             accessibilityRole="button"
             accessibilityLabel={t('common.back')}
           >
-            <Icon name="arrow-left" size={18} color={theme.colors.textPrimary} />
+            <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={18} color={theme.colors.textPrimary} />
           </TouchableOpacity>
           <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>
             {t('tracker.hub.title')}
@@ -460,7 +460,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                 {t(`tracker.describeMeal.entryHint.${activeRegion === 'SA' ? 'SA' : 'PK'}`)}
               </Text>
             </View>
-            <Icon name="chevron-right" size={16} color={theme.colors.textMuted} />
+            <Icon name={dir.isRTL ? 'chevron-left' : 'chevron-right'} size={16} color={theme.colors.textMuted} />
           </TouchableOpacity>
         )}
 
@@ -833,7 +833,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                       </Text>
                     </View>
 
-                    <Icon name="chevron-right" size={18} color={theme.colors.textMuted} />
+                    <Icon name={dir.isRTL ? 'chevron-left' : 'chevron-right'} size={18} color={theme.colors.textMuted} />
                   </TouchableOpacity>
                 );
               })}

@@ -121,6 +121,152 @@ function isPredominantlySaudi(foodPool: SolverFoodCandidate[]): boolean {
   return saudiCount * 2 > foodPool.length;
 }
 
+// Food roles. Matched on the real catalogue's categories ("Karahi & Handi",
+// "Sabzi & Lentils", "Rice & Meat") as well as the older fixture names
+// ("Curries & Meat Dishes", "Daals & Pulses"): matching only the latter left
+// the daal and sabzi pools empty, so a vegetarian's lunch "main" fell back
+// to a roti.
+const nameOf = (f: SolverFoodCandidate) => f.name.toLowerCase();
+const catOf = (f: SolverFoodCandidate) => f.category.toLowerCase();
+const servingKcal = (f: SolverFoodCandidate) =>
+  (f.kcal100g * (f.servings[0]?.grams ?? 100)) / 100;
+const isSweet = (f: SolverFoodCandidate) =>
+  /dessert|sweet|mithai/.test(catOf(f)) ||
+  /halwa|kheer|custard|jalebi|zarda/.test(nameOf(f)) ||
+  f.sugar100g > 15;
+const isDrink = (f: SolverFoodCandidate) => /beverage|drink/.test(catOf(f));
+const isRiceDish = (f: SolverFoodCandidate) =>
+  /rice|chawal|pulao|biryani|kabsa|mandi|bukhari|madhbi|sayyadiyah/.test(nameOf(f)) &&
+  !/rice cake/.test(nameOf(f));
+const isMixedRiceDish = (f: SolverFoodCandidate) =>
+  /biryani|pulao|kabsa|mandi|bukhari|madhbi|sayyadiyah/.test(nameOf(f));
+
+/** Protein's share of a food's energy less half its fat share: lean dishes rank first. */
+const leanScore = (f: SolverFoodCandidate) =>
+  f.kcal100g > 0 ? (f.protein100g * 4 - 0.5 * f.fat100g * 9) / f.kcal100g : -1;
+/** The leaner part of a pool, still wide enough to rotate through a week. */
+export const leanRotation = (foods: SolverFoodCandidate[]) => {
+  const sorted = [...foods].sort((a, b) => leanScore(b) - leanScore(a));
+  return sorted.slice(0, Math.max(Math.min(sorted.length, 7), Math.ceil(sorted.length * 0.4)));
+};
+/** The `i`th food of a rotation, wrapping; undefined for an empty one. */
+export const pick = (foods: SolverFoodCandidate[], i: number) =>
+  foods.length > 0 ? foods[i % foods.length] : undefined;
+
+/**
+ * The pool split into the roles a meal is built from. Shared by the solver and
+ * the swapper so both read the catalogue the same way.
+ */
+export function classifyFoodRoles(foods: SolverFoodCandidate[]) {
+  const breads = foods.filter(
+    (f) =>
+      (f.category.includes('Breads') ||
+        /tamees|khubz|roti|chapati|naan|phulka|pita|\bsaj\b/.test(nameOf(f))) &&
+      !isRiceDish(f) &&
+      !isSweet(f)
+  );
+  const rices = foods.filter(
+    (f) => (f.category.includes('Breads') || f.category.includes('Rice')) && isRiceDish(f)
+  );
+  // Rice on its own: a rice dish naming meat, fish or daal is a second main.
+  const plainRices = foods.filter(
+    (f) =>
+      isRiceDish(f) &&
+      !isMixedRiceDish(f) &&
+      !isSweet(f) &&
+      !/chicken|mutton|beef|gosht|sajji|prawn|fish|daal|keema|egg|combo/.test(nameOf(f))
+  );
+  const curries = foods.filter(
+    (f) =>
+      (/curr|karahi|handi|bbq|grill|barbecue|stew|meat/.test(catOf(f)) ||
+        // Lean grilled plates from Diet & Basics. Saudi mains are otherwise
+        // almost all rice dishes, which cannot reach a cutting protein target.
+        (catOf(f) === 'diet & basics' &&
+          /grilled|tawook|shish|kebab|tikka|roast|hammour/.test(nameOf(f)) &&
+          !/turkey/.test(nameOf(f)) &&
+          (f.protein100g * 4) / Math.max(1, f.kcal100g) >= 0.4)) &&
+      !isSweet(f) &&
+      servingKcal(f) >= 80
+  );
+  const daals = foods.filter(
+    (f) =>
+      (/daal|pulse|lentil/.test(catOf(f)) ||
+        /daal|\bdal\b|lentil|chana|cholay|lobia|rajma|moong|masoor|soya|paneer|tofu|chickpea/.test(nameOf(f))) &&
+      !isSweet(f) &&
+      !isDrink(f) &&
+      !isRiceDish(f) &&
+      servingKcal(f) >= 80
+  );
+  const sabzis = foods.filter(
+    (f) =>
+      (/vegetable|sabzi/.test(catOf(f)) || /sabzi|bhindi|karela|lauki|palak|salad/.test(nameOf(f))) &&
+      !daals.includes(f) &&
+      !isSweet(f)
+  );
+  const eggs = foods.filter(
+    (f) =>
+      // \banda\b: "Pasanday" contains "anda", which put beef on the breakfast plate.
+      /egg|omelette|\banda\b|shakshuka|khagina/.test(nameOf(f)) &&
+      !/eggplant|kofta|curry|karahi|salan|rice|biryani|nargisi/.test(nameOf(f))
+  );
+  const beverages = foods.filter(
+    (f) =>
+      (isDrink(f) || /gahwa|chai|karak/.test(nameOf(f))) &&
+      !isSweet(f) &&
+      !/rusk|biscuit|cake|paratha|samosa/.test(nameOf(f)) &&
+      f.sugar100g <= 10 &&
+      servingKcal(f) <= 150
+  );
+  const proteinSnacks = foods.filter(
+    (f) =>
+      /dahi|yogurt|yoghurt|laban|labneh|raita|boiled egg|chana|tikka|boti|paneer|cottage|lassi/.test(nameOf(f)) &&
+      !isSweet(f) &&
+      f.kcal100g > 0 &&
+      (f.protein100g * 4) / f.kcal100g >= 0.2 &&
+      servingKcal(f) >= 50 &&
+      servingKcal(f) <= 350
+  );
+  return { breads, rices, plainRices, curries, daals, sabzis, eggs, beverages, proteinSnacks };
+}
+
+/**
+ * The plan for a diet that leaves nothing in the pool. Every default dish in
+ * the solver falls back to the first filtered food, so with none of them it
+ * used to throw instead of returning a plan.
+ */
+function emptyPlan(input: MealPlanSolverInput, region: 'PK' | 'SA'): DailyMealPlanResult {
+  const slot = (id: PlannedMealSlot['slot'], title: string, share: number): PlannedMealSlot => ({
+    slot: id,
+    title,
+    targetCalories: Math.round(input.targetCalories * share),
+    actualCalories: 0,
+    items: [],
+  });
+  return {
+    targetCalories: input.targetCalories,
+    actualCalories: 0,
+    calorieDeviationPct: -100,
+    targetProteinGrams: input.targetProteinGrams,
+    actualProteinGrams: 0,
+    targetFatGrams: input.targetFatGrams,
+    actualFatGrams: 0,
+    targetCarbGrams: input.targetCarbGrams,
+    actualCarbGrams: 0,
+    totalFibreGrams: 0,
+    totalOilAddedG: 0,
+    meals: [
+      slot('breakfast', 'Protein Breakfast', 0.25),
+      slot('lunch', 'Balanced Lunch', 0.35),
+      slot('dinner', 'Wholesome Dinner', 0.3),
+      slot('snacks_chai', 'Light Snack', 0.1),
+    ],
+    isWithinTolerance: false,
+    dietPreference: input.dietPreference,
+    region,
+    insufficientFoodPool: true,
+  };
+}
+
 /**
  * Deterministic Constraint Meal Plan Solver
  * Generates 4 culturally coherent Pakistani / Saudi meals hitting calorie & macro targets within ±5% tolerance.
@@ -138,62 +284,21 @@ export function solveDailyMealPlan(
     ? options.region === 'SA'
     : isPredominantlySaudi(foodPool);
 
-  // Categorized pools
-  const breads = filtered.filter(
-    (f) =>
-      (f.category.includes('Breads') ||
-        f.name.toLowerCase().includes('tamees') ||
-        f.name.toLowerCase().includes('khubz') ||
-        f.name.toLowerCase().includes('roti') ||
-        f.name.toLowerCase().includes('chapati') ||
-        f.name.toLowerCase().includes('naan')) &&
-      !f.name.toLowerCase().includes('rice') &&
-      !f.name.toLowerCase().includes('chawal')
-  );
-  const rices = filtered.filter(
-    (f) =>
-      (f.category.includes('Breads') || f.category.includes('Rice')) &&
-      (f.name.toLowerCase().includes('rice') ||
-        f.name.toLowerCase().includes('chawal') ||
-        f.name.toLowerCase().includes('pulao') ||
-        f.name.toLowerCase().includes('biryani') ||
-        f.name.toLowerCase().includes('kabsa') ||
-        f.name.toLowerCase().includes('mandi') ||
-        f.name.toLowerCase().includes('bukhari'))
-  );
-  const plainRices = filtered.filter(
-    (f) =>
-      (f.name.toLowerCase().includes('rice') || f.name.toLowerCase().includes('chawal')) &&
-      !f.name.toLowerCase().includes('biryani') &&
-      !f.name.toLowerCase().includes('pulao') &&
-      !f.name.toLowerCase().includes('kabsa')
-  );
-  const curries = filtered.filter(
-    (f) =>
-      f.category.includes('Curries') ||
-      f.category.includes('Barbecue') ||
-      f.category.includes('Stew') ||
-      (f.category.includes('Meat') && !f.name.toLowerCase().includes('rice'))
-  );
-  const daals = filtered.filter((f) => f.category.includes('Daals'));
-  const sabzis = filtered.filter((f) => f.category.includes('Vegetables'));
-  const eggs = filtered.filter(
-    (f) =>
-      !f.name.toLowerCase().includes('eggplant') &&
-      (f.name.toLowerCase().includes('egg') ||
-        f.name.toLowerCase().includes('omelette') ||
-        f.name.toLowerCase().includes('anda') ||
-        f.name.toLowerCase().includes('shakshuka'))
-  );
-  const beverages = filtered.filter((f) => f.category.includes('Beverages') || f.name.toLowerCase().includes('gahwa') || f.name.toLowerCase().includes('chai'));
+  if (filtered.length === 0) {
+    return emptyPlan(input, isSaudi ? 'SA' : 'PK');
+  }
+
+  const { breads, rices, plainRices, curries, daals, sabzis, eggs, beverages, proteinSnacks } =
+    classifyFoodRoles(filtered);
 
   const saudiBreakfastFoods = filtered.filter(
     (f) =>
-      f.category.includes('Breakfast') ||
+      !breads.includes(f) &&
+      (f.category.includes('Breakfast') ||
       f.name.toLowerCase().includes('shakshuka') ||
       f.name.toLowerCase().includes('foul') ||
       f.name.toLowerCase().includes('mutabbaq') ||
-      f.name.toLowerCase().includes('masoub')
+      f.name.toLowerCase().includes('masoub'))
   );
 
   // Default fallback candidates if filtered subset is sparse
@@ -211,10 +316,6 @@ export function solveDailyMealPlan(
     // to be Chicken Tikka, so a vegan could have been handed it as a default.
     filtered[0];
 
-  const defaultRice =
-    plainRices[0] ||
-    rices.find((r) => r.name.includes('Rice') || r.name.includes('Chawal') || r.name.includes('Kabsa')) ||
-    defaultRoti;
   const defaultDaal =
     daals.find((d) => d.name.includes('Chana') || d.name.includes('Mash')) ||
     daals[0] ||
@@ -229,10 +330,14 @@ export function solveDailyMealPlan(
     defaultDaal;
   const defaultChai =
     beverages.find((b) => b.name.includes('Gahwa') || b.name.includes('Chai')) || beverages[0];
-  const defaultCurry =
-    curries.length > 0 && input.dietPreference !== 'vegetarian_desi'
-      ? curries[0]
-      : defaultDaal;
+
+  const mainRotation = leanRotation(curries);
+  const vegMainRotation = leanRotation(daals);
+  const eggRotation = leanRotation(eggs);
+  const breadRotation = [...breads].sort((a, b) => a.fat100g - b.fat100g).slice(0, Math.max(3, Math.ceil(breads.length / 2)));
+  // Lunch and dinner walk the same rotation half a lap apart, so they differ.
+  const dinnerOffset = Math.ceil(mainRotation.length / 2) || 1;
+  const vegDinnerOffset = Math.ceil(vegMainRotation.length / 2) || 1;
 
   // Energy distribution:
   // Breakfast: ~25%, Lunch: ~35%, Dinner: ~30%, Snack: ~10%
@@ -241,100 +346,97 @@ export function solveDailyMealPlan(
   const targetDinnerKcal = Math.round(input.targetCalories * 0.3);
   const targetSnackKcal = Math.round(input.targetCalories * 0.1);
 
+  const lines: Array<{ item: PlannedMealItem; food: SolverFoodCandidate }> = [];
+  const add = (list: PlannedMealItem[], food: SolverFoodCandidate | undefined, quantity: number) => {
+    if (!food) return undefined;
+    const item = createPlannedItem(food, 0, quantity);
+    list.push(item);
+    lines.push({ item, food });
+    return item;
+  };
+  const qtyFor = (food: SolverFoodCandidate, kcal: number, min: number, max: number) => {
+    const perServing = servingKcal(food);
+    if (perServing <= 0) return min;
+    return Math.min(max, Math.max(min, Math.round((kcal / perServing) * 2) / 2));
+  };
+
   // 1. Breakfast Slot (Rotated across week)
   const breakfastItems: PlannedMealItem[] = [];
   if (isSaudi && saudiBreakfastFoods.length > 0) {
+    const ranked = leanRotation(saudiBreakfastFoods);
     const primaryBreakfast =
       dayIndex === 0
-        ? (saudiBreakfastFoods.find((f) => f.name.includes('Shakshuka')) ||
-           saudiBreakfastFoods.find((f) => f.name.includes('Foul')) ||
-           saudiBreakfastFoods.find((f) => f.name.includes('Mutabbaq')) ||
-           saudiBreakfastFoods[0])
-        : saudiBreakfastFoods[dayIndex % saudiBreakfastFoods.length];
-    const bItem = createPlannedItem(primaryBreakfast, 0, 1);
-    breakfastItems.push(bItem);
-
+        ? (ranked.find((f) => f.name.includes('Shakshuka')) ||
+           ranked.find((f) => f.name.includes('Foul')) ||
+           ranked[0])
+        : ranked[dayIndex % ranked.length];
+    const bItem = add(breakfastItems, primaryBreakfast, 1)!;
     const needed = targetBreakfastKcal - bItem.calories;
-    const breadCandidate = defaultRoti && defaultRoti.id !== primaryBreakfast.id ? defaultRoti : null;
-    if (needed > 75 && breadCandidate) {
-      const rotiServingKcal = (breadCandidate.kcal100g * breadCandidate.servings[0].grams) / 100;
-      const qty = Math.max(0.25, Number((needed / rotiServingKcal).toFixed(1)));
-      breakfastItems.push(createPlannedItem(breadCandidate, 0, Math.min(1.0, qty)));
+    const breadCandidate = pick(breadRotation, dayIndex);
+    if (needed > 75 && breadCandidate && breadCandidate !== primaryBreakfast) {
+      add(breakfastItems, breadCandidate, qtyFor(breadCandidate, needed, 0.5, 2));
     }
   } else {
-    const dayEgg =
-      dayIndex === 0
-        ? defaultEgg
-        : (eggs[dayIndex % eggs.length] || defaultEgg);
-    const eggItem = createPlannedItem(dayEgg, 0, 1);
-    breakfastItems.push(eggItem);
-
-    const neededBreakfastKcal = targetBreakfastKcal - eggItem.calories;
-    const rotiCandidate = breads.length > 0 ? breads[dayIndex % breads.length] : defaultRoti;
-    const rotiKcalPerServing = (rotiCandidate.kcal100g * rotiCandidate.servings[0].grams) / 100;
-    const breakfastRotiQty = Math.max(1, Math.round(neededBreakfastKcal / rotiKcalPerServing));
-    breakfastItems.push(createPlannedItem(rotiCandidate, 0, breakfastRotiQty));
-
-    const dayBeverage = beverages.length > 0 ? beverages[dayIndex % beverages.length] : defaultChai;
+    const dayEgg = (dayIndex === 0 ? defaultEgg : pick(eggRotation, dayIndex)) || defaultEgg;
+    const eggItem = add(breakfastItems, dayEgg, 1)!;
+    // Only a real bread: with none in the pool the old default fell through to
+    // whatever food came first, and a Saudi vegan got three bowls of salad.
+    const rotiCandidate = pick(breadRotation, dayIndex);
+    if (rotiCandidate && rotiCandidate !== dayEgg) {
+      add(breakfastItems, rotiCandidate, qtyFor(rotiCandidate, targetBreakfastKcal - eggItem.calories, 1, 3));
+    }
+    const dayBeverage = pick(beverages, dayIndex) || defaultChai;
     if (dayBeverage && breakfastItems.reduce((s, i) => s + i.calories, 0) < targetBreakfastKcal - 50) {
-      breakfastItems.push(createPlannedItem(dayBeverage, 0, 1));
+      add(breakfastItems, dayBeverage, 1);
     }
   }
 
-  // 2. Lunch Slot (Rotated Main Curry / Daal + Rice / Grains)
+  // 2. Lunch: a protein main, plus rice unless the main already is a rice dish.
   const lunchItems: PlannedMealItem[] = [];
-  const curryOffset = curries.length > 2 ? dayIndex * 2 : dayIndex;
-  const lunchCurryIdx = curryOffset % (curries.length || 1);
-  const chosenLunchCurry = curries.length > 0 ? curries[lunchCurryIdx] : defaultDaal;
+  const eatsMeatAtLunch = input.dietPreference.includes('omnivore');
   const lunchMain =
-    input.dietPreference.includes('omnivore') && curries.length > 0
-      ? (dayIndex === 0 ? defaultCurry : chosenLunchCurry)
-      : (daals[dayIndex % (daals.length || 1)] || defaultDaal);
-  const lunchMainItem = createPlannedItem(lunchMain, 0, 1);
-  lunchItems.push(lunchMainItem);
-
+    (eatsMeatAtLunch ? pick(mainRotation, dayIndex) : pick(vegMainRotation, dayIndex)) ||
+    pick(mainRotation, dayIndex) ||
+    defaultDaal;
+  const lunchMainItem = add(lunchItems, lunchMain, 1)!;
   const neededLunchKcal = targetLunchKcal - lunchMainItem.calories;
-  const chosenRice =
-    plainRices.length > 0
-      ? plainRices[dayIndex % plainRices.length]
-      : (rices.length > 0 ? rices[dayIndex % rices.length] : defaultRice);
-  const riceKcalPerServing = (chosenRice.kcal100g * chosenRice.servings[0].grams) / 100;
-  const lunchGrainQty = Math.max(1, Number((neededLunchKcal / riceKcalPerServing).toFixed(1)));
-  lunchItems.push(createPlannedItem(chosenRice, 0, Math.min(2, Math.max(1, Math.round(lunchGrainQty)))));
-
-  // 3. Dinner Slot (Rotated Evening Curry / Sabzi / Grill + Roti)
-  const dinnerItems: PlannedMealItem[] = [];
-  const dinnerCurryIdx = (curryOffset + 1) % (curries.length || 1);
-  const chosenDinnerCurry =
-    curries.length > 1
-      ? (dayIndex === 0 ? curries[1] : curries[dinnerCurryIdx])
-      : (sabzis[dayIndex % (sabzis.length || 1)] || defaultSabzi);
-  const dinnerCurry =
-    input.dietPreference !== 'vegetarian_desi' && curries.length > 0
-      ? chosenDinnerCurry
-      : (sabzis[dayIndex % (sabzis.length || 1)] || defaultSabzi);
-  const dinnerCurryItem = createPlannedItem(dinnerCurry, 0, 1);
-  dinnerItems.push(dinnerCurryItem);
-
-  const neededDinnerKcal = targetDinnerKcal - dinnerCurryItem.calories;
-  const chosenDinnerBread = breads.length > 0 ? breads[(dayIndex + 1) % breads.length] : defaultRoti;
-  const dinnerBreadKcalPerServing = (chosenDinnerBread.kcal100g * chosenDinnerBread.servings[0].grams) / 100;
-  const dinnerRotiQty = Math.max(1, Math.round(neededDinnerKcal / dinnerBreadKcalPerServing));
-  dinnerItems.push(createPlannedItem(chosenDinnerBread, 0, dinnerRotiQty));
-
-  // 4. Snack / Chai Slot (Rotated beverages & snacks)
-  const snackItems: PlannedMealItem[] = [];
-  const snackChai = beverages.length > 0 ? beverages[dayIndex % beverages.length] : defaultChai;
-  if (snackChai) {
-    snackItems.push(createPlannedItem(snackChai, 0, 1));
+  if (isRiceDish(lunchMain)) {
+    const side = pick(sabzis, dayIndex);
+    if (side && neededLunchKcal > 80) add(lunchItems, side, 1);
+  } else {
+    const chosenRice = pick(plainRices, dayIndex) || pick(rices, dayIndex) || pick(breadRotation, dayIndex);
+    if (chosenRice && chosenRice !== lunchMain) {
+      add(lunchItems, chosenRice, qtyFor(chosenRice, neededLunchKcal, 1, 2));
+    }
   }
-  const currentTotalNoSnack =
-    breakfastItems.reduce((s, i) => s + i.calories, 0) +
-    lunchItems.reduce((s, i) => s + i.calories, 0) +
-    dinnerItems.reduce((s, i) => s + i.calories, 0);
 
-  const remainingForDay = input.targetCalories - currentTotalNoSnack;
-  if (remainingForDay > 150) {
+  // 3. Dinner: a second main (meat where the diet allows it) with bread.
+  const dinnerItems: PlannedMealItem[] = [];
+  const dinnerMain =
+    (input.dietPreference !== 'vegetarian_desi'
+      ? pick(mainRotation, dayIndex + dinnerOffset)
+      : undefined) ||
+    pick(vegMainRotation, dayIndex + vegDinnerOffset) ||
+    pick(sabzis, dayIndex) ||
+    defaultSabzi;
+  const dinnerMainItem = add(dinnerItems, dinnerMain, 1)!;
+  const chosenDinnerBread = pick(breadRotation, dayIndex + 1);
+  if (chosenDinnerBread && chosenDinnerBread !== dinnerMain && !isRiceDish(dinnerMain)) {
+    add(dinnerItems, chosenDinnerBread, qtyFor(chosenDinnerBread, targetDinnerKcal - dinnerMainItem.calories, 1, 3));
+  }
+
+  // 4. Snack / Chai: a drink, and a protein snack when the day is short of protein.
+  const snackItems: PlannedMealItem[] = [];
+  const snackChai = pick(beverages, dayIndex) || defaultChai;
+  if (snackChai) add(snackItems, snackChai, 1);
+
+  const sumOf = (get: (i: PlannedMealItem) => number) =>
+    lines.reduce((s, l) => s + get(l.item), 0);
+  const usedToday = new Set(lines.map((l) => l.food));
+  const proteinSnack = pick(leanRotation(proteinSnacks.filter((f) => !usedToday.has(f))), dayIndex);
+  if (proteinSnack && sumOf((i) => i.proteinGrams) < input.targetProteinGrams * 0.9) {
+    add(snackItems, proteinSnack, 1);
+  } else if (input.targetCalories - sumOf((i) => i.calories) > 150) {
     const snackCandidates = filtered.filter(
       (f) =>
         f.category.includes('Snacks') ||
@@ -346,10 +448,10 @@ export function solveDailyMealPlan(
         f.name.includes('Kebab')
     );
     const extraSnack =
-      snackCandidates.length > 0
-        ? snackCandidates[dayIndex % snackCandidates.length]
-        : (filtered.find((f) => f.name.includes('Dates') || f.name.includes('Shami')) || defaultEgg);
-    snackItems.push(createPlannedItem(extraSnack, 0, 1));
+      pick(snackCandidates, dayIndex) ||
+      filtered.find((f) => f.name.includes('Dates') || f.name.includes('Shami')) ||
+      defaultEgg;
+    add(snackItems, extraSnack, 1);
   }
 
   // Assemble initial slots
@@ -358,87 +460,100 @@ export function solveDailyMealPlan(
       slot: 'breakfast',
       title: 'Protein Breakfast',
       targetCalories: targetBreakfastKcal,
-      actualCalories: breakfastItems.reduce((s, i) => s + i.calories, 0),
+      actualCalories: 0,
       items: breakfastItems,
     },
     {
       slot: 'lunch',
       title: 'Balanced Lunch',
       targetCalories: targetLunchKcal,
-      actualCalories: lunchItems.reduce((s, i) => s + i.calories, 0),
+      actualCalories: 0,
       items: lunchItems,
     },
     {
       slot: 'dinner',
       title: 'Wholesome Dinner',
       targetCalories: targetDinnerKcal,
-      actualCalories: dinnerItems.reduce((s, i) => s + i.calories, 0),
+      actualCalories: 0,
       items: dinnerItems,
     },
     {
       slot: 'snacks_chai',
       title: 'Light Snack',
       targetCalories: targetSnackKcal,
-      actualCalories: snackItems.reduce((s, i) => s + i.calories, 0),
+      actualCalories: 0,
       items: snackItems,
     },
   ];
 
-  // 5. Code Auto-Adjustment Pass (Enforce ±5% Tolerance strictly)
-  let actualCalories = meals.reduce((sum, m) => sum + m.actualCalories, 0);
-
-  let iterations = 0;
-  while (
-    Math.abs(actualCalories - input.targetCalories) > input.targetCalories * 0.03 &&
-    iterations < 40
-  ) {
-    iterations++;
-    const diff = actualCalories - input.targetCalories;
-
-    if (diff > 0) {
-      // Too high: reduce portion by 0.2
-      let reduced = false;
-      for (const meal of [meals[3], meals[2], meals[1], meals[0]]) {
-        const candidate = meal.items.find((i) => i.quantity > 0.4);
-        if (candidate) {
-          candidate.quantity = Number((candidate.quantity - 0.2).toFixed(1));
-          const foodObj =
-            filtered.find((f) => f.name === candidate.foodName) || defaultRoti;
-          const updated = createPlannedItem(foodObj, 0, candidate.quantity);
-          Object.assign(candidate, updated);
-          meal.actualCalories = meal.items.reduce((s, i) => s + i.calories, 0);
-          actualCalories = meals.reduce((s, m) => s + m.actualCalories, 0);
-          reduced = true;
-          break;
-        }
-      }
-      if (!reduced) break;
-    } else {
-      // Too low: increase grains, daals, or curries by 0.2
-      let increased = false;
-      for (const meal of [meals[1], meals[2], meals[0]]) {
-        const candidate = meal.items.find(
-          (i) =>
-            i.category.includes('Breads') ||
-            i.category.includes('Rice') ||
-            i.category.includes('Daals') ||
-            i.category.includes('Curries') ||
-            i.category.includes('Meat')
+  // 5. Portion tuning against calories *and* macros. Calories dominate the
+  // cost so the ±5% guarantee holds; protein shortfall and fat excess cost
+  // more than the opposite misses. Drinks stay at one cup.
+  const setQuantity = (line: (typeof lines)[number], quantity: number) => {
+    Object.assign(line.item, createPlannedItem(line.food, 0, quantity));
+  };
+  const rel = (actual: number, target: number) => (target > 0 ? (actual - target) / target : 0);
+  const cost = (k: number, p: number, f: number, c: number) => {
+    const dk = rel(k, input.targetCalories);
+    const dp = rel(p, input.targetProteinGrams);
+    const df = rel(f, input.targetFatGrams);
+    const dc = rel(c, input.targetCarbGrams);
+    return 8 * dk * dk + (dp < 0 ? 2 : 0.3) * dp * dp + (df > 0 ? 1 : 0.4) * df * df + 0.3 * dc * dc;
+  };
+  const tunable = lines.filter((l) => !isDrink(l.food) && !/gahwa|chai|karak/.test(nameOf(l.food)));
+  const stepFor = (l: (typeof lines)[number]) => (breads.includes(l.food) ? 0.5 : 0.25);
+  // A snack stays a snack: uncapped, the tuner served three cups of yogurt.
+  const maxFor = (l: (typeof lines)[number]) =>
+    snackItems.includes(l.item) ? 1.5 : breads.includes(l.food) ? 4 : 3;
+  for (let iteration = 0; iteration < 80; iteration++) {
+    const totals = {
+      k: sumOf((i) => i.calories),
+      p: sumOf((i) => i.proteinGrams),
+      f: sumOf((i) => i.fatGrams),
+      c: sumOf((i) => i.carbGrams),
+    };
+    const current = cost(totals.k, totals.p, totals.f, totals.c);
+    let best: { line: (typeof lines)[number]; quantity: number; cost: number } | undefined;
+    for (const line of tunable) {
+      const unit = createPlannedItem(line.food, 0, 1);
+      for (const delta of [stepFor(line), -stepFor(line)]) {
+        const quantity = Number((line.item.quantity + delta).toFixed(2));
+        if (quantity < 0.5 || quantity > maxFor(line)) continue;
+        const c = cost(
+          totals.k + unit.calories * delta,
+          totals.p + unit.proteinGrams * delta,
+          totals.f + unit.fatGrams * delta,
+          totals.c + unit.carbGrams * delta
         );
-        if (candidate) {
-          candidate.quantity = Number((candidate.quantity + 0.2).toFixed(1));
-          const foodObj =
-            filtered.find((f) => f.name === candidate.foodName) || defaultRoti;
-          const updated = createPlannedItem(foodObj, 0, candidate.quantity);
-          Object.assign(candidate, updated);
-          meal.actualCalories = meal.items.reduce((s, i) => s + i.calories, 0);
-          actualCalories = meals.reduce((s, m) => s + m.actualCalories, 0);
-          increased = true;
-          break;
-        }
+        if (c < (best?.cost ?? current - 1e-6)) best = { line, quantity, cost: c };
       }
-      if (!increased) break;
     }
+    if (!best) break;
+    setQuantity(best.line, best.quantity);
+  }
+  for (const meal of meals) meal.actualCalories = meal.items.reduce((s, i) => s + i.calories, 0);
+
+  // 6. Calorie safety net (Enforce ±5% Tolerance strictly). Takes the single
+  // step that lands closest to the target, and stops when none helps: always
+  // stepping the biggest line made a 750 kcal tamees loaf swing past the
+  // target and back until the iterations ran out.
+  let actualCalories = meals.reduce((sum, m) => sum + m.actualCalories, 0);
+  for (let iteration = 0; iteration < 40; iteration++) {
+    const miss = actualCalories - input.targetCalories;
+    if (Math.abs(miss) <= input.targetCalories * 0.03) break;
+    let best: { line: (typeof lines)[number]; quantity: number; miss: number } | undefined;
+    for (const line of tunable) {
+      for (const delta of [0.25, -0.25]) {
+        const quantity = Number((line.item.quantity + delta).toFixed(2));
+        if (quantity < 0.25 || quantity > maxFor(line)) continue;
+        const next = Math.abs(miss + createPlannedItem(line.food, 0, quantity).calories - line.item.calories);
+        if (next < (best?.miss ?? Math.abs(miss))) best = { line, quantity, miss: next };
+      }
+    }
+    if (!best) break;
+    setQuantity(best.line, best.quantity);
+    for (const meal of meals) meal.actualCalories = meal.items.reduce((s, i) => s + i.calories, 0);
+    actualCalories = meals.reduce((s, m) => s + m.actualCalories, 0);
   }
 
   const calorieDeviationPct = Number(

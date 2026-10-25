@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   subheadline: {
-    color: '#64748B',
+    color: '#556274',
     fontSize: 12,
     marginTop: 4,
     lineHeight: 16,
@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   closeBtnText: {
-    color: '#64748B',
+    color: '#556274',
     fontSize: 16,
     fontWeight: '700',
   },
@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
     borderColor: '#10B981',
   },
   currPillText: {
-    color: '#64748B',
+    color: '#556274',
     fontSize: 11,
     fontWeight: '600',
   },
@@ -408,7 +408,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   periodSavings: {
-    color: '#64748B',
+    color: '#556274',
     fontSize: 11,
     marginTop: 2,
   },
@@ -443,7 +443,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   featureDesc: {
-    color: '#64748B',
+    color: '#556274',
     fontSize: 11,
     lineHeight: 15,
     marginTop: 2,
@@ -484,7 +484,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   guaranteeText: {
-    color: '#64748B',
+    color: '#556274',
     fontSize: 10,
     textAlign: 'center',
     marginTop: 2,

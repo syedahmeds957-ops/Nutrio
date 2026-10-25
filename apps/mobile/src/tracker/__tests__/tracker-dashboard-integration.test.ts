@@ -56,7 +56,6 @@ describe('TrackerDashboardScreen Integrated Components', () => {
     expect(staplesEl).toBeDefined();
 
     const bankEl = React.createElement(WeeklyCalorieBankCard, {
-      weeklyDeficitKcal: 2450,
       targetCalories: 2000,
     });
     expect(bankEl).toBeDefined();

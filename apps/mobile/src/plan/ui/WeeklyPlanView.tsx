@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -17,13 +17,15 @@ import {
   SolverFoodCandidate,
   solveDailyMealPlan,
 } from '@nutrio/nutrition-core';
-import { PAKISTANI_STAPLES_DATA, SAUDI_TRADITIONAL_FOODS } from '@nutrio/food-db';
+import { mealPlanFoodPool } from '../mealPlanPool.js';
+import { MacroStatus, planMacroStatus } from '../planMacroStatus.js';
 import { PlannedMealSlotCard } from './PlannedMealSlotCard.js';
 import { MealSwapModal } from './MealSwapModal.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
+import { weekKeysFromMonday } from '../../common/dateKey.js';
 
 interface WeeklyPlanViewProps {
   solverInput: MealPlanSolverInput;
@@ -44,7 +46,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
   const { t } = useTranslation();
   const dir = useTextDirection();
   const isSaudi = activeRegion === 'SA';
-  const regionalFoodPool: SolverFoodCandidate[] = isSaudi ? SAUDI_TRADITIONAL_FOODS : PAKISTANI_STAPLES_DATA;
+  const regionalFoodPool: SolverFoodCandidate[] = mealPlanFoodPool(isSaudi ? 'SA' : 'PK');
 
   // Generate a distinct or calibrated 7-day schedule with daily variety
   // The region is passed explicitly rather than left for the solver to infer
@@ -66,7 +68,8 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
     );
   }, [activeRegion]);
 
-  const [selectedDayIndex, setSelectedDayIndex] = useState(0);
+  const weekKeys = useMemo(() => weekKeysFromMonday(), []);
+  const [selectedDayIndex, setSelectedDayIndex] = useState(() => (new Date().getDay() + 6) % 7);
 
   // Swap modal state
   const [activeSlotToSwap, setActiveSlotToSwap] = useState<PlannedMealSlot | null>(null);
@@ -75,6 +78,13 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
 
 
   const currentDayPlan = weekPlans[selectedDayIndex];
+  const macroStatus = planMacroStatus(currentDayPlan);
+  const offTargetColor = isDark ? '#F87171' : '#B91C1C';
+  const targetLine = (s: MacroStatus) => (
+    <Text style={[styles.macroTarget, { color: s.isOff ? offTargetColor : theme.colors.textMuted }]} numberOfLines={1}>
+      {t('plan.weekly.ofTarget', { grams: Math.round(s.target) })}
+    </Text>
+  );
 
   const handleOpenSwap = (slot: PlannedMealSlot) => {
     const swap = generateMealSwaps(
@@ -179,11 +189,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
           },
         ]}
       >
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.daySelectorPad}
-        >
+        <View style={styles.daySelectorPad}>
           {DAYS_OF_WEEK.map((dayName, idx) => {
             const isSelected = idx === selectedDayIndex;
             const shortName = t(`common.weekdayAbbrev.${dayName}`);
@@ -223,7 +229,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
                     },
                   ]}
                 >
-                  {idx + 18}
+                  {Number(weekKeys[idx].slice(8))}
                 </Text>
                 {isSelected && (
                   <View
@@ -236,7 +242,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
               </TouchableOpacity>
             );
           })}
-        </ScrollView>
+        </View>
       </View>
 
       <ScrollView
@@ -286,8 +292,9 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
                   { color: isDark ? theme.colors.primaryLime : '#365314' },
                 ]}
               >
-                {currentDayPlan.calorieDeviationPct >= 0 ? '+' : ''}
-                {currentDayPlan.calorieDeviationPct}%
+                {t('plan.weekly.calorieDeviation', {
+                  value: `${currentDayPlan.calorieDeviationPct >= 0 ? '+' : ''}${currentDayPlan.calorieDeviationPct}`,
+                })}
               </Text>
             </View>
           </View>
@@ -332,6 +339,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
               >
                 {currentDayPlan.actualProteinGrams}g
               </Text>
+              {targetLine(macroStatus.protein)}
               <Text
                 style={[styles.macroLabel, { color: theme.colors.textSecondary }]}
               >
@@ -354,6 +362,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
               >
                 {currentDayPlan.actualCarbGrams}g
               </Text>
+              {targetLine(macroStatus.carbs)}
               <Text
                 style={[styles.macroLabel, { color: theme.colors.textSecondary }]}
               >
@@ -376,6 +385,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
               >
                 {currentDayPlan.actualFatGrams}g
               </Text>
+              {targetLine(macroStatus.fat)}
               <Text
                 style={[styles.macroLabel, { color: theme.colors.textSecondary }]}
               >
@@ -406,6 +416,25 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
               </Text>
             </View>
           </View>
+
+          {currentDayPlan.insufficientFoodPool ? (
+            <Text style={[styles.macroNote, dir.text, { color: offTargetColor }]}>
+              {t('plan.weekly.notEnoughFoods')}
+            </Text>
+          ) : (
+            <>
+              {macroStatus.protein.isOff && macroStatus.protein.gapGrams < 0 && (
+                <Text style={[styles.macroNote, dir.text, { color: offTargetColor }]}>
+                  {t('plan.weekly.proteinShort', { grams: -macroStatus.protein.gapGrams })}
+                </Text>
+              )}
+              {macroStatus.fat.isOff && macroStatus.fat.gapGrams > 0 && (
+                <Text style={[styles.macroNote, dir.text, { color: offTargetColor }]}>
+                  {t('plan.weekly.fatOver', { grams: macroStatus.fat.gapGrams })}
+                </Text>
+              )}
+            </>
+          )}
         </View>
 
         {/* Meal Slots */}
@@ -458,17 +487,24 @@ const styles = StyleSheet.create({
   backBtnText: {
     fontSize: 12,
     fontWeight: '700',
-  },
+  },
+
+
+
+
+
+
   daySelectorWrapper: {
     borderBottomWidth: 1,
   },
   daySelectorPad: {
+    flexDirection: 'row',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    gap: 10,
+    gap: 6,
   },
   dayTab: {
-    width: 54,
+    flex: 1,
     paddingVertical: 10,
     borderRadius: 16,
     alignItems: 'center',
@@ -552,6 +588,17 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '600',
     marginTop: 2,
+  },
+  macroTarget: {
+    fontSize: 10,
+    fontWeight: '600',
+    marginTop: 1,
+  },
+  macroNote: {
+    fontSize: 12,
+    fontWeight: '600',
+    lineHeight: 17,
+    marginTop: 12,
   },
   oilCard: {
     borderWidth: 1,

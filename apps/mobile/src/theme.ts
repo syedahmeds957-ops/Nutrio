@@ -83,7 +83,7 @@ export const darkColors: ThemeColors = {
   textPrimary: '#FFFFFF',
   text: '#FFFFFF',
   textSecondary: '#9CA3AF',
-  textMuted: '#6B7280',
+  textMuted: '#8B93A1',       // >= 4.5:1 on dark surfaces; #6B7280 was 3.2-3.6:1
   textInverse: '#0A0B0D',
 
   protein: '#3B82F6',
@@ -117,8 +117,8 @@ export const lightColors: ThemeColors = {
   primaryLime: '#A4EB3F',
   heroCardBg: '#A4EB3F',
   limeText: '#0A0B0D',
-  primaryAccessible: '#15803D', // High contrast emerald for light mode (WCAG AA > 4.5:1)
-  primaryTintText: '#166534',
+  primaryAccessible: '#4B6200', // Dark lime for text on light surfaces (7:1 on white); raw lime is 1.4:1
+  primaryTintText: '#365314',
 
   floatingBarBg: '#111215',
   floatingBarActive: '#A4EB3F',
@@ -126,8 +126,8 @@ export const lightColors: ThemeColors = {
 
   textPrimary: '#0F172A',
   text: '#0F172A',
-  textSecondary: '#64748B',
-  textMuted: '#94A3B8',
+  textSecondary: '#556274',
+  textMuted: '#626D7B',       // >= 4.5:1 on every light surface; #94A3B8 was 2.3-2.6:1
   textInverse: '#FFFFFF',
 
   protein: '#3B82F6',

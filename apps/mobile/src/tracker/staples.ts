@@ -6,6 +6,7 @@ import {
   ServingUnit,
 } from '@nutrio/food-db';
 import { Region } from '../common/region/index.js';
+import { CHAI_CUP } from '../common/ritualDrinks.js';
 
 export interface StapleItem {
   id: string;
@@ -42,12 +43,14 @@ const PK_STAPLES: StapleDefinition[] = [
   },
   {
     id: 'chai',
-    foodName: 'Doodh Patti Chai (1 tsp Sugar / Kam Cheeni)',
+    // The same cup the survey and describe-a-meal count (ritualDrinks.ts).
+    // The doodh patti entry only offers a 200 ml mug, so the chip showed 134.
+    foodName: CHAI_CUP.foodName,
     name: 'Chai (Doodh Patti)',
-    calories: 85,
-    proteinGrams: 2,
-    fatGrams: 3,
-    carbGrams: 12,
+    calories: 80,
+    proteinGrams: 2.4,
+    fatGrams: 2.6,
+    carbGrams: 11.6,
     icon: 'coffee',
   },
   {

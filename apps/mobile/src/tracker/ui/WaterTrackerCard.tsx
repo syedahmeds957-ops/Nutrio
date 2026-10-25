@@ -58,7 +58,7 @@ export const WaterTrackerCard: React.FC<WaterTrackerCardProps> = ({
               {t('tracker.water.title')}
             </Text>
             <Text style={[styles.subtitle, dir.text, { color: theme.colors.textSecondary }]}>
-              {t('tracker.water.dailyTarget', { amount: actualTarget.toLocaleString() })}
+              {t('tracker.water.dailyTarget', { amount: actualTarget.toLocaleString('en-US') })}
             </Text>
           </View>
         </View>
@@ -84,7 +84,7 @@ export const WaterTrackerCard: React.FC<WaterTrackerCardProps> = ({
             {(actualConsumed / 1000).toFixed(2)}L
           </Text>
           <Text style={[styles.subNum, { color: theme.colors.textMuted }]}>
-            {actualConsumed.toLocaleString()} / {actualTarget.toLocaleString()} ml
+            {actualConsumed.toLocaleString('en-US')} / {actualTarget.toLocaleString('en-US')} ml
           </Text>
         </View>
       </View>

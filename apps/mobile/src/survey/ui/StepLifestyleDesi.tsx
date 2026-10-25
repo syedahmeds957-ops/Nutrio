@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { HomeCookingStyle, SurveyLifestyleDesi } from '../types.js';
-import { KCAL_PER_CUP_CHAI_SUGAR } from '../nutrition-bridge.js';
+import { ritualCupKcal } from '../../common/ritualDrinks.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
@@ -40,7 +40,7 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
     label: t(`survey.lifestyle.cookingStyles.${id}.${activeRegion}`),
   }));
   const chaiCount = data.chaiWithSugarCupsPerDay ?? 2;
-  const estimatedChaiKcal = chaiCount * KCAL_PER_CUP_CHAI_SUGAR;
+  const estimatedChaiKcal = chaiCount * ritualCupKcal(activeRegion);
   const estimatedWeeklyChaiKcal = estimatedChaiKcal * 7;
   const dawatCount = data.eatingOutTimesPerWeek ?? 1;
 
@@ -124,17 +124,17 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
             ]}
           >
             <Text style={[styles.impactText, { color: theme.colors.textPrimary }]}>
-              Adds ~
+              {t('survey.lifestyle.chai.addsPrefix')}
               <Text
                 style={[
                   styles.impactHighlight,
-                  { color: theme.colors.primaryLime },
+                  { color: theme.colors.primaryAccessible },
                 ]}
               >
-                {estimatedChaiKcal} kcal/day
+                {t('survey.lifestyle.chai.kcalPerDay', { kcal: estimatedChaiKcal })}
               </Text>{' '}
               {t(`survey.lifestyle.chai.weekly.${activeRegion}`, {
-                weekly: estimatedWeeklyChaiKcal.toLocaleString(),
+                weekly: estimatedWeeklyChaiKcal.toLocaleString('en-US'),
               })}
             </Text>
           </View>

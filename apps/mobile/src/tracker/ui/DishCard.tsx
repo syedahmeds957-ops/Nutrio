@@ -5,7 +5,7 @@ import { formatServingLine } from '../formatServing.js';
 import { Icon } from '../../ui/Icon.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
-import { useTranslation } from '../../i18n/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { defaultServingFor, servingNutrition } from '../personalServings.js';
 import { foodKey } from './useMealBasket.js';
 import { styles } from './MealLogHubModal.styles.js';
@@ -28,6 +28,7 @@ export const DishCard: React.FC<DishCardProps> = ({ item, qty, isBuildMode, onPr
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
+  const dir = useTextDirection();
   const isSaudiRegion = activeRegion === 'SA';
   // At most one local name. Urdu names are not displayed (lists show the
   // English name; Urdu still matches in search). Saudi users see the Arabic name.
@@ -64,7 +65,7 @@ export const DishCard: React.FC<DishCardProps> = ({ item, qty, isBuildMode, onPr
             <Text
               style={[
                 isSaudiRegion ? styles.dishNameAr : styles.dishNameUr,
-                { color: isSaudiRegion ? theme.colors.primaryLime : theme.colors.textMuted },
+                { color: isSaudiRegion ? theme.colors.primaryAccessible : theme.colors.textMuted },
               ]}
             >
               {localName}
@@ -126,7 +127,7 @@ export const DishCard: React.FC<DishCardProps> = ({ item, qty, isBuildMode, onPr
             </View>
           </View>
         ) : (
-          <Icon name="chevron-right" size={16} color={theme.colors.textMuted} />
+          <Icon name={dir.isRTL ? 'chevron-left' : 'chevron-right'} size={16} color={theme.colors.textMuted} />
         )}
       </View>
     </TouchableOpacity>

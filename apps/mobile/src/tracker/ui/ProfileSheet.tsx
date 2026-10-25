@@ -33,6 +33,7 @@ const ProfileAction: React.FC<{
   onPress: () => void;
 }> = ({ icon, label, onPress }) => {
   const { theme } = useTheme();
+  const dir = useTextDirection();
   return (
     <TouchableOpacity
       style={[
@@ -46,7 +47,7 @@ const ProfileAction: React.FC<{
         <Icon name={icon} size={16} color={theme.colors.primaryLime} />
         <Text style={[styles.actionBtnText, { color: theme.colors.textPrimary }]}>{label}</Text>
       </View>
-      <Icon name="arrow-right" size={14} color={theme.colors.textMuted} />
+      <Icon name={dir.isRTL ? 'arrow-left' : 'arrow-right'} size={14} color={theme.colors.textMuted} />
     </TouchableOpacity>
   );
 };
@@ -195,7 +196,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
                     {t('tracker.dashboard.signInCreate')}
                   </Text>
                 </View>
-                <Icon name="arrow-right" size={14} color={ACCENT_TEXT} />
+                <Icon name={dir.isRTL ? 'arrow-left' : 'arrow-right'} size={14} color={ACCENT_TEXT} />
               </TouchableOpacity>
             )}
 
@@ -206,7 +207,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
                 activeOpacity={0.7}
               >
                 <View style={styles.actionBtnRow}>
-                  <Icon name="arrow-left" size={16} color={LOGOUT_RED} />
+                  <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={16} color={LOGOUT_RED} />
                   <Text style={[styles.actionBtnText, { color: LOGOUT_RED }]}>
                     {t('tracker.dashboard.logout')}
                   </Text>
