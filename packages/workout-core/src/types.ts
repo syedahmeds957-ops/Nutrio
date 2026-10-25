@@ -274,6 +274,12 @@ export interface WeeklyWorkoutPlan {
    * the plan was last built. Absent on older plans (then it equals the setting).
    */
   fasting?: boolean;
+  /**
+   * The weekly training kcal of a calorie-target update the user turned down
+   * ("Not now"). The app doesn't offer it again until the training changes.
+   * Kept through rebuilds.
+   */
+  targetOfferDeclinedKcal?: number;
 }
 
 // ----- Logging and progression -----

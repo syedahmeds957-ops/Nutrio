@@ -1,6 +1,7 @@
 export * from './types.js';
 export * from './bmr.js';
 export * from './tdee.js';
+export * from './exercise.js';
 export * from './safety.js';
 export * from './targets.js';
 export * from './macros.js';

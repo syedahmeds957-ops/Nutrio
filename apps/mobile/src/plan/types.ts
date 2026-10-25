@@ -27,6 +27,12 @@ export interface PlanUserContext {
   weeklyChaiSugarKcal: number;
   isNightShift: boolean;
   dailySittingHours: number;
+  /**
+   * Weekly exercise kcal already counted in `tdee`, set when the user accepts
+   * a target update from their workout plan. Absent means the survey's
+   * estimate is what `tdee` counts.
+   */
+  trainingWeeklyKcal?: number;
 }
 
 export interface GoalSelectionState {

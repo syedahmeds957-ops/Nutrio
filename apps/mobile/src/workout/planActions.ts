@@ -79,6 +79,18 @@ export function resetExercise(plan: WeeklyWorkoutPlan, slotId: string, now: Date
 }
 
 /**
+ * Records the user's answer to a calorie-target offer: the weekly kcal they
+ * turned down, or undefined once they accept one. Saved with the plan, so the
+ * same offer isn't made again on this or another device.
+ */
+export function recordTargetOffer(plan: WeeklyWorkoutPlan, declinedKcal: number | undefined, now: Date = new Date()): WeeklyWorkoutPlan {
+  if (plan.targetOfferDeclinedKcal === declinedKcal) return plan;
+  const next: WeeklyWorkoutPlan = { ...plan, targetOfferDeclinedKcal: declinedKcal };
+  if (declinedKcal === undefined) delete next.targetOfferDeclinedKcal;
+  return commitPlan(next, now);
+}
+
+/**
  * Ramadan mode switched from the week: the plan regenerates with the fasting
  * caps (or without them), keeping its seed, week numbers and swaps that still
  * fit. Logs are separate and untouched.

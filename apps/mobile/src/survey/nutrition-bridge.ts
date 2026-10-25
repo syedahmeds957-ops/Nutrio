@@ -2,15 +2,14 @@ import {
   BMRCalculationInput,
   calculateBMR,
   calculateTDEE,
+  estimateWeeklyExerciseKcal,
   TDEECalculationInput,
   validateClinicalSafety,
 } from '@nutrio/nutrition-core';
-import {
-  JobCategory,
-  LifestyleSurveyPayload,
-  TrainingType,
-  WorkoutIntensity,
-} from './types.js';
+import { JobCategory, LifestyleSurveyPayload } from './types.js';
+
+// Lives in nutrition-core now (Hard Rule 2); still offered here for survey callers.
+export { estimateWeeklyExerciseKcal };
 
 export const JOB_OCCUPATIONAL_FACTORS: Record<JobCategory, number> = {
   desk_sedentary: 1.2,
@@ -20,31 +19,6 @@ export const JOB_OCCUPATIONAL_FACTORS: Record<JobCategory, number> = {
 };
 
 export const KCAL_PER_CUP_CHAI_SUGAR = 65; // ~1.5 tsp sugar (30 kcal) + whole milk (35 kcal)
-
-export function estimateWeeklyExerciseKcal(
-  trainingType: TrainingType,
-  frequencyDaysPerWeek: number,
-  sessionDurationMins: number,
-  intensity: WorkoutIntensity
-): number {
-  if (trainingType === 'none' || frequencyDaysPerWeek === 0) return 0;
-
-  const kcalPerMin =
-    {
-      gym_resistance: 6.5,
-      cardio_running: 10.0,
-      sports_cricket_football: 8.0,
-      home_calisthenics: 5.5,
-      daily_brisk_walking: 4.0,
-      none: 0,
-    }[trainingType] ?? 5.0;
-
-  const intensityMultiplier =
-    intensity === 'light' ? 0.8 : intensity === 'high' ? 1.25 : 1.0;
-
-  const kcalPerSession = sessionDurationMins * kcalPerMin * intensityMultiplier;
-  return Math.round(kcalPerSession * frequencyDaysPerWeek);
-}
 
 export function bridgeSurveyToNutritionCore(survey: LifestyleSurveyPayload) {
   const { basics, occupational, exercise, lifestyleDesi, healthClinical } = survey;

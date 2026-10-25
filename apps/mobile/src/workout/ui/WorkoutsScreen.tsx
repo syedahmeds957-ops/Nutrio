@@ -8,7 +8,16 @@ import { useRegion } from '../../common/region/index.js';
 import { useTranslation } from '../../i18n/index.js';
 import { GuestAuthModal } from '../../tracker/ui/GuestAuthModal.js';
 import { localDateKey } from '../../common/dateKey.js';
-import { createWorkoutPlan, recordWorkout, resetExercise, setRamadanMode, swapExercise, updateWorkoutPlan } from '../planActions.js';
+import { proposeTargetUpdate, type TargetUpdateProposal } from '../calorieLink.js';
+import {
+  createWorkoutPlan,
+  recordTargetOffer,
+  recordWorkout,
+  resetExercise,
+  setRamadanMode,
+  swapExercise,
+  updateWorkoutPlan,
+} from '../planActions.js';
 import { defaultWorkoutSettings } from '../settingsFromSurvey.js';
 import { settingsForEdit } from '../setupState.js';
 import { hydrateWorkoutPlan, loadWorkoutPlan } from '../workoutStorage.js';
@@ -19,6 +28,7 @@ import { ImprovedScreen } from './ImprovedScreen.js';
 import { buildWeekView } from '../weekView.js';
 import { WorkoutDayScreen } from './WorkoutDayScreen.js';
 import { WorkoutWeekScreen } from './WorkoutWeekScreen.js';
+import { TargetUpdateSheet } from './TargetUpdateSheet.js';
 
 interface WorkoutsScreenProps {
   survey: LifestyleSurveyPayload | null;
@@ -30,6 +40,8 @@ interface WorkoutsScreenProps {
   isGuest?: boolean;
   /** Takes a guest to sign-in. */
   onRequireAuth?: () => void;
+  /** The user accepted the calorie target their new workout plan implies. */
+  onAcceptPlan?: (plan: ComputedUserPlan) => void;
 }
 
 /** The Workouts route: a sample to explore for guests, the user's own plan for everyone signed in. */
@@ -104,7 +116,13 @@ const GuestWorkouts: React.FC<{ initialDayKey?: string | null; onBack: () => voi
 };
 
 /** A signed-in user's Workouts: setup the first time, then the week and its days, and setup again to edit the plan. */
-const AccountWorkouts: React.FC<Omit<WorkoutsScreenProps, 'isGuest' | 'onRequireAuth'>> = ({ survey, activePlan, initialDayKey, onBack }) => {
+const AccountWorkouts: React.FC<Omit<WorkoutsScreenProps, 'isGuest' | 'onRequireAuth'>> = ({
+  survey,
+  activePlan,
+  initialDayKey,
+  onBack,
+  onAcceptPlan,
+}) => {
   const { theme } = useTheme();
   const { activeRegion } = useRegion();
   const [selectedDayKey, setSelectedDayKey] = useState<string | null>(initialDayKey ?? null);
@@ -118,6 +136,8 @@ const AccountWorkouts: React.FC<Omit<WorkoutsScreenProps, 'isGuest' | 'onRequire
   const [saved, setSaved] = useState(false);
   /** Shown once after a routine the user entered becomes their plan. */
   const [improvements, setImprovements] = useState<RoutineChange[] | null>(null);
+  /** Offered after setup or an edit; it waits behind "What we improved". */
+  const [targetProposal, setTargetProposal] = useState<TargetUpdateProposal | null>(null);
   const savedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -147,12 +167,31 @@ const AccountWorkouts: React.FC<Omit<WorkoutsScreenProps, 'isGuest' | 'onRequire
   // Health answers can change after the plan was made; the survey is the source for the intensity cap.
   const fromSurvey = defaultWorkoutSettings({ survey, plan: activePlan });
 
-  /** A new or edited plan; when it came from the user's own routine, show what changed and why. */
+  /**
+   * A new or edited plan; when it came from the user's own routine, show what
+   * changed and why. When its training moves the calorie target, offer the new one.
+   */
   const adopt = (next: WeeklyWorkoutPlan, options?: { improve: boolean }) => {
     setPlan(next);
     const routine = next.settings.profile?.routine;
     if (options?.improve && routine) setImprovements(describeRoutineChanges(routine, next));
+    setTargetProposal(proposeTargetUpdate({ isGuest: false, activePlan, workoutPlan: next, survey }));
   };
+
+  const targetSheet = (
+    <TargetUpdateSheet
+      proposal={targetProposal}
+      onUpdate={() => {
+        if (targetProposal) onAcceptPlan?.(targetProposal.nextPlan);
+        if (plan) setPlan(recordTargetOffer(plan, undefined));
+        setTargetProposal(null);
+      }}
+      onNotNow={() => {
+        if (plan && targetProposal) setPlan(recordTargetOffer(plan, targetProposal.weeklyTrainingKcal));
+        setTargetProposal(null);
+      }}
+    />
+  );
 
   if (plan && improvements) {
     return <ImprovedScreen plan={plan} changes={improvements} onDone={() => setImprovements(null)} />;
@@ -205,36 +244,42 @@ const AccountWorkouts: React.FC<Omit<WorkoutsScreenProps, 'isGuest' | 'onRequire
 
   if (selectedDay?.session) {
     return (
-      <WorkoutDayScreen
-        key={selectedDay.dateKey}
-        plan={plan}
-        day={{ ...selectedDay, session: selectedDay.session }}
-        weekIndex={week.weekIndex}
-        todayKey={todayKey}
-        logs={logs}
-        autoStart={autoStartKey === selectedDay.dateKey}
-        onBack={closeDay}
-        onSaved={onSaved}
-        onSwap={(slotId, exerciseId) => setPlan(swapExercise(plan, slotId, exerciseId, week.weekIndex))}
-        onResetSwap={(slotId) => setPlan(resetExercise(plan, slotId))}
-      />
+      <>
+        <WorkoutDayScreen
+          key={selectedDay.dateKey}
+          plan={plan}
+          day={{ ...selectedDay, session: selectedDay.session }}
+          weekIndex={week.weekIndex}
+          todayKey={todayKey}
+          logs={logs}
+          autoStart={autoStartKey === selectedDay.dateKey}
+          onBack={closeDay}
+          onSaved={onSaved}
+          onSwap={(slotId, exerciseId) => setPlan(swapExercise(plan, slotId, exerciseId, week.weekIndex))}
+          onResetSwap={(slotId) => setPlan(resetExercise(plan, slotId))}
+        />
+        {targetSheet}
+      </>
     );
   }
 
   return (
-    <WorkoutWeekScreen
-      plan={plan}
-      week={week}
-      saved={saved}
-      onRamadanChange={(ramadan) => setPlan(setRamadanMode(plan, ramadan))}
-      onBack={onBack}
-      onEdit={() => setEditing(true)}
-      onOpenDay={setSelectedDayKey}
-      onDoToday={(dateKey) => {
-        setAutoStartKey(dateKey);
-        setSelectedDayKey(dateKey);
-      }}
-    />
+    <>
+      <WorkoutWeekScreen
+        plan={plan}
+        week={week}
+        saved={saved}
+        onRamadanChange={(ramadan) => setPlan(setRamadanMode(plan, ramadan))}
+        onBack={onBack}
+        onEdit={() => setEditing(true)}
+        onOpenDay={setSelectedDayKey}
+        onDoToday={(dateKey) => {
+          setAutoStartKey(dateKey);
+          setSelectedDayKey(dateKey);
+        }}
+      />
+      {targetSheet}
+    </>
   );
 };
 

@@ -1814,6 +1814,16 @@
       "start": "Create an account to start",
       "promptTitle": "Create an account to train",
       "promptBody": "You’re looking at a sample plan. Sign in or create a free account to build your own plan and log your workouts."
+    },
+    "calories": {
+      "title": "Update your daily target?",
+      "bodyUp": "Your new plan adds about {{count}} kcal a day of training, so your daily calorie target would go up.",
+      "bodyDown": "Your new plan has about {{count}} kcal a day less training, so your daily calorie target would go down.",
+      "change": "From {{from}} to {{to}} kcal a day",
+      "kcalDay": "kcal/day",
+      "later": "You can change this any time in Targets.",
+      "update": "Update target",
+      "notNow": "Not now"
     }
   }
 }

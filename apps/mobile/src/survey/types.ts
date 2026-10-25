@@ -1,4 +1,4 @@
-import { BiologicalSex } from '@nutrio/nutrition-core';
+import { BiologicalSex, type TrainingType, type WorkoutIntensity } from '@nutrio/nutrition-core';
 
 export type SurveyStepId =
   | 'basics'
@@ -33,15 +33,8 @@ export interface SurveyOccupational {
   commuteType: 'bike_motorbike' | 'car_cab' | 'public_transport' | 'walking' | 'work_from_home';
 }
 
-export type TrainingType =
-  | 'none'
-  | 'gym_resistance'
-  | 'cardio_running'
-  | 'home_calisthenics'
-  | 'sports_cricket_football'
-  | 'daily_brisk_walking';
-
-export type WorkoutIntensity = 'light' | 'moderate' | 'high';
+// The survey's training answers are nutrition-core's exercise types.
+export type { TrainingType, WorkoutIntensity };
 
 export interface SurveyExercise {
   trainingType: TrainingType;

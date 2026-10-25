@@ -420,6 +420,17 @@ function NutrioAppContent() {
     }
   };
 
+  /** New targets the user accepted (a check-in, or a workout plan's training): kept on the device and backed up. */
+  const acceptPlan = (accepted: ComputedUserPlan) => {
+    setActivePlan(accepted);
+    savePersistedPlan(accepted);
+    resolveCurrentProfileId()
+      .then((profileId) => (profileId ? syncNutritionTargets(profileId, accepted) : false))
+      .catch((err) => {
+        console.warn('[NutrioApp] Syncing accepted targets failed:', err);
+      });
+  };
+
   // Every screen's back button and the edge swipe use this, so they agree.
   const goBack = () => setNav((current) => goBackFrom(current, backFallback()));
   const canSwipeBack = [
@@ -733,14 +744,7 @@ function NutrioAppContent() {
           keyActionLever: t(`app.checkin.${checkIn.status}.keyAction`),
         }}
         onAcceptNewTargets={() => {
-          const accepted = checkIn.proposedPlan;
-          setActivePlan(accepted);
-          savePersistedPlan(accepted);
-          resolveCurrentProfileId()
-            .then((profileId) => (profileId ? syncNutritionTargets(profileId, accepted) : false))
-            .catch((err) => {
-              console.warn('[NutrioApp] Syncing recalibrated targets failed:', err);
-            });
+          acceptPlan(checkIn.proposedPlan);
           goBack();
         }}
         onBack={goBack}
@@ -801,6 +805,7 @@ function NutrioAppContent() {
         onBack={goBack}
         isGuest={isGuest}
         onRequireAuth={() => resetTo('auth')}
+        onAcceptPlan={acceptPlan}
       />
     );
   }

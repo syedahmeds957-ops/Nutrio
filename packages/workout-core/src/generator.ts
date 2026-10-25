@@ -295,6 +295,7 @@ export function regeneratePlan(
     const fitsCardio = cardioChoices.get(slotId)?.includes(exerciseId);
     if (fitsSlot || fitsCardio) next.swaps[slotId] = exerciseId;
   }
+  if (previous.targetOfferDeclinedKcal !== undefined) next.targetOfferDeclinedKcal = previous.targetOfferDeclinedKcal;
   return next;
 }
 

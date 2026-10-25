@@ -371,6 +371,12 @@ describe('weeks, rotation and swaps', () => {
     const atHome = regeneratePlan(original, settings({ location: 'home_none' }));
     expect(atHome.swaps[benchSlot]).toBeUndefined();
   });
+
+  it('keeps a declined calorie-target offer through a rebuild', () => {
+    const declined = { ...plan(settings()), targetOfferDeclinedKcal: 1130 };
+    expect(regeneratePlan(declined, settings({ sessionMinutes: 75 })).targetOfferDeclinedKcal).toBe(1130);
+    expect(regeneratePlan(plan(settings()), settings()).targetOfferDeclinedKcal).toBeUndefined();
+  });
 });
 
 describe('validation', () => {

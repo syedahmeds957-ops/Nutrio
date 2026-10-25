@@ -98,6 +98,7 @@ Assumptions accepted with the approval:
 
 | Date | Phase | Change | Why |
 |---|---|---|---|
+| 2026-10-25 | 9 | User: the cardio block counts by intensity (easy 4.0, moderate or intervals 8.0 kcal/min); the rest-day walk isn't counted; no offer while Ramadan shortens sessions. No offer without a known baseline or when a floor holds the target. "Not now" is stored on the workout plan (`targetOfferDeclinedKcal`, synced, kept through rebuilds) and asked again only when the training changes. `acceptPlan` is shared with the check-in | Phase 9 was written before 6b, 7 and 8b; see the phase 9 record |
 | 2026-10-22 | plan | Old phase 3 split into phases 3 and 4 (11 phases now) | It touched 12+ files across storage, navigation and three screens |
 | 2026-10-22 | plan | No `resolveWorkoutsDestination`; workouts need no plan or survey | Nothing to resolve; a resolver would be dead indirection |
 | 2026-10-22 | plan | Added Phase 0: all screens designed up front as clickable HTML mockups + a design spec, approved before Phase 3 | User chose mockups and up-front design so the look is settled before building |
@@ -138,6 +139,6 @@ Assumptions accepted with the approval:
 | 7 Ramadan mode | done 2026-10-23: web 14/14 ([record](phase-07-ramadan-mode.md#execution-record-2026-10-23)) | `a9828f3` |
 | 8 Cloud sync | done 2026-10-25: migration applied, Checkpoint B 12/12 on web ([record](phase-08-cloud-sync.md#execution-record-2026-10-25)) | `70b79f8` |
 | 8b Guest preview | done 2026-10-25: mockups approved, web guest run 20/20 ([record](phase-08b-guest-preview.md#execution-record-2026-10-25)) | `17704fa` |
-| 9 Calorie link | not started | |
+| 9 Calorie link | done 2026-10-25: web run (EN + AR, accept, decline, re-save, cloud restore) ([record](phase-09-calorie-link.md#execution-record-2026-10-25)) | |
 | 10 Coach | not started | |
 | 11 Check-in adherence | not started | |
