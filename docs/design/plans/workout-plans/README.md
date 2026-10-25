@@ -143,4 +143,4 @@ Assumptions accepted with the approval:
 | 8b Guest preview | done 2026-10-25: mockups approved, web guest run 20/20 ([record](phase-08b-guest-preview.md#execution-record-2026-10-25)) | `17704fa` |
 | 9 Calorie link | done 2026-10-25: web run (EN + AR, accept, decline, re-save, cloud restore) ([record](phase-09-calorie-link.md#execution-record-2026-10-25)) | `ecc4ef7` |
 | 10 Coach | done 2026-10-25: coach-chat deployed, web run on the live coach (EN + AR) ([record](phase-10-coach.md#execution-record-2026-10-25)) | `8f4d201` |
-| 11 Check-in adherence | done 2026-10-25: Workouts card on the check-in; pre-plan days never missed (both screens); web PK + SA ([record](phase-11-checkin-adherence.md#execution-record-2026-10-25)) | |
+| 11 Check-in adherence | done 2026-10-25: Workouts card on the check-in; pre-plan days never missed (both screens); web PK + SA ([record](phase-11-checkin-adherence.md#execution-record-2026-10-25)) | `7322165` |
