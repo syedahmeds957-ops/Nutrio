@@ -31,6 +31,7 @@ A signed-in user or a guest can set up a weekly workout plan for home or gym. Th
 | 6c | "Tell us more" setup + improve an existing routine (added 2026-10-23; 3 slices) | L | 6b | [phase-06c](phase-06c-tell-us-more-and-routine-import.md) |
 | 7 | Ramadan mode | S | 4 | [phase-07](phase-07-ramadan-mode.md) |
 | 8 | Cloud sync | M | 5 | [phase-08](phase-08-cloud-sync.md) |
+| 8b | Guests explore only: sample week, no building or logging (added 2026-10-25) | S | 8 | [phase-08b](phase-08b-guest-preview.md) |
 | 9 | Calorie target link | S | 3 | [phase-09](phase-09-calorie-link.md) |
 | 10 | Coach knows the plan + coach swaps | M | 6 | [phase-10](phase-10-coach.md) |
 | 11 | Weekly check-in shows training | S | 5 | [phase-11](phase-11-checkin-adherence.md) |
@@ -56,7 +57,7 @@ Phases 1–4 are the critical path. After phase 4, phases 5, 6, 7 and 9 are inde
 | D2 | A saved plan **offers** to update the calorie target; never silently |
 | D3 | Ramadan mode covers **workouts only** in this plan |
 | D4 | Setup runs **the first time Workouts is opened**, prefilled from the survey |
-| D5 | **Guests can use workouts**, stored on the device only |
+| D5 | ~~Guests can use workouts, stored on the device only~~ **Replaced 2026-10-25:** guest mode is for exploring. Guests see a sample week and need an account to build a plan or log (phase 8b) |
 
 Assumptions accepted with the approval:
 1. I write the Arabic exercise names and instructions in phase 1. You or another Arabic speaker spot-check them before release.
@@ -107,6 +108,8 @@ Assumptions accepted with the approval:
 | 2026-10-22 | 0 | `textSecondary` (light) → `#556275`, `floatingBarInactive` (dark) → `#9CA3AF` in phase 3 | Existing values fail AA contrast on small labels |
 | 2026-10-22 | 1 | Own EN/AR instructions, 169 exercises, `timed` field, Vitest image setup file, flutter kicks moved to glutes/bench | Source text didn't match its photos; see the phase 1 record |
 | 2026-10-22 | 2 | Empty-pool fallback patterns for home with no equipment | Phase 1 known gaps |
+| 2026-10-25 | 8b | Guest banner buttons stacked full width instead of side by side (the labels wrapped inside their pills at 360–390 px) | See the phase 8b record |
+| 2026-10-25 | 8b | User: guest mode is just to explore the app. Guests can't build a plan or log; they preview a sample week, and every action asks them to sign up. Replaces D5 | Phase 8b file |
 | 2026-10-25 | 8 | Pushes from `planActions` (user edits only), not storage. New `updatedAt` save time sent as the row's `updated_at`. Logs merge on `dateKey + day`. Logs are pushed as a batch of days and fetched for the year the device keeps. A failed fetch leaves that side untouched | See the phase 8 record |
 | 2026-10-23 | 7 | User: Ramadan mode only during Ramadan. The switch means "use during Ramadan"; Umm al-Qura dates 2025–2040 stored as data; plans rebuild when Ramadan starts and ends (`planForDate`); the week shows the switch only near or during Ramadan. Automatic Ramadan dates moved from out of scope into phase 7 | See the phase 7 record |
 | 2026-10-23 | 6c | User: questions follow earlier answers (beginner checks vs current lifts vs returning after a break); cardio asked per day. Routine stored in the profile so edits keep it; lifts count like likes; push-only surplus days become upper days; move up/down instead of drag | See the phase 6c record |
@@ -134,6 +137,7 @@ Assumptions accepted with the approval:
 | 6c Tell us more + routine import | done 2026-10-23: questions follow experience, routine builder, "What we improved"; web 18/18 + 13/13 ([record](phase-06c-tell-us-more-and-routine-import.md#execution-record-2026-10-23)) | `ed98d43` |
 | 7 Ramadan mode | done 2026-10-23: web 14/14 ([record](phase-07-ramadan-mode.md#execution-record-2026-10-23)) | `a9828f3` |
 | 8 Cloud sync | done 2026-10-25: migration applied, Checkpoint B 12/12 on web ([record](phase-08-cloud-sync.md#execution-record-2026-10-25)) | |
+| 8b Guest preview | done 2026-10-25: mockups approved, web guest run 20/20 ([record](phase-08b-guest-preview.md#execution-record-2026-10-25)) | |
 | 9 Calorie link | not started | |
 | 10 Coach | not started | |
 | 11 Check-in adherence | not started | |

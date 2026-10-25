@@ -43,6 +43,7 @@ import { ArrowsClockwise } from 'phosphor-react-native/src/icons/ArrowsClockwise
 import { Buildings } from 'phosphor-react-native/src/icons/Buildings';
 import { DotsThree } from 'phosphor-react-native/src/icons/DotsThree';
 import { Moon } from 'phosphor-react-native/src/icons/Moon';
+import { Eye } from 'phosphor-react-native/src/icons/Eye';
 
 export type IconName =
   | 'flame'
@@ -84,7 +85,8 @@ export type IconName =
   | 'x'
   | 'building'
   | 'more'
-  | 'moon';
+  | 'moon'
+  | 'eye';
 
 /** Phosphor (https://phosphoricons.com) glyph behind each app icon name. */
 const GLYPHS: Record<IconName, React.ComponentType<PhosphorIconProps>> = {
@@ -128,6 +130,7 @@ const GLYPHS: Record<IconName, React.ComponentType<PhosphorIconProps>> = {
   building: Buildings,
   more: DotsThree,
   moon: Moon,
+  eye: Eye,
 };
 
 interface IconProps {

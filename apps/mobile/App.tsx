@@ -83,6 +83,7 @@ import { hydrateWorkoutLogs, loadWorkoutLogs, releaseWorkoutLogCache } from './s
 import { setActiveDraft } from './src/workout/workoutDraft.js';
 import { TimeoutError, withTimeout } from './src/common/withTimeout.js';
 import { WorkoutsScreen } from './src/workout/ui/WorkoutsScreen.js';
+import { samplePlan } from './src/workout/samplePlan.js';
 import { fetchActivityHistory } from './src/sync/activitySync.js';
 import { applyWorkoutBackup, fetchWorkoutBackup } from './src/sync/workoutSync.js';
 import { purgeLegacyAiKeys } from './src/ai/ai-service.js';
@@ -521,13 +522,9 @@ function NutrioAppContent() {
           }
         }}
         onExploreGuest={() => {
+          // Guests explore: Workouts shows them a sample plan, so no stored workouts are loaded.
           setIsGuest(true);
-          // Guests skip the signed-in restore, so their workout plan and logs are
-          // loaded here before the dashboard's Today card reads them.
-          Promise.all([
-            hydrateWorkoutPlan().catch(recoverWith('Restoring guest workout plan', undefined)),
-            hydrateWorkoutLogs().catch(recoverWith('Restoring guest workout logs', undefined)),
-          ]).finally(() => resetTo('active_tracker'));
+          resetTo('active_tracker');
         }}
       />
     );
@@ -690,8 +687,8 @@ function NutrioAppContent() {
           setWorkoutDayKey(dateKey);
           applyDestination({ route: 'workouts' });
         }}
-        workoutPlan={loadWorkoutPlan()}
-        workoutLogs={loadWorkoutLogs()}
+        workoutPlan={isGuest ? samplePlan(localDateKey()) : loadWorkoutPlan()}
+        workoutLogs={isGuest ? [] : loadWorkoutLogs()}
         onOpenWeeklyCheckIn={() =>
           applyDestination(resolveWeeklyCheckInDestination(routingInput), 'weekly_checkin')
         }
@@ -802,6 +799,8 @@ function NutrioAppContent() {
         activePlan={activePlan}
         initialDayKey={workoutDayKey}
         onBack={goBack}
+        isGuest={isGuest}
+        onRequireAuth={() => resetTo('auth')}
       />
     );
   }

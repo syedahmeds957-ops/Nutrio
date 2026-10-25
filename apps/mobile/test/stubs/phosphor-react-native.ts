@@ -47,3 +47,4 @@ export const ArrowsClockwise = Icon;
 export const Buildings = Icon;
 export const DotsThree = Icon;
 export const Moon = Icon;
+export const Eye = Icon;

@@ -15,12 +15,17 @@ interface GuestAuthModalProps {
   visible: boolean;
   onClose: () => void;
   onSignIn: () => void;
+  /** Wording for the action that was blocked; defaults to the general "save progress" copy. */
+  title?: string;
+  description?: string;
 }
 
 export const GuestAuthModal: React.FC<GuestAuthModalProps> = ({
   visible,
   onClose,
   onSignIn,
+  title,
+  description,
 }) => {
   const { theme, isDark } = useTheme();
   const { t } = useTranslation();
@@ -62,10 +67,10 @@ export const GuestAuthModal: React.FC<GuestAuthModalProps> = ({
 
               {/* Title & Description */}
               <Text style={[styles.title, dir.textCenter, { color: theme.colors.textPrimary }]}>
-                {t('tracker.guestModal.title')}
+                {title ?? t('tracker.guestModal.title')}
               </Text>
               <Text style={[styles.description, dir.textCenter, { color: theme.colors.textSecondary }]}>
-                {t('tracker.guestModal.description')}
+                {description ?? t('tracker.guestModal.description')}
               </Text>
 
               {/* Actions */}

@@ -207,6 +207,8 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   const [diaryDayOffset, setDiaryDayOffset] = useState(0);
   const [activeTab, setActiveTab] = useState<'today' | 'diary'>('today');
   const [guestModalVisible, setGuestModalVisible] = useState(false);
+  /** A guest tapped Start on the sample workout. */
+  const [workoutPromptVisible, setWorkoutPromptVisible] = useState(false);
 
   // Profile modal with minimalist animation
   const [profileVisible, setProfileVisible] = useState(false);
@@ -644,7 +646,8 @@ const defaultSlotForNow = (): MealSlot => {
             todayKey={localDateKey()}
             onSetUp={onOpenWorkouts}
             onSeeWeek={onOpenWorkouts}
-            onOpenDay={onOpenWorkoutDay ?? (() => onOpenWorkouts())}
+            onOpenDay={isGuest ? () => setWorkoutPromptVisible(true) : (onOpenWorkoutDay ?? (() => onOpenWorkouts()))}
+            sample={isGuest}
           />
         )}
 
@@ -935,6 +938,16 @@ const defaultSlotForNow = (): MealSlot => {
         onClose={() => setGuestModalVisible(false)}
         onSignIn={() => {
           setGuestModalVisible(false);
+          onRequireAuth?.();
+        }}
+      />
+      <GuestAuthModal
+        visible={workoutPromptVisible}
+        title={t('workout.guest.promptTitle')}
+        description={t('workout.guest.promptBody')}
+        onClose={() => setWorkoutPromptVisible(false)}
+        onSignIn={() => {
+          setWorkoutPromptVisible(false);
           onRequireAuth?.();
         }}
       />

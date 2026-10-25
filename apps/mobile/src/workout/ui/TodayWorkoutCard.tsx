@@ -16,12 +16,14 @@ interface TodayWorkoutCardProps {
   onSetUp: () => void;
   onOpenDay: (dateKey: string) => void;
   onSeeWeek: () => void;
+  /** A guest's sample plan: tagged so it never reads as their own. */
+  sample?: boolean;
 }
 
 const THUMBNAILS = 4;
 
 /** The dashboard's small link to training: set up, start today's session, or see what's next on a rest day. */
-export const TodayWorkoutCard: React.FC<TodayWorkoutCardProps> = ({ plan, logs = [], todayKey, onSetUp, onOpenDay, onSeeWeek }) => {
+export const TodayWorkoutCard: React.FC<TodayWorkoutCardProps> = ({ plan, logs = [], todayKey, onSetUp, onOpenDay, onSeeWeek, sample }) => {
   const { theme } = useTheme();
   const c = theme.colors;
   const { t } = useTranslation();
@@ -41,6 +43,11 @@ export const TodayWorkoutCard: React.FC<TodayWorkoutCardProps> = ({ plan, logs =
           <Icon name="dumbbell" size={18} color={c.primaryAccessible} />
         </View>
         <Text style={[styles.overline, dir.text, { color: c.textSecondary }]}>{t('workout.card.overline')}</Text>
+        {sample ? (
+          <View style={[styles.sampleTag, { backgroundColor: c.surfaceSecondary }]}>
+            <Text style={[styles.sampleTagText, { color: c.textSecondary }]}>{t('workout.guest.sampleTag')}</Text>
+          </View>
+        ) : null}
       </View>
 
       {!plan && (
@@ -135,4 +142,6 @@ const styles = StyleSheet.create({
   primaryText: { fontSize: 14, fontWeight: '800' },
   secondary: { minHeight: 44, borderRadius: 999, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
   secondaryText: { fontSize: 14, fontWeight: '700' },
+  sampleTag: { paddingHorizontal: 8, paddingVertical: 2, borderRadius: 999 },
+  sampleTagText: { fontSize: 11, fontWeight: '800' },
 });

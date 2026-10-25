@@ -27,13 +27,25 @@ interface WorkoutWeekScreenProps {
   saved?: boolean;
   /** Ramadan mode switched from the week; regenerates the plan. */
   onRamadanChange?: (ramadan: WorkoutSettings['ramadan']) => void;
+  /** Set for guests: the week is a sample, and starting or editing asks them to create an account. */
+  onRequireAccount?: () => void;
 }
 
 /**
  * The Workouts home: today's workout with every exercise listed, then the
  * week. Training only; meals stay on the dashboard.
  */
-export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({ plan, week, onBack, onEdit, onOpenDay, onDoToday, saved, onRamadanChange }) => {
+export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({
+  plan,
+  week,
+  onBack,
+  onEdit,
+  onOpenDay,
+  onDoToday,
+  saved,
+  onRamadanChange,
+  onRequireAccount,
+}) => {
   const { theme } = useTheme();
   const c = theme.colors;
   const { t } = useTranslation();
@@ -51,6 +63,7 @@ export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({ plan, week
   const ramadanNear = Boolean(nextRamadan && addDaysToKey(today.dateKey, RAMADAN_NOTICE_DAYS) >= nextRamadan.start);
   const next = today.session ? null : nextTrainingDay(plan, today.dateKey);
   const todayDone = today.status === 'done';
+  const sample = Boolean(onRequireAccount);
   const doneFg = theme.isDark ? c.success : '#166534';
 
   const meta = (exercises: number, minutes: number) =>
@@ -65,9 +78,41 @@ export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({ plan, week
 
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: c.canvas }]}>
-      <WorkoutHeader title={t('workout.title')} onBack={onBack} action={{ label: t('workout.editPlan'), onPress: onEdit }} />
+      <WorkoutHeader title={t('workout.title')} onBack={onBack} action={sample ? undefined : { label: t('workout.editPlan'), onPress: onEdit }} />
 
       <ScrollView contentContainerStyle={styles.content}>
+        {onRequireAccount ? (
+          <View style={[styles.restCard, styles.sampleCard, { backgroundColor: c.surface, borderColor: c.border }]}>
+            <View style={styles.sampleTop}>
+              <View style={[styles.sampleIcon, { backgroundColor: c.primaryLight }]}>
+                <Icon name="eye" size={18} color={c.primaryAccessible} />
+              </View>
+              <View style={styles.flex}>
+                <Text style={[styles.sampleTitle, dir.text, { color: c.textPrimary }]}>{t('workout.guest.bannerTitle')}</Text>
+                <Text style={[styles.sampleBody, dir.text, { color: c.textSecondary }]}>{t('workout.guest.bannerBody')}</Text>
+              </View>
+            </View>
+            <View style={styles.sampleActions}>
+              <TouchableOpacity
+                accessibilityRole="button"
+                onPress={onRequireAccount}
+                activeOpacity={0.8}
+                style={[styles.sampleButton, { backgroundColor: c.primaryLime }]}
+              >
+                <Text numberOfLines={1} style={[styles.secondaryButtonText, { color: c.limeText }]}>{t('workout.guest.cta')}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                accessibilityRole="button"
+                onPress={onRequireAccount}
+                activeOpacity={0.8}
+                style={[styles.sampleButton, { backgroundColor: c.surfaceSecondary, borderColor: c.border, borderWidth: 1 }]}
+              >
+                <Text numberOfLines={1} style={[styles.secondaryButtonText, { color: c.textPrimary }]}>{t('workout.guest.haveAccount')}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ) : null}
+
         {today.session ? (
           <View style={[styles.todayCard, { backgroundColor: c.surface, borderColor: c.primaryLime }]}>
             <View style={styles.todayTop}>
@@ -129,7 +174,7 @@ export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({ plan, week
             ) : (
               <TouchableOpacity
                 accessibilityRole="button"
-                onPress={() => onOpenDay(today.dateKey)}
+                onPress={onRequireAccount ?? (() => onOpenDay(today.dateKey))}
                 activeOpacity={0.8}
                 style={[styles.primaryButton, { backgroundColor: c.primaryLime }]}
               >
@@ -159,11 +204,13 @@ export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({ plan, week
 
         <View style={[styles.summary, { backgroundColor: c.primaryLime }]}>
           <View style={styles.summaryTop}>
-            <Text style={[styles.overline, { color: c.limeText }]}>{t('workout.week.label', { number: week.weekIndex + 1 })}</Text>
+            <Text style={[styles.overline, { color: c.limeText }]}>
+              {sample ? t('workout.guest.sampleWeek') : t('workout.week.label', { number: week.weekIndex + 1 })}
+            </Text>
             <Text style={[styles.splitName, { color: c.limeText }]}>{t(`workout.split.${plan.split}`)}</Text>
           </View>
           <Text style={[styles.summaryDone, dir.text, { color: c.limeText }]}>
-            {t('workout.week.done', { done: week.doneDays, count: week.trainingDays })}
+            {sample ? t('workout.guest.perWeek', { count: week.trainingDays }) : t('workout.week.done', { done: week.doneDays, count: week.trainingDays })}
           </Text>
           <View style={styles.segments}>
             {Array.from({ length: week.trainingDays }, (_, i) => (
@@ -208,7 +255,9 @@ export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({ plan, week
           }
 
           const isToday = day.dateKey === today.dateKey;
-          const chip = chipColors[day.status];
+          // A sample has no history: earlier days carry no status, and nothing is missed.
+          const status: DayStatus | null = sample ? (day.dateKey < today.dateKey ? null : isToday ? 'today' : 'planned') : day.status;
+          const chip = status ? chipColors[status] : null;
           return (
             <TouchableOpacity
               key={day.dateKey}
@@ -232,7 +281,7 @@ export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({ plan, week
                     <Text style={[styles.slotText, { color: c.textSecondary }]}>{slotLabel}</Text>
                   </View>
                 ) : null}
-                {day.status === 'missed' ? (
+                {status === 'missed' ? (
                   <TouchableOpacity
                     accessibilityRole="button"
                     onPress={() => onDoToday(day.dateKey)}
@@ -242,10 +291,12 @@ export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({ plan, week
                   </TouchableOpacity>
                 ) : null}
               </View>
-              <View style={[styles.statusChip, { backgroundColor: chip.bg }]}>
-                {day.status === 'done' ? <Icon name="check" size={12} color={chip.fg} strokeWidth={3} /> : null}
-                <Text style={[styles.statusText, { color: chip.fg }]}>{t(`workout.status.${day.status}`)}</Text>
-              </View>
+              {status && chip ? (
+                <View style={[styles.statusChip, { backgroundColor: chip.bg }]}>
+                  {status === 'done' ? <Icon name="check" size={12} color={chip.fg} strokeWidth={3} /> : null}
+                  <Text style={[styles.statusText, { color: chip.fg }]}>{t(`workout.status.${status}`)}</Text>
+                </View>
+              ) : null}
             </TouchableOpacity>
           );
         })}
@@ -318,4 +369,12 @@ const styles = StyleSheet.create({
   ramadanBadgeText: { fontSize: 12, fontWeight: '700' },
   slotRow: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 2 },
   slotText: { fontSize: 12, fontWeight: '600' },
+  sampleCard: { gap: 12 },
+  sampleTop: { flexDirection: 'row', alignItems: 'flex-start', gap: 12 },
+  sampleIcon: { width: 36, height: 36, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+  sampleTitle: { fontSize: 16, fontWeight: '800' },
+  sampleBody: { fontSize: 13, lineHeight: 19, marginTop: 2 },
+  // Stacked full width: side by side, the labels wrapped inside their pills at phone widths.
+  sampleActions: { gap: 8 },
+  sampleButton: { minHeight: 46, borderRadius: 999, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 18 },
 });

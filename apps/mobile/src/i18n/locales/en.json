@@ -1800,6 +1800,20 @@
       "isRamadan": "It's Ramadan · until {{date}}",
       "turnsOn": "Turns on by itself on {{date}}, and off after Eid",
       "next": "Next Ramadan starts {{date}}"
+    },
+    "guest": {
+      "sampleTag": "Sample",
+      "sampleWeek": "SAMPLE WEEK",
+      "perWeek": "{{count}} workout a week",
+      "perWeek_other": "{{count}} workouts a week",
+      "bannerTitle": "This is a sample plan",
+      "bannerBody": "Create a free account to get a plan for your goal, days and equipment, and to log your workouts.",
+      "cta": "Create free account",
+      "haveAccount": "I have an account",
+      "dayNote": "Sample session. Create an account to start it and log your sets.",
+      "start": "Create an account to start",
+      "promptTitle": "Create an account to train",
+      "promptBody": "You’re looking at a sample plan. Sign in or create a free account to build your own plan and log your workouts."
     }
   }
 }

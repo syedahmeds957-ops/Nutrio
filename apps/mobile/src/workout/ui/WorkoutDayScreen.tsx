@@ -52,6 +52,8 @@ interface WorkoutDayScreenProps {
   /** Puts a chosen alternative in the slot (from the swap sheet's own list). */
   onSwap: (slotId: string, exerciseId: string) => void;
   onResetSwap: (slotId: string) => void;
+  /** Set for guests: the day is read-only, and starting it asks them to create an account. */
+  onRequireAccount?: () => void;
 }
 
 const REST_EXTRA_SEC = 30;
@@ -78,6 +80,7 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
   onSaved,
   onSwap,
   onResetSwap,
+  onRequireAccount,
 }) => {
   const { theme } = useTheme();
   const c = theme.colors;
@@ -88,7 +91,10 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
   const targets = useMemo(() => targetsForSession(plan, session, weekIndex, logs), [plan, session, weekIndex, logs]);
   const cardio = cardioForWeek(plan, session, weekIndex);
   const startDraft = () => createDraft(session, targets, todayKey, new Date(), cardio);
-  const [draft, setDraftState] = useState<WorkoutDraft | null>(() => draftFor(session, todayKey) ?? (autoStart && !day.log ? startDraft() : null));
+  const sample = Boolean(onRequireAccount);
+  const [draft, setDraftState] = useState<WorkoutDraft | null>(() =>
+    sample ? null : (draftFor(session, todayKey) ?? (autoStart && !day.log ? startDraft() : null))
+  );
   const [detailId, setDetailId] = useState<string | null>(null);
   /** The slot the detail sheet came from, so it can offer a swap. */
   const [detailSlotId, setDetailSlotId] = useState<string | null>(null);
@@ -194,8 +200,8 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
             setDetailId(target.exerciseId);
             setDetailSlotId(slot.slotId);
           };
-          // Swaps are planned ahead: not mid-workout, and not on a day already done.
-          const canSwap = !logging && !doneLog;
+          // Swaps are planned ahead: not mid-workout, not on a day already done, and not on a guest's sample.
+          const canSwap = !logging && !doneLog && !sample;
           const swapped = canSwap && isUserSwap(plan, slot.slotId);
           const demo = <ExerciseImageLoop exerciseId={target.exerciseId} size={68} square paused={scrolling} />;
           const summary = (
@@ -293,8 +299,8 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
               setDetailId(cardio.exerciseId);
               setDetailSlotId(cardio.slotId);
             }}
-            onOptions={!logging && !doneLog ? () => setOptionsSlotId(cardio.slotId) : undefined}
-            swapped={!logging && !doneLog && isUserSwap(plan, cardio.slotId)}
+            onOptions={!logging && !doneLog && !sample ? () => setOptionsSlotId(cardio.slotId) : undefined}
+            swapped={!logging && !doneLog && !sample && isUserSwap(plan, cardio.slotId)}
             onReset={() => onResetSwap(cardio.slotId)}
             logging={
               draft && cardioIndex >= 0
@@ -318,7 +324,22 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
 
       {!logging ? (
         <View style={[styles.bottomBar, { backgroundColor: c.canvas, borderTopColor: c.border }]}>
-          {doneLog ? (
+          {onRequireAccount ? (
+            <View style={styles.sampleBar}>
+              <View style={styles.sampleNote}>
+                <Icon name="eye" size={16} color={c.textSecondary} />
+                <Text style={[styles.sampleNoteText, dir.text, { color: c.textSecondary }]}>{t('workout.guest.dayNote')}</Text>
+              </View>
+              <TouchableOpacity
+                accessibilityRole="button"
+                onPress={onRequireAccount}
+                activeOpacity={0.8}
+                style={[styles.startButton, { backgroundColor: c.primaryLime }]}
+              >
+                <Text style={[styles.startText, { color: c.limeText }]}>{t('workout.guest.start')}</Text>
+              </TouchableOpacity>
+            </View>
+          ) : doneLog ? (
             <View style={[styles.doneBar, { backgroundColor: c.successLight }]}>
               <Icon name="check" size={16} color={theme.isDark ? c.success : '#166534'} strokeWidth={3} />
               <Text style={[styles.doneText, { color: theme.isDark ? c.success : '#166534' }]}>
@@ -352,7 +373,7 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
         exerciseId={detailId}
         onClose={() => setDetailId(null)}
         onSwap={
-          detailSlotId && !logging && !doneLog
+          detailSlotId && !logging && !doneLog && !sample
             ? () => {
                 setDetailId(null);
                 setSwapSlotId(detailSlotId);
@@ -421,4 +442,7 @@ const styles = StyleSheet.create({
   startText: { fontSize: 16, fontWeight: '800' },
   doneBar: { minHeight: 52, borderRadius: 999, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 },
   doneText: { fontSize: 15, fontWeight: '800' },
+  sampleBar: { gap: 10 },
+  sampleNote: { flexDirection: 'row', alignItems: 'flex-start', gap: 8 },
+  sampleNoteText: { flex: 1, fontSize: 13, lineHeight: 18, fontWeight: '600' },
 });

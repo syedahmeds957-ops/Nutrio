@@ -1,16 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { describeRoutineChanges, type PlannedSlot, type RoutineChange, type WeeklyWorkoutPlan, type WorkoutLog, type WorkoutSettings } from '@nutrio/workout-core';
 import type { LifestyleSurveyPayload } from '../../survey/types.js';
 import type { ComputedUserPlan } from '../../plan/types.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { useTranslation } from '../../i18n/index.js';
+import { GuestAuthModal } from '../../tracker/ui/GuestAuthModal.js';
 import { localDateKey } from '../../common/dateKey.js';
 import { createWorkoutPlan, recordWorkout, resetExercise, setRamadanMode, swapExercise, updateWorkoutPlan } from '../planActions.js';
 import { defaultWorkoutSettings } from '../settingsFromSurvey.js';
 import { settingsForEdit } from '../setupState.js';
 import { hydrateWorkoutPlan, loadWorkoutPlan } from '../workoutStorage.js';
 import { hydrateWorkoutLogs, loadWorkoutLogs } from '../workoutLogStorage.js';
+import { samplePlan } from '../samplePlan.js';
 import { WorkoutSetupScreen } from './WorkoutSetupScreen.js';
 import { ImprovedScreen } from './ImprovedScreen.js';
 import { buildWeekView } from '../weekView.js';
@@ -23,14 +26,89 @@ interface WorkoutsScreenProps {
   /** Opens straight on this day (the dashboard's Start); Back from it still goes to the week. */
   initialDayKey?: string | null;
   onBack: () => void;
+  /** Guests look around a sample plan; building or logging needs an account. */
+  isGuest?: boolean;
+  /** Takes a guest to sign-in. */
+  onRequireAuth?: () => void;
 }
 
-/** The Workouts route: setup the first time, then the week and its days, and setup again to edit the plan. */
-export const WorkoutsScreen: React.FC<WorkoutsScreenProps> = ({ survey, activePlan, initialDayKey, onBack }) => {
+/** The Workouts route: a sample to explore for guests, the user's own plan for everyone signed in. */
+export const WorkoutsScreen: React.FC<WorkoutsScreenProps> = ({ isGuest, onRequireAuth, ...props }) =>
+  isGuest ? (
+    <GuestWorkouts initialDayKey={props.initialDayKey} onBack={props.onBack} onRequireAuth={onRequireAuth} />
+  ) : (
+    <AccountWorkouts {...props} />
+  );
+
+const noop = () => undefined;
+
+/**
+ * A guest's Workouts: the sample week and its days to look at. Every action
+ * (start, edit, swap) asks for an account. Nothing is read from or saved to
+ * storage, and nothing is synced.
+ */
+const GuestWorkouts: React.FC<{ initialDayKey?: string | null; onBack: () => void; onRequireAuth?: () => void }> = ({
+  initialDayKey,
+  onBack,
+  onRequireAuth,
+}) => {
+  const { t } = useTranslation();
+  const { activeRegion } = useRegion();
+  const todayKey = localDateKey();
+  const plan = useMemo(() => samplePlan(todayKey), [todayKey]);
+  const [selectedDayKey, setSelectedDayKey] = useState<string | null>(initialDayKey ?? null);
+  const [prompting, setPrompting] = useState(false);
+  const week = buildWeekView(plan, todayKey, activeRegion);
+  const selectedDay = week.days.find((day) => day.dateKey === selectedDayKey);
+  const requireAccount = () => setPrompting(true);
+
+  return (
+    <>
+      {selectedDay?.session ? (
+        <WorkoutDayScreen
+          key={selectedDay.dateKey}
+          plan={plan}
+          day={{ ...selectedDay, session: selectedDay.session }}
+          weekIndex={week.weekIndex}
+          todayKey={todayKey}
+          logs={[]}
+          onBack={() => setSelectedDayKey(null)}
+          onSaved={noop}
+          onSwap={noop}
+          onResetSwap={noop}
+          onRequireAccount={requireAccount}
+        />
+      ) : (
+        <WorkoutWeekScreen
+          plan={plan}
+          week={week}
+          onBack={onBack}
+          onEdit={requireAccount}
+          onOpenDay={setSelectedDayKey}
+          onDoToday={requireAccount}
+          onRequireAccount={requireAccount}
+        />
+      )}
+      <GuestAuthModal
+        visible={prompting}
+        title={t('workout.guest.promptTitle')}
+        description={t('workout.guest.promptBody')}
+        onClose={() => setPrompting(false)}
+        onSignIn={() => {
+          setPrompting(false);
+          onRequireAuth?.();
+        }}
+      />
+    </>
+  );
+};
+
+/** A signed-in user's Workouts: setup the first time, then the week and its days, and setup again to edit the plan. */
+const AccountWorkouts: React.FC<Omit<WorkoutsScreenProps, 'isGuest' | 'onRequireAuth'>> = ({ survey, activePlan, initialDayKey, onBack }) => {
   const { theme } = useTheme();
   const { activeRegion } = useRegion();
   const [selectedDayKey, setSelectedDayKey] = useState<string | null>(initialDayKey ?? null);
-  // Guests skip the signed-in boot path, so the plan is hydrated here too; it is a no-op when already loaded.
+  // Hydrated here too in case boot's restore hasn't landed; it is a no-op when already loaded.
   const [plan, setPlan] = useState<WeeklyWorkoutPlan | null>(() => loadWorkoutPlan());
   const [loading, setLoading] = useState(plan === null);
   const [editing, setEditing] = useState(false);
