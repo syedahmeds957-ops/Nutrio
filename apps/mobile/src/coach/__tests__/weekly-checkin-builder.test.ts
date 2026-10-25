@@ -5,6 +5,7 @@ import { computePlan } from '../../plan/engine.js';
 import { addDaysToKey } from '../../common/dateKey.js';
 import type { PlanUserContext } from '../../plan/types.js';
 import type { DailyIntakeLog, WeighInEntry } from '../../weight/types.js';
+import { generateWeeklyPlan, type Weekday, type WorkoutLog, type WorkoutSettings } from '@nutrio/workout-core';
 
 const TODAY = '2026-10-14';
 
@@ -166,5 +167,87 @@ describe('buildWeeklyCheckIn', () => {
     });
 
     expect(result.status).toBe("needs_more_data");
+  });
+});
+
+describe('buildWeeklyCheckIn training', () => {
+  // TODAY is Wednesday 14 October; the check-in's 7 days run Thursday 8 to today.
+  const SETTINGS: WorkoutSettings = {
+    goal: 'general',
+    experience: 'some',
+    location: 'gym',
+    homeEquipment: [],
+    dumbbellWeightsKg: [],
+    trainingDays: ['mon', 'wed', 'thu'],
+    sessionMinutes: 45,
+    focus: [],
+    protectedJoints: [],
+    lowIntensity: false,
+    ramadan: { enabled: false },
+  };
+  const workoutPlan = generateWeeklyPlan(SETTINGS, { seed: 5, today: '2026-10-01' });
+  const session = (day: Weekday) => workoutPlan.sessions.find((s) => s.day === day)!;
+  const log = (day: Weekday, dateKey: string): WorkoutLog => ({
+    dateKey,
+    day,
+    template: session(day).template,
+    exercises: [],
+    startedAt: `${dateKey}T08:00:00Z`,
+  });
+  const training = (logs: WorkoutLog[], region: string | undefined = 'PK', planned = workoutPlan) =>
+    buildWeeklyCheckIn({ plan, weighIns: [], intakeLogs: [], today: TODAY, workouts: { plan: planned, logs, region } }).metrics.training;
+
+  it("counts the week's sessions and what was missed; today's isn't missed yet", () => {
+    expect(training([log('mon', '2026-10-12')])).toEqual({
+      planned: 3,
+      done: 1,
+      missed: [{ template: session('thu').template, variant: session('thu').variant }],
+    });
+  });
+
+  it('credits a missed session done later that week, but not next week’s session started early', () => {
+    // Thursday 8's session done on Saturday 10 ("Do it today"): it counts.
+    expect(training([log('thu', '2026-10-10')])?.done).toBe(1);
+    // A Thursday session logged on Tuesday 13 is next Thursday's, started early.
+    expect(training([log('thu', '2026-10-13')])?.done).toBe(0);
+  });
+
+  it("follows the region's week: Sunday start for SA, Monday for PK and everywhere else", () => {
+    // Monday 12's session logged on Sunday 11: the same week only when weeks start on Sunday.
+    const logs = [log('mon', '2026-10-11')];
+    expect(training(logs, 'SA')?.done).toBe(1);
+    expect(training(logs, 'PK')?.done).toBe(0);
+    expect(training(logs, undefined)?.done).toBe(0);
+    expect(training(logs, 'AE')?.done).toBe(0);
+  });
+
+  it('ignores logs dated after today, and days before the plan began unless done', () => {
+    expect(training([log('mon', '2026-10-15')])?.done).toBe(0);
+    const newer = generateWeeklyPlan(SETTINGS, { seed: 5, today: '2026-10-13' });
+    expect(training([], 'PK', newer)).toEqual({ planned: 1, done: 0, missed: [] });
+    // ...unless that earlier session was done: Monday 12's, done on Tuesday 13.
+    const mondayOfNewer = { ...log('mon', '2026-10-13'), template: newer.sessions.find((x) => x.day === 'mon')!.template };
+    expect(training([mondayOfNewer], 'PK', newer)).toMatchObject({ planned: 2, done: 1, missed: [] });
+  });
+
+  it('is absent without a workout plan, or when no session falls in the week', () => {
+    expect(buildWeeklyCheckIn({ plan, weighIns: [], intakeLogs: [], today: TODAY }).metrics.training).toBeUndefined();
+    const restToday = generateWeeklyPlan({ ...SETTINGS, trainingDays: ['fri', 'sat'] }, { seed: 5, today: TODAY });
+    expect(training([], 'PK', restToday)).toBeUndefined();
+  });
+
+  it('never changes the calorie maths', () => {
+    const input = {
+      plan,
+      weighIns: weighIns(14, (i) => 62 - i * 0.05),
+      intakeLogs: intake(14, 1700),
+      today: TODAY,
+    };
+    const without = buildWeeklyCheckIn(input);
+    const withWorkouts = buildWeeklyCheckIn({ ...input, workouts: { plan: workoutPlan, logs: [log('mon', '2026-10-12')], region: 'PK' } });
+    const { training: _training, ...metrics } = withWorkouts.metrics;
+    expect(withWorkouts.status).toBe(without.status);
+    expect(withWorkouts.proposedPlan).toEqual(without.proposedPlan);
+    expect(metrics).toEqual(without.metrics);
   });
 });

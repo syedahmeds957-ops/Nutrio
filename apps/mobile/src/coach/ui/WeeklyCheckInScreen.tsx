@@ -11,6 +11,8 @@ import {
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
+import type { TrainingAdherence } from '../../workout/weekView.js';
+import { TrainingCard } from './TrainingCard.js';
 
 export interface WeeklyCheckInMetrics {
   daysLogged: number;
@@ -24,6 +26,8 @@ export interface WeeklyCheckInMetrics {
   oldKcalTarget: number;
   newKcalTarget: number;
   targetDelta: number;
+  /** Planned workouts in the same 7 days and how many were done; absent without a workout plan. */
+  training?: TrainingAdherence;
 }
 
 export interface WeeklyCheckInNarrative {
@@ -235,7 +239,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
 
         {/* 7-Day Performance Grid */}
         <Text style={[styles.sectionHeading, { color: theme.colors.textPrimary }]}>
-          7-Day Progress Stats
+          {t('checkin.progressStats')}
         </Text>
         <View style={styles.metricsGrid}>
           <View
@@ -333,6 +337,8 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
             </Text>
           </View>
         </View>
+
+        {metrics.training ? <TrainingCard training={metrics.training} /> : null}
 
         {/* AI Clinical Narrative */}
         <View

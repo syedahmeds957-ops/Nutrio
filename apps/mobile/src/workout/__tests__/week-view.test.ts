@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { generateWeeklyPlan, type WorkoutLog, type WorkoutSettings } from '@nutrio/workout-core';
-import { buildWeekView, nextTrainingDay, slotsForWeek, weekdayOf, weekStartFor } from '../weekView.js';
+import { buildWeekView, nextTrainingDay, slotsForWeek, trainingInWindow, weekdayOf, weekStartFor } from '../weekView.js';
 
 const SETTINGS: WorkoutSettings = {
   goal: 'muscle',
@@ -134,5 +134,32 @@ describe('done and missed from logs', () => {
     expect(week.days.find((d) => d.weekday === 'mon')!.status).toBe('today');
     const pk = buildWeekView(plan, '2026-10-26', 'PK', [logFor('2026-10-26', 'mon')]);
     expect(pk.today.status).toBe('done');
+  });
+});
+
+describe('days before the plan began', () => {
+  // Made on Thursday 22 October: Monday 19 and Wednesday 21 came before it.
+  const thursdayPlan = generateWeeklyPlan(SETTINGS, { seed: 11, today: '2026-10-22' });
+  const mondayLog = (dateKey: string): WorkoutLog => {
+    const session = thursdayPlan.sessions.find((s) => s.day === 'mon')!;
+    return { dateKey, day: 'mon', template: session.template, exercises: [], startedAt: `${dateKey}T09:00:00.000Z` };
+  };
+
+  it('are never missed, and count only when their session was done', () => {
+    const week = buildWeekView(thursdayPlan, '2026-10-23', 'PK');
+    expect(week.days.find((d) => d.weekday === 'mon')!.status).toBe('planned');
+    expect(week.days.find((d) => d.weekday === 'wed')!.status).toBe('planned');
+    expect(week.days.find((d) => d.weekday === 'fri')!.status).toBe('today');
+    expect(week).toMatchObject({ trainingDays: 1, doneDays: 0 });
+
+    // Monday's session done on Thursday ("Do it today") counts.
+    const done = buildWeekView(thursdayPlan, '2026-10-23', 'PK', [mondayLog('2026-10-22')]);
+    expect(done.days.find((d) => d.weekday === 'mon')!.status).toBe('done');
+    expect(done).toMatchObject({ trainingDays: 2, doneDays: 1 });
+  });
+
+  it('follow the same rule in the check-in window', () => {
+    expect(trainingInWindow(thursdayPlan, [], '2026-10-17', '2026-10-23', 'PK')).toEqual({ planned: 1, done: 0, missed: [] });
+    expect(trainingInWindow(thursdayPlan, [mondayLog('2026-10-22')], '2026-10-17', '2026-10-23', 'PK')).toMatchObject({ planned: 2, done: 1 });
   });
 });

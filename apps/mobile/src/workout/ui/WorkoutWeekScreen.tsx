@@ -210,7 +210,7 @@ export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({
             <Text style={[styles.splitName, { color: c.limeText }]}>{t(`workout.split.${plan.split}`)}</Text>
           </View>
           <Text style={[styles.summaryDone, dir.text, { color: c.limeText }]}>
-            {sample ? t('workout.guest.perWeek', { count: week.trainingDays }) : t('workout.week.done', { done: week.doneDays, count: week.trainingDays })}
+            {sample ? t('workout.guest.perWeek', { count: plan.sessions.length }) : t('workout.week.done', { done: week.doneDays, count: week.trainingDays })}
           </Text>
           <View style={styles.segments}>
             {Array.from({ length: week.trainingDays }, (_, i) => (
@@ -256,7 +256,10 @@ export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({
 
           const isToday = day.dateKey === today.dateKey;
           // A sample has no history: earlier days carry no status, and nothing is missed.
-          const status: DayStatus | null = sample ? (day.dateKey < today.dateKey ? null : isToday ? 'today' : 'planned') : day.status;
+          // Earlier days that are neither done nor missed (before the plan began) carry no status either.
+          const status: DayStatus | null = sample
+            ? day.dateKey < today.dateKey ? null : isToday ? 'today' : 'planned'
+            : day.status === 'planned' && day.dateKey < today.dateKey ? null : day.status;
           const chip = status ? chipColors[status] : null;
           return (
             <TouchableOpacity

@@ -27,6 +27,13 @@ export function weekdayOf(dateKey: string): Weekday {
   return WEEKDAY_BY_INDEX[new Date(`${dateKey}T00:00:00Z`).getUTCDay()];
 }
 
+/** The first day of the calendar week (in the region's numbering) that contains `dateKey`. */
+export function weekStartKeyFor(dateKey: string, region: string | undefined): string {
+  const startIndex = WEEKDAY_BY_INDEX.indexOf(weekStartFor(region));
+  const dayIndex = WEEKDAY_BY_INDEX.indexOf(weekdayOf(dateKey));
+  return addDaysToKey(dateKey, -((dayIndex - startIndex + 7) % 7));
+}
+
 export type DayStatus = 'planned' | 'today' | 'done' | 'missed';
 
 export interface DayView {
@@ -54,7 +61,8 @@ export interface WeekView {
 /**
  * The current calendar week of a plan. A training day is done once its session
  * has a log this week (on any day), missed when it has passed without one,
- * and otherwise today or planned.
+ * and otherwise today or planned. Days before the plan began count only if
+ * their session was done; they are never missed.
  */
 export function buildWeekView(
   plan: WeeklyWorkoutPlan,
@@ -62,10 +70,8 @@ export function buildWeekView(
   region: string | undefined,
   logs: readonly WorkoutLog[] = []
 ): WeekView {
-  const startIndex = WEEKDAY_BY_INDEX.indexOf(weekStartFor(region));
-  const todayIndex = WEEKDAY_BY_INDEX.indexOf(weekdayOf(todayKey));
-  const offset = (todayIndex - startIndex + 7) % 7;
-  const weekStartKey = addDaysToKey(todayKey, -offset);
+  const weekStartKey = weekStartKeyFor(todayKey, region);
+  const offset = (Date.parse(`${todayKey}T00:00:00Z`) - Date.parse(`${weekStartKey}T00:00:00Z`)) / 86_400_000;
   const weekEndKey = addDaysToKey(weekStartKey, 6);
   const sessionByDay = new Map(plan.sessions.map((session) => [session.day, session]));
 
@@ -79,7 +85,7 @@ export function buildWeekView(
       ? 'done'
       : dateKey === todayKey
         ? 'today'
-        : session && dateKey < todayKey
+        : session && dateKey < todayKey && dateKey >= plan.blockStart
           ? 'missed'
           : 'planned';
     return {
@@ -97,7 +103,7 @@ export function buildWeekView(
     weekIndex: weekIndexFor(plan.blockStart, todayKey),
     days,
     today: days[offset],
-    trainingDays: days.filter((day) => day.session).length,
+    trainingDays: days.filter((day) => day.session && (day.status === 'done' || day.dateKey >= plan.blockStart)).length,
     doneDays: days.filter((day) => day.status === 'done').length,
   };
 }
@@ -143,4 +149,45 @@ export function exerciseCount(session: WorkoutSession): number {
 /** Cardio log entries use the block's slot id, e.g. 'upper-a:cardio:0'. */
 export function isCardioSlot(slotId: string): boolean {
   return /:cardio:\d+$/.test(slotId);
+}
+
+/** Planned workouts in a span of days and how many were done, for the weekly check-in. */
+export interface TrainingAdherence {
+  planned: number;
+  done: number;
+  /** Sessions whose day has passed without a log, in date order. */
+  missed: Pick<WorkoutSession, 'template' | 'variant'>[];
+}
+
+/**
+ * Training over `[fromKey, todayKey]`, counted the way the week view counts:
+ * a session is done once it has a log in its own calendar week (in the
+ * region's numbering), on any day up to today. Days before the plan began
+ * count only if their session was done. Null when no session counts.
+ */
+export function trainingInWindow(
+  plan: WeeklyWorkoutPlan,
+  logs: readonly WorkoutLog[],
+  fromKey: string,
+  todayKey: string,
+  region: string | undefined
+): TrainingAdherence | null {
+  const sessionByDay = new Map(plan.sessions.map((session) => [session.day, session]));
+  const loggedByToday = logs.filter((log) => log.dateKey <= todayKey);
+  let planned = 0;
+  let done = 0;
+  const missed: TrainingAdherence['missed'] = [];
+  for (let dateKey = fromKey; dateKey <= todayKey; dateKey = addDaysToKey(dateKey, 1)) {
+    const session = sessionByDay.get(weekdayOf(dateKey));
+    if (!session) continue;
+    const weekStartKey = weekStartKeyFor(dateKey, region);
+    if (logForSession(loggedByToday, session, weekStartKey, addDaysToKey(weekStartKey, 6))) {
+      planned += 1;
+      done += 1;
+    } else if (dateKey >= plan.blockStart) {
+      planned += 1;
+      if (dateKey < todayKey) missed.push({ template: session.template, variant: session.variant });
+    }
+  }
+  return planned > 0 ? { planned, done, missed } : null;
 }

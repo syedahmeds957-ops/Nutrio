@@ -70,7 +70,14 @@
     "shareBody": "Nutrio weekly check-in report ({{name}})\n- Adherence rate: {{adherence}}% ({{daysLogged}}/7 days logged)\n- Weight trend: {{weightDelta}} kg\n- Daily intake avg: {{intake}} kcal\n- New daily target: {{newTarget}} kcal ({{targetDelta}} kcal)\n- Next week habit: {{habit}}",
     "shareTitle": "Shareable summary",
     "title": "Weekly check-in",
-    "weightTrend": "Weight trend"
+    "weightTrend": "Weight trend",
+    "workouts": {
+      "title": "Workouts",
+      "value": "{{done}} of {{planned}}",
+      "missed": "Missed: {{names}}",
+      "separator": ", "
+    },
+    "progressStats": "7-Day Progress Stats"
   },
   "coach": {
     "badge": "Nutrio coach",

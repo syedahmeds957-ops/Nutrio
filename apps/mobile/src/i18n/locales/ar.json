@@ -74,7 +74,14 @@
     "shareBody": "تقرير نيوتريو الأسبوعي ({{name}})\n- نسبة الالتزام: {{adherence}}٪ ({{daysLogged}}/٧ أيام مسجلة)\n- مسار الوزن: {{weightDelta}} كغ\n- متوسط السعرات اليومي: {{intake}} سعرة\n- الهدف اليومي الجديد: {{newTarget}} سعرة ({{targetDelta}} سعرة)\n- عادة الأسبوع القادم: {{habit}}",
     "shareTitle": "ملخص قابل للمشاركة",
     "title": "المراجعة الأسبوعية",
-    "weightTrend": "مسار الوزن"
+    "weightTrend": "مسار الوزن",
+    "workouts": {
+      "title": "التمارين",
+      "value": "{{done}} من {{planned}}",
+      "missed": "فائت: {{names}}",
+      "separator": "، "
+    },
+    "progressStats": "إحصاءات آخر 7 أيام"
   },
   "coach": {
     "badge": "مدرب نيوتريو",

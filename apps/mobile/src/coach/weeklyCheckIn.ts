@@ -5,6 +5,8 @@ import type { ComputedUserPlan } from '../plan/types.js';
 import { pairDailyLogs } from '../weight/engine.js';
 import { CALIBRATION_WINDOW_DAYS } from '../weight/weightSeed.js';
 import type { DailyIntakeLog, WeighInEntry } from '../weight/types.js';
+import type { WeeklyWorkoutPlan, WorkoutLog } from '@nutrio/workout-core';
+import { trainingInWindow } from '../workout/weekView.js';
 import type { WeeklyCheckInMetrics } from './ui/WeeklyCheckInScreen.js';
 
 const DAYS_PER_WEEK = 7;
@@ -24,6 +26,8 @@ export interface WeeklyCheckInInput {
   intakeLogs: DailyIntakeLog[];
   /** Local day key; defaults to today. */
   today?: string;
+  /** The workout plan and logs, when the user has a plan: shown, never used in the calorie maths. */
+  workouts?: { plan: WeeklyWorkoutPlan; logs: readonly WorkoutLog[]; region: string | undefined };
 }
 
 export interface WeeklyCheckInResult {
@@ -68,6 +72,7 @@ export function buildWeeklyCheckIn({
   weighIns,
   intakeLogs,
   today = localDateKey(),
+  workouts,
 }: WeeklyCheckInInput): WeeklyCheckInResult {
   const weekStart = addDaysToKey(today, -(DAYS_PER_WEEK - 1));
   const windowStart = addDaysToKey(today, -(CALIBRATION_WINDOW_DAYS - 1));
@@ -121,6 +126,7 @@ export function buildWeeklyCheckIn({
   const { currentEWMA, deltaKg } = weeklyWeightChange(weighInsToDate, weekStart);
   const oldKcalTarget = plan.targetResult.kcalTarget;
   const newKcalTarget = proposedPlan.targetResult.kcalTarget;
+  const training = workouts ? trainingInWindow(workouts.plan, workouts.logs, weekStart, today, workouts.region) : null;
 
   return {
     status,
@@ -137,6 +143,7 @@ export function buildWeeklyCheckIn({
       oldKcalTarget,
       newKcalTarget,
       targetDelta: newKcalTarget - oldKcalTarget,
+      ...(training ? { training } : {}),
     },
   };
 }

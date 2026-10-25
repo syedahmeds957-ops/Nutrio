@@ -747,10 +747,12 @@ function NutrioAppContent() {
 
   // Weekly adaptive check-in, computed from the stored diary and weigh-ins.
   if (appState === 'weekly_checkin' && activePlan) {
+    const workoutPlan = loadWorkoutPlan();
     const checkIn = buildWeeklyCheckIn({
       plan: activePlan,
       weighIns: loadWeighIns(),
       intakeLogs: collectIntakeLogs(activeRegion),
+      ...(workoutPlan ? { workouts: { plan: workoutPlan, logs: loadWorkoutLogs(), region: activeRegion } } : {}),
     });
 
     return wrapScreen(
