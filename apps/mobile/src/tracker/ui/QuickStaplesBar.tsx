@@ -20,12 +20,15 @@ export type { StapleItem } from '../staples.js';
 
 interface QuickStaplesBarProps {
   onQuickLog: (staple: StapleItem, slot: MealSlot) => void;
+  /** Set for guests: a tap asks them to create an account instead of opening the meal picker. */
+  onRequireAccount?: () => void;
 }
 
 const SLOT_IDS: MealSlot[] = ['breakfast', 'lunch', 'dinner', 'snacks_chai'];
 
 export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
   onQuickLog,
+  onRequireAccount,
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
@@ -51,6 +54,10 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
 
   const handlePress = (staple: StapleItem) => {
     HapticFeedback.impactLight();
+    if (onRequireAccount) {
+      onRequireAccount();
+      return;
+    }
     setPendingStaple(staple);
   };
 

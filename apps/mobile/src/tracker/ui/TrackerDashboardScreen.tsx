@@ -116,12 +116,16 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   }
   const bottomBarOffset = Math.max(20, insetsBottom + 8);
 
+  // Guests explore: they see an empty day and nothing saved on this device,
+  // and logging asks them to create an account.
+  const loadDay = (date: string, region: 'PK' | 'SA') => (isGuest ? null : loadDailyActivities(date, region));
+
   const enginesRef = useRef<Record<'PK' | 'SA', TrackerEngine>>({
     PK: (() => {
       if (activeRegion === 'PK' && trackerEngine) return trackerEngine;
       const eng = new TrackerEngine(targets);
       const today = localDateKey();
-      const saved = loadDailyActivities(today, 'PK');
+      const saved = loadDay(today, 'PK');
       if (saved && saved.items) eng.loadItems(saved.items, saved.waterMl || 0);
       return eng;
     })(),
@@ -129,7 +133,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
       if (activeRegion === 'SA' && trackerEngine) return trackerEngine;
       const eng = new TrackerEngine(targets);
       const today = localDateKey();
-      const saved = loadDailyActivities(today, 'SA');
+      const saved = loadDay(today, 'SA');
       if (saved && saved.items) eng.loadItems(saved.items, saved.waterMl || 0);
       return eng;
     })(),
@@ -174,7 +178,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
 
   React.useEffect(() => {
     const today = localDateKey();
-    const saved = loadDailyActivities(today, activeRegion);
+    const saved = loadDay(today, activeRegion);
     if (saved && saved.items) {
       engine.loadItems(saved.items, saved.waterMl || 0);
     }
@@ -238,7 +242,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   // Diary history never reaches back further than the day this user (or this
   // guest device) first opened the tracker — a brand-new user has no "before"
   // to view, so the back arrow stops right there.
-  const historyStartDate = useRef(getOrInitHistoryStartDate()).current;
+  const historyStartDate = useRef(isGuest ? localDateKey() : getOrInitHistoryStartDate()).current;
   const minDiaryDayOffset = -Math.max(
     0,
     Math.round(
@@ -255,7 +259,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
       ? summary
       : (() => {
           const pastEngine = new TrackerEngine({ ...targets, date: diaryDate });
-          const saved = loadDailyActivities(diaryDate, activeRegion);
+          const saved = loadDay(diaryDate, activeRegion);
           if (saved && saved.items) {
             pastEngine.loadItems(saved.items, saved.waterMl || 0);
           }
@@ -271,7 +275,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     return Array.from({ length: 7 }, (_, idx) => {
       if (idx >= todayIdx) return 0;
       const date = addDaysToKey(summary.date, -(todayIdx - idx));
-      const saved = loadDailyActivities(date, activeRegion);
+      const saved = loadDay(date, activeRegion);
       if (!saved?.items?.length) return 0;
       const dayEngine = new TrackerEngine({ ...targets, date });
       dayEngine.loadItems(saved.items, saved.waterMl || 0);
@@ -285,16 +289,25 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     (date) =>
       date === summary.date
         ? summary.items.length > 0
-        : (loadDailyActivities(date, activeRegion)?.items?.length ?? 0) > 0,
+        : (loadDay(date, activeRegion)?.items?.length ?? 0) > 0,
     summary.date
   );
 
+  /** True (and the sign-up prompt opens) when a guest tries to log or change anything. */
+  const blockGuest = () => {
+    if (!isGuest) return false;
+    setGuestModalVisible(true);
+    return true;
+  };
+
   const handleOpenAdd = (slot: MealSlot) => {
+    if (blockGuest()) return;
     setActiveSlot(slot);
     setHubVisible(true);
   };
 
   const handleOpenHub = (slot?: MealSlot) => {
+    if (blockGuest()) return;
     if (slot) setActiveSlot(slot);
     setHubVisible(true);
   };
@@ -313,6 +326,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   };
 
   const handleConfirmCustomizedLog = (payload: CustomizedLogPayload) => {
+    if (blockGuest()) return;
     const servingDesc = payload.portionDescription || payload.food.servings[0]?.description || 'serving';
     // The label stays the singular portion ("1 bazinga burger") — the cards
     // prepend the quantity themselves, so baking it in here printed it twice.
@@ -349,6 +363,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     serving: ServingUnit,
     quantity: number
   ) => {
+    if (blockGuest()) return;
     engine.logItem(slot, food, serving, quantity);
     recordFoodUsage([food.id || food.name]);
     persistCurrentActivities();
@@ -366,6 +381,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   // A custom meal goes in as one LoggedItem per food, all tagged with the same
   // slot — the slot card already renders and lets you delete them individually.
   const handleConfirmBasket = (entries: MealBasketEntry[]) => {
+    if (blockGuest()) return;
     for (const { food, quantity } of entries) {
       const serving = defaultServingFor(food, foodKey(food), t('tracker.customizer.myServing'));
       if (!serving) continue;
@@ -381,6 +397,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   // A described meal arrives reviewed: each row already carries its serving
   // and count, and the engine prices it from the catalogue.
   const handleLogDescribedMeal = (slot: MealSlot, entries: DraftLogEntry[]) => {
+    if (blockGuest()) return;
     for (const { food, serving, quantity } of entries) {
       engine.logItem(slot, food, serving, quantity);
     }
@@ -393,18 +410,21 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   };
 
   const handleDeleteItem = (id: string) => {
+    if (blockGuest()) return;
     engine.deleteItem(id);
     persistCurrentActivities();
     forceUpdate();
   };
 
   const handleLogWater = (ml: number) => {
+    if (blockGuest()) return;
     engine.logWater(ml);
     persistCurrentActivities();
     forceUpdate();
   };
 
   const handleLogRecommendation = (items: RecommendedFood[]) => {
+    if (blockGuest()) return;
     const foodPool = activeRegion === 'SA' ? SAUDI_TRADITIONAL_FOODS : PAKISTANI_STAPLES_DATA;
     for (const item of items) {
       const found =
@@ -420,6 +440,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   };
 
   const handleQuickLogStaple = (staple: StapleItem, slot: MealSlot) => {
+    if (blockGuest()) return;
     const { food, serving } = resolveStaple(staple, activeRegion);
     engine.logItem(slot, food, serving, 1);
     persistCurrentActivities();
@@ -672,6 +693,7 @@ const defaultSlotForNow = (): MealSlot => {
         {/* 3. Quick Staples 1-Tap Log Bar */}
         <QuickStaplesBar
           onQuickLog={handleQuickLogStaple}
+          onRequireAccount={isGuest ? () => setGuestModalVisible(true) : undefined}
         />
 
         {/* 4. Water Tracker */}
