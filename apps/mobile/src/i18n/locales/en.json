@@ -1,4 +1,20 @@
 {
+  "a11y": {
+    "dialog": {
+      "addDish": "Add a dish",
+      "brandMenu": "Restaurant menu",
+      "customizeItem": "Customize dish",
+      "describeMeal": "Describe your meal",
+      "diary": "Food diary",
+      "guestAuth": "Sign in",
+      "logMeal": "Log a meal",
+      "profile": "Profile",
+      "quickStaples": "Quick staples",
+      "swapMeal": "Swap meal",
+      "weighIn": "Log weight"
+    },
+    "skipToContent": "Skip to main content"
+  },
   "app": {
     "checkin": {
       "adjusted": {
@@ -28,7 +44,7 @@
     "guest": "Guest",
     "splash": {
       "status": "Synchronizing telemetry...",
-      "tagline": "Precision Cultural Nutrition · Pakistan"
+      "tagline": "Precision cultural nutrition · Pakistan"
     }
   },
   "auth": {
@@ -188,6 +204,7 @@
     "calories": "Calories",
     "cancel": "Cancel",
     "carbs": "Carbs",
+    "close": "Close",
     "completeRequiredFields": "Please complete all required fields.",
     "continue": "Continue",
     "daysAgo": "{{count}} day ago",
@@ -206,6 +223,17 @@
     "oil": "Oil",
     "portion": "portion",
     "protein": "Protein",
+    "regionSwitch": {
+      "confirm": "Switch",
+      "message": {
+        "PK": "The app will switch to English, Pakistani dishes and prices in PKR.",
+        "SA": "The app will switch to Arabic (right-to-left), Saudi dishes and prices in SAR."
+      },
+      "title": {
+        "PK": "Switch to Pakistan?",
+        "SA": "Switch to Saudi Arabia?"
+      }
+    },
     "requiredMarker": "*(Required)",
     "selected": "Selected",
     "standardServing": "{{count}} standard serving",
@@ -239,7 +267,8 @@
       "wed": "W"
     },
     "yes": "Yes",
-    "yesterday": "Yesterday"
+    "yesterday": "Yesterday",
+    "kgValue": "{{value}} kg"
   },
   "plan": {
     "analysis": {
@@ -399,7 +428,8 @@
       "title": "Choose your target goal",
       "weeklyPace": "Weekly pace: {{rate}} kg / week",
       "weeks": "{{count}} week",
-      "weeks_other": "{{count}} weeks"
+      "weeks_other": "{{count}} weeks",
+      "pacesDisabledReason": "Faster paces are switched off because they are above the safe limit for your weight ({{rate}} kg/week)."
     },
     "mealSlot": {
       "cuisine": {
@@ -428,16 +458,16 @@
     },
     "slotCard": {
       "carbsChip": "{{value}}g Carbs",
-      "dietitianApproved": "Dietitian Approved",
+      "dietitianApproved": "Dietitian approved",
       "oil": "{{count}} tsp oil",
       "proteinChip": "{{value}}g Protein",
-      "swapAlternatives": "Swap Alternatives"
+      "swapAlternatives": "Swap alternatives"
     },
     "slotTitle": {
-      "breakfast": "Protein Breakfast",
-      "dinner": "Wholesome Dinner",
-      "lunch": "Balanced Lunch",
-      "snacks_chai": "Light Snack"
+      "breakfast": "Protein breakfast",
+      "dinner": "Wholesome dinner",
+      "lunch": "Balanced lunch",
+      "snacks_chai": "Light snack"
     },
     "swap": {
       "current": "Current: {{value}} kcal",
@@ -528,12 +558,12 @@
       "dailySittingHours": "Sitting hours must be between 0 and 24.",
       "dailyWaterLitres": "Daily water intake must be between 0.5 and 15 litres.",
       "dietPreference": "Please select your preferred dietary pattern.",
-      "frequencyDaysPerWeek": "Workout frequency must be between 0 and 7 days per week.",
+      "frequencyDaysPerWeek": "Choose how many days a week you train (0 to 7).",
       "heightCm": "Please enter a valid height between 100 cm and 250 cm.",
       "isPregnantOrBreastfeeding": "Please indicate pregnancy or active lactation status for nutritional safety.",
       "jobCategory": "Please select your primary job / daily work activity.",
       "medicalDisclaimerAccepted": "You must acknowledge the clinical disclaimer to proceed.",
-      "sessionDurationMins": "Session duration must be between 0 and 360 minutes.",
+      "sessionDurationMins": "Enter how long a session lasts, in minutes (0 to 360).",
       "sex": "Biological sex is required for metabolic BMR calculation.",
       "shiftPattern": "Please select your typical work shift pattern.",
       "sleepHoursPerNight": "Please enter typical sleep duration between 2 and 16 hours.",
@@ -575,7 +605,7 @@
         },
         "title": {
           "PK": "Cups of chai with sugar per day",
-          "SA": "Daily Saudi Gahwa & dates ritual"
+          "SA": "Daily Saudi gahwa & dates ritual"
         },
         "unit": {
           "PK": "cups / day",
@@ -858,7 +888,8 @@
       "removeModifier": "Remove {{name}}",
       "resetMyServing": "Reset to standard serving",
       "saveAsMyServing": "Save {{grams}}g as my standard serving",
-      "standardServings": "Standard servings"
+      "standardServings": "Standard servings",
+      "howMany": "How many?"
     },
     "dashboard": {
       "allMealsDone": "All meals done",
@@ -972,7 +1003,8 @@
       "pendingSync_other": "{{count}} offline entries pending sync",
       "readyFirstMeal": "Ready for first meal",
       "targetNotSet": "Not set",
-      "trackYourDay": "Track your day"
+      "trackYourDay": "Track your day",
+      "eatenSoFar": "{{eaten}} kcal eaten so far"
     },
     "hub": {
       "allBrandsHeading": {
@@ -1033,7 +1065,8 @@
         "Chicken": "Chicken",
         "Mutton": "Mutton"
       },
-      "variantPicker": "Choose the meat for {{name}}"
+      "variantPicker": "Choose the meat for {{name}}",
+      "resultsFoundMore": "{{count}}+ results"
     },
     "mealSlots": {
       "breakfast": {
@@ -1100,7 +1133,8 @@
       "addBottle": "+500 ml (Bottle)",
       "addGlass": "+250 ml (Glass)",
       "dailyTarget": "Target: {{amount}} ml / day",
-      "title": "Water Hydration"
+      "title": "Water",
+      "ofTarget": "of {{amount}} ml"
     }
   },
   "weight": {

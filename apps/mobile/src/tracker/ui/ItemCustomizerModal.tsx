@@ -4,9 +4,10 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
-  Modal,
   SafeAreaView,
 } from 'react-native';
+import { BackButton } from '../../ui/BackButton.js';
+import { NamedModal } from '../../ui/NamedModal.js';
 import {
   NormalizedFood,
   FoodModifier,
@@ -329,7 +330,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
   const brandName = (item.brand || fallbackBrand).toUpperCase();
 
   return (
-    <Modal
+    <NamedModal accessibilityName={t('a11y.dialog.customizeItem')}
       visible={visible}
       animationType="slide"
       presentationStyle="pageSheet"
@@ -343,15 +344,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
           showsVerticalScrollIndicator={false}
         >
           {/* Header Navigation: Back Arrow */}
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={handleClose}
-            activeOpacity={0.7}
-            accessibilityRole="button"
-            accessibilityLabel={t('common.back')}
-          >
-            <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={24} color={theme.colors.text} />
-          </TouchableOpacity>
+          <BackButton variant="icon" onPress={handleClose} style={styles.backButton} />
 
           {/* Dish Brand & Title */}
           <Text style={[styles.brandText, { color: theme.colors.textMuted }]}>{brandName}</Text>
@@ -376,8 +369,8 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
           {/* HOW MANY? Row */}
           <View style={[styles.howManyCard, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}>
             <View style={styles.howManyLeft}>
-              <Text style={[styles.howManyLabel, { color: theme.colors.textMuted }]}>HOW MANY?</Text>
-              <Text style={[styles.howManySub, { color: theme.colors.text }]} numberOfLines={1}>
+              <Text style={[styles.howManyLabel, { color: theme.colors.textMuted }]}>{t('tracker.customizer.howMany')}</Text>
+              <Text style={[styles.howManySub, { color: theme.colors.text }]}>
                 {portionSummaryText}
               </Text>
             </View>
@@ -396,6 +389,8 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                 }}
                 disabled={quantity <= 1}
                 activeOpacity={0.7}
+                accessibilityRole="button"
+                accessibilityState={{ disabled: quantity <= 1 }}
                 accessibilityLabel={t('tracker.customizer.decreaseQty')}
               >
                 <Icon
@@ -406,7 +401,12 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                 />
               </TouchableOpacity>
 
-              <Text style={[styles.stepperNumber, { color: theme.colors.text }]}>{quantity}</Text>
+              <Text
+                style={[styles.stepperNumber, { color: theme.colors.text }]}
+                accessibilityLiveRegion="polite"
+              >
+                {quantity}
+              </Text>
 
               <TouchableOpacity
                 style={[styles.peachCircleButton, { backgroundColor: isDark ? '#272A33' : '#F1F5F9' }]}
@@ -415,6 +415,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                   setQuantity((q) => q + 1);
                 }}
                 activeOpacity={0.7}
+                accessibilityRole="button"
                 accessibilityLabel={t('tracker.customizer.increaseQty')}
               >
                 <Icon name="plus" size={18} color={theme.colors.text} strokeWidth={2.5} />
@@ -479,6 +480,8 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                           onPress={() => handleUpdateModifier(mod.id, -1)}
                           disabled={count === 0}
                           activeOpacity={0.7}
+                          accessibilityRole="button"
+                          accessibilityState={{ disabled: count === 0 }}
                           accessibilityLabel={t('tracker.customizer.removeModifier', { name: mod.name })}
                         >
                           <Icon
@@ -495,6 +498,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                           style={[styles.peachCircleButtonSmall, { backgroundColor: isDark ? '#272A33' : '#F1F5F9' }]}
                           onPress={() => handleUpdateModifier(mod.id, 1)}
                           activeOpacity={0.7}
+                          accessibilityRole="button"
                           accessibilityLabel={t('tracker.customizer.addModifier', { name: mod.name })}
                         >
                           <Icon name="plus" size={16} color={theme.colors.text} strokeWidth={2.5} />
@@ -528,6 +532,8 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                       setSelectedSlot(slot.id);
                     }}
                     activeOpacity={0.7}
+                    accessibilityRole="radio"
+                    aria-checked={isSelected}
                   >
                     <Text
                       style={[
@@ -574,6 +580,6 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
           </TouchableOpacity>
         </View>
       </SafeAreaView>
-    </Modal>
+    </NamedModal>
   );
 };

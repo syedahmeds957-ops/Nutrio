@@ -3,7 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import { WeightTrendSummary } from '../types.js';
 import { Notice } from '../../ui/Notice.js';
 import { useTheme } from '../../theme.js';
-import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { formatDayKey } from '../../common/dateKey.js';
+import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 
 interface WeightTrendChartCardProps {
@@ -17,6 +18,7 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { t } = useTranslation();
+  const { language } = useI18nState();
   const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
   const { currentWeightKg, currentEWMAKg, totalDeltaKg, points } = summary;
@@ -87,7 +89,7 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
           </Text>
           {points.slice(-5).reverse().map((pt, idx) => (
             <View key={idx} style={[styles.pointRow, { borderBottomColor: theme.colors.border }]}>
-              <Text style={[styles.pointDate, { color: theme.colors.textPrimary }]}>{pt.date}</Text>
+              <Text style={[styles.pointDate, { color: theme.colors.textPrimary }]}>{formatDayKey(pt.date, language)}</Text>
               <View style={styles.pointValues}>
                 <Text style={[styles.pointRaw, { color: theme.colors.textMuted }]}>
                   {t('weight.trend.kgScale', { value: pt.rawWeightKg })}
@@ -165,7 +167,7 @@ const styles = StyleSheet.create({
     color: '#059669',
   },
   gainText: {
-    color: '#D97706',
+    color: '#9A4A06',
   },
   statSub: {
     fontSize: 10,

@@ -6,9 +6,10 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
-  Modal,
   SafeAreaView,
 } from 'react-native';
+import { BackButton } from '../../ui/BackButton.js';
+import { NamedModal } from '../../ui/NamedModal.js';
 import {
   NormalizedFood,
   ALL_EXPANDED_PAKISTANI_FOODS,
@@ -192,7 +193,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
   }, [filteredItems, selectedCategory]);
 
   return (
-    <Modal visible={visible} animationType="slide" transparent={false}>
+    <NamedModal accessibilityName={t('a11y.dialog.brandMenu')} visible={visible} animationType="slide" transparent={false}>
       <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.canvas }]}>
         {/* Header */}
         <View
@@ -204,13 +205,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
             },
           ]}
         >
-          <TouchableOpacity
-            style={[styles.backButton, { backgroundColor: theme.colors.surfaceSecondary }]}
-            onPress={onBack}
-            activeOpacity={0.7}
-          >
-            <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={18} color={theme.colors.textPrimary} />
-          </TouchableOpacity>
+          <BackButton variant="icon" onPress={onBack} />
 
           <View style={styles.headerTitleContainer}>
             <BrandLogo brandId={currentBrand?.id || brandId || ''} size={34} style={{ marginRight: 10 }} />
@@ -450,7 +445,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
           )}
         </ScrollView>
       </SafeAreaView>
-    </Modal>
+    </NamedModal>
   );
 };
 
@@ -489,13 +484,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 14,
     borderBottomWidth: 1,
-  },
-  backButton: {
-    width: 40,
-    height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 20,
   },
   headerTitleContainer: {
     flexDirection: 'row',

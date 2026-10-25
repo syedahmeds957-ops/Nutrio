@@ -22,8 +22,6 @@ interface MacroTileProps {
   overKey: string;
   leftKey: string;
   fallback: string;
-  /** Show the goal itself as the headline number (used for calories), with eaten / left below. */
-  targetMode?: boolean;
 }
 
 /**
@@ -39,7 +37,6 @@ const MacroTile: React.FC<MacroTileProps> = ({
   overKey,
   leftKey,
   fallback,
-  targetMode = false,
 }) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
@@ -60,12 +57,10 @@ const MacroTile: React.FC<MacroTileProps> = ({
     >
       <View style={styles.tileHeader}>
         <Text style={[styles.tileValue, { color: theme.colors.textPrimary }]}>
-          {targetMode && !hasGoal ? t('tracker.header.targetNotSet') : (targetMode ? Math.round(goal) : eaten).toLocaleString('en-US')}
-          {(!targetMode || hasGoal) && (
-            <Text style={[styles.tileUnit, { color: theme.colors.textSecondary }]}>{unit}</Text>
-          )}
+          {eaten.toLocaleString('en-US')}
+          <Text style={[styles.tileUnit, { color: theme.colors.textSecondary }]}>{unit}</Text>
         </Text>
-        {hasGoal && !targetMode && (
+        {hasGoal && (
           <View style={[styles.goalBox, { borderColor: hairline }]}>
             <Text style={[styles.goalCaption, { color: theme.colors.textMuted }]}>
               {t('tracker.header.goalCaption')}
@@ -78,6 +73,9 @@ const MacroTile: React.FC<MacroTileProps> = ({
       </View>
       <Text style={[styles.tileLabel, dir.text, { color: theme.colors.textSecondary }]}>{label}</Text>
       <View
+        accessibilityRole="progressbar"
+        accessibilityLabel={label}
+        accessibilityValue={{ min: 0, max: 100, now: Math.round(pct) }}
         style={[
           styles.tileProgressTrack,
           { backgroundColor: theme.isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.06)' },
@@ -88,14 +86,7 @@ const MacroTile: React.FC<MacroTileProps> = ({
       <Text
         style={[styles.tileSub, { color: isOver ? theme.colors.danger : theme.colors.textMuted }]}
       >
-        {targetMode
-          ? hasGoal
-            ? t(isOver ? 'tracker.header.kcalEatenOver' : 'tracker.header.kcalEatenLeft', {
-                eaten: eaten.toLocaleString('en-US'),
-                value: Math.abs(diff).toLocaleString('en-US'),
-              })
-            : fallback
-          : hasGoal
+        {hasGoal
           ? t(isOver ? overKey : leftKey, { value: Math.abs(diff).toLocaleString('en-US') })
           : fallback}
       </Text>
@@ -192,9 +183,8 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
             </Text>
             <Text style={[styles.heroTargetSub, { color: heroSubTextColor }]}>
               {targetCalories > 0
-                ? t('tracker.header.dailyGoal', {
-                    target: targetCalories.toLocaleString('en-US'),
-                    eaten: Math.round(totalCaloriesConsumed),
+                ? t('tracker.header.eatenSoFar', {
+                    eaten: Math.round(totalCaloriesConsumed).toLocaleString('en-US'),
                   })
                 : t('tracker.header.noTargetHint')}
             </Text>
@@ -277,8 +267,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
           fallback={t('tracker.header.consumedToday')}
         />
         <MacroTile
-          label={t('tracker.header.dailyTarget')}
-          targetMode
+          label={t('common.calories')}
           value={totalCaloriesConsumed}
           unit={` ${t('common.kcal')}`}
           goal={targetCalories}
@@ -398,7 +387,11 @@ const styles = StyleSheet.create({
   pillTrack: {
     width: 10,
     height: 60,
-    backgroundColor: 'rgba(10, 11, 13, 0.12)',
+    // A pale, outlined vessel: the dark fill is what shows intake, so an empty
+    // day must not look half-full.
+    backgroundColor: 'rgba(255, 255, 255, 0.42)',
+    borderWidth: 1,
+    borderColor: 'rgba(10, 11, 13, 0.22)',
     borderRadius: 9999,
     justifyContent: 'flex-end',
     overflow: 'hidden',

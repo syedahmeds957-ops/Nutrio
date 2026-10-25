@@ -194,7 +194,7 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
               ]}
             >
               <Icon name="zap" size={11} color="#3B82F6" />
-              <Text style={[styles.macroVal, { color: '#3B82F6' }]}>
+              <Text style={[styles.macroVal, { color: theme.colors.proteinText }]}>
                 {t('tracker.aiCard.proteinValue', { grams: totalProtein })}
               </Text>
             </View>
@@ -256,6 +256,8 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   coachPill: {
+    minHeight: 44,
+    justifyContent: 'center',
     paddingVertical: 4,
     paddingHorizontal: 10,
     borderRadius: 9999,

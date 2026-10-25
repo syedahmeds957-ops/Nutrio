@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { BackButton } from '../../ui/BackButton.js';
 import { PlanUserContext, AssessmentNarrative } from '../types.js';
 import { ritualCupKcal } from '../../common/ritualDrinks.js';
 import { Icon } from '../../ui/Icon.js';
@@ -44,28 +45,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
     >
       {/* Top Back Button */}
       {onBack && (
-        <TouchableOpacity
-          style={[
-            styles.topBackBtn,
-            {
-              backgroundColor: theme.colors.surface,
-              borderColor: theme.colors.border,
-            },
-          ]}
-          onPress={onBack}
-          activeOpacity={0.7}
-        >
-          <View style={styles.topBackContent}>
-            <Icon
-              name={dir.isRTL ? 'arrow-right' : 'arrow-left'}
-              size={14}
-              color={theme.colors.textPrimary}
-            />
-            <Text style={[styles.topBackText, { color: theme.colors.textPrimary }]}>
-              {t('common.back')}
-            </Text>
-          </View>
-        </TouchableOpacity>
+        <BackButton onPress={onBack} style={styles.topBackBtn} />
       )}
 
       <View style={styles.header}>
@@ -92,7 +72,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
         </Text>
 
         <View style={[styles.metricRow, { borderBottomColor: theme.colors.border }]}>
-          <View>
+          <View style={styles.metricTextCol}>
             <Text style={[styles.metricLabel, dir.text, { color: theme.colors.textPrimary }]}>
               {t('plan.analysis.bmr')}
             </Text>
@@ -106,7 +86,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
         </View>
 
         <View style={[styles.metricRow, { borderBottomColor: theme.colors.border }]}>
-          <View>
+          <View style={styles.metricTextCol}>
             <Text style={[styles.metricLabel, dir.text, { color: theme.colors.textPrimary }]}>
               {t('plan.analysis.sittingLoad')}
             </Text>
@@ -120,7 +100,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
         </View>
 
         <View style={styles.totalRow}>
-          <View>
+          <View style={styles.metricTextCol}>
             <Text style={[styles.totalLabel, dir.text, { color: theme.colors.textPrimary }]}>
               {t('plan.analysis.tdee')}
             </Text>
@@ -399,10 +379,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    gap: 12,
     paddingVertical: 10,
     borderBottomWidth: 1,
   },
+  // The label side gives way, the number never wraps onto it.
+  metricTextCol: {
+    flex: 1,
+    minWidth: 0,
+  },
   metricLabel: {
+    flexShrink: 1,
     fontSize: 14,
     fontWeight: '600',
   },
@@ -411,6 +398,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   metricValue: {
+    flexShrink: 0,
     fontSize: 15,
     fontWeight: '700',
   },
@@ -418,6 +406,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    gap: 12,
     paddingTop: 14,
   },
   totalLabel: {
@@ -429,6 +418,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   totalValue: {
+    flexShrink: 0,
     fontSize: 22,
     fontWeight: '900',
   },
@@ -452,6 +442,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   chaiHighlight: {
+    flexShrink: 0,
     fontSize: 16,
     fontWeight: '800',
   },
@@ -490,21 +481,7 @@ const styles = StyleSheet.create({
     lineHeight: 19,
   },
   topBackBtn: {
-    alignSelf: 'flex-start',
     marginBottom: 16,
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderRadius: 9999,
-    borderWidth: 1,
-  },
-  topBackContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  topBackText: {
-    fontSize: 13,
-    fontWeight: '700',
   },
   btnRow: {
     flexDirection: 'row',
@@ -513,6 +490,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   backBtn: {
+    minHeight: 44,
+    minWidth: 44,
     paddingVertical: 16,
     paddingHorizontal: 24,
     borderRadius: 9999,

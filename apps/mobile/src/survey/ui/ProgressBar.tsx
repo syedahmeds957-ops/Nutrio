@@ -35,10 +35,21 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
           {percentage}%
         </Text>
       </View>
-      <View style={[styles.track, { backgroundColor: theme.colors.surfaceSecondary }]}>
+      <View
+        style={[styles.track, { backgroundColor: theme.colors.surfaceSecondary }]}
+        accessibilityRole="progressbar"
+        accessibilityLabel={t('survey.progress.step', { current: currentStep + 1, total: totalSteps })}
+        accessibilityValue={{ min: 0, max: 100, now: percentage }}
+      >
         <View style={[styles.fill, { width: `${percentage}%`, backgroundColor: accentColor }]} />
       </View>
-      <Text style={[styles.title, dir.text, { color: theme.colors.textPrimary }]}>{stepTitle}</Text>
+      <Text
+        role="heading"
+        aria-level={1}
+        style={[styles.title, dir.text, { color: theme.colors.textPrimary }]}
+      >
+        {stepTitle}
+      </Text>
     </View>
   );
 };

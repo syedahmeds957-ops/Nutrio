@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
-  Modal,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import { NamedModal } from '../../ui/NamedModal.js';
 import { type NormalizedFood, type RegionCode } from '@nutrio/food-db';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
@@ -183,7 +183,7 @@ export const AddDishModal: React.FC<AddDishModalProps> = ({
   };
 
   return (
-    <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
+    <NamedModal accessibilityName={t('a11y.dialog.addDish')} visible={visible} transparent animationType="fade" onRequestClose={onClose}>
       <View style={styles.overlay}>
         <View
           style={[
@@ -211,7 +211,7 @@ export const AddDishModal: React.FC<AddDishModalProps> = ({
           {renderBody()}
         </View>
       </View>
-    </Modal>
+    </NamedModal>
   );
 };
 

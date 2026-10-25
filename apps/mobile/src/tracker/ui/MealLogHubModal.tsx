@@ -5,10 +5,11 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
-  Modal,
   SafeAreaView,
   ActivityIndicator,
 } from 'react-native';
+import { BackButton } from '../../ui/BackButton.js';
+import { NamedModal } from '../../ui/NamedModal.js';
 import {
   NormalizedFood,
   PAKISTANI_RESTAURANT_BRANDS,
@@ -27,6 +28,8 @@ import { BrandLogo } from '../../ui/BrandLogo.js';
 import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { orderSectionsForSlot } from '../dietSlotOrder.js';
+import { useConfirmedRegionSwitch } from '../../common/region/useConfirmedRegionSwitch.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { getMostLoggedFoodIds, loadMealPresets, MAX_RECENT_FOODS } from '../mealPresets.js';
 import { searchCustomDishes } from '../customDishes.js';
@@ -38,6 +41,9 @@ import { DishCard } from './DishCard.js';
 import { VariantDishCard } from './VariantDishCard.js';
 import { BasketSummaryBar, PresetNamingBar } from './MealBasketBars.js';
 import { foodKey, useMealBasket, type MealBasketEntry } from './useMealBasket.js';
+
+/** How many catalogue matches a search asks for; a full page means there may be more. */
+const SEARCH_LIMIT = 40;
 
 export type { MealBasketEntry };
 
@@ -98,7 +104,8 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   onLogDescribedMeal,
 }) => {
   const { theme } = useTheme();
-  const { activeRegion, setRegion } = useRegion();
+  const { activeRegion } = useRegion();
+  const requestRegionSwitch = useConfirmedRegionSwitch(() => setSelectedGroup(null));
   const isSaudiRegion = activeRegion === 'SA';
   /**
    * The Arabic name for Saudi users. Urdu names are not displayed (lists show
@@ -150,7 +157,10 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
     t(`tracker.brandGroups.${group}`, { defaultValue: group });
 
   const dietFoods = useMemo(() => getDietBasicsForRegion(activeRegion), [activeRegion]);
-  const dietSections = useMemo(() => groupDietFoods(dietFoods), [dietFoods]);
+  const dietSections = useMemo(
+    () => orderSectionsForSlot(groupDietFoods(dietFoods), slot),
+    [dietFoods, slot]
+  );
   useEffect(() => {
     setSelectedDietGroup(ALL_DIET_GROUPS);
   }, [activeRegion]);
@@ -229,14 +239,18 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
 
   // Search across dishes adapted to active region. The user's own dishes come
   // first: they added them because the catalogue had nothing better.
-  const searchResults = useMemo(() => {
+  const { results: searchResults, capped: searchCapped } = useMemo(() => {
     const q = (debouncedQuery || searchQuery).trim().toLowerCase();
-    if (!q) return [];
+    if (!q) return { results: [] as NormalizedFood[], capped: false };
 
     const own = searchCustomDishes(q);
     const catalogue =
-      activeRegion === 'SA' ? searchSaudiFoods(q, { limit: 40 }) : searchPakistaniFoods(q, { limit: 40 });
-    return [...own, ...catalogue];
+      activeRegion === 'SA'
+        ? searchSaudiFoods(q, { limit: SEARCH_LIMIT })
+        : searchPakistaniFoods(q, { limit: SEARCH_LIMIT });
+    // Hitting the limit means there may be more; saying "40 results" for
+    // every broad query made the count look like a constant.
+    return { results: [...own, ...catalogue], capped: catalogue.length >= SEARCH_LIMIT };
   }, [debouncedQuery, searchQuery, activeRegion, customDishesVersion]);
 
   const handleDishAdded = (dish: NormalizedFood) => {
@@ -287,7 +301,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   );
 
   return (
-    <Modal
+    <NamedModal accessibilityName={t('a11y.dialog.logMeal')}
       visible={visible}
       animationType="slide"
       presentationStyle="pageSheet"
@@ -304,14 +318,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
             },
           ]}
         >
-          <TouchableOpacity
-            style={[styles.backButton, { backgroundColor: theme.colors.surfaceSecondary }]}
-            onPress={onClose}
-            accessibilityRole="button"
-            accessibilityLabel={t('common.back')}
-          >
-            <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={18} color={theme.colors.textPrimary} />
-          </TouchableOpacity>
+          <BackButton variant="icon" onPress={onClose} />
           <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>
             {t('tracker.hub.title')}
           </Text>
@@ -323,13 +330,10 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                 borderColor: theme.colors.border,
               },
             ]}
-            onPress={() => {
-              setSelectedGroup(null);
-              setRegion(activeRegion === 'SA' ? 'PK' : 'SA');
-            }}
+            onPress={requestRegionSwitch}
             activeOpacity={0.7}
             accessibilityRole="button"
-            accessibilityLabel={t('tracker.hub.switchRegion')}
+            accessibilityLabel={`${activeRegion}, ${t('tracker.hub.switchRegion')}`}
           >
             <Text style={[styles.regionPillText, { color: theme.colors.textPrimary }]}>
               {activeRegion === 'SA' ? 'SA' : 'PK'}
@@ -361,6 +365,8 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                       { color: selected ? theme.colors.limeText : theme.colors.textSecondary },
                     ]}
                     numberOfLines={1}
+                    adjustsFontSizeToFit
+                    minimumFontScale={0.8}
                   >
                     {t(`tracker.mealSlots.${id}.${activeRegion}`)}
                   </Text>
@@ -645,7 +651,9 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
               <Text style={[styles.sectionEyebrow, { color: theme.colors.textMuted }]}>
                 {isFiltering
                   ? t('tracker.hub.searching')
-                  : t('tracker.hub.resultsFound', { count: searchResults.length })}
+                  : t(searchCapped ? 'tracker.hub.resultsFoundMore' : 'tracker.hub.resultsFound', {
+                      count: searchResults.length,
+                    })}
               </Text>
 
               {isFiltering ? (
@@ -873,6 +881,6 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
           onDishAdded={handleDishAdded}
         />
       </SafeAreaView>
-    </Modal>
+    </NamedModal>
   );
 };

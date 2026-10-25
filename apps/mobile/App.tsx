@@ -13,6 +13,7 @@ import {
   Image,
   Animated,
   PanResponder,
+  Platform,
   useWindowDimensions,
 } from 'react-native';
 import {
@@ -24,6 +25,7 @@ import {
   stripRetiredSurveyFields,
 } from './src/survey/index.js';
 import { OnboardingSurveyScreen } from './src/survey/ui/index.js';
+import { installWebA11y } from './src/ui/webA11y.js';
 import { ComputedUserPlan, PlanUserContext } from './src/plan/index.js';
 import { PlanWorkflowScreen, WeeklyPlanView } from './src/plan/ui/index.js';
 import { TrackerDashboardScreen } from './src/tracker/ui/index.js';
@@ -89,7 +91,8 @@ import {
   useTranslation,
   useTextDirection,
   useI18nState,
-  appFontAssets,
+  arabicFontAssets,
+  latinFontAssets,
   installFontPatch,
   setActiveFontScript,
   setActiveTextDirection,
@@ -105,8 +108,11 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 installFontPatch();
 
 // Built once: useFonts reads the map on every render, and rebuilding it there
-// would re-resolve every asset per frame for no gain.
-const APP_FONTS = appFontAssets();
+// would re-resolve every asset per frame for no gain. Split by script so first
+// paint waits only for the family the current language reads in.
+const LATIN_FONTS = latinFontAssets();
+const ARABIC_FONTS = arabicFontAssets();
+const NO_FONTS = {};
 
 // Earlier builds let users paste OpenAI/Gemini keys, saved in plain text on the
 // device. AI now runs only through edge functions, so those copies are erased.
@@ -134,7 +140,10 @@ function NutrioAppContent() {
   const { t } = useTranslation();
   const dir = useTextDirection();
   const { language } = useI18nState();
-  const [fontsLoaded] = useFonts(APP_FONTS);
+  // The splash waits for the current language's family only; the other loads
+  // right after, so a later region switch finds it already registered.
+  const [fontsLoaded] = useFonts(language === 'ar' ? ARABIC_FONTS : LATIN_FONTS);
+  useFonts(fontsLoaded ? (language === 'ar' ? LATIN_FONTS : ARABIC_FONTS) : NO_FONTS);
   const { width: windowWidth } = useWindowDimensions();
   // The current screen plus the screens behind it, so Back returns to where the
   // user came from (see navigation/history.ts).
@@ -299,6 +308,14 @@ function NutrioAppContent() {
     setActiveFontScript(language === 'ar' ? 'arabic' : 'latin');
   }, [language, fontsLoaded]);
 
+  // Browser only: visible keyboard focus and a skip link (see ui/webA11y).
+  const skipLabel = t('a11y.skipToContent');
+  useEffect(() => {
+    if (Platform.OS === 'web') {
+      installWebA11y(skipLabel);
+    }
+  }, [skipLabel]);
+
   // Direction needs no assets, so it is set straight away: it decides which
   // edge every string reads from, and almost no screen states it per Text.
   useEffect(() => {
@@ -406,6 +423,8 @@ function NutrioAppContent() {
       style={[styles.rootWrapper, { backgroundColor: theme.colors.canvas, direction: dir.direction }]}
     >
       <Animated.View
+        role="main"
+        nativeID="nutrio-main"
         style={[styles.appConstraint, { transform: [{ translateX: swipeTranslateX }] }]}
         {...swipePanResponder.panHandlers}
       >

@@ -77,7 +77,7 @@ describe('language selection', () => {
   it('resolves real strings in both languages', () => {
     initI18n('en');
     expect(i18n.t('common.today')).toBe('Today');
-    expect(i18n.t('tracker.water.title')).toBe('Water Hydration');
+    expect(i18n.t('tracker.water.title')).toBe('Water');
 
     initI18n('ar');
     expect(i18n.t('common.today')).toBe('اليوم');

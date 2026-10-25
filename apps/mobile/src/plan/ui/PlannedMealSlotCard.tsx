@@ -397,6 +397,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   swapButton: {
+    minHeight: 44,
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 7,

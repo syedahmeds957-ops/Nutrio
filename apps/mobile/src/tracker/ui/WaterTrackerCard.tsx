@@ -81,15 +81,18 @@ export const WaterTrackerCard: React.FC<WaterTrackerCardProps> = ({
       <View style={styles.metricRow}>
         <View style={styles.numCol}>
           <Text style={[styles.mainNum, { color: theme.colors.textPrimary }]}>
-            {t('common.litresValue', { value: (actualConsumed / 1000).toFixed(2) })}
+            {t('common.mlValue', { value: actualConsumed.toLocaleString('en-US') })}
           </Text>
           <Text style={[styles.subNum, { color: theme.colors.textMuted }]}>
-            {actualConsumed.toLocaleString('en-US')} / {t('common.mlValue', { value: actualTarget.toLocaleString('en-US') })}
+            {t('tracker.water.ofTarget', { amount: actualTarget.toLocaleString('en-US') })}
           </Text>
         </View>
       </View>
 
       <View
+        accessibilityRole="progressbar"
+        accessibilityLabel={t('tracker.water.title')}
+        accessibilityValue={{ min: 0, max: 100, now: progressPct }}
         style={[
           styles.progressTrack,
           {

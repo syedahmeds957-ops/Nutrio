@@ -7,7 +7,7 @@ import { LabelledServing, PERSONAL_SERVING_ID } from '../personalServings.js';
 import { styles } from './ItemCustomizerModal.styles.js';
 
 const ACCENT = '#A4EB3F';
-const ACCENT_TEXT_LIGHT = '#16A34A';
+const ACCENT_TEXT_LIGHT = '#15803D';
 const ERROR = '#DC2626';
 
 export interface PortionPickerProps {
@@ -67,6 +67,7 @@ export const PortionPicker: React.FC<PortionPickerProps> = ({
           }}
           activeOpacity={0.7}
           accessibilityRole="button"
+          style={{ minHeight: 44, justifyContent: 'center' }}
         >
           <Text style={[styles.toggleCustomGramsText, { color: accentText }]}>
             {isCustomWeight ? t('tracker.customizer.standardServings') : t('tracker.customizer.customWeight')}
@@ -93,7 +94,7 @@ export const PortionPicker: React.FC<PortionPickerProps> = ({
                   }}
                   activeOpacity={0.7}
                   accessibilityRole="radio"
-                  accessibilityState={{ selected: isSelected }}
+                  aria-checked={isSelected}
                 >
                   <Text style={[styles.servingPillText, { color: theme.colors.textMuted }, isSelected && styles.servingPillTextActive]}>
                     {srv.label || srv.description}

@@ -1,12 +1,12 @@
 import React from 'react';
 import {
-  Modal,
   StyleSheet,
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
+import { NamedModal } from '../../ui/NamedModal.js';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
@@ -29,7 +29,7 @@ export const GuestAuthModal: React.FC<GuestAuthModalProps> = ({
   const accentTextColor = '#0A0B0D';
 
   return (
-    <Modal
+    <NamedModal accessibilityName={t('a11y.dialog.guestAuth')}
       visible={visible}
       transparent
       animationType="fade"
@@ -98,7 +98,7 @@ export const GuestAuthModal: React.FC<GuestAuthModalProps> = ({
           </TouchableWithoutFeedback>
         </View>
       </TouchableWithoutFeedback>
-    </Modal>
+    </NamedModal>
   );
 };
 

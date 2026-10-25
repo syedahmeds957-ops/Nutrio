@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+import { BackButton } from '../../ui/BackButton.js';
 import { ComputedUserPlan } from '../types.js';
 import { Icon } from '../../ui/Icon.js';
 import { useTheme } from '../../theme.js';
@@ -55,24 +56,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
       showsVerticalScrollIndicator={false}
     >
       {onBack && (
-        <TouchableOpacity
-          style={[
-            styles.topBackBtn,
-            {
-              backgroundColor: theme.colors.surface,
-              borderColor: theme.colors.border,
-            },
-          ]}
-          onPress={onBack}
-          activeOpacity={0.7}
-        >
-          <View style={styles.topBackContent}>
-            <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={14} color={theme.colors.textPrimary} />
-            <Text style={[styles.topBackText, { color: theme.colors.textPrimary }]}>
-              {t('common.back')}
-            </Text>
-          </View>
-        </TouchableOpacity>
+        <BackButton onPress={onBack} style={styles.topBackBtn} />
       )}
 
       <View style={styles.header}>
@@ -326,21 +310,7 @@ const styles = StyleSheet.create({
     paddingBottom: 48,
   },
   topBackBtn: {
-    alignSelf: 'flex-start',
     marginBottom: 16,
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderRadius: 9999,
-    borderWidth: 1,
-  },
-  topBackContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  topBackText: {
-    fontSize: 13,
-    fontWeight: '700',
   },
   header: {
     marginBottom: 20,

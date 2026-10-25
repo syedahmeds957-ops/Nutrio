@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { BackButton } from '../../ui/BackButton.js';
 import {
   DailyMealPlanResult,
   generateMealSwaps,
@@ -167,16 +168,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
           },
         ]}
       >
-        <TouchableOpacity
-          style={[styles.backBtn, { backgroundColor: theme.colors.surfaceSecondary }]}
-          onPress={onBackToDashboard}
-          activeOpacity={0.7}
-        >
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-            <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={16} color={theme.colors.textPrimary} />
-            <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>{t('common.back')}</Text>
-          </View>
-        </TouchableOpacity>
+        <BackButton onPress={onBackToDashboard} />
       </View>
 
       {/* Horizontal Day Selector */}
@@ -336,7 +328,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
               ]}
             >
               <Text
-                style={[styles.macroVal, { color: theme.colors.protein }]}
+                style={[styles.macroVal, { color: theme.colors.proteinText }]}
                 numberOfLines={1}
                 adjustsFontSizeToFit
               >
@@ -359,7 +351,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
               ]}
             >
               <Text
-                style={[styles.macroVal, { color: theme.colors.carbs }]}
+                style={[styles.macroVal, { color: theme.colors.carbsText }]}
                 numberOfLines={1}
                 adjustsFontSizeToFit
               >
@@ -382,7 +374,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
               ]}
             >
               <Text
-                style={[styles.macroVal, { color: theme.colors.fat }]}
+                style={[styles.macroVal, { color: theme.colors.fatText }]}
                 numberOfLines={1}
                 adjustsFontSizeToFit
               >
@@ -481,15 +473,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-  },
-  backBtn: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 9999,
-  },
-  backBtnText: {
-    fontSize: 12,
-    fontWeight: '700',
   },
 
 

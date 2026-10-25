@@ -50,7 +50,7 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
     <View style={styles.container}>
       {Object.keys(errors).length > 0 && (
         <Notice tone="danger" style={{ marginBottom: 16 }}>
-          {errors.jobCategory || errors.dailySittingHours || errors.shiftPattern || t('common.completeRequiredFields')}
+          {t('common.completeRequiredFields')}
         </Notice>
       )}
 

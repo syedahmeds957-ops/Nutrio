@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  Modal,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -8,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { NamedModal } from '../../ui/NamedModal.js';
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
 import { useRegion } from '../../common/region/index.js';
@@ -131,7 +131,7 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
         })}
       </ScrollView>
 
-      <Modal
+      <NamedModal accessibilityName={t('a11y.dialog.quickStaples')}
         visible={pendingStaple !== null}
         transparent
         animationType="fade"
@@ -199,7 +199,7 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
             </TouchableOpacity>
           </Pressable>
         </Pressable>
-      </Modal>
+      </NamedModal>
     </View>
   );
 };

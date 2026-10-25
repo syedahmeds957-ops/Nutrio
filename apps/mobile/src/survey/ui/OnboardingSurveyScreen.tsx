@@ -307,6 +307,8 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   backBtn: {
+    minHeight: 44,
+    minWidth: 44,
     flex: 1,
     paddingVertical: 14,
     borderRadius: 9999,

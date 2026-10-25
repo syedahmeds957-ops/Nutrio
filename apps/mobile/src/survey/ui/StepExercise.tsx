@@ -225,6 +225,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   chip: {
+    minHeight: 44,
     paddingVertical: 10,
     paddingHorizontal: 16,
     borderRadius: 14,
@@ -236,9 +237,10 @@ const styles = StyleSheet.create({
   },
   frequencyRow: {
     flexDirection: 'row',
-    gap: 8,
+    gap: 4,
   },
   numBtn: {
+    minHeight: 44,
     flex: 1,
     paddingVertical: 12,
     borderRadius: 12,

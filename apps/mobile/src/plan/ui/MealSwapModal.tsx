@@ -1,12 +1,12 @@
 import React from 'react';
 import {
-  Modal,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import { NamedModal } from '../../ui/NamedModal.js';
 import {
   MealSwapOption,
   MealSwapResult,
@@ -39,7 +39,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
   if (!originalSlot || !swapResult) return null;
 
   return (
-    <Modal
+    <NamedModal accessibilityName={t('a11y.dialog.swapMeal')}
       visible={visible}
       animationType="slide"
       transparent={true}
@@ -96,6 +96,8 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
               ]}
               onPress={onClose}
               activeOpacity={0.7}
+              accessibilityRole="button"
+              accessibilityLabel={t('common.close')}
             >
               <Icon name="x" size={18} color={theme.colors.textSecondary} />
             </TouchableOpacity>
@@ -178,7 +180,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                         },
                       ]}
                     >
-                      <Text style={[styles.macroPillLabel, { color: theme.colors.protein }]}>
+                      <Text style={[styles.macroPillLabel, { color: theme.colors.proteinText }]}>
                         P
                       </Text>
                       <Text style={[styles.macroPillVal, { color: theme.colors.textPrimary }]}>
@@ -210,7 +212,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                         },
                       ]}
                     >
-                      <Text style={[styles.macroPillLabel, { color: theme.colors.fat }]}>
+                      <Text style={[styles.macroPillLabel, { color: theme.colors.fatText }]}>
                         F
                       </Text>
                       <Text style={[styles.macroPillVal, { color: theme.colors.textPrimary }]}>
@@ -265,7 +267,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
           </ScrollView>
         </View>
       </View>
-    </Modal>
+    </NamedModal>
   );
 };
 
@@ -311,9 +313,9 @@ const styles = StyleSheet.create({
     maxWidth: 260,
   },
   closeButton: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -426,6 +428,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   selectBtn: {
+    minHeight: 44,
     marginTop: 14,
     borderRadius: 9999,
     paddingVertical: 12,

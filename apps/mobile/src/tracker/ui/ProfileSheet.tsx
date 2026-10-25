@@ -1,5 +1,6 @@
 import React from 'react';
-import { Animated, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { NamedModal } from '../../ui/NamedModal.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
@@ -99,7 +100,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
   const divider = <View style={[styles.statDivider, { backgroundColor: theme.colors.border }]} />;
 
   return (
-    <Modal visible={visible} transparent={true} animationType="none" onRequestClose={() => onClose()}>
+    <NamedModal accessibilityName={t('a11y.dialog.profile')} visible={visible} transparent={true} animationType="none" onRequestClose={() => onClose()}>
       <Animated.View style={[styles.profileOverlay, { opacity: fade }]}>
         <TouchableOpacity style={StyleSheet.absoluteFill} onPress={() => onClose()} activeOpacity={1} />
         <Animated.View
@@ -217,6 +218,6 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
           </View>
         </Animated.View>
       </Animated.View>
-    </Modal>
+    </NamedModal>
   );
 };

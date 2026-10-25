@@ -1,4 +1,20 @@
 {
+  "a11y": {
+    "dialog": {
+      "addDish": "إضافة طبق",
+      "brandMenu": "قائمة المطعم",
+      "customizeItem": "تخصيص الطبق",
+      "describeMeal": "صف وجبتك",
+      "diary": "يوميات الطعام",
+      "guestAuth": "تسجيل الدخول",
+      "logMeal": "تسجيل وجبة",
+      "profile": "الملف الشخصي",
+      "quickStaples": "الأكلات السريعة",
+      "swapMeal": "استبدال الوجبة",
+      "weighIn": "تسجيل الوزن"
+    },
+    "skipToContent": "انتقل إلى المحتوى الرئيسي"
+  },
   "app": {
     "checkin": {
       "adjusted": {
@@ -192,6 +208,7 @@
     "calories": "السعرات",
     "cancel": "إلغاء",
     "carbs": "الكربوهيدرات",
+    "close": "إغلاق",
     "completeRequiredFields": "يرجى إكمال جميع الحقول المطلوبة.",
     "continue": "متابعة",
     "daysAgo_few": "قبل {{count}} أيام",
@@ -218,6 +235,17 @@
     "oil": "الزيت",
     "portion": "حصة",
     "protein": "البروتين",
+    "regionSwitch": {
+      "confirm": "تبديل",
+      "message": {
+        "PK": "سيتحول التطبيق إلى الإنجليزية مع الأطباق الباكستانية والأسعار بالروبية.",
+        "SA": "سيتحول التطبيق إلى العربية (من اليمين إلى اليسار) مع الأطباق السعودية والأسعار بالريال."
+      },
+      "title": {
+        "PK": "التبديل إلى باكستان؟",
+        "SA": "التبديل إلى السعودية؟"
+      }
+    },
     "requiredMarker": "*(مطلوب)",
     "selected": "تم الاختيار",
     "standardServing": "{{count}} حصة قياسية",
@@ -251,7 +279,8 @@
       "wed": "ر"
     },
     "yes": "نعم",
-    "yesterday": "أمس"
+    "yesterday": "أمس",
+    "kgValue": "{{value}} كغ"
   },
   "plan": {
     "analysis": {
@@ -419,7 +448,8 @@
       "weeks_one": "أسبوع واحد",
       "weeks_other": "{{count}} أسبوع",
       "weeks_two": "أسبوعان",
-      "weeks_zero": "لا أسابيع"
+      "weeks_zero": "لا أسابيع",
+      "pacesDisabledReason": "الوتائر الأسرع معطلة لأنها تتجاوز الحد الآمن لوزنك ({{rate}} كغ/أسبوع)."
     },
     "mealSlot": {
       "cuisine": {
@@ -548,12 +578,12 @@
       "dailySittingHours": "يجب أن تكون ساعات الجلوس بين 0 و24.",
       "dailyWaterLitres": "يجب أن يكون استهلاك الماء اليومي بين 0.5 و15 لترًا.",
       "dietPreference": "يرجى اختيار نمطك الغذائي المفضل.",
-      "frequencyDaysPerWeek": "يجب أن يكون عدد أيام التمرين بين 0 و7 أسبوعيًا.",
+      "frequencyDaysPerWeek": "اختر عدد أيام التمرين في الأسبوع (من 0 إلى 7).",
       "heightCm": "يرجى إدخال طول صحيح بين 100 و250 سم.",
       "isPregnantOrBreastfeeding": "يرجى تحديد حالة الحمل أو الرضاعة لضمان سلامتك الغذائية.",
       "jobCategory": "يرجى اختيار عملك الأساسي أو نشاطك اليومي.",
       "medicalDisclaimerAccepted": "يجب الإقرار بإخلاء المسؤولية الطبي للمتابعة.",
-      "sessionDurationMins": "يجب أن تكون مدة الجلسة بين 0 و360 دقيقة.",
+      "sessionDurationMins": "أدخل مدة الجلسة بالدقائق (من 0 إلى 360).",
       "sex": "الجنس البيولوجي مطلوب لحساب معدل الأيض الأساسي.",
       "shiftPattern": "يرجى اختيار نمط مناوبات العمل المعتاد.",
       "sleepHoursPerNight": "يرجى إدخال مدة نوم معتادة بين 2 و16 ساعة.",
@@ -882,7 +912,8 @@
       "removeModifier": "إزالة {{name}}",
       "resetMyServing": "العودة إلى الحصة القياسية",
       "saveAsMyServing": "احفظ {{grams}} جرام كحصتي القياسية",
-      "standardServings": "أحجام قياسية"
+      "standardServings": "أحجام قياسية",
+      "howMany": "كم الكمية؟"
     },
     "dashboard": {
       "allMealsDone": "اكتملت كل الوجبات",
@@ -1012,7 +1043,8 @@
       "pendingSync_zero": "لا إدخالات بانتظار المزامنة",
       "readyFirstMeal": "جاهز لأول وجبة",
       "targetNotSet": "غير محدد",
-      "trackYourDay": "سجل وجبات اليوم"
+      "trackYourDay": "سجل وجبات اليوم",
+      "eatenSoFar": "تناولت {{eaten}} سعرة حتى الآن"
     },
     "hub": {
       "allBrandsHeading": {
@@ -1085,7 +1117,8 @@
         "Chicken": "دجاج",
         "Mutton": "لحم ضأن"
       },
-      "variantPicker": "اختر نوع اللحم لـ {{name}}"
+      "variantPicker": "اختر نوع اللحم لـ {{name}}",
+      "resultsFoundMore": "أكثر من {{count}} نتيجة"
     },
     "mealSlots": {
       "breakfast": {
@@ -1160,7 +1193,8 @@
       "addBottle": "+500 مل (عبوة)",
       "addGlass": "+250 مل (كوب)",
       "dailyTarget": "الهدف اليومي: {{amount}} مل",
-      "title": "ترطيب الجسم والتوازن المائي"
+      "title": "ترطيب الجسم والتوازن المائي",
+      "ofTarget": "من {{amount}} مل"
     }
   },
   "weight": {

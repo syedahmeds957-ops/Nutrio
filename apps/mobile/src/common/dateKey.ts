@@ -38,3 +38,21 @@ export function weekKeysFromMonday(date: Date = new Date()): string[] {
   const monday = addDaysToKey(localDateKey(date), -mondayOffset);
   return Array.from({ length: 7 }, (_, i) => addDaysToKey(monday, i));
 }
+
+/**
+ * A day key written for people: "25 Oct 2026", or the Arabic month name with
+ * Western digits and the Gregorian calendar (ar-SA would otherwise default to
+ * the Hijri calendar and Eastern digits). Formatted in UTC so the key's own
+ * date is shown whatever the device's time zone.
+ */
+export function formatDayKey(key: string, language: 'en' | 'ar'): string {
+  const date = new Date(`${key}T00:00:00Z`);
+  if (Number.isNaN(date.getTime())) return key;
+  const locale = language === 'ar' ? 'ar-SA-u-ca-gregory-nu-latn' : 'en-GB';
+  return new Intl.DateTimeFormat(locale, {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(date);
+}

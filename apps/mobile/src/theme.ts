@@ -44,6 +44,11 @@ export interface ThemeColors {
   protein: string;           // Royal Blue
   carbs: string;             // Solid Lime / Chartreuse
   fat: string;               // Warm Amber
+  // The same hues darkened until they read as text (>= 4.5:1) on every surface;
+  // the bright ones above are for fills, rings and borders.
+  proteinText: string;
+  carbsText: string;
+  fatText: string;
   water: string;             // Electric Cyan
   banked: string;            // Emerald Green
 
@@ -89,6 +94,9 @@ export const darkColors: ThemeColors = {
   protein: '#3B82F6',
   carbs: '#A4EB3F',
   fat: '#F59E0B',
+  proteinText: '#3B82F6',
+  carbsText: '#A4EB3F',
+  fatText: '#F59E0B',
   water: '#0EA5E9',
   banked: '#10B981',
 
@@ -133,6 +141,9 @@ export const lightColors: ThemeColors = {
   protein: '#3B82F6',
   carbs: '#A4EB3F',
   fat: '#F59E0B',
+  proteinText: '#1D4ED8',
+  carbsText: '#4B6200',
+  fatText: '#9A4A06',
   water: '#0EA5E9',
   banked: '#10B981',
 

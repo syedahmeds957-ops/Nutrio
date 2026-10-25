@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
+import { BackButton } from '../../ui/BackButton.js';
 import { WeightTrendChartCard } from './WeightTrendChartCard.js';
 import { AdaptiveTDEECard } from './AdaptiveTDEECard.js';
 import { WeighInLogModal } from './WeighInLogModal.js';
@@ -57,18 +58,7 @@ export const WeightTrackerScreen: React.FC<WeightTrackerScreenProps> = ({
         {/* Top Header: Back first, where every other screen puts it */}
         <View style={styles.topNav}>
           {onBackToTracker && (
-            <TouchableOpacity
-              style={[styles.backBtn, { backgroundColor: theme.colors.surfaceSecondary }]}
-              onPress={onBackToTracker}
-              activeOpacity={0.7}
-              accessibilityRole="button"
-              accessibilityLabel={t('common.back')}
-            >
-              <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={14} color={theme.colors.textPrimary} />
-              <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
-                {t('common.back')}
-              </Text>
-            </TouchableOpacity>
+            <BackButton onPress={onBackToTracker} style={styles.backBtnSpacing} />
           )}
           <Text style={[styles.headerSubtitle, dir.text, { color: theme.colors.primaryAccessible }]}>
             {t('weight.screen.eyebrow')}
@@ -141,19 +131,8 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     marginTop: 2,
   },
-  backBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'flex-start',
-    gap: 6,
-    borderRadius: 9999,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
+  backBtnSpacing: {
     marginBottom: 14,
-  },
-  backBtnText: {
-    fontSize: 14,
-    fontWeight: '700',
   },
   actionRow: {
     paddingHorizontal: 16,

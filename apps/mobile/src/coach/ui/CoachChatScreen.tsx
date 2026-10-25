@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { BackButton } from '../../ui/BackButton.js';
 import { CoachContext } from '@nutrio/nutrition-core';
 import { sendCoachMessage } from '../../ai/ai-service.js';
 import { Icon } from '../../ui/Icon.js';
@@ -140,16 +141,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
           },
         ]}
       >
-        <TouchableOpacity
-          style={[styles.backBtn, { backgroundColor: theme.colors.surfaceSecondary }]}
-          onPress={onBack}
-          activeOpacity={0.7}
-        >
-          <View style={styles.btnRow}>
-            <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={14} color={theme.colors.textPrimary} />
-            <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>{t('common.back')}</Text>
-          </View>
-        </TouchableOpacity>
+        <BackButton onPress={onBack} />
 
         <View style={styles.headerCenter}>
           <View style={styles.titleRow}>
@@ -354,20 +346,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderBottomWidth: 1,
   },
-  backBtn: {
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 9999,
-  },
-  btnRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  backBtnText: {
-    fontSize: 12,
-    fontWeight: '700',
-  },
   headerCenter: {
     alignItems: 'center',
   },
@@ -461,6 +439,7 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   chip: {
+    minHeight: 44,
     borderRadius: 9999,
     paddingVertical: 8,
     paddingHorizontal: 14,

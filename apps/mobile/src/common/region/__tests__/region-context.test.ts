@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { detectRegionFromCountry, getCurrencyForRegion } from '../regionContext.js';
+import { detectRegionFromDevice } from '../deviceRegion.js';
 
 describe('Region Detection Logic', () => {
   it('maps SA and Gulf codes to SA region and SAR currency', () => {
@@ -19,5 +20,18 @@ describe('Region Detection Logic', () => {
   it('defaults unknown countries gracefully to PK while allowing manual override', () => {
     expect(detectRegionFromCountry('US')).toBe('PK');
     expect(detectRegionFromCountry('')).toBe('PK');
+  });
+});
+
+describe('Device region detection', () => {
+  it('trusts the timezone over the display language', () => {
+    expect(detectRegionFromDevice('Asia/Riyadh', ['en-US'])).toBe('SA');
+    expect(detectRegionFromDevice('Asia/Karachi', ['ar-SA'])).toBe('PK');
+  });
+
+  it('falls back to the locale region, then to nothing', () => {
+    expect(detectRegionFromDevice('Europe/London', ['en-GB', 'ar-SA'])).toBe('SA');
+    expect(detectRegionFromDevice(undefined, ['ur_PK'])).toBe('PK');
+    expect(detectRegionFromDevice('Europe/London', ['en-US'])).toBeNull();
   });
 });

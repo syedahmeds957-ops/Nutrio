@@ -56,7 +56,8 @@ export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }
             onPress={() => handleSelectSex('male')}
             activeOpacity={0.7}
             accessibilityRole="button"
-            accessibilityLabel="Select Male"
+            accessibilityLabel={t('survey.basics.male')}
+            accessibilityState={{ selected: data.sex === 'male' }}
           >
             <Text
               style={[
@@ -85,7 +86,8 @@ export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }
             onPress={() => handleSelectSex('female')}
             activeOpacity={0.7}
             accessibilityRole="button"
-            accessibilityLabel="Select Female"
+            accessibilityLabel={t('survey.basics.female')}
+            accessibilityState={{ selected: data.sex === 'female' }}
           >
             <Text
               style={[

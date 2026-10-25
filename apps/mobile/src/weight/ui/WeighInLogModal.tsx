@@ -5,10 +5,10 @@ import {
   View,
   TouchableOpacity,
   TextInput,
-  Modal,
   SafeAreaView,
   Platform,
 } from 'react-native';
+import { NamedModal } from '../../ui/NamedModal.js';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
@@ -59,7 +59,7 @@ export const WeighInLogModal: React.FC<WeighInLogModalProps> = ({
   };
 
   return (
-    <Modal visible={visible} animationType="slide" transparent>
+    <NamedModal accessibilityName={t('a11y.dialog.weighIn')} visible={visible} animationType="slide" transparent>
       <SafeAreaView style={styles.overlay}>
         <View
           style={[
@@ -74,7 +74,12 @@ export const WeighInLogModal: React.FC<WeighInLogModalProps> = ({
             <Text style={[styles.title, dir.text, { color: theme.colors.textPrimary }]}>
               {t('weight.log.title')}
             </Text>
-            <TouchableOpacity onPress={onClose} activeOpacity={0.7}>
+            <TouchableOpacity
+              onPress={onClose}
+              activeOpacity={0.7}
+              accessibilityRole="button"
+              style={{ minHeight: 44, minWidth: 44, justifyContent: 'center', alignItems: 'center' }}
+            >
               <Text style={[styles.closeBtn, { color: theme.colors.textMuted }]}>
                 {t('common.cancel')}
               </Text>
@@ -136,6 +141,7 @@ export const WeighInLogModal: React.FC<WeighInLogModalProps> = ({
                     },
                   ]}
                   keyboardType="decimal-pad"
+                  accessibilityLabel={t('a11y.dialog.weighIn')}
                   value={weight}
                   onChangeText={(val) => {
                     setWeight(val);
@@ -207,7 +213,7 @@ export const WeighInLogModal: React.FC<WeighInLogModalProps> = ({
           </TouchableOpacity>
         </View>
       </SafeAreaView>
-    </Modal>
+    </NamedModal>
   );
 };
 
@@ -258,17 +264,20 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   inputContainer: {
-    alignItems: 'center',
+    alignSelf: 'stretch',
     marginBottom: 20,
   },
+  // Four steppers and the value share one row: the value box takes what is
+  // left and the steppers stay compact, so nothing spills past the sheet.
   stepperRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 6,
   },
   stepBtn: {
-    paddingVertical: 10,
-    paddingHorizontal: 12,
+    minHeight: 44,
+    justifyContent: 'center',
+    paddingHorizontal: 8,
     borderRadius: 14,
     borderWidth: 1,
   },
@@ -280,17 +289,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 18,
-    paddingHorizontal: 16,
+    flex: 1,
+    minWidth: 0,
+    paddingHorizontal: 8,
     paddingVertical: 8,
     borderWidth: 2,
-    minWidth: 120,
     justifyContent: 'center',
   },
   input: {
     fontSize: 28,
     fontWeight: '900',
     textAlign: 'center',
-    minWidth: 70,
+    flexShrink: 1,
+    minWidth: 0,
+    width: 80,
     backgroundColor: 'transparent',
     borderWidth: 0,
     ...noOutlineStyle,

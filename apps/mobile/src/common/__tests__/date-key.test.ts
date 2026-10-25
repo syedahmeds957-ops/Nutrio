@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { addDaysToKey, daysBetweenKeys, localDateKey, weekKeysFromMonday } from '../dateKey.js';
+import { addDaysToKey, daysBetweenKeys, formatDayKey, localDateKey, weekKeysFromMonday } from '../dateKey.js';
 
 describe('localDateKey', () => {
   const originalTz = process.env.TZ;
@@ -82,5 +82,22 @@ describe('weekKeysFromMonday', () => {
     const week = weekKeysFromMonday(new Date(2026, 10, 30, 9)); // Monday 30 Nov
     expect(week[0]).toBe('2026-11-30');
     expect(week[6]).toBe('2026-12-06');
+  });
+});
+
+describe('formatDayKey', () => {
+  it('writes the day for people, independent of the device time zone', () => {
+    expect(formatDayKey('2026-10-25', 'en')).toBe('25 Oct 2026');
+  });
+
+  it('keeps Western digits and the Gregorian calendar in Arabic', () => {
+    const text = formatDayKey('2026-10-25', 'ar');
+    expect(text).toMatch(/25/);
+    expect(text).toMatch(/2026/);
+    expect(text).not.toMatch(/[٠-٩]/);
+  });
+
+  it('returns the key untouched when it is not a date', () => {
+    expect(formatDayKey('nope', 'en')).toBe('nope');
   });
 });

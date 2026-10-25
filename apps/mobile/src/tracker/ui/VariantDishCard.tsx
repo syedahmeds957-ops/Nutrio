@@ -64,7 +64,7 @@ export const VariantDishCard: React.FC<VariantDishCardProps> = ({
                 ]}
                 onPress={() => setSelectedId(variant.id)}
                 accessibilityRole="radio"
-                accessibilityState={{ selected: isSelected }}
+                aria-checked={isSelected}
                 hitSlop={{ top: 6, bottom: 6, left: 4, right: 4 }}
               >
                 <Text

@@ -26,6 +26,7 @@ import type { DraftLogEntry } from '../describeMeal.js';
 import { NormalizedFood, ServingUnit } from '@nutrio/food-db';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { useConfirmedRegionSwitch } from '../../common/region/useConfirmedRegionSwitch.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { GuestAuthModal } from './GuestAuthModal.js';
 import { ProfileSheet } from './ProfileSheet.js';
@@ -82,7 +83,8 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   onRequireAuth,
 }) => {
   const { theme, isDark } = useTheme();
-  const { activeRegion, setRegion } = useRegion();
+  const { activeRegion } = useRegion();
+  const requestRegionSwitch = useConfirmedRegionSwitch();
   const { t } = useTranslation();
   const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
@@ -482,12 +484,12 @@ const defaultSlotForNow = (): MealSlot => {
                 ]}
                 onPress={() => {
                   HapticFeedback.selection();
-                  setRegion(activeRegion === 'SA' ? 'PK' : 'SA');
+                  requestRegionSwitch();
                 }}
                 activeOpacity={0.7}
                 hitSlop={{ top: 8, bottom: 8, left: 6, right: 6 }}
                 accessibilityRole="button"
-                accessibilityLabel={t('tracker.dashboard.toggleRegion')}
+                accessibilityLabel={`${activeRegion}, ${t('tracker.dashboard.toggleRegion')}`}
               >
                 <Text style={[styles.regionToggleText, { color: theme.colors.textPrimary }]}>
                   {activeRegion === 'SA' ? 'SA' : 'PK'}
