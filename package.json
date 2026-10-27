@@ -28,6 +28,9 @@
     "vitest": "^3.0.7"
   },
   "dependencies": {
-    "zod": "^4.5.4"
+    "zod": "^4.5.4",
+    "expo": "~57.0.25",
+    "react": "19.2.3",
+    "react-native": "0.86.3"
   }
 }
