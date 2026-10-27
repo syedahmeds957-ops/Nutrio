@@ -180,6 +180,28 @@ describe('session style', () => {
     expect(profileForSave(updateProfile({ ...BASE, experience: 'new' }, { sessionStyle: 'supersets' }))?.sessionStyle).toBeUndefined();
   });
 
+  it('shows each superset pair on the day screen, in English and Arabic', async () => {
+    const settings = settingsForSave(updateProfile({ ...BASE, trainingDays: ['mon', 'tue', 'thu', 'fri'] }, { sessionStyle: 'supersets' }));
+    const plan = generateWeeklyPlan(settings, { seed: 3, today: '2026-10-19' });
+    const session = plan.sessions.find((s) => s.slots.some((slot) => slot.supersetWith))!;
+    const dates: Record<string, string> = { mon: '2026-10-19', tue: '2026-10-20', thu: '2026-10-22', fri: '2026-10-23' };
+    const week = buildWeekView(plan, dates[session.day], 'PK');
+    const day = week.today as DayView & { session: NonNullable<DayView['session']> };
+    const draw = () =>
+      render(React.createElement(WorkoutDayScreen, { plan, day, weekIndex: week.weekIndex, todayKey: day.dateKey, logs: [], onBack: noop, onSaved: noop, onSwap: noop, onResetSwap: noop }));
+    const pairs = session.slots.filter((slot) => slot.supersetWith).length / 2;
+
+    const en = draw();
+    expect(en.match(/\(1 of 2\)/g)).toHaveLength(pairs);
+    expect(en.match(/\(2 of 2\)/g)).toHaveLength(pairs);
+    expect(en).toContain('Superset 1 (1 of 2): go straight to the next exercise');
+
+    await i18n.changeLanguage('ar');
+    const ar = draw();
+    expect(ar).toContain('سوبرسِت 1 (1 من 2): انتقل مباشرة إلى التمرين التالي');
+    expect(ar).toContain('سوبرسِت 1 (2 من 2): ارتح بعد هذا التمرين ثم كرّر');
+  });
+
   it('makes a plan with supersets and the day screen groups them', () => {
     const settings = settingsForSave(updateProfile(BASE, { sessionStyle: 'supersets' }));
     const plan = generateWeeklyPlan(settings, { seed: 3, today: '2026-10-19' });

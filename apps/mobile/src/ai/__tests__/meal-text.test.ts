@@ -32,4 +32,28 @@ describe('describeMeal', () => {
     const result = await describeMeal(SENTENCE, 'PK', async () => ({ items: 'nope' }));
     expect(result.splitBy).toBe('device');
   });
+
+  describe('the meal the model names', () => {
+    const modelSays = (slot: string) => async () => ({
+      success: true,
+      slot,
+      items: [{ text: '2 rotis', name: 'roti', quantity: 2, quantityGiven: true, unit: 'piece' }],
+    });
+
+    it('is dropped when the sentence names no meal, so it cannot replace the one the user picked', async () => {
+      const result = await describeMeal('2 rotis and daal', 'PK', modelSays('lunch'));
+      expect(result.splitBy).toBe('model');
+      expect(result.analysis.slot).toBeUndefined();
+    });
+
+    it('is kept when the sentence names one', async () => {
+      const result = await describeMeal('for dinner i had 2 rotis and daal', 'PK', modelSays('dinner'));
+      expect(result.analysis.slot).toBe('dinner');
+    });
+
+    it('is kept for an Arabic meal word the on-device parser does not read', async () => {
+      const result = await describeMeal('فطور: ٢ خبز وبيض', 'SA', modelSays('breakfast'));
+      expect(result.analysis.slot).toBe('breakfast');
+    });
+  });
 });

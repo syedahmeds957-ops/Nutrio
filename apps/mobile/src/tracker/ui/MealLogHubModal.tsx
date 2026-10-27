@@ -419,7 +419,6 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
               onBlur={() => setIsSearchFocused(false)}
               autoCapitalize="none"
               autoCorrect={false}
-              clearButtonMode="while-editing"
             />
             {isFiltering ? (
               <ActivityIndicator

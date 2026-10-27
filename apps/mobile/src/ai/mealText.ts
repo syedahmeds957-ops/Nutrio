@@ -15,6 +15,20 @@ interface ParseFoodTextBody {
 
 const SLOTS: ReadonlySet<string> = new Set(['breakfast', 'lunch', 'dinner', 'snacks_chai']);
 
+// Meal words the on-device parser doesn't know (it reads English and Roman Urdu).
+const ARABIC_MEAL_WORD = /فطور|إفطار|افطار|غداء|عشاء|سناك|وجبة خفيفة/;
+
+/**
+ * The model tends to guess a meal from the foods ("daal and roti" → lunch).
+ * A guess must never replace the meal the user already picked, so its slot
+ * counts only when the sentence itself names one.
+ */
+function namedSlot(text: string, modelSlot: MealSlotHint | undefined): MealSlotHint | undefined {
+  const fromDevice = foodDb().parseMealText(text).slot;
+  if (fromDevice) return modelSlot ?? fromDevice;
+  return ARABIC_MEAL_WORD.test(text) ? modelSlot : undefined;
+}
+
 function isParseFoodTextBody(value: unknown): value is ParseFoodTextBody {
   const v = value as ParseFoodTextBody;
   return (
@@ -50,7 +64,7 @@ export async function describeMeal(
   try {
     const body = await invoke('parse-food-text', { text: trimmed });
     if (isParseFoodTextBody(body)) {
-      return { analysis: foodDb().analyzeMealItems(body.items, region, body.slot), splitBy: 'model' };
+      return { analysis: foodDb().analyzeMealItems(body.items, region, namedSlot(trimmed, body.slot)), splitBy: 'model' };
     }
   } catch (err) {
     console.warn('[mealText] parse-food-text failed; using the on-device parser:', (err as Error)?.message);

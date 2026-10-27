@@ -82,6 +82,16 @@ const MacroTile: React.FC<MacroTileProps> = ({
   );
 };
 
+/**
+ * Size for the big calorie number, by its length. The number used to shrink
+ * itself with adjustsFontSizeToFit, which on iOS shrank it to a few points in
+ * right-to-left layouts; fixed steps keep it the same in both directions.
+ */
+export function heroSize(text: string): { fontSize: number; lineHeight: number } {
+  const fontSize = text.length <= 5 ? 48 : text.length <= 6 ? 40 : 32;
+  return { fontSize, lineHeight: Math.round(fontSize * 1.08) };
+}
+
 export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
   summary,
   weeklyHistoryFills,
@@ -106,6 +116,8 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
     totalCarbConsumed,
     pendingSyncCount,
   } = summary;
+
+  const heroNumber = (targetCalories > 0 ? Math.abs(remainingCalories) : Math.round(totalCaloriesConsumed)).toLocaleString('en-US');
 
   const totalTarget = Math.max(1, targetCalories);
   const calRatio = Math.min(1, Math.max(0, totalCaloriesConsumed / totalTarget));
@@ -147,14 +159,10 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
           {/* Main Calorie Numbers */}
           <View style={styles.heroNumbersCol}>
             <Text
-              style={[styles.heroValue, { color: heroTextColor }]}
+              style={[styles.heroValue, heroSize(heroNumber), { color: heroTextColor }]}
               numberOfLines={1}
-              adjustsFontSizeToFit
-              minimumFontScale={0.6}
             >
-              {targetCalories > 0
-                ? Math.abs(remainingCalories).toLocaleString('en-US')
-                : Math.round(totalCaloriesConsumed).toLocaleString('en-US')}
+              {heroNumber}
             </Text>
             <Text style={[styles.heroLabel, { color: heroTextColor }]}>
               {targetCalories > 0
