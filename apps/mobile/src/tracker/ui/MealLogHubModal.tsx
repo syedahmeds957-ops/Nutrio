@@ -273,6 +273,9 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   // above the usual results.
   const offersDescribe =
     Boolean(onLogDescribedMeal) && !isBuildMode && looksLikeMealDescription(searchQuery);
+  // A whole sentence rarely matches one dish; then the card is all there is, not
+  // "0 results" and an offer to add the sentence as a dish.
+  const describeOnly = offersDescribe && !isFiltering && searchResults.length === 0;
 
   // Filter brands by active region & selected cuisine group
   const filteredBrands = useMemo(() => {
@@ -438,7 +441,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                   setDebouncedQuery('');
                   setIsFiltering(false);
                 }}
-                style={styles.searchClearBtn}
+                style={[styles.searchClearBtn, onLogDescribedMeal && !isBuildMode && styles.searchClearBtnBesideSparkle]}
                 accessibilityRole="button"
                 accessibilityLabel={t('tracker.hub.clearSearch')}
               >
@@ -659,18 +662,22 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                     </View>
                     <Icon name={dir.isRTL ? 'chevron-left' : 'chevron-right'} size={18} color={theme.colors.textMuted} />
                   </TouchableOpacity>
-                  <Text style={[styles.sectionEyebrow, styles.orPickEyebrow, { color: theme.colors.textMuted }]}>
-                    {t('tracker.hub.orPickOneDish')}
-                  </Text>
+                  {!describeOnly && (
+                    <Text style={[styles.sectionEyebrow, styles.orPickEyebrow, { color: theme.colors.textMuted }]}>
+                      {t('tracker.hub.orPickOneDish')}
+                    </Text>
+                  )}
                 </>
               )}
-              <Text style={[styles.sectionEyebrow, { color: theme.colors.textMuted }]}>
-                {isFiltering
-                  ? t('tracker.hub.searching')
-                  : t(searchCapped ? 'tracker.hub.resultsFoundMore' : 'tracker.hub.resultsFound', {
-                      count: searchResults.length,
-                    })}
-              </Text>
+              {!describeOnly && (
+                <Text style={[styles.sectionEyebrow, { color: theme.colors.textMuted }]}>
+                  {isFiltering
+                    ? t('tracker.hub.searching')
+                    : t(searchCapped ? 'tracker.hub.resultsFoundMore' : 'tracker.hub.resultsFound', {
+                        count: searchResults.length,
+                      })}
+                </Text>
+              )}
 
               {isFiltering ? (
                 <View style={styles.filterLoadingContainer}>
@@ -682,7 +689,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                     {t('tracker.hub.filtering')}
                   </Text>
                 </View>
-              ) : searchResults.length === 0 ? (
+              ) : describeOnly ? null : searchResults.length === 0 ? (
                 <View style={styles.emptyStateContainer}>
                   <Text style={[styles.emptyStateTitle, dir.textCenter, { color: theme.colors.textPrimary }]}>
                     {t('tracker.hub.noDishes')}

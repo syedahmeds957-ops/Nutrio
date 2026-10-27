@@ -115,6 +115,11 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  // With the sparkle at the bar's end the clear button is no longer at the edge:
+  // no negative margin, or the two 44 px targets overlap.
+  searchClearBtnBesideSparkle: {
+    marginEnd: 4,
+  },
   presetDeleteBtn: {
     width: 44,
     height: 44,
