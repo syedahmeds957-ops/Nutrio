@@ -1366,7 +1366,6 @@
       "describeCardTitle": "Log “{{text}}” as a meal",
       "logTo": "Log to {{meal}}",
       "orPickOneDish": "Or pick one dish",
-      "switchRegion": "Switch region",
       "title": "Log a meal",
       "variant": {
         "Beef": "Beef",

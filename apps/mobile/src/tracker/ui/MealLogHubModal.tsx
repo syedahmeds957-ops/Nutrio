@@ -20,7 +20,6 @@ import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { filterSectionsForSlot, orderSectionsForSlot } from '../dietSlotOrder.js';
-import { useConfirmedRegionSwitch } from '../../common/region/useConfirmedRegionSwitch.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { getMostLoggedFoodIds, loadMealPresets, MAX_RECENT_FOODS } from '../mealPresets.js';
 import { searchCustomDishes } from '../customDishes.js';
@@ -122,7 +121,6 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
-  const requestRegionSwitch = useConfirmedRegionSwitch(() => setSelectedGroup(null));
   const isSaudiRegion = activeRegion === 'SA';
   /**
    * The Arabic name for Saudi users. Urdu names are not displayed (lists show
@@ -190,6 +188,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   const isDietFiltered = shownDietCount < dietFoods.length;
   useEffect(() => {
     setSelectedDietGroup(ALL_DIET_GROUPS);
+    setSelectedGroup(null);
   }, [activeRegion]);
   /**
    * The Browse tab lists every category, whatever the meal filter says: it is
@@ -340,42 +339,14 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
       onRequestClose={onClose}
     >
       <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.canvas }]}>
-        {/* Header with Region Switcher Pill */}
-        <View
-          style={[
-            styles.header,
-            {
-              backgroundColor: theme.colors.surface,
-              borderBottomColor: theme.colors.border,
-            },
-          ]}
-        >
+        {/*
+          Back, the meal being logged to, and the region: one row. The chip takes
+          the title's place, so the four meals live in a picker and the screen
+          starts with the search bar.
+        */}
+        <View style={[styles.header, { backgroundColor: theme.colors.canvas }]}>
           <BackButton variant="icon" onPress={onClose} />
-          <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>
-            {t('tracker.hub.title')}
-          </Text>
-          <TouchableOpacity
-            style={[
-              styles.regionPillBtn,
-              {
-                backgroundColor: theme.colors.surfaceSecondary,
-                borderColor: theme.colors.border,
-              },
-            ]}
-            onPress={requestRegionSwitch}
-            activeOpacity={0.7}
-            accessibilityRole="button"
-            accessibilityLabel={`${activeRegion}, ${t('tracker.hub.switchRegion')}`}
-          >
-            <Text style={[styles.regionPillText, { color: theme.colors.textPrimary }]}>
-              {activeRegion === 'SA' ? 'SA' : 'PK'}
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Which meal this is being logged to: one chip, the four meals in a picker */}
-        {slot && onSlotChange && (
-          <View style={[styles.slotRow, { backgroundColor: theme.colors.surface }]}>
+          {slot && onSlotChange ? (
             <TouchableOpacity
               style={[styles.mealChip, { backgroundColor: theme.colors.textPrimary }]}
               onPress={() => setIsPickingMeal(true)}
@@ -391,8 +362,14 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
               </Text>
               <Icon name="chevron-down" size={16} color={theme.colors.canvas} />
             </TouchableOpacity>
-          </View>
-        )}
+          ) : (
+            <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>
+              {t('tracker.hub.title')}
+            </Text>
+          )}
+          {/* Same width as the back button, so the meal chip sits in the middle. */}
+          <View style={styles.headerSpacer} />
+        </View>
 
         {/* Preset naming (top, so the keyboard never covers it) */}
         {isBuildMode && basket.length > 0 && isNamingPreset && (
@@ -408,7 +385,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
           style={[
             styles.searchContainer,
             {
-              backgroundColor: theme.colors.surface,
+              backgroundColor: theme.colors.canvas,
             },
           ]}
         >
@@ -416,7 +393,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
             style={[
               styles.searchInputWrapper,
               {
-                backgroundColor: theme.colors.surfaceSecondary,
+                backgroundColor: theme.colors.surface,
                 borderColor: isSearchFocused ? theme.colors.primaryLime : theme.colors.border,
                 borderWidth: 1.5,
               },

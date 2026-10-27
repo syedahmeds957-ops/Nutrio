@@ -1422,7 +1422,6 @@
       "describeCardTitle": "سجّل «{{text}}» كوجبة",
       "logTo": "سجّل في {{meal}}",
       "orPickOneDish": "أو اختر طبقًا واحدًا",
-      "switchRegion": "تبديل المنطقة",
       "title": "تسجيل وجبة",
       "variant": {
         "Beef": "لحم بقر",

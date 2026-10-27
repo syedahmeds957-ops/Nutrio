@@ -2,11 +2,6 @@ import { StyleSheet } from 'react-native';
 
 /** Styles for MealLogHubModal, kept apart so the component file stays readable. */
 export const styles = StyleSheet.create({
-  slotRow: {
-    flexDirection: 'row',
-    paddingHorizontal: 16,
-    paddingBottom: 10,
-  },
   mealChip: {
     minHeight: 44,
     flexDirection: 'row',
@@ -72,26 +67,16 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    borderBottomWidth: 1,
   },
   headerTitle: {
     fontSize: 17,
     fontWeight: '800',
     letterSpacing: -0.2,
   },
-  regionPillBtn: {
-    minHeight: 44,
-    minWidth: 44,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 9999,
-    borderWidth: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  regionPillText: {
-    fontSize: 12,
-    fontWeight: '700',
+  // Balances the back button, so the meal chip is centred.
+  headerSpacer: {
+    width: 44,
+    height: 44,
   },
   searchContainer: {
     paddingHorizontal: 16,
