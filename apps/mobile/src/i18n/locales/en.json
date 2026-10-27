@@ -1299,6 +1299,16 @@
       "trackYourDay": "Track your day"
     },
     "hub": {
+      "noSavedMeals": "Nothing saved yet. Build a custom meal, then tap “Save as a meal”.",
+      "savedMeals": "Saved meals",
+      "allCategories": "All categories",
+      "tabs": {
+        "browse": "Browse",
+        "forYou": "For you",
+        "restaurants": "Restaurants"
+      },
+      "tileCount": "{{count}} food",
+      "tileCount_other": "{{count}} foods",
       "allBrandsHeading": {
         "PK": "60+ Pakistani restaurants & home foods",
         "SA": "12+ Saudi restaurants & traditional dishes (SFDA)"
@@ -1346,10 +1356,7 @@
       "resultsFound_other": "{{count}} results found",
       "saveAsPreset": "Save as a meal",
       "savePresetConfirm": "Save",
-      "searchOrDescribe": {
-        "PK": "Search or describe: 2 rotis and daal",
-        "SA": "Search or describe: kabsa and salad"
-      },
+      "searchOrDescribe": "Search or describe a meal",
       "searching": "Searching…",
       "clearSearch": "Clear search",
       "chooseMeal": "Choose a meal",

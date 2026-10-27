@@ -47,6 +47,20 @@ import { DotsThree } from 'phosphor-react-native/src/icons/DotsThree';
 import { Moon } from 'phosphor-react-native/src/icons/Moon';
 import { Eye } from 'phosphor-react-native/src/icons/Eye';
 
+import { BowlFood } from 'phosphor-react-native/src/icons/BowlFood';
+import { Fish } from 'phosphor-react-native/src/icons/Fish';
+import { Cheese } from 'phosphor-react-native/src/icons/Cheese';
+import { Bread } from 'phosphor-react-native/src/icons/Bread';
+import { Orange } from 'phosphor-react-native/src/icons/Orange';
+import { Carrot } from 'phosphor-react-native/src/icons/Carrot';
+import { CookingPot } from 'phosphor-react-native/src/icons/CookingPot';
+import { Leaf } from 'phosphor-react-native/src/icons/Leaf';
+import { Cookie } from 'phosphor-react-native/src/icons/Cookie';
+import { Jar } from 'phosphor-react-native/src/icons/Jar';
+import { Grains } from 'phosphor-react-native/src/icons/Grains';
+import { Plant } from 'phosphor-react-native/src/icons/Plant';
+import { BookmarkSimple } from 'phosphor-react-native/src/icons/BookmarkSimple';
+
 export type IconName =
   | 'flame'
   | 'scale'
@@ -90,7 +104,20 @@ export type IconName =
   | 'building'
   | 'more'
   | 'moon'
-  | 'eye';
+  | 'eye'
+  | 'bowl'
+  | 'fish'
+  | 'cheese'
+  | 'bread'
+  | 'orange'
+  | 'carrot'
+  | 'cooking-pot'
+  | 'leaf'
+  | 'cookie'
+  | 'jar'
+  | 'grains'
+  | 'plant'
+  | 'bookmark';
 
 /** Phosphor (https://phosphoricons.com) glyph behind each app icon name. */
 const GLYPHS: Record<IconName, React.ComponentType<PhosphorIconProps>> = {
@@ -137,6 +164,19 @@ const GLYPHS: Record<IconName, React.ComponentType<PhosphorIconProps>> = {
   more: DotsThree,
   moon: Moon,
   eye: Eye,
+  bowl: BowlFood,
+  fish: Fish,
+  cheese: Cheese,
+  bread: Bread,
+  orange: Orange,
+  carrot: Carrot,
+  'cooking-pot': CookingPot,
+  leaf: Leaf,
+  cookie: Cookie,
+  jar: Jar,
+  grains: Grains,
+  plant: Plant,
+  bookmark: BookmarkSimple,
 };
 
 interface IconProps {

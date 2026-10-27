@@ -1339,6 +1339,20 @@
       "trackYourDay": "سجل وجبات اليوم"
     },
     "hub": {
+      "noSavedMeals": "لا توجد وجبات محفوظة بعد. أنشئ وجبة مخصصة ثم اضغط «حفظ كوجبة».",
+      "savedMeals": "الوجبات المحفوظة",
+      "allCategories": "كل الفئات",
+      "tabs": {
+        "browse": "تصفّح",
+        "forYou": "لك",
+        "restaurants": "المطاعم"
+      },
+      "tileCount_few": "{{count}} أطعمة",
+      "tileCount_many": "{{count}} طعاماً",
+      "tileCount_one": "طعام واحد",
+      "tileCount_other": "{{count}} طعام",
+      "tileCount_two": "طعامان",
+      "tileCount_zero": "لا أطعمة",
       "allBrandsHeading": {
         "PK": "أكثر من 60 مطعماً باكستانياً وأكلات بيتية",
         "SA": "أكثر من 12 مطعماً سعودياً وأطباقاً تقليدية (الغذاء والدواء)"
@@ -1398,10 +1412,7 @@
       "resultsFound_zero": "لا نتائج",
       "saveAsPreset": "حفظ كوجبة",
       "savePresetConfirm": "حفظ",
-      "searchOrDescribe": {
-        "PK": "ابحث أو صِف: روتيان ودال",
-        "SA": "ابحث أو صِف: كبسة وسلطة"
-      },
+      "searchOrDescribe": "ابحث أو صِف وجبة",
       "searching": "جاري البحث...",
       "clearSearch": "مسح البحث",
       "chooseMeal": "اختر الوجبة",

@@ -14,7 +14,7 @@ import { NamedModal } from '../../ui/NamedModal.js';
 import type { NormalizedFood, RestaurantBrand } from '@nutrio/food-db';
 import { foodDb } from '../../catalogue/index.js';
 import { MealSlot } from '../types.js';
-import { Icon } from '../../ui/Icon.js';
+import { Icon, type IconName } from '../../ui/Icon.js';
 import { BrandLogo } from '../../ui/BrandLogo.js';
 import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
@@ -26,7 +26,6 @@ import { getMostLoggedFoodIds, loadMealPresets, MAX_RECENT_FOODS } from '../meal
 import { searchCustomDishes } from '../customDishes.js';
 import type { DraftLogEntry } from '../describeMeal.js';
 import { AddDishModal } from './AddDishModal.js';
-import { ScrollCue } from '../../ui/ScrollCue.js';
 import { DescribeMealModal } from './DescribeMealModal.js';
 import { looksLikeMealDescription } from '../looksLikeMealDescription.js';
 import { styles } from './MealLogHubModal.styles.js';
@@ -57,12 +56,37 @@ export interface MealLogHubModalProps {
 
 const MEAL_SLOT_IDS: MealSlot[] = ['breakfast', 'lunch', 'dinner', 'snacks_chai'];
 
-// Plain single-ingredient foods. Listed first and selected by default so
-// someone logging "2 eggs" or a salad lands on them without searching.
-const DIET_GROUP = 'Diet & Basics';
+type HubTab = 'forYou' | 'browse' | 'restaurants';
+const HUB_TABS: HubTab[] = ['forYou', 'browse', 'restaurants'];
 
-/** Sentinel for the diet sub-category pills meaning 'show every section'. */
+/** Sentinel for the Browse tab meaning 'show the category tiles'. */
 const ALL_DIET_GROUPS = '__all__';
+
+// Pastel tile fills and their ink, cycled over the Browse categories. In dark
+// mode the tiles use the theme's own surface instead.
+const TILE_COLORS: Array<{ bg: string; ink: string }> = [
+  { bg: '#EDFCD2', ink: '#365314' },
+  { bg: '#FEF3C7', ink: '#7C2D12' },
+  { bg: '#E0F2FE', ink: '#075985' },
+  { bg: '#FEE2E2', ink: '#7F1D1D' },
+  { bg: '#F1F5F9', ink: '#334155' },
+];
+
+const TILE_ICONS: Record<string, IconName> = {
+  meals: 'bowl',
+  protein: 'fish',
+  grains: 'bread',
+  legumes: 'grains',
+  dairy: 'cheese',
+  fruits: 'orange',
+  vegetables: 'carrot',
+  salads: 'leaf',
+  soups: 'cooking-pot',
+  beverages: 'coffee',
+  snacks: 'cookie',
+  nuts_seeds: 'plant',
+  extras: 'jar',
+};
 
 const PK_BRAND_GROUPS = [
   'All',
@@ -96,7 +120,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   onSlotChange,
   onLogDescribedMeal,
 }) => {
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
   const requestRegionSwitch = useConfirmedRegionSwitch(() => setSelectedGroup(null));
   const isSaudiRegion = activeRegion === 'SA';
@@ -117,6 +141,9 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
    * second row of pills appears only once a category with sub-options is picked.
    */
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
+  const [tab, setTab] = useState<HubTab>('forYou');
+  // The saved-meals chips are tucked behind their card on For you.
+  const [showSavedMeals, setShowSavedMeals] = useState(false);
   const [selectedDietGroup, setSelectedDietGroup] = useState<string>(ALL_DIET_GROUPS);
 
   useEffect(() => {
@@ -142,10 +169,8 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
 
   // Group names double as filter keys matched against brand.category, so the
   // raw value stays and only the visible label is translated.
-  const brandGroups = [
-    DIET_GROUP,
-    ...(activeRegion === 'SA' ? SA_BRAND_GROUPS : PK_BRAND_GROUPS),
-  ];
+  const brandGroups = activeRegion === 'SA' ? SA_BRAND_GROUPS : PK_BRAND_GROUPS;
+  const activeBrandGroup = selectedGroup ?? 'All';
   const groupLabel = (group: string) =>
     t(`tracker.brandGroups.${group}`, { defaultValue: group });
 
@@ -161,35 +186,22 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
     () => (showAllDietFoods ? allDietSections : filterSectionsForSlot(allDietSections, slot)),
     [allDietSections, showAllDietFoods, slot]
   );
-  // A pill for a group the meal filter removed would open an empty list.
-  useEffect(() => {
-    if (selectedDietGroup !== ALL_DIET_GROUPS && !dietSections.some((s) => s.group === selectedDietGroup)) {
-      setSelectedDietGroup(ALL_DIET_GROUPS);
-    }
-  }, [dietSections, selectedDietGroup]);
   const shownDietCount = dietSections.reduce((sum, section) => sum + section.foods.length, 0);
   const isDietFiltered = shownDietCount < dietFoods.length;
   useEffect(() => {
     setSelectedDietGroup(ALL_DIET_GROUPS);
   }, [activeRegion]);
   /**
-   * Which diet sub-category the pills have selected, or every one of them.
-   * Reset whenever the region changes, since the sections themselves change
-   * with it and a pill for a group that no longer exists would show nothing.
+   * The Browse tab lists every category, whatever the meal filter says: it is
+   * the way to reach the foods "For you" leaves out. Reset with the region,
+   * since the categories themselves change with it.
    */
-  const visibleDietSections = useMemo(
-    () =>
-      selectedDietGroup === ALL_DIET_GROUPS
-        ? dietSections
-        : dietSections.filter((s) => s.group === selectedDietGroup),
-    [dietSections, selectedDietGroup]
-  );
-  const isDietView = selectedGroup === DIET_GROUP;
-  /**
-   * With no category picked, the hub opens on the user's saved meals, most-logged
-   * foods and the plain-food list — the quickest path for everyday logging.
-   */
-  const showsFoodList = selectedGroup === null || isDietView;
+  const browseSection =
+    selectedDietGroup === ALL_DIET_GROUPS
+      ? undefined
+      : allDietSections.find((s) => s.group === selectedDietGroup);
+  /** Saved meals, most-logged foods and the meal's own food list live under "For you". */
+  const showsFoodList = tab === 'forYou';
 
   const {
     basket,
@@ -225,6 +237,10 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
       .map((id) => byId.get(id) ?? byId.get(foodDb().resolveFoodId(id)))
       .filter((f): f is NormalizedFood => Boolean(f));
   }, [showsFoodList, dietFoods, presetsVersion]);
+
+  // The meal-suited food list is the fallback for someone with no history yet;
+  // everyone else gets the shorter "you log these most" list, and Browse for the rest.
+  const showDietList = recentFoods.length === 0;
 
   const presets = useMemo(
     () => (showsFoodList ? loadMealPresets() : []),
@@ -279,27 +295,27 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
 
   // Filter brands by active region & selected cuisine group
   const filteredBrands = useMemo(() => {
-    if (!selectedGroup || selectedGroup === DIET_GROUP) return [];
+    if (tab !== 'restaurants') return [];
     if (activeRegion === 'SA') {
-      if (selectedGroup === 'All') return foodDb().SAUDI_RESTAURANT_BRANDS;
-      if (selectedGroup === 'Home Food') {
+      if (activeBrandGroup === 'All') return foodDb().SAUDI_RESTAURANT_BRANDS;
+      if (activeBrandGroup === 'Home Food') {
         return foodDb().SAUDI_RESTAURANT_BRANDS.filter(
           (b) => b.id === 'al_matbakh_al_saudi' || b.category === 'Home Food'
         );
       }
       return foodDb().SAUDI_RESTAURANT_BRANDS.filter(
         (b) =>
-          b.category === selectedGroup ||
-          b.cuisineTags?.includes(selectedGroup)
+          b.category === activeBrandGroup ||
+          b.cuisineTags?.includes(activeBrandGroup)
       );
     }
 
-    if (selectedGroup === 'All') return foodDb().PAKISTANI_RESTAURANT_BRANDS;
-    if (selectedGroup === 'Home Food') {
+    if (activeBrandGroup === 'All') return foodDb().PAKISTANI_RESTAURANT_BRANDS;
+    if (activeBrandGroup === 'Home Food') {
       return foodDb().PAKISTANI_RESTAURANT_BRANDS.filter((b) => b.id === 'ghar_ka_khana');
     }
-    return foodDb().PAKISTANI_RESTAURANT_BRANDS.filter((b) => b.brandGroup === selectedGroup);
-  }, [selectedGroup, activeRegion]);
+    return foodDb().PAKISTANI_RESTAURANT_BRANDS.filter((b) => b.brandGroup === activeBrandGroup);
+  }, [tab, activeBrandGroup, activeRegion]);
 
   // `keyPrefix` exists because the diet view can render the same food twice —
   // once under "Recent" and again in the full list — and bare ids would collide
@@ -418,7 +434,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                 dir.text,
                 { color: theme.colors.textPrimary },
               ]}
-              placeholder={t(`tracker.hub.searchOrDescribe.${activeRegion === 'SA' ? 'SA' : 'PK'}`)}
+              placeholder={t('tracker.hub.searchOrDescribe')}
               placeholderTextColor={theme.colors.textMuted}
               value={searchQuery}
               onChangeText={setSearchQuery}
@@ -463,10 +479,50 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
           </View>
         </View>
 
+        {/* For you / Browse / Restaurants (hidden while a query is being typed) */}
+        {!isSearching && (
+          <View
+            style={[styles.tabRow, { borderBottomColor: theme.colors.border }]}
+            accessibilityRole="tablist"
+          >
+            {HUB_TABS.map((id) => {
+              const selected = tab === id;
+              return (
+                <TouchableOpacity
+                  key={id}
+                  style={[
+                    styles.tab,
+                    selected && { borderBottomColor: theme.colors.primaryLime },
+                  ]}
+                  onPress={() => {
+                    setTab(id);
+                    setSelectedDietGroup(ALL_DIET_GROUPS);
+                  }}
+                  activeOpacity={0.7}
+                  accessibilityRole="tab"
+                  accessibilityState={{ selected }}
+                >
+                  <Text
+                    style={[
+                      styles.tabText,
+                      {
+                        color: selected ? theme.colors.textPrimary : theme.colors.textSecondary,
+                        fontWeight: selected ? '800' : '600',
+                      },
+                    ]}
+                    numberOfLines={1}
+                  >
+                    {t(`tracker.hub.tabs.${id}`)}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        )}
+
         {/*
-          Only the title, meal tabs and search stay pinned. Describe, Custom and
-          the category pills scroll away with the list, so the food keeps the
-          screen.
+          Only the title, meal chip, search and tabs stay pinned. The list scrolls
+          under them, with the Custom meal pill floating above it.
         */}
         <ScrollView
           style={styles.content}
@@ -497,8 +553,8 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
           </View>
         )}
 
-        {/* Brand Group Filter Pills (When Not Searching) */}
-        {!isSearching && (
+        {/* Restaurant groups, wrapped so every one is in view (Restaurants tab only) */}
+        {!isSearching && tab === 'restaurants' && (
           <View
             style={[
               styles.groupScrollContainer,
@@ -510,7 +566,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
           >
             <View style={styles.groupPillsWrapped}>
               {brandGroups.map((grp) => {
-                const isActive = selectedGroup === grp;
+                const isActive = activeBrandGroup === grp;
                 return (
                   <TouchableOpacity
                     key={grp}
@@ -522,11 +578,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                           : theme.colors.surfaceSecondary,
                       },
                     ]}
-                    onPress={() => {
-                      // Tapping the picked category again clears it.
-                      setSelectedGroup(isActive ? null : grp);
-                      setSelectedDietGroup(ALL_DIET_GROUPS);
-                    }}
+                    onPress={() => setSelectedGroup(grp)}
                     accessibilityRole="button"
                     accessibilityState={{ selected: isActive }}
                     activeOpacity={0.7}
@@ -551,64 +603,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
           </View>
         )}
 
-        {/*
-          Diet sub-category pills — the same nav the brand groups use, one level
-          down. Diet & Basics is ~290 items, and a single scroll that long is
-          not a list you browse, it is one you give up on.
-        */}
-        {isDietView && !searchQuery.trim() && dietSections.length > 1 && (
-          <View
-            style={[
-              styles.groupScrollContainer,
-              {
-                backgroundColor: theme.colors.canvas,
-                borderBottomColor: theme.colors.border,
-              },
-            ]}
-          >
-            <ScrollCue fadeColor={theme.colors.canvas} contentContainerStyle={styles.groupPillsWrapper}>
-              {[ALL_DIET_GROUPS, ...dietSections.map((s) => s.group)].map((group) => {
-                const isActive = selectedDietGroup === group;
-                const count =
-                  group === ALL_DIET_GROUPS
-                    ? shownDietCount
-                    : (dietSections.find((s) => s.group === group)?.foods.length ?? 0);
-                return (
-                  <TouchableOpacity
-                    key={group}
-                    style={[
-                      styles.groupPill,
-                      {
-                        backgroundColor: isActive
-                          ? theme.colors.primaryLime
-                          : theme.colors.surfaceSecondary,
-                      },
-                    ]}
-                    onPress={() => setSelectedDietGroup(group)}
-                    activeOpacity={0.7}
-                  >
-                    <Text
-                      style={[
-                        styles.groupPillText,
-                        {
-                          color: isActive ? '#0A0B0D' : theme.colors.textSecondary,
-                          fontWeight: isActive ? '800' : '600',
-                        },
-                      ]}
-                    >
-                      {group === ALL_DIET_GROUPS
-                        ? t('tracker.hub.dietGroups.all')
-                        : t(`tracker.hub.dietGroups.${group}`)}{' '}
-                      {count}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </ScrollCue>
-          </View>
-        )}
-
-        {showsFoodList && !searchQuery.trim() && slot && (isDietFiltered || showAllDietFoods) && (
+        {showsFoodList && showDietList && !searchQuery.trim() && slot && (isDietFiltered || showAllDietFoods) && (
           <View style={[styles.slotFilterRow, { backgroundColor: theme.colors.canvas }]}>
             <Text style={[styles.slotFilterText, dir.text, { color: theme.colors.textSecondary }]}>
               {showAllDietFoods
@@ -733,10 +728,104 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                 </>
               )}
             </View>
-          ) : showsFoodList ? (
-            /* Plain Single-Ingredient Foods (also the view before any category is picked) */
+          ) : tab === 'browse' ? (
+            /* Browse: category tiles, or one category's foods */
             <View style={styles.searchResultsSection}>
-              {presets.length > 0 && (
+              {browseSection ? (
+                <>
+                  <TouchableOpacity
+                    style={styles.browseBack}
+                    onPress={() => setSelectedDietGroup(ALL_DIET_GROUPS)}
+                    activeOpacity={0.7}
+                    accessibilityRole="button"
+                  >
+                    <Icon name={dir.isRTL ? 'chevron-right' : 'chevron-left'} size={18} color={theme.colors.textPrimary} />
+                    <Text style={[styles.browseBackText, { color: theme.colors.textPrimary }]}>
+                      {t('tracker.hub.allCategories')}
+                    </Text>
+                  </TouchableOpacity>
+                  <Text style={[styles.sectionEyebrow, { color: theme.colors.textMuted }]}>
+                    {t(`tracker.hub.dietGroups.${browseSection.group}`)} · {browseSection.foods.length}
+                  </Text>
+                  {browseSection.foods.map((food) => renderDishCard(food, `${browseSection.group}_`))}
+                </>
+              ) : (
+                <View style={styles.tileGrid}>
+                  {allDietSections.map(({ group, foods }, index) => {
+                    const tone = TILE_COLORS[index % TILE_COLORS.length];
+                    const ink = isDark ? theme.colors.textPrimary : tone.ink;
+                    return (
+                      <TouchableOpacity
+                        key={group}
+                        style={[
+                          styles.tile,
+                          { backgroundColor: isDark ? theme.colors.surfaceSecondary : tone.bg },
+                        ]}
+                        onPress={() => setSelectedDietGroup(group)}
+                        activeOpacity={0.8}
+                        accessibilityRole="button"
+                      >
+                        <Icon name={TILE_ICONS[group] ?? 'utensils'} size={26} color={ink} />
+                        <View>
+                          <Text style={[styles.tileTitle, dir.text, { color: theme.colors.textPrimary }]}>
+                            {t(`tracker.hub.dietGroups.${group}`)}
+                          </Text>
+                          <Text style={[styles.tileCount, dir.text, { color: ink }]}>
+                            {t('tracker.hub.tileCount', { count: foods.length })}
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+              )}
+            </View>
+          ) : tab === 'forYou' ? (
+            /* For you: saved meals, most-logged foods, and the foods that suit this meal */
+            <View style={styles.searchResultsSection}>
+              {!isBuildMode && (
+                <View style={styles.actionRow}>
+                  {onConfirmBasket && (
+                    <TouchableOpacity
+                      style={[styles.actionCard, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}
+                      onPress={() => setIsBuildMode(true)}
+                      activeOpacity={0.7}
+                      accessibilityRole="button"
+                    >
+                      <View style={[styles.actionIcon, { backgroundColor: isDark ? theme.colors.surfaceSecondary : '#EDFCD2' }]}>
+                        <Icon name="plus" size={22} color={isDark ? theme.colors.primaryLime : '#365314'} />
+                      </View>
+                      <Text style={[styles.actionLabel, { color: theme.colors.textPrimary }]}>
+                        {t('tracker.hub.customMealPill')}
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                  <TouchableOpacity
+                    style={[
+                      styles.actionCard,
+                      { backgroundColor: theme.colors.surface, borderColor: showSavedMeals ? theme.colors.primaryLime : theme.colors.border },
+                    ]}
+                    onPress={() => setShowSavedMeals((v) => !v)}
+                    activeOpacity={0.7}
+                    accessibilityRole="button"
+                    accessibilityState={{ expanded: showSavedMeals }}
+                  >
+                    <View style={[styles.actionIcon, { backgroundColor: isDark ? theme.colors.surfaceSecondary : '#EDFCD2' }]}>
+                      <Icon name="bookmark" size={22} color={isDark ? theme.colors.primaryLime : '#365314'} />
+                    </View>
+                    <Text style={[styles.actionLabel, { color: theme.colors.textPrimary }]}>
+                      {t('tracker.hub.savedMeals')}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+
+              {showSavedMeals && presets.length === 0 && (
+                <Text style={[styles.savedEmpty, dir.text, { color: theme.colors.textSecondary }]}>
+                  {t('tracker.hub.noSavedMeals')}
+                </Text>
+              )}
+              {showSavedMeals && presets.length > 0 && (
                 <>
                   <Text style={[styles.sectionEyebrow, { color: theme.colors.textMuted }]}>
                     {t('tracker.hub.presetsHeading')}
@@ -793,7 +882,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
               )}
 
               {/* The slot-filter row above is the one count line when it is showing. */}
-              {!(slot && (isDietFiltered || showAllDietFoods)) && (
+              {showDietList && !(slot && (isDietFiltered || showAllDietFoods)) && (
                 <Text style={[styles.sectionEyebrow, { color: theme.colors.textMuted }]}>
                   {t('tracker.hub.dietBasicsHeading', { count: shownDietCount })}
                 </Text>
@@ -804,9 +893,9 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                 meals and proteins come first and the add-ons people put *on*
                 food — oils, sugar, dressings — come last.
               */}
-              {visibleDietSections.map(({ group, foods }) => (
+              {(showDietList ? dietSections : []).map(({ group, foods }) => (
                 <View key={group}>
-                  {visibleDietSections.length > 1 && (
+                  {dietSections.length > 1 && (
                   <Text style={[styles.dietGroupHeading, { color: theme.colors.textSecondary }]}>
                     {t(`tracker.hub.dietGroups.${group}`)}
                   </Text>
@@ -819,10 +908,10 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
             /* Brands List View */
             <View style={styles.brandsSection}>
               <Text style={[styles.sectionEyebrow, { color: theme.colors.textMuted }]}>
-                {selectedGroup === 'All'
+                {activeBrandGroup === 'All'
                   ? t(`tracker.hub.allBrandsHeading.${activeRegion}`)
                   : t('tracker.hub.groupBrandsHeading', {
-                      group: groupLabel(selectedGroup ?? ''),
+                      group: groupLabel(activeBrandGroup),
                       count: filteredBrands.length,
                     })}
               </Text>
@@ -926,11 +1015,15 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
             animationType="fade"
             onRequestClose={() => setIsPickingMeal(false)}
           >
-            <Pressable
-              style={styles.pickerBackdrop}
-              onPress={() => setIsPickingMeal(false)}
-              accessibilityLabel={t('tracker.hub.chooseMeal')}
-            >
+            {/* The dismiss area sits beside the sheet, not around it: a labelled parent
+                would make VoiceOver read the whole sheet as one button. */}
+            <View style={styles.pickerBackdrop}>
+              <Pressable
+                style={styles.pickerDismiss}
+                onPress={() => setIsPickingMeal(false)}
+                accessibilityRole="button"
+                accessibilityLabel={t('common.close')}
+              />
               <View
                 style={[
                   styles.pickerSheet,
@@ -965,7 +1058,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                   );
                 })}
               </View>
-            </Pressable>
+            </View>
           </NamedModal>
         )}
 

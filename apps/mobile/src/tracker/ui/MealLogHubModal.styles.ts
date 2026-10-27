@@ -30,6 +30,13 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 24,
     backgroundColor: 'rgba(10, 11, 13, 0.45)',
   },
+  pickerDismiss: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
   pickerSheet: {
     borderRadius: 22,
     borderWidth: 1,
@@ -170,6 +177,7 @@ export const styles = StyleSheet.create({
   },
   buildModeRow: {
     paddingHorizontal: 16,
+    paddingTop: 12,
     paddingBottom: 10,
     gap: 6,
   },
@@ -287,6 +295,89 @@ export const styles = StyleSheet.create({
   basketConfirmText: {
     fontSize: 13,
     fontWeight: '800',
+  },
+  tabRow: {
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+  },
+  tab: {
+    flex: 1,
+    minHeight: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottomWidth: 3,
+    borderBottomColor: 'transparent',
+  },
+  tabText: {
+    fontSize: 15,
+  },
+  actionRow: {
+    flexDirection: 'row',
+    gap: 12,
+    marginBottom: 24,
+  },
+  actionCard: {
+    flex: 1,
+    alignItems: 'center',
+    gap: 10,
+    paddingVertical: 16,
+    paddingHorizontal: 6,
+    borderRadius: 22,
+    borderWidth: 1,
+  },
+  actionIcon: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  actionLabel: {
+    fontSize: 14,
+    fontWeight: '800',
+    textAlign: 'center',
+  },
+  savedEmpty: {
+    fontSize: 13,
+    lineHeight: 18,
+    marginTop: -10,
+    marginBottom: 20,
+  },
+  tileGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+  },
+  // Two to a row; flexBasis leaves room for the gap.
+  tile: {
+    flexBasis: '47%',
+    flexGrow: 1,
+    height: 112,
+    padding: 14,
+    borderRadius: 22,
+    justifyContent: 'space-between',
+  },
+  tileTitle: {
+    fontSize: 15,
+    fontWeight: '800',
+  },
+  tileCount: {
+    fontSize: 12,
+    fontWeight: '600',
+    marginTop: 2,
+  },
+  browseBack: {
+    minHeight: 44,
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    gap: 4,
+    marginBottom: 6,
+  },
+  browseBackText: {
+    fontSize: 15,
+    fontWeight: '700',
   },
   groupScrollContainer: {
     paddingVertical: 10,
