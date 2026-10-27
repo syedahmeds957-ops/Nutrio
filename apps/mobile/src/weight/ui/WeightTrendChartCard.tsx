@@ -3,7 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import { WeightTrendSummary } from '../types.js';
 import { Notice } from '../../ui/Notice.js';
 import { useTheme } from '../../theme.js';
-import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { formatDayKey } from '../../common/dateKey.js';
+import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 
 interface WeightTrendChartCardProps {
@@ -17,6 +18,7 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { t } = useTranslation();
+  const { language } = useI18nState();
   const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
   const { currentWeightKg, currentEWMAKg, totalDeltaKg, points } = summary;
@@ -50,7 +52,7 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
           <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>
             {t('weight.trend.trendWeight')}
           </Text>
-          <Text style={[styles.statVal, { color: accentColor, fontWeight: '800' }]}>{currentEWMAKg} kg</Text>
+          <Text style={[styles.statVal, { color: theme.colors.primaryAccessible, fontWeight: '800' }]}>{currentEWMAKg} kg</Text>
           <Text style={[styles.statSub, { color: theme.colors.textMuted }]}>
             {t('weight.trend.trueTissue')}
           </Text>
@@ -63,7 +65,7 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
           <Text
             style={[
               styles.statVal,
-              isLoss ? { color: accentColor } : styles.gainText,
+              isLoss ? { color: theme.colors.primaryAccessible } : styles.gainText,
             ]}
           >
             {totalDeltaKg > 0 ? `+${totalDeltaKg}` : totalDeltaKg} kg
@@ -87,14 +89,14 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
           </Text>
           {points.slice(-5).reverse().map((pt, idx) => (
             <View key={idx} style={[styles.pointRow, { borderBottomColor: theme.colors.border }]}>
-              <Text style={[styles.pointDate, { color: theme.colors.textPrimary }]}>{pt.date}</Text>
+              <Text style={[styles.pointDate, { color: theme.colors.textPrimary }]}>{formatDayKey(pt.date, language)}</Text>
               <View style={styles.pointValues}>
                 <Text style={[styles.pointRaw, { color: theme.colors.textMuted }]}>
                   {t('weight.trend.kgScale', { value: pt.rawWeightKg })}
                 </Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                   <Icon name={dir.isRTL ? 'arrow-left' : 'arrow-right'} size={14} color={accentColor} />
-                  <Text style={[styles.pointEwma, { color: accentColor }]}>
+                  <Text style={[styles.pointEwma, { color: theme.colors.primaryAccessible }]}>
                     {t('weight.trend.kgTrend', { value: pt.ewmaWeightKg })}
                   </Text>
                 </View>
@@ -128,7 +130,7 @@ const styles = StyleSheet.create({
   },
   sub: {
     fontSize: 12,
-    color: '#64748B',
+    color: '#556274',
     marginTop: 2,
     lineHeight: 18,
   },
@@ -149,7 +151,7 @@ const styles = StyleSheet.create({
   statLabel: {
     fontSize: 11,
     fontWeight: '700',
-    color: '#64748B',
+    color: '#556274',
     textTransform: 'uppercase',
   },
   statVal: {
@@ -165,11 +167,11 @@ const styles = StyleSheet.create({
     color: '#059669',
   },
   gainText: {
-    color: '#D97706',
+    color: '#9A4A06',
   },
   statSub: {
     fontSize: 10,
-    color: '#64748B',
+    color: '#556274',
     marginTop: 2,
   },
   spikeBox: {
@@ -194,7 +196,7 @@ const styles = StyleSheet.create({
   pointsTitle: {
     fontSize: 11,
     fontWeight: '800',
-    color: '#64748B',
+    color: '#556274',
     textTransform: 'uppercase',
     letterSpacing: 0.8,
     marginBottom: 8,
@@ -214,7 +216,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   pointRaw: {
-    color: '#64748B',
+    color: '#556274',
     fontSize: 13,
   },
   pointEwma: {

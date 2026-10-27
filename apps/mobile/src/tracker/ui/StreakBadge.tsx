@@ -56,7 +56,7 @@ export const StreakBadge: React.FC<StreakBadgeProps> = ({
         },
       ]}
     >
-      {/* Left: Streak Info with Pulsing Flame */}
+      {/* Streak info with pulsing flame */}
       <View style={styles.streakCol}>
         <View style={styles.flameRow}>
           <Animated.View style={{ transform: [{ scale: pulseAnim }] }}>
@@ -73,14 +73,14 @@ export const StreakBadge: React.FC<StreakBadgeProps> = ({
             <Text style={[styles.streakNumber, { color: theme.colors.textPrimary }]}>
               {t('tracker.streak.days', { count: streakDays })}
             </Text>
-            <Text style={[styles.consistencyText, { color: theme.colors.primaryLime }]}>
+            <Text style={[styles.consistencyText, { color: theme.colors.primaryAccessible }]}>
               {t('tracker.streak.weekly', { pct: consistencyPct })}
             </Text>
           </View>
         </View>
       </View>
 
-      {/* Right: 7-Day Micro Dot Tracker */}
+      {/* 7-day dot tracker */}
       <View style={styles.dotsRow}>
         {WEEKDAY_KEYS.map((dayKey, idx) => {
           const isDone = completedDays.includes(idx);
@@ -92,7 +92,7 @@ export const StreakBadge: React.FC<StreakBadgeProps> = ({
                 style={[
                   styles.dayLabel,
                   { color: theme.colors.textMuted },
-                  isToday && [styles.dayLabelToday, { color: theme.colors.primaryLime }],
+                  isToday && [styles.dayLabelToday, { color: theme.colors.primaryAccessible }],
                 ]}
               >
                 {t(`common.weekdayShort.${dayKey}`)}
@@ -137,9 +137,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginHorizontal: 16,
     marginBottom: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    gap: 12,
     borderWidth: 1,
   },
   streakCol: {
@@ -168,10 +166,11 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginTop: 1,
   },
+  // Its own line: beside the streak text the seven dots overflowed a 390 px phone.
   dotsRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    justifyContent: 'space-between',
   },
   dayCol: {
     alignItems: 'center',

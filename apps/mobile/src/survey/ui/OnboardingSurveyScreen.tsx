@@ -11,6 +11,7 @@ import {
   TextInput,
   Platform,
 } from 'react-native';
+import { BackButton } from '../../ui/BackButton.js';
 import { ProgressBar } from './ProgressBar.js';
 import { StepBasics } from './StepBasics.js';
 import { StepOccupational } from './StepOccupational.js';
@@ -83,7 +84,13 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
   const forceUpdate = () => setRerender((prev) => prev + 1);
 
   const currentStep = engine.getCurrentStep();
-  const errors = engine.getErrors();
+  // The validators return English; translate by field so Arabic shows Arabic.
+  const errors = Object.fromEntries(
+    Object.entries(engine.getErrors()).map(([field, message]) => [
+      field,
+      t(`survey.fieldErrors.${field}`, { defaultValue: message }),
+    ]),
+  );
   const isFirstStep = stepIndex === 0;
   const isLastStep = stepIndex === engine.getTotalSteps() - 1;
 
@@ -231,22 +238,12 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
           ]}
         >
           <View style={styles.buttonRow}>
-            <TouchableOpacity
-              style={[
-                styles.backBtn,
-                { backgroundColor: theme.colors.surfaceSecondary },
-                isFirstStep && !onCancel && styles.btnDisabled,
-              ]}
+            <BackButton
+              variant="footer"
               onPress={handlePrev}
               disabled={isFirstStep && !onCancel}
-              activeOpacity={0.7}
-            >
-              <Text
-                style={[styles.backBtnText, dir.textCenter, { color: theme.colors.textPrimary }]}
-              >
-                {isFirstStep ? t('common.cancel') : t('common.back')}
-              </Text>
-            </TouchableOpacity>
+              text={isFirstStep ? t('common.cancel') : t('common.back')}
+            />
 
             <TouchableOpacity
               style={[
@@ -299,20 +296,6 @@ const styles = StyleSheet.create({
   buttonRow: {
     flexDirection: 'row',
     gap: 12,
-  },
-  backBtn: {
-    flex: 1,
-    paddingVertical: 14,
-    borderRadius: 9999,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  btnDisabled: {
-    opacity: 0.3,
-  },
-  backBtnText: {
-    fontSize: 14,
-    fontWeight: '700',
   },
   nextBtn: {
     flex: 2,

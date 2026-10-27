@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from 'react-native';
+import { readDeviceRegion } from './deviceRegion.js';
 
 export type Region = 'PK' | 'SA';
 
@@ -75,6 +77,10 @@ const RegionContext = createContext<RegionState>({
 });
 
 export async function fetchIPCountry(): Promise<string | null> {
+  // ipapi.co sends no CORS headers on its rate-limit and error responses, so a
+  // browser blocks the call and logs an error on every first visit. The device
+  // timezone and locale already answer the question on web.
+  if (Platform.OS === 'web') return null;
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 3000);
@@ -127,10 +133,11 @@ export const RegionProvider: React.FC<{ children: ReactNode; initialRegion?: Reg
           return;
         }
 
-        // 2. Fetch IP Country
-        const country = await fetchIPCountry();
-        if (country && isMounted) {
-          const detected = detectRegionFromCountry(country);
+        // 2. The device's own timezone and locale, then the IP country (native only).
+        const fromDevice = readDeviceRegion();
+        const country = fromDevice ? null : await fetchIPCountry();
+        const detected = fromDevice ?? (country ? detectRegionFromCountry(country) : null);
+        if (detected && isMounted) {
           setActiveRegionState(detected);
           setIsAutoDetected(true);
           persistRegion(detected);

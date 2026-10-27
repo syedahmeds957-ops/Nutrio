@@ -185,7 +185,7 @@ export class WeightTrendEngine {
         hasSpike: true,
         message: `Temporary +${diff.toFixed(
           1
-        )} kg water-weight fluctuation (likely sodium/carb retention from a desi meal). Our EWMA algorithm filters this noise automatically.`,
+        )} kg water-weight fluctuation (likely sodium/carb retention from a desi meal). Your trend line smooths this out automatically.`,
       };
     }
 

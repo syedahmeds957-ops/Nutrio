@@ -1,11 +1,5 @@
-import {
-  analyzeMealItems,
-  parseMealText,
-  type AnalyzedMeal,
-  type MealSlotHint,
-  type ParsedMealItem,
-  type RegionCode,
-} from '@nutrio/food-db';
+import type { AnalyzedMeal, MealSlotHint, ParsedMealItem, RegionCode } from '@nutrio/food-db';
+import { foodDb } from '../catalogue/index.js';
 import { EdgeFunctionInvoker, invokeEdgeFunction } from './edgeFunctions.js';
 
 export interface DescribedMeal {
@@ -56,11 +50,11 @@ export async function describeMeal(
   try {
     const body = await invoke('parse-food-text', { text: trimmed });
     if (isParseFoodTextBody(body)) {
-      return { analysis: analyzeMealItems(body.items, region, body.slot), splitBy: 'model' };
+      return { analysis: foodDb().analyzeMealItems(body.items, region, body.slot), splitBy: 'model' };
     }
   } catch (err) {
     console.warn('[mealText] parse-food-text failed; using the on-device parser:', (err as Error)?.message);
   }
-  const { slot, items } = parseMealText(trimmed);
-  return { analysis: analyzeMealItems(items, region, slot), splitBy: 'device' };
+  const { slot, items } = foodDb().parseMealText(trimmed);
+  return { analysis: foodDb().analyzeMealItems(items, region, slot), splitBy: 'device' };
 }

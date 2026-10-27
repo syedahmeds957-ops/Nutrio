@@ -4,14 +4,12 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
-  Modal,
   SafeAreaView,
 } from 'react-native';
-import {
-  NormalizedFood,
-  FoodModifier,
-  getDishCustomizationModifiers,
-} from '@nutrio/food-db';
+import { BackButton } from '../../ui/BackButton.js';
+import { NamedModal } from '../../ui/NamedModal.js';
+import type { NormalizedFood, FoodModifier } from '@nutrio/food-db';
+import { foodDb } from '../../catalogue/index.js';
 import { MealSlot } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
@@ -74,7 +72,7 @@ export function hasWord(text: string, ...words: string[]): boolean {
 
 // Category-smart verified modifiers delegating directly to centralized food-db taxonomy
 export function getEffectiveModifiers(food: NormalizedFood): FoodModifier[] {
-  return getDishCustomizationModifiers(food);
+  return foodDb().getDishCustomizationModifiers(food);
 }
 
 export function calculateCustomizedMacros(
@@ -236,13 +234,13 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
       return gramsValid ? t('tracker.customizer.customTotal', { grams: customGrams }) : '—';
     }
     if (activeServing) {
-      const label = activeServing.label || activeServing.description || 'portion';
+      const label = activeServing.label || activeServing.description || t('common.portion');
       if (quantity === 1) {
-        return `${label} · ${activeServing.grams}g`;
+        return `${label} · ${t('common.gramsValue', { value: activeServing.grams })}`;
       }
-      return `${quantity}x ${label} · ${quantity * activeServing.grams}g`;
+      return `${quantity}x ${label} · ${t('common.gramsValue', { value: quantity * activeServing.grams })}`;
     }
-    return `${quantity} standard serving`;
+    return t('common.standardServing', { count: quantity });
   }, [isCustomWeightMode, customGrams, gramsValid, activeServing, quantity, t]);
 
   if (!visible || !item) return null;
@@ -329,7 +327,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
   const brandName = (item.brand || fallbackBrand).toUpperCase();
 
   return (
-    <Modal
+    <NamedModal accessibilityName={t('a11y.dialog.customizeItem')}
       visible={visible}
       animationType="slide"
       presentationStyle="pageSheet"
@@ -343,15 +341,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
           showsVerticalScrollIndicator={false}
         >
           {/* Header Navigation: Back Arrow */}
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={handleClose}
-            activeOpacity={0.7}
-            accessibilityRole="button"
-            accessibilityLabel={t('common.back')}
-          >
-            <Icon name="arrow-left" size={24} color={theme.colors.text} />
-          </TouchableOpacity>
+          <BackButton variant="icon" onPress={handleClose} style={styles.backButton} />
 
           {/* Dish Brand & Title */}
           <Text style={[styles.brandText, { color: theme.colors.textMuted }]}>{brandName}</Text>
@@ -362,7 +352,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
           {/* Estimated Badge */}
           <View style={styles.estimatedBadgeContainer}>
             <View style={[styles.estimatedBadge, { borderColor: isDark ? '#272A33' : '#E2E8F0', backgroundColor: isDark ? '#18191E' : '#F1F5F9' }]}>
-              <Text style={[styles.estimatedBadgeText, { color: isDark ? '#94A3B8' : '#64748B' }]}>
+              <Text style={[styles.estimatedBadgeText, { color: theme.colors.textSecondary }]}>
                 ≈ {t('tracker.customizer.estimated')}
               </Text>
             </View>
@@ -376,8 +366,8 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
           {/* HOW MANY? Row */}
           <View style={[styles.howManyCard, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}>
             <View style={styles.howManyLeft}>
-              <Text style={[styles.howManyLabel, { color: theme.colors.textMuted }]}>HOW MANY?</Text>
-              <Text style={[styles.howManySub, { color: theme.colors.text }]} numberOfLines={1}>
+              <Text style={[styles.howManyLabel, { color: theme.colors.textMuted }]}>{t('tracker.customizer.howMany')}</Text>
+              <Text style={[styles.howManySub, { color: theme.colors.text }]}>
                 {portionSummaryText}
               </Text>
             </View>
@@ -396,6 +386,8 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                 }}
                 disabled={quantity <= 1}
                 activeOpacity={0.7}
+                accessibilityRole="button"
+                accessibilityState={{ disabled: quantity <= 1 }}
                 accessibilityLabel={t('tracker.customizer.decreaseQty')}
               >
                 <Icon
@@ -406,7 +398,12 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                 />
               </TouchableOpacity>
 
-              <Text style={[styles.stepperNumber, { color: theme.colors.text }]}>{quantity}</Text>
+              <Text
+                style={[styles.stepperNumber, { color: theme.colors.text }]}
+                accessibilityLiveRegion="polite"
+              >
+                {quantity}
+              </Text>
 
               <TouchableOpacity
                 style={[styles.peachCircleButton, { backgroundColor: isDark ? '#272A33' : '#F1F5F9' }]}
@@ -415,6 +412,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                   setQuantity((q) => q + 1);
                 }}
                 activeOpacity={0.7}
+                accessibilityRole="button"
                 accessibilityLabel={t('tracker.customizer.increaseQty')}
               >
                 <Icon name="plus" size={18} color={theme.colors.text} strokeWidth={2.5} />
@@ -479,6 +477,8 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                           onPress={() => handleUpdateModifier(mod.id, -1)}
                           disabled={count === 0}
                           activeOpacity={0.7}
+                          accessibilityRole="button"
+                          accessibilityState={{ disabled: count === 0 }}
                           accessibilityLabel={t('tracker.customizer.removeModifier', { name: mod.name })}
                         >
                           <Icon
@@ -495,6 +495,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                           style={[styles.peachCircleButtonSmall, { backgroundColor: isDark ? '#272A33' : '#F1F5F9' }]}
                           onPress={() => handleUpdateModifier(mod.id, 1)}
                           activeOpacity={0.7}
+                          accessibilityRole="button"
                           accessibilityLabel={t('tracker.customizer.addModifier', { name: mod.name })}
                         >
                           <Icon name="plus" size={16} color={theme.colors.text} strokeWidth={2.5} />
@@ -528,6 +529,8 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                       setSelectedSlot(slot.id);
                     }}
                     activeOpacity={0.7}
+                    accessibilityRole="radio"
+                    aria-checked={isSelected}
                   >
                     <Text
                       style={[
@@ -555,7 +558,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
               </Text>
             </View>
             <Text style={[styles.totalMacroBreakdown, { color: theme.colors.textMuted }]}>
-              {canLog ? `P ${macros.protein}g · C ${macros.carbs}g · F ${macros.fat}g` : '—'}
+              {canLog ? t('common.macroLine', { protein: macros.protein, carbs: macros.carbs, fat: macros.fat }) : '—'}
             </Text>
           </View>
 
@@ -574,6 +577,6 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
           </TouchableOpacity>
         </View>
       </SafeAreaView>
-    </Modal>
+    </NamedModal>
   );
 };

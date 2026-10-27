@@ -106,7 +106,7 @@ export const AppleGroupedRowInput: React.FC<AppleGroupedRowInputProps> = ({
                   styles.capsuleUnitText,
                   {
                     color: isFocused
-                      ? theme.colors.primaryLime
+                      ? theme.colors.primaryAccessible
                       : theme.colors.textSecondary,
                   },
                 ]}
@@ -258,7 +258,9 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     paddingVertical: 6,
     paddingHorizontal: 10,
-    minWidth: 100,
+    // Fixed width: on web a TextInput's intrinsic width (~20 chars) grew the
+    // capsule and squeezed the label until "Height" broke mid-word.
+    width: 140,
     justifyContent: 'flex-end',
     gap: 6,
     ...Platform.select({
@@ -280,7 +282,8 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '700',
     textAlign: 'right',
-    minWidth: 46,
+    flex: 1,
+    minWidth: 0,
     paddingVertical: 2,
     paddingHorizontal: 4,
     fontVariant: ['tabular-nums'],

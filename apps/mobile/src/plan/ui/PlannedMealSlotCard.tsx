@@ -4,7 +4,8 @@ import { PlannedMealSlot } from '@nutrio/nutrition-core';
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
 import { useRegion } from '../../common/region/index.js';
-import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
+import { foodDisplayName } from '../../tracker/foodDisplayName.js';
 import { formatServingLine } from '../../tracker/formatServing.js';
 
 interface PlannedMealSlotCardProps {
@@ -20,6 +21,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
   const dir = useTextDirection();
+  const { language } = useI18nState();
 
   const getSlotIcon = (slotKey: string) => {
     switch (slotKey) {
@@ -81,7 +83,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
               style={[styles.slotTitle, { color: theme.colors.textPrimary }]}
               numberOfLines={1}
             >
-              {slot.title}
+              {t(`plan.slotTitle.${slot.slot}`, { defaultValue: slot.title })}
             </Text>
           </View>
         </View>
@@ -118,7 +120,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
           ]}
         >
           <Text style={[styles.macroChipText, { color: theme.colors.textSecondary }]}>
-            {totalProtein}g Protein
+            {t('plan.slotCard.proteinChip', { value: totalProtein })}
           </Text>
         </View>
         <View
@@ -131,7 +133,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
           ]}
         >
           <Text style={[styles.macroChipText, { color: theme.colors.textSecondary }]}>
-            {totalCarbs}g Carbs
+            {t('plan.slotCard.carbsChip', { value: totalCarbs })}
           </Text>
         </View>
         <View
@@ -150,7 +152,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
               { color: isDark ? '#FBBF24' : '#B45309' },
             ]}
           >
-            {oilTsps} tsp oil
+            {t('plan.slotCard.oil', { count: oilTsps })}
           </Text>
         </View>
       </View>
@@ -159,7 +161,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
       <View style={styles.tagRow}>
         <View
           style={[
-            styles.dietitianBadge,
+            styles.fitBadge,
             {
               backgroundColor: isDark ? '#1C2608' : '#EDFCD2',
               borderColor: isDark ? '#2D4B05' : '#D4F88D',
@@ -168,11 +170,11 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
         >
           <Text
             style={[
-              styles.dietitianBadgeText,
+              styles.fitBadgeText,
               { color: isDark ? theme.colors.primaryLime : '#365314' },
             ]}
           >
-            Dietitian Approved
+            {t('plan.slotCard.fitsTargets')}
           </Text>
         </View>
         <View
@@ -204,7 +206,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
                 <Text
                   style={[styles.itemName, { color: theme.colors.textPrimary }]}
                 >
-                  {item.foodName}
+                  {foodDisplayName(item.foodName, item.foodNameAr, dir.isRTL).primary}
                 </Text>
               </View>
               <Text
@@ -213,7 +215,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
                   { color: theme.colors.textSecondary },
                 ]}
               >
-                {formatServingLine(item.quantity, item.servingLabel, item.totalGrams)}
+                {formatServingLine(item.quantity, item.servingLabel, item.totalGrams, language)}
               </Text>
             </View>
             <Text
@@ -250,7 +252,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
                 { color: isDark ? theme.colors.primaryLime : '#166534' },
               ]}
             >
-              Swap Alternatives
+              {t('plan.slotCard.swapAlternatives')}
             </Text>
           </View>
         </TouchableOpacity>
@@ -338,13 +340,13 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 14,
   },
-  dietitianBadge: {
+  fitBadge: {
     paddingVertical: 3,
     paddingHorizontal: 8,
     borderRadius: 9999,
     borderWidth: 1,
   },
-  dietitianBadgeText: {
+  fitBadgeText: {
     fontSize: 11,
     fontWeight: '700',
   },
@@ -396,6 +398,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   swapButton: {
+    minHeight: 44,
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 7,

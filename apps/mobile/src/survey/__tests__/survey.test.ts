@@ -46,6 +46,12 @@ describe('Survey Validation & Step Logic', () => {
     expect(withDisclaimer.isValid).toBe(true);
   });
 
+  it('starts a new survey with the medical disclaimer unticked', () => {
+    const engine = new SurveyStateEngine();
+    expect(engine.getHealthClinical().medicalDisclaimerAccepted).toBe(false);
+    expect(validateHealthClinical(engine.getHealthClinical()).isValid).toBe(false);
+  });
+
   it('validates Pakistani lifestyle inputs including chai with sugar', () => {
     const invalidChai = validateLifestyleDesi({
       sleepHoursPerNight: 7,
@@ -215,9 +221,10 @@ describe('Nutrition Bridge Calculation', () => {
     expect(bridged.tdeeResults.method).toBe('occupational_split');
 
     // Cultural Metrics:
-    // 4 cups chai with sugar = 260 kcal/day = 1820 kcal/week
-    expect(bridged.culturalMetrics.dailyChaiKcal).toBe(260);
-    expect(bridged.culturalMetrics.weeklyChaiKcal).toBe(1820);
+    // 4 cups of sweet chai at food-db's 80 kcal cup = 320 kcal/day = 2240 kcal/week
+    expect(bridged.culturalMetrics.ritualCupsPerDay).toBe(4);
+    expect(bridged.culturalMetrics.dailyChaiKcal).toBe(320);
+    expect(bridged.culturalMetrics.weeklyChaiKcal).toBe(2240);
     expect(bridged.culturalMetrics.isHighChaiIntake).toBe(true);
     expect(bridged.culturalMetrics.isSedentaryWorker).toBe(true);
   });
@@ -266,5 +273,27 @@ describe('Retired survey fields', () => {
     } as unknown as LifestyleSurveyPayload;
 
     expect(stripRetiredSurveyFields(current)).toEqual(current);
+  });
+});
+
+describe('pregnancy question', () => {
+  it('is unanswered by default and blocks a woman until she answers', () => {
+    const engine = new SurveyStateEngine();
+    engine.setBasics({ sex: 'female', ageYears: 30, heightCm: 160, weightKg: 60 });
+    expect(engine.getHealthClinical().isPregnantOrBreastfeeding).toBeUndefined();
+
+    const unanswered = validateHealthClinical(engine.getHealthClinical(), 'female');
+    expect(unanswered.errors.isPregnantOrBreastfeeding).toBeDefined();
+
+    const answered = validateHealthClinical(
+      { ...engine.getHealthClinical(), isPregnantOrBreastfeeding: false, medicalDisclaimerAccepted: true },
+      'female',
+    );
+    expect(answered.errors.isPregnantOrBreastfeeding).toBeUndefined();
+  });
+
+  it('does not ask men', () => {
+    const result = validateHealthClinical({ medicalDisclaimerAccepted: true }, 'male');
+    expect(result.errors.isPregnantOrBreastfeeding).toBeUndefined();
   });
 });

@@ -91,7 +91,7 @@ export function validateExercise(
     data.frequencyDaysPerWeek < 0 ||
     data.frequencyDaysPerWeek > 7
   ) {
-    errors.frequencyDaysPerWeek = 'Workout frequency must be between 0 and 7 days per week.';
+    errors.frequencyDaysPerWeek = 'Choose how many days a week you train (0 to 7).';
   }
 
   if (
@@ -99,7 +99,7 @@ export function validateExercise(
     data.sessionDurationMins < 0 ||
     data.sessionDurationMins > 360
   ) {
-    errors.sessionDurationMins = 'Session duration must be between 0 and 360 minutes.';
+    errors.sessionDurationMins = 'Enter how long a session lasts, in minutes (0 to 360).';
   }
 
   return {
@@ -144,7 +144,8 @@ export function validateLifestyleDesi(
 }
 
 export function validateHealthClinical(
-  data: Partial<SurveyHealthClinical>
+  data: Partial<SurveyHealthClinical>,
+  sex?: SurveyBasics['sex']
 ): StepValidationResult {
   const errors: Record<string, string> = {};
 
@@ -153,9 +154,8 @@ export function validateHealthClinical(
       'You must acknowledge the clinical disclaimer to proceed.';
   }
 
-  // isPregnantOrBreastfeeding defaults to false if unselected
-  const isPregnant = data.isPregnantOrBreastfeeding ?? false;
-  if (typeof isPregnant !== 'boolean') {
+  // Men are never asked and are recorded as "no"; women must answer.
+  if (sex === 'female' && typeof data.isPregnantOrBreastfeeding !== 'boolean') {
     errors.isPregnantOrBreastfeeding =
       'Please indicate pregnancy or active lactation status for nutritional safety.';
   }

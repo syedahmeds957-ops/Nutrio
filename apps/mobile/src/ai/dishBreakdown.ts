@@ -1,12 +1,5 @@
-import {
-  composeRecipeFood,
-  foodFromUsdaRecord,
-  getRecipeIngredientFoods,
-  MAX_UNCOUNTED_SHARE,
-  type ComposedRecipe,
-  type RegionCode,
-  type UsdaRecord,
-} from '@nutrio/food-db';
+import type { ComposedRecipe, RegionCode, UsdaRecord } from '@nutrio/food-db';
+import { foodDb } from '../catalogue/index.js';
 import { EdgeFunctionInvoker, invokeEdgeFunction } from './edgeFunctions.js';
 
 /** Why a dish could not be added, each with its own message on screen. */
@@ -94,7 +87,7 @@ export async function requestDishBreakdown(
   invoke: EdgeFunctionInvoker = invokeEdgeFunction
 ): Promise<DishBreakdownResult> {
   const catalogueRegion = region === 'SA' ? 'SA' : 'PK';
-  const catalogueNames = getRecipeIngredientFoods(catalogueRegion).map((f) => f.name);
+  const catalogueNames = foodDb().getRecipeIngredientFoods(catalogueRegion).map((f) => f.name);
 
   let body: unknown;
   try {
@@ -105,11 +98,11 @@ export async function requestDishBreakdown(
   }
   if (!isDishBreakdownBody(body)) return { ok: false, reason: 'unavailable' };
 
-  const recipe = composeRecipeFood({
+  const recipe = foodDb().composeRecipeFood({
     name: dishName,
     ingredients: [
       ...body.ingredients.map(({ name, grams }) => ({ name, grams })),
-      ...body.usdaIngredients.map((u) => ({ name: u.name, grams: u.grams, food: foodFromUsdaRecord(u) })),
+      ...body.usdaIngredients.map((u) => ({ name: u.name, grams: u.grams, food: foodDb().foodFromUsdaRecord(u) })),
     ],
     notCounted: body.notCounted.map(({ name, grams }) => ({ name, grams })),
     servingLabel: body.servingDescription || undefined,
@@ -120,7 +113,7 @@ export async function requestDishBreakdown(
       ? { ok: false, reason: 'incomplete', missing: body.notCounted }
       : { ok: false, reason: 'unavailable' };
   }
-  if (recipe.uncountedShare > MAX_UNCOUNTED_SHARE) {
+  if (recipe.uncountedShare > foodDb().MAX_UNCOUNTED_SHARE) {
     return { ok: false, reason: 'incomplete', missing: recipe.notCounted };
   }
 

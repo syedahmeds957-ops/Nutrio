@@ -1,7 +1,8 @@
 import React from 'react';
 import {
-  Alert,
+  Platform,
   SafeAreaView,
+  Share,
   ScrollView,
   StyleSheet,
   Text,
@@ -55,6 +56,11 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
   const { t } = useTranslation();
   const dir = useTextDirection();
   const isTargetChanged = metrics.targetDelta !== 0;
+  // Nothing to share before a day is logged. On web, React Native's Share needs
+  // the browser's share sheet; the old Alert did nothing there at all.
+  const canShare =
+    metrics.daysLogged > 0 &&
+    (Platform.OS !== 'web' || (typeof navigator !== 'undefined' && typeof navigator.share === 'function'));
 
   const handleShareSummary = () => {
     const summary = t('checkin.shareBody', {
@@ -70,7 +76,9 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
       habit: narrative.keyActionLever,
     });
 
-    Alert.alert(t('checkin.shareTitle'), summary);
+    Share.share({ title: t('checkin.shareTitle'), message: summary }).catch(() => {
+      // Dismissed or unavailable: nothing to recover.
+    });
   };
 
   return (
@@ -98,23 +106,27 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
         <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>
           {t('checkin.title')}
         </Text>
-        <TouchableOpacity
-          style={[
-            styles.shareHeaderBtn,
-            { backgroundColor: isDark ? 'rgba(164, 235, 63, 0.15)' : '#F7FEE7' },
-          ]}
-          onPress={handleShareSummary}
-          activeOpacity={0.7}
-        >
-          <Text
+        {canShare ? (
+          <TouchableOpacity
             style={[
-              styles.shareHeaderBtnText,
-              { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+              styles.shareHeaderBtn,
+              { backgroundColor: isDark ? 'rgba(164, 235, 63, 0.15)' : '#F7FEE7' },
             ]}
+            onPress={handleShareSummary}
+            activeOpacity={0.7}
           >
-            {t('checkin.share')}
-          </Text>
-        </TouchableOpacity>
+            <Text
+              style={[
+                styles.shareHeaderBtnText,
+                { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+              ]}
+            >
+              {t('checkin.share')}
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.shareHeaderBtn} />
+        )}
       </View>
 
       <ScrollView
@@ -162,79 +174,101 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
             {narrative.headline}
           </Text>
 
-          <View style={styles.deltaPillRow}>
-            <View
-              style={[
-                styles.deltaPill,
-                {
-                  backgroundColor: isTargetChanged
-                    ? '#BEE600'
-                    : theme.colors.surfaceSecondary,
-                  borderColor: isTargetChanged ? '#ABCF00' : theme.colors.border,
-                },
-              ]}
-            >
-              <Text
+          {isTargetChanged ? (
+            <View style={styles.deltaPillRow}>
+              <View
                 style={[
-                  styles.deltaPillLabel,
-                  { color: isTargetChanged ? '#333A00' : theme.colors.textMuted },
-                ]}
-              >
-                {t('checkin.oldTarget')}
-              </Text>
-              <Text
-                style={[
-                  styles.deltaPillVal,
-                  { color: isTargetChanged ? '#0A0B0D' : theme.colors.textPrimary },
-                ]}
-              >
-                {t('common.kcalValue', { value: metrics.oldKcalTarget })}
-              </Text>
-            </View>
-
-            <Icon
-              name="arrow-right"
-              size={20}
-              color={isTargetChanged ? '#0A0B0D' : isDark ? theme.colors.primaryLime : '#4B6200'}
-            />
-
-            <View
-              style={[
-                styles.deltaPill,
-                {
-                  backgroundColor: isTargetChanged
-                    ? '#0A0B0D'
-                    : isDark
-                    ? 'rgba(164, 235, 63, 0.12)'
-                    : '#F7FEE7',
-                  borderColor: isTargetChanged ? '#0A0B0D' : theme.colors.primaryLime,
-                },
-              ]}
-            >
-              <Text
-                style={[
-                  styles.deltaPillLabel,
-                  { color: isTargetChanged ? '#9CA3AF' : theme.colors.textMuted },
-                ]}
-              >
-                {t('checkin.newTarget')}
-              </Text>
-              <Text
-                style={[
-                  styles.deltaPillValNew,
+                  styles.deltaPill,
                   {
-                    color: isTargetChanged
-                      ? theme.colors.primaryLime
-                      : isDark
-                      ? theme.colors.primaryLime
-                      : '#4B6200',
+                    backgroundColor: isTargetChanged
+                      ? '#BEE600'
+                      : theme.colors.surfaceSecondary,
+                    borderColor: isTargetChanged ? '#ABCF00' : theme.colors.border,
                   },
                 ]}
               >
-                {t('common.kcalValue', { value: metrics.newKcalTarget })}
+                <Text
+                  style={[
+                    styles.deltaPillLabel,
+                    { color: isTargetChanged ? '#333A00' : theme.colors.textMuted },
+                  ]}
+                >
+                  {t('checkin.oldTarget')}
+                </Text>
+                <Text
+                  style={[
+                    styles.deltaPillVal,
+                    { color: isTargetChanged ? '#0A0B0D' : theme.colors.textPrimary },
+                  ]}
+                >
+                  {t('common.kcalValue', { value: metrics.oldKcalTarget })}
+                </Text>
+              </View>
+
+              <Icon
+                name={dir.isRTL ? 'arrow-left' : 'arrow-right'}
+                size={20}
+                color={isTargetChanged ? '#0A0B0D' : isDark ? theme.colors.primaryLime : '#4B6200'}
+              />
+
+              <View
+                style={[
+                  styles.deltaPill,
+                  {
+                    backgroundColor: isTargetChanged
+                      ? '#0A0B0D'
+                      : isDark
+                      ? 'rgba(164, 235, 63, 0.12)'
+                      : '#F7FEE7',
+                    borderColor: isTargetChanged ? '#0A0B0D' : theme.colors.primaryLime,
+                  },
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.deltaPillLabel,
+                    { color: isTargetChanged ? '#9CA3AF' : theme.colors.textMuted },
+                  ]}
+                >
+                  {t('checkin.newTarget')}
+                </Text>
+                <Text
+                  style={[
+                    styles.deltaPillValNew,
+                    {
+                      color: isTargetChanged
+                        ? theme.colors.primaryLime
+                        : isDark
+                        ? theme.colors.primaryLime
+                        : '#4B6200',
+                    },
+                  ]}
+                >
+                  {t('common.kcalValue', { value: metrics.newKcalTarget })}
+                </Text>
+              </View>
+            </View>
+          ) : (
+            // Showing "1447 → 1447" read as a recalibration that did nothing.
+            <View style={styles.deltaPillRow}>
+              <View
+                style={[
+                  styles.deltaPill,
+                  { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border },
+                ]}
+              >
+                <Text style={[styles.deltaPillLabel, { color: theme.colors.textMuted }]}>
+                  {t('checkin.currentTarget')}
+                </Text>
+                <Text style={[styles.deltaPillVal, { color: theme.colors.textPrimary }]}>
+                  {t('common.kcalValue', { value: metrics.oldKcalTarget })}
+                </Text>
+              </View>
+              <Text style={[styles.noChangeText, dir.text, { color: theme.colors.textSecondary }]}>
+                {t('checkin.noChange')}
               </Text>
             </View>
-          </View>
+          )}
         </View>
 
         {/* 7-Day Performance Grid */}
@@ -440,6 +474,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   backBtn: {
+    minHeight: 44,
+    minWidth: 44,
+    justifyContent: 'center',
     paddingVertical: 6,
     paddingHorizontal: 10,
     borderRadius: 9999,
@@ -453,7 +490,15 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     letterSpacing: -0.3,
   },
+  noChangeText: {
+    flex: 1,
+    fontSize: 13,
+    fontWeight: '600',
+  },
   shareHeaderBtn: {
+    minHeight: 44,
+    minWidth: 44,
+    justifyContent: 'center',
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 9999,

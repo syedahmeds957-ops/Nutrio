@@ -34,8 +34,10 @@ export class SurveyStateEngine {
   private lifestyleDesi: Partial<SurveyLifestyleDesi> = {};
   private healthClinical: Partial<SurveyHealthClinical> = {
     medicalConditions: ['none'],
-    isPregnantOrBreastfeeding: false,
-    medicalDisclaimerAccepted: true,
+    // Unanswered for women until they choose: a silent "No" would set calorie
+    // floors as if they were not pregnant or breastfeeding.
+    // Consent starts unticked: the user has to agree, not be agreed for.
+    medicalDisclaimerAccepted: false,
   };
   private preferences: Partial<SurveyPreferences> = {};
   private currentErrors: Record<string, string> = {};
@@ -144,7 +146,7 @@ export class SurveyStateEngine {
         result = validateLifestyleDesi(this.lifestyleDesi);
         break;
       case 'health_clinical':
-        result = validateHealthClinical(this.healthClinical);
+        result = validateHealthClinical(this.healthClinical, this.basics.sex);
         break;
       case 'preferences':
         result = validatePreferences(this.preferences);
@@ -185,7 +187,7 @@ export class SurveyStateEngine {
       validateOccupational(this.occupational).isValid &&
       validateExercise(this.exercise).isValid &&
       validateLifestyleDesi(this.lifestyleDesi).isValid &&
-      validateHealthClinical(this.healthClinical).isValid &&
+      validateHealthClinical(this.healthClinical, this.basics.sex).isValid &&
       validatePreferences(this.preferences).isValid
     );
   }

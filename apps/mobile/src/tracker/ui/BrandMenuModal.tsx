@@ -6,23 +6,17 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
-  Modal,
   SafeAreaView,
 } from 'react-native';
-import {
-  NormalizedFood,
-  ALL_EXPANDED_PAKISTANI_FOODS,
-  PAKISTANI_RESTAURANT_BRANDS,
-  SAUDI_RESTAURANT_BRANDS,
-  SAUDI_RESTAURANTS_DATA,
-  SAUDI_TRADITIONAL_FOODS,
-  ALL_RESTAURANT_BRANDS,
-  RestaurantBrand,
-} from '@nutrio/food-db';
+import { BackButton } from '../../ui/BackButton.js';
+import { NamedModal } from '../../ui/NamedModal.js';
+import type { NormalizedFood, RestaurantBrand } from '@nutrio/food-db';
+import { foodDb } from '../../catalogue/index.js';
 import { Icon } from '../../ui/Icon.js';
 import { BrandLogo } from '../../ui/BrandLogo.js';
 import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
+import { foodDisplayName } from '../foodDisplayName.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 export interface BrandMenuModalProps {
@@ -55,11 +49,11 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
     if (!brandId) return undefined;
     const cleanId = brandId.toLowerCase().trim();
     return (
-      ALL_RESTAURANT_BRANDS.find((b) => b.id.toLowerCase() === cleanId) ||
-      ALL_RESTAURANT_BRANDS.find(
+      foodDb().ALL_RESTAURANT_BRANDS.find((b) => b.id.toLowerCase() === cleanId) ||
+      foodDb().ALL_RESTAURANT_BRANDS.find(
         (b) => b.name.toLowerCase().replace(/[^a-z0-9]/g, '_') === cleanId
       ) ||
-      ALL_RESTAURANT_BRANDS.find((b) => b.name.toLowerCase().includes(cleanId))
+      foodDb().ALL_RESTAURANT_BRANDS.find((b) => b.name.toLowerCase().includes(cleanId))
     );
   }, [brandId]);
 
@@ -70,7 +64,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
     const cleanId = brandId.toLowerCase().trim();
     return (
       currentBrand?.region === 'SA' ||
-      SAUDI_RESTAURANT_BRANDS.some((b) => b.id === cleanId)
+      foodDb().SAUDI_RESTAURANT_BRANDS.some((b) => b.id === cleanId)
     );
   }, [brandId, currentBrand]);
 
@@ -82,7 +76,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
     // 1. Saudi Brand Resolution
     const isSaudi =
       currentBrand?.region === 'SA' ||
-      SAUDI_RESTAURANT_BRANDS.some((b) => b.id === cleanId);
+      foodDb().SAUDI_RESTAURANT_BRANDS.some((b) => b.id === cleanId);
 
     if (isSaudi) {
       if (
@@ -90,7 +84,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
         cleanId === 'saudi_home_kitchen' ||
         cleanId === 'saudi_traditional_kitchen'
       ) {
-        return SAUDI_TRADITIONAL_FOODS.map((f) => ({
+        return foodDb().SAUDI_TRADITIONAL_FOODS.map((f) => ({
           ...f,
           brand: 'Saudi Traditional Kitchen',
           brandId: 'al_matbakh_al_saudi',
@@ -99,7 +93,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
       }
 
       const targetName = (currentBrand?.name || brandName).toLowerCase().trim();
-      return SAUDI_RESTAURANTS_DATA.filter((i) => {
+      return foodDb().SAUDI_RESTAURANTS_DATA.filter((i) => {
         const itemBrandId = (i.brandId || '').toLowerCase().trim();
         const itemBrand = (i.brand || '').toLowerCase().trim();
         return (
@@ -112,11 +106,11 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
 
     // 2. Pakistani Ghar ka Khana
     if (brandId === 'ghar_ka_khana' || currentBrand?.id === 'ghar_ka_khana') {
-      const brandedGhar = ALL_EXPANDED_PAKISTANI_FOODS.filter(
+      const brandedGhar = foodDb().ALL_EXPANDED_PAKISTANI_FOODS.filter(
         (i) => i.brand === 'Ghar ka Khana'
       );
       const stapleIds = new Set(brandedGhar.map((b) => b.id));
-      const staples = ALL_EXPANDED_PAKISTANI_FOODS.filter(
+      const staples = foodDb().ALL_EXPANDED_PAKISTANI_FOODS.filter(
         (f) => !f.brand && !stapleIds.has(f.id)
       ).map((f) => ({
         ...f,
@@ -129,7 +123,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
 
     // 3. Pakistani branded restaurants
     const targetName = (currentBrand?.name || brandName).toLowerCase().trim();
-    return ALL_EXPANDED_PAKISTANI_FOODS.filter((i) => {
+    return foodDb().ALL_EXPANDED_PAKISTANI_FOODS.filter((i) => {
       if (!i.brand) return false;
       const itemBrand = i.brand.toLowerCase().trim();
       return (
@@ -191,7 +185,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
   }, [filteredItems, selectedCategory]);
 
   return (
-    <Modal visible={visible} animationType="slide" transparent={false}>
+    <NamedModal accessibilityName={t('a11y.dialog.brandMenu')} visible={visible} animationType="slide" transparent={false}>
       <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.canvas }]}>
         {/* Header */}
         <View
@@ -203,13 +197,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
             },
           ]}
         >
-          <TouchableOpacity
-            style={[styles.backButton, { backgroundColor: theme.colors.surfaceSecondary }]}
-            onPress={onBack}
-            activeOpacity={0.7}
-          >
-            <Icon name="arrow-left" size={18} color={theme.colors.textPrimary} />
-          </TouchableOpacity>
+          <BackButton variant="icon" onPress={onBack} />
 
           <View style={styles.headerTitleContainer}>
             <BrandLogo brandId={currentBrand?.id || brandId || ''} size={34} style={{ marginRight: 10 }} />
@@ -219,7 +207,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                   {brandName || t('tracker.brandMenu.fallbackTitle')}
                 </Text>
                 {currentBrand?.nameAr && (
-                  <Text style={{ fontSize: 13, fontWeight: '700', color: theme.colors.primaryLime }}>
+                  <Text style={{ fontSize: 13, fontWeight: '700', color: theme.colors.primaryAccessible }}>
                     {currentBrand.nameAr}
                   </Text>
                 )}
@@ -259,6 +247,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                 styles.searchInput,
                 { color: theme.colors.textPrimary },
                 noOutlineStyle,
+                dir.text,
               ]}
               placeholder={t('tracker.brandMenu.searchPlaceholder', {
                 brand: brandName || t('tracker.brandMenu.menuWord'),
@@ -391,21 +380,21 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                         <View style={styles.itemCardLeft}>
                           <View style={styles.itemNameRow}>
                             <Text style={[styles.itemName, { color: theme.colors.textPrimary }]}>
-                              {item.name}
+                              {foodDisplayName(item.name, item.nameAr, dir.isRTL).primary}
                             </Text>
-                            {item.nameAr && (
-                              <Text style={[styles.itemNameAr, { color: theme.colors.primaryLime }]}>
-                                {item.nameAr}
+                            {foodDisplayName(item.name, item.nameAr, dir.isRTL).secondary && (
+                              <Text style={[styles.itemNameAr, dir.text, { color: theme.colors.textMuted }]}>
+                                {foodDisplayName(item.name, item.nameAr, dir.isRTL).secondary}
                               </Text>
                             )}
                           </View>
 
                           <Text style={[styles.itemServing, { color: theme.colors.textSecondary }]}>
                             {serving
-                              ? `${serving.grams || serving.servingWeightGrams || 100}g · ${
+                              ? `${t('common.gramsValue', { value: serving.grams || serving.servingWeightGrams || 100 })} · ${
                                   serving.description || serving.label || t('tracker.brandMenu.oneServing')
                                 }`
-                              : '100g'}
+                              : t('common.gramsValue', { value: 100 })}
                           </Text>
 
                           <Text
@@ -437,7 +426,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                               ≈{t('common.kcalValue', { value: kcal })}
                             </Text>
                           </View>
-                          <Icon name="chevron-right" size={16} color={theme.colors.textMuted} />
+                          <Icon name={dir.isRTL ? 'chevron-left' : 'chevron-right'} size={16} color={theme.colors.textMuted} />
                         </View>
                       </TouchableOpacity>
                     );
@@ -448,7 +437,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
           )}
         </ScrollView>
       </SafeAreaView>
-    </Modal>
+    </NamedModal>
   );
 };
 
@@ -487,13 +476,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 14,
     borderBottomWidth: 1,
-  },
-  backButton: {
-    width: 40,
-    height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 20,
   },
   headerTitleContainer: {
     flexDirection: 'row',
@@ -576,10 +558,7 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   itemNameRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
     marginBottom: 4,
-    flexWrap: 'wrap',
   },
   itemName: {
     fontSize: 15,

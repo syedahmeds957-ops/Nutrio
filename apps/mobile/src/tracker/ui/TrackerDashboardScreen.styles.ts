@@ -27,6 +27,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   userRow: {
+    minHeight: 44,
+    minWidth: 44,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
@@ -70,6 +72,8 @@ export const styles = StyleSheet.create({
     gap: 8,
   },
   regionToggleBtn: {
+    minHeight: 44,
+    minWidth: 44,
     paddingVertical: 6,
     paddingHorizontal: 10,
     borderRadius: 9999,
@@ -324,6 +328,7 @@ export const styles = StyleSheet.create({
     marginTop: 3,
   },
   bottomCenterLogBtn: {
+    minHeight: 44,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 22,

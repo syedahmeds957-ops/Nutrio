@@ -36,7 +36,7 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
   const accentColor = theme.colors.primaryLime;
   const activeTextColor = '#0A0B0D';
   const currentConditions = data.medicalConditions ?? [];
-  const isDisclaimerAccepted = data.medicalDisclaimerAccepted !== false;
+  const isDisclaimerAccepted = data.medicalDisclaimerAccepted === true;
 
   React.useEffect(() => {
     if (isMale && data.isPregnantOrBreastfeeding) {
@@ -229,7 +229,7 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
       {/* Safety & Medical Disclaimer */}
       <View style={styles.fieldGroup}>
         <Text style={[styles.label, { color: theme.colors.textPrimary }]}>
-          Safety & Medical Disclaimer
+          {t('survey.health.disclaimerTitle')}
         </Text>
         <TouchableOpacity
           style={[

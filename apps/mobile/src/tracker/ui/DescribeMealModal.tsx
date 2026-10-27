@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
-  Modal,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -10,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { NamedModal } from '../../ui/NamedModal.js';
 import type { NormalizedFood, RegionCode } from '@nutrio/food-db';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
@@ -118,7 +118,18 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
   };
 
   const totals = rows ? draftTotals(rows) : undefined;
-  const pending = rows ? rows.filter((r) => r.status !== 'ready').length : 0;
+  const pendingRows = rows ? rows.filter((r) => r.status !== 'ready') : [];
+  const pending = pendingRows.length;
+  // The footer says why, not just how many: the first row's own reason, with
+  // its food name so it is clear which line to look at.
+  const firstPending = pendingRows[0];
+  const pendingReason = firstPending
+    ? t(
+        `tracker.describeMeal.reasons.${
+          firstPending.status === 'unknown' ? 'unknown_food' : (firstPending.flags[0] ?? 'ambiguous_food')
+        }`
+      )
+    : '';
 
   const renderRow = (row: DraftRow) => {
     const nutrition = rowNutrition(row);
@@ -304,7 +315,7 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
   };
 
   return (
-    <Modal visible={visible} animationType="slide" presentationStyle="pageSheet" onRequestClose={handleClose}>
+    <NamedModal accessibilityName={t('a11y.dialog.describeMeal')} visible={visible} animationType="slide" presentationStyle="pageSheet" onRequestClose={handleClose}>
       <SafeAreaView style={[styles.safe, { backgroundColor: theme.colors.canvas }]}>
         <View style={[styles.header, { borderBottomColor: theme.colors.border }]}>
           <Icon name="sparkles" size={18} color={accentInk} />
@@ -400,7 +411,7 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
               </Text>
               <Text style={[styles.footerHint, dir.text, { color: pending ? '#B45309' : theme.colors.textSecondary }]}>
                 {pending
-                  ? t('tracker.describeMeal.pending', { count: pending })
+                  ? `${t('tracker.describeMeal.pending', { count: pending })} · ${firstPending?.parsed.name ?? ''}: ${pendingReason}`
                   : t('common.macroLine', {
                       protein: Math.round(totals.proteinGrams),
                       carbs: Math.round(totals.carbGrams),
@@ -427,7 +438,7 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
           onDishAdded={handleDishAdded}
         />
       </SafeAreaView>
-    </Modal>
+    </NamedModal>
   );
 };
 

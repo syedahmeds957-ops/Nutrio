@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Icon } from '../ui/Icon.js';
 import {
-  Modal,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import { NamedModal } from '../ui/NamedModal.js';
+import { useTranslation } from '../i18n/index.js';
 import {
   BillingPeriod,
   Currency,
@@ -22,11 +23,16 @@ interface PaywallModalProps {
   onSubscribe: (pricing: PlanPricing, provider: PaymentProvider) => void;
 }
 
+/** "6,999" or "49.99": the amount only; currency and period come from the translated line. */
+const formatPrice = (pricing: PlanPricing) =>
+  `${pricing.currency === 'PKR' ? 'PKR ' : '$'}${pricing.priceAmount.toLocaleString('en-US')}`;
+
 export const PaywallModal: React.FC<PaywallModalProps> = ({
   visible,
   onClose,
   onSubscribe,
 }) => {
+  const { t } = useTranslation();
   const [currency, setCurrency] = useState<Currency>('PKR');
   const [period, setPeriod] = useState<BillingPeriod>('annual');
   const [selectedProvider, setSelectedProvider] =
@@ -40,7 +46,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
   };
 
   return (
-    <Modal
+    <NamedModal accessibilityName={t('paywall.headline')}
       visible={visible}
       animationType="slide"
       transparent={true}
@@ -52,13 +58,13 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
           <View style={styles.header}>
             <View style={styles.headerLeft}>
               <View style={styles.premiumBadge}>
-                <Text style={styles.premiumBadgeText}>NUTRIO PREMIUM</Text>
+                <Text style={styles.premiumBadgeText}>{t('paywall.badge')}</Text>
               </View>
               <Text style={styles.headline}>
-                Upgrade to Unlimited
+                {t('paywall.headline')}
               </Text>
               <Text style={styles.subheadline}>
-                Unlock the full power of Pakistan-first adaptive nutrition and coaching.
+                {t('paywall.subheadline')}
               </Text>
             </View>
             <TouchableOpacity style={styles.closeBtn} onPress={onClose} activeOpacity={0.7}>
@@ -91,7 +97,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
                         currency === curr && styles.currPillTextActive,
                       ]}
                     >
-                      {curr === 'PKR' ? 'PKR (Pakistan)' : 'USD (Global)'}
+                      {t(`paywall.currency.${curr}`)}
                     </Text>
                   </TouchableOpacity>
                 ))}
@@ -109,14 +115,14 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
                 activeOpacity={0.7}
               >
                 <View style={styles.saveTag}>
-                  <Text style={styles.saveTagText}>BEST VALUE · 42% OFF</Text>
+                  <Text style={styles.saveTagText}>{t('paywall.bestValue')}</Text>
                 </View>
-                <Text style={styles.periodTitle}>Annual Plan</Text>
+                <Text style={styles.periodTitle}>{t('paywall.annualPlan')}</Text>
                 <Text style={styles.periodPrice}>
-                  {PRICING_TIERS[currency].annual.displayPrice}
+                  {t('paywall.priceYear', { amount: formatPrice(PRICING_TIERS[currency].annual) })}
                 </Text>
                 <Text style={styles.periodSavings}>
-                  {PRICING_TIERS[currency].annual.savingsNote}
+                  {t(`paywall.annualSavings.${currency}`)}
                 </Text>
               </TouchableOpacity>
 
@@ -128,50 +134,44 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
                 onPress={() => setPeriod('monthly')}
                 activeOpacity={0.7}
               >
-                <Text style={styles.periodTitle}>Monthly Plan</Text>
+                <Text style={styles.periodTitle}>{t('paywall.monthlyPlan')}</Text>
                 <Text style={styles.periodPrice}>
-                  {PRICING_TIERS[currency].monthly.displayPrice}
+                  {t('paywall.priceMonth', { amount: formatPrice(PRICING_TIERS[currency].monthly) })}
                 </Text>
-                <Text style={styles.periodSavings}>Cancel anytime</Text>
+                <Text style={styles.periodSavings}>{t('paywall.cancelAnytime')}</Text>
               </TouchableOpacity>
             </View>
 
             {/* Premium Features List */}
-            <Text style={styles.sectionHeading}>What You Unlock</Text>
+            <Text style={styles.sectionHeading}>{t('paywall.whatYouUnlock')}</Text>
             <View style={styles.featuresList}>
               <View style={styles.featureRow}>
                 <Icon name="coach" size={20} color="#1E293B" style={styles.featureIcon} />
                 <View style={styles.featureTextCol}>
-                  <Text style={styles.featureTitle}>24/7 AI Nutritionist Coach</Text>
-                  <Text style={styles.featureDesc}>
-                    Conversational advice in Roman Urdu & English for dawats, shaadi dinners, and chai.
-                  </Text>
+                  <Text style={styles.featureTitle}>{t('paywall.feature.coach.title')}</Text>
+                  <Text style={styles.featureDesc}>{t('paywall.feature.coach.desc')}</Text>
                 </View>
               </View>
 
               <View style={styles.featureRow}>
                 <Icon name="scale" size={20} color="#1E293B" style={styles.featureIcon} />
                 <View style={styles.featureTextCol}>
-                  <Text style={styles.featureTitle}>Closed-Loop Adaptive TDEE</Text>
-                  <Text style={styles.featureDesc}>
-                    Weekly metabolic recalibration that adapts targets to your real weight change.
-                  </Text>
+                  <Text style={styles.featureTitle}>{t('paywall.feature.adaptive.title')}</Text>
+                  <Text style={styles.featureDesc}>{t('paywall.feature.adaptive.desc')}</Text>
                 </View>
               </View>
 
               <View style={styles.featureRow}>
                 <Icon name="utensils" size={20} color="#1E293B" style={styles.featureIcon} />
                 <View style={styles.featureTextCol}>
-                  <Text style={styles.featureTitle}>Cultural Meal Plans & Swaps</Text>
-                  <Text style={styles.featureDesc}>
-                    A 7-day Pakistani and Saudi meal plan with 1-tap macro swaps.
-                  </Text>
+                  <Text style={styles.featureTitle}>{t('paywall.feature.plans.title')}</Text>
+                  <Text style={styles.featureDesc}>{t('paywall.feature.plans.desc')}</Text>
                 </View>
               </View>
             </View>
 
             {/* Payment Method Selector */}
-            <Text style={styles.sectionHeading}>Payment Method</Text>
+            <Text style={styles.sectionHeading}>{t('paywall.paymentMethod')}</Text>
             <View style={styles.providerRow}>
               {currency === 'PKR' ? (
                 <>
@@ -183,7 +183,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
                     onPress={() => setSelectedProvider('jazzcash')}
                     activeOpacity={0.7}
                   >
-                    <Text style={styles.providerText}>JazzCash</Text>
+                    <Text style={styles.providerText}>{t('paywall.provider.jazzcash')}</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
@@ -194,7 +194,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
                     onPress={() => setSelectedProvider('easypaisa')}
                     activeOpacity={0.7}
                   >
-                    <Text style={styles.providerText}>Easypaisa</Text>
+                    <Text style={styles.providerText}>{t('paywall.provider.easypaisa')}</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
@@ -205,7 +205,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
                     onPress={() => setSelectedProvider('card')}
                     activeOpacity={0.7}
                   >
-                    <Text style={styles.providerText}>Debit/Credit</Text>
+                    <Text style={styles.providerText}>{t('paywall.provider.debitCredit')}</Text>
                   </TouchableOpacity>
                 </>
               ) : (
@@ -218,7 +218,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
                     onPress={() => setSelectedProvider('card')}
                     activeOpacity={0.7}
                   >
-                    <Text style={styles.providerText}>Credit Card</Text>
+                    <Text style={styles.providerText}>{t('paywall.provider.creditCard')}</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
@@ -230,7 +230,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
                     onPress={() => setSelectedProvider('in_app_purchase')}
                     activeOpacity={0.7}
                   >
-                    <Text style={styles.providerText}>In-App Purchase</Text>
+                    <Text style={styles.providerText}>{t('paywall.provider.inApp')}</Text>
                   </TouchableOpacity>
                 </>
               )}
@@ -243,17 +243,17 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
               activeOpacity={0.8}
             >
               <Text style={styles.subscribeBtnText}>
-                Unlock Nutrio Premium ({pricing.displayPrice})
+                {t('paywall.subscribe', { price: t(period === 'annual' ? 'paywall.priceYear' : 'paywall.priceMonth', { amount: formatPrice(pricing) }) })}
               </Text>
             </TouchableOpacity>
 
             <Text style={styles.guaranteeText}>
-              No risk · Cancel anytime in 1 tap · ZDR health data privacy
+              {t('paywall.guarantee')}
             </Text>
           </ScrollView>
         </View>
       </View>
-    </Modal>
+    </NamedModal>
   );
 };
 
@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   subheadline: {
-    color: '#64748B',
+    color: '#556274',
     fontSize: 12,
     marginTop: 4,
     lineHeight: 16,
@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   closeBtnText: {
-    color: '#64748B',
+    color: '#556274',
     fontSize: 16,
     fontWeight: '700',
   },
@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
     borderColor: '#10B981',
   },
   currPillText: {
-    color: '#64748B',
+    color: '#556274',
     fontSize: 11,
     fontWeight: '600',
   },
@@ -408,7 +408,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   periodSavings: {
-    color: '#64748B',
+    color: '#556274',
     fontSize: 11,
     marginTop: 2,
   },
@@ -443,7 +443,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   featureDesc: {
-    color: '#64748B',
+    color: '#556274',
     fontSize: 11,
     lineHeight: 15,
     marginTop: 2,
@@ -484,7 +484,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   guaranteeText: {
-    color: '#64748B',
+    color: '#556274',
     fontSize: 10,
     textAlign: 'center',
     marginTop: 2,

@@ -8,21 +8,24 @@ import {
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
+import { weeklyCalorieBank } from '../calorieBank.js';
 
 export interface DayIntake {
   day: string;
   consumed: number;
   target: number;
   isLogged?: boolean;
+  /** The day still in progress: drawn, but not banked until it ends. */
+  isToday?: boolean;
 }
 
 interface WeeklyCalorieBankCardProps {
   dailyHistory?: DayIntake[];
-  weeklyDeficitKcal?: number;
   targetCalories?: number;
 }
 
 const WEEK_DAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const DAY_KEYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
 // Pinned explicitly rather than left to the platform's default leading: the
 // target guide is positioned off these, so a font-dependent line height would
@@ -74,7 +77,6 @@ export function computeCalorieBankScale(targetCalories: number): {
 
 export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
   dailyHistory,
-  weeklyDeficitKcal,
   targetCalories = 1850,
 }) => {
   const { theme, isDark } = useTheme();
@@ -93,15 +95,28 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
         day,
         consumed: 0,
         target: targetCalories,
-        isLogged: idx === currentDayIdx,
+        isLogged: false,
+        isToday: idx === currentDayIdx,
       }));
 
-  const hasLoggedDays = history.some((h) => (h.consumed > 0) || h.isLogged);
-  const totalConsumed = history.reduce((sum, h) => sum + h.consumed, 0);
-  const totalTarget = history.filter((h) => h.consumed > 0 || h.isLogged).reduce((sum, h) => sum + h.target, 0);
-  const computedDeficit = weeklyDeficitKcal !== undefined
-    ? weeklyDeficitKcal
-    : Math.max(0, totalTarget - totalConsumed);
+  const bank = weeklyCalorieBank(
+    history.map((h) => ({ consumed: h.consumed, target: h.target, isLogged: !!h.isLogged, isToday: h.isToday }))
+  );
+  const isLoggingToday = history.some((h) => h.isToday && h.consumed > 0);
+  const balanceLabel =
+    bank.countedDays === 0
+      ? t('tracker.calorieBank.balanceNone')
+      : bank.balanceKcal >= 0
+      ? t('tracker.calorieBank.balanceUnder', { kcal: bank.balanceKcal.toLocaleString('en-US') })
+      : t('tracker.calorieBank.balanceOver', { kcal: (-bank.balanceKcal).toLocaleString('en-US') });
+  const hint =
+    bank.countedDays > 0
+      ? bank.balanceKcal >= 0
+        ? t('tracker.calorieBank.onTrackHint')
+        : t('tracker.calorieBank.overHint')
+      : isLoggingToday
+      ? t('tracker.calorieBank.todayPendingHint')
+      : t('tracker.calorieBank.emptyHint');
 
   useEffect(() => {
     Animated.timing(animProgress, {
@@ -160,17 +175,15 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
           ]}
         >
           <Icon name="zap" size={12} color={accentColor} />
-          <Text style={[styles.deficitText, { color: accentColor }]}>
-            {computedDeficit > 0 ? `-${computedDeficit.toLocaleString()} kcal` : `0 kcal bank`}
+          <Text style={[styles.deficitText, { color: theme.colors.primaryAccessible }]}>
+            {balanceLabel}
           </Text>
         </View>
       </View>
 
       {/* Reassurance Message */}
       <Text style={[styles.reassuranceText, dir.text, { color: theme.colors.textMuted }]}>
-        {!hasLoggedDays || totalConsumed === 0
-          ? t('tracker.calorieBank.emptyHint')
-          : t('tracker.calorieBank.onTrackHint')}
+        {hint}
       </Text>
 
       {/* 7-Day Mini Bar Chart */}
@@ -187,7 +200,7 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
 
         <View style={styles.barsRow}>
           {history.map((item, idx) => {
-            const isToday = item.isLogged ?? (idx === currentDayIdx);
+            const isToday = item.isToday ?? (idx === currentDayIdx);
             const isOver = item.consumed > item.target;
             const barHeightPct = item.consumed > 0 ? Math.min(1, item.consumed / maxBarKcal) : 0;
             const heightValue = animProgress.interpolate({
@@ -221,13 +234,16 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
                   />
                 </View>
                 <Text
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                  minimumFontScale={0.7}
                   style={[
                     styles.dayLabel,
                     { color: theme.colors.textMuted },
-                    isToday && [styles.dayLabelToday, { color: accentColor }],
+                    isToday && [styles.dayLabelToday, { color: theme.colors.primaryAccessible }],
                   ]}
                 >
-                  {item.day}
+                  {t(`common.weekdayAbbrev.${DAY_KEYS[idx]}`)}
                 </Text>
               </View>
             );

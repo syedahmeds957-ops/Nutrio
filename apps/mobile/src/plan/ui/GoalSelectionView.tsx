@@ -7,13 +7,15 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
+import { BackButton } from '../../ui/BackButton.js';
 import { calculateBMI, GoalType } from '@nutrio/nutrition-core';
 import { GoalSelectionState, PlanUserContext } from '../types.js';
 import { computeProjection } from '../engine.js';
 import { Icon } from '../../ui/Icon.js';
 import { AppleTextInput } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
-import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { addDaysToKey, formatDayKey, localDateKey } from '../../common/dateKey.js';
+import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
 
 interface GoalSelectionViewProps {
   context: PlanUserContext;
@@ -28,6 +30,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { t } = useTranslation();
+  const { language } = useI18nState();
   const dir = useTextDirection();
 
   const bmi = useMemo(
@@ -81,7 +84,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
       contentContainerStyle={styles.content}
     >
       <View style={styles.header}>
-        <Text style={[styles.title, dir.text, { color: theme.colors.textPrimary }]}>
+        <Text role="heading" aria-level={1} style={[styles.title, dir.text, { color: theme.colors.textPrimary }]}>
           {t('plan.goal.title')}
         </Text>
         <Text style={[styles.subtitle, dir.text, { color: theme.colors.textSecondary }]}>
@@ -358,6 +361,8 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                     ]}
                     onPress={() => !isOverMax && setRateKgPerWeek(rate)}
                     disabled={isOverMax}
+                    accessibilityRole="button"
+                    accessibilityState={{ disabled: isOverMax, selected: isSelected }}
                     activeOpacity={0.7}
                   >
                     <Text
@@ -369,12 +374,17 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                         },
                       ]}
                     >
-                      {rate} kg
+                      {t('common.kgValue', { value: rate })}
                     </Text>
                   </TouchableOpacity>
                 );
               })}
             </View>
+            {[0.25, 0.5, 0.75, 1.0].some((rate) => rate > maxSafeRate) && (
+              <Text style={[styles.subtext, dir.text, { color: theme.colors.textSecondary }]}>
+                {t('plan.goal.pacesDisabledReason', { rate: maxSafeRate })}
+              </Text>
+            )}
           </View>
 
           {/* Timeline Projection Card */}
@@ -408,10 +418,12 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                 </Text>
               </View>
               <Text style={[styles.projectionValue, { color: theme.colors.textPrimary }]}>
-                ~{t('plan.goal.weeks', { count: projection.estimatedWeeks })} ({projection.projectedDate})
+                ~{t('plan.goal.weeks', { count: projection.estimatedWeeks })} ({formatDayKey(addDaysToKey(localDateKey(), (projection.estimatedWeeks ?? 0) * 7), language)})
               </Text>
               <Text style={[styles.projectionAdvice, { color: theme.colors.textSecondary }]}>
-                {projection.pacingAdvice}
+                {projection.pacingAdviceKey
+                  ? t(`plan.goal.pacingAdvice.${projection.pacingAdviceKey}`)
+                  : projection.pacingAdvice}
               </Text>
             </View>
           )}
@@ -420,21 +432,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
 
       {/* Navigation Buttons */}
       <View style={styles.btnRow}>
-        <TouchableOpacity
-          style={[
-            styles.backBtn,
-            {
-              backgroundColor: theme.colors.surfaceSecondary,
-              borderColor: theme.colors.border,
-            },
-          ]}
-          onPress={onBack}
-          activeOpacity={0.7}
-        >
-          <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
-            {t('common.back')}
-          </Text>
-        </TouchableOpacity>
+        <BackButton variant="footer" onPress={onBack} />
 
         <TouchableOpacity
           style={[
@@ -448,7 +446,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
             <Text style={[styles.confirmBtnText, { color: theme.colors.limeText }]}>
               {t('plan.goal.calculatePlan')}
             </Text>
-            <Icon name="arrow-right" size={16} color={theme.colors.limeText} />
+            <Icon name={dir.isRTL ? 'arrow-left' : 'arrow-right'} size={16} color={theme.colors.limeText} />
           </View>
         </TouchableOpacity>
       </View>
@@ -600,18 +598,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 12,
     marginTop: 10,
-  },
-  backBtn: {
-    flex: 1,
-    paddingVertical: 16,
-    borderRadius: 9999,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  backBtnText: {
-    fontSize: 14,
-    fontWeight: '700',
   },
   confirmBtn: {
     flex: 2,

@@ -5,28 +5,21 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
-  Modal,
   SafeAreaView,
   ActivityIndicator,
 } from 'react-native';
-import {
-  NormalizedFood,
-  PAKISTANI_RESTAURANT_BRANDS,
-  SAUDI_RESTAURANT_BRANDS,
-  ALL_SAUDI_FOODS,
-  RestaurantBrand,
-  searchPakistaniFoods,
-  searchSaudiFoods,
-  getDietBasicsForRegion,
-  groupDietFoods,
-  resolveFoodId,
-} from '@nutrio/food-db';
+import { BackButton } from '../../ui/BackButton.js';
+import { NamedModal } from '../../ui/NamedModal.js';
+import type { NormalizedFood, RestaurantBrand } from '@nutrio/food-db';
+import { foodDb } from '../../catalogue/index.js';
 import { MealSlot } from '../types.js';
 import { Icon } from '../../ui/Icon.js';
 import { BrandLogo } from '../../ui/BrandLogo.js';
 import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { filterSectionsForSlot, orderSectionsForSlot } from '../dietSlotOrder.js';
+import { useConfirmedRegionSwitch } from '../../common/region/useConfirmedRegionSwitch.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { getMostLoggedFoodIds, loadMealPresets, MAX_RECENT_FOODS } from '../mealPresets.js';
 import { searchCustomDishes } from '../customDishes.js';
@@ -38,6 +31,9 @@ import { DishCard } from './DishCard.js';
 import { VariantDishCard } from './VariantDishCard.js';
 import { BasketSummaryBar, PresetNamingBar } from './MealBasketBars.js';
 import { foodKey, useMealBasket, type MealBasketEntry } from './useMealBasket.js';
+
+/** How many catalogue matches a search asks for; a full page means there may be more. */
+const SEARCH_LIMIT = 40;
 
 export type { MealBasketEntry };
 
@@ -98,7 +94,8 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   onLogDescribedMeal,
 }) => {
   const { theme } = useTheme();
-  const { activeRegion, setRegion } = useRegion();
+  const { activeRegion } = useRegion();
+  const requestRegionSwitch = useConfirmedRegionSwitch(() => setSelectedGroup(null));
   const isSaudiRegion = activeRegion === 'SA';
   /**
    * The Arabic name for Saudi users. Urdu names are not displayed (lists show
@@ -149,8 +146,26 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   const groupLabel = (group: string) =>
     t(`tracker.brandGroups.${group}`, { defaultValue: group });
 
-  const dietFoods = useMemo(() => getDietBasicsForRegion(activeRegion), [activeRegion]);
-  const dietSections = useMemo(() => groupDietFoods(dietFoods), [dietFoods]);
+  const dietFoods = useMemo(() => foodDb().getDietBasicsForRegion(activeRegion), [activeRegion]);
+  // The diet list shows what suits the meal being logged, with one tap to see
+  // every food. Search and the saved meals / most-logged list are never filtered.
+  const [showAllDietFoods, setShowAllDietFoods] = useState(false);
+  const allDietSections = useMemo(
+    () => orderSectionsForSlot(foodDb().groupDietFoods(dietFoods), slot),
+    [dietFoods, slot]
+  );
+  const dietSections = useMemo(
+    () => (showAllDietFoods ? allDietSections : filterSectionsForSlot(allDietSections, slot)),
+    [allDietSections, showAllDietFoods, slot]
+  );
+  // A pill for a group the meal filter removed would open an empty list.
+  useEffect(() => {
+    if (selectedDietGroup !== ALL_DIET_GROUPS && !dietSections.some((s) => s.group === selectedDietGroup)) {
+      setSelectedDietGroup(ALL_DIET_GROUPS);
+    }
+  }, [dietSections, selectedDietGroup]);
+  const shownDietCount = dietSections.reduce((sum, section) => sum + section.foods.length, 0);
+  const isDietFiltered = shownDietCount < dietFoods.length;
   useEffect(() => {
     setSelectedDietGroup(ALL_DIET_GROUPS);
   }, [activeRegion]);
@@ -204,7 +219,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
     if (ranked.length === 0) return [];
     const byId = new Map(dietFoods.map((f) => [foodKey(f), f]));
     return ranked
-      .map((id) => byId.get(id) ?? byId.get(resolveFoodId(id)))
+      .map((id) => byId.get(id) ?? byId.get(foodDb().resolveFoodId(id)))
       .filter((f): f is NormalizedFood => Boolean(f));
   }, [showsFoodList, dietFoods, presetsVersion]);
 
@@ -229,14 +244,18 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
 
   // Search across dishes adapted to active region. The user's own dishes come
   // first: they added them because the catalogue had nothing better.
-  const searchResults = useMemo(() => {
+  const { results: searchResults, capped: searchCapped } = useMemo(() => {
     const q = (debouncedQuery || searchQuery).trim().toLowerCase();
-    if (!q) return [];
+    if (!q) return { results: [] as NormalizedFood[], capped: false };
 
     const own = searchCustomDishes(q);
     const catalogue =
-      activeRegion === 'SA' ? searchSaudiFoods(q, { limit: 40 }) : searchPakistaniFoods(q, { limit: 40 });
-    return [...own, ...catalogue];
+      activeRegion === 'SA'
+        ? foodDb().searchSaudiFoods(q, { limit: SEARCH_LIMIT })
+        : foodDb().searchPakistaniFoods(q, { limit: SEARCH_LIMIT });
+    // Hitting the limit means there may be more; saying "40 results" for
+    // every broad query made the count look like a constant.
+    return { results: [...own, ...catalogue], capped: catalogue.length >= SEARCH_LIMIT };
   }, [debouncedQuery, searchQuery, activeRegion, customDishesVersion]);
 
   const handleDishAdded = (dish: NormalizedFood) => {
@@ -251,24 +270,24 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   const filteredBrands = useMemo(() => {
     if (!selectedGroup || selectedGroup === DIET_GROUP) return [];
     if (activeRegion === 'SA') {
-      if (selectedGroup === 'All') return SAUDI_RESTAURANT_BRANDS;
+      if (selectedGroup === 'All') return foodDb().SAUDI_RESTAURANT_BRANDS;
       if (selectedGroup === 'Home Food') {
-        return SAUDI_RESTAURANT_BRANDS.filter(
+        return foodDb().SAUDI_RESTAURANT_BRANDS.filter(
           (b) => b.id === 'al_matbakh_al_saudi' || b.category === 'Home Food'
         );
       }
-      return SAUDI_RESTAURANT_BRANDS.filter(
+      return foodDb().SAUDI_RESTAURANT_BRANDS.filter(
         (b) =>
           b.category === selectedGroup ||
           b.cuisineTags?.includes(selectedGroup)
       );
     }
 
-    if (selectedGroup === 'All') return PAKISTANI_RESTAURANT_BRANDS;
+    if (selectedGroup === 'All') return foodDb().PAKISTANI_RESTAURANT_BRANDS;
     if (selectedGroup === 'Home Food') {
-      return PAKISTANI_RESTAURANT_BRANDS.filter((b) => b.id === 'ghar_ka_khana');
+      return foodDb().PAKISTANI_RESTAURANT_BRANDS.filter((b) => b.id === 'ghar_ka_khana');
     }
-    return PAKISTANI_RESTAURANT_BRANDS.filter((b) => b.brandGroup === selectedGroup);
+    return foodDb().PAKISTANI_RESTAURANT_BRANDS.filter((b) => b.brandGroup === selectedGroup);
   }, [selectedGroup, activeRegion]);
 
   // `keyPrefix` exists because the diet view can render the same food twice —
@@ -287,7 +306,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   );
 
   return (
-    <Modal
+    <NamedModal accessibilityName={t('a11y.dialog.logMeal')}
       visible={visible}
       animationType="slide"
       presentationStyle="pageSheet"
@@ -304,14 +323,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
             },
           ]}
         >
-          <TouchableOpacity
-            style={[styles.backButton, { backgroundColor: theme.colors.surfaceSecondary }]}
-            onPress={onClose}
-            accessibilityRole="button"
-            accessibilityLabel={t('common.back')}
-          >
-            <Icon name="arrow-left" size={18} color={theme.colors.textPrimary} />
-          </TouchableOpacity>
+          <BackButton variant="icon" onPress={onClose} />
           <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>
             {t('tracker.hub.title')}
           </Text>
@@ -323,13 +335,10 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                 borderColor: theme.colors.border,
               },
             ]}
-            onPress={() => {
-              setSelectedGroup(null);
-              setRegion(activeRegion === 'SA' ? 'PK' : 'SA');
-            }}
+            onPress={requestRegionSwitch}
             activeOpacity={0.7}
             accessibilityRole="button"
-            accessibilityLabel={t('tracker.hub.switchRegion')}
+            accessibilityLabel={`${activeRegion}, ${t('tracker.hub.switchRegion')}`}
           >
             <Text style={[styles.regionPillText, { color: theme.colors.textPrimary }]}>
               {activeRegion === 'SA' ? 'SA' : 'PK'}
@@ -361,6 +370,8 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                       { color: selected ? theme.colors.limeText : theme.colors.textSecondary },
                     ]}
                     numberOfLines={1}
+                    adjustsFontSizeToFit
+                    minimumFontScale={0.8}
                   >
                     {t(`tracker.mealSlots.${id}.${activeRegion}`)}
                   </Text>
@@ -407,6 +418,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
               style={[
                 styles.searchInput,
                 noOutlineStyle,
+                dir.text,
                 { color: theme.colors.textPrimary },
               ]}
               placeholder={t(`tracker.hub.searchPlaceholder.${activeRegion}`)}
@@ -460,7 +472,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                 {t(`tracker.describeMeal.entryHint.${activeRegion === 'SA' ? 'SA' : 'PK'}`)}
               </Text>
             </View>
-            <Icon name="chevron-right" size={16} color={theme.colors.textMuted} />
+            <Icon name={dir.isRTL ? 'chevron-left' : 'chevron-right'} size={16} color={theme.colors.textMuted} />
           </TouchableOpacity>
         )}
 
@@ -594,7 +606,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                 const isActive = selectedDietGroup === group;
                 const count =
                   group === ALL_DIET_GROUPS
-                    ? dietFoods.length
+                    ? shownDietCount
                     : (dietSections.find((s) => s.group === group)?.foods.length ?? 0);
                 return (
                   <TouchableOpacity
@@ -631,6 +643,32 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
           </View>
         )}
 
+        {showsFoodList && !searchQuery.trim() && slot && (isDietFiltered || showAllDietFoods) && (
+          <View style={[styles.slotFilterRow, { backgroundColor: theme.colors.surface }]}>
+            <Text style={[styles.slotFilterText, dir.text, { color: theme.colors.textSecondary }]}>
+              {showAllDietFoods
+                ? t('tracker.hub.slotFilter.showingAll')
+                : t('tracker.hub.slotFilter.showing', {
+                    meal: t(`tracker.mealSlots.${slot}.${activeRegion}`),
+                    shown: shownDietCount,
+                    total: dietFoods.length,
+                  })}
+            </Text>
+            <TouchableOpacity
+              onPress={() => setShowAllDietFoods((v) => !v)}
+              style={styles.slotFilterBtn}
+              activeOpacity={0.7}
+              accessibilityRole="button"
+            >
+              <Text style={[styles.slotFilterBtnText, { color: theme.colors.primaryAccessible }]}>
+                {showAllDietFoods
+                  ? t('tracker.hub.slotFilter.onlyMeal', { meal: t(`tracker.mealSlots.${slot}.${activeRegion}`) })
+                  : t('tracker.hub.slotFilter.showAll')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
         {/* Main Content Area */}
         <ScrollView
           style={styles.content}
@@ -644,7 +682,9 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
               <Text style={[styles.sectionEyebrow, { color: theme.colors.textMuted }]}>
                 {isFiltering
                   ? t('tracker.hub.searching')
-                  : t('tracker.hub.resultsFound', { count: searchResults.length })}
+                  : t(searchCapped ? 'tracker.hub.resultsFoundMore' : 'tracker.hub.resultsFound', {
+                      count: searchResults.length,
+                    })}
               </Text>
 
               {isFiltering ? (
@@ -761,7 +801,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
               )}
 
               <Text style={[styles.sectionEyebrow, { color: theme.colors.textMuted }]}>
-                {t('tracker.hub.dietBasicsHeading', { count: dietFoods.length })}
+                {t('tracker.hub.dietBasicsHeading', { count: shownDietCount })}
               </Text>
 
               {/*
@@ -833,7 +873,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                       </Text>
                     </View>
 
-                    <Icon name="chevron-right" size={18} color={theme.colors.textMuted} />
+                    <Icon name={dir.isRTL ? 'chevron-left' : 'chevron-right'} size={18} color={theme.colors.textMuted} />
                   </TouchableOpacity>
                 );
               })}
@@ -872,6 +912,6 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
           onDishAdded={handleDishAdded}
         />
       </SafeAreaView>
-    </Modal>
+    </NamedModal>
   );
 };

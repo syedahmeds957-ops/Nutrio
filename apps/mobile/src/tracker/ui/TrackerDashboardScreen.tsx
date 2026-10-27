@@ -15,21 +15,17 @@ import { MealLogHubModal, MealBasketEntry } from './MealLogHubModal.js';
 import { BrandMenuModal } from './BrandMenuModal.js';
 import { ItemCustomizerModal, CustomizedLogPayload } from './ItemCustomizerModal.js';
 import { DiaryViewModal } from './DiaryViewModal.js';
-import { AiRecommendationCard, RecommendedFood } from './AiRecommendationCard.js';
+import { AiRecommendationCard } from './AiRecommendationCard.js';
+import type { SuggestionItem } from '../suggestions.js';
 import { QuickStaplesBar, StapleItem } from './QuickStaplesBar.js';
 import { resolveStaple } from '../staples.js';
-import { WeeklyCalorieBankCard } from './WeeklyCalorieBankCard.js';
 import { TrackerEngine } from '../engine.js';
 import { MealSlot, DailyTrackerSummary } from '../types.js';
 import type { DraftLogEntry } from '../describeMeal.js';
-import {
-  NormalizedFood,
-  PAKISTANI_STAPLES_DATA,
-  SAUDI_TRADITIONAL_FOODS,
-  ServingUnit,
-} from '@nutrio/food-db';
+import type { NormalizedFood, ServingUnit } from '@nutrio/food-db';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
+import { useConfirmedRegionSwitch } from '../../common/region/useConfirmedRegionSwitch.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { GuestAuthModal } from './GuestAuthModal.js';
 import { ProfileSheet } from './ProfileSheet.js';
@@ -44,8 +40,6 @@ import { pushDailyActivities } from '../../sync/activitySync.js';
 import { HapticFeedback } from '../../ui/haptics.js';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { addDaysToKey, localDateKey } from '../../common/dateKey.js';
-import { computeLoggingStreak } from '../streak.js';
-import { StreakBadge } from './StreakBadge.js';
 import { styles } from './TrackerDashboardScreen.styles.js';
 
 interface TrackerDashboardScreenProps {
@@ -99,7 +93,8 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   onRequireAuth,
 }) => {
   const { theme, isDark } = useTheme();
-  const { activeRegion, setRegion } = useRegion();
+  const { activeRegion } = useRegion();
+  const requestRegionSwitch = useConfirmedRegionSwitch();
   const { t } = useTranslation();
   const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
@@ -266,31 +261,30 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
           return pastEngine.getSummary();
         })();
 
-  // Fill (0-1) of the daily calorie target for each day of the current
-  // Mon-Sun week, read from what was saved on those days. Days that have not
-  // happened yet, or were never logged, stay 0 so their bars stay empty.
-  const weeklyHistoryFills = (() => {
+  // Calories eaten on each day of the current Mon-Sun week: past days from what
+  // was saved, today from the live summary, later days not yet. The hero bars
+  // read it.
+  const weekDays = (() => {
     const today = new Date(`${summary.date}T00:00:00Z`);
     const todayIdx = (today.getUTCDay() + 6) % 7;
     return Array.from({ length: 7 }, (_, idx) => {
-      if (idx >= todayIdx) return 0;
+      if (idx === todayIdx) {
+        return { consumed: summary.totalCaloriesConsumed, isLogged: summary.items.length > 0, isToday: true };
+      }
+      if (idx > todayIdx) return { consumed: 0, isLogged: false, isToday: false };
       const date = addDaysToKey(summary.date, -(todayIdx - idx));
       const saved = loadDay(date, activeRegion);
-      if (!saved?.items?.length) return 0;
+      if (!saved?.items?.length) return { consumed: 0, isLogged: false, isToday: false };
       const dayEngine = new TrackerEngine({ ...targets, date });
       dayEngine.loadItems(saved.items, saved.waterMl || 0);
-      const eaten = dayEngine.getSummary().totalCaloriesConsumed;
-      return Math.min(1, eaten / Math.max(1, targets.targetCalories));
+      return { consumed: dayEngine.getSummary().totalCaloriesConsumed, isLogged: true, isToday: false };
     });
   })();
 
-  // Today reads from the live summary so a meal logged a moment ago counts at once.
-  const loggingStreak = computeLoggingStreak(
-    (date) =>
-      date === summary.date
-        ? summary.items.length > 0
-        : (loadDay(date, activeRegion)?.items?.length ?? 0) > 0,
-    summary.date
+  // Fill (0-1) of the daily calorie target for each finished day of the week.
+  // Today and later days stay 0 here; the hero draws today separately.
+  const weeklyHistoryFills = weekDays.map((d) =>
+    d.isToday ? 0 : Math.min(1, d.consumed / Math.max(1, targets.targetCalories))
   );
 
   /** True (and the sign-up prompt opens) when a guest tries to log or change anything. */
@@ -423,17 +417,13 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     forceUpdate();
   };
 
-  const handleLogRecommendation = (items: RecommendedFood[]) => {
+  // Items arrive already resolved to catalogue foods and servings; nothing is
+  // looked up by name here, so nothing can fall back to an unrelated dish.
+  const handleLogRecommendation = (items: SuggestionItem[]) => {
+    const slot = defaultSlotForNow();
     if (blockGuest()) return;
-    const foodPool = activeRegion === 'SA' ? SAUDI_TRADITIONAL_FOODS : PAKISTANI_STAPLES_DATA;
     for (const item of items) {
-      const found =
-        foodPool.find((f) =>
-          f.name.toLowerCase().includes(item.name.toLowerCase())
-        ) || foodPool[0];
-      const serving = found.servings[0] || { label: 'serving', grams: 100 };
-      const qty = Number((item.calories / (serving.kcal || found.kcal100g || 100)).toFixed(1));
-      engine.logItem('dinner', found, serving, Math.max(0.5, qty));
+      engine.logItem(slot, item.food, item.serving, item.quantity);
     }
     persistCurrentActivities();
     forceUpdate();
@@ -484,7 +474,7 @@ const defaultSlotForNow = (): MealSlot => {
                   },
                 ]}
               >
-                <Text style={[styles.avatarInitial, { color: accentColor }]}>
+                <Text style={[styles.avatarInitial, { color: theme.colors.primaryAccessible }]}>
                   {userName.charAt(0).toUpperCase()}
                 </Text>
               </View>
@@ -493,7 +483,7 @@ const defaultSlotForNow = (): MealSlot => {
                   {t('common.today')}
                 </Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                  <Text style={[styles.userName, { color: theme.colors.textPrimary }]}>
+                  <Text role="heading" aria-level={1} style={[styles.userName, { color: theme.colors.textPrimary }]}>
                     {userName}
                   </Text>
                   <View style={[styles.freeTag, { backgroundColor: accentColor }]}>
@@ -517,12 +507,12 @@ const defaultSlotForNow = (): MealSlot => {
                 ]}
                 onPress={() => {
                   HapticFeedback.selection();
-                  setRegion(activeRegion === 'SA' ? 'PK' : 'SA');
+                  requestRegionSwitch();
                 }}
                 activeOpacity={0.7}
                 hitSlop={{ top: 8, bottom: 8, left: 6, right: 6 }}
                 accessibilityRole="button"
-                accessibilityLabel={t('tracker.dashboard.toggleRegion')}
+                accessibilityLabel={`${activeRegion}, ${t('tracker.dashboard.toggleRegion')}`}
               >
                 <Text style={[styles.regionToggleText, { color: theme.colors.textPrimary }]}>
                   {activeRegion === 'SA' ? 'SA' : 'PK'}
@@ -658,8 +648,6 @@ const defaultSlotForNow = (): MealSlot => {
         {/* 1. Daily Progress Hero Card + 2x2 Metric Grid */}
         <DailyProgressHeader summary={summary} weeklyHistoryFills={weeklyHistoryFills} />
 
-        {!isGuest && <StreakBadge {...loggingStreak} />}
-
         {onOpenWorkouts && (
           <TodayWorkoutCard
             plan={workoutPlan}
@@ -779,33 +767,6 @@ const defaultSlotForNow = (): MealSlot => {
             onDeleteItem={handleDeleteItem}
           />
         </View>
-
-        {/* Rolling Weekly Calorie Bank Card (Dynamic Real Data) */}
-        <WeeklyCalorieBankCard
-          targetCalories={targets.targetCalories}
-          dailyHistory={['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, idx) => {
-            const currentDayOfWeek = (new Date().getDay() + 6) % 7;
-            if (idx === currentDayOfWeek) {
-              return {
-                day,
-                consumed: Math.round(summary.totalCaloriesConsumed),
-                target: targets.targetCalories,
-                isLogged: true,
-              };
-            }
-            return {
-              day,
-              consumed: 0,
-              target: targets.targetCalories,
-              isLogged: false,
-            };
-          })}
-          weeklyDeficitKcal={
-            summary.totalCaloriesConsumed > 0
-              ? Math.max(0, targets.targetCalories - summary.totalCaloriesConsumed)
-              : 0
-          }
-        />
       </ScrollView>
 
       {/* Floating Pitch-Black Capsule Navigation Bar (Revolut/Ronasit Style) */}

@@ -50,7 +50,7 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
     <View style={styles.container}>
       {Object.keys(errors).length > 0 && (
         <Notice tone="danger" style={{ marginBottom: 16 }}>
-          {errors.jobCategory || errors.dailySittingHours || errors.shiftPattern || t('common.completeRequiredFields')}
+          {t('common.completeRequiredFields')}
         </Notice>
       )}
 
@@ -118,7 +118,7 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
       {/* Sitting Hours */}
       <AppleTextInput
         label={t('survey.occupational.sittingHours')}
-        placeholder="e.g. 8"
+        placeholder={t('survey.placeholderExample', { value: 8 })}
         keyboardType="numeric"
         value={
           data.dailySittingHours !== undefined

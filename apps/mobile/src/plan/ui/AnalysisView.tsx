@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { BackButton } from '../../ui/BackButton.js';
 import { PlanUserContext, AssessmentNarrative } from '../types.js';
+import { ritualCupKcal } from '../../common/ritualDrinks.js';
 import { Icon } from '../../ui/Icon.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
@@ -26,8 +28,15 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
   const isSaudi = activeRegion === 'SA';
 
   const sittingHours = Number.isFinite(context.dailySittingHours) ? context.dailySittingHours : 8;
-  const chaiKcalDay = Number.isFinite(context.chaiSugarKcalPerDay) ? context.chaiSugarKcalPerDay : 130;
-  const chaiKcalWeek = Number.isFinite(context.weeklyChaiSugarKcal) ? context.weeklyChaiSugarKcal : chaiKcalDay * 7;
+  // Priced for the region from the survey's cup count. The Saudi card used to
+  // show a fixed 175 kcal/day whatever the user had answered.
+  const ritualKcalDay =
+    context.ritualCupsPerDay !== undefined
+      ? context.ritualCupsPerDay * ritualCupKcal(activeRegion)
+      : Number.isFinite(context.chaiSugarKcalPerDay)
+      ? context.chaiSugarKcalPerDay
+      : 2 * ritualCupKcal(activeRegion);
+  const ritualKcalWeek = ritualKcalDay * 7;
 
   return (
     <ScrollView
@@ -36,32 +45,11 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
     >
       {/* Top Back Button */}
       {onBack && (
-        <TouchableOpacity
-          style={[
-            styles.topBackBtn,
-            {
-              backgroundColor: theme.colors.surface,
-              borderColor: theme.colors.border,
-            },
-          ]}
-          onPress={onBack}
-          activeOpacity={0.7}
-        >
-          <View style={styles.topBackContent}>
-            <Icon
-              name="arrow-left"
-              size={14}
-              color={theme.colors.textPrimary}
-            />
-            <Text style={[styles.topBackText, { color: theme.colors.textPrimary }]}>
-              {t('common.back')}
-            </Text>
-          </View>
-        </TouchableOpacity>
+        <BackButton onPress={onBack} style={styles.topBackBtn} />
       )}
 
       <View style={styles.header}>
-        <Text style={[styles.title, dir.text, { color: theme.colors.textPrimary }]}>
+        <Text role="heading" aria-level={1} style={[styles.title, dir.text, { color: theme.colors.textPrimary }]}>
           {t('plan.analysis.title')}
         </Text>
         <Text style={[styles.subtitle, dir.text, { color: theme.colors.textSecondary }]}>
@@ -84,7 +72,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
         </Text>
 
         <View style={[styles.metricRow, { borderBottomColor: theme.colors.border }]}>
-          <View>
+          <View style={styles.metricTextCol}>
             <Text style={[styles.metricLabel, dir.text, { color: theme.colors.textPrimary }]}>
               {t('plan.analysis.bmr')}
             </Text>
@@ -98,7 +86,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
         </View>
 
         <View style={[styles.metricRow, { borderBottomColor: theme.colors.border }]}>
-          <View>
+          <View style={styles.metricTextCol}>
             <Text style={[styles.metricLabel, dir.text, { color: theme.colors.textPrimary }]}>
               {t('plan.analysis.sittingLoad')}
             </Text>
@@ -112,7 +100,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
         </View>
 
         <View style={styles.totalRow}>
-          <View>
+          <View style={styles.metricTextCol}>
             <Text style={[styles.totalLabel, dir.text, { color: theme.colors.textPrimary }]}>
               {t('plan.analysis.tdee')}
             </Text>
@@ -220,7 +208,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
               },
             ]}
           >
-            {t('plan.analysis.levers.perDay', { value: isSaudi ? 175 : chaiKcalDay })}
+            {t('plan.analysis.levers.perDay', { value: ritualKcalDay })}
           </Text>
         </View>
 
@@ -243,7 +231,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
             ]}
           >
             {t('plan.analysis.levers.perWeek', {
-              value: (isSaudi ? 1225 : chaiKcalWeek).toLocaleString(),
+              value: ritualKcalWeek.toLocaleString('en-US'),
             })}
           </Text>
         </View>
@@ -317,21 +305,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
       {/* Action Navigation Buttons */}
       <View style={styles.btnRow}>
         {onBack && (
-          <TouchableOpacity
-            style={[
-              styles.backBtn,
-              {
-                backgroundColor: theme.colors.surfaceSecondary,
-                borderColor: theme.colors.border,
-              },
-            ]}
-            onPress={onBack}
-            activeOpacity={0.7}
-          >
-            <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
-              Back
-            </Text>
-          </TouchableOpacity>
+          <BackButton variant="footer" onPress={onBack} style={styles.footerBack} />
         )}
 
         <TouchableOpacity
@@ -345,9 +319,9 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
         >
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, justifyContent: 'center' }}>
             <Text style={[styles.actionBtnText, { color: theme.colors.limeText }]}>
-              Select Your Goal & Pace
+              {t('plan.analysis.selectGoal')}
             </Text>
-            <Icon name="arrow-right" size={18} color={theme.colors.limeText} />
+            <Icon name={dir.isRTL ? 'arrow-left' : 'arrow-right'} size={18} color={theme.colors.limeText} />
           </View>
         </TouchableOpacity>
       </View>
@@ -391,10 +365,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    gap: 12,
     paddingVertical: 10,
     borderBottomWidth: 1,
   },
+  // The label side gives way, the number never wraps onto it.
+  metricTextCol: {
+    flex: 1,
+    minWidth: 0,
+  },
   metricLabel: {
+    flexShrink: 1,
     fontSize: 14,
     fontWeight: '600',
   },
@@ -403,6 +384,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   metricValue: {
+    flexShrink: 0,
     fontSize: 15,
     fontWeight: '700',
   },
@@ -410,6 +392,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    gap: 12,
     paddingTop: 14,
   },
   totalLabel: {
@@ -421,6 +404,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   totalValue: {
+    flexShrink: 0,
     fontSize: 22,
     fontWeight: '900',
   },
@@ -444,6 +428,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   chaiHighlight: {
+    flexShrink: 0,
     fontSize: 16,
     fontWeight: '800',
   },
@@ -482,39 +467,18 @@ const styles = StyleSheet.create({
     lineHeight: 19,
   },
   topBackBtn: {
-    alignSelf: 'flex-start',
     marginBottom: 16,
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderRadius: 9999,
-    borderWidth: 1,
   },
-  topBackContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  topBackText: {
-    fontSize: 13,
-    fontWeight: '700',
+  // Beside the primary button: natural width, not an equal share.
+  footerBack: {
+    flex: 0,
+    paddingHorizontal: 24,
   },
   btnRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
     marginTop: 10,
-  },
-  backBtn: {
-    paddingVertical: 16,
-    paddingHorizontal: 24,
-    borderRadius: 9999,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  backBtnText: {
-    fontSize: 15,
-    fontWeight: '700',
   },
   actionBtn: {
     borderRadius: 9999,

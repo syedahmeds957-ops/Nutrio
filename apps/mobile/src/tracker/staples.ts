@@ -1,11 +1,7 @@
-import {
-  DIET_BASICS_CATALOG,
-  NormalizedFood,
-  PAKISTANI_STAPLES_DATA,
-  SAUDI_TRADITIONAL_FOODS,
-  ServingUnit,
-} from '@nutrio/food-db';
+import type { NormalizedFood, ServingUnit } from '@nutrio/food-db';
+import { foodDb } from '../catalogue/index.js';
 import { Region } from '../common/region/index.js';
+import { CHAI_CUP } from '../common/ritualDrinks.js';
 
 export interface StapleItem {
   id: string;
@@ -42,12 +38,14 @@ const PK_STAPLES: StapleDefinition[] = [
   },
   {
     id: 'chai',
-    foodName: 'Doodh Patti Chai (1 tsp Sugar / Kam Cheeni)',
+    // The same cup the survey and describe-a-meal count (ritualDrinks.ts).
+    // The doodh patti entry only offers a 200 ml mug, so the chip showed 134.
+    foodName: CHAI_CUP.foodName,
     name: 'Chai (Doodh Patti)',
-    calories: 85,
-    proteinGrams: 2,
-    fatGrams: 3,
-    carbGrams: 12,
+    calories: 80,
+    proteinGrams: 2.4,
+    fatGrams: 2.6,
+    carbGrams: 11.6,
     icon: 'coffee',
   },
   {
@@ -313,11 +311,11 @@ export function resolveStaple(
   staple: StapleDefinition,
   region: Region
 ): ResolvedStaple {
-  const pool = region === 'SA' ? SAUDI_TRADITIONAL_FOODS : PAKISTANI_STAPLES_DATA;
+  const pool = region === 'SA' ? foodDb().SAUDI_TRADITIONAL_FOODS : foodDb().PAKISTANI_STAPLES_DATA;
   const target = (staple.foodName || staple.name).toLowerCase();
   const food =
     pool.find((f) => f.name.toLowerCase() === target) ||
-    DIET_BASICS_CATALOG.find((f) => f.name.toLowerCase() === target);
+    foodDb().DIET_BASICS_CATALOG.find((f) => f.name.toLowerCase() === target);
 
   if (!food) {
     return { food: stapleAsFood(staple), serving: STAPLE_SERVING, calories: staple.calories };

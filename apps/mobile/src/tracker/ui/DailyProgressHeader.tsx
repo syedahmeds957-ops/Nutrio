@@ -22,8 +22,6 @@ interface MacroTileProps {
   overKey: string;
   leftKey: string;
   fallback: string;
-  /** Show the goal itself as the headline number (used for calories), with eaten / left below. */
-  targetMode?: boolean;
 }
 
 /**
@@ -39,7 +37,6 @@ const MacroTile: React.FC<MacroTileProps> = ({
   overKey,
   leftKey,
   fallback,
-  targetMode = false,
 }) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
@@ -60,24 +57,25 @@ const MacroTile: React.FC<MacroTileProps> = ({
     >
       <View style={styles.tileHeader}>
         <Text style={[styles.tileValue, { color: theme.colors.textPrimary }]}>
-          {targetMode && !hasGoal ? t('tracker.header.targetNotSet') : (targetMode ? Math.round(goal) : eaten).toLocaleString()}
-          {(!targetMode || hasGoal) && (
-            <Text style={[styles.tileUnit, { color: theme.colors.textSecondary }]}>{unit}</Text>
-          )}
+          {eaten.toLocaleString('en-US')}
+          <Text style={[styles.tileUnit, { color: theme.colors.textSecondary }]}>{unit}</Text>
         </Text>
-        {hasGoal && !targetMode && (
+        {hasGoal && (
           <View style={[styles.goalBox, { borderColor: hairline }]}>
             <Text style={[styles.goalCaption, { color: theme.colors.textMuted }]}>
               {t('tracker.header.goalCaption')}
             </Text>
             <Text style={[styles.goalValue, { color: theme.colors.textSecondary }]}>
-              {Math.round(goal).toLocaleString()}
+              {Math.round(goal).toLocaleString('en-US')}
             </Text>
           </View>
         )}
       </View>
       <Text style={[styles.tileLabel, dir.text, { color: theme.colors.textSecondary }]}>{label}</Text>
       <View
+        accessibilityRole="progressbar"
+        accessibilityLabel={label}
+        accessibilityValue={{ min: 0, max: 100, now: Math.round(pct) }}
         style={[
           styles.tileProgressTrack,
           { backgroundColor: theme.isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.06)' },
@@ -88,15 +86,8 @@ const MacroTile: React.FC<MacroTileProps> = ({
       <Text
         style={[styles.tileSub, { color: isOver ? theme.colors.danger : theme.colors.textMuted }]}
       >
-        {targetMode
-          ? hasGoal
-            ? t(isOver ? 'tracker.header.kcalEatenOver' : 'tracker.header.kcalEatenLeft', {
-                eaten: eaten.toLocaleString(),
-                value: Math.abs(diff).toLocaleString(),
-              })
-            : fallback
-          : hasGoal
-          ? t(isOver ? overKey : leftKey, { value: Math.abs(diff).toLocaleString() })
+        {hasGoal
+          ? t(isOver ? overKey : leftKey, { value: Math.abs(diff).toLocaleString('en-US') })
           : fallback}
       </Text>
     </View>
@@ -173,10 +164,15 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
         <View style={styles.heroBodyRow}>
           {/* Main Calorie Numbers */}
           <View style={styles.heroNumbersCol}>
-            <Text style={[styles.heroValue, { color: heroTextColor }]}>
+            <Text
+              style={[styles.heroValue, { color: heroTextColor }]}
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.6}
+            >
               {targetCalories > 0
-                ? Math.abs(remainingCalories).toLocaleString()
-                : Math.round(totalCaloriesConsumed).toLocaleString()}
+                ? Math.abs(remainingCalories).toLocaleString('en-US')
+                : Math.round(totalCaloriesConsumed).toLocaleString('en-US')}
             </Text>
             <Text style={[styles.heroLabel, { color: heroTextColor }]}>
               {targetCalories > 0
@@ -187,9 +183,8 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
             </Text>
             <Text style={[styles.heroTargetSub, { color: heroSubTextColor }]}>
               {targetCalories > 0
-                ? t('tracker.header.dailyGoal', {
-                    target: targetCalories.toLocaleString(),
-                    eaten: Math.round(totalCaloriesConsumed),
+                ? t('tracker.header.eatenSoFar', {
+                    eaten: Math.round(totalCaloriesConsumed).toLocaleString('en-US'),
                   })
                 : t('tracker.header.noTargetHint')}
             </Text>
@@ -244,7 +239,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
         <MacroTile
           label={t('common.protein')}
           value={totalProteinConsumed}
-          unit="g"
+          unit={t('common.gramsUnit')}
           goal={targetProteinGrams}
           color={theme.colors.protein}
           overKey="tracker.header.gramsOver"
@@ -254,7 +249,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
         <MacroTile
           label={t('common.carbs')}
           value={totalCarbConsumed}
-          unit="g"
+          unit={t('common.gramsUnit')}
           goal={targetCarbGrams}
           color={theme.colors.carbs}
           overKey="tracker.header.gramsOver"
@@ -264,7 +259,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
         <MacroTile
           label={t('common.fat')}
           value={totalFatConsumed}
-          unit="g"
+          unit={t('common.gramsUnit')}
           goal={targetFatGrams}
           color={theme.colors.fat}
           overKey="tracker.header.gramsOver"
@@ -272,10 +267,9 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
           fallback={t('tracker.header.consumedToday')}
         />
         <MacroTile
-          label={t('tracker.header.dailyTarget')}
-          targetMode
+          label={t('common.calories')}
           value={totalCaloriesConsumed}
-          unit=" kcal"
+          unit={` ${t('common.kcal')}`}
           goal={targetCalories}
           color={theme.colors.primaryAccessible}
           overKey="tracker.header.kcalOver"
@@ -354,9 +348,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
+    gap: 16,
   },
   heroNumbersCol: {
     flex: 1,
+    minWidth: 0,
   },
   heroValue: {
     fontSize: 48,
@@ -391,7 +387,11 @@ const styles = StyleSheet.create({
   pillTrack: {
     width: 10,
     height: 60,
-    backgroundColor: 'rgba(10, 11, 13, 0.12)',
+    // A pale, outlined vessel: the dark fill is what shows intake, so an empty
+    // day must not look half-full.
+    backgroundColor: 'rgba(255, 255, 255, 0.42)',
+    borderWidth: 1,
+    borderColor: 'rgba(10, 11, 13, 0.22)',
     borderRadius: 9999,
     justifyContent: 'flex-end',
     overflow: 'hidden',

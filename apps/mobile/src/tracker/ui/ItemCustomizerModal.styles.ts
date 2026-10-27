@@ -15,12 +15,8 @@ export const styles = StyleSheet.create({
     paddingBottom: 28,
   },
   backButton: {
-    width: 40,
-    height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignSelf: 'flex-start',
     marginBottom: 16,
-    marginLeft: -4,
   },
   brandText: {
     fontSize: 14,
@@ -77,6 +73,7 @@ export const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#78716C',
     letterSpacing: 0.5,
+    textTransform: 'uppercase',
   },
   howManySub: {
     fontSize: 13,
@@ -93,21 +90,21 @@ export const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: '#FFEDD5',
+    backgroundColor: '#F1F5F9',
     alignItems: 'center',
     justifyContent: 'center',
   },
   peachCircleButtonSmall: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#FFEDD5',
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: '#F1F5F9',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  // Dimmed, not recoloured: the neutral fill stays so it reads as the same button.
   peachCircleButtonDisabled: {
-    backgroundColor: '#FFF7ED',
-    opacity: 0.6,
+    opacity: 0.4,
   },
   stepperNumber: {
     fontSize: 20,
@@ -346,6 +343,8 @@ export const styles = StyleSheet.create({
     gap: 8,
   },
   slotPill: {
+    minHeight: 44,
+    justifyContent: 'center',
     paddingHorizontal: 14,
     paddingVertical: 8,
     borderRadius: 12,

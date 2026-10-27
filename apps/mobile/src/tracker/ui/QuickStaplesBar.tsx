@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  Modal,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -8,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { NamedModal } from '../../ui/NamedModal.js';
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
 import { useRegion } from '../../common/region/index.js';
@@ -138,7 +138,7 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
         })}
       </ScrollView>
 
-      <Modal
+      <NamedModal accessibilityName={t('a11y.dialog.quickStaples')}
         visible={pendingStaple !== null}
         transparent
         animationType="fade"
@@ -160,7 +160,8 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
           >
             <Text style={[styles.sheetTitle, dir.text, { color: theme.colors.textPrimary }]}>
               {t('tracker.staples.chooseSlotTitle', {
-                item: pendingStaple?.label ?? '',
+                // The chip label reads "+ 1 Chai"; the question names just the food.
+                item: (pendingStaple?.label ?? '').replace(/^\+\s*/, ''),
               })}
             </Text>
             <Text style={[styles.sheetSubtitle, dir.text, { color: theme.colors.textMuted }]}>
@@ -205,7 +206,7 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
             </TouchableOpacity>
           </Pressable>
         </Pressable>
-      </Modal>
+      </NamedModal>
     </View>
   );
 };

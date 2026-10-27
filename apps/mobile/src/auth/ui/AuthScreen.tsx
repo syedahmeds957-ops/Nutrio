@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { BackButton } from '../../ui/BackButton.js';
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
 import { AppleTextInput } from '../../ui/AppleInput.js';
@@ -119,29 +120,12 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
           {/* Top Bar (Brand Header & optional Back Button) */}
           <View style={[styles.topBar, !onBackToHome && styles.topBarCentered]}>
             {onBackToHome && (
-              <TouchableOpacity
-                style={[
-                  styles.backBtn,
-                  {
-                    backgroundColor: theme.colors.surfaceSecondary,
-                    borderColor: theme.colors.border,
-                  },
-                ]}
-                onPress={onBackToHome}
-                activeOpacity={0.7}
-              >
-                <View style={styles.btnRow}>
-                  <Icon name="arrow-left" size={14} color={theme.colors.textPrimary} />
-                  <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
-                    {t('common.back')}
-                  </Text>
-                </View>
-              </TouchableOpacity>
+              <BackButton onPress={onBackToHome} />
             )}
 
             <View style={styles.brandRow}>
               <Image
-                source={require('../../../assets/logo.png')}
+                source={require('../../../assets/logo.webp')}
                 style={styles.logo}
                 resizeMode="contain"
                 accessibilityIgnoresInvertColors
@@ -235,7 +219,11 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             </View>
 
             {/* Header Titles */}
-            <Text style={[styles.heading, dir.text, { color: theme.colors.textPrimary }]}>
+            <Text
+              role="heading"
+              aria-level={1}
+              style={[styles.heading, dir.text, { color: theme.colors.textPrimary }]}
+            >
               {mode === 'login' ? t('auth.welcomeBack') : t('auth.createAccount')}
             </Text>
             <Text style={[styles.subheading, { color: theme.colors.textSecondary }]}>
@@ -397,20 +385,10 @@ const styles = StyleSheet.create({
   backBtnPlaceholder: {
     width: 60,
   },
-  backBtn: {
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderRadius: 9999,
-    borderWidth: 1,
-  },
   btnRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-  },
-  backBtnText: {
-    fontSize: 12,
-    fontWeight: '700',
   },
   brandRow: {
     alignItems: 'center',
@@ -437,10 +415,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   tabBtn: {
+    minHeight: 44,
     flex: 1,
     paddingVertical: 10,
     alignItems: 'center',
     borderRadius: 9999,
+    justifyContent: 'center',
   },
   tabText: {
     fontSize: 13,
@@ -478,14 +458,18 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   eyeBtn: {
+    minHeight: 44,
+    minWidth: 44,
     paddingHorizontal: 8,
     paddingVertical: 4,
+    justifyContent: 'center',
   },
   eyeText: {
     fontSize: 12,
     fontWeight: '600',
   },
   rememberRow: {
+    minHeight: 44,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
@@ -524,8 +508,10 @@ const styles = StyleSheet.create({
     letterSpacing: -0.2,
   },
   guestBtn: {
+    minHeight: 44,
     alignItems: 'center',
     paddingVertical: 8,
+    justifyContent: 'center',
   },
   guestText: {
     fontSize: 12,

@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { BackButton } from '../../ui/BackButton.js';
 import { CoachContext } from '@nutrio/nutrition-core';
 import { sendCoachMessage } from '../../ai/ai-service.js';
 import { Icon } from '../../ui/Icon.js';
@@ -17,6 +18,7 @@ import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
+import { firstName } from '../../common/firstName.js';
 import type { CoachSwapResult, CoachSwapTopic } from '../../workout/coachWorkout.js';
 import { ApplySwapCard, type SwapCardState } from './ApplySwapCard.js';
 
@@ -76,7 +78,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
   const accentColor = theme.colors.primaryLime;
 
   const initialGreeting = t(`coach.greeting.${chatRegion}`, {
-    name: context.displayName || t('coach.defaultName'),
+    name: firstName(context.displayName) || t('coach.defaultName'),
     remaining: context.todaySummary?.remainingCalories ?? context.targets.kcalTarget,
   });
 
@@ -188,21 +190,12 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
           },
         ]}
       >
-        <TouchableOpacity
-          style={[styles.backBtn, { backgroundColor: theme.colors.surfaceSecondary }]}
-          onPress={onBack}
-          activeOpacity={0.7}
-        >
-          <View style={styles.btnRow}>
-            <Icon name="arrow-left" size={14} color={theme.colors.textPrimary} />
-            <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>{t('common.back')}</Text>
-          </View>
-        </TouchableOpacity>
+        <BackButton onPress={onBack} />
 
         <View style={styles.headerCenter}>
           <View style={styles.titleRow}>
             <Icon name="sparkles" size={16} color={isDark ? theme.colors.primaryLime : '#4B6200'} />
-            <Text style={[styles.headerTitle, dir.text, { color: theme.colors.textPrimary }]}>
+            <Text role="heading" aria-level={1} style={[styles.headerTitle, dir.text, { color: theme.colors.textPrimary }]}>
               {t('coach.title')}
             </Text>
           </View>
@@ -385,6 +378,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
           <TextInput
             style={[
               styles.textInput,
+              dir.text,
               {
                 backgroundColor: theme.colors.surfaceSecondary,
                 color: theme.colors.textPrimary,
@@ -435,20 +429,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-  },
-  backBtn: {
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 9999,
-  },
-  btnRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  backBtnText: {
-    fontSize: 12,
-    fontWeight: '700',
   },
   headerCenter: {
     alignItems: 'center',
@@ -543,10 +523,12 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   chip: {
+    minHeight: 44,
     borderRadius: 9999,
     paddingVertical: 8,
     paddingHorizontal: 14,
     borderWidth: 1,
+    justifyContent: 'center',
   },
   chipText: {
     fontSize: 12,

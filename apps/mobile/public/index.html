@@ -5,11 +5,11 @@
     <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Nutrio - Nutrition & Calorie Coach</title>
-
-    <!-- Google Fonts Embed: Plus Jakarta Sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta name="description" content="Nutrio is an AI nutrition and calorie coach with local Pakistani and Saudi foods, personal targets and daily tracking." />
+    <meta name="theme-color" content="#F6F7FB" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Nutrio - Nutrition & Calorie Coach" />
+    <meta property="og:description" content="Track meals from local menus, get targets built for you and a coach that knows your day." />
 
     <!-- The `react-native-web` recommended style reset: https://necolas.github.io/react-native-web/docs/setup/#root-element -->
     <style id="expo-reset">
@@ -28,15 +28,25 @@
         height: 100%;
         flex: 1;
       }
-      /* Typography Specification: Plus Jakarta Sans with fallbacks */
+      /* The app's own faces (the same files the native app bundles): Inter for Latin,
+         IBM Plex Sans Arabic for Arabic. Each file only downloads when its weight is used. */
+      @font-face { font-family: 'Inter'; font-weight: 400; font-display: swap; src: url('/fonts/Inter-Regular.ttf') format('truetype'); }
+      @font-face { font-family: 'Inter'; font-weight: 500; font-display: swap; src: url('/fonts/Inter-Medium.ttf') format('truetype'); }
+      @font-face { font-family: 'Inter'; font-weight: 600; font-display: swap; src: url('/fonts/Inter-SemiBold.ttf') format('truetype'); }
+      @font-face { font-family: 'Inter'; font-weight: 700; font-display: swap; src: url('/fonts/Inter-Bold.ttf') format('truetype'); }
+      @font-face { font-family: 'Inter'; font-weight: 800; font-display: swap; src: url('/fonts/Inter-ExtraBold.ttf') format('truetype'); }
+      @font-face { font-family: 'Inter'; font-weight: 900; font-display: swap; src: url('/fonts/Inter-Black.ttf') format('truetype'); }
+      @font-face { font-family: 'IBM Plex Sans Arabic'; font-weight: 400; font-display: swap; src: url('/fonts/IBMPlexSansArabic-Regular.ttf') format('truetype'); }
+      @font-face { font-family: 'IBM Plex Sans Arabic'; font-weight: 500; font-display: swap; src: url('/fonts/IBMPlexSansArabic-Medium.ttf') format('truetype'); }
+      @font-face { font-family: 'IBM Plex Sans Arabic'; font-weight: 700; font-display: swap; src: url('/fonts/IBMPlexSansArabic-Bold.ttf') format('truetype'); }
       body, button, input, textarea, select {
-        font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-family: 'Inter', 'IBM Plex Sans Arabic', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
       }
       /* React Native Web text selector font-family enforcement */
       div, span, [dir="auto"], [data-text], [class*="css-text-"] {
-        font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+        font-family: 'Inter', 'IBM Plex Sans Arabic', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
       }
     </style>
   </head>
@@ -44,7 +54,7 @@
   <body>
     <!-- Use static rendering with Expo Router to support running without JavaScript. -->
     <noscript>
-      You need to enable JavaScript to run this app.
+      Nutrio needs JavaScript to run. Please turn it on and reload.
     </noscript>
     <!-- The root element for your Expo app. -->
     <div id="root"></div>

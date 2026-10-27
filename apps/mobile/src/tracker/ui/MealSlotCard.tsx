@@ -2,7 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { LoggedItem, MealSlot } from '../types.js';
 import { useTheme } from '../../theme.js';
-import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { foodDisplayName } from '../foodDisplayName.js';
+import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
 import { HapticFeedback } from '../../ui/haptics.js';
 import { formatServingLine } from '../formatServing.js';
 import { Icon } from '../../ui/Icon.js';
@@ -29,6 +30,7 @@ export const MealSlotCard: React.FC<MealSlotCardProps> = ({
   const { theme, isDark } = useTheme();
   const { t } = useTranslation();
   const dir = useTextDirection();
+  const { language } = useI18nState();
   const slotCalories = items.reduce((sum, item) => sum + item.calories, 0);
   const isDone = items.length > 0;
 
@@ -133,10 +135,10 @@ export const MealSlotCard: React.FC<MealSlotCardProps> = ({
             <View key={item.id} style={styles.itemRow}>
               <View style={styles.itemInfo}>
                 <Text style={[styles.itemName, { color: theme.colors.textPrimary }]}>
-                  {item.foodName}
+                  {foodDisplayName(item.foodName, item.foodNameAr, dir.isRTL).primary}
                 </Text>
                 <Text style={[styles.itemServing, { color: theme.colors.textSecondary }]}>
-                  {formatServingLine(item.quantity, item.servingLabel, item.totalGrams)}
+                  {formatServingLine(item.quantity, item.servingLabel, item.totalGrams, language)}
                 </Text>
                 <Text style={[styles.itemMacros, { color: theme.colors.textMuted }]}>
                   {t('common.macroLine', {

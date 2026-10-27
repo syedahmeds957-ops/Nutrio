@@ -58,7 +58,7 @@ export const WaterTrackerCard: React.FC<WaterTrackerCardProps> = ({
               {t('tracker.water.title')}
             </Text>
             <Text style={[styles.subtitle, dir.text, { color: theme.colors.textSecondary }]}>
-              {t('tracker.water.dailyTarget', { amount: actualTarget.toLocaleString() })}
+              {t('tracker.water.dailyTarget', { amount: actualTarget.toLocaleString('en-US') })}
             </Text>
           </View>
         </View>
@@ -81,15 +81,18 @@ export const WaterTrackerCard: React.FC<WaterTrackerCardProps> = ({
       <View style={styles.metricRow}>
         <View style={styles.numCol}>
           <Text style={[styles.mainNum, { color: theme.colors.textPrimary }]}>
-            {(actualConsumed / 1000).toFixed(2)}L
+            {t('common.mlValue', { value: actualConsumed.toLocaleString('en-US') })}
           </Text>
           <Text style={[styles.subNum, { color: theme.colors.textMuted }]}>
-            {actualConsumed.toLocaleString()} / {actualTarget.toLocaleString()} ml
+            {t('tracker.water.ofTarget', { amount: actualTarget.toLocaleString('en-US') })}
           </Text>
         </View>
       </View>
 
       <View
+        accessibilityRole="progressbar"
+        accessibilityLabel={t('tracker.water.title')}
+        accessibilityValue={{ min: 0, max: 100, now: progressPct }}
         style={[
           styles.progressTrack,
           {
@@ -279,6 +282,7 @@ const styles = StyleSheet.create({
   undoBtn: {
     paddingHorizontal: 12,
     minHeight: 44,
+    justifyContent: 'center',
   },
   actionBtnText: {
     fontSize: 13,

@@ -142,7 +142,7 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
           {/* Session Duration */}
           <AppleTextInput
             label={t('survey.exercise.sessionDuration')}
-            placeholder="e.g. 45"
+            placeholder={t('survey.placeholderExample', { value: 45 })}
             keyboardType="numeric"
             value={
               data.sessionDurationMins !== undefined
@@ -225,10 +225,12 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   chip: {
+    minHeight: 44,
     paddingVertical: 10,
     paddingHorizontal: 16,
     borderRadius: 14,
     borderWidth: 1,
+    justifyContent: 'center',
   },
   chipText: {
     fontSize: 13,
@@ -236,14 +238,16 @@ const styles = StyleSheet.create({
   },
   frequencyRow: {
     flexDirection: 'row',
-    gap: 8,
+    gap: 4,
   },
   numBtn: {
+    minHeight: 44,
     flex: 1,
     paddingVertical: 12,
     borderRadius: 12,
     borderWidth: 1,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   numText: {
     fontSize: 15,

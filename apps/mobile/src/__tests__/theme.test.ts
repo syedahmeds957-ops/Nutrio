@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getTheme, darkColors, lightColors, theme } from '../theme.js';
+import { getTheme, darkColors, lightColors, resolveThemeMode, theme } from '../theme.js';
 
 describe('Solid Lime Dual Theme System (Task 1)', () => {
   it('provides dark theme with solid lime hero, obsidian canvas, and 22px card radius', () => {
@@ -48,6 +48,46 @@ describe('Solid Lime Dual Theme System (Task 1)', () => {
 
     // High-contrast accessible accents
     expect(dark.colors.primaryAccessible).toBe('#A4EB3F');
-    expect(light.colors.primaryAccessible).toBe('#15803D');
+    expect(light.colors.primaryAccessible).toBe('#4B6200');
+  });
+
+  it('keeps text colours at WCAG AA (4.5:1) on every surface they sit on', () => {
+    for (const colors of [lightColors, darkColors]) {
+      const surfaces = [colors.canvas, colors.surface, colors.surfaceSecondary];
+      for (const fg of [colors.textPrimary, colors.textSecondary, colors.textMuted, colors.primaryAccessible]) {
+        for (const bg of surfaces) {
+          expect(contrastRatio(fg, bg), `${fg} on ${bg}`).toBeGreaterThanOrEqual(4.5);
+        }
+      }
+    }
+  });
+});
+
+function contrastRatio(a: string, b: string): number {
+  const luminance = (hex: string) => {
+    const [r, g, bl] = [1, 3, 5].map((i) => {
+      const c = parseInt(hex.slice(i, i + 2), 16) / 255;
+      return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+    });
+    return 0.2126 * r + 0.7152 * g + 0.0722 * bl;
+  };
+  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  return (hi + 0.05) / (lo + 0.05);
+}
+
+describe('resolveThemeMode', () => {
+  it('uses a saved choice over the device setting', () => {
+    expect(resolveThemeMode('light', 'dark')).toBe('light');
+    expect(resolveThemeMode('dark', 'light')).toBe('dark');
+  });
+
+  it('follows the device when nothing is saved', () => {
+    expect(resolveThemeMode(null, 'dark')).toBe('dark');
+    expect(resolveThemeMode(null, 'light')).toBe('light');
+  });
+
+  it('defaults to light when neither is known or the value is junk', () => {
+    expect(resolveThemeMode(null, null)).toBe('light');
+    expect(resolveThemeMode('sepia', undefined)).toBe('light');
   });
 });

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { NormalizedFood } from '@nutrio/food-db';
+import type { NormalizedFood } from '@nutrio/food-db';
 import { formatServingLine } from '../formatServing.js';
 import { Icon } from '../../ui/Icon.js';
 import { useTheme } from '../../theme.js';
-import { useRegion } from '../../common/region/index.js';
-import { useTranslation } from '../../i18n/index.js';
+import { foodDisplayName } from '../foodDisplayName.js';
+import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
 import { defaultServingFor, servingNutrition } from '../personalServings.js';
 import { foodKey } from './useMealBasket.js';
 import { styles } from './MealLogHubModal.styles.js';
@@ -26,12 +26,12 @@ export interface DishCardProps {
 /** One food row in the meal-logging hub, with its default serving and macros. */
 export const DishCard: React.FC<DishCardProps> = ({ item, qty, isBuildMode, onPress, onRemoveOne }) => {
   const { theme, isDark } = useTheme();
-  const { activeRegion } = useRegion();
   const { t } = useTranslation();
-  const isSaudiRegion = activeRegion === 'SA';
+  const dir = useTextDirection();
+  const { language } = useI18nState();
   // At most one local name. Urdu names are not displayed (lists show the
   // English name; Urdu still matches in search). Saudi users see the Arabic name.
-  const localName = isSaudiRegion ? item.nameAr : undefined;
+  const names = foodDisplayName(item.name, item.nameAr, dir.isRTL);
   const macroColor = isDark ? theme.colors.primaryLime : LIGHT_MACRO_TEXT;
 
   // The serving one tap logs (the user's own, if saved), and its numbers. The
@@ -59,15 +59,10 @@ export const DishCard: React.FC<DishCardProps> = ({ item, qty, isBuildMode, onPr
     >
       <View style={styles.dishCardLeft}>
         <View style={styles.dishTitleRow}>
-          <Text style={[styles.dishName, { color: theme.colors.textPrimary }]}>{item.name}</Text>
-          {localName && (
-            <Text
-              style={[
-                isSaudiRegion ? styles.dishNameAr : styles.dishNameUr,
-                { color: isSaudiRegion ? theme.colors.primaryLime : theme.colors.textMuted },
-              ]}
-            >
-              {localName}
+          <Text style={[styles.dishName, { color: theme.colors.textPrimary }]}>{names.primary}</Text>
+          {names.secondary && (
+            <Text style={[styles.dishNameUr, dir.text, { color: theme.colors.textMuted }]}>
+              {names.secondary}
             </Text>
           )}
         </View>
@@ -80,11 +75,11 @@ export const DishCard: React.FC<DishCardProps> = ({ item, qty, isBuildMode, onPr
             </View>
           )}
           <Text style={[styles.dishServingText, { color: theme.colors.textSecondary }]}>
-            {serving ? formatServingLine(1, serving.description || serving.label, serving.grams) : '100g'}
+            {serving ? formatServingLine(1, serving.description || serving.label, serving.grams, language) : t('common.gramsValue', { value: 100 })}
           </Text>
         </View>
         <Text style={[styles.dishMacrosText, { color: macroColor }]}>
-          P {p}g · C {c}g · F {f}g
+          {t('common.macroLine', { protein: p, carbs: c, fat: f })}
         </Text>
       </View>
 
@@ -98,7 +93,7 @@ export const DishCard: React.FC<DishCardProps> = ({ item, qty, isBuildMode, onPr
             },
           ]}
         >
-          <Text style={[styles.caloriePillText, { color: macroColor }]}>≈{kcal} kcal</Text>
+          <Text style={[styles.caloriePillText, { color: macroColor }]}>≈{t('common.kcalValue', { value: kcal })}</Text>
         </View>
         {isBuildMode ? (
           <View style={styles.qtyControls}>
@@ -126,7 +121,7 @@ export const DishCard: React.FC<DishCardProps> = ({ item, qty, isBuildMode, onPr
             </View>
           </View>
         ) : (
-          <Icon name="chevron-right" size={16} color={theme.colors.textMuted} />
+          <Icon name={dir.isRTL ? 'chevron-left' : 'chevron-right'} size={16} color={theme.colors.textMuted} />
         )}
       </View>
     </TouchableOpacity>

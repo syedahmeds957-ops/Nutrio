@@ -7,6 +7,7 @@ import {
   validateClinicalSafety,
 } from '@nutrio/nutrition-core';
 import { JobCategory, LifestyleSurveyPayload } from './types.js';
+import { ritualCupKcal } from '../common/ritualDrinks.js';
 
 // Lives in nutrition-core now (Hard Rule 2); still offered here for survey callers.
 export { estimateWeeklyExerciseKcal };
@@ -18,7 +19,6 @@ export const JOB_OCCUPATIONAL_FACTORS: Record<JobCategory, number> = {
   heavy_manual_labor: 1.75,
 };
 
-export const KCAL_PER_CUP_CHAI_SUGAR = 65; // ~1.5 tsp sugar (30 kcal) + whole milk (35 kcal)
 
 export function bridgeSurveyToNutritionCore(survey: LifestyleSurveyPayload) {
   const { basics, occupational, exercise, lifestyleDesi, healthClinical } = survey;
@@ -61,7 +61,9 @@ export function bridgeSurveyToNutritionCore(survey: LifestyleSurveyPayload) {
 
   // 4. Pakistani cultural lifestyle calculations
   const chaiCups = lifestyleDesi.chaiWithSugarCupsPerDay ?? 2;
-  const dailyChaiKcal = chaiCups * KCAL_PER_CUP_CHAI_SUGAR;
+  // The survey carries no region, so these stored figures are the Pakistani
+  // cup; screens that know the region use `ritualCupsPerDay` instead.
+  const dailyChaiKcal = chaiCups * ritualCupKcal('PK');
   const weeklyChaiKcal = dailyChaiKcal * 7;
   const sittingHours = occupational.dailySittingHours ?? 8;
 
@@ -70,6 +72,7 @@ export function bridgeSurveyToNutritionCore(survey: LifestyleSurveyPayload) {
     tdeeResults,
     clinicalCheck,
     culturalMetrics: {
+      ritualCupsPerDay: chaiCups,
       dailyChaiKcal,
       weeklyChaiKcal,
       isHighChaiIntake: chaiCups >= 3,

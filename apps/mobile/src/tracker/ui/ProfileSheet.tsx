@@ -1,8 +1,10 @@
 import React from 'react';
-import { Animated, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { NamedModal } from '../../ui/NamedModal.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
-import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
+import type { LanguagePreference } from '../../i18n/languages.js';
 import { Icon, IconName } from '../../ui/Icon.js';
 import { styles } from './TrackerDashboardScreen.styles.js';
 
@@ -33,6 +35,7 @@ const ProfileAction: React.FC<{
   onPress: () => void;
 }> = ({ icon, label, onPress }) => {
   const { theme } = useTheme();
+  const dir = useTextDirection();
   return (
     <TouchableOpacity
       style={[
@@ -46,7 +49,7 @@ const ProfileAction: React.FC<{
         <Icon name={icon} size={16} color={theme.colors.primaryLime} />
         <Text style={[styles.actionBtnText, { color: theme.colors.textPrimary }]}>{label}</Text>
       </View>
-      <Icon name="arrow-right" size={14} color={theme.colors.textMuted} />
+      <Icon name={dir.isRTL ? 'arrow-left' : 'arrow-right'} size={14} color={theme.colors.textMuted} />
     </TouchableOpacity>
   );
 };
@@ -66,10 +69,11 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
   onRequireAuth,
   onLogout,
 }) => {
-  const { theme, mode, setMode } = useTheme();
+  const { theme, mode, setMode, isDark } = useTheme();
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
   const dir = useTextDirection();
+  const { languagePreference, setLanguagePreference } = useI18nState();
   const accentColor = theme.colors.primaryLime;
 
   const themeChoice = (choice: 'dark' | 'light', label: string) => (
@@ -89,6 +93,26 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
     </TouchableOpacity>
   );
 
+  const languageChoice = (choice: LanguagePreference, label: string) => (
+    <TouchableOpacity
+      style={[styles.themeChoiceBtn, languagePreference === choice && { backgroundColor: accentColor }]}
+      onPress={() => setLanguagePreference(choice)}
+      activeOpacity={0.8}
+      accessibilityRole="radio"
+      aria-checked={languagePreference === choice}
+    >
+      <Text
+        numberOfLines={1}
+        style={[
+          styles.themeChoiceText,
+          { color: languagePreference === choice ? ACCENT_TEXT : theme.colors.textSecondary },
+        ]}
+      >
+        {label}
+      </Text>
+    </TouchableOpacity>
+  );
+
   const stat = (label: string, value: string) => (
     <View style={styles.profileStatItem}>
       <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>{label}</Text>
@@ -98,7 +122,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
   const divider = <View style={[styles.statDivider, { backgroundColor: theme.colors.border }]} />;
 
   return (
-    <Modal visible={visible} transparent={true} animationType="none" onRequestClose={() => onClose()}>
+    <NamedModal accessibilityName={t('a11y.dialog.profile')} visible={visible} transparent={true} animationType="none" onRequestClose={() => onClose()}>
       <Animated.View style={[styles.profileOverlay, { opacity: fade }]}>
         <TouchableOpacity style={StyleSheet.absoluteFill} onPress={() => onClose()} activeOpacity={1} />
         <Animated.View
@@ -145,6 +169,22 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
             </View>
           </View>
 
+          <View
+            style={[
+              styles.themeSettingCard,
+              { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border },
+            ]}
+          >
+            <Text style={[styles.themeSettingTitle, dir.text, { color: theme.colors.textPrimary }]}>
+              {t('tracker.dashboard.language')}
+            </Text>
+            <View style={styles.themeToggleRow}>
+              {languageChoice('auto', t('tracker.dashboard.languageAuto'))}
+              {languageChoice('en', 'English')}
+              {languageChoice('ar', 'العربية')}
+            </View>
+          </View>
+
           {/* Target Summary Stats */}
           <View
             style={[
@@ -156,7 +196,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
             {divider}
             {stat(t('common.protein'), `${targets.targetProteinGrams}g`)}
             {divider}
-            {stat(t('tracker.dashboard.waterGoal'), `${targets.targetWaterMl || 3000} ml`)}
+            {stat(t('tracker.dashboard.waterGoal'), t('common.mlValue', { value: targets.targetWaterMl || 3000 }))}
           </View>
 
           {/* Action Buttons */}
@@ -195,18 +235,22 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
                     {t('tracker.dashboard.signInCreate')}
                   </Text>
                 </View>
-                <Icon name="arrow-right" size={14} color={ACCENT_TEXT} />
+                <Icon name={dir.isRTL ? 'arrow-left' : 'arrow-right'} size={14} color={ACCENT_TEXT} />
               </TouchableOpacity>
             )}
 
             {onLogout && (
               <TouchableOpacity
-                style={[styles.profileActionBtn, styles.logoutBtn]}
+                style={[
+                  styles.profileActionBtn,
+                  styles.logoutBtn,
+                  isDark && { backgroundColor: 'rgba(239, 68, 68, 0.14)', borderColor: 'rgba(239, 68, 68, 0.35)' },
+                ]}
                 onPress={() => onClose(onLogout)}
                 activeOpacity={0.7}
               >
                 <View style={styles.actionBtnRow}>
-                  <Icon name="arrow-left" size={16} color={LOGOUT_RED} />
+                  <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={16} color={LOGOUT_RED} />
                   <Text style={[styles.actionBtnText, { color: LOGOUT_RED }]}>
                     {t('tracker.dashboard.logout')}
                   </Text>
@@ -216,6 +260,6 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
           </View>
         </Animated.View>
       </Animated.View>
-    </Modal>
+    </NamedModal>
   );
 };

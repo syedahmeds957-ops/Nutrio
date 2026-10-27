@@ -1,12 +1,15 @@
 import React from 'react';
 import {
-  Modal,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import { swapTitleFor } from '../swapTitle.js';
+import { foodDisplayName } from '../../tracker/foodDisplayName.js';
+import { localizeServingLabel } from '../../tracker/servingLabel.js';
+import { NamedModal } from '../../ui/NamedModal.js';
 import {
   MealSwapOption,
   MealSwapResult,
@@ -14,7 +17,7 @@ import {
 } from '@nutrio/nutrition-core';
 import { useTheme } from '../../theme.js';
 import { Notice } from '../../ui/Notice.js';
-import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 
 interface MealSwapModalProps {
@@ -35,11 +38,12 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
   const { theme, isDark } = useTheme();
   const { t } = useTranslation();
   const dir = useTextDirection();
+  const { language } = useI18nState();
 
   if (!originalSlot || !swapResult) return null;
 
   return (
-    <Modal
+    <NamedModal accessibilityName={t('a11y.dialog.swapMeal')}
       visible={visible}
       animationType="slide"
       transparent={true}
@@ -86,7 +90,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                 ]}
               >
                 {t('plan.swap.current', { value: originalSlot.actualCalories })} ·{' '}
-                {originalSlot.items.map((i) => i.foodName).join(', ')}
+                {originalSlot.items.map((i) => foodDisplayName(i.foodName, i.foodNameAr, dir.isRTL).primary).join(', ')}
               </Text>
             </View>
             <TouchableOpacity
@@ -96,6 +100,8 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
               ]}
               onPress={onClose}
               activeOpacity={0.7}
+              accessibilityRole="button"
+              accessibilityLabel={t('common.close')}
             >
               <Icon name="x" size={18} color={theme.colors.textSecondary} />
             </TouchableOpacity>
@@ -127,7 +133,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                           { color: isDark ? theme.colors.primaryLime : '#4D7C0F' },
                         ]}
                       >
-                        Option {index + 1}
+                        {t('plan.swap.option', { number: index + 1 })}
                       </Text>
                       <Text
                         style={[
@@ -135,7 +141,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                           { color: theme.colors.textPrimary },
                         ]}
                       >
-                        {option.title}
+                        {swapTitleFor(option.items, language, option.title)}
                       </Text>
                     </View>
                     <View
@@ -153,7 +159,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                           { color: isDark ? theme.colors.primaryLime : '#2E4D08' },
                         ]}
                       >
-                        {option.calories} kcal
+                        {t('common.kcalValue', { value: option.calories })}
                       </Text>
                       <Text
                         style={[
@@ -178,7 +184,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                         },
                       ]}
                     >
-                      <Text style={[styles.macroPillLabel, { color: theme.colors.protein }]}>
+                      <Text style={[styles.macroPillLabel, { color: theme.colors.proteinText }]}>
                         P
                       </Text>
                       <Text style={[styles.macroPillVal, { color: theme.colors.textPrimary }]}>
@@ -210,7 +216,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                         },
                       ]}
                     >
-                      <Text style={[styles.macroPillLabel, { color: theme.colors.fat }]}>
+                      <Text style={[styles.macroPillLabel, { color: theme.colors.fatText }]}>
                         F
                       </Text>
                       <Text style={[styles.macroPillVal, { color: theme.colors.textPrimary }]}>
@@ -218,7 +224,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                       </Text>
                     </View>
                     <View style={[styles.macroPill, styles.oilPill]}>
-                      <Text style={styles.oilLabel}>Oil</Text>
+                      <Text style={styles.oilLabel}>{t('plan.swap.oil')}</Text>
                       <Text style={styles.oilVal}>{option.oilAddedG}g</Text>
                     </View>
                   </View>
@@ -238,7 +244,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                           { color: theme.colors.textSecondary },
                         ]}
                       >
-                        • {item.quantity}× {item.foodName} ({item.servingLabel})
+                        • {item.quantity}× {foodDisplayName(item.foodName, item.foodNameAr, dir.isRTL).primary} ({localizeServingLabel(item.servingLabel, language)})
                       </Text>
                     ))}
                   </View>
@@ -265,7 +271,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
           </ScrollView>
         </View>
       </View>
-    </Modal>
+    </NamedModal>
   );
 };
 
@@ -311,9 +317,9 @@ const styles = StyleSheet.create({
     maxWidth: 260,
   },
   closeButton: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -426,6 +432,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   selectBtn: {
+    minHeight: 44,
     marginTop: 14,
     borderRadius: 9999,
     paddingVertical: 12,
@@ -434,6 +441,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 10,
     elevation: 2,
+    justifyContent: 'center',
   },
   selectBtnText: {
     fontSize: 13,

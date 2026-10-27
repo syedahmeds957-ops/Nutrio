@@ -132,4 +132,14 @@ describe('Diet suitability', () => {
     // …but an omnivore is not restricted by our own uncertainty.
     expect(isSuitableForDiet(unknown, 'halal_omnivore')).toBe(true);
   });
+
+  it('lets plain breads and rice through for a vegan, without settling ambiguous dishes', () => {
+    for (const name of ['Roti / Chapati (Whole Wheat)', 'Tamees Bread', 'Saj / Arabic Flatbread', 'Plain Boiled Basmati Rice']) {
+      expect(isSuitableForDiet(dish(name), 'vegan'), name).toBe(true);
+    }
+    // A pulao is as often cooked on meat stock as not, and ghee goes into zarda.
+    expect(isSuitableForDiet(dish('Brown Rice Pulao'), 'vegan')).toBe(false);
+    expect(isSuitableForDiet(dish('Zarda Rice (Sweet Saffron Rice)'), 'vegan')).toBe(false);
+    expect(isSuitableForDiet(dish('Egg Fried Rice'), 'vegan')).toBe(false);
+  });
 });

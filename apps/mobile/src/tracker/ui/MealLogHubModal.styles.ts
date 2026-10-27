@@ -8,9 +8,16 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 10,
   },
+  // Sized by their label (the longest one needs more room than an equal share),
+  // then stretched to fill the row.
   slotChip: {
-    flex: 1,
+    minHeight: 44,
+    justifyContent: 'center',
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 'auto',
     alignItems: 'center',
+    paddingHorizontal: 6,
     paddingVertical: 8,
     borderRadius: 12,
     borderWidth: 1,
@@ -30,19 +37,14 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderBottomWidth: 1,
   },
-  backButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   headerTitle: {
     fontSize: 17,
     fontWeight: '800',
     letterSpacing: -0.2,
   },
   regionPillBtn: {
+    minHeight: 44,
+    minWidth: 44,
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 9999,
@@ -67,7 +69,7 @@ export const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    marginLeft: 10,
+    marginStart: 10,
     fontSize: 14,
     fontWeight: '500',
     backgroundColor: 'transparent',
@@ -102,6 +104,8 @@ export const styles = StyleSheet.create({
     gap: 6,
   },
   buildModeBtn: {
+    minHeight: 44,
+    justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'flex-start',
@@ -222,7 +226,30 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     gap: 8,
   },
+  slotFilterRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 12,
+    paddingHorizontal: 16,
+    paddingBottom: 8,
+  },
+  slotFilterText: {
+    flex: 1,
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  slotFilterBtn: {
+    minHeight: 44,
+    justifyContent: 'center',
+  },
+  slotFilterBtnText: {
+    fontSize: 12,
+    fontWeight: '800',
+  },
   groupPill: {
+    minHeight: 44,
+    justifyContent: 'center',
     paddingHorizontal: 14,
     paddingVertical: 8,
     borderRadius: 20,
@@ -309,10 +336,7 @@ export const styles = StyleSheet.create({
     marginRight: 12,
   },
   dishTitleRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
     marginBottom: 4,
-    flexWrap: 'wrap',
   },
   dishName: {
     fontSize: 15,

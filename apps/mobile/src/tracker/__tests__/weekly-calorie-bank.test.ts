@@ -11,17 +11,15 @@ describe('WeeklyCalorieBankCard Component', () => {
       { day: 'Thu', consumed: 1900, target: 1850 },
       { day: 'Fri', consumed: 1700, target: 1850 },
       { day: 'Sat', consumed: 2100, target: 1850 }, // shaadi dinner
-      { day: 'Sun', consumed: 1200, target: 1850 }, // today
+      { day: 'Sun', consumed: 1200, target: 1850, isToday: true },
     ];
 
     const element = React.createElement(WeeklyCalorieBankCard, {
       dailyHistory: mockDailyIntakes,
-      weeklyDeficitKcal: 2450,
       targetCalories: 1850,
     });
 
     expect(element).toBeDefined();
     expect(element.props.dailyHistory).toHaveLength(7);
-    expect(element.props.weeklyDeficitKcal).toBe(2450);
   });
 });
