@@ -275,3 +275,25 @@ describe('Retired survey fields', () => {
     expect(stripRetiredSurveyFields(current)).toEqual(current);
   });
 });
+
+describe('pregnancy question', () => {
+  it('is unanswered by default and blocks a woman until she answers', () => {
+    const engine = new SurveyStateEngine();
+    engine.setBasics({ sex: 'female', ageYears: 30, heightCm: 160, weightKg: 60 });
+    expect(engine.getHealthClinical().isPregnantOrBreastfeeding).toBeUndefined();
+
+    const unanswered = validateHealthClinical(engine.getHealthClinical(), 'female');
+    expect(unanswered.errors.isPregnantOrBreastfeeding).toBeDefined();
+
+    const answered = validateHealthClinical(
+      { ...engine.getHealthClinical(), isPregnantOrBreastfeeding: false, medicalDisclaimerAccepted: true },
+      'female',
+    );
+    expect(answered.errors.isPregnantOrBreastfeeding).toBeUndefined();
+  });
+
+  it('does not ask men', () => {
+    const result = validateHealthClinical({ medicalDisclaimerAccepted: true }, 'male');
+    expect(result.errors.isPregnantOrBreastfeeding).toBeUndefined();
+  });
+});

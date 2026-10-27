@@ -1,11 +1,11 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { NormalizedFood } from '@nutrio/food-db';
+import type { NormalizedFood } from '@nutrio/food-db';
 import { formatServingLine } from '../formatServing.js';
 import { Icon } from '../../ui/Icon.js';
 import { useTheme } from '../../theme.js';
 import { foodDisplayName } from '../foodDisplayName.js';
-import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
 import { defaultServingFor, servingNutrition } from '../personalServings.js';
 import { foodKey } from './useMealBasket.js';
 import { styles } from './MealLogHubModal.styles.js';
@@ -28,6 +28,7 @@ export const DishCard: React.FC<DishCardProps> = ({ item, qty, isBuildMode, onPr
   const { theme, isDark } = useTheme();
   const { t } = useTranslation();
   const dir = useTextDirection();
+  const { language } = useI18nState();
   // At most one local name. Urdu names are not displayed (lists show the
   // English name; Urdu still matches in search). Saudi users see the Arabic name.
   const names = foodDisplayName(item.name, item.nameAr, dir.isRTL);
@@ -74,7 +75,7 @@ export const DishCard: React.FC<DishCardProps> = ({ item, qty, isBuildMode, onPr
             </View>
           )}
           <Text style={[styles.dishServingText, { color: theme.colors.textSecondary }]}>
-            {serving ? formatServingLine(1, serving.description || serving.label, serving.grams) : '100g'}
+            {serving ? formatServingLine(1, serving.description || serving.label, serving.grams, language) : t('common.gramsValue', { value: 100 })}
           </Text>
         </View>
         <Text style={[styles.dishMacrosText, { color: macroColor }]}>

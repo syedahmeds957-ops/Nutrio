@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { NormalizedFood, resolveFoodId } from '@nutrio/food-db';
+import type { NormalizedFood } from '@nutrio/food-db';
+import { foodDb } from '../../catalogue/index.js';
 import { deleteMealPreset, saveMealPreset, type MealPreset } from '../mealPresets.js';
 import { defaultServingFor, servingNutrition } from '../personalServings.js';
 
@@ -120,7 +121,7 @@ export function useMealBasket({
     const entries = preset.entries
       .map(({ foodId, quantity }) => {
         // A preset saved before a duplicate was retired still names the old id.
-        const food = byId.get(foodId) ?? byId.get(resolveFoodId(foodId));
+        const food = byId.get(foodId) ?? byId.get(foodDb().resolveFoodId(foodId));
         return food ? { food, quantity } : null;
       })
       .filter((e): e is MealBasketEntry => e !== null);

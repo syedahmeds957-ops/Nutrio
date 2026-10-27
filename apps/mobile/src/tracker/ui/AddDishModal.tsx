@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import { NamedModal } from '../../ui/NamedModal.js';
-import { type NormalizedFood, type RegionCode } from '@nutrio/food-db';
+import type { NormalizedFood, RegionCode } from '@nutrio/food-db';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';

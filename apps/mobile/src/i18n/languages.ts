@@ -13,3 +13,15 @@ export const DEFAULT_LANGUAGE: AppLanguage = 'en';
 export function languageForRegion(region: Region): AppLanguage {
   return region === 'SA' ? 'ar' : 'en';
 }
+
+/** What the user chose: a language, or "auto" to follow the region as before. */
+export type LanguagePreference = 'auto' | AppLanguage;
+
+export function isLanguagePreference(value: unknown): value is LanguagePreference {
+  return value === 'auto' || value === 'en' || value === 'ar';
+}
+
+/** An explicit choice wins; otherwise the region decides. */
+export function resolveLanguage(preference: LanguagePreference, region: Region): AppLanguage {
+  return preference === 'auto' ? languageForRegion(region) : preference;
+}

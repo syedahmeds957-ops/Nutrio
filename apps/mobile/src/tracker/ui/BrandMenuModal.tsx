@@ -10,16 +10,8 @@ import {
 } from 'react-native';
 import { BackButton } from '../../ui/BackButton.js';
 import { NamedModal } from '../../ui/NamedModal.js';
-import {
-  NormalizedFood,
-  ALL_EXPANDED_PAKISTANI_FOODS,
-  PAKISTANI_RESTAURANT_BRANDS,
-  SAUDI_RESTAURANT_BRANDS,
-  SAUDI_RESTAURANTS_DATA,
-  SAUDI_TRADITIONAL_FOODS,
-  ALL_RESTAURANT_BRANDS,
-  RestaurantBrand,
-} from '@nutrio/food-db';
+import type { NormalizedFood, RestaurantBrand } from '@nutrio/food-db';
+import { foodDb } from '../../catalogue/index.js';
 import { Icon } from '../../ui/Icon.js';
 import { BrandLogo } from '../../ui/BrandLogo.js';
 import { noOutlineStyle } from '../../ui/AppleInput.js';
@@ -57,11 +49,11 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
     if (!brandId) return undefined;
     const cleanId = brandId.toLowerCase().trim();
     return (
-      ALL_RESTAURANT_BRANDS.find((b) => b.id.toLowerCase() === cleanId) ||
-      ALL_RESTAURANT_BRANDS.find(
+      foodDb().ALL_RESTAURANT_BRANDS.find((b) => b.id.toLowerCase() === cleanId) ||
+      foodDb().ALL_RESTAURANT_BRANDS.find(
         (b) => b.name.toLowerCase().replace(/[^a-z0-9]/g, '_') === cleanId
       ) ||
-      ALL_RESTAURANT_BRANDS.find((b) => b.name.toLowerCase().includes(cleanId))
+      foodDb().ALL_RESTAURANT_BRANDS.find((b) => b.name.toLowerCase().includes(cleanId))
     );
   }, [brandId]);
 
@@ -72,7 +64,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
     const cleanId = brandId.toLowerCase().trim();
     return (
       currentBrand?.region === 'SA' ||
-      SAUDI_RESTAURANT_BRANDS.some((b) => b.id === cleanId)
+      foodDb().SAUDI_RESTAURANT_BRANDS.some((b) => b.id === cleanId)
     );
   }, [brandId, currentBrand]);
 
@@ -84,7 +76,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
     // 1. Saudi Brand Resolution
     const isSaudi =
       currentBrand?.region === 'SA' ||
-      SAUDI_RESTAURANT_BRANDS.some((b) => b.id === cleanId);
+      foodDb().SAUDI_RESTAURANT_BRANDS.some((b) => b.id === cleanId);
 
     if (isSaudi) {
       if (
@@ -92,7 +84,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
         cleanId === 'saudi_home_kitchen' ||
         cleanId === 'saudi_traditional_kitchen'
       ) {
-        return SAUDI_TRADITIONAL_FOODS.map((f) => ({
+        return foodDb().SAUDI_TRADITIONAL_FOODS.map((f) => ({
           ...f,
           brand: 'Saudi Traditional Kitchen',
           brandId: 'al_matbakh_al_saudi',
@@ -101,7 +93,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
       }
 
       const targetName = (currentBrand?.name || brandName).toLowerCase().trim();
-      return SAUDI_RESTAURANTS_DATA.filter((i) => {
+      return foodDb().SAUDI_RESTAURANTS_DATA.filter((i) => {
         const itemBrandId = (i.brandId || '').toLowerCase().trim();
         const itemBrand = (i.brand || '').toLowerCase().trim();
         return (
@@ -114,11 +106,11 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
 
     // 2. Pakistani Ghar ka Khana
     if (brandId === 'ghar_ka_khana' || currentBrand?.id === 'ghar_ka_khana') {
-      const brandedGhar = ALL_EXPANDED_PAKISTANI_FOODS.filter(
+      const brandedGhar = foodDb().ALL_EXPANDED_PAKISTANI_FOODS.filter(
         (i) => i.brand === 'Ghar ka Khana'
       );
       const stapleIds = new Set(brandedGhar.map((b) => b.id));
-      const staples = ALL_EXPANDED_PAKISTANI_FOODS.filter(
+      const staples = foodDb().ALL_EXPANDED_PAKISTANI_FOODS.filter(
         (f) => !f.brand && !stapleIds.has(f.id)
       ).map((f) => ({
         ...f,
@@ -131,7 +123,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
 
     // 3. Pakistani branded restaurants
     const targetName = (currentBrand?.name || brandName).toLowerCase().trim();
-    return ALL_EXPANDED_PAKISTANI_FOODS.filter((i) => {
+    return foodDb().ALL_EXPANDED_PAKISTANI_FOODS.filter((i) => {
       if (!i.brand) return false;
       const itemBrand = i.brand.toLowerCase().trim();
       return (

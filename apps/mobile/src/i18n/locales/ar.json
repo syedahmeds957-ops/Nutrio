@@ -79,7 +79,7 @@
     "daysOnTarget_other": "{{count}} يوم من 7 ضمن الهدف",
     "daysOnTarget_two": "يومان من 7 ضمن الهدف",
     "daysOnTarget_zero": "لا أيام ضمن الهدف",
-    "ewmaSmoothed": "منعّم أسياً",
+    "ewmaSmoothed": "المسار المنعّم",
     "grounded": "مبني على بياناتك",
     "kcalPerDay": "سعرة في اليوم",
     "kcalShift": "تغيّر {{value}} سعرة",
@@ -228,6 +228,7 @@
     "gramsValue": "{{value}} غ",
     "kcal": "سعرة",
     "kcalValue": "{{value}} سعرة",
+    "kgValue": "{{value}} كغ",
     "litresValue": "{{value}} ل",
     "macroLine": "ب {{protein}}غ · ك {{carbs}}غ · د {{fat}}غ",
     "mlValue": "{{value}} مل",
@@ -240,6 +241,10 @@
       "message": {
         "PK": "سيتحول التطبيق إلى الإنجليزية مع الأطباق الباكستانية والأسعار بالروبية.",
         "SA": "سيتحول التطبيق إلى العربية (من اليمين إلى اليسار) مع الأطباق السعودية والأسعار بالريال."
+      },
+      "messageKeepLanguage": {
+        "PK": "الأطباق الباكستانية والأسعار بالروبية. تبقى لغة التطبيق كما اخترتها.",
+        "SA": "الأطباق السعودية والأسعار بالريال. تبقى لغة التطبيق كما اخترتها."
       },
       "title": {
         "PK": "التبديل إلى باكستان؟",
@@ -279,8 +284,51 @@
       "wed": "ر"
     },
     "yes": "نعم",
-    "yesterday": "أمس",
-    "kgValue": "{{value}} كغ"
+    "yesterday": "أمس"
+  },
+  "paywall": {
+    "annualPlan": "الخطة السنوية",
+    "annualSavings": {
+      "PKR": "وفّر 42% (583 روبية/شهر)",
+      "USD": "وفّر 40% (4.16 دولار/شهر)"
+    },
+    "badge": "نيوتريو بريميوم",
+    "bestValue": "الأفضل قيمة · خصم 42%",
+    "cancelAnytime": "إلغاء في أي وقت",
+    "currency": {
+      "PKR": "روبية (باكستان)",
+      "USD": "دولار (عالمي)"
+    },
+    "feature": {
+      "adaptive": {
+        "desc": "معايرة أسبوعية تتبع تغير وزنك الحقيقي.",
+        "title": "أهداف تتكيف معك"
+      },
+      "coach": {
+        "desc": "نصائح حوارية للولائم والمناسبات العائلية والوجبات اليومية.",
+        "title": "مدرب تغذية بالذكاء الاصطناعي في أي وقت"
+      },
+      "plans": {
+        "desc": "خطة وجبات لسبعة أيام باكستانية وسعودية مع بدائل بنقرة واحدة.",
+        "title": "خطط وجبات محلية وبدائل"
+      }
+    },
+    "guarantee": "بلا مخاطرة · إلغاء بنقرة واحدة · بياناتك الصحية تبقى خاصة",
+    "headline": "الترقية إلى النسخة غير المحدودة",
+    "monthlyPlan": "الخطة الشهرية",
+    "paymentMethod": "طريقة الدفع",
+    "priceMonth": "{{amount}} / شهر",
+    "priceYear": "{{amount}} / سنة",
+    "provider": {
+      "creditCard": "بطاقة ائتمان",
+      "debitCredit": "بطاقة مدين / ائتمان",
+      "easypaisa": "إيزي بيسا",
+      "inApp": "شراء داخل التطبيق",
+      "jazzcash": "جازكاش"
+    },
+    "subheadline": "افتح تغذية تتكيف معك وتدريبًا مصممًا لباكستان والسعودية.",
+    "subscribe": "افتح نيوتريو بريميوم ({{price}})",
+    "whatYouUnlock": "ما ستحصل عليه"
   },
   "plan": {
     "analysis": {
@@ -428,6 +476,7 @@
         "title": "الثبات والأداء"
       },
       "maxSafeRate": "أقصى معدل آمن سريرياً: {{rate}} كغ/أسبوع (1% من وزنك)",
+      "pacesDisabledReason": "الوتائر الأسرع معطلة لأنها تتجاوز الحد الآمن لوزنك ({{rate}} كغ/أسبوع).",
       "pacingAdvice": {
         "aggressive": "وتيرة سريعة (أكثر من 1% من وزن الجسم أسبوعيًا) ترفع خطر فقدان العضلات والماء.",
         "gentle": "عجز لطيف ومستدام، الأسهل للالتزام على المدى الطويل.",
@@ -448,8 +497,7 @@
       "weeks_one": "أسبوع واحد",
       "weeks_other": "{{count}} أسبوع",
       "weeks_two": "أسبوعان",
-      "weeks_zero": "لا أسابيع",
-      "pacesDisabledReason": "الوتائر الأسرع معطلة لأنها تتجاوز الحد الآمن لوزنك ({{rate}} كغ/أسبوع)."
+      "weeks_zero": "لا أسابيع"
     },
     "mealSlot": {
       "cuisine": {
@@ -478,7 +526,7 @@
     },
     "slotCard": {
       "carbsChip": "{{value}} غ كربوهيدرات",
-      "dietitianApproved": "معتمد من أخصائي تغذية",
+      "fitsTargets": "يناسب أهدافك",
       "oil": "{{count}} ملعقة صغيرة زيت",
       "proteinChip": "{{value}} غ بروتين",
       "swapAlternatives": "استبدال بدائل"
@@ -902,6 +950,7 @@
       },
       "gramsField": "الوزن بالجرام",
       "gramsInvalid": "أدخل وزنًا بين 1 و3000 جرام",
+      "howMany": "كم الكمية؟",
       "increaseQty": "زيادة الكمية",
       "kcalEach": "{{value}} سعرة لكل واحدة",
       "logThis": "تسجيل الوجبة",
@@ -912,8 +961,7 @@
       "removeModifier": "إزالة {{name}}",
       "resetMyServing": "العودة إلى الحصة القياسية",
       "saveAsMyServing": "احفظ {{grams}} جرام كحصتي القياسية",
-      "standardServings": "أحجام قياسية",
-      "howMany": "كم الكمية؟"
+      "standardServings": "أحجام قياسية"
     },
     "dashboard": {
       "allMealsDone": "اكتملت كل الوجبات",
@@ -922,9 +970,11 @@
       "darkMode": "الوضع الداكن",
       "diary": "اليوميات",
       "freeTag": "مجاني",
+      "language": "اللغة",
+      "languageAuto": "حسب المنطقة",
       "lightMode": "الوضع الفاتح",
       "logMeal": "تسجيل سريع",
-      "logout": "تسجيل الخروج / العودة للرئيسية",
+      "logout": "تسجيل الخروج",
       "nav": {
         "coach": "المدرب",
         "meals": "الوجبات",
@@ -1023,6 +1073,7 @@
       "consumedToday": "تم تناولها اليوم",
       "dailyGoal": "الهدف اليومي: {{target}} سعرة ({{eaten}} تم تناولها)",
       "dailyTarget": "الهدف اليومي",
+      "eatenSoFar": "تناولت {{eaten}} سعرة حتى الآن",
       "energyBudget": "ميزانية الطاقة",
       "free": "مجاني 100%",
       "goalCaption": "الهدف",
@@ -1043,8 +1094,7 @@
       "pendingSync_zero": "لا إدخالات بانتظار المزامنة",
       "readyFirstMeal": "جاهز لأول وجبة",
       "targetNotSet": "غير محدد",
-      "trackYourDay": "سجل وجبات اليوم",
-      "eatenSoFar": "تناولت {{eaten}} سعرة حتى الآن"
+      "trackYourDay": "سجل وجبات اليوم"
     },
     "hub": {
       "allBrandsHeading": {
@@ -1097,6 +1147,7 @@
       "presetsHeading": "وجباتك المحفوظة",
       "recentHeading": "الأكثر تسجيلاً لديك",
       "removeOne": "إزالة {{name}} واحد",
+      "resultsFoundMore": "أكثر من {{count}} نتيجة",
       "resultsFound_few": "{{count}} نتائج",
       "resultsFound_many": "{{count}} نتيجة",
       "resultsFound_one": "نتيجة واحدة",
@@ -1118,7 +1169,12 @@
         "Mutton": "لحم ضأن"
       },
       "variantPicker": "اختر نوع اللحم لـ {{name}}",
-      "resultsFoundMore": "أكثر من {{count}} نتيجة"
+      "slotFilter": {
+        "showing": "عرض أطعمة {{meal}} ({{shown}} من {{total}})",
+        "showingAll": "عرض كل الأطعمة",
+        "showAll": "عرض كل الأطعمة",
+        "onlyMeal": "أطعمة {{meal}} فقط"
+      }
     },
     "mealSlots": {
       "breakfast": {
@@ -1193,8 +1249,8 @@
       "addBottle": "+500 مل (عبوة)",
       "addGlass": "+250 مل (كوب)",
       "dailyTarget": "الهدف اليومي: {{amount}} مل",
-      "title": "ترطيب الجسم والتوازن المائي",
-      "ofTarget": "من {{amount}} مل"
+      "ofTarget": "من {{amount}} مل",
+      "title": "ترطيب الجسم والتوازن المائي"
     }
   },
   "weight": {
@@ -1205,7 +1261,7 @@
       "formulaBaseline": "الأساس الحسابي: {{value}} سعرة",
       "subtitle": "معايرة معدل حرقك الحقيقي عبر موازنة قراءات الميزان مع سعرات الطعام الفعلية",
       "targetAdjustment": "تعديل السعرات",
-      "title": "معدل الحرق الأيضي التكيفي",
+      "title": "معدل حرقك الفعلي",
       "underLoggingDesc": "السعرات المسجلة أقل من خط الأساس البيولوجي (<1.1× معدل الأيض). لحماية الكتلة العضلية وصحتك، لن يقوم النظام بخفض سعراتك اليومية.",
       "underLoggingTitle": "تنبيه نقص التسجيل الحراري",
       "weightFactor": "وزن البيانات الحقيقية: {{observed}}% / المعادلة: {{formula}}%"
@@ -1221,7 +1277,7 @@
     "screen": {
       "eyebrow": "المؤشرات الأيضية",
       "logTodayWeight": "تسجيل وزن اليوم",
-      "title": "متابعة الوزن والأيض التكيفي"
+      "title": "متابعة الوزن ومعدل الحرق"
     },
     "trend": {
       "kgScale": "{{value}} كغ ميزان",
@@ -1231,7 +1287,7 @@
       "rawReading": "وزن خام",
       "recentHistory": "السجل الأخير",
       "scaleWeight": "قراءة الميزان",
-      "subtitle": "تصفية تقلبات السوائل والأملاح اليومية عبر التنعيم الأسي (α=0.25)",
+      "subtitle": "تنعيم القراءات حتى لا تشتّتك تقلبات الماء والأملاح اليومية",
       "title": "منحنى مسار الوزن",
       "trendWeight": "مسار الأنسجة",
       "trueTissue": "الوزن الحقيقي"

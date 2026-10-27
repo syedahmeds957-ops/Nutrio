@@ -468,6 +468,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   backBtn: {
+    minHeight: 44,
+    minWidth: 44,
+    justifyContent: 'center',
     paddingVertical: 6,
     paddingHorizontal: 10,
     borderRadius: 9999,
@@ -487,6 +490,9 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   shareHeaderBtn: {
+    minHeight: 44,
+    minWidth: 44,
+    justifyContent: 'center',
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 9999,

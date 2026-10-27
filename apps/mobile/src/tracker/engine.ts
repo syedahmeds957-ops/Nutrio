@@ -1,4 +1,4 @@
-import { NormalizedFood, ServingUnit } from '@nutrio/food-db';
+import type { NormalizedFood, ServingUnit } from '@nutrio/food-db';
 import { DailyTrackerSummary, LoggedItem, MealSlot } from './types.js';
 import { localDateKey } from '../common/dateKey.js';
 

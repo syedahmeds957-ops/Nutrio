@@ -49,7 +49,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
       )}
 
       <View style={styles.header}>
-        <Text style={[styles.title, dir.text, { color: theme.colors.textPrimary }]}>
+        <Text role="heading" aria-level={1} style={[styles.title, dir.text, { color: theme.colors.textPrimary }]}>
           {t('plan.analysis.title')}
         </Text>
         <Text style={[styles.subtitle, dir.text, { color: theme.colors.textSecondary }]}>
@@ -305,21 +305,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
       {/* Action Navigation Buttons */}
       <View style={styles.btnRow}>
         {onBack && (
-          <TouchableOpacity
-            style={[
-              styles.backBtn,
-              {
-                backgroundColor: theme.colors.surfaceSecondary,
-                borderColor: theme.colors.border,
-              },
-            ]}
-            onPress={onBack}
-            activeOpacity={0.7}
-          >
-            <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
-              {t('common.back')}
-            </Text>
-          </TouchableOpacity>
+          <BackButton variant="footer" onPress={onBack} style={styles.footerBack} />
         )}
 
         <TouchableOpacity
@@ -483,25 +469,16 @@ const styles = StyleSheet.create({
   topBackBtn: {
     marginBottom: 16,
   },
+  // Beside the primary button: natural width, not an equal share.
+  footerBack: {
+    flex: 0,
+    paddingHorizontal: 24,
+  },
   btnRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
     marginTop: 10,
-  },
-  backBtn: {
-    minHeight: 44,
-    minWidth: 44,
-    paddingVertical: 16,
-    paddingHorizontal: 24,
-    borderRadius: 9999,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  backBtnText: {
-    fontSize: 15,
-    fontWeight: '700',
   },
   actionBtn: {
     borderRadius: 9999,

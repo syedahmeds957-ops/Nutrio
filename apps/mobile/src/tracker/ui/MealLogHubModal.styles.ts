@@ -226,6 +226,27 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     gap: 8,
   },
+  slotFilterRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 12,
+    paddingHorizontal: 16,
+    paddingBottom: 8,
+  },
+  slotFilterText: {
+    flex: 1,
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  slotFilterBtn: {
+    minHeight: 44,
+    justifyContent: 'center',
+  },
+  slotFilterBtnText: {
+    fontSize: 12,
+    fontWeight: '800',
+  },
   groupPill: {
     minHeight: 44,
     justifyContent: 'center',

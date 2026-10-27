@@ -43,7 +43,7 @@
     "defaultUserName": "User",
     "guest": "Guest",
     "splash": {
-      "status": "Synchronizing telemetry...",
+      "status": "Restoring your session...",
       "tagline": "Precision cultural nutrition · Pakistan"
     }
   },
@@ -75,8 +75,8 @@
     "dashboard": "Dashboard",
     "daysOnTarget": "{{count}} of 7 days on-target",
     "daysOnTarget_other": "{{count}} of 7 days on-target",
-    "ewmaSmoothed": "EWMA smoothed",
-    "grounded": "Grounded",
+    "ewmaSmoothed": "Smoothed trend",
+    "grounded": "Based on your data",
     "kcalPerDay": "kcal per day",
     "kcalShift": "{{value}} kcal shift",
     "myProgress": "My progress",
@@ -216,6 +216,7 @@
     "gramsValue": "{{value}}g",
     "kcal": "kcal",
     "kcalValue": "{{value}} kcal",
+    "kgValue": "{{value}} kg",
     "litresValue": "{{value}} L",
     "macroLine": "P {{protein}}g · C {{carbs}}g · F {{fat}}g",
     "mlValue": "{{value}} ml",
@@ -228,6 +229,10 @@
       "message": {
         "PK": "The app will switch to English, Pakistani dishes and prices in PKR.",
         "SA": "The app will switch to Arabic (right-to-left), Saudi dishes and prices in SAR."
+      },
+      "messageKeepLanguage": {
+        "PK": "Pakistani dishes and prices in PKR. The app language stays as you set it.",
+        "SA": "Saudi dishes and prices in SAR. The app language stays as you set it."
       },
       "title": {
         "PK": "Switch to Pakistan?",
@@ -267,8 +272,51 @@
       "wed": "W"
     },
     "yes": "Yes",
-    "yesterday": "Yesterday",
-    "kgValue": "{{value}} kg"
+    "yesterday": "Yesterday"
+  },
+  "paywall": {
+    "annualPlan": "Annual plan",
+    "annualSavings": {
+      "PKR": "Save 42% (PKR 583/month)",
+      "USD": "Save 40% ($4.16/month)"
+    },
+    "badge": "NUTRIO PREMIUM",
+    "bestValue": "Best value · 42% off",
+    "cancelAnytime": "Cancel anytime",
+    "currency": {
+      "PKR": "PKR (Pakistan)",
+      "USD": "USD (Global)"
+    },
+    "feature": {
+      "adaptive": {
+        "desc": "A weekly recalibration that follows your real weight change.",
+        "title": "Targets that adapt to you"
+      },
+      "coach": {
+        "desc": "Conversational advice for dawats, family feasts and everyday meals.",
+        "title": "AI nutrition coach, any time"
+      },
+      "plans": {
+        "desc": "A 7-day Pakistani and Saudi meal plan with one-tap swaps.",
+        "title": "Local meal plans and swaps"
+      }
+    },
+    "guarantee": "No risk · Cancel anytime in one tap · Your health data stays private",
+    "headline": "Upgrade to Unlimited",
+    "monthlyPlan": "Monthly plan",
+    "paymentMethod": "Payment method",
+    "priceMonth": "{{amount}} / month",
+    "priceYear": "{{amount}} / year",
+    "provider": {
+      "creditCard": "Credit card",
+      "debitCredit": "Debit / credit card",
+      "easypaisa": "Easypaisa",
+      "inApp": "In-app purchase",
+      "jazzcash": "JazzCash"
+    },
+    "subheadline": "Unlock adaptive nutrition and coaching built for Pakistan and Saudi Arabia.",
+    "subscribe": "Unlock Nutrio Premium ({{price}})",
+    "whatYouUnlock": "What you unlock"
   },
   "plan": {
     "analysis": {
@@ -412,6 +460,7 @@
         "title": "Maintenance & performance"
       },
       "maxSafeRate": "Max clinically safe rate: {{rate}} kg/week (1% of your bodyweight)",
+      "pacesDisabledReason": "Faster paces are switched off because they are above the safe limit for your weight ({{rate}} kg/week).",
       "pacingAdvice": {
         "aggressive": "Aggressive pace (>1% bodyweight/week) increases risk of lean muscle and water loss.",
         "gentle": "Gentle, sustainable deficit. Easiest for long-term lifestyle adherence.",
@@ -428,8 +477,7 @@
       "title": "Choose your target goal",
       "weeklyPace": "Weekly pace: {{rate}} kg / week",
       "weeks": "{{count}} week",
-      "weeks_other": "{{count}} weeks",
-      "pacesDisabledReason": "Faster paces are switched off because they are above the safe limit for your weight ({{rate}} kg/week)."
+      "weeks_other": "{{count}} weeks"
     },
     "mealSlot": {
       "cuisine": {
@@ -458,7 +506,7 @@
     },
     "slotCard": {
       "carbsChip": "{{value}}g Carbs",
-      "dietitianApproved": "Dietitian approved",
+      "fitsTargets": "Fits your targets",
       "oil": "{{count}} tsp oil",
       "proteinChip": "{{value}}g Protein",
       "swapAlternatives": "Swap alternatives"
@@ -878,6 +926,7 @@
       },
       "gramsField": "Weight in grams",
       "gramsInvalid": "Enter a weight between 1 and 3000 g",
+      "howMany": "How many?",
       "increaseQty": "Increase quantity",
       "kcalEach": "{{value}} kcal each",
       "logThis": "Log this",
@@ -888,8 +937,7 @@
       "removeModifier": "Remove {{name}}",
       "resetMyServing": "Reset to standard serving",
       "saveAsMyServing": "Save {{grams}}g as my standard serving",
-      "standardServings": "Standard servings",
-      "howMany": "How many?"
+      "standardServings": "Standard servings"
     },
     "dashboard": {
       "allMealsDone": "All meals done",
@@ -898,9 +946,11 @@
       "darkMode": "Dark mode",
       "diary": "Diary",
       "freeTag": "Free",
+      "language": "Language",
+      "languageAuto": "Match region",
       "lightMode": "Light mode",
       "logMeal": "Quick log",
-      "logout": "Log out / Return to home",
+      "logout": "Log out",
       "nav": {
         "coach": "Coach",
         "meals": "Meals",
@@ -987,6 +1037,7 @@
       "consumedToday": "Consumed today",
       "dailyGoal": "Daily goal: {{target}} kcal ({{eaten}} eaten)",
       "dailyTarget": "Daily target",
+      "eatenSoFar": "{{eaten}} kcal eaten so far",
       "energyBudget": "Energy budget",
       "free": "100% free",
       "goalCaption": "Goal",
@@ -1003,8 +1054,7 @@
       "pendingSync_other": "{{count}} offline entries pending sync",
       "readyFirstMeal": "Ready for first meal",
       "targetNotSet": "Not set",
-      "trackYourDay": "Track your day",
-      "eatenSoFar": "{{eaten}} kcal eaten so far"
+      "trackYourDay": "Track your day"
     },
     "hub": {
       "allBrandsHeading": {
@@ -1050,6 +1100,7 @@
       "recentHeading": "You log these most",
       "removeOne": "Remove one {{name}}",
       "resultsFound": "{{count}} result found",
+      "resultsFoundMore": "{{count}}+ results",
       "resultsFound_other": "{{count}} results found",
       "saveAsPreset": "Save as a meal",
       "savePresetConfirm": "Save",
@@ -1066,7 +1117,12 @@
         "Mutton": "Mutton"
       },
       "variantPicker": "Choose the meat for {{name}}",
-      "resultsFoundMore": "{{count}}+ results"
+      "slotFilter": {
+        "showing": "Showing {{meal}} foods ({{shown}} of {{total}})",
+        "showingAll": "Showing every food",
+        "showAll": "Show all foods",
+        "onlyMeal": "Only {{meal}} foods"
+      }
     },
     "mealSlots": {
       "breakfast": {
@@ -1133,19 +1189,19 @@
       "addBottle": "+500 ml (Bottle)",
       "addGlass": "+250 ml (Glass)",
       "dailyTarget": "Target: {{amount}} ml / day",
-      "title": "Water",
-      "ofTarget": "of {{amount}} ml"
+      "ofTarget": "of {{amount}} ml",
+      "title": "Water"
     }
   },
   "weight": {
     "adaptive": {
-      "blendedTdee": "Active blended TDEE",
+      "blendedTdee": "Calorie burn estimate",
       "calibrationDays": "{{days}} / 28 days ({{pct}}%)",
       "calibrationWindow": "Calibration window (28 days)",
       "formulaBaseline": "Formula baseline: {{value}} kcal",
       "subtitle": "Calibrating your true metabolic expenditure using scale trends & intake logs",
       "targetAdjustment": "target adjustment",
-      "title": "Closed-loop adaptive TDEE",
+      "title": "Your real calorie burn",
       "underLoggingDesc": "Your logged caloric intake is below biological baseline (<1.1× BMR). To protect your health and lean muscle, our clinical engine will NOT slash your calorie targets.",
       "underLoggingTitle": "Under-logging detected",
       "weightFactor": "Weight factor: {{observed}}% observed data / {{formula}}% formula"
@@ -1161,7 +1217,7 @@
     "screen": {
       "eyebrow": "Metabolic feedback",
       "logTodayWeight": "Log today's weight",
-      "title": "Weight & adaptive TDEE"
+      "title": "Weight & calorie burn"
     },
     "trend": {
       "kgScale": "{{value}} kg scale",
@@ -1171,8 +1227,8 @@
       "rawReading": "Raw scale reading",
       "recentHistory": "Recent history",
       "scaleWeight": "Scale weight",
-      "subtitle": "Filtering daily water fluctuations with α=0.25 exponential smoothing",
-      "title": "Weight trend (EWMA smoothed)",
+      "subtitle": "Smoothed so day-to-day water changes don't distract",
+      "title": "Weight trend",
       "trendWeight": "Trend weight",
       "trueTissue": "True tissue trend"
     }

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getTheme, darkColors, lightColors, theme } from '../theme.js';
+import { getTheme, darkColors, lightColors, resolveThemeMode, theme } from '../theme.js';
 
 describe('Solid Lime Dual Theme System (Task 1)', () => {
   it('provides dark theme with solid lime hero, obsidian canvas, and 22px card radius', () => {
@@ -74,3 +74,20 @@ function contrastRatio(a: string, b: string): number {
   const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
   return (hi + 0.05) / (lo + 0.05);
 }
+
+describe('resolveThemeMode', () => {
+  it('uses a saved choice over the device setting', () => {
+    expect(resolveThemeMode('light', 'dark')).toBe('light');
+    expect(resolveThemeMode('dark', 'light')).toBe('dark');
+  });
+
+  it('follows the device when nothing is saved', () => {
+    expect(resolveThemeMode(null, 'dark')).toBe('dark');
+    expect(resolveThemeMode(null, 'light')).toBe('light');
+  });
+
+  it('defaults to light when neither is known or the value is junk', () => {
+    expect(resolveThemeMode(null, null)).toBe('light');
+    expect(resolveThemeMode('sepia', undefined)).toBe('light');
+  });
+});

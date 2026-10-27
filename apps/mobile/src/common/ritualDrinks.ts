@@ -1,4 +1,5 @@
-import { DIET_BASICS_CATALOG, NormalizedFood, SAUDI_TRADITIONAL_FOODS } from '@nutrio/food-db';
+import type { NormalizedFood } from '@nutrio/food-db';
+import { foodDb } from '../catalogue/index.js';
 import type { Region } from './region/index.js';
 
 /**
@@ -33,7 +34,7 @@ const cache: Partial<Record<Region, number>> = {};
 export function ritualCupKcal(region: Region): number {
   return (cache[region] ??= Math.round(
     region === 'SA'
-      ? servingKcal(SAUDI_TRADITIONAL_FOODS, GAHWA_FINJAN) + servingKcal(SAUDI_TRADITIONAL_FOODS, COMPANION_DATE)
-      : servingKcal(DIET_BASICS_CATALOG, CHAI_CUP)
+      ? servingKcal(foodDb().SAUDI_TRADITIONAL_FOODS, GAHWA_FINJAN) + servingKcal(foodDb().SAUDI_TRADITIONAL_FOODS, COMPANION_DATE)
+      : servingKcal(foodDb().DIET_BASICS_CATALOG, CHAI_CUP)
   ));
 }

@@ -313,6 +313,9 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   logBtn: {
+    minHeight: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingVertical: 8,
     paddingHorizontal: 14,
     borderRadius: 9999,

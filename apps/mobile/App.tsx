@@ -26,6 +26,7 @@ import {
 } from './src/survey/index.js';
 import { OnboardingSurveyScreen } from './src/survey/ui/index.js';
 import { installWebA11y } from './src/ui/webA11y.js';
+import { loadCatalogue, useCatalogueReady } from './src/catalogue/index.js';
 import { ComputedUserPlan, PlanUserContext } from './src/plan/index.js';
 import { PlanWorkflowScreen, WeeklyPlanView } from './src/plan/ui/index.js';
 import { TrackerDashboardScreen } from './src/tracker/ui/index.js';
@@ -107,6 +108,11 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 // dormant until setActiveFontScript names a script.
 installFontPatch();
 
+// The food catalogue is its own download on web. Starting it here runs it in
+// parallel with fonts and session restore; the sign-in screen does not wait for
+// it, every screen after it does (see `catalogueReady`).
+void loadCatalogue();
+
 // Built once: useFonts reads the map on every render, and rebuilding it there
 // would re-resolve every asset per frame for no gain. Split by script so first
 // paint waits only for the family the current language reads in.
@@ -142,6 +148,7 @@ function NutrioAppContent() {
   const { language } = useI18nState();
   // The splash waits for the current language's family only; the other loads
   // right after, so a later region switch finds it already registered.
+  const catalogueReady = useCatalogueReady();
   const [fontsLoaded] = useFonts(language === 'ar' ? ARABIC_FONTS : LATIN_FONTS);
   useFonts(fontsLoaded ? (language === 'ar' ? LATIN_FONTS : ARABIC_FONTS) : NO_FONTS);
   const { width: windowWidth } = useWindowDimensions();
@@ -324,13 +331,14 @@ function NutrioAppContent() {
 
   // The splash holds until the typefaces are ready, so no screen paints in
   // the system fallback face and then reflows into Inter.
-  const isWaitingForFonts = !fontsLoaded;
+  // Held on the same splash: sign-in needs neither, anything past it needs both.
+  const isWaitingForAssets = !fontsLoaded || (appState !== 'auth' && !catalogueReady);
 
   useEffect(() => {
-    if (!isBootstrapping && !isWaitingForFonts) {
+    if (!isBootstrapping && !isWaitingForAssets) {
       SplashScreen.hide();
     }
-  }, [isBootstrapping, isWaitingForFonts]);
+  }, [isBootstrapping, isWaitingForAssets]);
 
   /**
    * Where Back goes when nothing is behind the current screen — only the
@@ -460,7 +468,7 @@ function NutrioAppContent() {
     );
 
   // Startup Splash Screen during session restore & telemetry synchronization
-  if (isBootstrapping || isWaitingForFonts) {
+  if (isBootstrapping || isWaitingForAssets) {
     const accentColor = theme.colors.primaryLime;
     return (
       <View style={[styles.rootWrapper, { backgroundColor: theme.colors.canvas }]}>
@@ -471,7 +479,7 @@ function NutrioAppContent() {
             resizeMode="contain"
           />
           <Text style={[styles.splashTitle, { color: theme.colors.textPrimary }]}>
-            NUTRIO
+            Nutrio
           </Text>
           <Text style={[styles.splashSubtitle, dir.textCenter, { color: theme.colors.textSecondary }]}>
             {t('app.splash.tagline')}
@@ -716,7 +724,7 @@ function NutrioAppContent() {
 export default function App() {
   return (
     <SafeAreaProvider>
-      <ThemeProvider initialMode="light">
+      <ThemeProvider>
         <RegionProvider>
           <I18nProvider>
             <NutrioAppContent />
@@ -755,7 +763,7 @@ const styles = StyleSheet.create({
   splashTitle: {
     fontSize: 28,
     fontWeight: '900',
-    letterSpacing: 3,
+    letterSpacing: 0.5,
     marginBottom: 6,
   },
   splashSubtitle: {

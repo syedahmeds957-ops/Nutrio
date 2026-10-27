@@ -3,7 +3,8 @@
  * Inspired by Revolut & Ronasit High-Contrast Telemetry
  */
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Platform } from 'react-native';
+import { Appearance, Platform } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export type ThemeMode = 'dark' | 'light';
 
@@ -300,16 +301,56 @@ const ThemeContext = createContext<ThemeContextValue>({
   isDark: false,
 });
 
+const THEME_STORAGE_KEY = 'nutrio_theme_mode';
+
+/** A saved choice wins; with none, the device's light/dark setting decides. */
+export function resolveThemeMode(saved: string | null | undefined, system: string | null | undefined): ThemeMode {
+  if (saved === 'dark' || saved === 'light') return saved;
+  return system === 'dark' ? 'dark' : 'light';
+}
+
+function readSystemScheme(): string | null {
+  try {
+    return Appearance.getColorScheme() ?? null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * `initialMode` pins the theme (tests, previews). Without it the theme follows
+ * the device until the user picks one, and that pick is remembered.
+ */
 export const ThemeProvider: React.FC<{ children: ReactNode; initialMode?: ThemeMode }> = ({
   children,
-  initialMode = 'light',
+  initialMode,
 }) => {
-  const [mode, setMode] = useState<ThemeMode>(initialMode);
+  const [mode, setModeState] = useState<ThemeMode>(initialMode ?? resolveThemeMode(null, readSystemScheme()));
   const activeTheme = getTheme(mode);
 
-  const toggleTheme = () => {
-    setMode((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  useEffect(() => {
+    if (initialMode) return;
+    let cancelled = false;
+    AsyncStorage.getItem(THEME_STORAGE_KEY)
+      .then((saved) => {
+        if (!cancelled && (saved === 'dark' || saved === 'light')) setModeState(saved);
+      })
+      .catch(() => {
+        // No stored choice is readable: keep following the device.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [initialMode]);
+
+  const setMode = (next: ThemeMode) => {
+    setModeState(next);
+    void AsyncStorage.setItem(THEME_STORAGE_KEY, next).catch(() => {
+      // A failed write only costs remembering the choice.
+    });
   };
+
+  const toggleTheme = () => setMode(mode === 'dark' ? 'light' : 'dark');
 
   const isDark = mode === 'dark';
 

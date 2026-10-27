@@ -4,7 +4,7 @@ import { PlannedMealSlot } from '@nutrio/nutrition-core';
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
 import { useRegion } from '../../common/region/index.js';
-import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
 import { foodDisplayName } from '../../tracker/foodDisplayName.js';
 import { formatServingLine } from '../../tracker/formatServing.js';
 
@@ -21,6 +21,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
   const dir = useTextDirection();
+  const { language } = useI18nState();
 
   const getSlotIcon = (slotKey: string) => {
     switch (slotKey) {
@@ -160,7 +161,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
       <View style={styles.tagRow}>
         <View
           style={[
-            styles.dietitianBadge,
+            styles.fitBadge,
             {
               backgroundColor: isDark ? '#1C2608' : '#EDFCD2',
               borderColor: isDark ? '#2D4B05' : '#D4F88D',
@@ -169,11 +170,11 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
         >
           <Text
             style={[
-              styles.dietitianBadgeText,
+              styles.fitBadgeText,
               { color: isDark ? theme.colors.primaryLime : '#365314' },
             ]}
           >
-            {t('plan.slotCard.dietitianApproved')}
+            {t('plan.slotCard.fitsTargets')}
           </Text>
         </View>
         <View
@@ -214,7 +215,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
                   { color: theme.colors.textSecondary },
                 ]}
               >
-                {formatServingLine(item.quantity, item.servingLabel, item.totalGrams)}
+                {formatServingLine(item.quantity, item.servingLabel, item.totalGrams, language)}
               </Text>
             </View>
             <Text
@@ -339,13 +340,13 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 14,
   },
-  dietitianBadge: {
+  fitBadge: {
     paddingVertical: 3,
     paddingHorizontal: 8,
     borderRadius: 9999,
     borderWidth: 1,
   },
-  dietitianBadgeText: {
+  fitBadgeText: {
     fontSize: 11,
     fontWeight: '700',
   },

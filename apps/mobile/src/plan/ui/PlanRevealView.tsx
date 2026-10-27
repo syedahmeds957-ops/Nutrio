@@ -79,7 +79,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
           </Text>
         </View>
 
-        <Text style={[styles.title, dir.text, { color: theme.colors.textPrimary }]}>
+        <Text role="heading" aria-level={1} style={[styles.title, dir.text, { color: theme.colors.textPrimary }]}>
           {t('plan.reveal.title')}
         </Text>
         <Text style={[styles.subtitle, dir.text, { color: theme.colors.textSecondary }]}>

@@ -144,7 +144,8 @@ export function validateLifestyleDesi(
 }
 
 export function validateHealthClinical(
-  data: Partial<SurveyHealthClinical>
+  data: Partial<SurveyHealthClinical>,
+  sex?: SurveyBasics['sex']
 ): StepValidationResult {
   const errors: Record<string, string> = {};
 
@@ -153,9 +154,8 @@ export function validateHealthClinical(
       'You must acknowledge the clinical disclaimer to proceed.';
   }
 
-  // isPregnantOrBreastfeeding defaults to false if unselected
-  const isPregnant = data.isPregnantOrBreastfeeding ?? false;
-  if (typeof isPregnant !== 'boolean') {
+  // Men are never asked and are recorded as "no"; women must answer.
+  if (sex === 'female' && typeof data.isPregnantOrBreastfeeding !== 'boolean') {
     errors.isPregnantOrBreastfeeding =
       'Please indicate pregnancy or active lactation status for nutritional safety.';
   }

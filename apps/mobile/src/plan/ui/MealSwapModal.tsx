@@ -6,6 +6,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { swapTitleFor } from '../swapTitle.js';
+import { foodDisplayName } from '../../tracker/foodDisplayName.js';
+import { localizeServingLabel } from '../../tracker/servingLabel.js';
 import { NamedModal } from '../../ui/NamedModal.js';
 import {
   MealSwapOption,
@@ -14,7 +17,7 @@ import {
 } from '@nutrio/nutrition-core';
 import { useTheme } from '../../theme.js';
 import { Notice } from '../../ui/Notice.js';
-import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 
 interface MealSwapModalProps {
@@ -35,6 +38,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
   const { theme, isDark } = useTheme();
   const { t } = useTranslation();
   const dir = useTextDirection();
+  const { language } = useI18nState();
 
   if (!originalSlot || !swapResult) return null;
 
@@ -86,7 +90,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                 ]}
               >
                 {t('plan.swap.current', { value: originalSlot.actualCalories })} ·{' '}
-                {originalSlot.items.map((i) => i.foodName).join(', ')}
+                {originalSlot.items.map((i) => foodDisplayName(i.foodName, i.foodNameAr, dir.isRTL).primary).join(', ')}
               </Text>
             </View>
             <TouchableOpacity
@@ -137,7 +141,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                           { color: theme.colors.textPrimary },
                         ]}
                       >
-                        {option.title}
+                        {swapTitleFor(option.items, language, option.title)}
                       </Text>
                     </View>
                     <View
@@ -240,7 +244,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                           { color: theme.colors.textSecondary },
                         ]}
                       >
-                        • {item.quantity}× {item.foodName} ({item.servingLabel})
+                        • {item.quantity}× {foodDisplayName(item.foodName, item.foodNameAr, dir.isRTL).primary} ({localizeServingLabel(item.servingLabel, language)})
                       </Text>
                     ))}
                   </View>
@@ -437,6 +441,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 10,
     elevation: 2,
+    justifyContent: 'center',
   },
   selectBtnText: {
     fontSize: 13,

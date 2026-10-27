@@ -1,3 +1,5 @@
+import { localizeServingLabel } from './servingLabel.js';
+
 /**
  * One-line portion text for a logged or planned item.
  *
@@ -11,9 +13,12 @@
 export function formatServingLine(
   quantity: number,
   label: string | undefined,
-  totalGrams: number
+  totalGrams: number,
+  language: 'en' | 'ar' = 'en'
 ): string {
-  const cleanLabel = (label || 'serving').replace(/\s*\(\s*\d+(\.\d+)?\s*g\s*\)/gi, '').trim();
+  const stripped = (label || 'serving').replace(/\s*\(\s*\d+(\.\d+)?\s*g\s*\)/gi, '').trim();
+  const cleanLabel = localizeServingLabel(stripped || 'serving', language);
   const qtyPrefix = quantity !== 1 ? `${quantity} × ` : '';
-  return `${qtyPrefix}${cleanLabel || 'serving'} (${Math.round(totalGrams)}g)`;
+  const weight = language === 'ar' ? `${Math.round(totalGrams)} غ` : `${Math.round(totalGrams)}g`;
+  return `${qtyPrefix}${cleanLabel} (${weight})`;
 }

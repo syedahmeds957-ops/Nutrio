@@ -19,11 +19,10 @@ import { AiRecommendationCard } from './AiRecommendationCard.js';
 import type { SuggestionItem } from '../suggestions.js';
 import { QuickStaplesBar, StapleItem } from './QuickStaplesBar.js';
 import { resolveStaple } from '../staples.js';
-import { WeeklyCalorieBankCard } from './WeeklyCalorieBankCard.js';
 import { TrackerEngine } from '../engine.js';
 import { MealSlot, DailyTrackerSummary } from '../types.js';
 import type { DraftLogEntry } from '../describeMeal.js';
-import { NormalizedFood, ServingUnit } from '@nutrio/food-db';
+import type { NormalizedFood, ServingUnit } from '@nutrio/food-db';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useConfirmedRegionSwitch } from '../../common/region/useConfirmedRegionSwitch.js';
@@ -39,8 +38,6 @@ import { pushDailyActivities } from '../../sync/activitySync.js';
 import { HapticFeedback } from '../../ui/haptics.js';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { addDaysToKey, localDateKey } from '../../common/dateKey.js';
-import { computeLoggingStreak } from '../streak.js';
-import { StreakBadge } from './StreakBadge.js';
 import { styles } from './TrackerDashboardScreen.styles.js';
 
 interface TrackerDashboardScreenProps {
@@ -247,8 +244,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
 
   // Calories eaten on each day of the current Mon-Sun week: past days from what
   // was saved, today from the live summary, later days not yet. The hero bars
-  // and the calorie bank both read it; the bank used to get today alone, with
-  // every other day hard-coded to zero.
+  // read it.
   const weekDays = (() => {
     const today = new Date(`${summary.date}T00:00:00Z`);
     const todayIdx = (today.getUTCDay() + 6) % 7;
@@ -270,15 +266,6 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   // Today and later days stay 0 here; the hero draws today separately.
   const weeklyHistoryFills = weekDays.map((d) =>
     d.isToday ? 0 : Math.min(1, d.consumed / Math.max(1, targets.targetCalories))
-  );
-
-  // Today reads from the live summary so a meal logged a moment ago counts at once.
-  const loggingStreak = computeLoggingStreak(
-    (date) =>
-      date === summary.date
-        ? summary.items.length > 0
-        : (loadDailyActivities(date, activeRegion)?.items?.length ?? 0) > 0,
-    summary.date
   );
 
   const handleOpenAdd = (slot: MealSlot) => {
@@ -460,7 +447,7 @@ const defaultSlotForNow = (): MealSlot => {
                   {t('common.today')}
                 </Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                  <Text style={[styles.userName, { color: theme.colors.textPrimary }]}>
+                  <Text role="heading" aria-level={1} style={[styles.userName, { color: theme.colors.textPrimary }]}>
                     {userName}
                   </Text>
                   <View style={[styles.freeTag, { backgroundColor: accentColor }]}>
@@ -597,8 +584,6 @@ const defaultSlotForNow = (): MealSlot => {
         {/* 1. Daily Progress Hero Card + 2x2 Metric Grid */}
         <DailyProgressHeader summary={summary} weeklyHistoryFills={weeklyHistoryFills} />
 
-        {!isGuest && <StreakBadge {...loggingStreak} />}
-
         {/* 2. Dynamic AI Recommendation Card */}
         <AiRecommendationCard
           key={activeRegion}
@@ -705,18 +690,6 @@ const defaultSlotForNow = (): MealSlot => {
             onDeleteItem={handleDeleteItem}
           />
         </View>
-
-        {/* Rolling Weekly Calorie Bank Card (Dynamic Real Data) */}
-        <WeeklyCalorieBankCard
-          targetCalories={targets.targetCalories}
-          dailyHistory={weekDays.map((d, idx) => ({
-            day: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][idx],
-            consumed: Math.round(d.consumed),
-            target: targets.targetCalories,
-            isLogged: d.isLogged,
-            isToday: d.isToday,
-          }))}
-        />
       </ScrollView>
 
       {/* Floating Pitch-Black Capsule Navigation Bar (Revolut/Ronasit Style) */}

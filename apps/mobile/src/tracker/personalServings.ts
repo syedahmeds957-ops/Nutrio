@@ -1,4 +1,4 @@
-import { FoodServingItem, NormalizedFood } from '@nutrio/food-db';
+import type { FoodServingItem, NormalizedFood } from '@nutrio/food-db';
 import { authStorageAdapter } from '../supabase/client.js';
 import { getAuthSession } from '../auth/authStorage.js';
 

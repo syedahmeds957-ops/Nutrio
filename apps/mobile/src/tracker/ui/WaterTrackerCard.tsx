@@ -282,6 +282,7 @@ const styles = StyleSheet.create({
   undoBtn: {
     paddingHorizontal: 12,
     minHeight: 44,
+    justifyContent: 'center',
   },
   actionBtnText: {
     fontSize: 13,

@@ -237,20 +237,6 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
                     ? t('tracker.diary.emptyPastDay')
                     : t(`tracker.diary.emptySubtitle.${activeRegion}`)}
                 </Text>
-                {!readOnly && (
-                  <TouchableOpacity
-                    style={[
-                      styles.emptyLogBtn,
-                      { backgroundColor: theme.colors.primaryLime },
-                    ]}
-                    onPress={onOpenLogHub}
-                    activeOpacity={0.8}
-                  >
-                    <Text style={[styles.emptyLogBtnText, { color: theme.colors.limeText }]}>
-                      + Log a meal
-                    </Text>
-                  </TouchableOpacity>
-                )}
               </View>
             ) : (
               summary.items.map((item: LoggedItem) => (
@@ -278,7 +264,7 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
 
                     <Text style={[styles.itemMeta, { color: theme.colors.textSecondary }]}>
                       {t(`tracker.mealSlots.${item.mealSlot}.${activeRegion}`)} ·{' '}
-                      {formatServingLine(item.quantity, item.servingLabel, item.totalGrams)}
+                      {formatServingLine(item.quantity, item.servingLabel, item.totalGrams, language)}
                     </Text>
 
                     <Text
@@ -552,15 +538,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     textAlign: 'center',
     marginBottom: 16,
-  },
-  emptyLogBtn: {
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderRadius: 9999,
-  },
-  emptyLogBtnText: {
-    fontSize: 14,
-    fontWeight: '800',
   },
   bottomBar: {
     paddingHorizontal: 16,

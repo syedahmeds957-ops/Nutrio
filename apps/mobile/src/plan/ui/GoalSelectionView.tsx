@@ -7,6 +7,7 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
+import { BackButton } from '../../ui/BackButton.js';
 import { calculateBMI, GoalType } from '@nutrio/nutrition-core';
 import { GoalSelectionState, PlanUserContext } from '../types.js';
 import { computeProjection } from '../engine.js';
@@ -83,7 +84,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
       contentContainerStyle={styles.content}
     >
       <View style={styles.header}>
-        <Text style={[styles.title, dir.text, { color: theme.colors.textPrimary }]}>
+        <Text role="heading" aria-level={1} style={[styles.title, dir.text, { color: theme.colors.textPrimary }]}>
           {t('plan.goal.title')}
         </Text>
         <Text style={[styles.subtitle, dir.text, { color: theme.colors.textSecondary }]}>
@@ -431,21 +432,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
 
       {/* Navigation Buttons */}
       <View style={styles.btnRow}>
-        <TouchableOpacity
-          style={[
-            styles.backBtn,
-            {
-              backgroundColor: theme.colors.surfaceSecondary,
-              borderColor: theme.colors.border,
-            },
-          ]}
-          onPress={onBack}
-          activeOpacity={0.7}
-        >
-          <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
-            {t('common.back')}
-          </Text>
-        </TouchableOpacity>
+        <BackButton variant="footer" onPress={onBack} />
 
         <TouchableOpacity
           style={[
@@ -611,20 +598,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 12,
     marginTop: 10,
-  },
-  backBtn: {
-    minHeight: 44,
-    minWidth: 44,
-    flex: 1,
-    paddingVertical: 16,
-    borderRadius: 9999,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  backBtnText: {
-    fontSize: 14,
-    fontWeight: '700',
   },
   confirmBtn: {
     flex: 2,

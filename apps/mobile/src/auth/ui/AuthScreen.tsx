@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { BackButton } from '../../ui/BackButton.js';
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
 import { AppleTextInput } from '../../ui/AppleInput.js';
@@ -119,24 +120,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
           {/* Top Bar (Brand Header & optional Back Button) */}
           <View style={[styles.topBar, !onBackToHome && styles.topBarCentered]}>
             {onBackToHome && (
-              <TouchableOpacity
-                style={[
-                  styles.backBtn,
-                  {
-                    backgroundColor: theme.colors.surfaceSecondary,
-                    borderColor: theme.colors.border,
-                  },
-                ]}
-                onPress={onBackToHome}
-                activeOpacity={0.7}
-              >
-                <View style={styles.btnRow}>
-                  <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={14} color={theme.colors.textPrimary} />
-                  <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>
-                    {t('common.back')}
-                  </Text>
-                </View>
-              </TouchableOpacity>
+              <BackButton onPress={onBackToHome} />
             )}
 
             <View style={styles.brandRow}>
@@ -401,22 +385,10 @@ const styles = StyleSheet.create({
   backBtnPlaceholder: {
     width: 60,
   },
-  backBtn: {
-    minHeight: 44,
-    minWidth: 44,
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderRadius: 9999,
-    borderWidth: 1,
-  },
   btnRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-  },
-  backBtnText: {
-    fontSize: 12,
-    fontWeight: '700',
   },
   brandRow: {
     alignItems: 'center',
@@ -448,6 +420,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     alignItems: 'center',
     borderRadius: 9999,
+    justifyContent: 'center',
   },
   tabText: {
     fontSize: 13,
@@ -489,6 +462,7 @@ const styles = StyleSheet.create({
     minWidth: 44,
     paddingHorizontal: 8,
     paddingVertical: 4,
+    justifyContent: 'center',
   },
   eyeText: {
     fontSize: 12,
@@ -537,6 +511,7 @@ const styles = StyleSheet.create({
     minHeight: 44,
     alignItems: 'center',
     paddingVertical: 8,
+    justifyContent: 'center',
   },
   guestText: {
     fontSize: 12,

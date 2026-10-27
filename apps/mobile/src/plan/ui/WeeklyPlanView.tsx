@@ -257,6 +257,8 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
           <View style={styles.daySummaryHeader}>
             <View style={styles.dayHeaderTitleCol}>
               <Text
+                role="heading"
+                aria-level={1}
                 style={[styles.dayNameLabel, { color: theme.colors.textPrimary }]}
               >
                 {t('plan.weekly.dayMealPlan', {

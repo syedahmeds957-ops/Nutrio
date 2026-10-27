@@ -230,6 +230,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderRadius: 14,
     borderWidth: 1,
+    justifyContent: 'center',
   },
   chipText: {
     fontSize: 13,
@@ -246,6 +247,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   numText: {
     fontSize: 15,

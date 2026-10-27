@@ -63,7 +63,7 @@ export const WeightTrackerScreen: React.FC<WeightTrackerScreenProps> = ({
           <Text style={[styles.headerSubtitle, dir.text, { color: theme.colors.primaryAccessible }]}>
             {t('weight.screen.eyebrow')}
           </Text>
-          <Text style={[styles.headerTitle, dir.text, { color: theme.colors.textPrimary }]}>
+          <Text role="heading" aria-level={1} style={[styles.headerTitle, dir.text, { color: theme.colors.textPrimary }]}>
             {t('weight.screen.title')}
           </Text>
         </View>

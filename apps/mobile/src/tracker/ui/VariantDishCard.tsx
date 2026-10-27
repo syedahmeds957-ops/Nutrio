@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { NormalizedFood, getFoodVariants } from '@nutrio/food-db';
+import type { NormalizedFood } from '@nutrio/food-db';
+import { foodDb } from '../../catalogue/index.js';
 import { useTheme } from '../../theme.js';
 import { useTranslation } from '../../i18n/index.js';
 import { DishCard } from './DishCard.js';
@@ -31,7 +32,7 @@ export const VariantDishCard: React.FC<VariantDishCardProps> = ({
 }) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
-  const variants = getFoodVariants(item);
+  const variants = foodDb().getFoodVariants(item);
   const [selectedId, setSelectedId] = useState(item.id);
   const selected = variants.find((v) => v.id === selectedId) ?? item;
 

@@ -51,7 +51,7 @@ describe('Weight Trend & Closed-Loop Adaptive TDEE (Task 1.6)', () => {
 
     expect(spikeCheck.hasSpike).toBe(true);
     expect(spikeCheck.message).toContain('water-weight fluctuation');
-    expect(spikeCheck.message).toContain('EWMA algorithm filters this noise');
+    expect(spikeCheck.message).toContain('trend line smooths this out');
   });
 
   it('integrates closed-loop adaptive TDEE and protects against under-logging', () => {

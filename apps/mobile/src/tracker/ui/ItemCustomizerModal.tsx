@@ -8,11 +8,8 @@ import {
 } from 'react-native';
 import { BackButton } from '../../ui/BackButton.js';
 import { NamedModal } from '../../ui/NamedModal.js';
-import {
-  NormalizedFood,
-  FoodModifier,
-  getDishCustomizationModifiers,
-} from '@nutrio/food-db';
+import type { NormalizedFood, FoodModifier } from '@nutrio/food-db';
+import { foodDb } from '../../catalogue/index.js';
 import { MealSlot } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
@@ -75,7 +72,7 @@ export function hasWord(text: string, ...words: string[]): boolean {
 
 // Category-smart verified modifiers delegating directly to centralized food-db taxonomy
 export function getEffectiveModifiers(food: NormalizedFood): FoodModifier[] {
-  return getDishCustomizationModifiers(food);
+  return foodDb().getDishCustomizationModifiers(food);
 }
 
 export function calculateCustomizedMacros(

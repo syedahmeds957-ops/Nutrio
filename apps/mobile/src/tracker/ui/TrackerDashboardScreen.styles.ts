@@ -99,6 +99,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 8,
     borderRadius: 9999,
     borderWidth: 1,
+    justifyContent: 'center',
   },
   navPillContent: {
     flexDirection: 'row',
@@ -112,11 +113,13 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
   },
   navPillBtnActive: {
+    minHeight: 44,
     flex: 1,
     minWidth: 0,
     paddingVertical: 7,
     paddingHorizontal: 8,
     borderRadius: 9999,
+    justifyContent: 'center',
   },
   navPillBtnActiveText: {
     flexShrink: 1,

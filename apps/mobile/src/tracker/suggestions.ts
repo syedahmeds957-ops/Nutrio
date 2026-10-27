@@ -1,4 +1,5 @@
-import { ALL_SAUDI_FOODS, NormalizedFood, PAKISTANI_STAPLES_DATA, ServingUnit } from '@nutrio/food-db';
+import type { NormalizedFood, ServingUnit } from '@nutrio/food-db';
+import { foodDb } from '../catalogue/index.js';
 import type { Region } from '../common/region/index.js';
 
 export type SuggestionSize = 'light' | 'medium' | 'full';
@@ -64,7 +65,7 @@ export interface Suggestion {
 }
 
 const resolve = (region: Region, size: SuggestionSize): Suggestion | null => {
-  const pool = region === 'SA' ? ALL_SAUDI_FOODS : PAKISTANI_STAPLES_DATA;
+  const pool = region === 'SA' ? foodDb().ALL_SAUDI_FOODS : foodDb().PAKISTANI_STAPLES_DATA;
   const items: SuggestionItem[] = [];
   for (const part of SUGGESTIONS[region][size]) {
     const food = pool.find((f) => f.name === part.foodName);

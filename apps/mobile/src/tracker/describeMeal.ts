@@ -1,12 +1,5 @@
-import {
-  resolvePortion,
-  type AnalyzedMeal,
-  type AnalyzedMealItem,
-  type MealItemFlag,
-  type NormalizedFood,
-  type ParsedMealItem,
-  type ServingUnit,
-} from '@nutrio/food-db';
+import type { AnalyzedMeal, AnalyzedMealItem, MealItemFlag, NormalizedFood, ParsedMealItem, ServingUnit } from '@nutrio/food-db';
+import { foodDb } from '../catalogue/index.js';
 import { calculateNutrientsForGrams } from './engine.js';
 
 /**
@@ -106,7 +99,7 @@ export function draftFromAnalysis(meal: AnalyzedMeal): DraftRow[] {
  * because the user chose it.
  */
 export function chooseFood(row: DraftRow, food: NormalizedFood): DraftRow {
-  const portion = resolvePortion(food, row.parsed);
+  const portion = foodDb().resolvePortion(food, row.parsed);
   const { serving, quantity } = servingFor(row.parsed, portion);
   const alternatives = [row.food, ...row.alternatives].filter(
     (f): f is NormalizedFood => !!f && (f.id ?? f.name) !== (food.id ?? food.name)

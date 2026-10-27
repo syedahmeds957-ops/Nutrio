@@ -18,6 +18,7 @@ import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
+import { firstName } from '../../common/firstName.js';
 
 interface Message {
   id: string;
@@ -55,7 +56,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
   const accentColor = theme.colors.primaryLime;
 
   const initialGreeting = t(`coach.greeting.${chatRegion}`, {
-    name: context.displayName || t('coach.defaultName'),
+    name: firstName(context.displayName) || t('coach.defaultName'),
     remaining: context.todaySummary?.remainingCalories ?? context.targets.kcalTarget,
   });
 
@@ -146,7 +147,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
         <View style={styles.headerCenter}>
           <View style={styles.titleRow}>
             <Icon name="sparkles" size={16} color={isDark ? theme.colors.primaryLime : '#4B6200'} />
-            <Text style={[styles.headerTitle, dir.text, { color: theme.colors.textPrimary }]}>
+            <Text role="heading" aria-level={1} style={[styles.headerTitle, dir.text, { color: theme.colors.textPrimary }]}>
               {t('coach.title')}
             </Text>
           </View>
@@ -444,6 +445,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 14,
     borderWidth: 1,
+    justifyContent: 'center',
   },
   chipText: {
     fontSize: 12,

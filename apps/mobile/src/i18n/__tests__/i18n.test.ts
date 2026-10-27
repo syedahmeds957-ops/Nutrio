@@ -1,7 +1,7 @@
 import { describe, it, expect, afterAll } from 'vitest';
 import { Platform } from 'react-native';
 import { i18n, initI18n } from '../config.js';
-import { APP_LANGUAGES, languageForRegion } from '../languages.js';
+import { APP_LANGUAGES, isLanguagePreference, languageForRegion, resolveLanguage } from '../languages.js';
 import {
   applyNativeDirection,
   directionForLanguage,
@@ -134,4 +134,23 @@ describe('text direction', () => {
 
 afterAll(() => {
   initI18n('en');
+});
+
+describe('language preference', () => {
+  it('follows the region until the user picks a language', () => {
+    expect(resolveLanguage('auto', 'SA')).toBe('ar');
+    expect(resolveLanguage('auto', 'PK')).toBe('en');
+  });
+
+  it('lets an explicit pick override the region either way', () => {
+    expect(resolveLanguage('en', 'SA')).toBe('en');
+    expect(resolveLanguage('ar', 'PK')).toBe('ar');
+  });
+
+  it('recognises only valid saved values', () => {
+    expect(isLanguagePreference('auto')).toBe(true);
+    expect(isLanguagePreference('ar')).toBe(true);
+    expect(isLanguagePreference('fr')).toBe(false);
+    expect(isLanguagePreference(null)).toBe(false);
+  });
 });

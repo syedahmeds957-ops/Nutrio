@@ -1,4 +1,5 @@
-import { ALL_SAUDI_FOODS, PAKISTANI_STAPLES_DATA, NormalizedFood } from '@nutrio/food-db';
+import type { NormalizedFood } from '@nutrio/food-db';
+import { foodDb } from '../catalogue/index.js';
 
 /**
  * Categories a generated meal plan never draws from. The regional catalogues
@@ -41,5 +42,5 @@ const pools: Partial<Record<'PK' | 'SA', NormalizedFood[]>> = {};
  * diet foods (eggs, oats, laban, khubz, salads).
  */
 export function mealPlanFoodPool(region: 'PK' | 'SA'): NormalizedFood[] {
-  return (pools[region] ??= (region === 'SA' ? ALL_SAUDI_FOODS : PAKISTANI_STAPLES_DATA).filter(isPlanFood));
+  return (pools[region] ??= (region === 'SA' ? foodDb().ALL_SAUDI_FOODS : foodDb().PAKISTANI_STAPLES_DATA).filter(isPlanFood));
 }

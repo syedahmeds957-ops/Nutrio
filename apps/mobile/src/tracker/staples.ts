@@ -1,10 +1,5 @@
-import {
-  DIET_BASICS_CATALOG,
-  NormalizedFood,
-  PAKISTANI_STAPLES_DATA,
-  SAUDI_TRADITIONAL_FOODS,
-  ServingUnit,
-} from '@nutrio/food-db';
+import type { NormalizedFood, ServingUnit } from '@nutrio/food-db';
+import { foodDb } from '../catalogue/index.js';
 import { Region } from '../common/region/index.js';
 import { CHAI_CUP } from '../common/ritualDrinks.js';
 
@@ -316,11 +311,11 @@ export function resolveStaple(
   staple: StapleDefinition,
   region: Region
 ): ResolvedStaple {
-  const pool = region === 'SA' ? SAUDI_TRADITIONAL_FOODS : PAKISTANI_STAPLES_DATA;
+  const pool = region === 'SA' ? foodDb().SAUDI_TRADITIONAL_FOODS : foodDb().PAKISTANI_STAPLES_DATA;
   const target = (staple.foodName || staple.name).toLowerCase();
   const food =
     pool.find((f) => f.name.toLowerCase() === target) ||
-    DIET_BASICS_CATALOG.find((f) => f.name.toLowerCase() === target);
+    foodDb().DIET_BASICS_CATALOG.find((f) => f.name.toLowerCase() === target);
 
   if (!food) {
     return { food: stapleAsFood(staple), serving: STAPLE_SERVING, calories: staple.calories };
