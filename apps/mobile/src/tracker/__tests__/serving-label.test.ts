@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { localizeServingLabel } from '../servingLabel.js';
+import { localizeServingLabel, withoutAmountBracket } from '../servingLabel.js';
 
 describe('localizeServingLabel', () => {
   it('leaves English readers alone', () => {
@@ -21,5 +21,13 @@ describe('localizeServingLabel', () => {
 
   it('returns a label with an unknown word unchanged', () => {
     expect(localizeServingLabel('1 bazinga burger (200g)', 'ar')).toBe('1 bazinga burger (200g)');
+  });
+});
+
+describe('withoutAmountBracket', () => {
+  it('drops a bracketed weight or volume and nothing else', () => {
+    expect(withoutAmountBracket('1 glass (250ml)')).toBe('1 glass');
+    expect(withoutAmountBracket('1 small bowl (150g)')).toBe('1 small bowl');
+    expect(withoutAmountBracket('1 Plate / Portion (نفر)')).toBe('1 Plate / Portion (نفر)');
   });
 });

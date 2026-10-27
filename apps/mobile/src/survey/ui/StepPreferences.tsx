@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 8,
-    marginLeft: 8,
+    marginStart: 8,
   },
   activePillText: {
     fontSize: 10,

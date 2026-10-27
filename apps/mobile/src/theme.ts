@@ -60,6 +60,7 @@ export interface ThemeColors {
   dangerLight: string;
   success: string;
   successLight: string;
+  successText: string;       // the success green darkened until it reads as text on light surfaces
 }
 
 export const darkColors: ThemeColors = {
@@ -107,6 +108,7 @@ export const darkColors: ThemeColors = {
   dangerLight: '#380E0E',
   success: '#10B981',
   successLight: '#082E1E',
+  successText: '#10B981',
 };
 
 export const lightColors: ThemeColors = {
@@ -154,6 +156,7 @@ export const lightColors: ThemeColors = {
   dangerLight: '#FEE2E2',
   success: '#10B981',
   successLight: '#DCFCE7',
+  successText: '#047857',
 };
 
 export const commonRadii = {

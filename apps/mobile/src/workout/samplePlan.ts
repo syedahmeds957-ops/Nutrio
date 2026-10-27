@@ -1,4 +1,5 @@
-import { generateWeeklyPlan, type Weekday, type WeeklyWorkoutPlan, type WorkoutSettings } from '@nutrio/workout-core';
+import type { Weekday, WeeklyWorkoutPlan, WorkoutSettings } from '@nutrio/workout-core';
+import { generateWeeklyPlan } from './core.js';
 import { addDaysToKey } from '../common/dateKey.js';
 import { weekdayOf } from './weekView.js';
 

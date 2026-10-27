@@ -1,15 +1,11 @@
 import type { TFunction } from 'i18next';
 import type { CoachWorkoutContext } from '@nutrio/nutrition-core';
-import {
-  exerciseForWeek,
-  getExercise,
-  InvalidSwap,
-  planSettings,
-  swapCandidates,
-  type JointLoad,
-  type WeeklyWorkoutPlan,
-  type WorkoutLog,
+import type {
+  JointLoad,
+  WeeklyWorkoutPlan,
+  WorkoutLog,
 } from '@nutrio/workout-core';
+import { exerciseForWeek, getExercise, isInvalidSwap, planSettings, swapCandidates } from './core.js';
 import { swapExercise } from './planActions.js';
 import { sessionTitle } from './sessionTitle.js';
 import { buildWeekView, cardioForWeek, slotsForWeek } from './weekView.js';
@@ -112,7 +108,7 @@ export function applyCoachSwap(topic: CoachSwapTopic, toId: string, language: La
       topic: coachSwapTopic(next, topic.slotId, topic.weekIndex, language),
     };
   } catch (err) {
-    if (err instanceof InvalidSwap) return { applied: false };
+    if (isInvalidSwap(err)) return { applied: false };
     throw err;
   }
 }

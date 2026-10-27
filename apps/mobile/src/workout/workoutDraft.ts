@@ -1,15 +1,13 @@
-import {
-  getExercise,
-  nextTarget,
-  planSettings,
-  type LoggedSet,
-  type PlannedSlot,
-  type SessionRating,
-  type Target,
-  type WeeklyWorkoutPlan,
-  type WorkoutLog,
-  type WorkoutSession,
+import type {
+  LoggedSet,
+  PlannedSlot,
+  SessionRating,
+  Target,
+  WeeklyWorkoutPlan,
+  WorkoutLog,
+  WorkoutSession,
 } from '@nutrio/workout-core';
+import { getExercise, nextTarget, planSettings } from './core.js';
 import { historyForSlot } from './historyFor.js';
 import { isCardioSlot, slotsForWeek, type CardioView } from './weekView.js';
 

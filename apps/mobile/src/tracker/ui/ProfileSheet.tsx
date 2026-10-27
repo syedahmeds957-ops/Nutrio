@@ -9,7 +9,9 @@ import { Icon, IconName } from '../../ui/Icon.js';
 import { styles } from './TrackerDashboardScreen.styles.js';
 
 const ACCENT_TEXT = '#0A0B0D';
-const LOGOUT_RED = '#EF4444';
+// Red text for Log out, lightened on dark (#EF4444 is 4.05:1 on the tinted button) and darkened on light.
+const LOGOUT_RED_LIGHT = '#B91C1C';
+const LOGOUT_RED_DARK = '#F87171';
 
 export interface ProfileSheetProps {
   visible: boolean;
@@ -250,8 +252,8 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
                 activeOpacity={0.7}
               >
                 <View style={styles.actionBtnRow}>
-                  <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={16} color={LOGOUT_RED} />
-                  <Text style={[styles.actionBtnText, { color: LOGOUT_RED }]}>
+                  <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={16} color={isDark ? LOGOUT_RED_DARK : LOGOUT_RED_LIGHT} />
+                  <Text style={[styles.actionBtnText, { color: isDark ? LOGOUT_RED_DARK : LOGOUT_RED_LIGHT }]}>
                     {t('tracker.dashboard.logout')}
                   </Text>
                 </View>

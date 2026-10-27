@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
     paddingBottom: 115,
   },
   topNav: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
     paddingTop: 16,
     paddingBottom: 10,
     gap: 12,
@@ -55,17 +55,6 @@ export const styles = StyleSheet.create({
     fontWeight: '800',
     letterSpacing: -0.3,
   },
-  freeTag: {
-    paddingVertical: 2,
-    paddingHorizontal: 6,
-    borderRadius: 6,
-  },
-  freeTagText: {
-    fontSize: 9,
-    fontWeight: '900',
-    color: '#0A0B0D',
-    letterSpacing: 0.5,
-  },
   headerRightActions: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -88,13 +77,13 @@ export const styles = StyleSheet.create({
   },
   navActionsScroll: {
     // Bleeds to the screen edges so pills scroll under the gutter, not into it.
-    marginHorizontal: -20,
+    marginHorizontal: -16,
   },
   navActionsRow: {
     flexDirection: 'row',
     gap: 6,
     paddingVertical: 4,
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
   },
   navPillBtn: {
     minHeight: 44,
@@ -138,7 +127,7 @@ export const styles = StyleSheet.create({
   sectionHeading: {
     fontSize: 18,
     fontWeight: '800',
-    marginHorizontal: 20,
+    marginHorizontal: 16,
     marginBottom: 12,
     letterSpacing: -0.3,
   },
@@ -146,7 +135,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginHorizontal: 20,
+    marginHorizontal: 16,
     marginBottom: 12,
   },
   mealsProgressPill: {

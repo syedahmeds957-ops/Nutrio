@@ -70,7 +70,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
               <Text
                 style={[
                   styles.modalSubtitle,
-                  { color: isDark ? theme.colors.primaryLime : '#4D7C0F' },
+                  { color: isDark ? theme.colors.primaryLime : '#4B6200' },
                 ]}
               >
                 {t('plan.swap.eyebrow')}
@@ -130,7 +130,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                       <Text
                         style={[
                           styles.optionIndex,
-                          { color: isDark ? theme.colors.primaryLime : '#4D7C0F' },
+                          { color: isDark ? theme.colors.primaryLime : '#4B6200' },
                         ]}
                       >
                         {t('plan.swap.option', { number: index + 1 })}
@@ -164,7 +164,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                       <Text
                         style={[
                           styles.deltaText,
-                          { color: isDark ? theme.colors.primaryLime : '#4D7C0F' },
+                          { color: isDark ? theme.colors.primaryLime : '#4B6200' },
                         ]}
                       >
                         {deltaSign}
@@ -200,7 +200,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                         },
                       ]}
                     >
-                      <Text style={[styles.macroPillLabel, { color: isDark ? theme.colors.primaryLime : '#4D7C0F' }]}>
+                      <Text style={[styles.macroPillLabel, { color: isDark ? theme.colors.primaryLime : '#4B6200' }]}>
                         C
                       </Text>
                       <Text style={[styles.macroPillVal, { color: theme.colors.textPrimary }]}>
@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
   },
   optionTitleBlock: {
     flex: 1,
-    marginRight: 10,
+    marginEnd: 10,
   },
   optionIndex: {
     fontSize: 11,

@@ -13,7 +13,7 @@ import { useTheme } from '../../theme.js';
 import { useI18nState, useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 import { sessionTitle } from '../sessionTitle.js';
-import { clockText, dateText, effortText, loggedSetText, prescriptionText } from '../format.js';
+import { clockText, dateText, effortText, loggedSetText, prescriptionText, supersetPlaces } from '../format.js';
 import { cardioForWeek, exerciseCount, isCardioSlot, weekdayOf, type DayView } from '../weekView.js';
 import {
   createDraft,
@@ -92,6 +92,7 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
   const dir = useTextDirection();
   const session = day.session;
   const targets = useMemo(() => targetsForSession(plan, session, weekIndex, logs), [plan, session, weekIndex, logs]);
+  const supersets = useMemo(() => supersetPlaces(session.slots), [session]);
   const cardio = cardioForWeek(plan, session, weekIndex);
   const startDraft = () => createDraft(session, targets, todayKey, new Date(), cardio);
   const sample = Boolean(onRequireAccount);
@@ -150,7 +151,9 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
     setDraftState(next);
     const anyLeft = next.exercises.some((exercise) => exercise.sets.some((set) => !set.done));
     const restSec = next.exercises[exerciseIndex].restSec;
-    if (!wasDone && anyLeft && restSec > 0) setRestEndsAt(Date.now() + restSec * 1000);
+    // In a superset the rest comes after the second exercise, not between the two.
+    const midSuperset = supersets.get(targets[exerciseIndex]?.slot.slotId ?? '')?.first === true;
+    if (!wasDone && anyLeft && restSec > 0 && !midSuperset) setRestEndsAt(Date.now() + restSec * 1000);
     if (wasDone) setRestEndsAt(null);
   };
 
@@ -226,6 +229,13 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
                 ) : null}
                 <Text style={[styles.presc, dir.text, { color: c.textSecondary }]}>{prescriptionText(t, { ...slot, sets: target.sets })}</Text>
                 <Text style={[styles.effort, dir.text, { color: c.textSecondary }]}>{effortText(t, slot)}</Text>
+                {supersets.has(slot.slotId) ? (
+                  <Text style={[styles.effort, dir.text, { color: c.primaryAccessible, fontWeight: '700' }]}>
+                    {t(supersets.get(slot.slotId)!.first ? 'workout.day.supersetFirst' : 'workout.day.supersetSecond', {
+                      group: supersets.get(slot.slotId)!.group,
+                    })}
+                  </Text>
+                ) : null}
               </View>
             </>
           );

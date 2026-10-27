@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import {
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import { ScrollCue } from '../../ui/ScrollCue.js';
 import { NamedModal } from '../../ui/NamedModal.js';
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
@@ -81,11 +81,7 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
         </View>
       </View>
 
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
-      >
+      <ScrollCue fadeColor={theme.colors.canvas} contentContainerStyle={styles.scrollContent}>
         {staples.map(({ item: staple, resolved }) => {
           const isJustLogged = justLoggedId === staple.id;
 
@@ -105,6 +101,7 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
               ]}
               onPress={() => handlePress(staple)}
               activeOpacity={0.7}
+              accessibilityRole="button"
             >
               <View style={styles.pillContent}>
                 <Icon
@@ -136,7 +133,7 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
             </TouchableOpacity>
           );
         })}
-      </ScrollView>
+      </ScrollCue>
 
       <NamedModal accessibilityName={t('a11y.dialog.quickStaples')}
         visible={pendingStaple !== null}
@@ -237,6 +234,8 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
   },
   pillBtn: {
+    minHeight: 44,
+    justifyContent: 'center',
     borderRadius: 9999,
     paddingVertical: 8,
     paddingHorizontal: 14,

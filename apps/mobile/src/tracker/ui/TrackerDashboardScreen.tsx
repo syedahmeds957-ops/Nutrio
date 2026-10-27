@@ -31,6 +31,7 @@ import { GuestAuthModal } from './GuestAuthModal.js';
 import { ProfileSheet } from './ProfileSheet.js';
 import { Icon } from '../../ui/Icon.js';
 import type { WeeklyWorkoutPlan, WorkoutLog } from '@nutrio/workout-core';
+import { ScrollCue } from '../../ui/ScrollCue.js';
 import { TodayWorkoutCard } from '../../workout/ui/TodayWorkoutCard.js';
 import { saveDailyActivities, loadDailyActivities, getOrInitHistoryStartDate } from '../activityStorage.js';
 import { recordFoodUsage } from '../mealPresets.js';
@@ -486,11 +487,6 @@ const defaultSlotForNow = (): MealSlot => {
                   <Text role="heading" aria-level={1} style={[styles.userName, { color: theme.colors.textPrimary }]}>
                     {userName}
                   </Text>
-                  <View style={[styles.freeTag, { backgroundColor: accentColor }]}>
-                    <Text style={[styles.freeTagText, { color: accentTextColor }]}>
-                      {t('tracker.dashboard.freeTag')}
-                    </Text>
-                  </View>
                 </View>
               </View>
             </TouchableOpacity>
@@ -524,9 +520,8 @@ const defaultSlotForNow = (): MealSlot => {
 
           {/* Navigation Action Chips. Content-width and scrollable: five equal-width
               pills clip their labels on a 360-390 px phone. */}
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
+          <ScrollCue
+            fadeColor={theme.colors.canvas}
             style={styles.navActionsScroll}
             contentContainerStyle={styles.navActionsRow}
           >
@@ -642,7 +637,7 @@ const defaultSlotForNow = (): MealSlot => {
               whole onboarding survey is not one of them. It still lives in the
               profile sheet, where settings-shaped actions belong.
             */}
-          </ScrollView>
+          </ScrollCue>
         </View>
 
         {/* 1. Daily Progress Hero Card + 2x2 Metric Grid */}

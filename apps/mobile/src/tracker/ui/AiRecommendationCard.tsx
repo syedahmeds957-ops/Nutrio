@@ -76,9 +76,8 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
   const subtitle = isCleanSlate
     ? t('tracker.aiCard.cleanSlate.subtitle')
     : t(`${suggestionBase}.subtitle`);
-  const rationale = isCleanSlate
-    ? t('tracker.aiCard.cleanSlate.rationale')
-    : t(`${suggestionBase}.rationale`, copyValues);
+  // The clean-slate subtitle already says what logging a meal unlocks.
+  const rationale = isCleanSlate ? null : t(`${suggestionBase}.rationale`, copyValues);
   const items: SuggestionItem[] = suggestion?.items ?? [];
   const totalKcal = suggestion?.calories ?? 0;
   const totalProtein = suggestion?.proteinGrams ?? 0;
@@ -149,7 +148,7 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
       {/* Suggestion Info */}
       <Text style={[styles.title, dir.text, { color: theme.colors.textPrimary }]}>{title}</Text>
       <Text style={[styles.subtitle, dir.text, { color: theme.colors.textSecondary }]}>{subtitle}</Text>
-      <Text style={[styles.rationale, { color: theme.colors.textMuted }]}>{rationale}</Text>
+      {rationale && <Text style={[styles.rationale, { color: theme.colors.textMuted }]}>{rationale}</Text>}
 
       {/* Macro Pills & Action Row */}
       <View style={[styles.footerRow, { borderTopColor: theme.colors.border }]}>
@@ -230,8 +229,9 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
 const styles = StyleSheet.create({
   card: {
     borderRadius: 22,
-    padding: 18,
+    padding: 16,
     marginHorizontal: 16,
+    marginTop: 14,
     marginBottom: 14,
     borderWidth: 1,
   },

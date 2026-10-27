@@ -14,6 +14,32 @@ export const resources = {
   ar: { translation: ar },
 } as const;
 
+/** Grouped, Latin digits, and no rounding beyond what the caller already did. */
+export function formatNumber(value: number): string {
+  return value.toLocaleString('en-US', { maximumFractionDigits: 10 });
+}
+
+/**
+ * Every number a string interpolates reads the same way (1,350, never 1350),
+ * in Latin digits in both languages like the rest of the app. Anything that is
+ * not a number passes through untouched. Replaces i18next's built-in
+ * formatter, so the `{{value, format}}` syntax is not available.
+ */
+const UNGROUPED_KEYS = new Set(['year', 'day', 'month']);
+
+const numberFormatter = {
+  type: 'formatter' as const,
+  init() {},
+  add() {},
+  addCached() {},
+  format(value: unknown, _format: unknown, _lng: unknown, options?: { interpolationkey?: string }) {
+    if (typeof value !== 'number') return value;
+    // A year is not a quantity: 2,027 is wrong.
+    if (options?.interpolationkey && UNGROUPED_KEYS.has(options.interpolationkey)) return String(value);
+    return formatNumber(value);
+  },
+};
+
 let initialized = false;
 
 /**
@@ -30,14 +56,15 @@ export function initI18n(language: AppLanguage = DEFAULT_LANGUAGE) {
   }
   initialized = true;
 
-  i18n.use(initReactI18next).init({
+  i18n.use(numberFormatter).use(initReactI18next).init({
     resources,
     lng: language,
     fallbackLng: DEFAULT_LANGUAGE,
     supportedLngs: [...APP_LANGUAGES],
     defaultNS: 'translation',
     // React already escapes anything rendered through a Text node.
-    interpolation: { escapeValue: false },
+    // alwaysFormat sends every interpolated value through the formatter below.
+    interpolation: { escapeValue: false, alwaysFormat: true },
     returnNull: false,
     // A key that never resolves should be loud in development and inert in
     // production, never a blank label on screen.

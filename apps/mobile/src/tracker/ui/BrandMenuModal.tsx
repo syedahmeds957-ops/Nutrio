@@ -17,6 +17,7 @@ import { BrandLogo } from '../../ui/BrandLogo.js';
 import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
 import { foodDisplayName } from '../foodDisplayName.js';
+import { DishThumb } from './DishThumb.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 export interface BrandMenuModalProps {
@@ -200,7 +201,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
           <BackButton variant="icon" onPress={onBack} />
 
           <View style={styles.headerTitleContainer}>
-            <BrandLogo brandId={currentBrand?.id || brandId || ''} size={34} style={{ marginRight: 10 }} />
+            <BrandLogo brandId={currentBrand?.id || brandId || ''} size={34} style={{ marginEnd: 10 }} />
             <View>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                 <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>
@@ -377,6 +378,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                         onPress={() => onSelectItem(item)}
                         activeOpacity={0.7}
                       >
+                        <DishThumb category={item.brandCategory || item.category} size={52} style={styles.itemThumb} />
                         <View style={styles.itemCardLeft}>
                           <View style={styles.itemNameRow}>
                             <Text style={[styles.itemName, { color: theme.colors.textPrimary }]}>
@@ -506,7 +508,7 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    marginLeft: 8,
+    marginStart: 8,
     fontSize: 15,
     backgroundColor: 'transparent',
     borderWidth: 0,
@@ -542,7 +544,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     letterSpacing: 0.8,
     marginBottom: 10,
-    marginLeft: 4,
+    marginStart: 4,
   },
   itemCard: {
     flexDirection: 'row',
@@ -553,9 +555,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderWidth: 1,
   },
+  itemThumb: {
+    marginEnd: 12,
+  },
   itemCardLeft: {
     flex: 1,
-    marginRight: 12,
+    marginEnd: 12,
   },
   itemNameRow: {
     marginBottom: 4,
@@ -563,12 +568,12 @@ const styles = StyleSheet.create({
   itemName: {
     fontSize: 15,
     fontWeight: '800',
-    marginRight: 6,
+    marginEnd: 6,
   },
   itemNameAr: {
     fontSize: 13,
     fontWeight: '700',
-    marginRight: 6,
+    marginEnd: 6,
   },
   itemServing: {
     fontSize: 13,

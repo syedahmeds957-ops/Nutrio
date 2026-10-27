@@ -7,7 +7,12 @@
     <title>Nutrio - Nutrition & Calorie Coach</title>
     <meta name="description" content="Nutrio is an AI nutrition and calorie coach with local Pakistani and Saudi foods, personal targets and daily tracking." />
     <meta name="theme-color" content="#F6F7FB" />
+    <meta name="robots" content="index, follow" />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Nutrio" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Nutrio - Nutrition & Calorie Coach" />
+    <meta name="twitter:description" content="Track meals from local menus, get targets built for you and a coach that knows your day." />
     <meta property="og:title" content="Nutrio - Nutrition & Calorie Coach" />
     <meta property="og:description" content="Track meals from local menus, get targets built for you and a coach that knows your day." />
 
@@ -28,6 +33,9 @@
         height: 100%;
         flex: 1;
       }
+      .shell { margin: auto; max-width: 360px; padding: 24px; text-align: center; color: #0A0B0D; }
+      .shell h1 { margin: 0 0 8px; font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
+      .shell p { margin: 0; color: #556274; font-size: 15px; line-height: 1.5; }
       /* The app's own faces (the same files the native app bundles): Inter for Latin,
          IBM Plex Sans Arabic for Arabic. Each file only downloads when its weight is used. */
       @font-face { font-family: 'Inter'; font-weight: 400; font-display: swap; src: url('/fonts/Inter-Regular.ttf') format('truetype'); }
@@ -57,6 +65,14 @@
       Nutrio needs JavaScript to run. Please turn it on and reload.
     </noscript>
     <!-- The root element for your Expo app. -->
-    <div id="root"></div>
+    <div id="root">
+      <!-- What a crawler, a screen reader or a slow connection gets before the
+           app's script runs. React replaces it on mount, so the app's own
+           heading is the only one left afterwards. -->
+      <main class="shell">
+        <h1>Nutrio</h1>
+        <p>An AI nutrition and calorie coach with local Pakistani and Saudi foods, personal targets and daily tracking.</p>
+      </main>
+    </div>
   </body>
 </html>

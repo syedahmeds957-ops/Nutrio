@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.8,
     textTransform: 'uppercase',
     marginBottom: 10,
-    marginLeft: 4,
+    marginStart: 4,
   },
   segmentedContainer: {
     flexDirection: 'row',
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
   },
   rowDivider: {
     height: 1,
-    marginLeft: 16,
+    marginStart: 16,
   },
   inputError: {
     color: '#EF4444',
@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
     color: '#EF4444',
     fontSize: 12,
     marginTop: 6,
-    marginLeft: 4,
+    marginStart: 4,
   },
   rowErrorText: {
     color: '#EF4444',

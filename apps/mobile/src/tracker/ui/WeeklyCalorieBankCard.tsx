@@ -338,8 +338,8 @@ const styles = StyleSheet.create({
     height: 94,
     // Left gutter matches the caption's width so no bar sits under "TARGET".
     // The caption used to start at x=0, right on top of Monday's bar.
-    paddingLeft: TARGET_LABEL_GUTTER,
-    paddingRight: 8,
+    paddingStart: TARGET_LABEL_GUTTER,
+    paddingEnd: 8,
   },
   barCol: {
     alignItems: 'center',

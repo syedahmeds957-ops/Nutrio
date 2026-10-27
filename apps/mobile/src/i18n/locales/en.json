@@ -310,6 +310,7 @@
     "badge": "NUTRIO PREMIUM",
     "bestValue": "Best value · 42% off",
     "cancelAnytime": "Cancel anytime",
+    "currencyLabel": "Currency:",
     "currency": {
       "PKR": "PKR (Pakistan)",
       "USD": "USD (Global)"
@@ -364,8 +365,8 @@
         "perDay": "~{{value}} kcal/day",
         "perWeek": "~{{value}} kcal/week",
         "title": {
-          "PK": "Pakistani dietary levers",
-          "SA": "Saudi dietary levers"
+          "PK": "Pakistani eating habits that add up",
+          "SA": "Saudi eating habits that add up"
         },
         "weeklyLoad": {
           "PK": "Weekly chai energy load:",
@@ -380,8 +381,8 @@
       "subtitle": "Your baseline resting requirements and lifestyle energy expenditure.",
       "tdee": "Total daily expenditure (TDEE)",
       "tdeeSub": "Estimated maintenance calorie baseline",
-      "title": "Metabolic analysis",
-      "topLevers": "Top 3 actionable levers"
+      "title": "Your energy needs",
+      "topLevers": "3 changes that matter most"
     },
     "cultural": {
       "activateRamadan": "Activate Ramadan mode",
@@ -486,7 +487,7 @@
         "sub": "Balance calories to current expenditure. Optimizes athletic energy and recovery.",
         "title": "Maintenance & performance"
       },
-      "maxSafeRate": "Max clinically safe rate: {{rate}} kg/week (1% of your bodyweight)",
+      "maxSafeRate": "Fastest safe pace: {{rate}} kg/week (1% of your body weight)",
       "pacesDisabledReason": "Faster paces are switched off because they are above the safe limit for your weight ({{rate}} kg/week).",
       "pacingAdvice": {
         "aggressive": "Aggressive pace (>1% bodyweight/week) increases risk of lean muscle and water loss.",
@@ -498,7 +499,7 @@
       },
       "primaryTarget": "Primary target",
       "projectedMilestone": "Projected milestone",
-      "subtitle": "Set your primary focus and weekly pace. Safety bounds are strictly enforced by our clinical engine.",
+      "subtitle": "Set your main goal and weekly pace. Paces that are unsafe for your body are switched off.",
       "targetWeight": "Goal target weight (kg)",
       "targetWeightHelper": "Sustainable target to project your timeline",
       "title": "Choose your target goal",
@@ -518,17 +519,17 @@
       "caloriesPerDay": "calories / day",
       "dailyFibre": "Daily fibre:",
       "dailyTarget": "Daily target",
-      "deficit": "{{value}} kcal deficit from maintenance ({{tdee}} kcal)",
-      "formulationComplete": "Clinical formulation complete",
+      "deficit": "−{{value}} kcal vs maintenance ({{tdee}})",
+      "formulationComplete": "Your plan is ready",
       "hydration": "Hydration:",
       "macroBreakdown": "Daily macronutrient breakdown",
-      "maintenance": "Matched to maintenance TDEE ({{tdee}} kcal)",
+      "maintenance": "Matched to maintenance ({{tdee}} kcal)",
       "safeguardBmr": "Target never goes below your resting BMR ({{bmr}} kcal).",
-      "safeguardDeficit": "Caloric deficit safely capped at 25% of TDEE to prevent muscle catabolism.",
-      "safeguardFat": "Hormonal fat floor preserved (≥0.6 g/kg & ≥20% kcal).",
-      "safeguards": "Clinical safety safeguards",
-      "subtitle": "Formulated deterministically from your biometric metrics, Mifflin-St Jeor TDEE, and cultural levers.",
-      "surplus": "+{{value}} kcal surplus above maintenance ({{tdee}} kcal)",
+      "safeguardDeficit": "Your daily deficit is capped at 25% of the calories you burn, to protect your muscle.",
+      "safeguardFat": "Fat never drops below 0.6 g per kg of body weight or 20% of calories, which your hormones need.",
+      "safeguards": "Safety limits",
+      "subtitle": "Worked out from your body measurements, how active you are and the way you eat.",
+      "surplus": "+{{value}} kcal vs maintenance ({{tdee}})",
       "title": "Your personalized targets"
     },
     "slotCard": {
@@ -553,13 +554,13 @@
       "title": "Swap {{slot}}"
     },
     "transition": {
-      "eyebrow": "Clinical nutrition engine",
+      "eyebrow": "Building your plan",
       "steps": {
-        "cultural": "Synthesizing cultural food levers & lifestyle preferences…",
-        "deficit": "Balancing macronutrient floor & safe deficit pacing…",
-        "tdee": "Calibrating Mifflin-St Jeor TDEE & metabolic baselines…"
+        "cultural": "Fitting the foods you eat and your daily routine…",
+        "deficit": "Setting a safe pace and your protein, carbs and fat…",
+        "tdee": "Working out how many calories you burn in a day…"
       },
-      "subtitle": "Formulating exact caloric targets, macro splits, and cultural levers.",
+      "subtitle": "Working out your calorie target, your protein, carbs and fat, and the foods you actually eat.",
       "title": "Synthesizing your plan",
       "viewPlanNow": "View plan now"
     },
@@ -860,7 +861,6 @@
       "awaitingFirstMeal": "Awaiting first meal",
       "badge": "AI coach daily bite",
       "cleanSlate": {
-        "rationale": "Our AI engine analyzes your real-time intake to craft balanced local meal suggestions as you log.",
         "subtitle": "Log your breakfast or lunch to activate personalized AI meal suggestions",
         "title": "Ready for your first meal"
       },
@@ -1176,6 +1176,7 @@
       "increaseQty": "Increase quantity",
       "kcalEach": "{{value}} kcal each",
       "logThis": "Log this",
+      "logToMeal": "Log to {{meal}}",
       "logToSlot": "Log to meal slot",
       "makeItYours": "Make it yours",
       "myServing": "My serving",
@@ -1191,7 +1192,6 @@
       "dailyTarget": "Daily target",
       "darkMode": "Dark mode",
       "diary": "Diary",
-      "freeTag": "Free",
       "language": "Language",
       "languageAuto": "Match region",
       "lightMode": "Light mode",
@@ -1286,8 +1286,8 @@
       "dailyTarget": "Daily target",
       "eatenSoFar": "{{eaten}} kcal eaten so far",
       "energyBudget": "Energy budget",
-      "free": "100% free",
       "goalCaption": "Goal",
+      "weekBar": "{{day}}: {{percent}}% of your daily goal",
       "gramsLeft": "{{value}} g left",
       "gramsOver": "{{value}} g over",
       "kcalEatenLeft": "{{eaten}} eaten · {{value}} left",
@@ -1356,6 +1356,7 @@
         "SA": "Search Kabsa, AlBaik, Mandi, Gahwa, Shawarma…"
       },
       "searching": "Searching…",
+      "clearSearch": "Clear search",
       "switchRegion": "Switch region",
       "title": "Log a meal",
       "variant": {
@@ -1591,6 +1592,7 @@
       "legs": "Legs"
     },
     "week": {
+      "done": "Done",
       "restDay": "Rest day",
       "exercises": "{{count}} exercise",
       "exercises_other": "{{count}} exercises",
@@ -1655,6 +1657,8 @@
     "day": {
       "startWorkout": "Start workout",
       "details": "Details for {{name}}",
+      "supersetFirst": "Superset {{group}} (1 of 2): go straight to the next exercise",
+      "supersetSecond": "Superset {{group}} (2 of 2): rest after this, then repeat",
       "doneOn": "Done · {{date}}"
     },
     "detail": {
@@ -1843,6 +1847,12 @@
         "under_1_month": "Under a month",
         "1_to_6_months": "1–6 months",
         "over_6_months": "Over 6 months"
+      },
+      "styleQ": "How do you like to structure your sets?",
+      "styleHint": "Supersets pair opposing accessory exercises back to back, so the same work takes less time. Not used in Ramadan or low-intensity plans.",
+      "style": {
+        "straight": "One exercise at a time",
+        "supersets": "Supersets"
       },
       "liftsQ": "Your current lifts",
       "liftsHint": "Weight × reps you can do now. We start you from here instead of guessing.",

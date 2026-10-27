@@ -244,12 +244,12 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
             <Icon
               name="swap"
               size={13}
-              color={isDark ? theme.colors.primaryLime : '#166534'}
+              color={isDark ? theme.colors.primaryLime : '#4B6200'}
             />
             <Text
               style={[
                 styles.swapButtonText,
-                { color: isDark ? theme.colors.primaryLime : '#166534' },
+                { color: isDark ? theme.colors.primaryLime : '#4B6200' },
               ]}
             >
               {t('plan.slotCard.swapAlternatives')}
@@ -373,7 +373,7 @@ const styles = StyleSheet.create({
   },
   itemInfo: {
     flex: 1,
-    marginRight: 10,
+    marginEnd: 10,
   },
   itemTitleRow: {
     flexDirection: 'row',

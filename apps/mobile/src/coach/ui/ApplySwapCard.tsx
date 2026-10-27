@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { getExercise } from '@nutrio/workout-core';
+import { getExercise } from '../../workout/core.js';
 import { useTheme } from '../../theme.js';
 import { useI18nState, useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';

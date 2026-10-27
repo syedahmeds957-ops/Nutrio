@@ -129,6 +129,14 @@ describe('increments per equipment', () => {
     expect(startingLoad(getExercise('barbell-squat')!, gym)).toBe(20);
     expect(startingLoad(getExercise('ez-bar-curl')!, gym)).toBe(10);
   });
+
+  it('starts a dumbbell lift one step up, so + then − walks the same 2 kg rungs', () => {
+    const dumbbell = getExercise('goblet-squat')!;
+    const first = startingLoad(dumbbell, gym);
+    expect(first).toBe(loadIncrement(dumbbell));
+    expect(stepLoad(dumbbell, gym, first, -1)).toBe(0);
+    expect(stepLoad(dumbbell, gym, first, 1)).toBe(first * 2);
+  });
 });
 
 describe('home dumbbells with a limited set', () => {

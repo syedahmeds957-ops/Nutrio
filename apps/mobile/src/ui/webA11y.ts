@@ -61,3 +61,19 @@ export function installWebA11y(skipLabel: string): void {
   }
   link.textContent = skipLabel;
 }
+
+let inertHolders = 0;
+
+/**
+ * While a dialog is open, the screen behind it must not take focus or be read
+ * out: react-native-web portals a Modal to the body, so the app root keeps its
+ * tab stops. Counted, because dialogs can open on top of one another.
+ */
+export function setAppInert(inert: boolean): void {
+  const doc = (globalThis as { document?: Document }).document;
+  const main = doc?.getElementById(MAIN_ID);
+  inertHolders = Math.max(0, inertHolders + (inert ? 1 : -1));
+  if (!main) return;
+  if (inertHolders > 0) main.setAttribute('inert', '');
+  else main.removeAttribute('inert');
+}

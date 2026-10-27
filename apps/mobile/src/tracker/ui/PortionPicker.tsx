@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { HapticFeedback } from '../../ui/haptics.js';
 import { LabelledServing, PERSONAL_SERVING_ID } from '../personalServings.js';
-import { styles } from './ItemCustomizerModal.styles.js';
+import { withoutAmountBracket } from '../servingLabel.js';
+import { createStyles } from './ItemCustomizerModal.styles.js';
 
 const ACCENT = '#A4EB3F';
-const ACCENT_TEXT_LIGHT = '#15803D';
+const ACCENT_TEXT_LIGHT = '#4B6200';
 const ERROR = '#DC2626';
 
 export interface PortionPickerProps {
+  /** Sits inside another card (no border, padding or margin of its own). */
+  embedded?: boolean;
   servings: LabelledServing[];
   selectedIndex: number;
   onSelectServing: (index: number) => void;
@@ -36,6 +39,7 @@ const GRAM_STEPS = [-50, -10, 10, 50];
  * grams that can be saved as their standard serving for next time.
  */
 export const PortionPicker: React.FC<PortionPickerProps> = ({
+  embedded = false,
   servings,
   selectedIndex,
   onSelectServing,
@@ -49,13 +53,20 @@ export const PortionPicker: React.FC<PortionPickerProps> = ({
   onResetMine,
 }) => {
   const { theme, isDark } = useTheme();
+  const styles = useMemo(() => createStyles(theme.colors), [theme]);
   const { t } = useTranslation();
   const dir = useTextDirection();
   const accentText = isDark ? ACCENT : ACCENT_TEXT_LIGHT;
   const hasPersonal = servings.some((s) => s.personalId === PERSONAL_SERVING_ID);
 
   return (
-    <View style={[styles.portionControlCard, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}>
+    <View
+      style={
+        embedded
+          ? [styles.portionEmbedded, { borderTopColor: theme.colors.border }]
+          : [styles.portionControlCard, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]
+      }
+    >
       <View style={styles.portionHeaderRow}>
         <Text style={[styles.portionSectionTitle, dir.text, { color: theme.colors.textMuted }]}>
           {t('tracker.customizer.portionSize')}
@@ -97,7 +108,7 @@ export const PortionPicker: React.FC<PortionPickerProps> = ({
                   aria-checked={isSelected}
                 >
                   <Text style={[styles.servingPillText, { color: theme.colors.textMuted }, isSelected && styles.servingPillTextActive]}>
-                    {srv.label || srv.description}
+                    {withoutAmountBracket(srv.label || srv.description || '')}
                   </Text>
                   <Text style={[styles.servingPillGrams, { color: theme.colors.textMuted }, isSelected && styles.servingPillGramsActive]}>
                     {t('common.gramsValue', { value: srv.grams })}
@@ -141,7 +152,7 @@ export const PortionPicker: React.FC<PortionPickerProps> = ({
               maxLength={7}
               accessibilityLabel={t('tracker.customizer.gramsField')}
             />
-            <Text style={[styles.gramDisplayUnit, { color: isDark ? ACCENT : '#4D7C0F' }]}>g</Text>
+            <Text style={[styles.gramDisplayUnit, { color: isDark ? ACCENT : '#4B6200' }]}>g</Text>
           </View>
 
           <View style={styles.gramsAdjustRow}>
@@ -176,11 +187,12 @@ export const PortionPicker: React.FC<PortionPickerProps> = ({
 
 const GramChip: React.FC<{ delta: number; onPress: (delta: number) => void }> = ({ delta, onPress }) => {
   const { theme, isDark } = useTheme();
+  const styles = useMemo(() => createStyles(theme.colors), [theme]);
   const { t } = useTranslation();
   const label = `${delta > 0 ? '+' : ''}${t('common.gramsValue', { value: delta })}`;
   return (
     <TouchableOpacity
-      style={[styles.gramChip, { backgroundColor: isDark ? '#272A33' : '#E2E8F0' }]}
+      style={[styles.gramChip, { backgroundColor: theme.colors.border }]}
       onPress={() => onPress(delta)}
       activeOpacity={0.7}
       accessibilityRole="button"

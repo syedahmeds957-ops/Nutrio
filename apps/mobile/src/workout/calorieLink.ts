@@ -4,7 +4,8 @@ import {
   estimateWorkoutPlanWeeklyKcal,
   type WorkoutSegmentStyle,
 } from '@nutrio/nutrition-core';
-import { getExercise, planSettings, type WeeklyWorkoutPlan, type WorkoutSession } from '@nutrio/workout-core';
+import type { WeeklyWorkoutPlan, WorkoutSession } from '@nutrio/workout-core';
+import { getExercise, planSettings } from './core.js';
 import { computePlan } from '../plan/engine.js';
 import type { ComputedUserPlan } from '../plan/types.js';
 import type { LifestyleSurveyPayload } from '../survey/types.js';

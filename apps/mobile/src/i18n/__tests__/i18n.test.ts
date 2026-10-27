@@ -92,6 +92,15 @@ describe('language selection', () => {
     expect(i18n.t('survey.progress.step', { current: 2, total: 6 })).toBe('Step 2 of 6');
   });
 
+  it('groups interpolated numbers the same way in both languages', () => {
+    initI18n('en');
+    expect(i18n.t('common.kcalValue', { value: 1350 })).toBe('1,350 kcal');
+    expect(i18n.t('common.kcalValue', { value: 72.5 })).toBe('72.5 kcal');
+    initI18n('ar');
+    expect(i18n.t('common.kcalValue', { value: 1350 })).toContain('1,350');
+    initI18n('en');
+  });
+
   it('selects the Arabic dual form, which English does not have', () => {
     initI18n('ar');
     expect(i18n.t('tracker.diary.dishCount', { count: 2 })).toBe('طبقان');

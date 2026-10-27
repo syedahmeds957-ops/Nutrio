@@ -8,6 +8,7 @@ import {
   type PlankAbility,
   type PushUpAbility,
   type RoutineSplit,
+  type SessionStyle,
   type SportKind,
   type TrainingBackground,
   type TrainingDuration,
@@ -40,6 +41,7 @@ const PUSH_UPS: PushUpAbility[] = ['none', '1_to_5', '6_to_15', '16_plus'];
 const PLANKS: PlankAbility[] = ['under_20', '20_to_45', 'over_45'];
 const WALKS: WalkAbility[] = ['under_10', '10_to_20', '20_to_40', 'over_40'];
 const SPLITS: RoutineSplit[] = ['full_body', 'upper_lower', 'ppl', 'body_part', 'classes', 'other'];
+const STYLES: SessionStyle[] = ['straight', 'supersets'];
 const DURATIONS: TrainingDuration[] = ['under_3_months', '3_to_12_months', 'over_a_year'];
 const BREAKS: BreakLength[] = ['under_1_month', '1_to_6_months', 'over_6_months'];
 const HABITS: CardioHabit[] = ['none', 'under_15', '15_to_30', '30_to_60', 'over_60'];
@@ -195,6 +197,10 @@ export const TellUsMore: React.FC<TellUsMoreProps> = ({ part, settings, update, 
               {chips(BREAKS, (v) => now.breakLength === v, (v) => update(setTrainingNow(settings, { breakLength: v })), 'break')}
             </>
           ) : null}
+
+          <Question optional>{t('workout.more.styleQ')}</Question>
+          <Text style={[styles.hint, dir.text, { color: c.textSecondary }]}>{t('workout.more.styleHint')}</Text>
+          {chips(STYLES, (v) => (profile.sessionStyle ?? 'straight') === v, (v) => update(updateProfile(settings, { sessionStyle: v })), 'style')}
 
           <Question optional>{now?.active === false ? t('workout.more.usedToLiftQ') : t('workout.more.liftsQ')}</Question>
           <Text style={[styles.hint, dir.text, { color: c.textSecondary }]}>

@@ -5,6 +5,7 @@ import { isRamadan, settingsOn } from './ramadan.js';
 import { layoutForRoutine, routineExercisesFor } from './routine.js';
 import { alternatesFor, isAllowed, pickExercise } from './select.js';
 import { chooseSplit, SLOTS_FOR_MINUTES, slotsWithFocus } from './split.js';
+import { pairSupersets, supersetPartner, supersetsApply } from './superset.js';
 import {
   CardioBlock,
   Equipment,
@@ -13,6 +14,7 @@ import {
   JointLoad,
   PlannedSlot,
   SessionMinutes,
+  SessionStyle,
   SessionTemplateId,
   Weekday,
   WeeklyWorkoutPlan,
@@ -26,6 +28,7 @@ const SESSION_MINUTES: readonly SessionMinutes[] = [20, 30, 45, 60, 75];
 const HOME_EQUIPMENT: readonly Equipment[] = ['dumbbell', 'kettlebell', 'bands', 'bench', 'pullup_bar'];
 const FOCUS: readonly FocusArea[] = ['full_body', 'upper', 'lower_glutes', 'core', 'arms'];
 const JOINTS: readonly JointLoad[] = ['knee', 'lower_back', 'shoulder', 'wrist'];
+const STYLES: readonly SessionStyle[] = ['straight', 'supersets'];
 
 const WARM_UP_SEC = 5 * 60;
 const WORK_SEC_PER_SET = 40;
@@ -54,16 +57,42 @@ export function validateSettings(settings: WorkoutSettings): void {
   if (settings.dumbbellWeightsKg.some((kg) => !(kg > 0))) throw new InvalidWorkoutSettings('Dumbbell weights must be positive');
   if (settings.focus.some((area) => !FOCUS.includes(area))) throw new InvalidWorkoutSettings('Unknown focus area');
   if (settings.protectedJoints.some((joint) => !JOINTS.includes(joint))) throw new InvalidWorkoutSettings('Unknown joint');
+  const style = settings.profile?.sessionStyle;
+  if (style !== undefined && !STYLES.includes(style)) throw new InvalidWorkoutSettings('Unknown session style');
 }
 
 function slotSeconds(slot: PlannedSlot): number {
   return slot.sets * (WORK_SEC_PER_SET + slot.restSec);
 }
 
-/** Warm-up, every set with its rest, and the cardio block (or an old plan's finisher). */
+/** A superset: both exercises back to back, one rest per round. Sets one has over the other are straight. */
+function pairSeconds(a: PlannedSlot, b: PlannedSlot): number {
+  const rounds = Math.min(a.sets, b.sets);
+  const longer = a.sets >= b.sets ? a : b;
+  return rounds * (2 * WORK_SEC_PER_SET + Math.max(a.restSec, b.restSec)) + (longer.sets - rounds) * (WORK_SEC_PER_SET + longer.restSec);
+}
+
+function slotsSeconds(slots: readonly PlannedSlot[]): number {
+  const counted = new Set<string>();
+  let total = 0;
+  for (const slot of slots) {
+    if (counted.has(slot.slotId)) continue;
+    counted.add(slot.slotId);
+    const mate = supersetPartner(slots, slot);
+    if (!mate || counted.has(mate.slotId)) {
+      total += slotSeconds(slot);
+      continue;
+    }
+    counted.add(mate.slotId);
+    total += pairSeconds(slot, mate);
+  }
+  return total;
+}
+
+/** Warm-up, every set with its rest (a superset's rest once per round), and the cardio block (or an old plan's finisher). */
 export function estimateMinutes(slots: readonly PlannedSlot[], finisher?: Finisher, cardioMinutesInSession = 0): number {
   const finisherSec = finisher ? finisher.rounds * (finisher.workSec + finisher.restSec) : 0;
-  const total = WARM_UP_SEC + slots.reduce((sum, slot) => sum + slotSeconds(slot), 0) + finisherSec + cardioMinutesInSession * 60;
+  const total = WARM_UP_SEC + slotsSeconds(slots) + finisherSec + cardioMinutesInSession * 60;
   return Math.round(total / 60);
 }
 
@@ -77,8 +106,16 @@ function fitToTime(slots: PlannedSlot[], targetMinutes: number): PlannedSlot[] {
   while (estimateMinutes(fitted) > targetMinutes + 5) {
     const lastAccessory = fitted.map((slot) => slot.role).lastIndexOf('accessory');
     if (lastAccessory >= 0) {
-      if (fitted[lastAccessory].sets > MIN_SETS) fitted[lastAccessory].sets -= 1;
-      else fitted.splice(lastAccessory, 1);
+      const slot = fitted[lastAccessory];
+      const mate = supersetPartner(fitted, slot);
+      // A superset loses a set from both exercises, so the pair stays even; dropping one leaves its partner as a straight set.
+      if (slot.sets > MIN_SETS && (!mate || mate.sets > MIN_SETS)) {
+        slot.sets -= 1;
+        if (mate) mate.sets -= 1;
+      } else {
+        if (mate) delete mate.supersetWith;
+        fitted.splice(lastAccessory, 1);
+      }
       continue;
     }
     // Main lifts lose sets evenly: the one with the most sets goes first.
@@ -198,7 +235,7 @@ function buildSession(input: SessionInput): WorkoutSession {
 
   // The cardio block is counted inside the session length, so strength work fits in what is left.
   const minutes = cardioMinutes(settings);
-  const fitted = fitToTime(slots, input.targetMinutes - minutes);
+  const fitted = fitToTime(supersetsApply(settings) ? pairSupersets(slots) : slots, input.targetMinutes - minutes);
   const pool = cardioPool(settings, seed, prefix);
   const cardio: CardioBlock | undefined = pool.length
     ? { slotId: `${prefix}:cardio:0`, exerciseId: pool[0].id, minutes, intensity: cardioIntensity(settings), alternates: pool.map((e) => e.id) }

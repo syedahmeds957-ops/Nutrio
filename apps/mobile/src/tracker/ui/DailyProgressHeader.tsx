@@ -20,13 +20,13 @@ interface MacroTileProps {
   goal: number;
   color: string;
   overKey: string;
-  leftKey: string;
   fallback: string;
 }
 
 /**
- * One macro tile: the amount eaten, the goal beside it as a small
- * denominator, the progress bar, and how far over or under the goal you are.
+ * One macro tile: the label, "eaten / goal unit" once, and a progress bar
+ * whose empty track is tinted in the macro's colour. The only extra line is
+ * the warning when you are over the goal (under it, the bar says it).
  */
 const MacroTile: React.FC<MacroTileProps> = ({
   label,
@@ -35,7 +35,6 @@ const MacroTile: React.FC<MacroTileProps> = ({
   goal,
   color,
   overKey,
-  leftKey,
   fallback,
 }) => {
   const { theme } = useTheme();
@@ -46,7 +45,6 @@ const MacroTile: React.FC<MacroTileProps> = ({
   const diff = Math.round(goal) - eaten;
   const isOver = hasGoal && diff < 0;
   const pct = hasGoal ? Math.min(100, Math.max(0, (eaten / goal) * 100)) : eaten > 0 ? 100 : 0;
-  const hairline = theme.isDark ? 'rgba(255, 255, 255, 0.16)' : 'rgba(15, 23, 42, 0.13)';
 
   return (
     <View
@@ -55,41 +53,31 @@ const MacroTile: React.FC<MacroTileProps> = ({
         { backgroundColor: theme.colors.surface, borderColor: theme.colors.border },
       ]}
     >
-      <View style={styles.tileHeader}>
-        <Text style={[styles.tileValue, { color: theme.colors.textPrimary }]}>
-          {eaten.toLocaleString('en-US')}
-          <Text style={[styles.tileUnit, { color: theme.colors.textSecondary }]}>{unit}</Text>
-        </Text>
-        {hasGoal && (
-          <View style={[styles.goalBox, { borderColor: hairline }]}>
-            <Text style={[styles.goalCaption, { color: theme.colors.textMuted }]}>
-              {t('tracker.header.goalCaption')}
-            </Text>
-            <Text style={[styles.goalValue, { color: theme.colors.textSecondary }]}>
-              {Math.round(goal).toLocaleString('en-US')}
-            </Text>
-          </View>
-        )}
-      </View>
       <Text style={[styles.tileLabel, dir.text, { color: theme.colors.textSecondary }]}>{label}</Text>
+      <Text style={[styles.tileValue, dir.text, { color: theme.colors.textPrimary }]} numberOfLines={1}>
+        {eaten.toLocaleString('en-US')}
+        {hasGoal && (
+          <Text style={[styles.tileGoal, { color: theme.colors.textMuted }]}>
+            {` / ${Math.round(goal).toLocaleString('en-US')}`}
+          </Text>
+        )}
+        <Text style={[styles.tileUnit, { color: theme.colors.textSecondary }]}>{` ${unit}`}</Text>
+      </Text>
       <View
         accessibilityRole="progressbar"
         accessibilityLabel={label}
         accessibilityValue={{ min: 0, max: 100, now: Math.round(pct) }}
-        style={[
-          styles.tileProgressTrack,
-          { backgroundColor: theme.isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.06)' },
-        ]}
+        style={[styles.tileProgressTrack, { backgroundColor: `${color}33` }]}
       >
         <View style={[styles.tileProgressFill, { width: `${pct}%`, backgroundColor: color }]} />
       </View>
-      <Text
-        style={[styles.tileSub, { color: isOver ? theme.colors.danger : theme.colors.textMuted }]}
-      >
-        {hasGoal
-          ? t(isOver ? overKey : leftKey, { value: Math.abs(diff).toLocaleString('en-US') })
-          : fallback}
-      </Text>
+      {(isOver || !hasGoal) && (
+        <Text
+          style={[styles.tileSub, { color: isOver ? theme.colors.danger : theme.colors.textMuted }]}
+        >
+          {isOver ? t(overKey, { value: Math.abs(diff).toLocaleString('en-US') }) : fallback}
+        </Text>
+      )}
     </View>
   );
 };
@@ -153,12 +141,6 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
               {t('tracker.header.energyBudget')}
             </Text>
           </View>
-          <View style={styles.heroStatusBadge}>
-            <View style={styles.heroStatusDot} />
-            <Text style={styles.heroStatusText}>
-              {t('tracker.header.free')}
-            </Text>
-          </View>
         </View>
 
         <View style={styles.heroBodyRow}>
@@ -201,10 +183,27 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
                 ? weeklyHistoryFills[idx]
                 : 0; // 0 for unlogged days
               const hasIntake = dayFillPct > 0;
+              const isFuture = idx > currentDayOfWeek;
+              const isMissed = idx < currentDayOfWeek && !hasIntake;
 
               return (
-                <View key={idx} style={styles.weekDayCol}>
-                  <View style={styles.pillTrack}>
+                <View
+                  key={idx}
+                  style={styles.weekDayCol}
+                  accessible
+                  accessibilityLabel={t('tracker.header.weekBar', {
+                    day: t(`common.weekdayShort.${dayKey}`),
+                    percent: Math.round(dayFillPct * 100),
+                  })}
+                >
+                  <View
+                    style={[
+                      styles.pillTrack,
+                      isToday && styles.pillTrackToday,
+                      isFuture && styles.pillTrackFuture,
+                    ]}
+                  >
+                    {isMissed && <View style={styles.pillMissedDot} />}
                     {hasIntake && (
                       <View
                         style={[
@@ -213,7 +212,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
                             height: `${Math.max(12, Math.round(dayFillPct * 100))}%`,
                             backgroundColor: isToday
                               ? '#0A0B0D'
-                              : 'rgba(10, 11, 13, 0.35)',
+                              : 'rgba(10, 11, 13, 0.55)',
                           },
                         ]}
                       />
@@ -223,6 +222,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
                     style={[
                       styles.weekDayLabel,
                       isToday && styles.weekDayLabelActive,
+                      isFuture && styles.weekDayLabelFuture,
                     ]}
                   >
                     {t(`common.weekdayShort.${dayKey}`)}
@@ -234,7 +234,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
         </View>
       </View>
 
-      {/* 2. 2x2 Metric Grid Tiles (Protein, Carbs, Fat, Calories) */}
+      {/* 2. Macro row (Protein, Carbs, Fat). Calories live in the hero above. */}
       <View style={styles.metricGrid}>
         <MacroTile
           label={t('common.protein')}
@@ -243,7 +243,6 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
           goal={targetProteinGrams}
           color={theme.colors.protein}
           overKey="tracker.header.gramsOver"
-          leftKey="tracker.header.gramsLeft"
           fallback={t('tracker.header.consumedToday')}
         />
         <MacroTile
@@ -253,7 +252,6 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
           goal={targetCarbGrams}
           color={theme.colors.carbs}
           overKey="tracker.header.gramsOver"
-          leftKey="tracker.header.gramsLeft"
           fallback={t('tracker.header.consumedToday')}
         />
         <MacroTile
@@ -263,18 +261,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
           goal={targetFatGrams}
           color={theme.colors.fat}
           overKey="tracker.header.gramsOver"
-          leftKey="tracker.header.gramsLeft"
           fallback={t('tracker.header.consumedToday')}
-        />
-        <MacroTile
-          label={t('common.calories')}
-          value={totalCaloriesConsumed}
-          unit={` ${t('common.kcal')}`}
-          goal={targetCalories}
-          color={theme.colors.primaryAccessible}
-          overKey="tracker.header.kcalOver"
-          leftKey="tracker.header.kcalLeft"
-          fallback={t('tracker.header.noTargetHint')}
         />
       </View>
     </View>
@@ -323,31 +310,11 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     letterSpacing: 0.8,
   },
-  heroStatusBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-    backgroundColor: 'rgba(10, 11, 13, 0.12)',
-    paddingVertical: 4,
-    paddingHorizontal: 10,
-    borderRadius: 9999,
-  },
-  heroStatusDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: '#0A0B0D',
-  },
-  heroStatusText: {
-    fontSize: 10,
-    fontWeight: '800',
-    color: '#0A0B0D',
-    letterSpacing: 0.5,
-  },
   heroBodyRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-end',
+    // Stretch, so the week bars span the same height as the calorie text beside them.
+    alignItems: 'stretch',
     gap: 16,
   },
   heroNumbersCol: {
@@ -376,25 +343,43 @@ const styles = StyleSheet.create({
   },
   weekPillChart: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
-    gap: 6,
-    paddingBottom: 4,
+    alignItems: 'stretch',
+    gap: 7,
   },
   weekDayCol: {
     alignItems: 'center',
     gap: 4,
   },
   pillTrack: {
-    width: 10,
-    height: 60,
+    width: 16,
+    flex: 1,
+    minHeight: 60,
     // A pale, outlined vessel: the dark fill is what shows intake, so an empty
     // day must not look half-full.
-    backgroundColor: 'rgba(255, 255, 255, 0.42)',
+    backgroundColor: 'rgba(255, 255, 255, 0.55)',
     borderWidth: 1,
-    borderColor: 'rgba(10, 11, 13, 0.22)',
+    borderColor: 'rgba(10, 11, 13, 0.35)',
     borderRadius: 9999,
     justifyContent: 'flex-end',
+    alignItems: 'center',
     overflow: 'hidden',
+  },
+  // Days still to come are dimmed; a past day with nothing logged keeps a full
+  // track with a small dot, so "missed" and "not yet" read differently.
+  pillTrackFuture: {
+    opacity: 0.45,
+  },
+  pillMissedDot: {
+    width: 5,
+    height: 5,
+    borderRadius: 9999,
+    marginBottom: 4,
+    backgroundColor: 'rgba(10, 11, 13, 0.4)',
+  },
+  // Today's vessel is outlined harder, so the current day reads at a glance.
+  pillTrackToday: {
+    borderColor: 'rgba(10, 11, 13, 0.75)',
+    borderWidth: 1.5,
   },
   pillFill: {
     width: '100%',
@@ -404,8 +389,11 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '700',
     color: '#0A0B0D',
-    opacity: 0.6,
+    opacity: 0.75,
     fontVariant: ['tabular-nums'],
+  },
+  weekDayLabelFuture: {
+    opacity: 0.5,
   },
   weekDayLabelActive: {
     opacity: 1,
@@ -413,70 +401,51 @@ const styles = StyleSheet.create({
   },
   metricGrid: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
+    gap: 8,
   },
   metricTile: {
-    width: '48%',
+    flex: 1,
     borderRadius: 22,
-    padding: 16,
+    paddingVertical: 14,
+    paddingHorizontal: 12,
     borderWidth: 1,
   },
-  tileHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 4,
-  },
   tileValue: {
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: '800',
-    letterSpacing: -0.4,
+    letterSpacing: -0.3,
     fontVariant: ['tabular-nums'],
+    marginBottom: 8,
+  },
+  tileGoal: {
+    fontSize: 12,
+    fontWeight: '600',
+    letterSpacing: 0,
   },
   tileLabel: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '700',
     textTransform: 'uppercase',
     letterSpacing: 0.5,
-    marginBottom: 8,
+    marginBottom: 4,
   },
   tileProgressTrack: {
-    height: 4,
-    borderRadius: 2,
+    height: 6,
+    borderRadius: 3,
     overflow: 'hidden',
-    marginBottom: 6,
   },
   tileProgressFill: {
     height: '100%',
-    borderRadius: 2,
+    borderRadius: 3,
   },
   tileUnit: {
     fontSize: 13,
     fontWeight: '700',
     letterSpacing: 0,
   },
-  goalBox: {
-    alignItems: 'flex-end',
-    borderLeftWidth: 1,
-    paddingLeft: 9,
-    marginTop: 1,
-  },
-  goalCaption: {
-    fontSize: 8,
-    fontWeight: '800',
-    letterSpacing: 0.8,
-    textTransform: 'uppercase',
-    marginBottom: 3,
-  },
-  goalValue: {
-    fontSize: 15,
-    fontWeight: '700',
-    letterSpacing: -0.3,
-    fontVariant: ['tabular-nums'],
-  },
   tileSub: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: '600',
+    marginTop: 6,
   },
 });

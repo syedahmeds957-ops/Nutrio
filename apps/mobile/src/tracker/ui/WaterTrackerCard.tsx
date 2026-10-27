@@ -13,6 +13,9 @@ export interface WaterTrackerCardProps {
   onLogWater: (ml: number) => void;
 }
 
+/** Cyan text on the pale-cyan badge: #06B6D4 is 2.2:1 there, this is 4.8:1. */
+const WATER_TEXT_LIGHT = '#0E7490';
+
 export const WaterTrackerCard: React.FC<WaterTrackerCardProps> = ({
   waterMlConsumed,
   consumedMl,
@@ -71,7 +74,7 @@ export const WaterTrackerCard: React.FC<WaterTrackerCardProps> = ({
             },
           ]}
         >
-          <Text style={[styles.pctText, { color: waterColor }]}>
+          <Text style={[styles.pctText, { color: isDark ? waterColor : WATER_TEXT_LIGHT }]}>
             {progressPct}%
           </Text>
         </View>

@@ -1,17 +1,16 @@
-import {
-  getExercise,
-  isAllowed,
-  type CurrentLift,
-  type Equipment,
-  type ImportedRoutine,
-  type RamadanSlot,
-  type FocusArea,
-  type JointLoad,
-  type SportKind,
-  type TrainingProfile,
-  type Weekday,
-  type WorkoutSettings,
+import type {
+  CurrentLift,
+  Equipment,
+  ImportedRoutine,
+  RamadanSlot,
+  FocusArea,
+  JointLoad,
+  SportKind,
+  TrainingProfile,
+  Weekday,
+  WorkoutSettings,
 } from '@nutrio/workout-core';
+import { getExercise, isAllowed } from './core.js';
 
 /**
  * The workout setup's rules, kept out of the screen so they can be tested
@@ -190,6 +189,8 @@ export function profileForSave(settings: WorkoutSettings): TrainingProfile | und
     ...(p.dislikes?.length ? { dislikes: p.dislikes } : {}),
     ...(p.avoidJumping ? { avoidJumping: true } : {}),
     ...(sports.length ? { sports } : {}),
+    // Straight sets are the default, so only supersets are kept; beginners are never asked.
+    ...(!beginner && p.sessionStyle === 'supersets' ? { sessionStyle: 'supersets' as const } : {}),
   };
   return Object.keys(out).length ? out : undefined;
 }

@@ -65,7 +65,7 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
           <Text
             style={[
               styles.statVal,
-              isLoss ? { color: theme.colors.primaryAccessible } : styles.gainText,
+              { color: isLoss ? theme.colors.primaryAccessible : theme.colors.fatText },
             ]}
           >
             {totalDeltaKg > 0 ? `+${totalDeltaKg}` : totalDeltaKg} kg
@@ -83,7 +83,7 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
 
       {/* Recent Trend Points */}
       {points.length > 0 && (
-        <View style={styles.pointsList}>
+        <View style={[styles.pointsList, { borderTopColor: theme.colors.border }]}>
           <Text style={[styles.pointsTitle, { color: theme.colors.textPrimary }]}>
             {t('weight.trend.recentHistory')}
           </Text>
@@ -111,13 +111,11 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#FFFFFF',
     borderRadius: 24,
     padding: 20,
     marginHorizontal: 16,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: '#F1F5F9',
     boxShadow: '0px 4px 12px rgba(15, 23, 42, 0.05)',
   },
   header: {
@@ -126,11 +124,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: '800',
-    color: '#1E293B',
   },
   sub: {
     fontSize: 12,
-    color: '#556274',
     marginTop: 2,
     lineHeight: 18,
   },
@@ -141,62 +137,32 @@ const styles = StyleSheet.create({
   },
   statBox: {
     flex: 1,
-    backgroundColor: '#F8FAFC',
     borderRadius: 14,
     padding: 12,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#E2E8F0',
   },
   statLabel: {
     fontSize: 11,
     fontWeight: '700',
-    color: '#556274',
     textTransform: 'uppercase',
   },
   statVal: {
     fontSize: 18,
     fontWeight: '900',
-    color: '#1E293B',
     marginTop: 4,
-  },
-  ewmaVal: {
-    color: '#059669',
-  },
-  lossText: {
-    color: '#059669',
-  },
-  gainText: {
-    color: '#9A4A06',
   },
   statSub: {
     fontSize: 10,
-    color: '#556274',
     marginTop: 2,
-  },
-  spikeBox: {
-    backgroundColor: '#F0F9FF',
-    borderRadius: 12,
-    padding: 12,
-    borderLeftWidth: 3,
-    borderLeftColor: '#0284C7',
-    marginBottom: 14,
-  },
-  spikeText: {
-    color: '#0284C7',
-    fontSize: 12,
-    lineHeight: 18,
-    fontWeight: '600',
   },
   pointsList: {
     borderTopWidth: 1,
-    borderTopColor: '#F1F5F9',
     paddingTop: 14,
   },
   pointsTitle: {
     fontSize: 11,
     fontWeight: '800',
-    color: '#556274',
     textTransform: 'uppercase',
     letterSpacing: 0.8,
     marginBottom: 8,
@@ -207,7 +173,6 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
   },
   pointDate: {
-    color: '#1E293B',
     fontSize: 13,
     fontWeight: '500',
   },
@@ -216,11 +181,9 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   pointRaw: {
-    color: '#556274',
     fontSize: 13,
   },
   pointEwma: {
-    color: '#059669',
     fontSize: 13,
     fontWeight: '700',
   },

@@ -1,13 +1,12 @@
-import {
-  exerciseForWeek,
-  type CardioIntensity,
-  weekIndexFor,
-  type PlannedSlot,
-  type Weekday,
-  type WeeklyWorkoutPlan,
-  type WorkoutLog,
-  type WorkoutSession,
+import type {
+  CardioIntensity,
+  PlannedSlot,
+  Weekday,
+  WeeklyWorkoutPlan,
+  WorkoutLog,
+  WorkoutSession,
 } from '@nutrio/workout-core';
+import { exerciseForWeek, weekIndexFor } from './core.js';
 import { addDaysToKey } from '../common/dateKey.js';
 import { logForSession } from './historyFor.js';
 

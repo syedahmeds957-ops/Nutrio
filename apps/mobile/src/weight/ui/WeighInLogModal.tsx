@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
   unitText: {
     fontSize: 16,
     fontWeight: '700',
-    marginLeft: 4,
+    marginStart: 4,
   },
   errorText: {
     color: '#EF4444',

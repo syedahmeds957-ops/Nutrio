@@ -57,6 +57,15 @@ const ADJECTIVES: Record<string, { m: string; f: string }> = {
 
 const ARABIC_LETTERS = /[؀-ۿ]/;
 
+/**
+ * Drops a bracketed weight or volume from a label ("1 glass (250ml)" becomes
+ * "1 glass"), for screens that print the grams themselves; otherwise the
+ * amount shows twice, "(250ml)" next to "250g".
+ */
+export function withoutAmountBracket(label: string): string {
+  return label.replace(/\s*\(\s*\d+(?:\.\d+)?\s*(?:g|ml)\s*\)/gi, '').trim();
+}
+
 export function localizeServingLabel(label: string, language: 'en' | 'ar'): string {
   if (language !== 'ar') return label;
 

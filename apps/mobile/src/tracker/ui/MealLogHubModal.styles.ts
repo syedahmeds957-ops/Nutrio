@@ -69,11 +69,29 @@ export const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
+    // Fills the 48 px field, so the whole bar is the tap target, not one text line.
+    alignSelf: 'stretch',
     marginStart: 10,
     fontSize: 14,
     fontWeight: '500',
     backgroundColor: 'transparent',
     borderWidth: 0,
+  },
+  // 44 px targets; negative margins keep the 48 px search field and the preset chip as they were.
+  searchClearBtn: {
+    width: 44,
+    height: 44,
+    marginEnd: -14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  presetDeleteBtn: {
+    width: 44,
+    height: 44,
+    marginVertical: -14,
+    marginEnd: -14,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   describeMealBtn: {
     flexDirection: 'row',
@@ -100,7 +118,6 @@ export const styles = StyleSheet.create({
   buildModeRow: {
     paddingHorizontal: 16,
     paddingBottom: 10,
-    borderBottomWidth: 1,
     gap: 6,
   },
   buildModeBtn: {
@@ -219,7 +236,6 @@ export const styles = StyleSheet.create({
     fontWeight: '800',
   },
   groupScrollContainer: {
-    borderBottomWidth: 1,
     paddingVertical: 10,
   },
   groupPillsWrapper: {
@@ -261,8 +277,10 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    padding: 16,
     paddingBottom: 40,
+  },
+  contentBody: {
+    padding: 16,
   },
   dietGroupHeading: {
     fontSize: 11,
@@ -291,11 +309,11 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
   },
   brandAvatar: {
-    marginRight: 14,
+    marginEnd: 14,
   },
   brandInfo: {
     flex: 1,
-    marginRight: 8,
+    marginEnd: 8,
   },
   brandTitleRow: {
     flexDirection: 'row',
@@ -306,12 +324,12 @@ export const styles = StyleSheet.create({
   brandName: {
     fontSize: 15,
     fontWeight: '800',
-    marginRight: 8,
+    marginEnd: 8,
   },
   brandNameAr: {
     fontSize: 13,
     fontWeight: '700',
-    marginRight: 6,
+    marginEnd: 6,
   },
   brandNameUr: {
     fontSize: 12,
@@ -333,7 +351,7 @@ export const styles = StyleSheet.create({
   },
   dishCardLeft: {
     flex: 1,
-    marginRight: 12,
+    marginEnd: 12,
   },
   dishTitleRow: {
     marginBottom: 4,
@@ -341,12 +359,12 @@ export const styles = StyleSheet.create({
   dishName: {
     fontSize: 15,
     fontWeight: '800',
-    marginRight: 6,
+    marginEnd: 6,
   },
   dishNameAr: {
     fontSize: 13,
     fontWeight: '700',
-    marginRight: 6,
+    marginEnd: 6,
   },
   dishNameUr: {
     fontSize: 12,
@@ -361,7 +379,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 6,
-    marginRight: 8,
+    marginEnd: 8,
   },
   brandBadgeText: {
     fontSize: 11,

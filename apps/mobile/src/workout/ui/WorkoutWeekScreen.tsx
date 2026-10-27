@@ -25,6 +25,8 @@ interface WorkoutWeekScreenProps {
   onDoToday: (dateKey: string) => void;
   /** Shows the "Workout saved" toast after finishing. */
   saved?: boolean;
+  /** Set right after a plan is created or edited: pins a Done button that leaves for the home screen. */
+  onDone?: () => void;
   /** Ramadan mode switched from the week; regenerates the plan. */
   onRamadanChange?: (ramadan: WorkoutSettings['ramadan']) => void;
   /** Set for guests: the week is a sample, and starting or editing asks them to create an account. */
@@ -43,6 +45,7 @@ export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({
   onOpenDay,
   onDoToday,
   saved,
+  onDone,
   onRamadanChange,
   onRequireAccount,
 }) => {
@@ -305,6 +308,19 @@ export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({
         })}
       </ScrollView>
 
+      {onDone ? (
+        <View style={[styles.doneBar, { backgroundColor: c.canvas, borderTopColor: c.border }]}>
+          <TouchableOpacity
+            accessibilityRole="button"
+            onPress={onDone}
+            activeOpacity={0.8}
+            style={[styles.doneButton, { backgroundColor: c.primaryLime }]}
+          >
+            <Text style={[styles.doneButtonText, { color: c.limeText }]}>{t('workout.week.done')}</Text>
+          </TouchableOpacity>
+        </View>
+      ) : null}
+
       {saved ? (
         <View accessibilityLiveRegion="polite" style={styles.toast}>
           <Icon name="check" size={16} color={c.primaryLime} strokeWidth={3} />
@@ -337,6 +353,9 @@ const styles = StyleSheet.create({
   todayTop: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   doToday: { alignSelf: 'flex-start', marginTop: 8, minHeight: 36, paddingHorizontal: 14, borderRadius: 999, justifyContent: 'center' },
   doTodayText: { fontSize: 13, fontWeight: '800' },
+  doneBar: { paddingHorizontal: 20, paddingTop: 12, paddingBottom: 16, borderTopWidth: 1 },
+  doneButton: { minHeight: 52, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
+  doneButtonText: { fontSize: 16, fontWeight: '800' },
   toast: {
     position: 'absolute',
     bottom: 28,

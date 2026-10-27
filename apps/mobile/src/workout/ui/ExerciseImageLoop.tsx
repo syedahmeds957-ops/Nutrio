@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AccessibilityInfo, Image, StyleSheet, View, ViewStyle } from 'react-native';
-import { getExercise } from '@nutrio/workout-core';
+import { getExercise } from '../core.js';
 import { EXERCISE_IMAGES } from '../exerciseImages.js';
 import { useI18nState } from '../../i18n/index.js';
 import { useTheme } from '../../theme.js';

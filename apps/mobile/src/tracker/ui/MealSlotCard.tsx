@@ -82,7 +82,7 @@ export const MealSlotCard: React.FC<MealSlotCardProps> = ({
                   <Text
                     style={[
                       styles.doneBadgeText,
-                      { color: isDark ? theme.colors.primaryLime : '#15803D' },
+                      { color: isDark ? theme.colors.primaryLime : '#4B6200' },
                     ]}
                   >
                     {t('tracker.slotCard.done')}
@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
   },
   itemInfo: {
     flex: 1,
-    marginRight: 10,
+    marginEnd: 10,
   },
   itemName: {
     fontSize: 14,
@@ -308,9 +308,12 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontVariant: ['tabular-nums'],
   },
+  // 44 px target; the negative margins keep the row as tall as it was.
   deleteBtn: {
-    width: 32,
-    height: 32,
+    width: 44,
+    height: 44,
+    marginVertical: -6,
+    marginEnd: -8,
     alignItems: 'center',
     justifyContent: 'center',
   },

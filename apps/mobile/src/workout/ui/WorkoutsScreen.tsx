@@ -137,6 +137,8 @@ const AccountWorkouts: React.FC<Omit<WorkoutsScreenProps, 'isGuest' | 'onRequire
   /** The missed day "Do it today" opened, which starts logging straight away. */
   const [autoStartKey, setAutoStartKey] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
+  /** True from creating or editing a plan until the user opens a day: the week shows a Done button. */
+  const [fresh, setFresh] = useState(false);
   /** Shown once after a routine the user entered becomes their plan. */
   const [improvements, setImprovements] = useState<RoutineChange[] | null>(null);
   /** Offered after setup or an edit; it waits behind "What we improved". */
@@ -176,6 +178,7 @@ const AccountWorkouts: React.FC<Omit<WorkoutsScreenProps, 'isGuest' | 'onRequire
    */
   const adopt = (next: WeeklyWorkoutPlan, options?: { improve: boolean }) => {
     setPlan(next);
+    setFresh(true);
     const routine = next.settings.profile?.routine;
     if (options?.improve && routine) setImprovements(describeRoutineChanges(routine, next));
     setTargetProposal(proposeTargetUpdate({ isGuest: false, activePlan, workoutPlan: next, survey }));
@@ -273,11 +276,16 @@ const AccountWorkouts: React.FC<Omit<WorkoutsScreenProps, 'isGuest' | 'onRequire
         plan={plan}
         week={week}
         saved={saved}
+        onDone={fresh ? onBack : undefined}
         onRamadanChange={(ramadan) => setPlan(setRamadanMode(plan, ramadan))}
         onBack={onBack}
         onEdit={() => setEditing(true)}
-        onOpenDay={setSelectedDayKey}
+        onOpenDay={(dateKey) => {
+          setFresh(false);
+          setSelectedDayKey(dateKey);
+        }}
         onDoToday={(dateKey) => {
+          setFresh(false);
           setAutoStartKey(dateKey);
           setSelectedDayKey(dateKey);
         }}

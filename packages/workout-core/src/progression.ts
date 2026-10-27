@@ -63,7 +63,9 @@ export function startingLoad(exercise: Exercise, settings: WorkoutSettings): num
     case 'kettlebell':
       return 8;
     case 'dumbbell':
-      return 4;
+      // One step, so the first + lands on the same 2, 4, 6 the steppers count by
+      // and − walks back through them. Starting at 4 skipped the 2 on the way down.
+      return loadIncrement(exercise);
     default:
       return 10;
   }

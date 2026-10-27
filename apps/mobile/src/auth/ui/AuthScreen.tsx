@@ -152,6 +152,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
           >
             {/* Segmented Tab Switcher */}
             <View
+              accessibilityRole="tablist"
               style={[
                 styles.tabContainer,
                 { backgroundColor: theme.colors.surfaceSecondary },
@@ -164,6 +165,8 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                     backgroundColor: theme.colors.primaryLime,
                   },
                 ]}
+                accessibilityRole="tab"
+                accessibilityState={{ selected: mode === 'login' }}
                 onPress={() => {
                   setMode('login');
                   setErrorMessage('');
@@ -194,6 +197,8 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                     backgroundColor: theme.colors.primaryLime,
                   },
                 ]}
+                accessibilityRole="tab"
+                accessibilityState={{ selected: mode === 'register' }}
                 onPress={() => {
                   setMode('register');
                   setErrorMessage('');

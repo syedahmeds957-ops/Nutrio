@@ -1,4 +1,5 @@
-import { planForDate, upgradePlan, type WeeklyWorkoutPlan } from '@nutrio/workout-core';
+import type { WeeklyWorkoutPlan } from '@nutrio/workout-core';
+import { planForDate, upgradePlan } from './core.js';
 import { localDateKey } from '../common/dateKey.js';
 import { authStorageAdapter } from '../supabase/client.js';
 import { getAuthSession } from '../auth/authStorage.js';

@@ -27,8 +27,10 @@ import {
   withPersonalServing,
 } from '../personalServings.js';
 import { foodKey } from './useMealBasket.js';
+import { withoutAmountBracket } from '../servingLabel.js';
 import { PortionPicker } from './PortionPicker.js';
-import { styles } from './ItemCustomizerModal.styles.js';
+import { DishThumb } from './DishThumb.js';
+import { createStyles } from './ItemCustomizerModal.styles.js';
 
 export interface CustomizedLogPayload {
   food: NormalizedFood;
@@ -147,25 +149,18 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
   onConfirmCustomizedLog,
 }) => {
   const { theme, isDark } = useTheme();
+  const styles = useMemo(() => createStyles(theme.colors), [theme]);
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
   const dir = useTextDirection();
   const isSaudi = activeRegion === 'SA';
-
-  const mealSlots: { id: MealSlot; label: string }[] = useMemo(
-    () =>
-      (['breakfast', 'lunch', 'dinner', 'snacks_chai'] as MealSlot[]).map((id) => ({
-        id,
-        label: t(`tracker.mealSlots.${id}.${activeRegion}`),
-      })),
-    [t, activeRegion]
-  );
 
   const handleClose = onBack || onClose || (() => {});
   const handleLog = onLogItem || onConfirmCustomizedLog || (() => {});
   const [quantity, setQuantity] = useState<number>(1);
   const [selectedModifiers, setSelectedModifiers] = useState<Record<string, number>>({});
   const [selectedSlot, setSelectedSlot] = useState<MealSlot>(initialMealSlot);
+  const slotLabel = t(`tracker.mealSlots.${selectedSlot}.${activeRegion}`);
   const [selectedServingIdx, setSelectedServingIdx] = useState<number>(0);
   const [isCustomWeightMode, setIsCustomWeightMode] = useState<boolean>(false);
   const [customGrams, setCustomGrams] = useState<number>(200);
@@ -230,18 +225,16 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
 
   // Determine portion summary text for HOW MANY? section
   const portionSummaryText = useMemo(() => {
-    if (isCustomWeightMode) {
-      return gramsValid ? t('tracker.customizer.customTotal', { grams: customGrams }) : '—';
-    }
+    // The typed weight is on its own field below.
+    if (isCustomWeightMode) return null;
     if (activeServing) {
-      const label = activeServing.label || activeServing.description || t('common.portion');
-      if (quantity === 1) {
-        return `${label} · ${t('common.gramsValue', { value: activeServing.grams })}`;
-      }
+      const label = withoutAmountBracket(activeServing.label || activeServing.description || t('common.portion'));
+      // One serving is already on its pill below; only a multiple needs a total.
+      if (quantity === 1) return null;
       return `${quantity}x ${label} · ${t('common.gramsValue', { value: quantity * activeServing.grams })}`;
     }
     return t('common.standardServing', { count: quantity });
-  }, [isCustomWeightMode, customGrams, gramsValid, activeServing, quantity, t]);
+  }, [isCustomWeightMode, activeServing, quantity, t]);
 
   if (!visible || !item) return null;
 
@@ -344,19 +337,11 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
           <BackButton variant="icon" onPress={handleClose} style={styles.backButton} />
 
           {/* Dish Brand & Title */}
+          <DishThumb category={item.brandCategory || item.category} size={96} style={styles.dishThumb} />
           <Text style={[styles.brandText, { color: theme.colors.textMuted }]}>{brandName}</Text>
           <Text style={[styles.dishTitle, dir.text, { color: theme.colors.text }]}>
             {dir.isRTL && item.nameAr ? item.nameAr : item.name}
           </Text>
-
-          {/* Estimated Badge */}
-          <View style={styles.estimatedBadgeContainer}>
-            <View style={[styles.estimatedBadge, { borderColor: isDark ? '#272A33' : '#E2E8F0', backgroundColor: isDark ? '#18191E' : '#F1F5F9' }]}>
-              <Text style={[styles.estimatedBadgeText, { color: theme.colors.textSecondary }]}>
-                ≈ {t('tracker.customizer.estimated')}
-              </Text>
-            </View>
-          </View>
 
           {/* Estimate Disclaimer Subtitle */}
           <Text style={[styles.estimateDisclaimer, { color: theme.colors.textMuted }]}>
@@ -364,12 +349,16 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
           </Text>
 
           {/* HOW MANY? Row */}
+          {/* One card: how many, then which portion (or an exact weight) */}
           <View style={[styles.howManyCard, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}>
+          <View style={styles.howManyRow}>
             <View style={styles.howManyLeft}>
               <Text style={[styles.howManyLabel, { color: theme.colors.textMuted }]}>{t('tracker.customizer.howMany')}</Text>
-              <Text style={[styles.howManySub, { color: theme.colors.text }]}>
-                {portionSummaryText}
-              </Text>
+              {portionSummaryText && (
+                <Text style={[styles.howManySub, { color: theme.colors.text }]}>
+                  {portionSummaryText}
+                </Text>
+              )}
             </View>
 
             {!isCustomWeightMode && (
@@ -422,6 +411,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
           </View>
 
           <PortionPicker
+            embedded
             servings={servingsList}
             selectedIndex={selectedServingIdx}
             onSelectServing={setSelectedServingIdx}
@@ -434,6 +424,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
             onSaveAsMine={handleSaveAsMine}
             onResetMine={handleResetMine}
           />
+          </View>
 
           {/* "Make it yours" Section */}
           {activeModifiers.length > 0 && (
@@ -507,45 +498,6 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
               </View>
             </View>
           )}
-
-          {/* Meal Slot Selection */}
-          <View style={styles.slotSelectionSection}>
-            <Text style={[styles.slotSectionTitle, dir.text, { color: theme.colors.textMuted }]}>
-              {t('tracker.customizer.logToSlot')}
-            </Text>
-            <View style={styles.slotPillContainer}>
-              {mealSlots.map((slot) => {
-                const isSelected = selectedSlot === slot.id;
-                return (
-                  <TouchableOpacity
-                    key={slot.id}
-                    style={[
-                      styles.slotPill,
-                      { backgroundColor: isDark ? '#1C1D24' : '#FFFFFF', borderColor: theme.colors.border },
-                      isSelected && styles.slotPillActive,
-                    ]}
-                    onPress={() => {
-                      HapticFeedback.selection();
-                      setSelectedSlot(slot.id);
-                    }}
-                    activeOpacity={0.7}
-                    accessibilityRole="radio"
-                    aria-checked={isSelected}
-                  >
-                    <Text
-                      style={[
-                        styles.slotPillText,
-                        { color: theme.colors.textMuted },
-                        isSelected && styles.slotPillTextActive,
-                      ]}
-                    >
-                      {slot.label}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-          </View>
         </ScrollView>
 
         {/* Sticky Bottom Bar */}
@@ -569,10 +521,10 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
             activeOpacity={0.85}
             accessibilityRole="button"
             accessibilityState={{ disabled: !canLog }}
-            accessibilityLabel={t('tracker.customizer.logThis')}
+            accessibilityLabel={t('tracker.customizer.logToMeal', { meal: slotLabel })}
           >
-            <Text style={styles.logThisButtonText}>
-              {t('tracker.customizer.logThis')}
+            <Text style={styles.logThisButtonText} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8}>
+              {t('tracker.customizer.logToMeal', { meal: slotLabel })}
             </Text>
           </TouchableOpacity>
         </View>

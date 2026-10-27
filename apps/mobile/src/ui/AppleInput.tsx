@@ -74,6 +74,7 @@ export const AppleGroupedRowInput: React.FC<AppleGroupedRowInputProps> = ({
         >
           <TextInput
             {...rest}
+            accessibilityLabel={rest.accessibilityLabel ?? label}
             style={[
               styles.capsuleInput,
               noOutlineStyle,
@@ -194,6 +195,7 @@ export const AppleTextInput: React.FC<AppleTextInputProps> = ({
 
         <TextInput
           {...rest}
+          accessibilityLabel={rest.accessibilityLabel ?? label ?? rest.placeholder}
           style={[
             styles.fieldInput,
             noOutlineStyle,
@@ -244,7 +246,7 @@ const styles = StyleSheet.create({
   },
   labelCol: {
     flex: 1,
-    paddingRight: 12,
+    paddingEnd: 12,
   },
   rowLabel: {
     fontSize: 15,
@@ -316,7 +318,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 0.6,
     marginBottom: 8,
-    marginLeft: 2,
+    marginStart: 2,
   },
   fieldBox: {
     flexDirection: 'row',
@@ -341,7 +343,7 @@ const styles = StyleSheet.create({
     }),
   },
   fieldIconSlot: {
-    marginRight: 10,
+    marginEnd: 10,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -354,12 +356,12 @@ const styles = StyleSheet.create({
     borderWidth: 0,
   },
   rightActionSlot: {
-    marginLeft: 10,
+    marginStart: 10,
   },
   fieldFeedback: {
     fontSize: 12,
     fontWeight: '600',
     marginTop: 6,
-    marginLeft: 4,
+    marginStart: 4,
   },
 });

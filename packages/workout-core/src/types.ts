@@ -116,6 +116,8 @@ export type BreakLength = 'under_1_month' | '1_to_6_months' | 'over_6_months';
 export type PushUpAbility = 'none' | '1_to_5' | '6_to_15' | '16_plus';
 export type PlankAbility = 'under_20' | '20_to_45' | 'over_45';
 export type WalkAbility = 'under_10' | '10_to_20' | '20_to_40' | 'over_40';
+/** How sets are ordered in a session: one exercise at a time, or opposing accessories back to back. */
+export type SessionStyle = 'straight' | 'supersets';
 
 /** What the user can lift now: weight × reps, or reps alone for bodyweight moves. */
 export interface CurrentLift {
@@ -163,6 +165,8 @@ export interface TrainingProfile {
   routine?: ImportedRoutine;
   /** Sports or physical work: no heavy leg day on these days or the day before. */
   sports?: { kind: SportKind; days: Weekday[] }[];
+  /** Absent means straight sets. Ignored for beginners, Ramadan and low-intensity plans. */
+  sessionStyle?: SessionStyle;
 }
 
 export interface WorkoutSettings {
@@ -207,6 +211,11 @@ export interface PlannedSlot extends Prescription {
   exerciseId: string;
   /** Accessories rotate through these every 4 weeks. Never overlaps another slot in the session. */
   alternates: string[];
+  /**
+   * The slotId of the accessory done back to back with this one (a superset);
+   * the partner points here too. Rest is taken after the pair, not between.
+   */
+  supersetWith?: string;
 }
 
 export type SessionTemplateId = 'full_a' | 'full_b' | 'full_c' | 'upper' | 'lower' | 'push' | 'pull' | 'legs';

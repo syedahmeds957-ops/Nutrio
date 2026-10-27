@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { Suspense, lazy, useState, useEffect, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
@@ -24,11 +24,11 @@ import {
   releaseSurveyCache,
   stripRetiredSurveyFields,
 } from './src/survey/index.js';
-import { OnboardingSurveyScreen } from './src/survey/ui/index.js';
 import { installWebA11y } from './src/ui/webA11y.js';
 import { loadCatalogue, useCatalogueReady } from './src/catalogue/index.js';
+import { ScreenEnter } from './src/ui/ScreenEnter.js';
+import { loadWorkoutCore, useWorkoutCoreReady } from './src/workout/core.js';
 import { ComputedUserPlan, PlanUserContext } from './src/plan/index.js';
-import { PlanWorkflowScreen, WeeklyPlanView } from './src/plan/ui/index.js';
 import { TrackerDashboardScreen } from './src/tracker/ui/index.js';
 import {
   resolveTargetsDestination,
@@ -51,10 +51,8 @@ import {
   startAt,
   type NavState,
 } from './src/navigation/history.js';
-import { WeightTrackerScreen } from './src/weight/ui/index.js';
 import { hydrateWeighIns, loadWeighIns, releaseWeightCache } from './src/weight/weightStorage.js';
 import { buildWeighInSeed, collectIntakeLogs } from './src/weight/weightSeed.js';
-import { CoachChatScreen, WeeklyCheckInScreen } from './src/coach/index.js';
 import { buildCoachContext } from './src/coach/coachContext.js';
 import { buildWeeklyCheckIn } from './src/coach/weeklyCheckIn.js';
 import { pickRestoredPlan } from './src/plan/restoredPlan.js';
@@ -85,7 +83,6 @@ import { hydrateWorkoutPlan, loadWorkoutPlan, releaseWorkoutCache } from './src/
 import { hydrateWorkoutLogs, loadWorkoutLogs, releaseWorkoutLogCache } from './src/workout/workoutLogStorage.js';
 import { setActiveDraft } from './src/workout/workoutDraft.js';
 import { TimeoutError, withTimeout } from './src/common/withTimeout.js';
-import { WorkoutsScreen } from './src/workout/ui/WorkoutsScreen.js';
 import { samplePlan } from './src/workout/samplePlan.js';
 import { applyCoachSwap, coachSwapTopic, coachWorkoutContext } from './src/workout/coachWorkout.js';
 import { fetchActivityHistory } from './src/sync/activitySync.js';
@@ -120,10 +117,35 @@ installFontPatch();
 // parallel with fonts and session restore; the sign-in screen does not wait for
 // it, every screen after it does (see `catalogueReady`).
 void loadCatalogue();
+void loadWorkoutCore();
 
 // Built once: useFonts reads the map on every render, and rebuilding it there
 // would re-resolve every asset per frame for no gain. Split by script so first
 // paint waits only for the family the current language reads in.
+// Screens off the dashboard's path load on first visit, so the first paint
+// does not pay for onboarding, the workout engine, or the coach.
+const OnboardingSurveyScreen = lazy(() =>
+  import('./src/survey/ui/OnboardingSurveyScreen.js').then((m) => ({ default: m.OnboardingSurveyScreen }))
+);
+const PlanWorkflowScreen = lazy(() =>
+  import('./src/plan/ui/PlanWorkflowScreen.js').then((m) => ({ default: m.PlanWorkflowScreen }))
+);
+const WeeklyPlanView = lazy(() =>
+  import('./src/plan/ui/WeeklyPlanView.js').then((m) => ({ default: m.WeeklyPlanView }))
+);
+const WeightTrackerScreen = lazy(() =>
+  import('./src/weight/ui/WeightTrackerScreen.js').then((m) => ({ default: m.WeightTrackerScreen }))
+);
+const CoachChatScreen = lazy(() =>
+  import('./src/coach/ui/index.js').then((m) => ({ default: m.CoachChatScreen }))
+);
+const WeeklyCheckInScreen = lazy(() =>
+  import('./src/coach/ui/index.js').then((m) => ({ default: m.WeeklyCheckInScreen }))
+);
+const WorkoutsScreen = lazy(() =>
+  import('./src/workout/ui/WorkoutsScreen.js').then((m) => ({ default: m.WorkoutsScreen }))
+);
+
 const LATIN_FONTS = latinFontAssets();
 const ARABIC_FONTS = arabicFontAssets();
 const NO_FONTS = {};
@@ -165,7 +187,9 @@ function NutrioAppContent() {
   const { language } = useI18nState();
   // The splash waits for the current language's family only; the other loads
   // right after, so a later region switch finds it already registered.
-  const catalogueReady = useCatalogueReady();
+  const foodCatalogueReady = useCatalogueReady();
+  const workoutCoreReady = useWorkoutCoreReady();
+  const catalogueReady = foodCatalogueReady && workoutCoreReady;
   const [fontsLoaded, fontError] = useFonts(language === 'ar' ? ARABIC_FONTS : LATIN_FONTS);
   useFonts(fontsLoaded ? (language === 'ar' ? LATIN_FONTS : ARABIC_FONTS) : NO_FONTS);
   /** Set once fonts have had their chance; the app then shows in the system face and switches when they arrive. */
@@ -261,6 +285,8 @@ function NutrioAppContent() {
     await hydrateHistoryStartDate().catch(recoverWith('Restoring history start date', undefined));
     // Saved meals and most-logged counts are read synchronously during render,
     // so they have to be in memory before the hub first opens.
+    // Stored workout plans are upgraded through the engine as they load.
+    await loadWorkoutCore();
     await Promise.all([
       hydrateMealPresets().catch(recoverWith('Restoring saved meals', undefined)),
       hydrateFoodUsage().catch(recoverWith('Restoring food usage', undefined)),
@@ -541,7 +567,9 @@ function NutrioAppContent() {
         style={[styles.appConstraint, { transform: [{ translateX: swipeTranslateX }] }]}
         {...swipePanResponder.panHandlers}
       >
-        {content}
+        <Suspense fallback={null}>
+          <ScreenEnter key={appState}>{content}</ScreenEnter>
+        </Suspense>
       </Animated.View>
     </View>
   );

@@ -17,6 +17,7 @@ import {
   toggleSportDay,
   updateProfile,
 } from '../setupState.js';
+import { supersetPlaces } from '../format.js';
 import { buildWeekView, type DayView } from '../weekView.js';
 import { ExercisePickerBody } from '../ui/ExercisePickerSheet.js';
 import { TellUsMore } from '../ui/TellUsMore.js';
@@ -162,5 +163,34 @@ describe('answers reach the plan', () => {
       })
     );
     expect(html).toContain('From your current lift: 60 kg × 8');
+  });
+});
+
+describe('session style', () => {
+  it('is asked of people who are not beginners, and not of beginners', () => {
+    const experienced = more(BASE, 1);
+    expect(experienced).toContain('How do you like to structure your sets?');
+    expect(experienced).toContain('Supersets');
+    expect(more({ ...BASE, experience: 'new' }, 1)).not.toContain('How do you like to structure your sets?');
+  });
+
+  it('is saved only as supersets, and dropped for beginners', () => {
+    expect(profileForSave(updateProfile(BASE, { sessionStyle: 'supersets' }))?.sessionStyle).toBe('supersets');
+    expect(profileForSave(updateProfile(BASE, { sessionStyle: 'straight' }))).toBeUndefined();
+    expect(profileForSave(updateProfile({ ...BASE, experience: 'new' }, { sessionStyle: 'supersets' }))?.sessionStyle).toBeUndefined();
+  });
+
+  it('makes a plan with supersets and the day screen groups them', () => {
+    const settings = settingsForSave(updateProfile(BASE, { sessionStyle: 'supersets' }));
+    const plan = generateWeeklyPlan(settings, { seed: 3, today: '2026-10-19' });
+    const session = plan.sessions.find((s) => s.slots.some((slot) => slot.supersetWith))!;
+    expect(session).toBeDefined();
+    const places = supersetPlaces(session.slots);
+    for (const slot of session.slots.filter((s) => s.supersetWith)) {
+      const place = places.get(slot.slotId)!;
+      expect(places.get(slot.supersetWith!)!.group).toBe(place.group);
+      expect(places.get(slot.supersetWith!)!.first).toBe(!place.first);
+    }
+    expect(session.slots.filter((s) => !s.supersetWith).every((s) => !places.has(s.slotId))).toBe(true);
   });
 });

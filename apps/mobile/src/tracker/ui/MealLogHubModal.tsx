@@ -25,6 +25,7 @@ import { getMostLoggedFoodIds, loadMealPresets, MAX_RECENT_FOODS } from '../meal
 import { searchCustomDishes } from '../customDishes.js';
 import type { DraftLogEntry } from '../describeMeal.js';
 import { AddDishModal } from './AddDishModal.js';
+import { ScrollCue } from '../../ui/ScrollCue.js';
 import { DescribeMealModal } from './DescribeMealModal.js';
 import { styles } from './MealLogHubModal.styles.js';
 import { DishCard } from './DishCard.js';
@@ -435,7 +436,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
               <ActivityIndicator
                 size="small"
                 color={theme.colors.primaryLime}
-                style={{ marginRight: 4 }}
+                style={{ marginEnd: 4 }}
               />
             ) : isSearching ? (
               <TouchableOpacity
@@ -444,7 +445,9 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                   setDebouncedQuery('');
                   setIsFiltering(false);
                 }}
-                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                style={styles.searchClearBtn}
+                accessibilityRole="button"
+                accessibilityLabel={t('tracker.hub.clearSearch')}
               >
                 <Icon name="x" size={16} color={theme.colors.textMuted} />
               </TouchableOpacity>
@@ -452,8 +455,19 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
           </View>
         </View>
 
-        {/* Describe a whole meal in one sentence */}
-        {onLogDescribedMeal && !isBuildMode && (
+        {/*
+          Only the title, meal tabs and search stay pinned. Describe, Custom and
+          the category pills scroll away with the list, so the food keeps the
+          screen.
+        */}
+        <ScrollView
+          style={styles.content}
+          contentContainerStyle={styles.contentContainer}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+        {/* Describe a whole meal in one sentence (hidden while typing a query) */}
+        {onLogDescribedMeal && !isBuildMode && !isSearching && (
           <TouchableOpacity
             style={[
               styles.describeMealBtn,
@@ -476,13 +490,13 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
           </TouchableOpacity>
         )}
 
-        {/* Custom Meal Mode Toggle */}
-        {onConfirmBasket && (
+        {/* Custom Meal Mode Toggle (hidden while typing a query, unless a basket is open) */}
+        {onConfirmBasket && (!isSearching || isBuildMode) && (
           <View
             style={[
               styles.buildModeRow,
               {
-                backgroundColor: theme.colors.surface,
+                backgroundColor: theme.colors.canvas,
                 borderBottomColor: theme.colors.border,
               },
             ]}
@@ -530,16 +544,12 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
             style={[
               styles.groupScrollContainer,
               {
-                backgroundColor: theme.colors.surface,
+                backgroundColor: theme.colors.canvas,
                 borderBottomColor: theme.colors.border,
               },
             ]}
           >
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.groupPillsWrapper}
-            >
+            <ScrollCue fadeColor={theme.colors.canvas} contentContainerStyle={styles.groupPillsWrapper}>
               {brandGroups.map((grp) => {
                 const isActive = selectedGroup === grp;
                 return (
@@ -578,7 +588,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                   </TouchableOpacity>
                 );
               })}
-            </ScrollView>
+            </ScrollCue>
           </View>
         )}
 
@@ -592,16 +602,12 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
             style={[
               styles.groupScrollContainer,
               {
-                backgroundColor: theme.colors.surface,
+                backgroundColor: theme.colors.canvas,
                 borderBottomColor: theme.colors.border,
               },
             ]}
           >
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.groupPillsWrapper}
-            >
+            <ScrollCue fadeColor={theme.colors.canvas} contentContainerStyle={styles.groupPillsWrapper}>
               {[ALL_DIET_GROUPS, ...dietSections.map((s) => s.group)].map((group) => {
                 const isActive = selectedDietGroup === group;
                 const count =
@@ -639,12 +645,12 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                   </TouchableOpacity>
                 );
               })}
-            </ScrollView>
+            </ScrollCue>
           </View>
         )}
 
         {showsFoodList && !searchQuery.trim() && slot && (isDietFiltered || showAllDietFoods) && (
-          <View style={[styles.slotFilterRow, { backgroundColor: theme.colors.surface }]}>
+          <View style={[styles.slotFilterRow, { backgroundColor: theme.colors.canvas }]}>
             <Text style={[styles.slotFilterText, dir.text, { color: theme.colors.textSecondary }]}>
               {showAllDietFoods
                 ? t('tracker.hub.slotFilter.showingAll')
@@ -669,13 +675,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
           </View>
         )}
 
-        {/* Main Content Area */}
-        <ScrollView
-          style={styles.content}
-          contentContainerStyle={styles.contentContainer}
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-        >
+        <View style={styles.contentBody}>
           {isSearching ? (
             /* Search Results View */
             <View style={styles.searchResultsSection}>
@@ -779,7 +779,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                         </TouchableOpacity>
                         <TouchableOpacity
                           onPress={() => handleDeletePreset(preset.id)}
-                          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                          style={styles.presetDeleteBtn}
                           accessibilityRole="button"
                           accessibilityLabel={t('tracker.hub.deletePreset', { name: preset.name })}
                         >
@@ -800,9 +800,12 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                 </>
               )}
 
-              <Text style={[styles.sectionEyebrow, { color: theme.colors.textMuted }]}>
-                {t('tracker.hub.dietBasicsHeading', { count: shownDietCount })}
-              </Text>
+              {/* The slot-filter row above is the one count line when it is showing. */}
+              {!(slot && (isDietFiltered || showAllDietFoods)) && (
+                <Text style={[styles.sectionEyebrow, { color: theme.colors.textMuted }]}>
+                  {t('tracker.hub.dietBasicsHeading', { count: shownDietCount })}
+                </Text>
+              )}
 
               {/*
                 Grouped, not one flat scroll of ~280 rows. Ordered so whole
@@ -813,7 +816,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                 <View key={group}>
                   {visibleDietSections.length > 1 && (
                   <Text style={[styles.dietGroupHeading, { color: theme.colors.textSecondary }]}>
-                    {t(`tracker.hub.dietGroups.${group}`)} · {foods.length}
+                    {t(`tracker.hub.dietGroups.${group}`)}
                   </Text>
                   )}
                   {foods.map((food) => renderDishCard(food, `${group}_`))}
@@ -879,6 +882,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
               })}
             </View>
           )}
+        </View>
         </ScrollView>
 
         {/* Custom Meal Summary Bar */}

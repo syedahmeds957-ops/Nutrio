@@ -4,7 +4,7 @@ import path from 'node:path';
 export default defineConfig({
   test: {
     environment: 'node',
-    setupFiles: ['test/setup/image-assets.ts', './test/setup-catalogue.ts'],
+    setupFiles: ['test/setup/image-assets.ts', './test/setup-catalogue.ts', './test/setup-workout-core.ts'],
   },
   resolve: {
     // Array form with anchored regexes on purpose: object/string aliases are PREFIX

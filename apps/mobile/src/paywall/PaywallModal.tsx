@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Icon } from '../ui/Icon.js';
 import {
   ScrollView,
@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { NamedModal } from '../ui/NamedModal.js';
 import { useTranslation } from '../i18n/index.js';
+import { ThemeColors, useTheme } from '../theme.js';
 import {
   BillingPeriod,
   Currency,
@@ -33,6 +34,8 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
   onSubscribe,
 }) => {
   const { t } = useTranslation();
+  const { theme } = useTheme();
+  const styles = useMemo(() => createStyles(theme.colors), [theme]);
   const [currency, setCurrency] = useState<Currency>('PKR');
   const [period, setPeriod] = useState<BillingPeriod>('annual');
   const [selectedProvider, setSelectedProvider] =
@@ -68,14 +71,14 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
               </Text>
             </View>
             <TouchableOpacity style={styles.closeBtn} onPress={onClose} activeOpacity={0.7}>
-              <Icon name="x" size={18} color="#64748B" />
+              <Icon name="x" size={18} color={theme.colors.textMuted} />
             </TouchableOpacity>
           </View>
 
           <ScrollView style={styles.scrollList} contentContainerStyle={styles.scrollPad}>
             {/* Currency Switcher */}
             <View style={styles.currencyRow}>
-              <Text style={styles.currencyLabel}>Currency:</Text>
+              <Text style={styles.currencyLabel}>{t('paywall.currencyLabel')}</Text>
               <View style={styles.currencyPills}>
                 {(['PKR', 'USD'] as const).map((curr) => (
                   <TouchableOpacity
@@ -146,7 +149,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
             <Text style={styles.sectionHeading}>{t('paywall.whatYouUnlock')}</Text>
             <View style={styles.featuresList}>
               <View style={styles.featureRow}>
-                <Icon name="coach" size={20} color="#1E293B" style={styles.featureIcon} />
+                <Icon name="coach" size={20} color={theme.colors.textPrimary} style={styles.featureIcon} />
                 <View style={styles.featureTextCol}>
                   <Text style={styles.featureTitle}>{t('paywall.feature.coach.title')}</Text>
                   <Text style={styles.featureDesc}>{t('paywall.feature.coach.desc')}</Text>
@@ -154,7 +157,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
               </View>
 
               <View style={styles.featureRow}>
-                <Icon name="scale" size={20} color="#1E293B" style={styles.featureIcon} />
+                <Icon name="scale" size={20} color={theme.colors.textPrimary} style={styles.featureIcon} />
                 <View style={styles.featureTextCol}>
                   <Text style={styles.featureTitle}>{t('paywall.feature.adaptive.title')}</Text>
                   <Text style={styles.featureDesc}>{t('paywall.feature.adaptive.desc')}</Text>
@@ -162,7 +165,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
               </View>
 
               <View style={styles.featureRow}>
-                <Icon name="utensils" size={20} color="#1E293B" style={styles.featureIcon} />
+                <Icon name="utensils" size={20} color={theme.colors.textPrimary} style={styles.featureIcon} />
                 <View style={styles.featureTextCol}>
                   <Text style={styles.featureTitle}>{t('paywall.feature.plans.title')}</Text>
                   <Text style={styles.featureDesc}>{t('paywall.feature.plans.desc')}</Text>
@@ -257,236 +260,237 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.85)',
-    justifyContent: 'flex-end',
-  },
-  modalContent: {
-    backgroundColor: '#FFFFFF',
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
-    maxHeight: '90%',
-    paddingTop: 20,
-    borderWidth: 1,
-    borderColor: '#F1F5F9',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    paddingHorizontal: 20,
-    paddingBottom: 14,
-    borderBottomWidth: 1,
-    borderBottomColor: '#F1F5F9',
-  },
-  headerLeft: {
-    flex: 1,
-    marginRight: 10,
-  },
-  premiumBadge: {
-    backgroundColor: '#FEF3C7',
-    alignSelf: 'flex-start',
-    paddingVertical: 3,
-    paddingHorizontal: 10,
-    borderRadius: 9999,
-    borderWidth: 1,
-    borderColor: '#FDE68A',
-    marginBottom: 6,
-  },
-  premiumBadgeText: {
-    color: '#B45309',
-    fontSize: 10,
-    fontWeight: '800',
-    letterSpacing: 0.8,
-  },
-  headline: {
-    color: '#1E293B',
-    fontSize: 20,
-    fontWeight: '800',
-  },
-  subheadline: {
-    color: '#556274',
-    fontSize: 12,
-    marginTop: 4,
-    lineHeight: 16,
-  },
-  closeBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: '#F1F5F9',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  closeBtnText: {
-    color: '#556274',
-    fontSize: 16,
-    fontWeight: '700',
-  },
-  scrollList: {
-    paddingHorizontal: 16,
-  },
-  scrollPad: {
-    paddingVertical: 14,
-    gap: 14,
-  },
-  currencyRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  currencyLabel: {
-    color: '#1E293B',
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  currencyPills: {
-    flexDirection: 'row',
-    gap: 6,
-  },
-  currPill: {
-    backgroundColor: '#F8FAFC',
-    borderRadius: 9999,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-  },
-  currPillActive: {
-    backgroundColor: '#ECFDF5',
-    borderColor: '#10B981',
-  },
-  currPillText: {
-    color: '#556274',
-    fontSize: 11,
-    fontWeight: '600',
-  },
-  currPillTextActive: {
-    color: '#059669',
-    fontWeight: '700',
-  },
-  periodRow: {
-    flexDirection: 'row',
-    gap: 10,
-  },
-  periodCard: {
-    flex: 1,
-    backgroundColor: '#F8FAFC',
-    borderRadius: 18,
-    padding: 14,
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-  },
-  periodCardActive: {
-    backgroundColor: '#ECFDF5',
-    borderColor: '#10B981',
-  },
-  saveTag: {
-    backgroundColor: '#10B981',
-    borderRadius: 6,
-    paddingVertical: 2,
-    paddingHorizontal: 6,
-    alignSelf: 'flex-start',
-    marginBottom: 6,
-  },
-  saveTagText: {
-    color: '#FFFFFF',
-    fontSize: 9,
-    fontWeight: '800',
-  },
-  periodTitle: {
-    color: '#1E293B',
-    fontSize: 14,
-    fontWeight: '700',
-  },
-  periodPrice: {
-    color: '#059669',
-    fontSize: 14,
-    fontWeight: '800',
-    marginTop: 4,
-  },
-  periodSavings: {
-    color: '#556274',
-    fontSize: 11,
-    marginTop: 2,
-  },
-  sectionHeading: {
-    color: '#1E293B',
-    fontSize: 13,
-    fontWeight: '800',
-    letterSpacing: 0.5,
-  },
-  featuresList: {
-    backgroundColor: '#F8FAFC',
-    borderRadius: 20,
-    padding: 16,
-    gap: 12,
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-  },
-  featureRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 10,
-  },
-  featureIcon: {
-    marginTop: 1,
-  },
-  featureTextCol: {
-    flex: 1,
-  },
-  featureTitle: {
-    color: '#1E293B',
-    fontSize: 13,
-    fontWeight: '700',
-  },
-  featureDesc: {
-    color: '#556274',
-    fontSize: 11,
-    lineHeight: 15,
-    marginTop: 2,
-  },
-  providerRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
-  providerChip: {
-    backgroundColor: '#F8FAFC',
-    borderRadius: 9999,
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-  },
-  providerChipActive: {
-    backgroundColor: '#ECFDF5',
-    borderColor: '#10B981',
-  },
-  providerText: {
-    color: '#1E293B',
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  subscribeBtn: {
-    backgroundColor: '#10B981',
-    borderRadius: 9999,
-    paddingVertical: 14,
-    alignItems: 'center',
-    marginTop: 4,
-    boxShadow: '0px 6px 14px rgba(16, 185, 129, 0.15)',
-  },
-  subscribeBtnText: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    fontWeight: '800',
-  },
-  guaranteeText: {
-    color: '#556274',
-    fontSize: 10,
-    textAlign: 'center',
-    marginTop: 2,
-  },
-});
+const createStyles = (c: ThemeColors) =>
+  StyleSheet.create({
+    modalOverlay: {
+      flex: 1,
+      backgroundColor: 'rgba(0, 0, 0, 0.85)',
+      justifyContent: 'flex-end',
+    },
+    modalContent: {
+      backgroundColor: c.surface,
+      borderTopLeftRadius: 32,
+      borderTopRightRadius: 32,
+      maxHeight: '90%',
+      paddingTop: 20,
+      borderWidth: 1,
+      borderColor: c.border,
+    },
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'flex-start',
+      paddingHorizontal: 20,
+      paddingBottom: 14,
+      borderBottomWidth: 1,
+      borderBottomColor: c.border,
+    },
+    headerLeft: {
+      flex: 1,
+      marginEnd: 10,
+    },
+    premiumBadge: {
+      backgroundColor: c.warningLight,
+      alignSelf: 'flex-start',
+      paddingVertical: 3,
+      paddingHorizontal: 10,
+      borderRadius: 9999,
+      borderWidth: 1,
+      borderColor: c.warning,
+      marginBottom: 6,
+    },
+    premiumBadgeText: {
+      color: c.fatText,
+      fontSize: 10,
+      fontWeight: '800',
+      letterSpacing: 0.8,
+    },
+    headline: {
+      color: c.textPrimary,
+      fontSize: 20,
+      fontWeight: '800',
+    },
+    subheadline: {
+      color: c.textSecondary,
+      fontSize: 12,
+      marginTop: 4,
+      lineHeight: 16,
+    },
+    closeBtn: {
+      width: 32,
+      height: 32,
+      borderRadius: 16,
+      backgroundColor: c.surfaceSecondary,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    closeBtnText: {
+      color: c.textSecondary,
+      fontSize: 16,
+      fontWeight: '700',
+    },
+    scrollList: {
+      paddingHorizontal: 16,
+    },
+    scrollPad: {
+      paddingVertical: 14,
+      gap: 14,
+    },
+    currencyRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    currencyLabel: {
+      color: c.textPrimary,
+      fontSize: 12,
+      fontWeight: '700',
+    },
+    currencyPills: {
+      flexDirection: 'row',
+      gap: 6,
+    },
+    currPill: {
+      backgroundColor: c.surfaceSecondary,
+      borderRadius: 9999,
+      paddingVertical: 6,
+      paddingHorizontal: 12,
+      borderWidth: 1,
+      borderColor: c.border,
+    },
+    currPillActive: {
+      backgroundColor: c.successLight,
+      borderColor: c.success,
+    },
+    currPillText: {
+      color: c.textSecondary,
+      fontSize: 11,
+      fontWeight: '600',
+    },
+    currPillTextActive: {
+      color: c.successText,
+      fontWeight: '700',
+    },
+    periodRow: {
+      flexDirection: 'row',
+      gap: 10,
+    },
+    periodCard: {
+      flex: 1,
+      backgroundColor: c.surfaceSecondary,
+      borderRadius: 18,
+      padding: 14,
+      borderWidth: 1,
+      borderColor: c.border,
+    },
+    periodCardActive: {
+      backgroundColor: c.successLight,
+      borderColor: c.success,
+    },
+    saveTag: {
+      backgroundColor: c.success,
+      borderRadius: 6,
+      paddingVertical: 2,
+      paddingHorizontal: 6,
+      alignSelf: 'flex-start',
+      marginBottom: 6,
+    },
+    saveTagText: {
+      color: c.textInverse,
+      fontSize: 9,
+      fontWeight: '800',
+    },
+    periodTitle: {
+      color: c.textPrimary,
+      fontSize: 14,
+      fontWeight: '700',
+    },
+    periodPrice: {
+      color: c.successText,
+      fontSize: 14,
+      fontWeight: '800',
+      marginTop: 4,
+    },
+    periodSavings: {
+      color: c.textSecondary,
+      fontSize: 11,
+      marginTop: 2,
+    },
+    sectionHeading: {
+      color: c.textPrimary,
+      fontSize: 13,
+      fontWeight: '800',
+      letterSpacing: 0.5,
+    },
+    featuresList: {
+      backgroundColor: c.surfaceSecondary,
+      borderRadius: 20,
+      padding: 16,
+      gap: 12,
+      borderWidth: 1,
+      borderColor: c.border,
+    },
+    featureRow: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      gap: 10,
+    },
+    featureIcon: {
+      marginTop: 1,
+    },
+    featureTextCol: {
+      flex: 1,
+    },
+    featureTitle: {
+      color: c.textPrimary,
+      fontSize: 13,
+      fontWeight: '700',
+    },
+    featureDesc: {
+      color: c.textSecondary,
+      fontSize: 11,
+      lineHeight: 15,
+      marginTop: 2,
+    },
+    providerRow: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: 8,
+    },
+    providerChip: {
+      backgroundColor: c.surfaceSecondary,
+      borderRadius: 9999,
+      paddingVertical: 8,
+      paddingHorizontal: 14,
+      borderWidth: 1,
+      borderColor: c.border,
+    },
+    providerChipActive: {
+      backgroundColor: c.successLight,
+      borderColor: c.success,
+    },
+    providerText: {
+      color: c.textPrimary,
+      fontSize: 12,
+      fontWeight: '600',
+    },
+    subscribeBtn: {
+      backgroundColor: c.success,
+      borderRadius: 9999,
+      paddingVertical: 14,
+      alignItems: 'center',
+      marginTop: 4,
+      boxShadow: '0px 6px 14px rgba(16, 185, 129, 0.15)',
+    },
+    subscribeBtnText: {
+      color: c.textInverse,
+      fontSize: 14,
+      fontWeight: '800',
+    },
+    guaranteeText: {
+      color: c.textSecondary,
+      fontSize: 10,
+      textAlign: 'center',
+      marginTop: 2,
+    },
+  });

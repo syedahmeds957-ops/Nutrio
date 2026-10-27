@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Modal, ModalProps } from 'react-native';
+import { setAppInert } from './webA11y.js';
 
 interface NamedModalProps extends ModalProps {
   /** What a screen reader announces when the dialog opens. */
@@ -13,5 +14,11 @@ interface NamedModalProps extends ModalProps {
  */
 export const NamedModal: React.FC<NamedModalProps> = ({ accessibilityName, ...rest }) => {
   const nameProps = { 'aria-label': accessibilityName } as Record<string, string>;
+  const open = rest.visible !== false;
+  useEffect(() => {
+    if (!open) return undefined;
+    setAppInert(true);
+    return () => setAppInert(false);
+  }, [open]);
   return <Modal {...rest} {...nameProps} />;
 };

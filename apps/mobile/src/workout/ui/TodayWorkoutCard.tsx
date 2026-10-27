@@ -127,7 +127,7 @@ export const TodayWorkoutCard: React.FC<TodayWorkoutCardProps> = ({ plan, logs =
 };
 
 const styles = StyleSheet.create({
-  card: { marginHorizontal: 20, marginTop: 14, padding: 16, borderRadius: 22, borderWidth: 1, gap: 10 },
+  card: { marginHorizontal: 16, marginTop: 14, padding: 16, borderRadius: 22, borderWidth: 1, gap: 10 },
   overlineRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   iconBox: { width: 36, height: 36, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   overline: { fontSize: 11, fontWeight: '700', letterSpacing: 0.8 },

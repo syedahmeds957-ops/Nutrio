@@ -1,5 +1,5 @@
 import type { TFunction } from 'i18next';
-import type { Exercise, LoggedSet, Prescription, Target } from '@nutrio/workout-core';
+import type { Exercise, LoggedSet, PlannedSlot, Prescription, Target } from '@nutrio/workout-core';
 
 const MONTH_KEYS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'] as const;
 
@@ -111,4 +111,24 @@ export function cardioText(t: TFunction, cardio: { minutes: number; intensity: '
 /** How hard cardio should feel: the talk test, or a form cue for intervals. */
 export function cardioCueText(t: TFunction, cardio: { intensity: 'easy' | 'moderate' }, intervals: boolean): string {
   return intervals ? t('workout.cardio.cue.intervals') : t(`workout.cardio.cue.${cardio.intensity}`);
+}
+
+export interface SupersetPlace {
+  /** 1, 2, ... in the order the pairs appear in the session. */
+  group: number;
+  /** The first exercise of the pair: no rest until the second is done. */
+  first: boolean;
+}
+
+/** Where each superset slot sits in its session; slots that are not paired have no entry. */
+export function supersetPlaces(slots: readonly Pick<PlannedSlot, 'slotId' | 'supersetWith'>[]): Map<string, SupersetPlace> {
+  const places = new Map<string, SupersetPlace>();
+  let group = 0;
+  slots.forEach((slot) => {
+    if (!slot.supersetWith || places.has(slot.slotId)) return;
+    group += 1;
+    places.set(slot.slotId, { group, first: true });
+    places.set(slot.supersetWith, { group, first: false });
+  });
+  return places;
 }

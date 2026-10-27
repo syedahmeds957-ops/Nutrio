@@ -535,7 +535,7 @@ const styles = StyleSheet.create({
   },
   dayHeaderTitleCol: {
     flex: 1,
-    marginRight: 8,
+    marginEnd: 8,
   },
   dayNameLabel: {
     fontSize: 18,

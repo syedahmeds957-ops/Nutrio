@@ -481,7 +481,7 @@ const styles = StyleSheet.create({
   },
   itemLeft: {
     flex: 1,
-    marginRight: 10,
+    marginEnd: 10,
   },
   itemTitleRow: {
     marginBottom: 3,
@@ -489,7 +489,7 @@ const styles = StyleSheet.create({
   itemName: {
     fontSize: 15,
     fontWeight: '800',
-    marginRight: 6,
+    marginEnd: 6,
   },
   itemNameUr: {
     fontSize: 12,

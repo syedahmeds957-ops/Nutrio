@@ -1,14 +1,10 @@
-import {
-  applyLadder,
-  applySwap,
-  generateWeeklyPlan,
-  regeneratePlan,
-  resetSwap,
-  type PlannedSlot,
-  type WeeklyWorkoutPlan,
-  type WorkoutLog,
-  type WorkoutSettings,
+import type {
+  PlannedSlot,
+  WeeklyWorkoutPlan,
+  WorkoutLog,
+  WorkoutSettings,
 } from '@nutrio/workout-core';
+import { applyLadder, applySwap, generateWeeklyPlan, regeneratePlan, resetSwap } from './core.js';
 import { localDateKey } from '../common/dateKey.js';
 import { settingsForSave } from './setupState.js';
 import { saveWorkoutLog } from './workoutLogStorage.js';
