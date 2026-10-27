@@ -35,6 +35,7 @@ export const ArrowsLeftRight = Icon;
 export const ImageSquare = Icon;
 export const ShieldCheck = Icon;
 export const House = Icon;
+export const CaretDown = Icon;
 export const CaretLeft = Icon;
 export const CaretRight = Icon;
 export const Star = Icon;

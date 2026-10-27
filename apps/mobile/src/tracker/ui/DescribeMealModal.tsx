@@ -43,6 +43,8 @@ interface DescribeMealModalProps {
   region: RegionCode;
   /** The hub's current slot; a slot named in the sentence replaces it. */
   initialSlot: MealSlot;
+  /** Text typed in the hub's search bar; analysed as soon as the modal opens. */
+  initialText?: string;
   onClose: () => void;
   onLog: (slot: MealSlot, entries: DraftLogEntry[]) => void;
 }
@@ -58,6 +60,7 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
   visible,
   region,
   initialSlot,
+  initialText,
   onClose,
   onLog,
 }) => {
@@ -71,10 +74,19 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
   const [isAnalysing, setIsAnalysing] = useState(false);
   const [rows, setRows] = useState<DraftRow[] | null>(null);
 
-  // Each opening starts from the meal the hub is logging into.
+  // Each opening starts from the meal the hub is logging into, and from the
+  // hub's search text when there is one.
   useEffect(() => {
-    if (visible) setSlot(initialSlot);
-  }, [visible, initialSlot]);
+    if (!visible) return;
+    setSlot(initialSlot);
+    const seed = initialText?.trim() ?? '';
+    if (seed.length >= 2) {
+      setText(seed);
+      void analyse(seed);
+    }
+    // Only opening the modal seeds it; later edits to the hub's text must not.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible]);
   const [slot, setSlot] = useState<MealSlot>(initialSlot);
   // The row whose food is being added as a new dish, if any.
   const [addingFor, setAddingFor] = useState<DraftRow | null>(null);
@@ -91,13 +103,17 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
     onClose();
   };
 
-  const handleAnalyse = async () => {
-    if (text.trim().length < 2 || isAnalysing) return;
+  const analyse = async (value: string) => {
+    if (value.trim().length < 2) return;
     setIsAnalysing(true);
-    const { analysis } = await describeMeal(text, region);
+    const { analysis } = await describeMeal(value, region);
     setRows(draftFromAnalysis(analysis));
     if (analysis.slot) setSlot(analysis.slot);
     setIsAnalysing(false);
+  };
+
+  const handleAnalyse = () => {
+    if (!isAnalysing) void analyse(text);
   };
 
   const updateRow = (key: string, update: (row: DraftRow) => DraftRow) =>

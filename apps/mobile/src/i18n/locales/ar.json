@@ -1246,11 +1246,6 @@
       "amount": "{{quantity}} × {{serving}} · {{grams}} غ",
       "analyse": "ابحث عن الأطعمة",
       "analyseAgain": "ابحث مرة أخرى",
-      "entryHint": {
-        "PK": "اكتب وجبتك كاملة دفعة واحدة",
-        "SA": "اكتب وجبتك كاملة دفعة واحدة"
-      },
-      "entryTitle": "صِف وجبتك",
       "gramsLabel": "الوزن بالغرام",
       "gramsUnit": "غ",
       "less": "أقل",
@@ -1403,12 +1398,19 @@
       "resultsFound_zero": "لا نتائج",
       "saveAsPreset": "حفظ كوجبة",
       "savePresetConfirm": "حفظ",
-      "searchPlaceholder": {
-        "PK": "ابحث في أكثر من 2700 طبق، زنجر، برياني، بطاطس...",
-        "SA": "ابحث عن كبسة، البيك، مندي، قهوة، شاورما..."
+      "searchOrDescribe": {
+        "PK": "ابحث أو صِف: روتيان ودال",
+        "SA": "ابحث أو صِف: كبسة وسلطة"
       },
       "searching": "جاري البحث...",
       "clearSearch": "مسح البحث",
+      "chooseMeal": "اختر الوجبة",
+      "customMealPill": "وجبة مخصصة",
+      "describeAsMeal": "صِفها كوجبة",
+      "describeCardHint": "تقسّمها إلى مكوّنات وتحسب السعرات. تراجعها قبل الحفظ.",
+      "describeCardTitle": "سجّل «{{text}}» كوجبة",
+      "logTo": "سجّل في {{meal}}",
+      "orPickOneDish": "أو اختر طبقًا واحدًا",
       "switchRegion": "تبديل المنطقة",
       "title": "تسجيل وجبة",
       "variant": {

@@ -4,26 +4,56 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   slotRow: {
     flexDirection: 'row',
-    gap: 6,
     paddingHorizontal: 16,
     paddingBottom: 10,
   },
-  // Sized by their label (the longest one needs more room than an equal share),
-  // then stretched to fill the row.
-  slotChip: {
+  mealChip: {
     minHeight: 44,
-    justifyContent: 'center',
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 'auto',
+    flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 6,
-    paddingVertical: 8,
-    borderRadius: 12,
-    borderWidth: 1,
+    gap: 8,
+    paddingHorizontal: 16,
+    borderRadius: 22,
   },
-  slotChipText: {
-    fontSize: 12,
+  mealChipDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  mealChipText: {
+    fontSize: 14,
+    fontWeight: '800',
+  },
+  pickerBackdrop: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+    backgroundColor: 'rgba(10, 11, 13, 0.45)',
+  },
+  pickerSheet: {
+    borderRadius: 22,
+    borderWidth: 1,
+    padding: 8,
+  },
+  pickerTitle: {
+    fontSize: 11,
+    fontWeight: '800',
+    letterSpacing: 0.8,
+    textTransform: 'uppercase',
+    paddingHorizontal: 14,
+    paddingTop: 10,
+    paddingBottom: 6,
+  },
+  pickerRow: {
+    minHeight: 48,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 14,
+    borderRadius: 14,
+  },
+  pickerRowText: {
+    fontSize: 16,
     fontWeight: '700',
   },
   safeArea: {
@@ -93,27 +123,45 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  describeMealBtn: {
+  sparkleBtn: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginEnd: -10,
+  },
+  describeCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
-    marginHorizontal: 16,
-    marginBottom: 10,
-    paddingVertical: 12,
-    paddingHorizontal: 14,
-    borderRadius: 16,
+    gap: 14,
+    padding: 16,
+    borderRadius: 22,
     borderWidth: 1.5,
+  },
+  describeCardIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  orPickEyebrow: {
+    marginTop: 24,
+    marginBottom: 10,
   },
   describeMealTextCol: {
     flex: 1,
   },
   describeMealTitle: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '800',
+    lineHeight: 20,
   },
   describeMealHint: {
-    fontSize: 12,
-    marginTop: 2,
+    fontSize: 13,
+    marginTop: 3,
+    lineHeight: 17,
   },
   buildModeRow: {
     paddingHorizontal: 16,
@@ -242,6 +290,38 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     gap: 8,
   },
+  // Every category in view at once; wraps onto as many rows as it needs.
+  groupPillsWrapped: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingHorizontal: 16,
+    gap: 8,
+  },
+  // Floats over the bottom of the list; contentContainer keeps its padding clear of it.
+  customPillDock: {
+    position: 'absolute',
+    start: 0,
+    end: 0,
+    bottom: 24,
+    alignItems: 'center',
+  },
+  customPill: {
+    minHeight: 52,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    paddingHorizontal: 24,
+    borderRadius: 26,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 6,
+  },
+  customPillText: {
+    fontSize: 15,
+    fontWeight: '800',
+  },
   slotFilterRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -277,7 +357,7 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    paddingBottom: 40,
+    paddingBottom: 110,
   },
   contentBody: {
     padding: 16,

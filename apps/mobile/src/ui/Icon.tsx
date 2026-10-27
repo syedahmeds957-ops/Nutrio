@@ -31,6 +31,7 @@ import { ArrowsLeftRight } from 'phosphor-react-native/src/icons/ArrowsLeftRight
 import { ImageSquare } from 'phosphor-react-native/src/icons/ImageSquare';
 import { ShieldCheck } from 'phosphor-react-native/src/icons/ShieldCheck';
 import { House } from 'phosphor-react-native/src/icons/House';
+import { CaretDown } from 'phosphor-react-native/src/icons/CaretDown';
 import { CaretLeft } from 'phosphor-react-native/src/icons/CaretLeft';
 import { CaretRight } from 'phosphor-react-native/src/icons/CaretRight';
 import { Star } from 'phosphor-react-native/src/icons/Star';
@@ -73,6 +74,7 @@ export type IconName =
   | 'image'
   | 'shield'
   | 'home'
+  | 'chevron-down'
   | 'chevron-left'
   | 'chevron-right'
   | 'star'
@@ -120,6 +122,7 @@ const GLYPHS: Record<IconName, React.ComponentType<PhosphorIconProps>> = {
   image: ImageSquare,
   shield: ShieldCheck,
   home: House,
+  'chevron-down': CaretDown,
   'chevron-left': CaretLeft,
   'chevron-right': CaretRight,
   star: Star,

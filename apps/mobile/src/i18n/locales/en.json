@@ -1222,11 +1222,6 @@
       "amount": "{{quantity}} × {{serving}} · {{grams}} g",
       "analyse": "Find foods",
       "analyseAgain": "Find foods again",
-      "entryHint": {
-        "PK": "Type a whole meal in one go",
-        "SA": "Type a whole meal in one go"
-      },
-      "entryTitle": "Describe your meal",
       "gramsLabel": "Weight in grams",
       "gramsUnit": "g",
       "less": "Less",
@@ -1351,12 +1346,19 @@
       "resultsFound_other": "{{count}} results found",
       "saveAsPreset": "Save as a meal",
       "savePresetConfirm": "Save",
-      "searchPlaceholder": {
-        "PK": "Search 2,700+ dishes, Zinger, pulao, fries…",
-        "SA": "Search Kabsa, AlBaik, Mandi, Gahwa, Shawarma…"
+      "searchOrDescribe": {
+        "PK": "Search or describe: 2 rotis and daal",
+        "SA": "Search or describe: kabsa and salad"
       },
       "searching": "Searching…",
       "clearSearch": "Clear search",
+      "chooseMeal": "Choose a meal",
+      "customMealPill": "Custom meal",
+      "describeAsMeal": "Describe as a meal",
+      "describeCardHint": "Splits it into items and counts the calories. You review before saving.",
+      "describeCardTitle": "Log “{{text}}” as a meal",
+      "logTo": "Log to {{meal}}",
+      "orPickOneDish": "Or pick one dish",
       "switchRegion": "Switch region",
       "title": "Log a meal",
       "variant": {

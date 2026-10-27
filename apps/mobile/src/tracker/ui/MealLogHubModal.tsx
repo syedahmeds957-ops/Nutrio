@@ -7,6 +7,7 @@ import {
   ScrollView,
   SafeAreaView,
   ActivityIndicator,
+  Pressable,
 } from 'react-native';
 import { BackButton } from '../../ui/BackButton.js';
 import { NamedModal } from '../../ui/NamedModal.js';
@@ -27,6 +28,7 @@ import type { DraftLogEntry } from '../describeMeal.js';
 import { AddDishModal } from './AddDishModal.js';
 import { ScrollCue } from '../../ui/ScrollCue.js';
 import { DescribeMealModal } from './DescribeMealModal.js';
+import { looksLikeMealDescription } from '../looksLikeMealDescription.js';
 import { styles } from './MealLogHubModal.styles.js';
 import { DishCard } from './DishCard.js';
 import { VariantDishCard } from './VariantDishCard.js';
@@ -240,6 +242,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   // A dish name the catalogue lacked, being added in AddDishModal; null when closed.
   const [addDishName, setAddDishName] = useState<string | null>(null);
   const [isDescribing, setIsDescribing] = useState(false);
+  const [isPickingMeal, setIsPickingMeal] = useState(false);
   // Bumped when a dish is added, so search picks it up straight away.
   const [customDishesVersion, setCustomDishesVersion] = useState(0);
 
@@ -266,6 +269,10 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   };
 
   const isSearching = searchQuery.trim().length > 0;
+  // A sentence like "2 rotis and daal" gets a card offering to log it as a meal,
+  // above the usual results.
+  const offersDescribe =
+    Boolean(onLogDescribedMeal) && !isBuildMode && looksLikeMealDescription(searchQuery);
 
   // Filter brands by active region & selected cuisine group
   const filteredBrands = useMemo(() => {
@@ -347,38 +354,24 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
           </TouchableOpacity>
         </View>
 
-        {/* Which meal this is being logged to */}
+        {/* Which meal this is being logged to: one chip, the four meals in a picker */}
         {slot && onSlotChange && (
           <View style={[styles.slotRow, { backgroundColor: theme.colors.surface }]}>
-            {MEAL_SLOT_IDS.map((id) => {
-              const selected = slot === id;
-              return (
-                <TouchableOpacity
-                  key={id}
-                  style={[
-                    styles.slotChip,
-                    { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border },
-                    selected && { backgroundColor: theme.colors.primaryLime, borderColor: theme.colors.primaryLime },
-                  ]}
-                  onPress={() => onSlotChange(id)}
-                  activeOpacity={0.7}
-                  accessibilityRole="button"
-                  accessibilityState={{ selected }}
-                >
-                  <Text
-                    style={[
-                      styles.slotChipText,
-                      { color: selected ? theme.colors.limeText : theme.colors.textSecondary },
-                    ]}
-                    numberOfLines={1}
-                    adjustsFontSizeToFit
-                    minimumFontScale={0.8}
-                  >
-                    {t(`tracker.mealSlots.${id}.${activeRegion}`)}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
+            <TouchableOpacity
+              style={[styles.mealChip, { backgroundColor: theme.colors.textPrimary }]}
+              onPress={() => setIsPickingMeal(true)}
+              activeOpacity={0.8}
+              accessibilityRole="button"
+              accessibilityLabel={`${t('tracker.hub.logTo', {
+                meal: t(`tracker.mealSlots.${slot}.${activeRegion}`),
+              })}, ${t('tracker.hub.chooseMeal')}`}
+            >
+              <View style={[styles.mealChipDot, { backgroundColor: theme.colors.primaryLime }]} />
+              <Text style={[styles.mealChipText, { color: theme.colors.canvas }]} numberOfLines={1}>
+                {t('tracker.hub.logTo', { meal: t(`tracker.mealSlots.${slot}.${activeRegion}`) })}
+              </Text>
+              <Icon name="chevron-down" size={16} color={theme.colors.canvas} />
+            </TouchableOpacity>
           </View>
         )}
 
@@ -422,7 +415,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                 dir.text,
                 { color: theme.colors.textPrimary },
               ]}
-              placeholder={t(`tracker.hub.searchPlaceholder.${activeRegion}`)}
+              placeholder={t(`tracker.hub.searchOrDescribe.${activeRegion === 'SA' ? 'SA' : 'PK'}`)}
               placeholderTextColor={theme.colors.textMuted}
               value={searchQuery}
               onChangeText={setSearchQuery}
@@ -452,6 +445,18 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                 <Icon name="x" size={16} color={theme.colors.textMuted} />
               </TouchableOpacity>
             ) : null}
+            {onLogDescribedMeal && !isBuildMode && (
+              <TouchableOpacity
+                style={[styles.sparkleBtn, { backgroundColor: theme.colors.primaryLime }]}
+                onPress={() => setIsDescribing(true)}
+                hitSlop={{ top: 4, bottom: 4, left: 2, right: 2 }}
+                activeOpacity={0.7}
+                accessibilityRole="button"
+                accessibilityLabel={t('tracker.hub.describeAsMeal')}
+              >
+                <Icon name="sparkles" size={18} color={theme.colors.limeText} />
+              </TouchableOpacity>
+            )}
           </View>
         </View>
 
@@ -466,75 +471,26 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-        {/* Describe a whole meal in one sentence (hidden while typing a query) */}
-        {onLogDescribedMeal && !isBuildMode && !isSearching && (
-          <TouchableOpacity
-            style={[
-              styles.describeMealBtn,
-              { backgroundColor: theme.colors.surface, borderColor: theme.colors.primaryLime },
-            ]}
-            onPress={() => setIsDescribing(true)}
-            activeOpacity={0.7}
-            accessibilityRole="button"
-          >
-            <Icon name="sparkles" size={16} color={theme.colors.textPrimary} />
-            <View style={styles.describeMealTextCol}>
-              <Text style={[styles.describeMealTitle, dir.text, { color: theme.colors.textPrimary }]}>
-                {t('tracker.describeMeal.entryTitle')}
-              </Text>
-              <Text style={[styles.describeMealHint, dir.text, { color: theme.colors.textSecondary }]} numberOfLines={1}>
-                {t(`tracker.describeMeal.entryHint.${activeRegion === 'SA' ? 'SA' : 'PK'}`)}
-              </Text>
-            </View>
-            <Icon name={dir.isRTL ? 'chevron-left' : 'chevron-right'} size={16} color={theme.colors.textMuted} />
-          </TouchableOpacity>
-        )}
-
-        {/* Custom Meal Mode Toggle (hidden while typing a query, unless a basket is open) */}
-        {onConfirmBasket && (!isSearching || isBuildMode) && (
-          <View
-            style={[
-              styles.buildModeRow,
-              {
-                backgroundColor: theme.colors.canvas,
-                borderBottomColor: theme.colors.border,
-              },
-            ]}
-          >
+        {/* While a custom meal is being built: how, and the way out (the pill is hidden then) */}
+        {isBuildMode && (
+          <View style={styles.buildModeRow}>
+            <Text style={[styles.buildModeHint, dir.text, { color: theme.colors.textSecondary }]}>
+              {t('tracker.hub.buildCustomMealHint')}
+            </Text>
             <TouchableOpacity
               style={[
                 styles.buildModeBtn,
-                {
-                  backgroundColor: isBuildMode
-                    ? theme.colors.primaryLime
-                    : theme.colors.surfaceSecondary,
-                  borderColor: isBuildMode ? theme.colors.primaryLime : theme.colors.border,
-                },
+                { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border },
               ]}
-              onPress={() => (isBuildMode ? exitBuildMode() : setIsBuildMode(true))}
+              onPress={exitBuildMode}
               activeOpacity={0.7}
               accessibilityRole="button"
             >
-              <Icon
-                name={isBuildMode ? 'x' : 'plus'}
-                size={14}
-                color={isBuildMode ? '#0A0B0D' : theme.colors.textPrimary}
-              />
-              <Text
-                style={[
-                  styles.buildModeBtnText,
-                  { color: isBuildMode ? '#0A0B0D' : theme.colors.textPrimary },
-                ]}
-              >
-                {isBuildMode ? t('tracker.hub.cancelCustomMeal') : t('tracker.hub.buildCustomMeal')}
+              <Icon name="x" size={14} color={theme.colors.textPrimary} />
+              <Text style={[styles.buildModeBtnText, { color: theme.colors.textPrimary }]}>
+                {t('tracker.hub.cancelCustomMeal')}
               </Text>
             </TouchableOpacity>
-
-            {isBuildMode && (
-              <Text style={[styles.buildModeHint, { color: theme.colors.textSecondary }]}>
-                {t('tracker.hub.buildCustomMealHint')}
-              </Text>
-            )}
           </View>
         )}
 
@@ -549,7 +505,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
               },
             ]}
           >
-            <ScrollCue fadeColor={theme.colors.canvas} contentContainerStyle={styles.groupPillsWrapper}>
+            <View style={styles.groupPillsWrapped}>
               {brandGroups.map((grp) => {
                 const isActive = selectedGroup === grp;
                 return (
@@ -588,7 +544,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                   </TouchableOpacity>
                 );
               })}
-            </ScrollCue>
+            </View>
           </View>
         )}
 
@@ -679,6 +635,35 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
           {isSearching ? (
             /* Search Results View */
             <View style={styles.searchResultsSection}>
+              {offersDescribe && (
+                <>
+                  <TouchableOpacity
+                    style={[
+                      styles.describeCard,
+                      { backgroundColor: theme.colors.surface, borderColor: theme.colors.primaryLime },
+                    ]}
+                    onPress={() => setIsDescribing(true)}
+                    activeOpacity={0.7}
+                    accessibilityRole="button"
+                  >
+                    <View style={[styles.describeCardIcon, { backgroundColor: theme.colors.primaryLime }]}>
+                      <Icon name="sparkles" size={22} color={theme.colors.limeText} />
+                    </View>
+                    <View style={styles.describeMealTextCol}>
+                      <Text style={[styles.describeMealTitle, dir.text, { color: theme.colors.textPrimary }]}>
+                        {t('tracker.hub.describeCardTitle', { text: searchQuery.trim() })}
+                      </Text>
+                      <Text style={[styles.describeMealHint, dir.text, { color: theme.colors.textSecondary }]}>
+                        {t('tracker.hub.describeCardHint')}
+                      </Text>
+                    </View>
+                    <Icon name={dir.isRTL ? 'chevron-left' : 'chevron-right'} size={18} color={theme.colors.textMuted} />
+                  </TouchableOpacity>
+                  <Text style={[styles.sectionEyebrow, styles.orPickEyebrow, { color: theme.colors.textMuted }]}>
+                    {t('tracker.hub.orPickOneDish')}
+                  </Text>
+                </>
+              )}
               <Text style={[styles.sectionEyebrow, { color: theme.colors.textMuted }]}>
                 {isFiltering
                   ? t('tracker.hub.searching')
@@ -885,6 +870,23 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
         </View>
         </ScrollView>
 
+        {/* Pinned, so building a meal is one tap from anywhere in the list */}
+        {onConfirmBasket && !isBuildMode && !isSearchFocused && (
+          <View style={styles.customPillDock} pointerEvents="box-none">
+            <TouchableOpacity
+              style={[styles.customPill, { backgroundColor: theme.colors.textPrimary }]}
+              onPress={() => setIsBuildMode(true)}
+              activeOpacity={0.85}
+              accessibilityRole="button"
+            >
+              <Icon name="plus" size={18} color={theme.colors.primaryLime} />
+              <Text style={[styles.customPillText, { color: theme.colors.canvas }]}>
+                {t('tracker.hub.customMealPill')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
         {/* Custom Meal Summary Bar */}
         {isBuildMode && basket.length > 0 && !isNamingPreset && (
           <BasketSummaryBar
@@ -900,12 +902,64 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
             visible={isDescribing}
             region={activeRegion}
             initialSlot={slot ?? 'breakfast'}
+            initialText={searchQuery}
             onClose={() => setIsDescribing(false)}
             onLog={(mealSlot, entries) => {
               setIsDescribing(false);
               onLogDescribedMeal(mealSlot, entries);
             }}
           />
+        )}
+
+        {slot && onSlotChange && (
+          <NamedModal
+            accessibilityName={t('tracker.hub.chooseMeal')}
+            visible={isPickingMeal}
+            transparent
+            animationType="fade"
+            onRequestClose={() => setIsPickingMeal(false)}
+          >
+            <Pressable
+              style={styles.pickerBackdrop}
+              onPress={() => setIsPickingMeal(false)}
+              accessibilityLabel={t('tracker.hub.chooseMeal')}
+            >
+              <View
+                style={[
+                  styles.pickerSheet,
+                  { backgroundColor: theme.colors.surface, borderColor: theme.colors.border },
+                ]}
+              >
+                <Text style={[styles.pickerTitle, dir.text, { color: theme.colors.textMuted }]}>
+                  {t('tracker.hub.chooseMeal')}
+                </Text>
+                {MEAL_SLOT_IDS.map((id) => {
+                  const selected = slot === id;
+                  return (
+                    <TouchableOpacity
+                      key={id}
+                      style={[
+                        styles.pickerRow,
+                        selected && { backgroundColor: theme.colors.surfaceSecondary },
+                      ]}
+                      onPress={() => {
+                        onSlotChange(id);
+                        setIsPickingMeal(false);
+                      }}
+                      activeOpacity={0.7}
+                      accessibilityRole="button"
+                      accessibilityState={{ selected }}
+                    >
+                      <Text style={[styles.pickerRowText, dir.text, { color: theme.colors.textPrimary }]}>
+                        {t(`tracker.mealSlots.${id}.${activeRegion}`)}
+                      </Text>
+                      {selected && <Icon name="check" size={18} color={theme.colors.textPrimary} />}
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            </Pressable>
+          </NamedModal>
         )}
 
         <AddDishModal
