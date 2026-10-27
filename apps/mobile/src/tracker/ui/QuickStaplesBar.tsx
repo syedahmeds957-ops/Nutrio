@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import {
+  LayoutChangeEvent,
   Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { ScrollCue } from '../../ui/ScrollCue.js';
 import { NamedModal } from '../../ui/NamedModal.js';
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
@@ -15,6 +15,7 @@ import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { HapticFeedback } from '../../ui/haptics.js';
 import { MealSlot } from '../types.js';
 import { StapleItem, getStapleDefinitions, resolveStaple } from '../staples.js';
+import { chipsThatFit } from '../mealsCard.js';
 
 export type { StapleItem } from '../staples.js';
 
@@ -26,6 +27,13 @@ interface QuickStaplesBarProps {
 
 const SLOT_IDS: MealSlot[] = ['breakfast', 'lunch', 'dinner', 'snacks_chai'];
 
+const CHIP_GAP = 8;
+/** Chip width = padding, plus icon, gaps (about 48 px) + text at about 7 px a character, with 8% to spare. */
+const CHIP_FIXED_PX = 48;
+const CHIP_CHAR_PX = 7;
+const estimateChipWidth = (label: string, kcal: string) =>
+  Math.ceil((CHIP_FIXED_PX + (label.length + kcal.length) * CHIP_CHAR_PX) * 1.08);
+
 export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
   onQuickLog,
   onRequireAccount,
@@ -34,13 +42,13 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
   const dir = useTextDirection();
-  const isSaudi = activeRegion === 'SA';
   const accentColor = theme.colors.primaryLime;
   const activeTextColor = '#0A0B0D';
   const [justLoggedId, setJustLoggedId] = useState<string | null>(null);
   // A staple is logged only once the user has picked a meal, so a tap parks
   // the chip here while the slot sheet is open instead of logging blind.
   const [pendingStaple, setPendingStaple] = useState<StapleItem | null>(null);
+  const [rowWidth, setRowWidth] = useState(0);
 
   // Which staples appear is regional (roti in Pakistan, tamees in Saudi) and
   // only the chip label is translated: `name` is the key the resolver matches
@@ -70,19 +78,30 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
     setTimeout(() => setJustLoggedId(null), 1800);
   };
 
+  // One line, never scrolled or clipped: show the staples that fit the width,
+  // in order. Until the row is measured, show the first few.
+  const chips = staples.map(({ item, resolved }) => ({
+    item,
+    label: item.label.replace(/^\+\s*/, ''),
+    kcal: String(resolved.calories),
+  }));
+  const visibleCount =
+    rowWidth > 0
+      ? chipsThatFit(
+          chips.map((chip) => estimateChipWidth(chip.label, chip.kcal)),
+          rowWidth,
+          CHIP_GAP
+        )
+      : Math.min(3, chips.length);
+
   return (
     <View style={styles.container}>
-      <View style={styles.topRow}>
-        <View style={styles.titleRow}>
-          <Icon name="zap" size={13} color={accentColor} />
-          <Text style={[styles.heading, dir.text, { color: theme.colors.textMuted }]}>
-            {t('tracker.staples.heading')}
-          </Text>
-        </View>
-      </View>
-
-      <ScrollCue fadeColor={theme.colors.canvas} contentContainerStyle={styles.scrollContent}>
-        {staples.map(({ item: staple, resolved }) => {
+      <View
+        style={styles.row}
+        onLayout={(e: LayoutChangeEvent) => setRowWidth(e.nativeEvent.layout.width)}
+        accessibilityLabel={t('tracker.staples.heading')}
+      >
+        {chips.slice(0, visibleCount).map(({ item: staple, label, kcal }) => {
           const isJustLogged = justLoggedId === staple.id;
 
           return (
@@ -101,39 +120,34 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
               ]}
               onPress={() => handlePress(staple)}
               activeOpacity={0.7}
+              hitSlop={{ top: 5, bottom: 5, left: 0, right: 0 }}
               accessibilityRole="button"
+              accessibilityLabel={`${label}, ${t('common.kcalValue', { value: kcal })}`}
             >
               <View style={styles.pillContent}>
                 <Icon
-                  name={isJustLogged ? 'check' : staple.icon}
+                  name={isJustLogged ? 'check' : 'plus'}
                   size={12}
-                  color={isJustLogged ? activeTextColor : accentColor}
+                  color={isJustLogged ? activeTextColor : theme.colors.textPrimary}
+                  strokeWidth={2.6}
                 />
                 <Text
-                  style={[
-                    styles.pillLabel,
-                    { color: isJustLogged ? activeTextColor : theme.colors.textPrimary },
-                  ]}
+                  numberOfLines={1}
+                  style={[styles.pillLabel, { color: isJustLogged ? activeTextColor : theme.colors.textPrimary }]}
                 >
-                  {isJustLogged ? t('tracker.staples.added') : staple.label}
+                  {isJustLogged ? t('tracker.staples.added') : label}
                 </Text>
                 <Text
-                  style={[
-                    styles.pillKcal,
-                    {
-                      color: isJustLogged
-                        ? (isSaudi ? 'rgba(255,255,255,0.85)' : '#0A0B0D')
-                        : theme.colors.textSecondary,
-                    },
-                  ]}
+                  numberOfLines={1}
+                  style={[styles.pillKcal, { color: isJustLogged ? activeTextColor : theme.colors.textSecondary }]}
                 >
-                  {t('common.kcalValue', { value: resolved.calories })}
+                  {kcal}
                 </Text>
               </View>
             </TouchableOpacity>
           );
         })}
-      </ScrollCue>
+      </View>
 
       <NamedModal accessibilityName={t('a11y.dialog.quickStaples')}
         visible={pendingStaple !== null}
@@ -209,50 +223,35 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
-    marginHorizontal: 16,
-    marginBottom: 16,
-  },
-  topRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  titleRow: {
+  container: {},
+  row: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
-  },
-  heading: {
-    fontSize: 10,
-    fontWeight: '800',
-    letterSpacing: 0.6,
-  },
-  scrollContent: {
-    gap: 8,
-    paddingVertical: 2,
+    gap: CHIP_GAP,
+    overflow: 'hidden',
   },
   pillBtn: {
-    minHeight: 44,
+    height: 34,
     justifyContent: 'center',
     borderRadius: 9999,
-    paddingVertical: 8,
-    paddingHorizontal: 14,
+    paddingHorizontal: 12,
     borderWidth: 1,
+    flexShrink: 1,
   },
   pillContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: 5,
   },
   pillLabel: {
-    fontSize: 11,
+    flexShrink: 1,
+    fontSize: 12.5,
     fontWeight: '700',
   },
   pillKcal: {
     fontSize: 11,
     fontWeight: '600',
+    fontVariant: ['tabular-nums'],
   },
   sheetBackdrop: {
     flex: 1,

@@ -51,6 +51,8 @@ export interface WorkoutDraft {
   template: WorkoutSession['template'];
   startedAt: string;
   exercises: DraftExercise[];
+  /** Set when a finished workout is reopened to correct or add to (see workoutEdit.ts); never kept as the active draft. */
+  editing?: boolean;
 }
 
 /**

@@ -8,7 +8,9 @@ import {
   View,
 } from 'react-native';
 import { NamedModal } from '../ui/NamedModal.js';
-import { useTranslation } from '../i18n/index.js';
+import { useTranslation, useI18nState } from '../i18n/index.js';
+import { formatNumber } from '../i18n/format.js';
+import type { AppLanguage } from '../i18n/languages.js';
 import { ThemeColors, useTheme } from '../theme.js';
 import {
   BillingPeriod,
@@ -25,8 +27,8 @@ interface PaywallModalProps {
 }
 
 /** "6,999" or "49.99": the amount only; currency and period come from the translated line. */
-const formatPrice = (pricing: PlanPricing) =>
-  `${pricing.currency === 'PKR' ? 'PKR ' : '$'}${pricing.priceAmount.toLocaleString('en-US')}`;
+const formatPrice = (pricing: PlanPricing, language: AppLanguage) =>
+  `${pricing.currency === 'PKR' ? 'PKR ' : '$'}${formatNumber(pricing.priceAmount, language)}`;
 
 export const PaywallModal: React.FC<PaywallModalProps> = ({
   visible,
@@ -34,6 +36,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
   onSubscribe,
 }) => {
   const { t } = useTranslation();
+  const { language } = useI18nState();
   const { theme } = useTheme();
   const styles = useMemo(() => createStyles(theme.colors), [theme]);
   const [currency, setCurrency] = useState<Currency>('PKR');
@@ -122,7 +125,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
                 </View>
                 <Text style={styles.periodTitle}>{t('paywall.annualPlan')}</Text>
                 <Text style={styles.periodPrice}>
-                  {t('paywall.priceYear', { amount: formatPrice(PRICING_TIERS[currency].annual) })}
+                  {t('paywall.priceYear', { amount: formatPrice(PRICING_TIERS[currency].annual, language) })}
                 </Text>
                 <Text style={styles.periodSavings}>
                   {t(`paywall.annualSavings.${currency}`)}
@@ -139,7 +142,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
               >
                 <Text style={styles.periodTitle}>{t('paywall.monthlyPlan')}</Text>
                 <Text style={styles.periodPrice}>
-                  {t('paywall.priceMonth', { amount: formatPrice(PRICING_TIERS[currency].monthly) })}
+                  {t('paywall.priceMonth', { amount: formatPrice(PRICING_TIERS[currency].monthly, language) })}
                 </Text>
                 <Text style={styles.periodSavings}>{t('paywall.cancelAnytime')}</Text>
               </TouchableOpacity>
@@ -246,7 +249,7 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
               activeOpacity={0.8}
             >
               <Text style={styles.subscribeBtnText}>
-                {t('paywall.subscribe', { price: t(period === 'annual' ? 'paywall.priceYear' : 'paywall.priceMonth', { amount: formatPrice(pricing) }) })}
+                {t('paywall.subscribe', { price: t(period === 'annual' ? 'paywall.priceYear' : 'paywall.priceMonth', { amount: formatPrice(pricing, language) }) })}
               </Text>
             </TouchableOpacity>
 

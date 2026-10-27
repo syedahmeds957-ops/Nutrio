@@ -3,8 +3,7 @@ import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native
 import { NamedModal } from '../../ui/NamedModal.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
-import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
-import type { LanguagePreference } from '../../i18n/languages.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon, IconName } from '../../ui/Icon.js';
 import { styles } from './TrackerDashboardScreen.styles.js';
 
@@ -25,6 +24,8 @@ export interface ProfileSheetProps {
   isGuest: boolean;
   onOpenSurvey?: () => void;
   onOpenMealPlan?: () => void;
+  /** Goes back to the targets (plan) screen; it has no other entry point on Today. */
+  onOpenTargets?: () => void;
   onOpenWeeklyCheckIn?: () => void;
   onRequireAuth?: () => void;
   onLogout?: () => void;
@@ -67,6 +68,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
   isGuest,
   onOpenSurvey,
   onOpenMealPlan,
+  onOpenTargets,
   onOpenWeeklyCheckIn,
   onRequireAuth,
   onLogout,
@@ -75,7 +77,6 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
   const dir = useTextDirection();
-  const { languagePreference, setLanguagePreference } = useI18nState();
   const accentColor = theme.colors.primaryLime;
 
   const themeChoice = (choice: 'dark' | 'light', label: string) => (
@@ -88,26 +89,6 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
         style={[
           styles.themeChoiceText,
           { color: mode === choice ? ACCENT_TEXT : theme.colors.textSecondary },
-        ]}
-      >
-        {label}
-      </Text>
-    </TouchableOpacity>
-  );
-
-  const languageChoice = (choice: LanguagePreference, label: string) => (
-    <TouchableOpacity
-      style={[styles.themeChoiceBtn, languagePreference === choice && { backgroundColor: accentColor }]}
-      onPress={() => setLanguagePreference(choice)}
-      activeOpacity={0.8}
-      accessibilityRole="radio"
-      aria-checked={languagePreference === choice}
-    >
-      <Text
-        numberOfLines={1}
-        style={[
-          styles.themeChoiceText,
-          { color: languagePreference === choice ? ACCENT_TEXT : theme.colors.textSecondary },
         ]}
       >
         {label}
@@ -171,22 +152,6 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
             </View>
           </View>
 
-          <View
-            style={[
-              styles.themeSettingCard,
-              { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border },
-            ]}
-          >
-            <Text style={[styles.themeSettingTitle, dir.text, { color: theme.colors.textPrimary }]}>
-              {t('tracker.dashboard.language')}
-            </Text>
-            <View style={styles.themeToggleRow}>
-              {languageChoice('auto', t('tracker.dashboard.languageAuto'))}
-              {languageChoice('en', 'English')}
-              {languageChoice('ar', 'العربية')}
-            </View>
-          </View>
-
           {/* Target Summary Stats */}
           <View
             style={[
@@ -215,6 +180,13 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
                 icon="utensils"
                 label={t('tracker.dashboard.viewMealPlan')}
                 onPress={() => onClose(onOpenMealPlan)}
+              />
+            )}
+            {onOpenTargets && (
+              <ProfileAction
+                icon="clipboard"
+                label={t('tracker.dashboard.nav.targets')}
+                onPress={() => onClose(onOpenTargets)}
               />
             )}
             {onOpenWeeklyCheckIn && !isGuest && (

@@ -12,6 +12,7 @@ import { Icon } from '../../ui/Icon.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useFormat } from '../../i18n/useFormat.js';
 
 interface PlanRevealViewProps {
   plan: ComputedUserPlan;
@@ -39,6 +40,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
   const { theme } = useTheme();
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
+  const { formatNumber } = useFormat();
   const dir = useTextDirection();
   const isSaudi = (plan.region || activeRegion) === 'SA';
   const accentColor = theme.colors.heroCardBg;
@@ -105,7 +107,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
         </View>
 
         <Text style={[styles.heroValue, { color: accentTextColor }]}>
-          {targetResult.kcalTarget.toLocaleString('en-US')}
+          {formatNumber(targetResult.kcalTarget)}
         </Text>
         <Text style={[styles.heroUnit, { color: accentTextColor }]}>
           {t('plan.reveal.caloriesPerDay')}

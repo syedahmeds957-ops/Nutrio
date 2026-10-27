@@ -42,7 +42,7 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
           <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>
             {t('weight.trend.scaleWeight')}
           </Text>
-          <Text style={[styles.statVal, { color: theme.colors.textPrimary }]}>{currentWeightKg} kg</Text>
+          <Text style={[styles.statVal, { color: theme.colors.textPrimary }]}>{t('common.kgValue', { value: currentWeightKg })}</Text>
           <Text style={[styles.statSub, { color: theme.colors.textMuted }]}>
             {t('weight.trend.rawReading')}
           </Text>
@@ -52,7 +52,7 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
           <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>
             {t('weight.trend.trendWeight')}
           </Text>
-          <Text style={[styles.statVal, { color: theme.colors.primaryAccessible, fontWeight: '800' }]}>{currentEWMAKg} kg</Text>
+          <Text style={[styles.statVal, { color: theme.colors.primaryAccessible, fontWeight: '800' }]}>{t('common.kgValue', { value: currentEWMAKg })}</Text>
           <Text style={[styles.statSub, { color: theme.colors.textMuted }]}>
             {t('weight.trend.trueTissue')}
           </Text>
@@ -68,7 +68,7 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
               { color: isLoss ? theme.colors.primaryAccessible : theme.colors.fatText },
             ]}
           >
-            {totalDeltaKg > 0 ? `+${totalDeltaKg}` : totalDeltaKg} kg
+            {t('common.kgValue', { value: totalDeltaKg > 0 ? `+${totalDeltaKg}` : totalDeltaKg })}
           </Text>
           <Text style={[styles.statSub, { color: theme.colors.textMuted }]}>
             {t('weight.trend.overallProgress')}

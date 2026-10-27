@@ -13,6 +13,7 @@ import { NamedModal } from '../../ui/NamedModal.js';
 import type { NormalizedFood, RegionCode } from '@nutrio/food-db';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { foodDisplayName } from '../foodDisplayName.js';
 import { Icon } from '../../ui/Icon.js';
 import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { describeMeal } from '../../ai/mealText.js';
@@ -167,7 +168,7 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
               “{row.parsed.text}”
             </Text>
             <Text style={[styles.foodName, dir.text, { color: theme.colors.textPrimary }]}>
-              {row.food ? row.food.name : t('tracker.describeMeal.notFound')}
+              {row.food ? foodDisplayName(row.food.name, row.food.nameAr, dir.isRTL).primary : t('tracker.describeMeal.notFound')}
             </Text>
             {row.serving && nutrition && (
               <Text style={[styles.amount, dir.text, { color: theme.colors.textSecondary }]}>
@@ -287,7 +288,7 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
                   accessibilityRole="button"
                 >
                   <Text style={[styles.chipText, { color: theme.colors.textPrimary }]} numberOfLines={1}>
-                    {alt.name}
+                    {foodDisplayName(alt.name, alt.nameAr, dir.isRTL).primary}
                   </Text>
                 </TouchableOpacity>
               ))}
@@ -319,7 +320,7 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
                   accessibilityRole="button"
                 >
                   <Text style={[styles.chipText, { color: theme.colors.textPrimary }]} numberOfLines={1}>
-                    {alt.name}
+                    {foodDisplayName(alt.name, alt.nameAr, dir.isRTL).primary}
                   </Text>
                 </TouchableOpacity>
               ))}

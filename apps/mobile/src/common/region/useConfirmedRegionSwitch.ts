@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useI18nState, useTranslation } from '../../i18n/index.js';
+import { useTranslation } from '../../i18n/index.js';
 import { confirmAction } from '../confirm.js';
 import { useRegion } from './regionContext.js';
 
@@ -10,18 +10,12 @@ import { useRegion } from './regionContext.js';
 export function useConfirmedRegionSwitch(onConfirmed?: () => void): () => void {
   const { activeRegion, setRegion } = useRegion();
   const { t } = useTranslation();
-  const { languagePreference } = useI18nState();
   const target = activeRegion === 'SA' ? 'PK' : 'SA';
 
   return useCallback(() => {
     confirmAction({
       title: t(`common.regionSwitch.title.${target}`),
-      // A language the user picked stays put, so the message must not promise a change.
-      message: t(
-        languagePreference === 'auto'
-          ? `common.regionSwitch.message.${target}`
-          : `common.regionSwitch.messageKeepLanguage.${target}`
-      ),
+      message: t(`common.regionSwitch.message.${target}`),
       confirmLabel: t('common.regionSwitch.confirm'),
       cancelLabel: t('common.cancel'),
       onConfirm: () => {
@@ -29,5 +23,5 @@ export function useConfirmedRegionSwitch(onConfirmed?: () => void): () => void {
         setRegion(target);
       },
     });
-  }, [t, target, setRegion, onConfirmed, languagePreference]);
+  }, [t, target, setRegion, onConfirmed]);
 }

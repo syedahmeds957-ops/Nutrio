@@ -107,7 +107,11 @@ describe('AI Coach Context Assembler & Guardrails (Task 4.1)', () => {
     expect(saudiPrompt).toContain('SFDA Caloric Standards');
     expect(saudiPrompt).toContain('Saudi Gahwa & Dates Ritual');
     expect(saudiPrompt).toContain('Almarai Laban');
-    expect(saudiPrompt).toContain('اللهجة السعودية');
+    const pkPrompt = buildCoachSystemPrompt(sampleContext);
+    expect(pkPrompt).toContain('answer in English only');
+    expect(pkPrompt).not.toMatch(/[\u0600-\u06FF]/);
+    expect(saudiPrompt).toContain('answer in Arabic only');
+    expect(saudiPrompt).toContain('Never reply in English');
   });
 
   describe('workout block', () => {

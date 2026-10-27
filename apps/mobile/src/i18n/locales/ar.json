@@ -38,9 +38,9 @@
         "summary": "السعرات المسجلة أقل من أن تفسر ثبات وزنك، وهذا يعني عادةً أن وجبات أو وجبات خفيفة لم تُسجَّل. يبقى هدفك كما هو دون تخفيض."
       }
     },
-    "checkinFallbackName": "Habibi",
-    "coachFallbackName": "Habibi",
-    "defaultUserName": "Habibi",
+    "checkinFallbackName": "حبيبي",
+    "coachFallbackName": "حبيبي",
+    "defaultUserName": "حبيبي",
     "guest": "ضيف",
     "splash": {
       "status": "جاري استعادة الجلسة والبيانات...",
@@ -51,6 +51,16 @@
     "continueAsGuest": "المتابعة كضيف",
     "createAccount": "إنشاء حساب",
     "emailAddress": "البريد الإلكتروني",
+    "errors": {
+      "alreadyRegistered": "يوجد حساب بهذا البريد الإلكتروني بالفعل. جرّب تسجيل الدخول.",
+      "emailNotConfirmed": "يرجى تأكيد بريدك الإلكتروني أولاً.",
+      "emailRequired": "يلزم إدخال بريد إلكتروني صالح.",
+      "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة. يجب ألا تقل كلمة المرور عن 6 أحرف.",
+      "nameRequired": "الاسم مطلوب.",
+      "network": "تعذّر الوصول إلى خادم تسجيل الدخول. يرجى التحقق من اتصالك بالإنترنت.",
+      "noSession": "لم يكتمل تسجيل الدخول. يرجى المحاولة مرة أخرى.",
+      "passwordTooShort": "يجب ألا تقل كلمة المرور عن 6 أحرف."
+    },
     "fullName": "الاسم الكامل",
     "fullNamePlaceholder": "أدخل اسمك",
     "genericError": "خطأ في المصادقة. يرجى التحقق من بياناتك.",
@@ -268,10 +278,6 @@
       "message": {
         "PK": "سيتحول التطبيق إلى الإنجليزية مع الأطباق الباكستانية والأسعار بالروبية.",
         "SA": "سيتحول التطبيق إلى العربية (من اليمين إلى اليسار) مع الأطباق السعودية والأسعار بالريال."
-      },
-      "messageKeepLanguage": {
-        "PK": "الأطباق الباكستانية والأسعار بالروبية. تبقى لغة التطبيق كما اخترتها.",
-        "SA": "الأطباق السعودية والأسعار بالريال. تبقى لغة التطبيق كما اخترتها."
       },
       "title": {
         "PK": "التبديل إلى باكستان؟",
@@ -496,6 +502,8 @@
         "title": "بناء العضلات"
       },
       "lose": {
+        "disabledPregnant": "معطّل: تقييد السعرات غير مناسب طبياً أثناء الحمل والرضاعة.",
+        "disabledUnderweight": "معطّل: مؤشر كتلة جسمك {{bmi}} يدل على نقص الوزن، وإنقاص الوزن غير آمن.",
         "sub": "عجز حراري محسوب يحافظ على الكتلة العضلية أثناء تقليل الدهون.",
         "title": "خسارة الدهون"
       },
@@ -566,6 +574,7 @@
       "snacks_chai": "وجبة خفيفة"
     },
     "swap": {
+      "allMatch": "الخيارات الثلاثة تطابق وجبتك الأصلية في السعرات بفارق لا يتجاوز ±5%",
       "current": "الحالي: {{value}} سعرة",
       "eyebrow": "مطابقة ماكروز بضغطة واحدة",
       "oil": "الزيت",
@@ -684,6 +693,7 @@
       "disclaimer": "أقر بأن نيوتريو يقدّم إرشادات غذائية خوارزمية وليس بديلاً عن التشخيص السريري أو وصفة الطبيب.",
       "disclaimerTitle": "السلامة وإخلاء المسؤولية الطبي",
       "medications": "الأدوية أو الملاحظات الطبية (اختياري)",
+      "medicationsPlaceholder": "مثال: ميتفورمين 500 ملغ، إنسولين، ثيروكسين",
       "pregnancyQuestion": "هل أنتِ حامل أو مرضع حالياً؟",
       "pregnancyWarning": "ملاحظة: تقييد السعرات معطّل سريرياً أثناء الحمل والرضاعة. ستُضبط خطتك على التغذية المتوازنة فقط."
     },
@@ -885,6 +895,7 @@
         "title": "جاهز لتسجيل وجبتك الأولى"
       },
       "logFirstMeal": "تسجيل أول وجبة",
+      "logIt": "سجّلها",
       "logSuggestion": "تسجيل الاقتراح",
       "logged": "تم التسجيل!",
       "proteinValue": "{{grams}} غ بروتين",
@@ -935,16 +946,20 @@
       "Bakery Bites": "لقيمات المخبز",
       "Bakery Delights": "أطايب المخبز",
       "BBQ": "مشاوي",
+      "BBQ & Grills": "مشويات وباربكيو",
       "BBQ & Kabab": "مشاوي وكباب",
       "BBQ & Karahi": "مشاوي وكراهي",
       "BBQ Grills": "مشاوي على الفحم",
       "Beef & Seafood": "لحم بقري ومأكولات بحرية",
       "Beef Burgers": "برجر لحم",
       "Beverages": "مشروبات",
+      "Beverages & Drinks": "مشروبات",
       "Bihari & Afghani BBQ": "مشاوي بيهاري وأفغانية",
       "Breads & Raita": "خبز ورايتا",
       "Breakfast": "فطور",
+      "Breakfast & Nashta": "الفطور والنشتا",
       "Breakfast & Omelettes": "فطور وعجة",
+      "Breakfast & Street Food": "فطور وأكل الشارع",
       "Brewed Coffee": "قهوة مقطرة",
       "Brews & Lattes": "قهوة ولاتيه",
       "Brioche Sandwiches": "سندويشات بريوش",
@@ -980,6 +995,7 @@
       "Coffee & Shakes": "قهوة وميلك شيك",
       "Cold Brews": "قهوة باردة مُنقَّعة",
       "Cold Coffees & Lattes": "قهوة ولاتيه باردة",
+      "Condiments": "صلصات وإضافات",
       "Continental & Italian": "أطباق عالمية وإيطالية",
       "Cookies & Drinks": "كوكيز ومشروبات",
       "Crispy Burgers": "برجر مقرمش",
@@ -1026,6 +1042,7 @@
       "Fries": "بطاطس مقلية",
       "Fries & Sides": "بطاطس وأطباق جانبية",
       "Fries & Sticks": "بطاطس وأصابع",
+      "Gahwa & Drinks": "قهوة ومشروبات",
       "Gathering Boxes": "صناديق التجمعات",
       "Gourmet Beef": "لحم بقري فاخر",
       "Gourmet Pizzas": "بيتزا فاخرة",
@@ -1063,12 +1080,14 @@
       "Nalli Biryani": "برياني نلي",
       "Nalli Nihari": "نهاري نلي",
       "Nashta": "ناشتا (فطور)",
+      "Nashta & Breakfast": "النشتا والفطور",
       "Nihari Specials": "نهاري مميز",
       "Noodles & Rice": "نودلز وأرز",
       "Nuggets & Strips": "ناغتس وشرائح",
       "NY Giant Slices": "شرائح نيويورك العملاقة",
       "Other": "أخرى",
       "Oven Pastas": "باستا بالفرن",
+      "Pakistani Fast Food": "وجبات سريعة باكستانية",
       "Pakistani Platters": "أطباق باكستانية",
       "Pan Pizzas": "بيتزا بان",
       "Paninis & Wraps": "بانيني ولفائف",
@@ -1093,10 +1112,12 @@
       "Qahwa & Snacks": "قهوة ووجبات خفيفة",
       "Raita & Drinks": "رايتا ومشروبات",
       "Rice & Biryani": "أرز وبرياني",
+      "Rice & Meat": "أرز ولحم",
       "Rice & Noodles": "أرز ونودلز",
       "Rolls & Wings": "لفائف وأجنحة",
       "Roti & Bread": "روتي وخبز",
       "Royal Biryani": "برياني ملكي",
+      "Sabzi & Lentils": "خضار وعدس",
       "Salads": "سلطات",
       "Salads & Appetizers": "سلطات ومقبلات",
       "Salads & Continental": "سلطات وأطباق عالمية",
@@ -1129,6 +1150,7 @@
       "Signature Teas": "شاي مميز",
       "Siri Paye Bowls": "أطباق سيري بايا",
       "Sliders": "سلايدرز",
+      "Slow-Cooked Curries": "يخنات مطهوة ببطء",
       "Soups": "شوربات",
       "Special Flavors": "نكهات خاصة",
       "Special Fry Nihari": "نهاري مقلي خاص",
@@ -1139,14 +1161,17 @@
       "Starters": "مقبلات",
       "Steaks": "ستيك",
       "Steaks & Wraps": "ستيك ولفائف",
+      "Street Food & Chaat": "أكل الشارع والتشات",
       "Stuffed Crust": "عجينة محشوة",
       "Sundaes & Mousse": "صنداي وموس",
+      "Sweets & Desserts": "حلويات وتحليات",
       "Tandoor": "تنور",
       "Tandoor & Sides": "تنور وأطباق جانبية",
       "Thickburgers": "ثيك برجر",
       "Traditional Dishes": "أطباق تقليدية",
       "Traditional Rice": "أرز تقليدي",
       "Traditional Saudi": "مأكولات سعودية تقليدية",
+      "Traditional Stews": "يخنات تقليدية",
       "Vegetables & Daal": "خضار ودال",
       "Village BBQ": "مشاوي القرية",
       "Waffles & Shakes": "وافل وميلك شيك",
@@ -1189,6 +1214,7 @@
       "customWeight": "وزن مخصص (غرام)",
       "customWeightHint": "اكتب الوزن بالجرام بدقة، أو عدّله بالأزرار",
       "decreaseQty": "إنقاص الكمية",
+      "estimateNote": "تقدير، وقد يختلف الفعلي بنحو ±15% حسب المطبخ والحصة",
       "estimated": "تقديري",
       "fallbackBrand": {
         "PK": "طبق باكستاني",
@@ -1203,6 +1229,7 @@
       "logToMeal": "تسجيل في {{meal}}",
       "logToSlot": "التسجيل في وجبة",
       "makeItYours": "خصّصها كما تحب",
+      "makeItYoursSubtitle": "أضف أو احذف، والرقم يتبع طلبك الفعلي.",
       "myServing": "حصتي",
       "portionSize": "حجم الحصة",
       "removeModifier": "إزالة {{name}}",
@@ -1216,8 +1243,6 @@
       "dailyTarget": "الهدف اليومي",
       "darkMode": "الوضع الداكن",
       "diary": "اليوميات",
-      "language": "اللغة",
-      "languageAuto": "حسب المنطقة",
       "lightMode": "الوضع الفاتح",
       "logMeal": "تسجيل سريع",
       "logout": "تسجيل الخروج",
@@ -1236,7 +1261,7 @@
       "retakeSurvey": "إعادة استبيان نمط الحياة",
       "signInCreate": "تسجيل الدخول / إنشاء حساب",
       "slotsLogged": "{{count}} / 4 مسجلة",
-      "todaysMeals": "وجبات اليوم المسجلة",
+      "todaysMeals": "وجبات اليوم",
       "toggleRegion": "تبديل المنطقة النشطة",
       "viewMealPlan": "عرض خطة الأسبوع",
       "waterGoal": "هدف الماء",
@@ -1450,9 +1475,18 @@
         "SA": "الغداء"
       },
       "snacks_chai": {
-        "PK": "وجبات خفيفة وشاي",
-        "SA": "القهوة والتحلية"
+        "PK": "وجبة خفيفة",
+        "SA": "وجبة خفيفة"
       }
+    },
+    "mealsCard": {
+      "addTo": "إضافة طعام إلى {{slot}}",
+      "caloriesByMeal": "السعرات حسب الوجبة",
+      "eatenOfTarget": "{{eaten}} / {{target}} سعرة",
+      "mealPlan": "خطة الوجبات",
+      "next": "التالية",
+      "nothingLogged": "لم يُسجَّل شيء بعد",
+      "removeDish": "حذف {{name}}"
     },
     "slotCard": {
       "addFood": "أضف طعاماً",
@@ -1509,8 +1543,15 @@
       "addBottle": "+500 مل (عبوة)",
       "addGlass": "+250 مل (كوب)",
       "dailyTarget": "الهدف اليومي: {{amount}} مل",
+      "goalPercent": "{{value}}% من هدف اليوم",
       "ofTarget": "من {{amount}} مل",
+      "tileTitle": "الماء",
       "title": "ترطيب الجسم والتوازن المائي"
+    },
+    "weightTile": {
+      "empty": "لا توجد أوزان مسجّلة بعد",
+      "logCta": "سجّل وزنك",
+      "weekDelta": "{{value}} كغ هذا الأسبوع"
     }
   },
   "weight": {
@@ -1529,6 +1570,7 @@
     "kcalPerWeek": "سعرة/أسبوع",
     "log": {
       "description": "زِن نفسك في ظروف ثابتة (يفضّل صباحاً على معدة فارغة بعد دخول الحمام).",
+      "errorRange": "أدخل وزناً واقعياً بين 25 و300 كغ.",
       "notesLabel": "ملاحظات (اختياري)",
       "notesPlaceholder": "مثال: بعد عزيمة، احتباس أملاح، صباحاً صائماً",
       "save": "حفظ الوزن",
@@ -1539,6 +1581,7 @@
       "logTodayWeight": "تسجيل وزن اليوم",
       "title": "متابعة الوزن ومعدل الحرق"
     },
+    "spikeWarning": "ارتفاع مؤقت +{{diff}} كغ بسبب تذبذب وزن الماء (غالباً احتباس صوديوم أو كربوهيدرات بعد وجبة دسمة). يلطّف خط الاتجاه هذا الارتفاع تلقائياً.",
     "trend": {
       "kgScale": "{{value}} كغ ميزان",
       "kgTrend": "{{value}} كغ مسار",
@@ -1832,6 +1875,35 @@
       "help": "يساعدنا هذا في تحديد أهدافك القادمة",
       "save": "حفظ التمرين"
     },
+    "edit": {
+      "edit": "تعديل التمرين",
+      "addExercise": "إضافة تمرين",
+      "subtitle": "تعديل ما سجّلته",
+      "save": "حفظ التعديلات",
+      "addedTag": "أضفته أنت",
+      "addSet": "إضافة مجموعة",
+      "removeSet": "حذف آخر مجموعة",
+      "removeSetLabel": "حذف المجموعة {{number}} من {{name}}",
+      "needOne": "أبقِ مجموعة واحدة على الأقل مُعلَّمة لتتمكن من حفظ التمرين.",
+      "walkTitle": "إضافة جلسة مشي",
+      "walkRowBody": "سجّل مشيًا قمت به بالدقائق",
+      "walkHint": "المشي لا يحتاج إلى معدات. أضف عدد الدقائق التي مشيتها.",
+      "walkMinutes": "دقائق المشي",
+      "walkPlaceholder": "مثلاً 30",
+      "walkUnit": "د",
+      "walkAdd": "إضافة المشي",
+      "suggested": "مقترحات تناسب معداتك. ابحث لرؤية المزيد.",
+      "addSelected": "إضافة {{count}} تمارين",
+      "group": {
+        "strength": "القوة",
+        "cardio": "الكارديو"
+      },
+      "pickerTitle": "إضافة تمرين",
+      "discardTitle": "تجاهل تعديلاتك؟",
+      "discardBody": "سيبقى تمرينك كما حفظته آخر مرة.",
+      "keepEditing": "تابع التعديل",
+      "discard": "تجاهل التعديلات"
+    },
     "logged": {
       "load": "‎{{kg}}‎ كغ × {{reps}}",
       "reps": "× {{reps}}",
@@ -2002,8 +2074,7 @@
       "sportDaysQ": "{{sport}} · أي أيام؟",
       "sportNote": "لا تمرين أرجل ثقيل في هذه الأيام ولا في اليوم السابق لها.",
       "searchLabel": "البحث عن تمرين",
-      "searchPlaceholder": "اسم التمرين",
-      "searchHint": "ابحث بالعربية أو الإنجليزية، مثل «ضغط» أو «bench».",
+      "searchPlaceholder": "ابحث عن تمرين",
       "noResults": "لم نجد شيئاً. جرّب اسماً آخر.",
       "added": "مُضاف",
       "haveRoutine": "لديك برنامج تتبعه؟",

@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
   getExercise,
   isUserSwap,
@@ -27,10 +28,14 @@ import {
   toggleSet,
   type WorkoutDraft,
 } from '../workoutDraft.js';
+import { addExercises, addSet, addWalk, canSaveEdit, draftFromLog, editedLog, hasEdits, isAddedSlot, removeSet } from '../workoutEdit.js';
+import { useScrollFieldIntoView, KEYBOARD_BEHAVIOR } from './keyboard.js';
 import { CardioCard } from './CardioCard.js';
 import { DiscardDialog } from './DiscardDialog.js';
+import { EditLogList } from './EditLogList.js';
 import { ExerciseDetailSheet } from './ExerciseDetailSheet.js';
 import { ExerciseOptionsSheet } from './ExerciseOptionsSheet.js';
+import { ExercisePickerSheet } from './ExercisePickerSheet.js';
 import { ExerciseImageLoop } from './ExerciseImageLoop.js';
 import { FinishSheet } from './FinishSheet.js';
 import { RestTimer } from './RestTimer.js';
@@ -63,7 +68,7 @@ const REST_EXTRA_SEC = 30;
 /** The workout in progress for this session today, if there is one. */
 function draftFor(session: WorkoutSession, todayKey: string): WorkoutDraft | null {
   const draft = getActiveDraft();
-  return draft && draft.day === session.day && draft.template === session.template && draft.dateKey === todayKey ? draft : null;
+  return draft && !draft.editing && draft.day === session.day && draft.template === session.template && draft.dateKey === todayKey ? draft : null;
 }
 
 /**
@@ -108,8 +113,13 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
   const [restEndsAt, setRestEndsAt] = useState<number | null>(null);
   const [finishing, setFinishing] = useState(false);
   const [confirmingDiscard, setConfirmingDiscard] = useState(false);
+  const [picking, setPicking] = useState(false);
+  const insets = useSafeAreaInsets();
+  const { scrollRef, onFieldFocus } = useScrollFieldIntoView();
   const [now, setNow] = useState(() => Date.now());
-  const logging = draft !== null;
+  /** A finished workout reopened to correct or add to: no timers, saved over the same log. */
+  const editing = Boolean(draft?.editing);
+  const logging = draft !== null && !editing;
   /** The exercise a slot holds today, strength or cardio. */
   const exerciseInSlot = (slotId: string | null) =>
     !slotId ? null : (targets.find(({ slot }) => slot.slotId === slotId)?.target.exerciseId ?? (cardio?.slotId === slotId ? cardio.exerciseId : null));
@@ -119,7 +129,8 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
 
   // The draft lives outside this screen too, so an edge swipe away doesn't lose it.
   useEffect(() => {
-    setActiveDraft(draft);
+    // An edit of a finished workout is never the workout in progress.
+    if (!draft?.editing) setActiveDraft(draft);
   }, [draft]);
 
   useEffect(() => {
@@ -136,7 +147,9 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
 
   const todayWeekday = weekdayOf(todayKey);
   const performedLabel = session.day === todayWeekday ? t('workout.log.today') : t('workout.log.movedFrom', { day: t(`workout.days.${session.day}`) });
-  const subtitle = logging
+  const subtitle = editing
+    ? t('workout.edit.subtitle')
+    : logging
     ? `${performedLabel} · ${clockText(elapsedSec)}`
     : [
         dateText(t, day.weekday, day.dayOfMonth, day.month),
@@ -155,6 +168,31 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
     const midSuperset = supersets.get(targets[exerciseIndex]?.slot.slotId ?? '')?.first === true;
     if (!wasDone && anyLeft && restSec > 0 && !midSuperset) setRestEndsAt(Date.now() + restSec * 1000);
     if (wasDone) setRestEndsAt(null);
+  };
+
+  const startEdit = (change?: (draft: WorkoutDraft) => WorkoutDraft) => {
+    if (!doneLog || sample) return;
+    const base = draftFromLog(doneLog);
+    setDraftState(change ? change(base) : base);
+  };
+
+  const cancelEdit = () => {
+    setConfirmingDiscard(false);
+    setDraftState(null);
+  };
+
+  const saveEdit = () => {
+    if (!draft || !doneLog || !canSaveEdit(draft)) return;
+    const log = editedLog(draft, doneLog, new Date());
+    setDraftState(null);
+    onSaved(log, targets.map(({ slot }) => slot));
+  };
+
+  /** Applies an addition to the open edit, or reopens the finished log with it (from the Done view's "Add exercise"). */
+  const addToLog = (change: (draft: WorkoutDraft) => WorkoutDraft) => {
+    setPicking(false);
+    if (!draft) startEdit(change);
+    else updateDraft(change);
   };
 
   const discard = () => {
@@ -179,12 +217,28 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
       <WorkoutHeader
         title={title}
         subtitle={subtitle}
-        onBack={logging ? () => setConfirmingDiscard(true) : onBack}
-        action={logging ? { label: t('workout.log.finish'), onPress: () => setFinishing(true), primary: true, disabled: stats.setsDone === 0 && stats.cardioMinutes === 0 } : undefined}
+        onBack={
+          editing ? (draft && doneLog && hasEdits(draft, doneLog) ? () => setConfirmingDiscard(true) : cancelEdit) : logging ? () => setConfirmingDiscard(true) : onBack
+        }
+        action={
+          editing
+            ? {
+                label: t('workout.edit.save'),
+                onPress: saveEdit,
+                primary: true,
+                disabled: !draft || !doneLog || !canSaveEdit(draft) || !hasEdits(draft, doneLog),
+              }
+            : logging
+              ? { label: t('workout.log.finish'), onPress: () => setFinishing(true), primary: true, disabled: stats.setsDone === 0 && stats.cardioMinutes === 0 }
+              : undefined
+        }
       />
 
+      {/* The list and the bar under it rise with the keyboard, so reps, weight and minutes stay in view. */}
+      <KeyboardAvoidingView style={styles.flex} behavior={KEYBOARD_BEHAVIOR} keyboardVerticalOffset={Platform.OS === 'ios' ? insets.top : 0}>
       <ScrollView
-        contentContainerStyle={[styles.content, logging && styles.contentLogging]}
+        ref={scrollRef}
+        contentContainerStyle={[styles.content, (logging || editing) && styles.contentLogging]}
         keyboardShouldPersistTaps="handled"
         // Demos hold still while the list moves, so scrolling stays smooth.
         onScrollBeginDrag={() => setScrolling(true)}
@@ -198,7 +252,34 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
           </View>
         ) : null}
 
-        {targets.map(({ slot, target }, index) => {
+        {editing && draft ? (
+          <>
+            {!canSaveEdit(draft) ? (
+              <View style={[styles.guide, { backgroundColor: c.dangerLight }]}>
+                <Icon name="info" size={18} color={c.danger} />
+                <Text style={[styles.guideText, dir.text, { color: c.textPrimary }]}>{t('workout.edit.needOne')}</Text>
+              </View>
+            ) : null}
+            <EditLogList
+              draft={draft}
+              settings={plan.settings}
+              unitForSlot={(slotId) => session.slots.find((slot) => slot.slotId === slotId)?.unit}
+              onReps={(exerciseIndex, setIndex, reps) => updateDraft((d) => setReps(d, exerciseIndex, setIndex, reps))}
+              onLoad={(exerciseIndex, setIndex, kg) => updateDraft((d) => setLoad(d, exerciseIndex, setIndex, kg))}
+              onToggle={(exerciseIndex, setIndex) => updateDraft((d) => toggleSet(d, exerciseIndex, setIndex))}
+              onAddSet={(exerciseIndex) => updateDraft((d) => addSet(d, exerciseIndex))}
+              onRemoveSet={(exerciseIndex, setIndex) => updateDraft((d) => removeSet(d, exerciseIndex, setIndex))}
+              onDetails={(exerciseId) => {
+                setDetailId(exerciseId);
+                setDetailSlotId(null);
+              }}
+              paused={scrolling}
+              onFieldFocus={onFieldFocus}
+            />
+          </>
+        ) : null}
+
+        {!editing && targets.map(({ slot, target }, index) => {
           const exercise = getExercise(target.exerciseId);
           const name = exercise?.name[language] ?? target.exerciseId;
           const logged = doneLog?.exercises.find((entry) => entry.slotId === slot.slotId);
@@ -298,13 +379,14 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
                   onReps={(setIndex, reps) => updateDraft((d) => setReps(d, index, setIndex, reps))}
                   onLoad={(setIndex, kg) => updateDraft((d) => setLoad(d, index, setIndex, kg))}
                   onToggle={(setIndex) => toggle(index, setIndex)}
+                  onFieldFocus={onFieldFocus}
                 />
               ) : null}
             </View>
           );
         })}
 
-        {cardio ? (
+        {cardio && !editing ? (
           <CardioCard
             cardio={cardio}
             paused={scrolling}
@@ -322,6 +404,7 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
                     done: draft.exercises[cardioIndex].sets[0].done,
                     onMinutes: (minutes) => updateDraft((d) => setReps(d, cardioIndex, 0, minutes)),
                     onToggle: () => toggle(cardioIndex, 0),
+                    onFieldFocus,
                   }
                 : undefined
             }
@@ -333,9 +416,65 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
           />
         ) : null}
 
+        {!editing && doneLog
+          ? doneLog.exercises
+              .filter((entry) => isAddedSlot(entry.slotId))
+              .map((entry) => {
+                const exercise = getExercise(entry.exerciseId);
+                const name = exercise?.name[language] ?? entry.exerciseId;
+                const unit = exercise?.timed ? 'seconds' : 'reps';
+                return (
+                  <View key={entry.slotId} style={[styles.card, { backgroundColor: c.surface, borderColor: c.border }]}>
+                    <View style={styles.cardTop}>
+                      <TouchableOpacity
+                        accessibilityRole="button"
+                        accessibilityLabel={t('workout.day.details', { name })}
+                        onPress={() => {
+                          setDetailId(entry.exerciseId);
+                          setDetailSlotId(null);
+                        }}
+                        activeOpacity={0.8}
+                        style={styles.cardMain}
+                      >
+                        <ExerciseImageLoop exerciseId={entry.exerciseId} size={68} square paused={scrolling} />
+                        <View style={styles.flex}>
+                          <Text style={[styles.name, dir.text, { color: c.textPrimary }]}>{name}</Text>
+                          <View style={[styles.swappedTag, { backgroundColor: c.primaryLight }]}>
+                            <Text style={[styles.swappedText, { color: c.primaryTintText }]}>{t('workout.edit.addedTag')}</Text>
+                          </View>
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                    <Text style={[styles.logged, dir.text, { color: c.textPrimary }]}>
+                      {entry.sets.some((set) => set.done)
+                        ? isCardioSlot(entry.slotId)
+                          ? t('workout.cardio.loggedMinutes', { count: entry.sets.filter((set) => set.done).reduce((total, set) => total + set.reps, 0) })
+                          : entry.sets
+                              .filter((set) => set.done)
+                              .map((set) => loggedSetText(t, set, unit))
+                              .join(' · ')
+                        : t('workout.logged.skipped')}
+                    </Text>
+                  </View>
+                );
+              })
+          : null}
+
       </ScrollView>
 
-      {!logging ? (
+      {editing ? (
+        <View style={[styles.bottomBar, { backgroundColor: c.canvas, borderTopColor: c.border }]}>
+          <TouchableOpacity
+            accessibilityRole="button"
+            onPress={() => setPicking(true)}
+            activeOpacity={0.8}
+            style={[styles.secondaryButton, { backgroundColor: c.surfaceSecondary, borderColor: c.border }]}
+          >
+            <Icon name="plus" size={16} color={c.primaryAccessible} strokeWidth={2.6} />
+            <Text style={[styles.secondaryText, { color: c.textPrimary }]}>{t('workout.edit.addExercise')}</Text>
+          </TouchableOpacity>
+        </View>
+      ) : !logging ? (
         <View style={[styles.bottomBar, { backgroundColor: c.canvas, borderTopColor: c.border }]}>
           {onRequireAccount ? (
             <View style={styles.sampleBar}>
@@ -353,11 +492,31 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
               </TouchableOpacity>
             </View>
           ) : doneLog ? (
-            <View style={[styles.doneBar, { backgroundColor: c.successLight }]}>
-              <Icon name="check" size={16} color={theme.isDark ? c.success : '#166534'} strokeWidth={3} />
-              <Text style={[styles.doneText, { color: theme.isDark ? c.success : '#166534' }]}>
-                {t('workout.day.doneOn', { date: dateText(t, weekdayOf(doneLog.dateKey), Number(doneLog.dateKey.slice(8)), Number(doneLog.dateKey.slice(5, 7)) - 1) })}
-              </Text>
+            <View style={styles.doneActions}>
+              <View style={[styles.doneBar, { backgroundColor: c.successLight }]}>
+                <Icon name="check" size={16} color={theme.isDark ? c.success : '#166534'} strokeWidth={3} />
+                <Text style={[styles.doneText, { color: theme.isDark ? c.success : '#166534' }]}>
+                  {t('workout.day.doneOn', { date: dateText(t, weekdayOf(doneLog.dateKey), Number(doneLog.dateKey.slice(8)), Number(doneLog.dateKey.slice(5, 7)) - 1) })}
+                </Text>
+              </View>
+              <View style={styles.actionRow}>
+                <TouchableOpacity
+                  accessibilityRole="button"
+                  onPress={() => startEdit()}
+                  activeOpacity={0.8}
+                  style={[styles.startButton, styles.actionButton, { backgroundColor: c.primaryLime }]}
+                >
+                  <Text style={[styles.startText, { color: c.limeText }]}>{t('workout.edit.edit')}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  accessibilityRole="button"
+                  onPress={() => setPicking(true)}
+                  activeOpacity={0.8}
+                  style={[styles.secondaryButton, styles.actionButton, { backgroundColor: c.surfaceSecondary, borderColor: c.border }]}
+                >
+                  <Text style={[styles.secondaryText, { color: c.textPrimary }]}>{t('workout.edit.addExercise')}</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           ) : (
             <TouchableOpacity
@@ -371,6 +530,8 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
           )}
         </View>
       ) : null}
+
+      </KeyboardAvoidingView>
 
       {restEndsAt !== null ? (
         <RestTimer
@@ -438,7 +599,30 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
           setSwapSlotId(null);
         }}
       />
-      <DiscardDialog visible={confirmingDiscard} onKeepGoing={() => setConfirmingDiscard(false)} onDiscard={discard} />
+      <DiscardDialog
+        visible={confirmingDiscard}
+        onKeepGoing={() => setConfirmingDiscard(false)}
+        onDiscard={editing ? cancelEdit : discard}
+        text={
+          editing
+            ? {
+                title: t('workout.edit.discardTitle'),
+                body: t('workout.edit.discardBody'),
+                keepGoing: t('workout.edit.keepEditing'),
+                discard: t('workout.edit.discard'),
+              }
+            : undefined
+        }
+      />
+      <ExercisePickerSheet
+        visible={picking}
+        title={t('workout.edit.pickerTitle')}
+        settings={plan.settings}
+        chosen={[...(draft?.exercises ?? doneLog?.exercises ?? []).map((entry) => entry.exerciseId)]}
+        onConfirm={(exerciseIds) => addToLog((d) => addExercises(d, exerciseIds))}
+        onAddWalk={(minutes) => addToLog((d) => addWalk(d, minutes))}
+        onClose={() => setPicking(false)}
+      />
       {finishing ? (
         <FinishSheet visible sessionTitle={title} elapsedSec={elapsedSec} stats={stats} onClose={() => setFinishing(false)} onSave={save} />
       ) : null}
@@ -469,7 +653,12 @@ const styles = StyleSheet.create({
   bottomBar: { paddingHorizontal: 20, paddingTop: 12, paddingBottom: 14, borderTopWidth: 1 },
   startButton: { minHeight: 52, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
   startText: { fontSize: 16, fontWeight: '800' },
-  doneBar: { minHeight: 52, borderRadius: 999, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 },
+  secondaryButton: { minHeight: 52, borderRadius: 999, borderWidth: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, paddingHorizontal: 12 },
+  secondaryText: { fontSize: 15, fontWeight: '800' },
+  doneActions: { gap: 10 },
+  actionRow: { flexDirection: 'row', gap: 10 },
+  actionButton: { flex: 1 },
+  doneBar: { minHeight: 40, borderRadius: 999, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 },
   doneText: { fontSize: 15, fontWeight: '800' },
   sampleBar: { gap: 10 },
   sampleNote: { flexDirection: 'row', alignItems: 'flex-start', gap: 8 },

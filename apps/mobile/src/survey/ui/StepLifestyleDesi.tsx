@@ -5,6 +5,7 @@ import { ritualCupKcal } from '../../common/ritualDrinks.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useFormat } from '../../i18n/useFormat.js';
 import { AppleTextInput } from '../../ui/AppleInput.js';
 
 interface StepLifestyleDesiProps {
@@ -31,6 +32,7 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
+  const { formatNumber } = useFormat();
   const dir = useTextDirection();
   const isSaudi = activeRegion === 'SA';
   const accentColor = theme.colors.primaryLime;
@@ -134,7 +136,7 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
                 {t('survey.lifestyle.chai.kcalPerDay', { kcal: estimatedChaiKcal })}
               </Text>{' '}
               {t(`survey.lifestyle.chai.weekly.${activeRegion}`, {
-                weekly: estimatedWeeklyChaiKcal.toLocaleString('en-US'),
+                weekly: formatNumber(estimatedWeeklyChaiKcal),
               })}
             </Text>
           </View>

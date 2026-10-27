@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
 import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useTheme } from '../../theme.js';
-import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
 import { HapticFeedback } from '../../ui/haptics.js';
 import { LabelledServing, PERSONAL_SERVING_ID } from '../personalServings.js';
-import { withoutAmountBracket } from '../servingLabel.js';
+import { servingDisplayLabel } from '../servingLabel.js';
 import { createStyles } from './ItemCustomizerModal.styles.js';
 
 const ACCENT = '#A4EB3F';
@@ -55,6 +55,7 @@ export const PortionPicker: React.FC<PortionPickerProps> = ({
   const { theme, isDark } = useTheme();
   const styles = useMemo(() => createStyles(theme.colors), [theme]);
   const { t } = useTranslation();
+  const { language } = useI18nState();
   const dir = useTextDirection();
   const accentText = isDark ? ACCENT : ACCENT_TEXT_LIGHT;
   const hasPersonal = servings.some((s) => s.personalId === PERSONAL_SERVING_ID);
@@ -108,7 +109,7 @@ export const PortionPicker: React.FC<PortionPickerProps> = ({
                   aria-checked={isSelected}
                 >
                   <Text style={[styles.servingPillText, { color: theme.colors.textMuted }, isSelected && styles.servingPillTextActive]}>
-                    {withoutAmountBracket(srv.label || srv.description || '')}
+                    {servingDisplayLabel(srv.label || srv.description || '', language)}
                   </Text>
                   <Text style={[styles.servingPillGrams, { color: theme.colors.textMuted }, isSelected && styles.servingPillGramsActive]}>
                     {t('common.gramsValue', { value: srv.grams })}

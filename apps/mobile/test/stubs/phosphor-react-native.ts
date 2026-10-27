@@ -64,3 +64,4 @@ export const Grains = Icon;
 export const Plant = Icon;
 export const Fish = Icon;
 export const BookmarkSimple = Icon;
+export const PersonSimpleWalk = Icon;

@@ -219,7 +219,7 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
       {/* Medications / Clinical Notes */}
       <AppleTextInput
         label={t('survey.health.medications')}
-        placeholder="e.g. Metformin 500mg, insulin, thyroxine"
+        placeholder={t('survey.health.medicationsPlaceholder')}
         value={data.medicationsNotes ?? ''}
         onChangeText={(val) => {
           onChange({ medicationsNotes: val });

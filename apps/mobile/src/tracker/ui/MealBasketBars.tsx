@@ -2,7 +2,8 @@ import React from 'react';
 import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
-import { useTranslation } from '../../i18n/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { foodDisplayName } from '../foodDisplayName.js';
 import { styles } from './MealLogHubModal.styles.js';
 import type { MealBasketEntry } from './useMealBasket.js';
 
@@ -71,6 +72,7 @@ export const BasketSummaryBar: React.FC<{
 }> = ({ basket, totals, onStartNaming, onConfirm }) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
+  const dir = useTextDirection();
   return (
     <View
       style={[
@@ -83,7 +85,7 @@ export const BasketSummaryBar: React.FC<{
           {t('tracker.hub.basketCount', { count: totals.count })}
         </Text>
         <Text style={[styles.basketKcal, { color: theme.colors.textSecondary }]} numberOfLines={2}>
-          ≈{t('common.kcalValue', { value: Math.round(totals.kcal) })} · {basket.map((e) => `${e.quantity}x ${e.food.name}`).join(', ')}
+          ≈{t('common.kcalValue', { value: Math.round(totals.kcal) })} · {basket.map((e) => `${e.quantity}x ${foodDisplayName(e.food.name, e.food.nameAr, dir.isRTL).primary}`).join(', ')}
         </Text>
         <TouchableOpacity onPress={onStartNaming} hitSlop={HIT_SLOP} accessibilityRole="button">
           <Text style={[styles.savePresetLink, { color: theme.colors.primaryAccessible }]}>

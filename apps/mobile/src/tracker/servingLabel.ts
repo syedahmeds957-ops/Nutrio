@@ -66,8 +66,14 @@ export function withoutAmountBracket(label: string): string {
   return label.replace(/\s*\(\s*\d+(?:\.\d+)?\s*(?:g|ml)\s*\)/gi, '').trim();
 }
 
+/** Removes a bracketed local-language name: "1 Plate / Portion (نفر)" becomes "1 Plate / Portion". */
+function withoutArabicBracket(label: string): string {
+  return label.replace(/\s*\([^)]*[؀-ۿ][^)]*\)/g, '').replace(/\s+/g, ' ').trim();
+}
+
 export function localizeServingLabel(label: string, language: 'en' | 'ar'): string {
-  if (language !== 'ar') return label;
+  // English readers (Pakistan) never see Arabic, not even a bracketed name.
+  if (language !== 'ar') return withoutArabicBracket(label) || label;
 
   const count = label.match(/^\s*(\d+(?:\.\d+)?)\b/)?.[1];
 
@@ -122,4 +128,9 @@ export function localizeServingLabel(label: string, language: 'en' | 'ar'): stri
     .join(' ');
   const phrase = [half ? 'نصف' : '', noun.ar, adjective].filter(Boolean).join(' ');
   return count ? `${count} ${phrase}` : phrase;
+}
+
+/** A serving label ready to show: weight bracket dropped, in the effective language. */
+export function servingDisplayLabel(label: string, language: 'en' | 'ar'): string {
+  return localizeServingLabel(withoutAmountBracket(label), language);
 }

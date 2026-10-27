@@ -87,7 +87,9 @@ export class TrackerEngine {
      * without it we fall back to the 100g-per-unit placeholder this method
      * used to hardcode, which made a 200g burger read as 100g on the card.
      */
-    totalGrams?: number
+    totalGrams?: number,
+    /** The Arabic name, so Saudi readers see the dish they picked in Arabic. */
+    foodNameAr?: string
   ): LoggedItem {
     const resolvedTotalGrams = Math.round(totalGrams ?? 100 * quantity);
 
@@ -96,6 +98,7 @@ export class TrackerEngine {
       mealSlot,
       foodName,
       foodNameUr,
+      foodNameAr,
       servingLabel,
       servingGrams: quantity > 0 ? Math.round(resolvedTotalGrams / quantity) : resolvedTotalGrams,
       quantity,

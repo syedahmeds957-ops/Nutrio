@@ -18,7 +18,9 @@ import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
 import { foodDisplayName } from '../foodDisplayName.js';
 import { DishThumb } from './DishThumb.js';
-import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
+import { pickText } from '../../i18n/displayName.js';
+import { servingDisplayLabel } from '../servingLabel.js';
 
 export interface BrandMenuModalProps {
   visible: boolean;
@@ -35,6 +37,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { t } = useTranslation();
+  const { language } = useI18nState();
   const dir = useTextDirection();
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -59,6 +62,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
   }, [brandId]);
 
   const brandName = currentBrand?.name || '';
+  const brandTitle = currentBrand ? pickText(currentBrand.name, currentBrand.nameAr, language) : '';
 
   const isSaudiBrand = useMemo(() => {
     if (!brandId) return false;
@@ -205,13 +209,8 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
             <View>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                 <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>
-                  {brandName || t('tracker.brandMenu.fallbackTitle')}
+                  {brandTitle || t('tracker.brandMenu.fallbackTitle')}
                 </Text>
-                {currentBrand?.nameAr && (
-                  <Text style={{ fontSize: 13, fontWeight: '700', color: theme.colors.primaryAccessible }}>
-                    {currentBrand.nameAr}
-                  </Text>
-                )}
               </View>
               <Text style={[styles.headerSubtitle, { color: theme.colors.textSecondary }]}>
                 {t('tracker.brandMenu.verifiedItems', { count: brandItems.length })}
@@ -251,7 +250,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                 dir.text,
               ]}
               placeholder={t('tracker.brandMenu.searchPlaceholder', {
-                brand: brandName || t('tracker.brandMenu.menuWord'),
+                brand: brandTitle || t('tracker.brandMenu.menuWord'),
               })}
               placeholderTextColor={theme.colors.textMuted}
               value={searchQuery}
@@ -384,17 +383,12 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                             <Text style={[styles.itemName, { color: theme.colors.textPrimary }]}>
                               {foodDisplayName(item.name, item.nameAr, dir.isRTL).primary}
                             </Text>
-                            {foodDisplayName(item.name, item.nameAr, dir.isRTL).secondary && (
-                              <Text style={[styles.itemNameAr, dir.text, { color: theme.colors.textMuted }]}>
-                                {foodDisplayName(item.name, item.nameAr, dir.isRTL).secondary}
-                              </Text>
-                            )}
                           </View>
 
                           <Text style={[styles.itemServing, { color: theme.colors.textSecondary }]}>
                             {serving
                               ? `${t('common.gramsValue', { value: serving.grams || serving.servingWeightGrams || 100 })} · ${
-                                  serving.description || serving.label || t('tracker.brandMenu.oneServing')
+                                  servingDisplayLabel(serving.description || serving.label || '', language) || t('tracker.brandMenu.oneServing')
                                 }`
                               : t('common.gramsValue', { value: 100 })}
                           </Text>

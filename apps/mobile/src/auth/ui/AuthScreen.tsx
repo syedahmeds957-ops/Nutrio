@@ -1,3 +1,4 @@
+import { authErrorKey } from '../authErrors.js';
 import React, { useState, useEffect, useRef } from 'react';
 import {
   ActivityIndicator,
@@ -101,7 +102,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
         }
       }
     } catch (err) {
-      setErrorMessage((err instanceof Error && err.message) || t('auth.genericError'));
+      setErrorMessage(t(authErrorKey(err instanceof Error ? err.message : undefined)));
     } finally {
       setLoading(false);
     }

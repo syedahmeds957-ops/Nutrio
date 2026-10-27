@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { DailyTrackerSummary } from '../types.js';
-import { Notice } from '../../ui/Notice.js';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useFormat } from '../../i18n/useFormat.js';
 
 interface DailyProgressHeaderProps {
   summary: DailyTrackerSummary;
@@ -39,6 +39,7 @@ const MacroTile: React.FC<MacroTileProps> = ({
 }) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
+  const { formatNumber } = useFormat();
   const dir = useTextDirection();
   const eaten = Math.round(value);
   const hasGoal = goal > 0;
@@ -55,10 +56,10 @@ const MacroTile: React.FC<MacroTileProps> = ({
     >
       <Text style={[styles.tileLabel, dir.text, { color: theme.colors.textSecondary }]}>{label}</Text>
       <Text style={[styles.tileValue, dir.text, { color: theme.colors.textPrimary }]} numberOfLines={1}>
-        {eaten.toLocaleString('en-US')}
+        {formatNumber(eaten)}
         {hasGoal && (
           <Text style={[styles.tileGoal, { color: theme.colors.textMuted }]}>
-            {` / ${Math.round(goal).toLocaleString('en-US')}`}
+            {` / ${formatNumber(Math.round(goal))}`}
           </Text>
         )}
         <Text style={[styles.tileUnit, { color: theme.colors.textSecondary }]}>{` ${unit}`}</Text>
@@ -75,7 +76,7 @@ const MacroTile: React.FC<MacroTileProps> = ({
         <Text
           style={[styles.tileSub, { color: isOver ? theme.colors.danger : theme.colors.textMuted }]}
         >
-          {isOver ? t(overKey, { value: Math.abs(diff).toLocaleString('en-US') }) : fallback}
+          {isOver ? t(overKey, { value: formatNumber(Math.abs(diff)) }) : fallback}
         </Text>
       )}
     </View>
@@ -98,6 +99,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
 }) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
+  const { formatNumber } = useFormat();
   const dir = useTextDirection();
   const heroBg = theme.colors.heroCardBg;
   const heroBorder = theme.colors.primaryLime;
@@ -114,10 +116,9 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
     totalFatConsumed,
     targetCarbGrams,
     totalCarbConsumed,
-    pendingSyncCount,
   } = summary;
 
-  const heroNumber = (targetCalories > 0 ? Math.abs(remainingCalories) : Math.round(totalCaloriesConsumed)).toLocaleString('en-US');
+  const heroNumber = formatNumber(targetCalories > 0 ? Math.abs(remainingCalories) : Math.round(totalCaloriesConsumed));
 
   const totalTarget = Math.max(1, targetCalories);
   const calRatio = Math.min(1, Math.max(0, totalCaloriesConsumed / totalTarget));
@@ -128,15 +129,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
 
   return (
     <View style={styles.container}>
-      {/* Offline Sync Status Badge if needed */}
-      {pendingSyncCount > 0 && (
-        <View style={styles.syncRow}>
-          <Notice compact tone="warning" icon="sync">
-            {t('tracker.header.pendingSync', { count: pendingSyncCount })}
-          </Notice>
-        </View>
-      )}
-
+      {/* The offline-sync count lives in the Today screen's header badge. */}
       {/* 1. Solid Electric Lime Hero Card (Nutrio Signature Palette) */}
       <View
         style={[
@@ -174,7 +167,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
             <Text style={[styles.heroTargetSub, { color: heroSubTextColor }]}>
               {targetCalories > 0
                 ? t('tracker.header.eatenSoFar', {
-                    eaten: Math.round(totalCaloriesConsumed).toLocaleString('en-US'),
+                    eaten: formatNumber(Math.round(totalCaloriesConsumed)),
                   })
                 : t('tracker.header.noTargetHint')}
             </Text>
@@ -280,10 +273,6 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 16,
     marginBottom: 16,
-  },
-  syncRow: {
-    marginBottom: 10,
-    alignItems: 'center',
   },
   syncBadgePending: {
     paddingVertical: 6,

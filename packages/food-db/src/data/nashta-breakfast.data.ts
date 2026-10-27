@@ -636,7 +636,7 @@ export const NASHTA_BREAKFAST_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Sweet Lassi (Meethi مع ملائی)",
+    "name": "Sweet Lassi (Meethi with Malai)",
     "nameUr": "میٹھی لسی مع ملائی",
     "category": "Breakfast & Nashta",
     "cuisineTags": [

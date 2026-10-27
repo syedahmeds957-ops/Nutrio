@@ -185,6 +185,37 @@ describe('coachChatService calling Groq', () => {
     expect(result.suggestedPrompts).toEqual(['Can I have two eggs at night?', 'What should I eat before the gym?']);
   });
 
+  it('tells the model to answer in English only for PK and Arabic only for SA', async () => {
+    const run = async (region: 'PK' | 'SA') => {
+      const fetchMock = vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({ choices: [{ finish_reason: 'stop', message: { content: 'Ok.' } }] }),
+      });
+      global.fetch = fetchMock;
+      await coachChatService(
+        { messages: [{ role: 'user', content: 'hi' }], context: { ...request.context, region } } as never,
+        'gsk_test',
+      );
+      return JSON.parse(fetchMock.mock.calls[0][1].body).messages[0].content as string;
+    };
+    expect(await run('PK')).toMatch(/English only\. No Arabic or Urdu script/);
+    expect(await run('SA')).toMatch(/Arabic only \(Arabic script/);
+  });
+
+  it('falls back to Arabic for SA and never to Arabic for PK', async () => {
+    global.fetch = vi.fn();
+    const ask = (region: 'PK' | 'SA') =>
+      coachChatService(
+        { messages: [{ role: 'user', content: 'hello' }], context: { ...request.context, region } } as never,
+      );
+    const sa = await ask('SA');
+    expect(sa.reply).toMatch(/[\u0600-\u06FF]/);
+    expect(sa.suggestedPrompts.every((q) => /[\u0600-\u06FF]/.test(q))).toBe(true);
+    const pk = await ask('PK');
+    expect(pk.reply).not.toMatch(/[\u0600-\u06FF]/);
+    expect(pk.suggestedPrompts.join('')).not.toMatch(/[\u0600-\u06FF]/);
+  });
+
   it('asks the model for questions in the user own words, without brands', async () => {
     const fetchMock = vi.fn().mockResolvedValue({
       ok: true,

@@ -49,7 +49,7 @@ export const WeighInLogModal: React.FC<WeighInLogModalProps> = ({
 
   const handleSave = () => {
     if (isNaN(parsed) || parsed < 25 || parsed > 300) {
-      setError('Please enter a realistic weight between 25 kg and 300 kg.');
+      setError(t('weight.log.errorRange'));
       return;
     }
     onSaveWeight(parsed, undefined, notes.trim() || undefined);
@@ -150,7 +150,7 @@ export const WeighInLogModal: React.FC<WeighInLogModalProps> = ({
                   selectTextOnFocus
                 />
                 <Text style={[styles.unitText, { color: theme.colors.textMuted }]}>
-                  kg
+                  {t('survey.basics.unitKg')}
                 </Text>
               </View>
 

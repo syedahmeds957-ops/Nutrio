@@ -11,12 +11,16 @@ import {
   PlanUserContext,
   AssessmentNarrative,
 } from './types.js';
+import { formatDate } from '../i18n/format.js';
+import type { AppLanguage } from '../i18n/languages.js';
 
 export function computeProjection(
   currentWeightKg: number,
   goal: GoalType,
   rateKgPerWeek: number,
-  targetWeightKg?: number
+  targetWeightKg?: number,
+  /** Language of the projected date text. */
+  language: AppLanguage = 'en'
 ): PlanProjection {
   if (goal === 'maintain' || rateKgPerWeek <= 0 || !targetWeightKg) {
     return {
@@ -34,11 +38,7 @@ export function computeProjection(
 
   const targetDate = new Date();
   targetDate.setDate(targetDate.getDate() + estimatedWeeks * 7);
-  const projectedDate = targetDate.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
+  const projectedDate = formatDate(targetDate, language, { month: 'short', day: 'numeric', year: 'numeric' });
 
   // Pacing advice
   const ratePctOfBW = (rateKgPerWeek / currentWeightKg) * 100;

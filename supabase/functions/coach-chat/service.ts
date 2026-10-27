@@ -14,12 +14,28 @@ import {
 // Reasoning plus a short reply; Groq's documented default for gpt-oss.
 const COACH_MAX_COMPLETION_TOKENS = 1024;
 
+/** Default follow-up questions when the model gives none; Saudi Arabia reads Arabic only. */
+const SUGGESTED_PROMPTS_AR = [
+  'ما الفطور الذي يشبعني حتى الغداء؟',
+  'كيف أحصل على بروتين أكثر دون الكثير من اللحم؟',
+  'ما زلت جائعاً بعد العشاء، ماذا آكل؟',
+];
+
 function getFallbackCoachResponse(
   userQuery: string,
   context: CoachContext
 ): { reply: string; suggestedPrompts: string[] } {
   const query = userQuery.toLowerCase();
   const remaining = context.todaySummary?.remainingCalories ?? 500;
+
+  // The app never shows this reply (it answers offline from its own translated
+  // coach), but Saudi Arabia is Arabic only, so nothing English leaves here.
+  if (context.region === 'SA') {
+    return {
+      reply: `أهلاً ${context.displayName || 'بك'}! تبقى لديك حوالي ${remaining} سعرة حرارية في ميزانيتك اليومية. ركّز على البروتين الجيد والألياف، وقل لي أي وجبة تريد أن نعدّلها اليوم.`,
+      suggestedPrompts: SUGGESTED_PROMPTS_AR,
+    };
+  }
 
   if (query.includes('oil') || query.includes('karahi') || query.includes('tel')) {
     return {
@@ -80,7 +96,7 @@ const MAX_SUGGESTION_CHARS = 90;
  */
 export function isSuggestedQuestion(text: string): boolean {
   const q = text.trim();
-  return q.length > 5 && q.length <= MAX_SUGGESTION_CHARS && q.endsWith('?');
+  return q.length > 5 && q.length <= MAX_SUGGESTION_CHARS && (q.endsWith('?') || q.endsWith('؟'));
 }
 
 const JOINT_NAMES: Record<string, string> = {
@@ -150,11 +166,14 @@ export async function coachChatService(
     [...request.messages].reverse().find((m) => m.role === 'user')?.content || '';
 
   let reply = '';
-  let suggestedPrompts: string[] = [
-    'What breakfast will keep me full until lunch?',
-    'How can I get more protein without much meat?',
-    "I'm still hungry after dinner. What can I eat?",
-  ];
+  const isSaudi = (request.context as CoachContext).region === 'SA';
+  let suggestedPrompts: string[] = isSaudi
+    ? SUGGESTED_PROMPTS_AR
+    : [
+        'What breakfast will keep me full until lunch?',
+        'How can I get more protein without much meat?',
+        "I'm still hungry after dinner. What can I eat?",
+      ];
   let provider = 'deterministic_coach_fallback';
   let proposedSwap: CoachChatResponse['proposedSwap'];
   let swapRejected = false;
@@ -176,7 +195,13 @@ Write them the way a real person types to their nutrition coach: first person, e
 Never write topic headings or slogans ("High-protein snack ideas", "Balancing your macros"), never name brands or restaurants, and never repeat a question already asked in this chat.
 [Your short, direct answer here]
 
-SUGGESTIONS: ["Question 1?", "Question 2?", "Question 3?"]`;
+SUGGESTIONS: ["Question 1?", "Question 2?", "Question 3?"]
+
+LANGUAGE (strict): ${
+        isSaudi
+          ? 'Write the answer and all 3 suggested questions in Arabic only (Arabic script, each question ending with "؟"). No English except the app name Nutrio and brand names.'
+          : 'Write the answer and all 3 suggested questions in English only. No Arabic or Urdu script.'
+      }`;
 
       const messages = [
         { role: 'system', content: promptInstructions },

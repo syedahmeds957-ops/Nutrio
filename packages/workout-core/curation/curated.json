@@ -173,6 +173,6 @@
   { "id": "treadmill-walk", "src": "Walking_Treadmill", "en": "Incline treadmill walk", "pattern": "cardio", "eq": ["machine"], "joints": [], "timed": true },
   { "id": "recumbent-bike", "src": "Recumbent_Bike", "en": "Recumbent bike", "pattern": "cardio", "eq": ["machine"], "joints": [], "timed": true },
   { "id": "stair-machine", "src": "Stairmaster", "en": "Stair machine", "pattern": "cardio", "eq": ["machine"], "joints": ["knee"], "timed": true },
-  { "id": "brisk-walk", "src": "Trail_Running_Walking", "en": "Brisk walk", "pattern": "cardio", "eq": ["bodyweight"], "joints": [], "timed": true },
+  { "id": "brisk-walk", "src": "Trail_Running_Walking", "en": "Walking", "pattern": "cardio", "eq": ["bodyweight"], "joints": [], "timed": true },
   { "id": "stair-step-ups", "src": "Step-up_with_Knee_Raise", "en": "Step-ups on a stair", "pattern": "cardio", "eq": ["bodyweight"], "joints": ["knee"], "timed": true }
 ]

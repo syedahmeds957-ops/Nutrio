@@ -3,7 +3,8 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import type { NormalizedFood } from '@nutrio/food-db';
 import { foodDb } from '../../catalogue/index.js';
 import { useTheme } from '../../theme.js';
-import { useTranslation } from '../../i18n/index.js';
+import { useTranslation, useI18nState } from '../../i18n/index.js';
+import { pickText } from '../../i18n/displayName.js';
 import { DishCard } from './DishCard.js';
 import { styles } from './MealLogHubModal.styles.js';
 
@@ -32,6 +33,7 @@ export const VariantDishCard: React.FC<VariantDishCardProps> = ({
 }) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
+  const { language } = useI18nState();
   const variants = foodDb().getFoodVariants(item);
   const [selectedId, setSelectedId] = useState(item.id);
   const selected = variants.find((v) => v.id === selectedId) ?? item;
@@ -49,7 +51,7 @@ export const VariantDishCard: React.FC<VariantDishCardProps> = ({
         <View
           style={styles.variantChipRow}
           accessibilityRole="radiogroup"
-          accessibilityLabel={t('tracker.hub.variantPicker', { name: selected.name })}
+          accessibilityLabel={t('tracker.hub.variantPicker', { name: pickText(selected.name, selected.nameAr, language) })}
         >
           {variants.map((variant) => {
             const isSelected = variant.id === selected.id;

@@ -18,6 +18,7 @@ import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
+import { formatTime as formatClockTime } from '../../i18n/format.js';
 import { firstName } from '../../common/firstName.js';
 import type { CoachSwapResult, CoachSwapTopic } from '../../workout/coachWorkout.js';
 import { ApplySwapCard, type SwapCardState } from './ApplySwapCard.js';
@@ -68,9 +69,8 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
   const { language } = useI18nState();
-  // Clock time in the app language (Arabic digits and order for ar).
-  const formatTime = (sentAt: number) =>
-    new Date(sentAt).toLocaleTimeString(language, { hour: 'numeric', minute: '2-digit' });
+  // Clock time in the app language, Western digits in both.
+  const formatTime = (sentAt: number) => formatClockTime(sentAt, language);
   const dir = useTextDirection();
   const chatRegion = context.region || activeRegion;
   const isSaudi = chatRegion === 'SA';

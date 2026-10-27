@@ -6,6 +6,8 @@
  * under the previous day, and in Saudi Arabia (UTC+3) until 3 am.
  */
 
+import { formatDate } from '../i18n/format.js';
+
 const pad2 = (n: number) => String(n).padStart(2, '0');
 
 /** The local calendar day of `date` (default: now) as `YYYY-MM-DD`. */
@@ -48,11 +50,5 @@ export function weekKeysFromMonday(date: Date = new Date()): string[] {
 export function formatDayKey(key: string, language: 'en' | 'ar'): string {
   const date = new Date(`${key}T00:00:00Z`);
   if (Number.isNaN(date.getTime())) return key;
-  const locale = language === 'ar' ? 'ar-SA-u-ca-gregory-nu-latn' : 'en-GB';
-  return new Intl.DateTimeFormat(locale, {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-    timeZone: 'UTC',
-  }).format(date);
+  return formatDate(date, language, { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
 }

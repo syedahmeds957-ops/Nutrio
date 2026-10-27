@@ -51,6 +51,16 @@
     "continueAsGuest": "Continue as guest",
     "createAccount": "Create account",
     "emailAddress": "Email address",
+    "errors": {
+      "alreadyRegistered": "An account with this email already exists. Try signing in.",
+      "emailNotConfirmed": "Please confirm your email address first.",
+      "emailRequired": "A valid email address is required.",
+      "invalidCredentials": "Invalid email or password. The password must be at least 6 characters.",
+      "nameRequired": "Your name is required.",
+      "network": "Unable to reach the sign-in server. Please check your internet connection.",
+      "noSession": "Signing in did not complete. Please try again.",
+      "passwordTooShort": "The password must be at least 6 characters."
+    },
     "fullName": "Full name",
     "fullNamePlaceholder": "Enter your name",
     "genericError": "Authentication error. Please check your credentials.",
@@ -256,10 +266,6 @@
       "message": {
         "PK": "The app will switch to English, Pakistani dishes and prices in PKR.",
         "SA": "The app will switch to Arabic (right-to-left), Saudi dishes and prices in SAR."
-      },
-      "messageKeepLanguage": {
-        "PK": "Pakistani dishes and prices in PKR. The app language stays as you set it.",
-        "SA": "Saudi dishes and prices in SAR. The app language stays as you set it."
       },
       "title": {
         "PK": "Switch to Pakistan?",
@@ -480,6 +486,8 @@
         "title": "Lean muscle gain"
       },
       "lose": {
+        "disabledPregnant": "Disabled: Caloric restriction is medically contraindicated during pregnancy/lactation.",
+        "disabledUnderweight": "Disabled: BMI of {{bmi}} indicates underweight status. Weight loss is unsafe.",
         "sub": "Controlled caloric deficit preserving lean muscle tissue while reducing body fat.",
         "title": "Fat loss / Cut"
       },
@@ -546,6 +554,7 @@
       "snacks_chai": "Light snack"
     },
     "swap": {
+      "allMatch": "All 3 alternatives match your original meal within ±5% calories",
       "current": "Current: {{value}} kcal",
       "eyebrow": "One-tap macro match",
       "oil": "Oil",
@@ -664,6 +673,7 @@
       "disclaimer": "I acknowledge that Nutrio provides algorithmic nutritional guidance and is not a substitute for clinical diagnosis or prescription by a physician.",
       "disclaimerTitle": "Safety & medical disclaimer",
       "medications": "Medications or clinical notes (optional)",
+      "medicationsPlaceholder": "e.g. Metformin 500mg, insulin, thyroxine",
       "pregnancyQuestion": "Are you pregnant or currently breastfeeding?",
       "pregnancyWarning": "Note: Caloric restriction is clinically disabled during pregnancy and active lactation. Your plan will be set to nourishing maintenance only."
     },
@@ -865,6 +875,7 @@
         "title": "Ready for your first meal"
       },
       "logFirstMeal": "Log first meal",
+      "logIt": "Log it",
       "logSuggestion": "Log suggestion",
       "logged": "Logged!",
       "proteinValue": "{{grams}}g protein",
@@ -915,16 +926,20 @@
       "Bakery Bites": "Bakery Bites",
       "Bakery Delights": "Bakery Delights",
       "BBQ": "BBQ",
+      "BBQ & Grills": "BBQ & Grills",
       "BBQ & Kabab": "BBQ & Kabab",
       "BBQ & Karahi": "BBQ & Karahi",
       "BBQ Grills": "BBQ Grills",
       "Beef & Seafood": "Beef & Seafood",
       "Beef Burgers": "Beef Burgers",
       "Beverages": "Beverages",
+      "Beverages & Drinks": "Beverages & Drinks",
       "Bihari & Afghani BBQ": "Bihari & Afghani BBQ",
       "Breads & Raita": "Breads & Raita",
       "Breakfast": "Breakfast",
+      "Breakfast & Nashta": "Breakfast & Nashta",
       "Breakfast & Omelettes": "Breakfast & Omelettes",
+      "Breakfast & Street Food": "Breakfast & Street Food",
       "Brewed Coffee": "Brewed Coffee",
       "Brews & Lattes": "Brews & Lattes",
       "Brioche Sandwiches": "Brioche Sandwiches",
@@ -960,6 +975,7 @@
       "Coffee & Shakes": "Coffee & Shakes",
       "Cold Brews": "Cold Brews",
       "Cold Coffees & Lattes": "Cold Coffees & Lattes",
+      "Condiments": "Condiments",
       "Continental & Italian": "Continental & Italian",
       "Cookies & Drinks": "Cookies & Drinks",
       "Crispy Burgers": "Crispy Burgers",
@@ -1006,6 +1022,7 @@
       "Fries": "Fries",
       "Fries & Sides": "Fries & Sides",
       "Fries & Sticks": "Fries & Sticks",
+      "Gahwa & Drinks": "Gahwa & Drinks",
       "Gathering Boxes": "Gathering Boxes",
       "Gourmet Beef": "Gourmet Beef",
       "Gourmet Pizzas": "Gourmet Pizzas",
@@ -1043,12 +1060,14 @@
       "Nalli Biryani": "Nalli Biryani",
       "Nalli Nihari": "Nalli Nihari",
       "Nashta": "Nashta",
+      "Nashta & Breakfast": "Nashta & Breakfast",
       "Nihari Specials": "Nihari Specials",
       "Noodles & Rice": "Noodles & Rice",
       "Nuggets & Strips": "Nuggets & Strips",
       "NY Giant Slices": "NY Giant Slices",
       "Other": "Other",
       "Oven Pastas": "Oven Pastas",
+      "Pakistani Fast Food": "Pakistani Fast Food",
       "Pakistani Platters": "Pakistani Platters",
       "Pan Pizzas": "Pan Pizzas",
       "Paninis & Wraps": "Paninis & Wraps",
@@ -1073,10 +1092,12 @@
       "Qahwa & Snacks": "Qahwa & Snacks",
       "Raita & Drinks": "Raita & Drinks",
       "Rice & Biryani": "Rice & Biryani",
+      "Rice & Meat": "Rice & Meat",
       "Rice & Noodles": "Rice & Noodles",
       "Rolls & Wings": "Rolls & Wings",
       "Roti & Bread": "Roti & Bread",
       "Royal Biryani": "Royal Biryani",
+      "Sabzi & Lentils": "Sabzi & Lentils",
       "Salads": "Salads",
       "Salads & Appetizers": "Salads & Appetizers",
       "Salads & Continental": "Salads & Continental",
@@ -1109,6 +1130,7 @@
       "Signature Teas": "Signature Teas",
       "Siri Paye Bowls": "Siri Paye Bowls",
       "Sliders": "Sliders",
+      "Slow-Cooked Curries": "Slow-Cooked Curries",
       "Soups": "Soups",
       "Special Flavors": "Special Flavors",
       "Special Fry Nihari": "Special Fry Nihari",
@@ -1119,14 +1141,17 @@
       "Starters": "Starters",
       "Steaks": "Steaks",
       "Steaks & Wraps": "Steaks & Wraps",
+      "Street Food & Chaat": "Street Food & Chaat",
       "Stuffed Crust": "Stuffed Crust",
       "Sundaes & Mousse": "Sundaes & Mousse",
+      "Sweets & Desserts": "Sweets & Desserts",
       "Tandoor": "Tandoor",
       "Tandoor & Sides": "Tandoor & Sides",
       "Thickburgers": "Thickburgers",
       "Traditional Dishes": "Traditional Dishes",
       "Traditional Rice": "Traditional Rice",
       "Traditional Saudi": "Traditional Saudi",
+      "Traditional Stews": "Traditional Stews",
       "Vegetables & Daal": "Vegetables & Daal",
       "Village BBQ": "Village BBQ",
       "Waffles & Shakes": "Waffles & Shakes",
@@ -1165,6 +1190,7 @@
       "customWeight": "Custom weight (g)",
       "customWeightHint": "Type the exact weight in grams, or step it with the buttons",
       "decreaseQty": "Decrease quantity",
+      "estimateNote": "Estimate — actual can vary ~±15% with kitchen and portion",
       "estimated": "Estimated",
       "fallbackBrand": {
         "PK": "Pakistani dish",
@@ -1179,6 +1205,7 @@
       "logToMeal": "Log to {{meal}}",
       "logToSlot": "Log to meal slot",
       "makeItYours": "Make it yours",
+      "makeItYoursSubtitle": "Add or remove — the number follows your real order.",
       "myServing": "My serving",
       "portionSize": "Portion size",
       "removeModifier": "Remove {{name}}",
@@ -1192,8 +1219,6 @@
       "dailyTarget": "Daily target",
       "darkMode": "Dark mode",
       "diary": "Diary",
-      "language": "Language",
-      "languageAuto": "Match region",
       "lightMode": "Light mode",
       "logMeal": "Quick log",
       "logout": "Log out",
@@ -1212,7 +1237,7 @@
       "retakeSurvey": "Retake lifestyle survey",
       "signInCreate": "Sign in / Create account",
       "slotsLogged": "{{count}} / 4 logged",
-      "todaysMeals": "Today's logged meals",
+      "todaysMeals": "Today's meals",
       "toggleRegion": "Toggle active region",
       "viewMealPlan": "View 7-day meal plan",
       "waterGoal": "Water goal",
@@ -1394,9 +1419,18 @@
         "SA": "Lunch"
       },
       "snacks_chai": {
-        "PK": "Snacks & chai",
-        "SA": "Gahwa & snacks"
+        "PK": "Snack",
+        "SA": "Snack"
       }
+    },
+    "mealsCard": {
+      "addTo": "Add food to {{slot}}",
+      "caloriesByMeal": "Calories by meal",
+      "eatenOfTarget": "{{eaten}} / {{target}} kcal",
+      "mealPlan": "Meal plan",
+      "next": "Next",
+      "nothingLogged": "Nothing logged yet",
+      "removeDish": "Remove {{name}}"
     },
     "slotCard": {
       "addFood": "Add food",
@@ -1445,8 +1479,15 @@
       "addBottle": "+500 ml (Bottle)",
       "addGlass": "+250 ml (Glass)",
       "dailyTarget": "Target: {{amount}} ml / day",
+      "goalPercent": "{{value}}% of today's goal",
       "ofTarget": "of {{amount}} ml",
+      "tileTitle": "Water",
       "title": "Water"
+    },
+    "weightTile": {
+      "empty": "No weigh-ins yet",
+      "logCta": "Log weight",
+      "weekDelta": "{{value}} kg this week"
     }
   },
   "weight": {
@@ -1465,6 +1506,7 @@
     "kcalPerWeek": "kcal/wk",
     "log": {
       "description": "Weigh yourself under consistent conditions (ideally in the morning, fasted, after using the restroom).",
+      "errorRange": "Please enter a realistic weight between 25 kg and 300 kg.",
       "notesLabel": "Notes (optional)",
       "notesPlaceholder": "e.g. After dawat, salt retention, morning fasted",
       "save": "Save weigh-in",
@@ -1475,6 +1517,7 @@
       "logTodayWeight": "Log today's weight",
       "title": "Weight & calorie burn"
     },
+    "spikeWarning": "Temporary +{{diff}} kg water-weight fluctuation (likely sodium/carb retention from a desi meal). Your trend line smooths this out automatically.",
     "trend": {
       "kgScale": "{{value}} kg scale",
       "kgTrend": "{{value}} kg trend",
@@ -1747,6 +1790,35 @@
       "help": "This helps set your next targets",
       "save": "Save workout"
     },
+    "edit": {
+      "edit": "Edit workout",
+      "addExercise": "Add exercise",
+      "subtitle": "Editing what you logged",
+      "save": "Save changes",
+      "addedTag": "Added by you",
+      "addSet": "Add set",
+      "removeSet": "Remove last set",
+      "removeSetLabel": "Remove set {{number}} of {{name}}",
+      "needOne": "Keep at least one set ticked to save this workout.",
+      "walkTitle": "Add a walk session",
+      "walkRowBody": "Log a walk you did, in minutes",
+      "walkHint": "Walking needs no equipment. Add the minutes you walked.",
+      "walkMinutes": "Minutes walked",
+      "walkPlaceholder": "e.g. 30",
+      "walkUnit": "min",
+      "walkAdd": "Add walk",
+      "suggested": "Suggested for your equipment. Search for more.",
+      "addSelected": "Add {{count}} exercises",
+      "group": {
+        "strength": "Strength",
+        "cardio": "Cardio"
+      },
+      "pickerTitle": "Add an exercise",
+      "discardTitle": "Discard your changes?",
+      "discardBody": "Your workout stays as you last saved it.",
+      "keepEditing": "Keep editing",
+      "discard": "Discard changes"
+    },
     "logged": {
       "load": "{{kg}} kg × {{reps}}",
       "reps": "× {{reps}}",
@@ -1917,8 +1989,7 @@
       "sportDaysQ": "{{sport}} · which days?",
       "sportNote": "No heavy leg day on these days or the day before.",
       "searchLabel": "Search exercises",
-      "searchPlaceholder": "Exercise name",
-      "searchHint": "Search in English or Arabic, e.g. “bench” or “ضغط”.",
+      "searchPlaceholder": "Search exercises",
       "noResults": "Nothing found. Try another name.",
       "added": "Added",
       "haveRoutine": "Already follow a routine?",

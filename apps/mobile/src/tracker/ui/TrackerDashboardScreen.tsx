@@ -1,16 +1,10 @@
 import React, { useState, useRef } from 'react';
-import {
-  Animated,
-  View,
-  Text,
-  ScrollView,
-  SafeAreaView,
-  TouchableOpacity,
-  Platform,
-} from 'react-native';
+import { Animated, View, ScrollView, SafeAreaView } from 'react-native';
 import { DailyProgressHeader } from './DailyProgressHeader.js';
-import { WaterTrackerCard } from './WaterTrackerCard.js';
-import { MealSlotCard } from './MealSlotCard.js';
+import { TodayHeader } from './TodayHeader.js';
+import { TodayBento, WaterTile, WeightTile } from './TodayBento.js';
+import { TodayMealsCard } from './TodayMealsCard.js';
+import { TodayBottomBar } from './TodayBottomBar.js';
 import { MealLogHubModal, MealBasketEntry } from './MealLogHubModal.js';
 import { BrandMenuModal } from './BrandMenuModal.js';
 import { ItemCustomizerModal, CustomizedLogPayload } from './ItemCustomizerModal.js';
@@ -26,12 +20,10 @@ import type { NormalizedFood, ServingUnit } from '@nutrio/food-db';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useConfirmedRegionSwitch } from '../../common/region/useConfirmedRegionSwitch.js';
-import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useTranslation } from '../../i18n/index.js';
 import { GuestAuthModal } from './GuestAuthModal.js';
 import { ProfileSheet } from './ProfileSheet.js';
-import { Icon } from '../../ui/Icon.js';
 import type { WeeklyWorkoutPlan, WorkoutLog } from '@nutrio/workout-core';
-import { ScrollCue } from '../../ui/ScrollCue.js';
 import { TodayWorkoutCard } from '../../workout/ui/TodayWorkoutCard.js';
 import { saveDailyActivities, loadDailyActivities, getOrInitHistoryStartDate } from '../activityStorage.js';
 import { recordFoodUsage } from '../mealPresets.js';
@@ -42,6 +34,9 @@ import { HapticFeedback } from '../../ui/haptics.js';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { addDaysToKey, localDateKey } from '../../common/dateKey.js';
 import { styles } from './TrackerDashboardScreen.styles.js';
+import { MEAL_SLOTS, defaultSlotForHour, nextSlotToLog } from '../mealsCard.js';
+import { loadWeighIns } from '../../weight/weightStorage.js';
+import { weightGlance } from '../../weight/weightGlance.js';
 
 interface TrackerDashboardScreenProps {
   userName?: string;
@@ -93,13 +88,10 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   isGuest = false,
   onRequireAuth,
 }) => {
-  const { theme, isDark } = useTheme();
+  const { theme } = useTheme();
   const { activeRegion } = useRegion();
   const requestRegionSwitch = useConfirmedRegionSwitch();
   const { t } = useTranslation();
-  const dir = useTextDirection();
-  const accentColor = theme.colors.primaryLime;
-  const accentTextColor = '#0A0B0D';
 
   let insetsBottom = 0;
   try {
@@ -205,7 +197,6 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   const [selectedItemForCustomize, setSelectedItemForCustomize] = useState<NormalizedFood | null>(null);
   const [diaryVisible, setDiaryVisible] = useState(false);
   const [diaryDayOffset, setDiaryDayOffset] = useState(0);
-  const [activeTab, setActiveTab] = useState<'today' | 'diary'>('today');
   const [guestModalVisible, setGuestModalVisible] = useState(false);
   /** A guest tapped Start on the sample workout. */
   const [workoutPromptVisible, setWorkoutPromptVisible] = useState(false);
@@ -335,7 +326,8 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
       payload.totalProtein,
       payload.totalCarbs,
       payload.totalFat,
-      payload.actualGrams
+      payload.actualGrams,
+      payload.food.nameAr
     );
     recordFoodUsage([payload.food.id || payload.food.name]);
     setCustomizerVisible(false);
@@ -439,17 +431,29 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   };
 
   /** The meal people most likely mean right now, used to preselect the hub. */
-const defaultSlotForNow = (): MealSlot => {
-  const h = new Date().getHours();
-  if (h < 11) return 'breakfast';
-  if (h < 16) return 'lunch';
-  if (h < 19) return 'snacks_chai';
-  return 'dinner';
-};
+  const defaultSlotForNow = (): MealSlot => defaultSlotForHour(new Date().getHours());
 
-  const completedSlotsCount = (['breakfast', 'lunch', 'dinner', 'snacks_chai'] as MealSlot[]).filter(
-    (s) => engine.getItemsBySlot(s).length > 0
-  ).length;
+  const itemCountBySlot = Object.fromEntries(
+    MEAL_SLOTS.map((slot) => [slot, engine.getItemsBySlot(slot).length])
+  ) as Record<MealSlot, number>;
+
+  const weight = isGuest ? null : weightGlance(loadWeighIns());
+  const openWeight = onOpenWeightTracker
+    ? () => {
+        if (isGuest) {
+          setGuestModalVisible(true);
+          return;
+        }
+        onOpenWeightTracker();
+      }
+    : undefined;
+  const openCoach = () => {
+    if (isGuest) {
+      setGuestModalVisible(true);
+      return;
+    }
+    onOpenCoachChat?.();
+  };
 
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.canvas }]}>
@@ -458,387 +462,81 @@ const defaultSlotForNow = (): MealSlot => {
         contentContainerStyle={[styles.scrollPad, { paddingBottom: 115 + insetsBottom }]}
         showsVerticalScrollIndicator={false}
       >
-        {/* Top Header */}
-        <View style={styles.topNav}>
-          <View style={styles.topHeaderRow}>
-            <TouchableOpacity
-              style={styles.userRow}
-              onPress={openProfile}
-              activeOpacity={0.7}
-            >
-              <View
-                style={[
-                  styles.avatarCircle,
-                  {
-                    backgroundColor: theme.colors.surface,
-                    borderColor: accentColor,
-                  },
-                ]}
-              >
-                <Text style={[styles.avatarInitial, { color: theme.colors.primaryAccessible }]}>
-                  {userName.charAt(0).toUpperCase()}
-                </Text>
-              </View>
-              <View>
-                <Text style={[styles.greetingText, dir.text, { color: theme.colors.textMuted }]}>
-                  {t('common.today')}
-                </Text>
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                  <Text role="heading" aria-level={1} style={[styles.userName, { color: theme.colors.textPrimary }]}>
-                    {userName}
-                  </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
+        <TodayHeader
+          userName={userName}
+          region={activeRegion === 'SA' ? 'SA' : 'PK'}
+          pendingSyncCount={summary.pendingSyncCount}
+          onOpenProfile={openProfile}
+          onSwitchRegion={requestRegionSwitch}
+        />
 
-            {/* Header Right Actions: Region Switcher + Theme Toggle */}
-            <View style={styles.headerRightActions}>
-              <TouchableOpacity
-                style={[
-                  styles.regionToggleBtn,
-                  {
-                    backgroundColor: theme.colors.surface,
-                    borderColor: theme.colors.border,
-                  },
-                ]}
-                onPress={() => {
-                  HapticFeedback.selection();
-                  requestRegionSwitch();
-                }}
-                activeOpacity={0.7}
-                hitSlop={{ top: 8, bottom: 8, left: 6, right: 6 }}
-                accessibilityRole="button"
-                accessibilityLabel={`${activeRegion}, ${t('tracker.dashboard.toggleRegion')}`}
-              >
-                <Text style={[styles.regionToggleText, { color: theme.colors.textPrimary }]}>
-                  {activeRegion === 'SA' ? 'SA' : 'PK'}
-                </Text>
-              </TouchableOpacity>
-
-            </View>
-          </View>
-
-          {/* Navigation Action Chips. Content-width and scrollable: five equal-width
-              pills clip their labels on a 360-390 px phone. */}
-          <ScrollCue
-            fadeColor={theme.colors.canvas}
-            style={styles.navActionsScroll}
-            contentContainerStyle={styles.navActionsRow}
-          >
-            {onOpenMealPlan && (
-              <TouchableOpacity
-                style={[
-                  styles.navPillBtn,
-                  { backgroundColor: theme.colors.surface, borderColor: theme.colors.border },
-                ]}
-                onPress={onOpenMealPlan}
-                activeOpacity={0.7}
-              >
-                <View style={styles.navPillContent}>
-                  <Icon name="utensils" size={13} color={theme.colors.textPrimary} />
-                  <Text numberOfLines={1} style={[styles.navPillBtnText, { color: theme.colors.textPrimary }]}>
-                    {t('tracker.dashboard.nav.meals')}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            )}
-
-            {onOpenWorkouts && (
-              <TouchableOpacity
-                style={[
-                  styles.navPillBtn,
-                  { backgroundColor: theme.colors.surface, borderColor: theme.colors.border },
-                ]}
-                onPress={onOpenWorkouts}
-                activeOpacity={0.7}
-                accessibilityRole="button"
-              >
-                <View style={styles.navPillContent}>
-                  <Icon name="dumbbell" size={13} color={theme.colors.textPrimary} />
-                  <Text numberOfLines={1} style={[styles.navPillBtnText, { color: theme.colors.textPrimary }]}>
-                    {t('tracker.dashboard.nav.workouts')}
-                  </Text>
-                  <View style={[styles.newBadge, { backgroundColor: theme.colors.primaryLime }]}>
-                    <Text style={[styles.newBadgeText, { color: theme.colors.limeText }]}>{t('workout.newBadge')}</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            )}
-
-            {onOpenWeightTracker && (
-              <TouchableOpacity
-                style={[
-                  styles.navPillBtn,
-                  { backgroundColor: theme.colors.surface, borderColor: theme.colors.border },
-                ]}
-                onPress={() => {
-                  if (isGuest) {
-                    setGuestModalVisible(true);
-                    return;
-                  }
-                  onOpenWeightTracker();
-                }}
-                activeOpacity={0.7}
-              >
-                <View style={styles.navPillContent}>
-                  <Icon name="scale" size={13} color={theme.colors.textPrimary} />
-                  <Text numberOfLines={1} style={[styles.navPillBtnText, { color: theme.colors.textPrimary }]}>
-                    {t('tracker.dashboard.nav.weight')}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            )}
-
-            {onOpenCoachChat && (
-              <TouchableOpacity
-                style={[
-                  styles.navPillBtnActive,
-                  { backgroundColor: accentColor },
-                ]}
-                onPress={() => {
-                  if (isGuest) {
-                    setGuestModalVisible(true);
-                    return;
-                  }
-                  onOpenCoachChat();
-                }}
-                activeOpacity={0.7}
-              >
-                <View style={styles.navPillContent}>
-                  <Icon name="coach" size={13} color={accentTextColor} />
-                  <Text numberOfLines={1} style={[styles.navPillBtnActiveText, { color: accentTextColor }]}>
-                    {t('tracker.dashboard.nav.coach')}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            )}
-
-            {onBackToPlan && (
-              <TouchableOpacity
-                style={[
-                  styles.navPillBtn,
-                  { backgroundColor: theme.colors.surface, borderColor: theme.colors.border },
-                ]}
-                onPress={onBackToPlan}
-                activeOpacity={0.7}
-              >
-                <View style={styles.navPillContent}>
-                  <Icon name="clipboard" size={13} color={theme.colors.textPrimary} />
-                  <Text numberOfLines={1} style={[styles.navPillBtnText, { color: theme.colors.textPrimary }]}>
-                    {t('tracker.dashboard.nav.targets')}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            )}
-
-            {/*
-              No Survey pill here. The nav row is for places you go during a
-              normal day — meals, weight, coach, targets — and re-taking the
-              whole onboarding survey is not one of them. It still lives in the
-              profile sheet, where settings-shaped actions belong.
-            */}
-          </ScrollCue>
+        {/* Hero + macro tiles. Their own bottom margin is 16; cards below sit 12 apart. */}
+        <View style={styles.heroWrap}>
+          <DailyProgressHeader summary={summary} weeklyHistoryFills={weeklyHistoryFills} />
         </View>
 
-        {/* 1. Daily Progress Hero Card + 2x2 Metric Grid */}
-        <DailyProgressHeader summary={summary} weeklyHistoryFills={weeklyHistoryFills} />
-
-        {onOpenWorkouts && (
-          <TodayWorkoutCard
-            plan={workoutPlan}
-            logs={workoutLogs}
-            todayKey={localDateKey()}
-            onSetUp={onOpenWorkouts}
-            onSeeWeek={onOpenWorkouts}
-            onOpenDay={isGuest ? () => setWorkoutPromptVisible(true) : (onOpenWorkoutDay ?? (() => onOpenWorkouts()))}
-            sample={isGuest}
-          />
-        )}
-
-        {/* 2. Dynamic AI Recommendation Card */}
-        <AiRecommendationCard
-          key={activeRegion}
-          remainingCalories={summary.remainingCalories}
-          remainingProtein={Math.max(0, summary.targetProteinGrams - summary.totalProteinConsumed)}
-          totalCaloriesConsumed={summary.totalCaloriesConsumed}
-          itemsLoggedCount={summary.items.length}
-          onLogRecommendation={handleLogRecommendation}
-          onOpenLogMeal={() => handleOpenAdd('breakfast')}
-          onAskCoach={() => {
-            if (isGuest) {
-              setGuestModalVisible(true);
-              return;
+        <View style={styles.sections}>
+          <TodayBento
+            workout={
+              onOpenWorkouts ? (
+                <TodayWorkoutCard
+                  variant="tile"
+                  plan={workoutPlan}
+                  logs={workoutLogs}
+                  todayKey={localDateKey()}
+                  onSetUp={onOpenWorkouts}
+                  onSeeWeek={onOpenWorkouts}
+                  onOpenDay={isGuest ? () => setWorkoutPromptVisible(true) : (onOpenWorkoutDay ?? (() => onOpenWorkouts()))}
+                  sample={isGuest}
+                />
+              ) : undefined
             }
-            onOpenCoachChat?.();
-          }}
-        />
-
-        {/* 3. Quick Staples 1-Tap Log Bar */}
-        <QuickStaplesBar
-          onQuickLog={handleQuickLogStaple}
-          onRequireAccount={isGuest ? () => setGuestModalVisible(true) : undefined}
-        />
-
-        {/* 4. Water Tracker */}
-        <WaterTrackerCard
-          consumedMl={summary.waterMlConsumed}
-          targetMl={summary.targetWaterMl}
-          onLogWater={handleLogWater}
-        />
-
-        {/* 5. Today's Meals Timeline */}
-        <View style={styles.slotsSection}>
-          <View style={styles.slotsHeadingRow}>
-            <Text style={[styles.sectionHeading, dir.text, { color: theme.colors.textPrimary, marginHorizontal: 0, marginBottom: 0 }]}>
-              {t('tracker.dashboard.todaysMeals')}
-            </Text>
-            <View
-              style={[
-                styles.mealsProgressPill,
-                {
-                  backgroundColor:
-                    completedSlotsCount === 4
-                      ? accentColor
-                      : isDark
-                      ? 'rgba(164, 235, 63, 0.15)'
-                      : '#DCFCE7',
-                  borderColor: accentColor,
-                },
-              ]}
-            >
-              <Text
-                style={[
-                  styles.mealsProgressText,
-                  {
-                    color:
-                      completedSlotsCount === 4
-                        ? accentTextColor
-                        : isDark
-                        ? accentColor
-                        : '#365314',
-                  },
-                ]}
-              >
-                {completedSlotsCount === 4
-                  ? t('tracker.dashboard.allMealsDone')
-                  : t('tracker.dashboard.slotsLogged', { count: completedSlotsCount })}
-              </Text>
-            </View>
-          </View>
-
-          <MealSlotCard
-            slot="breakfast"
-            title={t('tracker.mealSlots.breakfast.' + activeRegion)}
-            icon={<Icon name="sun" size={18} color="#F59E0B" />}
-            items={engine.getItemsBySlot('breakfast')}
-            onAddItem={handleOpenAdd}
-            onDeleteItem={handleDeleteItem}
+            weight={<WeightTile glance={weight} onPress={openWeight} />}
+            water={
+              <WaterTile
+                consumedMl={summary.waterMlConsumed}
+                targetMl={summary.targetWaterMl}
+                onLogWater={handleLogWater}
+              />
+            }
           />
 
-          <MealSlotCard
-            slot="lunch"
-            title={t('tracker.mealSlots.lunch.' + activeRegion)}
-            icon={<Icon name="utensils" size={18} color={theme.colors.primaryLime} />}
-            items={engine.getItemsBySlot('lunch')}
-            onAddItem={handleOpenAdd}
-            onDeleteItem={handleDeleteItem}
+          <AiRecommendationCard
+            key={activeRegion}
+            remainingCalories={summary.remainingCalories}
+            remainingProtein={Math.max(0, summary.targetProteinGrams - summary.totalProteinConsumed)}
+            totalCaloriesConsumed={summary.totalCaloriesConsumed}
+            itemsLoggedCount={summary.items.length}
+            onLogRecommendation={handleLogRecommendation}
+            onOpenLogMeal={() => handleOpenAdd('breakfast')}
+            onAskCoach={openCoach}
           />
 
-          <MealSlotCard
-            slot="dinner"
-            title={t('tracker.mealSlots.dinner.' + activeRegion)}
-            icon={<Icon name="utensils" size={18} color="#3B82F6" />}
-            items={engine.getItemsBySlot('dinner')}
-            onAddItem={handleOpenAdd}
-            onDeleteItem={handleDeleteItem}
+          <QuickStaplesBar
+            onQuickLog={handleQuickLogStaple}
+            onRequireAccount={isGuest ? () => setGuestModalVisible(true) : undefined}
           />
 
-          <MealSlotCard
-            slot="snacks_chai"
-            title={t('tracker.mealSlots.snacks_chai.' + activeRegion)}
-            icon={<Icon name="coffee" size={18} color="#D97706" />}
-            items={engine.getItemsBySlot('snacks_chai')}
+          <TodayMealsCard
+            items={summary.items}
+            targetCalories={summary.targetCalories}
+            nextSlot={nextSlotToLog(defaultSlotForNow(), itemCountBySlot)}
             onAddItem={handleOpenAdd}
             onDeleteItem={handleDeleteItem}
+            onOpenMealPlan={onOpenMealPlan}
           />
         </View>
       </ScrollView>
 
-      {/* Floating Pitch-Black Capsule Navigation Bar (Revolut/Ronasit Style) */}
-      <View
-        style={[
-          styles.bottomTabBar,
-          {
-            backgroundColor: theme.colors.floatingBarBg,
-            borderColor: theme.colors.border,
-            bottom: bottomBarOffset,
-          },
-        ]}
-      >
-        <TouchableOpacity
-          style={[styles.bottomTabItem, activeTab === 'today' && styles.bottomTabItemActive]}
-          onPress={() => {
-            HapticFeedback.selection();
-            setActiveTab('today');
-            setDiaryVisible(false);
-          }}
-          activeOpacity={0.7}
-        >
-          <Icon
-            name="sun"
-            size={18}
-            color={activeTab === 'today' ? accentColor : '#8E929B'}
-          />
-          <Text
-            style={[
-              styles.bottomTabText,
-              { color: activeTab === 'today' ? accentColor : '#8E929B' },
-            ]}
-          >
-            {t('common.today')}
-          </Text>
-        </TouchableOpacity>
-
-        {/* Center Solid Lime or Saudi Emerald Log Meal Button */}
-        <TouchableOpacity
-          style={[styles.bottomCenterLogBtn, { backgroundColor: accentColor }]}
-          onPress={() => {
-            HapticFeedback.impactMedium();
-            handleOpenHub(defaultSlotForNow());
-          }}
-          activeOpacity={0.8}
-        >
-          <Icon name="plus" size={16} color={accentTextColor} />
-          <Text style={[styles.bottomCenterLogText, { color: accentTextColor }]}>
-            {t('tracker.dashboard.logMeal')}
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.bottomTabItem, activeTab === 'diary' && styles.bottomTabItemActive]}
-          onPress={() => {
-            HapticFeedback.selection();
-            setActiveTab('diary');
-            setDiaryDayOffset(0);
-            setDiaryVisible(true);
-          }}
-          activeOpacity={0.7}
-        >
-          <Icon
-            name="clipboard"
-            size={18}
-            color={activeTab === 'diary' ? accentColor : '#8E929B'}
-          />
-          <Text
-            style={[
-              styles.bottomTabText,
-              { color: activeTab === 'diary' ? accentColor : '#8E929B' },
-            ]}
-          >
-            {t('tracker.dashboard.diary')}
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <TodayBottomBar
+        bottom={bottomBarOffset}
+        onOpenDiary={() => {
+          setDiaryDayOffset(0);
+          setDiaryVisible(true);
+        }}
+        onQuickLog={() => handleOpenHub(defaultSlotForNow())}
+        onOpenCoach={openCoach}
+      />
 
       {/* Log a Meal Hub Screen */}
       <MealLogHubModal
@@ -883,10 +581,7 @@ const defaultSlotForNow = (): MealSlot => {
         minDayOffset={minDiaryDayOffset}
         onDayOffsetChange={setDiaryDayOffset}
         readOnly={diaryDayOffset !== 0}
-        onClose={() => {
-          setDiaryVisible(false);
-          setActiveTab('today');
-        }}
+        onClose={() => setDiaryVisible(false)}
         onDeleteItem={handleDeleteItem}
         onOpenLogHub={() => {
           setDiaryVisible(false);
@@ -905,6 +600,7 @@ const defaultSlotForNow = (): MealSlot => {
         isGuest={!!isGuest}
         onOpenSurvey={onOpenSurvey}
         onOpenMealPlan={onOpenMealPlan}
+        onOpenTargets={onBackToPlan}
         onOpenWeeklyCheckIn={onOpenWeeklyCheckIn}
         onRequireAuth={onRequireAuth}
         onLogout={onLogout}

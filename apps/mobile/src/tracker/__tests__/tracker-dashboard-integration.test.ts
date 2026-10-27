@@ -115,3 +115,47 @@ describe('Today’s workout card on the dashboard', () => {
     expect(withPlan).not.toContain('Set up workouts');
   });
 });
+
+describe('Today screen layout', () => {
+  const targets = { targetCalories: 1960, targetProteinGrams: 120, targetFatGrams: 60, targetCarbGrams: 220, targetWaterMl: 2500 };
+
+  const render = async (extra: Record<string, unknown> = {}) => {
+    const { renderToStaticMarkup } = await import('react-dom/server');
+    const { initI18n } = await import('../../i18n/config.js');
+    initI18n('en');
+    return renderToStaticMarkup(
+      React.createElement(TrackerDashboardScreen, {
+        userName: 'Ali',
+        targets,
+        onOpenWorkouts: () => {},
+        onOpenMealPlan: () => {},
+        onOpenCoachChat: () => {},
+        onOpenWeightTracker: () => {},
+        onBackToPlan: () => {},
+        ...extra,
+      })
+    );
+  };
+
+  it('has the three-button bar (Diary, Quick log, Coach) and no Today tab or top chip row', async () => {
+    const html = await render();
+    expect(html).toContain('>Diary<');
+    expect(html).toContain('>Quick log<');
+    expect(html).toContain('>Coach<');
+    // "Today" is only the small greeting above the name, never a bar tab.
+    expect(html.match(/>Today</g)?.length).toBe(1);
+    expect(html).not.toContain('>Targets<');
+    expect(html).not.toContain('>Meals<');
+  });
+
+  it('shows the bento tiles, one meals card with a Next tag, and the Meal plan link', async () => {
+    const html = await render();
+    expect(html).toContain('>Water<');
+    expect(html).toContain('>Weight<');
+    expect(html).toContain('No weigh-ins yet');
+    expect(html).toContain('Calories by meal');
+    expect(html).toContain('>Meal plan<');
+    expect(html).toContain('>Next<');
+    expect(html).not.toContain('Add more to');
+  });
+});

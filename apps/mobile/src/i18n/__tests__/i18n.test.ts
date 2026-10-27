@@ -1,7 +1,7 @@
 import { describe, it, expect, afterAll } from 'vitest';
 import { Platform } from 'react-native';
 import { i18n, initI18n } from '../config.js';
-import { APP_LANGUAGES, isLanguagePreference, languageForRegion, resolveLanguage } from '../languages.js';
+import { APP_LANGUAGES, languageForRegion, resolveLanguage, type LegacyLanguagePreference } from '../languages.js';
 import {
   applyNativeDirection,
   directionForLanguage,
@@ -145,21 +145,30 @@ afterAll(() => {
   initI18n('en');
 });
 
-describe('language preference', () => {
-  it('follows the region until the user picks a language', () => {
-    expect(resolveLanguage('auto', 'SA')).toBe('ar');
-    expect(resolveLanguage('auto', 'PK')).toBe('en');
+describe('effective language', () => {
+  const preferences: Array<LegacyLanguagePreference | null | undefined> = ['auto', 'en', 'ar', null, undefined];
+  const devices = ['en-US', 'ar-SA', 'ur-PK', 'fr-FR', null, undefined];
+
+  it('is always English in Pakistan, whatever the phone or a stored pick says', () => {
+    for (const preference of preferences) {
+      for (const deviceLanguage of devices) {
+        expect(resolveLanguage('PK', { preference, deviceLanguage })).toBe('en');
+      }
+    }
+    expect(resolveLanguage('PK')).toBe('en');
   });
 
-  it('lets an explicit pick override the region either way', () => {
-    expect(resolveLanguage('en', 'SA')).toBe('en');
-    expect(resolveLanguage('ar', 'PK')).toBe('ar');
+  it('is always Arabic in Saudi Arabia, whatever the phone or a stored pick says', () => {
+    for (const preference of preferences) {
+      for (const deviceLanguage of devices) {
+        expect(resolveLanguage('SA', { preference, deviceLanguage })).toBe('ar');
+      }
+    }
+    expect(resolveLanguage('SA')).toBe('ar');
   });
 
-  it('recognises only valid saved values', () => {
-    expect(isLanguagePreference('auto')).toBe(true);
-    expect(isLanguagePreference('ar')).toBe(true);
-    expect(isLanguagePreference('fr')).toBe(false);
-    expect(isLanguagePreference(null)).toBe(false);
+  it('applies the new region at once when it switches back and forth', () => {
+    const hints = { preference: 'ar' as const, deviceLanguage: 'ar-SA' };
+    expect(['PK', 'SA', 'PK'].map((r) => resolveLanguage(r as 'PK' | 'SA', hints))).toEqual(['en', 'ar', 'en']);
   });
 });

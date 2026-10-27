@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useFormat } from '../../i18n/useFormat.js';
 import { Icon } from '../../ui/Icon.js';
 import type { TargetUpdateProposal } from '../calorieLink.js';
 
@@ -37,11 +38,12 @@ export const TargetUpdateSheetBody: React.FC<TargetUpdateSheetProps & { proposal
   const { theme } = useTheme();
   const c = theme.colors;
   const { t } = useTranslation();
+  const { formatNumber } = useFormat();
   const dir = useTextDirection();
 
   const { currentKcal, proposedKcal, dailyTrainingKcal } = proposal;
-  const from = currentKcal.toLocaleString();
-  const to = proposedKcal.toLocaleString();
+  const from = formatNumber(currentKcal);
+  const to = formatNumber(proposedKcal);
   const body =
     dailyTrainingKcal > 0
       ? t('workout.calories.bodyUp', { count: dailyTrainingKcal })

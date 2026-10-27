@@ -41,41 +41,39 @@ export function getFallbackCoachResponse(
   const query = userQuery.toLowerCase();
   const remaining = context.todaySummary?.remainingCalories ?? 500;
   const isSaudi = context.region === 'SA';
-
+  // Saudi users type Arabic only, so each topic also matches its Arabic words.
+  const mentions = (...words: string[]) => words.some((w) => query.includes(w));
 
   // 1. AlBaik / Fast Food Advice
-  if (query.includes('albaik') || query.includes('broast') || query.includes('nugget') || query.includes('kudu')) {
+  if (mentions('albaik', 'broast', 'nugget', 'kudu', 'البيك', 'بروست', 'ناجتس', 'كودو', 'وجبات سريعة', 'وجبة سريعة')) {
     return fallbackTopic('fastFood');
   }
 
   // 2. Kabsa / Mandi / Social Banquets
   if (
-    query.includes('kabsa') ||
-    query.includes('mandi') ||
-    query.includes('saleeg') ||
-    query.includes('madhbi') ||
-    (isSaudi && (query.includes('rice') || query.includes('dawat') || query.includes('dinner')))
+    mentions('kabsa', 'mandi', 'saleeg', 'madhbi', 'كبسة', 'مندي', 'سليق', 'مظبي') ||
+    (isSaudi && mentions('rice', 'dawat', 'dinner', 'رز', 'أرز', 'ارز', 'عزومة', 'عشاء', 'وليمة'))
   ) {
     return fallbackTopic('banquet');
   }
 
   // 3. Saudi Gahwa & Dates
-  if (query.includes('gahwa') || query.includes('coffee') || query.includes('date') || query.includes('tamr')) {
+  if (mentions('gahwa', 'coffee', 'date', 'tamr', 'قهوة', 'تمر', 'تمور')) {
     return fallbackTopic('gahwa');
   }
 
   // 4. Pakistani Oil Reduction
-  if (query.includes('oil') || query.includes('karahi') || query.includes('tel') || query.includes('ghee')) {
+  if (mentions('oil', 'karahi', 'tel', 'ghee', 'زيت', 'سمن', 'كراهي')) {
     return fallbackTopic('cookingOil');
   }
 
   // 5. Pakistani Shaadi / Dawat
-  if (query.includes('shaadi') || query.includes('dawat') || query.includes('buffet') || query.includes('party')) {
+  if (mentions('shaadi', 'dawat', 'buffet', 'party', 'حفلة', 'بوفيه', 'مناسبة')) {
     return fallbackTopic('dawat');
   }
 
   // 6. Pakistani Chai
-  if (query.includes('chai') || query.includes('tea') || query.includes('doodh patti')) {
+  if (mentions('chai', 'tea', 'doodh patti', 'شاي', 'كرك')) {
     return fallbackTopic('chai');
   }
 

@@ -1,0 +1,261 @@
+import React, { useState } from 'react';
+import { LayoutChangeEvent, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Svg, { Circle, Path } from 'react-native-svg';
+import { useTheme } from '../../theme.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useFormat } from '../../i18n/useFormat.js';
+import { Icon } from '../../ui/Icon.js';
+import { HapticFeedback } from '../../ui/haptics.js';
+import { sparklinePoints, WeightGlance } from '../../weight/weightGlance.js';
+import { waterGoalPercent } from '../waterTile.js';
+
+const SPARK_MIN_HEIGHT = 44;
+const DEFAULT_WATER_TARGET_ML = 2500;
+const GLASS_ML = 250;
+
+
+/** Weight tile: latest weigh-in, a sparkline of the recent ones, and the change this week. */
+export const WeightTile: React.FC<{ glance: WeightGlance | null; onPress?: () => void }> = ({ glance, onPress }) => {
+  const { theme } = useTheme();
+  const c = theme.colors;
+  const { t } = useTranslation();
+  const { formatNumber } = useFormat();
+  const dir = useTextDirection();
+  const [spark, setSpark] = useState({ width: 0, height: 0 });
+
+  const points = glance ? sparklinePoints(glance.series, spark.width, spark.height) : [];
+  const last = points[points.length - 1];
+  const delta = glance?.weekDeltaKg ?? null;
+  const deltaText =
+    delta === null
+      ? null
+      : t('tracker.weightTile.weekDelta', { value: `${delta > 0 ? '+' : delta < 0 ? '−' : ''}${Math.abs(delta)}` });
+
+  const header = (
+    <View style={styles.headRow}>
+      <Text style={[styles.overline, dir.text, { color: c.textSecondary }]}>{t('tracker.dashboard.nav.weight')}</Text>
+      {onPress ? <Icon name={dir.isRTL ? 'chevron-left' : 'chevron-right'} size={16} color={c.textMuted} /> : null}
+    </View>
+  );
+
+  const cardStyle = [styles.card, { backgroundColor: c.surface, borderColor: c.border }];
+
+  if (!glance) {
+    // No weigh-ins yet: a centred invitation. The card is a plain view so the lime button is its own target.
+    const invitation = (
+      <>
+        <View style={[styles.emptyIcon, { backgroundColor: c.surfaceSecondary }]}>
+          <Icon name="scale" size={22} color={c.textSecondary} />
+        </View>
+        <Text style={[styles.emptyText, { color: c.textSecondary }]} numberOfLines={2}>
+          {t('tracker.weightTile.empty')}
+        </Text>
+      </>
+    );
+    return (
+      <View style={cardStyle}>
+        {onPress ? (
+          <TouchableOpacity
+            accessibilityRole="button"
+            accessibilityLabel={t('tracker.dashboard.nav.weight')}
+            activeOpacity={0.7}
+            hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}
+            onPress={onPress}
+          >
+            {header}
+          </TouchableOpacity>
+        ) : (
+          header
+        )}
+        <View style={styles.center}>
+          {invitation}
+          {onPress ? (
+            <TouchableOpacity
+              accessibilityRole="button"
+              accessibilityLabel={t('tracker.weightTile.logCta')}
+              activeOpacity={0.8}
+              onPress={() => {
+                HapticFeedback.impactLight();
+                onPress();
+              }}
+              style={[styles.pill, { backgroundColor: c.primaryLime }]}
+            >
+              <Text style={[styles.pillText, { color: c.limeText }]} numberOfLines={1}>
+                {t('tracker.weightTile.logCta')}
+              </Text>
+            </TouchableOpacity>
+          ) : null}
+        </View>
+      </View>
+    );
+  }
+
+  const content = (
+    <>
+      {header}
+      <View style={styles.dataBody}>
+        <Text style={[styles.value, dir.text, { color: c.textPrimary }]} numberOfLines={1}>
+          {formatNumber(glance.latestKg, { maximumFractionDigits: 1 })}
+          <Text style={[styles.unit, { color: c.textSecondary }]}>{` ${t('survey.basics.unitKg')}`}</Text>
+        </Text>
+        <View
+          style={styles.spark}
+          onLayout={(e: LayoutChangeEvent) => setSpark({ width: e.nativeEvent.layout.width, height: e.nativeEvent.layout.height })}
+        >
+          {points.length > 1 && (
+            <Svg width={spark.width} height={spark.height} style={StyleSheet.absoluteFill}>
+              <Path
+                d={points.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ')}
+                fill="none"
+                stroke={c.primaryAccessible}
+                strokeWidth={2.4}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              {last ? <Circle cx={last.x} cy={last.y} r={3} fill={c.primaryAccessible} /> : null}
+            </Svg>
+          )}
+        </View>
+        {deltaText ? (
+          <Text style={[styles.sub, dir.text, { color: c.textSecondary }]} numberOfLines={1}>
+            {deltaText}
+          </Text>
+        ) : null}
+      </View>
+    </>
+  );
+
+  return onPress ? (
+    <TouchableOpacity
+      accessibilityRole="button"
+      accessibilityLabel={t('tracker.dashboard.nav.weight')}
+      activeOpacity={0.7}
+      onPress={onPress}
+      style={cardStyle}
+    >
+      {content}
+    </TouchableOpacity>
+  ) : (
+    <View style={cardStyle}>{content}</View>
+  );
+};
+
+/** Water tile: litres so far against the target, a progress bar, the share of the goal, and +250. */
+export const WaterTile: React.FC<{
+  consumedMl: number;
+  targetMl: number;
+  onLogWater: (ml: number) => void;
+}> = ({ consumedMl, targetMl, onLogWater }) => {
+  const { theme } = useTheme();
+  const c = theme.colors;
+  const { t } = useTranslation();
+  const { formatNumber } = useFormat();
+  const dir = useTextDirection();
+
+  const target = targetMl > 0 ? targetMl : DEFAULT_WATER_TARGET_ML;
+  const pct = waterGoalPercent(consumedMl, target);
+
+  return (
+    <View style={[styles.card, { backgroundColor: c.surface, borderColor: c.border }]}>
+      <View style={styles.headRow}>
+        <View style={styles.waterTitle}>
+          <Icon name="droplet" size={13} color={c.water} />
+          <Text style={[styles.overline, styles.waterTitleText, dir.text, { color: c.textSecondary }]} numberOfLines={1}>
+            {t('tracker.water.tileTitle')}
+          </Text>
+        </View>
+        <TouchableOpacity
+          accessibilityRole="button"
+          accessibilityLabel={t('tracker.water.addGlass')}
+          activeOpacity={0.8}
+          hitSlop={{ top: 7, bottom: 7, left: 4, right: 4 }}
+          onPress={() => {
+            HapticFeedback.impactLight();
+            onLogWater(GLASS_ML);
+          }}
+          style={[styles.addBtn, { backgroundColor: c.primaryLime }]}
+        >
+          <Text style={[styles.addBtnText, { color: c.limeText }]}>{`+${GLASS_ML}`}</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.center}>
+        <Text style={[styles.value, styles.stretchText, dir.text, { color: c.textPrimary }]} numberOfLines={1}>
+          {formatNumber(consumedMl / 1000, { maximumFractionDigits: 1 })}
+          <Text style={[styles.unit, { color: c.textSecondary }]}>
+            {` / ${t('common.litresValue', { value: formatNumber(target / 1000, { maximumFractionDigits: 1 }) })}`}
+          </Text>
+        </Text>
+        <View
+          accessibilityRole="progressbar"
+          accessibilityLabel={t('tracker.water.title')}
+          accessibilityValue={{ min: 0, max: 100, now: pct }}
+          style={[styles.track, { backgroundColor: `${c.water}33` }]}
+        >
+          <View style={[styles.fill, { width: `${pct}%`, backgroundColor: c.water }]} />
+        </View>
+        <Text style={[styles.sub, styles.stretchText, dir.text, { color: c.textSecondary }]} numberOfLines={2}>
+          {t('tracker.water.goalPercent', { value: pct })}
+        </Text>
+      </View>
+    </View>
+  );
+};
+
+/**
+ * The bento row: a tall workout tile on one side, weight over water on the
+ * other, both columns the same height. Without a workout tile (no handler to
+ * open workouts) the two small tiles sit side by side. Rows are not reversed
+ * by hand: native and web mirror them in Arabic.
+ */
+export const TodayBento: React.FC<{
+  workout?: React.ReactNode;
+  weight: React.ReactNode;
+  water: React.ReactNode;
+}> = ({ workout, weight, water }) => {
+  if (!workout) {
+    return (
+      <View style={styles.row}>
+        <View style={styles.colSmall}>{weight}</View>
+        <View style={styles.colSmall}>{water}</View>
+      </View>
+    );
+  }
+  return (
+    <View style={styles.row}>
+      <View style={styles.colTall}>{workout}</View>
+      <View style={styles.colSmall}>
+        {weight}
+        {water}
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  row: { flexDirection: 'row', gap: 12, alignItems: 'stretch' },
+  colTall: { flex: 1.08, minWidth: 0 },
+  // Cards size to their content and share any leftover height (flexGrow, not flex: 1), so the
+  // tall workout tile never leaves them stretched over empty space.
+  colSmall: { flex: 1, minWidth: 0, gap: 12 },
+  card: { flexGrow: 1, flexShrink: 1, flexBasis: 'auto', padding: 14, borderRadius: 20, borderWidth: 1, gap: 8 },
+  headRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 30 },
+  waterTitle: { flexDirection: 'row', alignItems: 'center', gap: 5, flexShrink: 1 },
+  waterTitleText: { flexShrink: 1 },
+  overline: { fontSize: 11, fontWeight: '700', letterSpacing: 0.8, textTransform: 'uppercase' },
+  value: { fontSize: 24, fontWeight: '800', letterSpacing: -0.4, fontVariant: ['tabular-nums'] },
+  unit: { fontSize: 12, fontWeight: '600', letterSpacing: 0 },
+  stretchText: { alignSelf: 'stretch' },
+  // The body under the header: takes the leftover height and centres its group in it.
+  center: { flexGrow: 1, justifyContent: 'center', alignItems: 'center', gap: 10 },
+  dataBody: { flexGrow: 1, justifyContent: 'center', gap: 8 },
+  spark: { flexGrow: 1, minHeight: SPARK_MIN_HEIGHT, alignSelf: 'stretch', overflow: 'hidden' },
+  sub: { fontSize: 12, fontWeight: '700' },
+  emptyIcon: { width: 48, height: 48, borderRadius: 24, alignItems: 'center', justifyContent: 'center' },
+  emptyText: { fontSize: 13, lineHeight: 17, fontWeight: '600', textAlign: 'center' },
+  pill: { alignSelf: 'stretch', minHeight: 44, borderRadius: 999, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 10 },
+  pillText: { fontSize: 13, fontWeight: '800' },
+  addBtn: { minWidth: 48, height: 30, borderRadius: 999, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 10 },
+  addBtnText: { fontSize: 12, fontWeight: '800' },
+  track: { height: 8, borderRadius: 4, overflow: 'hidden', alignSelf: 'stretch' },
+  fill: { height: '100%', borderRadius: 4 },
+});

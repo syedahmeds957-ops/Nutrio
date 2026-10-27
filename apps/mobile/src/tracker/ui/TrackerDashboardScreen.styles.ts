@@ -15,139 +15,14 @@ export const styles = StyleSheet.create({
   scrollPad: {
     paddingBottom: 115,
   },
-  topNav: {
+  // The hero block carries its own 16 px bottom margin; pull it to the 12 px card gap.
+  heroWrap: {
+    marginBottom: -4,
+  },
+  // Everything below the hero: 16 px gutters, 12 px between cards.
+  sections: {
     paddingHorizontal: 16,
-    paddingTop: 16,
-    paddingBottom: 10,
     gap: 12,
-  },
-  topHeaderRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  userRow: {
-    minHeight: 44,
-    minWidth: 44,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  avatarCircle: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 2,
-  },
-  avatarInitial: {
-    fontSize: 18,
-    fontWeight: '900',
-  },
-  greetingText: {
-    fontSize: 11,
-    fontWeight: '700',
-    letterSpacing: 0.8,
-  },
-  userName: {
-    fontSize: 18,
-    fontWeight: '800',
-    letterSpacing: -0.3,
-  },
-  headerRightActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  regionToggleBtn: {
-    minHeight: 44,
-    minWidth: 44,
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderRadius: 9999,
-    borderWidth: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  regionToggleText: {
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  navActionsScroll: {
-    // Bleeds to the screen edges so pills scroll under the gutter, not into it.
-    marginHorizontal: -16,
-  },
-  navActionsRow: {
-    flexDirection: 'row',
-    gap: 6,
-    paddingVertical: 4,
-    paddingHorizontal: 16,
-  },
-  navPillBtn: {
-    minHeight: 44,
-    justifyContent: 'center',
-    paddingHorizontal: 14,
-    borderRadius: 9999,
-    borderWidth: 1,
-  },
-  navPillContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 5,
-  },
-  navPillBtnText: {
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  navPillBtnActive: {
-    minHeight: 44,
-    justifyContent: 'center',
-    paddingHorizontal: 14,
-    borderRadius: 9999,
-  },
-  navPillBtnActiveText: {
-    fontSize: 13,
-    fontWeight: '800',
-  },
-  newBadge: {
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 9999,
-  },
-  newBadgeText: {
-    fontSize: 10,
-    fontWeight: '800',
-  },
-  slotsSection: {
-    marginTop: 10,
-  },
-  sectionHeading: {
-    fontSize: 18,
-    fontWeight: '800',
-    marginHorizontal: 16,
-    marginBottom: 12,
-    letterSpacing: -0.3,
-  },
-  slotsHeadingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginHorizontal: 16,
-    marginBottom: 12,
-  },
-  mealsProgressPill: {
-    paddingVertical: 4,
-    paddingHorizontal: 10,
-    borderRadius: 9999,
-    borderWidth: 1,
-  },
-  mealsProgressText: {
-    fontSize: 11,
-    fontWeight: '800',
-    letterSpacing: 0.4,
   },
   profileOverlay: {
     flex: 1,
@@ -288,45 +163,5 @@ export const styles = StyleSheet.create({
     backgroundColor: '#FEF2F2',
     borderColor: '#FEE2E2',
     marginTop: 6,
-  },
-  bottomTabBar: {
-    position: 'absolute',
-    bottom: 20,
-    alignSelf: 'center',
-    width: '92%',
-    maxWidth: 440,
-    borderRadius: 9999,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderWidth: 1,
-    boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.35)',
-  },
-  bottomTabItem: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 6,
-    paddingHorizontal: 18,
-  },
-  bottomTabItemActive: {},
-  bottomTabText: {
-    fontSize: 11,
-    fontWeight: '700',
-    marginTop: 3,
-  },
-  bottomCenterLogBtn: {
-    minHeight: 44,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 22,
-    paddingVertical: 11,
-    borderRadius: 9999,
-    gap: 6,
-  },
-  bottomCenterLogText: {
-    fontSize: 13,
-    fontWeight: '800',
   },
 });

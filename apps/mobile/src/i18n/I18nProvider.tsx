@@ -1,14 +1,14 @@
 import React, { createContext, useContext, useEffect, useMemo, useRef, useState, ReactNode } from 'react';
 import { Alert, I18nManager } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 
 import { useRegion } from '../common/region/index.js';
 import { initI18n, i18n } from './config.js';
-import { AppLanguage, LanguagePreference, isLanguagePreference, resolveLanguage } from './languages.js';
+import { AppLanguage, resolveLanguage } from './languages.js';
 import { Direction, applyNativeDirection, directionForLanguage, reloadApp } from './rtl.js';
 
 export interface I18nState {
+  /** Always the region's language: English in PK, Arabic in SA. */
   language: AppLanguage;
   /** Direction the content should read in, from the active language. */
   direction: Direction;
@@ -18,9 +18,6 @@ export interface I18nState {
    * yet, which only clears after the app restarts.
    */
   needsRestartForRTL: boolean;
-  /** 'auto' follows the region; 'en' or 'ar' is the user's own pick. */
-  languagePreference: LanguagePreference;
-  setLanguagePreference: (preference: LanguagePreference) => void;
 }
 
 const I18nStateContext = createContext<I18nState>({
@@ -28,11 +25,7 @@ const I18nStateContext = createContext<I18nState>({
   direction: 'ltr',
   isRTL: false,
   needsRestartForRTL: false,
-  languagePreference: 'auto',
-  setLanguagePreference: () => {},
 });
-
-const LANGUAGE_STORAGE_KEY = 'nutrio_language_preference';
 
 interface I18nProviderProps {
   children: ReactNode;
@@ -42,27 +35,9 @@ interface I18nProviderProps {
 
 export const I18nProvider: React.FC<I18nProviderProps> = ({ children, promptForRestart = true }) => {
   const { activeRegion, isLoading: isRegionLoading } = useRegion();
-  const [languagePreference, setPreferenceState] = useState<LanguagePreference>('auto');
-  const [isPreferenceLoaded, setIsPreferenceLoaded] = useState(false);
-  const language = resolveLanguage(languagePreference, activeRegion);
-
-  useEffect(() => {
-    AsyncStorage.getItem(LANGUAGE_STORAGE_KEY)
-      .then((saved) => {
-        if (isLanguagePreference(saved)) setPreferenceState(saved);
-      })
-      .catch(() => {
-        // Unreadable: keep following the region.
-      })
-      .finally(() => setIsPreferenceLoaded(true));
-  }, []);
-
-  const setLanguagePreference = (preference: LanguagePreference) => {
-    setPreferenceState(preference);
-    void AsyncStorage.setItem(LANGUAGE_STORAGE_KEY, preference).catch(() => {
-      // A failed write only costs remembering the choice.
-    });
-  };
+  // The region decides the language. A language stored by an older build
+  // (nutrio_language_preference) is left untouched in storage and not read.
+  const language = resolveLanguage(activeRegion);
 
   // Initialised before first paint so no frame renders raw translation keys.
   const [instance] = useState(() => initI18n(language));
@@ -81,11 +56,11 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({ children, promptForR
     setNeedsRestartForRTL(stale || directionChanged);
 
     // The region starts at its default and may be replaced once detection
-    // finishes (and a saved language pick arrives just as late), so the first
+    // finishes, so the first
     // settled value is the baseline: its direction is recorded silently. Only a
     // switch made afterwards, while someone is using the app, is worth
     // interrupting them for.
-    if (isRegionLoading || !isPreferenceLoaded) {
+    if (isRegionLoading) {
       return;
     }
     if (!hasSettledOnce.current) {
@@ -121,7 +96,7 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({ children, promptForR
         },
       ]
     );
-  }, [language, instance, promptForRestart, isRegionLoading, isPreferenceLoaded]);
+  }, [language, instance, promptForRestart, isRegionLoading]);
 
   const value = useMemo<I18nState>(
     () => ({
@@ -129,12 +104,8 @@ export const I18nProvider: React.FC<I18nProviderProps> = ({ children, promptForR
       direction: directionForLanguage(language),
       isRTL: directionForLanguage(language) === 'rtl',
       needsRestartForRTL,
-      languagePreference,
-      setLanguagePreference,
     }),
-    // setLanguagePreference only closes over stable setState functions.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [language, needsRestartForRTL, languagePreference]
+    [language, needsRestartForRTL]
   );
 
   return (

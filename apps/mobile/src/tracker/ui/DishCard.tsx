@@ -6,6 +6,7 @@ import { Icon } from '../../ui/Icon.js';
 import { useTheme } from '../../theme.js';
 import { foodDisplayName } from '../foodDisplayName.js';
 import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
+import { brandDisplayName } from '../../i18n/displayName.js';
 import { defaultServingFor, servingNutrition } from '../personalServings.js';
 import { foodKey } from './useMealBasket.js';
 import { styles } from './MealLogHubModal.styles.js';
@@ -60,17 +61,12 @@ export const DishCard: React.FC<DishCardProps> = ({ item, qty, isBuildMode, onPr
       <View style={styles.dishCardLeft}>
         <View style={styles.dishTitleRow}>
           <Text style={[styles.dishName, { color: theme.colors.textPrimary }]}>{names.primary}</Text>
-          {names.secondary && (
-            <Text style={[styles.dishNameUr, dir.text, { color: theme.colors.textMuted }]}>
-              {names.secondary}
-            </Text>
-          )}
         </View>
         <View style={styles.dishMetaRow}>
           {item.brand && (
             <View style={[styles.brandBadge, { backgroundColor: theme.colors.surfaceSecondary }]}>
               <Text style={[styles.brandBadgeText, { color: theme.colors.textSecondary }]}>
-                {item.brand}
+                {brandDisplayName(item.brand, language)}
               </Text>
             </View>
           )}
@@ -104,7 +100,7 @@ export const DishCard: React.FC<DishCardProps> = ({ item, qty, isBuildMode, onPr
                   onPress={onRemoveOne}
                   hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                   accessibilityRole="button"
-                  accessibilityLabel={t('tracker.hub.removeOne', { name: item.name })}
+                  accessibilityLabel={t('tracker.hub.removeOne', { name: names.primary })}
                 >
                   <Icon name="minus" size={14} color={theme.colors.textPrimary} />
                 </TouchableOpacity>

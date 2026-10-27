@@ -7,6 +7,7 @@ import { Icon } from '../../ui/Icon.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useFormat } from '../../i18n/useFormat.js';
 
 interface AnalysisViewProps {
   context: PlanUserContext;
@@ -24,6 +25,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
+  const { formatNumber } = useFormat();
   const dir = useTextDirection();
   const isSaudi = activeRegion === 'SA';
 
@@ -231,7 +233,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
             ]}
           >
             {t('plan.analysis.levers.perWeek', {
-              value: ritualKcalWeek.toLocaleString('en-US'),
+              value: formatNumber(ritualKcalWeek),
             })}
           </Text>
         </View>

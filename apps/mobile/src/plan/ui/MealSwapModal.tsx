@@ -109,7 +109,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
 
           <ScrollView style={styles.scrollList} contentContainerStyle={styles.scrollPad}>
             <Notice tone="info" icon="check" style={{ marginBottom: 12 }}>
-              All 3 alternatives match your original meal within ±5% calories
+              {t('plan.swap.allMatch')}
             </Notice>
 
             {swapResult.options.map((option, index) => {

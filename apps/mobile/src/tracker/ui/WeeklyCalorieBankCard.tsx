@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useFormat } from '../../i18n/useFormat.js';
 import { Icon } from '../../ui/Icon.js';
 import { weeklyCalorieBank } from '../calorieBank.js';
 
@@ -81,6 +82,7 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { t } = useTranslation();
+  const { formatNumber } = useFormat();
   const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
   const accentBg = theme.colors.surfaceSecondary;
@@ -107,8 +109,8 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
     bank.countedDays === 0
       ? t('tracker.calorieBank.balanceNone')
       : bank.balanceKcal >= 0
-      ? t('tracker.calorieBank.balanceUnder', { kcal: bank.balanceKcal.toLocaleString('en-US') })
-      : t('tracker.calorieBank.balanceOver', { kcal: (-bank.balanceKcal).toLocaleString('en-US') });
+      ? t('tracker.calorieBank.balanceUnder', { kcal: formatNumber(bank.balanceKcal) })
+      : t('tracker.calorieBank.balanceOver', { kcal: formatNumber(-bank.balanceKcal) });
   const hint =
     bank.countedDays > 0
       ? bank.balanceKcal >= 0

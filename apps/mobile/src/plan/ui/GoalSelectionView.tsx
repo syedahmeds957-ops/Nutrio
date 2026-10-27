@@ -66,9 +66,10 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
       context.weightKg,
       selectedGoal,
       rateKgPerWeek,
-      isNaN(parsedTargetWeight) ? undefined : parsedTargetWeight
+      isNaN(parsedTargetWeight) ? undefined : parsedTargetWeight,
+      language
     );
-  }, [context.weightKg, selectedGoal, rateKgPerWeek, parsedTargetWeight]);
+  }, [context.weightKg, selectedGoal, rateKgPerWeek, parsedTargetWeight, language]);
 
   const handleConfirm = () => {
     onConfirmGoal({
@@ -176,12 +177,12 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
           </Text>
           {isUnderweight && (
             <Text style={styles.warningText}>
-              Disabled: BMI of {bmi} indicates underweight status. Weight loss is unsafe.
+              {t('plan.goal.lose.disabledUnderweight', { bmi })}
             </Text>
           )}
           {isPregnant && (
             <Text style={styles.warningText}>
-              Disabled: Caloric restriction is medically contraindicated during pregnancy/lactation.
+              {t('plan.goal.lose.disabledPregnant')}
             </Text>
           )}
         </TouchableOpacity>

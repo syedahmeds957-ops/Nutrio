@@ -1,7 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import React from 'react';
 import { TrackerEngine } from '../engine.js';
-import { WaterTrackerCard } from '../ui/WaterTrackerCard.js';
 import { DailyProgressHeader } from '../ui/DailyProgressHeader.js';
 import { WeeklyCalorieBankCard } from '../ui/WeeklyCalorieBankCard.js';
 import { weeklyCalorieBank } from '../calorieBank.js';
@@ -111,19 +110,6 @@ describe('Phase 5: Activity Tracking & Reactive State Verification', () => {
     expect(summaryAfter.items.length).toBe(0);
     expect(summaryAfter.totalCaloriesConsumed).toBe(0);
     expect(summaryAfter.remainingCalories).toBe(2000);
-  });
-
-  it('renders WaterTrackerCard and handles quick-log callbacks', () => {
-    const handleLogWater = vi.fn();
-    const element = React.createElement(WaterTrackerCard, {
-      waterMlConsumed: 1250,
-      targetWaterMl: 2500,
-      onLogWater: handleLogWater,
-    });
-
-    expect(element).toBeDefined();
-    expect(element.props.waterMlConsumed).toBe(1250);
-    expect(element.props.targetWaterMl).toBe(2500);
   });
 
   it('DailyProgressHeader and WeeklyCalorieBankCard update consistently with TrackerEngine summary', () => {

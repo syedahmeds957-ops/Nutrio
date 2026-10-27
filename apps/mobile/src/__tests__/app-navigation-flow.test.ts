@@ -58,7 +58,7 @@ describe('Phase 3: New App Onboarding & Guest Exploration Flow Integration', () 
     expect(trackerEl.props.onRequireAuth).toBe(onRequireAuth);
   });
 
-  it('shows guests the Workouts pill: workouts are not behind sign-in', () => {
+  it('shows guests the Workouts tile: workouts are not behind sign-in', () => {
     initI18n('en');
     const html = renderToStaticMarkup(
       React.createElement(TrackerDashboardScreen, {
@@ -70,7 +70,7 @@ describe('Phase 3: New App Onboarding & Guest Exploration Flow Integration', () 
       })
     );
     expect(html).toContain('Workouts');
-    expect(html).toContain('New');
+    expect(html).toContain('Get a weekly workout plan');
   });
 
   it('GuestAuthModal triggers onSignIn when prompt primary action is clicked', () => {

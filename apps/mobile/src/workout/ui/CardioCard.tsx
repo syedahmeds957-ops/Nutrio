@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { getExercise } from '@nutrio/workout-core';
 import { useTheme } from '../../theme.js';
 import { useI18nState, useTranslation, useTextDirection } from '../../i18n/index.js';
@@ -18,7 +18,7 @@ interface CardioCardProps {
   swapped?: boolean;
   onReset?: () => void;
   /** While logging: the minutes row and its tick. */
-  logging?: { minutes: number; done: boolean; onMinutes: (minutes: number) => void; onToggle: () => void };
+  logging?: { minutes: number; done: boolean; onMinutes: (minutes: number) => void; onToggle: () => void; onFieldFocus?: (field: TextInput | null) => void };
   /** On a done day: the minutes logged, or null when it was skipped. */
   loggedMinutes?: number | null;
 }
@@ -84,6 +84,7 @@ export const CardioCard: React.FC<CardioCardProps> = ({ cardio, paused, onDetail
             minusLabel={t('workout.cardio.fewer')}
             plusLabel={t('workout.cardio.more')}
             fieldLabel={t('workout.cardio.minutesField')}
+            onFieldFocus={logging.onFieldFocus}
           />
           <TouchableOpacity
             accessibilityRole="checkbox"

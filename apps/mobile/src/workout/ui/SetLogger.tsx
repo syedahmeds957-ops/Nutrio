@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { startingLoad, stepLoad, type Exercise, type LoggedSet, type Prescription, type WorkoutSettings } from '@nutrio/workout-core';
 import { useTheme } from '../../theme.js';
@@ -29,15 +29,18 @@ interface StepperProps {
   plusLabel: string;
   fieldLabel: string;
   decimal?: boolean;
+  /** Called when the field takes focus, so a scroll view can bring it above the keyboard. */
+  onFieldFocus?: (field: TextInput | null) => void;
 }
 
 /** − value +, with the value typeable for big jumps. */
-export const Stepper: React.FC<StepperProps> = ({ value, format, onMinus, onPlus, onType, minusLabel, plusLabel, fieldLabel, decimal }) => {
+export const Stepper: React.FC<StepperProps> = ({ value, format, onMinus, onPlus, onType, minusLabel, plusLabel, fieldLabel, decimal, onFieldFocus }) => {
   const { theme } = useTheme();
   const c = theme.colors;
   const shown = value === undefined ? '' : format(value);
   const [text, setText] = useState(shown);
   const [editing, setEditing] = useState(false);
+  const inputRef = useRef<TextInput>(null);
   useEffect(() => {
     if (!editing) setText(shown);
   }, [shown, editing]);
@@ -61,13 +64,17 @@ export const Stepper: React.FC<StepperProps> = ({ value, format, onMinus, onPlus
     <View style={styles.stepper}>
       {button(minusLabel, 'minus', onMinus)}
       <TextInput
+        ref={inputRef}
         accessibilityLabel={fieldLabel}
         value={text}
         placeholder="—"
         placeholderTextColor={c.textSecondary}
         keyboardType={decimal ? 'decimal-pad' : 'number-pad'}
         selectTextOnFocus
-        onFocus={() => setEditing(true)}
+        onFocus={() => {
+          setEditing(true);
+          onFieldFocus?.(inputRef.current);
+        }}
         onChangeText={setText}
         onBlur={() => {
           setEditing(false);
@@ -89,12 +96,13 @@ interface SetLoggerProps {
   onReps: (setIndex: number, reps: number) => void;
   onLoad: (setIndex: number, loadKg: number | undefined) => void;
   onToggle: (setIndex: number) => void;
+  onFieldFocus?: (field: TextInput | null) => void;
 }
 
 const SECONDS_STEP = 5;
 
 /** The set rows for one exercise: weight, reps (or seconds) and a tick per set. */
-export const SetLogger: React.FC<SetLoggerProps> = ({ exercise, unit, settings, sets, onReps, onLoad, onToggle }) => {
+export const SetLogger: React.FC<SetLoggerProps> = ({ exercise, unit, settings, sets, onReps, onLoad, onToggle, onFieldFocus }) => {
   const { theme } = useTheme();
   const c = theme.colors;
   const { t } = useTranslation();
@@ -129,6 +137,7 @@ export const SetLogger: React.FC<SetLoggerProps> = ({ exercise, unit, settings, 
                 value={set.loadKg}
                 format={kgNumber}
                 decimal
+                onFieldFocus={onFieldFocus}
                 onMinus={() => set.loadKg !== undefined && onLoad(index, stepLoad(exercise, settings, set.loadKg, -1))}
                 onPlus={() => onLoad(index, set.loadKg === undefined ? startingLoad(exercise, settings) : stepLoad(exercise, settings, set.loadKg, 1))}
                 onType={(kg) => onLoad(index, kg)}
@@ -147,6 +156,7 @@ export const SetLogger: React.FC<SetLoggerProps> = ({ exercise, unit, settings, 
               onMinus={() => onReps(index, Math.max(0, set.reps - repStep))}
               onPlus={() => onReps(index, set.reps + repStep)}
               onType={(reps) => reps !== undefined && onReps(index, reps)}
+              onFieldFocus={onFieldFocus}
               minusLabel={t('workout.log.fewerReps', { number })}
               plusLabel={t('workout.log.moreReps', { number })}
               fieldLabel={t('workout.log.repsField', { number })}

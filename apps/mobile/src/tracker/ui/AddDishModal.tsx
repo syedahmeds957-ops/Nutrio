@@ -10,7 +10,8 @@ import {
 import { NamedModal } from '../../ui/NamedModal.js';
 import type { NormalizedFood, RegionCode } from '@nutrio/food-db';
 import { useTheme } from '../../theme.js';
-import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
+import { pickText } from '../../i18n/displayName.js';
 import { Icon } from '../../ui/Icon.js';
 import { requestDishBreakdown, type DishBreakdownResult } from '../../ai/dishBreakdown.js';
 import { saveCustomDish } from '../customDishes.js';
@@ -41,6 +42,7 @@ export const AddDishModal: React.FC<AddDishModalProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { t } = useTranslation();
+  const { language } = useI18nState();
   const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
   const accentInk = isDark ? accentColor : '#4B6200';
@@ -141,7 +143,7 @@ export const AddDishModal: React.FC<AddDishModalProps> = ({
             <View key={i.food.id ?? i.food.name} style={styles.ingredientRow}>
               <View style={styles.ingredientInfo}>
                 <Text style={[styles.ingredientName, dir.text, { color: theme.colors.textPrimary }]}>
-                  {i.food.name}
+                  {pickText(i.food.name, i.food.nameAr, language)}
                 </Text>
                 <Text style={[styles.mutedText, dir.text, { color: theme.colors.textSecondary }]}>
                   {t('tracker.addDish.grams', { grams: i.grams })}

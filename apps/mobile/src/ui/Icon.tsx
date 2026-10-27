@@ -25,6 +25,7 @@ import { ArrowRight } from 'phosphor-react-native/src/icons/ArrowRight';
 import { ArrowUp } from 'phosphor-react-native/src/icons/ArrowUp';
 import { ArrowUpRight } from 'phosphor-react-native/src/icons/ArrowUpRight';
 import { Plus } from 'phosphor-react-native/src/icons/Plus';
+import { PersonSimpleWalk } from 'phosphor-react-native/src/icons/PersonSimpleWalk';
 import { Minus } from 'phosphor-react-native/src/icons/Minus';
 import { Trash } from 'phosphor-react-native/src/icons/Trash';
 import { ArrowsLeftRight } from 'phosphor-react-native/src/icons/ArrowsLeftRight';
@@ -82,6 +83,7 @@ export type IconName =
   | 'arrow-left'
   | 'arrow-right'
   | 'plus'
+  | 'walk'
   | 'minus'
   | 'trash'
   | 'swap'
@@ -143,6 +145,7 @@ const GLYPHS: Record<IconName, React.ComponentType<PhosphorIconProps>> = {
   'arrow-up': ArrowUp,
   'arrow-up-right': ArrowUpRight,
   plus: Plus,
+  walk: PersonSimpleWalk,
   minus: Minus,
   trash: Trash,
   swap: ArrowsLeftRight,

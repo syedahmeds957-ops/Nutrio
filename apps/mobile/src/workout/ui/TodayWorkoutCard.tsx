@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { LayoutChangeEvent, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import type { WeeklyWorkoutPlan, WorkoutLog } from '@nutrio/workout-core';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
@@ -18,12 +18,19 @@ interface TodayWorkoutCardProps {
   onSeeWeek: () => void;
   /** A guest's sample plan: tagged so it never reads as their own. */
   sample?: boolean;
+  /**
+   * 'card' is the full-width card; 'tile' fills a bento column (the Today
+   * screen's tall tile): the same states, stacked, with the whole tile opening
+   * the week and a full-width button at its foot. The tile has no outer margin.
+   */
+  variant?: 'card' | 'tile';
 }
 
 const THUMBNAILS = 4;
+const TILE_THUMB_GAP = 6;
 
 /** The dashboard's small link to training: set up, start today's session, or see what's next on a rest day. */
-export const TodayWorkoutCard: React.FC<TodayWorkoutCardProps> = ({ plan, logs = [], todayKey, onSetUp, onOpenDay, onSeeWeek, sample }) => {
+export const TodayWorkoutCard: React.FC<TodayWorkoutCardProps> = ({ plan, logs = [], todayKey, onSetUp, onOpenDay, onSeeWeek, sample, variant = 'card' }) => {
   const { theme } = useTheme();
   const c = theme.colors;
   const { t } = useTranslation();
@@ -35,6 +42,106 @@ export const TodayWorkoutCard: React.FC<TodayWorkoutCardProps> = ({ plan, logs =
   const doneFg = theme.isDark ? c.success : '#166534';
   const session = week?.today.session ?? null;
   const next = plan && !session ? nextTrainingDay(plan, todayKey) : null;
+  const [gridWidth, setGridWidth] = useState(0);
+
+  if (variant === 'tile') {
+    const thumb = gridWidth > 0 ? Math.floor((gridWidth - TILE_THUMB_GAP) / 2) : 0;
+    return (
+      <View style={[tile.card, { backgroundColor: c.surface, borderColor: c.border }]}>
+        <TouchableOpacity
+          accessibilityRole="button"
+          accessibilityLabel={t('tracker.dashboard.nav.workouts')}
+          activeOpacity={0.7}
+          onPress={plan ? onSeeWeek : onSetUp}
+          style={tile.body}
+        >
+          <View style={tile.headRow}>
+            <View style={[tile.iconBox, { backgroundColor: c.primaryLight }]}>
+              <Icon name="dumbbell" size={17} color={c.primaryAccessible} />
+            </View>
+            <Text numberOfLines={1} style={[tile.overline, dir.text, { color: c.textSecondary }]}>
+              {t('tracker.dashboard.nav.workouts')}
+            </Text>
+            <Icon name={dir.isRTL ? 'chevron-left' : 'chevron-right'} size={16} color={c.textMuted} />
+          </View>
+          {sample ? (
+            <View style={[styles.sampleTag, tile.sampleTag, { backgroundColor: c.surfaceSecondary }]}>
+              <Text style={[styles.sampleTagText, { color: c.textSecondary }]}>{t('workout.guest.sampleTag')}</Text>
+            </View>
+          ) : null}
+
+          {!plan && (
+            <>
+              <Text style={[tile.title, dir.text, { color: c.textPrimary }]}>{t('workout.card.setupTitle')}</Text>
+              <Text style={[tile.meta, dir.text, { color: c.textSecondary }]} numberOfLines={4}>{t('workout.card.setupBody')}</Text>
+            </>
+          )}
+
+          {plan && session && week && (
+            <>
+              <Text numberOfLines={2} style={[tile.title, dir.text, { color: c.textPrimary }]}>{sessionTitle(t, session)}</Text>
+              <Text numberOfLines={1} style={[tile.meta, dir.text, { color: c.textSecondary }]}>
+                {t('workout.week.exercises', { count: exerciseCount(session) })} · {t('workout.week.minutes', { count: session.estimatedMinutes })}
+              </Text>
+              <View style={tile.grid} onLayout={(e: LayoutChangeEvent) => setGridWidth(e.nativeEvent.layout.width)}>
+                {thumb > 0 &&
+                  slotsForWeek(plan, session, week.weekIndex)
+                    .slice(0, THUMBNAILS)
+                    .map((slot) => <ExerciseImageLoop key={slot.slotId} exerciseId={slot.exerciseId} size={thumb} square paused />)}
+              </View>
+            </>
+          )}
+
+          {plan && !session && (
+            <>
+              <Text style={[tile.title, dir.text, { color: c.textPrimary }]}>{t('workout.card.restTitle')}</Text>
+              {next ? (
+                <Text style={[tile.meta, dir.text, { color: c.textSecondary }]} numberOfLines={3}>
+                  {t('workout.today.restNext', { title: sessionTitle(t, next.session), day: t(`workout.days.${next.session.day}`) })}
+                </Text>
+              ) : null}
+              {plan.restDayWalk ? (
+                <Text style={[tile.meta, dir.text, { color: c.textSecondary }]} numberOfLines={2}>
+                  {t('workout.cardio.walk', { min: plan.restDayWalk.minMinutes, max: plan.restDayWalk.maxMinutes })}
+                </Text>
+              ) : null}
+            </>
+          )}
+        </TouchableOpacity>
+
+        {!plan && (
+          <TouchableOpacity accessibilityRole="button" onPress={onSetUp} style={[tile.button, { backgroundColor: c.primaryLime }]}>
+            <Text style={[styles.primaryText, { color: c.limeText }]}>{t('workout.card.setupCta')}</Text>
+          </TouchableOpacity>
+        )}
+        {plan && session && (
+          <TouchableOpacity
+            accessibilityRole="button"
+            onPress={() => onOpenDay(todayKey)}
+            style={[tile.button, { backgroundColor: done ? c.successLight : c.primaryLime }]}
+          >
+            {done ? (
+              <View style={styles.doneRow}>
+                <Icon name="check" size={14} color={doneFg} strokeWidth={3} />
+                <Text style={[styles.primaryText, { color: doneFg }]}>{t('workout.status.done')}</Text>
+              </View>
+            ) : (
+              <Text style={[styles.primaryText, { color: c.limeText }]}>{t('workout.card.start')}</Text>
+            )}
+          </TouchableOpacity>
+        )}
+        {plan && !session && (
+          <TouchableOpacity
+            accessibilityRole="button"
+            onPress={onSeeWeek}
+            style={[tile.button, { backgroundColor: c.surfaceSecondary, borderColor: c.border, borderWidth: 1 }]}
+          >
+            <Text style={[styles.secondaryText, { color: c.textPrimary }]}>{t('workout.card.seeWeek')}</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    );
+  }
 
   return (
     <View style={[styles.card, { backgroundColor: c.surface, borderColor: c.border }]}>
@@ -125,6 +232,19 @@ export const TodayWorkoutCard: React.FC<TodayWorkoutCardProps> = ({ plan, logs =
     </View>
   );
 };
+
+const tile = StyleSheet.create({
+  card: { flex: 1, padding: 14, borderRadius: 20, borderWidth: 1, gap: 10 },
+  body: { flex: 1, gap: 4 },
+  headRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 6 },
+  iconBox: { width: 34, height: 34, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
+  overline: { flex: 1, fontSize: 11, fontWeight: '700', letterSpacing: 0.8, textTransform: 'uppercase' },
+  title: { fontSize: 19, fontWeight: '800', letterSpacing: -0.2 },
+  meta: { fontSize: 12.5, lineHeight: 17 },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: TILE_THUMB_GAP, marginTop: 8, alignSelf: 'stretch' },
+  sampleTag: { alignSelf: 'flex-start' },
+  button: { minHeight: 44, borderRadius: 999, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 12 },
+});
 
 const styles = StyleSheet.create({
   card: { marginHorizontal: 16, marginTop: 14, padding: 16, borderRadius: 22, borderWidth: 1, gap: 10 },

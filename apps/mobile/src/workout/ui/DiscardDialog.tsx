@@ -7,10 +7,12 @@ interface DiscardDialogProps {
   visible: boolean;
   onKeepGoing: () => void;
   onDiscard: () => void;
+  /** Wording for another case (discarding edits to a finished workout); defaults to a workout in progress. */
+  text?: { title: string; body: string; keepGoing: string; discard: string };
 }
 
 /** Asked when leaving a workout in progress. */
-export const DiscardDialog: React.FC<DiscardDialogProps> = ({ visible, onKeepGoing, onDiscard }) => {
+export const DiscardDialog: React.FC<DiscardDialogProps> = ({ visible, onKeepGoing, onDiscard, text }) => {
   const { theme } = useTheme();
   const c = theme.colors;
   const { t } = useTranslation();
@@ -20,14 +22,14 @@ export const DiscardDialog: React.FC<DiscardDialogProps> = ({ visible, onKeepGoi
       <View style={[styles.backdrop, { backgroundColor: theme.isDark ? 'rgba(0,0,0,0.62)' : 'rgba(15,23,42,0.45)' }]}>
         <View accessibilityViewIsModal style={[styles.dialog, { backgroundColor: c.surface }]}>
           <Text accessibilityRole="header" style={[styles.title, { color: c.textPrimary }]}>
-            {t('workout.log.discardTitle')}
+            {text?.title ?? t('workout.log.discardTitle')}
           </Text>
-          <Text style={[styles.body, { color: c.textSecondary }]}>{t('workout.log.discardBody')}</Text>
+          <Text style={[styles.body, { color: c.textSecondary }]}>{text?.body ?? t('workout.log.discardBody')}</Text>
           <TouchableOpacity accessibilityRole="button" onPress={onKeepGoing} style={[styles.keep, { backgroundColor: c.primaryLime }]}>
-            <Text style={[styles.keepText, { color: c.limeText }]}>{t('workout.log.keepGoing')}</Text>
+            <Text style={[styles.keepText, { color: c.limeText }]}>{text?.keepGoing ?? t('workout.log.keepGoing')}</Text>
           </TouchableOpacity>
           <TouchableOpacity accessibilityRole="button" onPress={onDiscard} style={styles.discard}>
-            <Text style={[styles.discardText, { color: c.danger }]}>{t('workout.log.discard')}</Text>
+            <Text style={[styles.discardText, { color: c.danger }]}>{text?.discard ?? t('workout.log.discard')}</Text>
           </TouchableOpacity>
         </View>
       </View>

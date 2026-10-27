@@ -14,7 +14,8 @@ import { MealSlot } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
 import { useRegion } from '../../common/region/index.js';
-import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
+import { brandDisplayName, pickText } from '../../i18n/displayName.js';
 import { HapticFeedback } from '../../ui/haptics.js';
 import {
   clearPersonalServing,
@@ -27,7 +28,7 @@ import {
   withPersonalServing,
 } from '../personalServings.js';
 import { foodKey } from './useMealBasket.js';
-import { withoutAmountBracket } from '../servingLabel.js';
+import { servingDisplayLabel } from '../servingLabel.js';
 import { PortionPicker } from './PortionPicker.js';
 import { DishThumb } from './DishThumb.js';
 import { createStyles } from './ItemCustomizerModal.styles.js';
@@ -152,6 +153,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
   const styles = useMemo(() => createStyles(theme.colors), [theme]);
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
+  const { language } = useI18nState();
   const dir = useTextDirection();
   const isSaudi = activeRegion === 'SA';
 
@@ -228,13 +230,13 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
     // The typed weight is on its own field below.
     if (isCustomWeightMode) return null;
     if (activeServing) {
-      const label = withoutAmountBracket(activeServing.label || activeServing.description || t('common.portion'));
+      const label = servingDisplayLabel(activeServing.label || activeServing.description || t('common.portion'), language);
       // One serving is already on its pill below; only a multiple needs a total.
       if (quantity === 1) return null;
       return `${quantity}x ${label} · ${t('common.gramsValue', { value: quantity * activeServing.grams })}`;
     }
     return t('common.standardServing', { count: quantity });
-  }, [isCustomWeightMode, activeServing, quantity, t]);
+  }, [isCustomWeightMode, activeServing, quantity, t, language]);
 
   if (!visible || !item) return null;
 
@@ -317,7 +319,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
 
   const servingsList: LabelledServing[] = servingItem?.servings ?? [];
   const fallbackBrand = t(`tracker.customizer.fallbackBrand.${activeRegion}`);
-  const brandName = (item.brand || fallbackBrand).toUpperCase();
+  const brandName = brandDisplayName(item.brand || fallbackBrand, language).toUpperCase();
 
   return (
     <NamedModal accessibilityName={t('a11y.dialog.customizeItem')}
@@ -340,12 +342,12 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
           <DishThumb category={item.brandCategory || item.category} size={96} style={styles.dishThumb} />
           <Text style={[styles.brandText, { color: theme.colors.textMuted }]}>{brandName}</Text>
           <Text style={[styles.dishTitle, dir.text, { color: theme.colors.text }]}>
-            {dir.isRTL && item.nameAr ? item.nameAr : item.name}
+            {pickText(item.name, item.nameAr, language)}
           </Text>
 
           {/* Estimate Disclaimer Subtitle */}
           <Text style={[styles.estimateDisclaimer, { color: theme.colors.textMuted }]}>
-            Estimate — actual can vary ~±15% with kitchen and portion
+            {t('tracker.customizer.estimateNote')}
           </Text>
 
           {/* HOW MANY? Row */}
@@ -433,7 +435,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                 {t('tracker.customizer.makeItYours')}
               </Text>
               <Text style={[styles.makeItYoursSubtitle, { color: theme.colors.textMuted }]}>
-                Add or remove — the number follows your real order.
+                {t('tracker.customizer.makeItYoursSubtitle')}
               </Text>
 
               {/* Modifiers List in Clean Card */}
@@ -452,7 +454,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                       ]}
                     >
                       <View style={styles.modifierLeftInfo}>
-                        <Text style={[styles.modifierItemTitle, { color: theme.colors.text }]}>{mod.name}</Text>
+                        <Text style={[styles.modifierItemTitle, { color: theme.colors.text }]}>{pickText(mod.name, mod.nameAr, language)}</Text>
                         <Text style={[styles.modifierItemKcal, { color: theme.colors.textMuted }]}>
                           {sign}{t('tracker.customizer.kcalEach', { value: mod.calories })}
                         </Text>
@@ -470,7 +472,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                           activeOpacity={0.7}
                           accessibilityRole="button"
                           accessibilityState={{ disabled: count === 0 }}
-                          accessibilityLabel={t('tracker.customizer.removeModifier', { name: mod.name })}
+                          accessibilityLabel={t('tracker.customizer.removeModifier', { name: pickText(mod.name, mod.nameAr, language) })}
                         >
                           <Icon
                             name="minus"
@@ -487,7 +489,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                           onPress={() => handleUpdateModifier(mod.id, 1)}
                           activeOpacity={0.7}
                           accessibilityRole="button"
-                          accessibilityLabel={t('tracker.customizer.addModifier', { name: mod.name })}
+                          accessibilityLabel={t('tracker.customizer.addModifier', { name: pickText(mod.name, mod.nameAr, language) })}
                         >
                           <Icon name="plus" size={16} color={theme.colors.text} strokeWidth={2.5} />
                         </TouchableOpacity>

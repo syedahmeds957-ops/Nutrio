@@ -316,10 +316,9 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
                   : null,
               ]}
             >
-              {metrics.weightDeltaKg >= 0
-                ? `+${metrics.weightDeltaKg}`
-                : metrics.weightDeltaKg}{' '}
-              kg
+              {t('common.kgValue', {
+                value: metrics.weightDeltaKg >= 0 ? `+${metrics.weightDeltaKg}` : metrics.weightDeltaKg,
+              })}
             </Text>
             <Text style={[styles.metricLabel, { color: theme.colors.textMuted }]}>
               {t('checkin.weightTrend')}

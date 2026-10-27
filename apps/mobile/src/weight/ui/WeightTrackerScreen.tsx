@@ -44,7 +44,9 @@ export const WeightTrackerScreen: React.FC<WeightTrackerScreenProps> = ({
 
   const handleSaveWeight = (weightKg: number, date?: string, notes?: string) => {
     const spike = engine.checkSpikeWarning(weightKg);
-    setSpikeWarning(spike.hasSpike ? spike.message : undefined);
+    setSpikeWarning(
+      spike.hasSpike ? t('weight.spikeWarning', { diff: (spike.diffKg ?? 0).toFixed(1) }) : undefined,
+    );
     engine.logWeighIn(weightKg, date, notes);
     // Persisted immediately. Without this the engine lived only in component
     // state, so every weigh-in was lost the moment the screen unmounted.

@@ -172,9 +172,14 @@ export class WeightTrendEngine {
     };
   }
 
+  /**
+   * `message` is the English fallback; screens show their own translated text
+   * built from `diffKg`.
+   */
   public checkSpikeWarning(currentWeight: number): {
     hasSpike: boolean;
     message?: string;
+    diffKg?: number;
   } {
     if (this.weighIns.length === 0) return { hasSpike: false };
     const lastWeight = this.weighIns[this.weighIns.length - 1].weightKg;
@@ -183,6 +188,7 @@ export class WeightTrendEngine {
     if (diff >= 2.0) {
       return {
         hasSpike: true,
+        diffKg: diff,
         message: `Temporary +${diff.toFixed(
           1
         )} kg water-weight fluctuation (likely sodium/carb retention from a desi meal). Your trend line smooths this out automatically.`,

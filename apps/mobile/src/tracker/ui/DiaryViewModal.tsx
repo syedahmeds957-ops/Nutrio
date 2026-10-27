@@ -255,11 +255,6 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
                       <Text style={[styles.itemName, { color: theme.colors.textPrimary }]}>
                         {foodDisplayName(item.foodName, item.foodNameAr, dir.isRTL).primary}
                       </Text>
-                      {foodDisplayName(item.foodName, item.foodNameAr, dir.isRTL).secondary ? (
-                        <Text style={[styles.itemNameUr, dir.text, { color: theme.colors.textMuted }]}>
-                          {foodDisplayName(item.foodName, item.foodNameAr, dir.isRTL).secondary}
-                        </Text>
-                      ) : null}
                     </View>
 
                     <Text style={[styles.itemMeta, { color: theme.colors.textSecondary }]}>

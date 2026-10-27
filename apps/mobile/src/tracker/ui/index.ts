@@ -1,6 +1,4 @@
 export * from './DailyProgressHeader.js';
-export * from './WaterTrackerCard.js';
-export * from './MealSlotCard.js';
 export * from './TrackerDashboardScreen.js';
 export * from './StreakBadge.js';
 export * from './AiRecommendationCard.js';

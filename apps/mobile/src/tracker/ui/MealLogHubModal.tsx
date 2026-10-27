@@ -20,7 +20,8 @@ import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { filterSectionsForSlot, orderSectionsForSlot } from '../dietSlotOrder.js';
-import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
+import { pickText } from '../../i18n/displayName.js';
 import { getMostLoggedFoodIds, loadMealPresets, MAX_RECENT_FOODS } from '../mealPresets.js';
 import { searchCustomDishes } from '../customDishes.js';
 import type { DraftLogEntry } from '../describeMeal.js';
@@ -121,14 +122,8 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
-  const isSaudiRegion = activeRegion === 'SA';
-  /**
-   * The Arabic name for Saudi users. Urdu names are not displayed (lists show
-   * the English name only) but still match in search.
-   */
-  const localName = (_nameUr?: string, nameAr?: string) =>
-    isSaudiRegion ? nameAr : undefined;
   const { t } = useTranslation();
+  const { language } = useI18nState();
   const dir = useTextDirection();
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -911,22 +906,8 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                     <View style={styles.brandInfo}>
                       <View style={styles.brandTitleRow}>
                         <Text style={[styles.brandName, { color: theme.colors.textPrimary }]}>
-                          {brand.name}
+                          {pickText(brand.name, brand.nameAr, language)}
                         </Text>
-                        {localName(brand.nameUr, brand.nameAr) && (
-                          <Text
-                            style={[
-                              isSaudiRegion ? styles.brandNameAr : styles.brandNameUr,
-                              {
-                                color: isSaudiRegion
-                                  ? theme.colors.primaryLime
-                                  : theme.colors.textMuted,
-                              },
-                            ]}
-                          >
-                            {localName(brand.nameUr, brand.nameAr)}
-                          </Text>
-                        )}
                       </View>
                       <Text style={[styles.brandTagline, { color: theme.colors.textSecondary }]}>
                         {activeRegion === 'SA' && brand.taglineAr ? brand.taglineAr : brand.tagline}

@@ -6872,8 +6872,8 @@ export const EXERCISE_DATA: readonly Exercise[] = [
     "id": "brisk-walk",
     "sourceId": "Trail_Running_Walking",
     "name": {
-      "en": "Brisk walk",
-      "ar": "المشي السريع"
+      "en": "Walking",
+      "ar": "المشي"
     },
     "instructions": {
       "en": [
