@@ -58,6 +58,7 @@
     "emailAddress": "Email address",
     "errors": {
       "alreadyRegistered": "An account with this email already exists. Try signing in.",
+      "codeInvalid": "That code is wrong or has expired. Request a new one.",
       "emailNotConfirmed": "Please confirm your email address first.",
       "emailRequired": "A valid email address is required.",
       "invalidCredentials": "Invalid email or password. The password must be at least 6 characters.",
@@ -65,8 +66,12 @@
       "network": "Unable to reach the sign-in server. Please check your internet connection.",
       "noSession": "Signing in did not complete. Please try again.",
       "passwordRequired": "Enter your password.",
-      "passwordTooShort": "The password must be at least 6 characters."
+      "passwordSame": "Choose a password different from your old one.",
+      "passwordTooShort": "The password must be at least 6 characters.",
+      "passwordWeak": "That password is too easy to guess. Try a longer one.",
+      "resetWait": "Please wait a minute before asking for another code."
     },
+    "forgotPassword": "Forgot password?",
     "fullName": "Full name",
     "fullNamePlaceholder": "Enter your name",
     "genericError": "Authentication error. Please check your credentials.",
@@ -76,6 +81,19 @@
     "passwordPlaceholder": "Min 6 characters",
     "registerSubheading": "Sign up with your email and password to start logging and tracking your nutrition.",
     "rememberMe": "Remember me on this device",
+    "reset": {
+      "backToSignIn": "Back to sign in",
+      "code": "6-digit code",
+      "codeSent": "If an account exists for {{email}}, a 6-digit code is on its way. It can take a minute.",
+      "codeSubheading": "Enter the code from your email and choose a new password.",
+      "emailSubheading": "Enter the email you signed up with. We'll send you a 6-digit code.",
+      "newPassword": "New password",
+      "resend": "Send a new code",
+      "resent": "A new code is on its way.",
+      "sendCode": "Send code",
+      "submit": "Reset password and sign in",
+      "title": "Reset your password"
+    },
     "show": "Show",
     "signIn": "Sign in",
     "welcomeBack": "Welcome back!"
@@ -616,7 +634,6 @@
     },
     "completeAssessment": "Complete assessment",
     "exercise": {
-      "description": "Tell us about your regular workouts so we can count the calories they burn.",
       "frequency": "Frequency (days per week)",
       "intensity": {
         "high": "High intensity",
@@ -658,7 +675,6 @@
       "bodyFatPct": "Body fat percentage must be between 3% and 65%.",
       "chaiWithSugarCupsPerDay": "Please specify daily sweetened tea/chai cups (0 or more).",
       "dailySittingHours": "Sitting hours must be between 0 and 24.",
-      "dailyWaterLitres": "Daily water intake must be between 0.5 and 15 litres.",
       "dietPreference": "Please select your preferred dietary pattern.",
       "frequencyDaysPerWeek": "Choose how many days a week you train (0 to 7).",
       "heightCm": "Please enter a valid height between 100 cm and 250 cm.",
@@ -667,14 +683,9 @@
       "medicalDisclaimerAccepted": "You must acknowledge the clinical disclaimer to proceed.",
       "sessionDurationMins": "Enter how long a session lasts, in minutes (0 to 360).",
       "sex": "Biological sex is needed to estimate your calories.",
-      "shiftPattern": "Please select your typical work shift pattern.",
-      "sleepHoursPerNight": "Please enter typical sleep duration between 2 and 16 hours.",
-      "stressRating": "Stress rating must be between 1 (low) and 5 (extreme).",
       "trainingType": "Please select your exercise or workout type.",
       "waistCm": "Waist circumference must be between 40 cm and 220 cm.",
-      "weightKg": "Please enter a valid weight between 30 kg and 300 kg.",
-      "whoCooksAtHome": "Please select how meals are typically prepared at home.",
-      "workingHoursPerDay": "Working hours must be between 0 and 24."
+      "weightKg": "Please enter a valid weight between 30 kg and 300 kg."
     },
     "health": {
       "conditions": {
@@ -718,46 +729,7 @@
           "PK": "(~{{weekly}} kcal/week) in liquid sugars & milk!",
           "SA": "(~{{weekly}} kcal/week) in dates & Gahwa ritual!"
         }
-      },
-      "cookingStyles": {
-        "cook_maid": {
-          "PK": "Cook / Maid prepares meals",
-          "SA": "House cook prepares meals"
-        },
-        "daily_takeaway": {
-          "PK": "Frequently order takeaway / Dine out",
-          "SA": "Takeaway & restaurants (AlBaik, Kudu, shawarma)"
-        },
-        "family_traditional": {
-          "PK": "Family cooks traditional desi meals",
-          "SA": "Family prepares home banquets"
-        },
-        "hostel_mess": {
-          "PK": "Hostel / Mess",
-          "SA": "Company camp / Mess"
-        },
-        "self": {
-          "PK": "I cook my own meals",
-          "SA": "I cook my own meals"
-        }
-      },
-      "description": {
-        "PK": "Regional habits shape your calories. Sweetened chai and desi cooking oil are often the biggest hidden sources.",
-        "SA": "Saudi cultural habits shape your nutritional rhythm. Saudi Gahwa, companion Sukari/Ajwa dates, fresh Laban, and family Kabsa banquets are central to daily life."
-      },
-      "dineOut": {
-        "subtitle": {
-          "PK": "Shaadi dinners, family dawats, or restaurant takeaways",
-          "SA": "Family Kabsa & Mandi banquets, or restaurant meals (AlBaik, Kudu, Shawarmer)"
-        },
-        "title": {
-          "PK": "Dawat / dine-out nights per week",
-          "SA": "Family banquets & dine-out nights"
-        },
-        "unit": "nights / week"
-      },
-      "mealPrepStyle": "Primary meal preparation style",
-      "sleepDuration": "Typical sleep duration (hours)"
+      }
     },
     "occupational": {
       "description": {
@@ -793,12 +765,6 @@
           },
           "title": "Standing / Teaching / Retail"
         }
-      },
-      "shiftPattern": "Work shift pattern",
-      "shifts": {
-        "night_shift": "Night shift (US/UK support)",
-        "regular_day": "Day shift (9 to 5)",
-        "rotating_shifts": "Rotating shifts"
       },
       "sittingHours": "Daily sitting hours",
       "workActivityType": "Work activity type"
@@ -843,24 +809,16 @@
         "SA": "Physical metrics"
       },
       "exercise": {
-        "PK": "Workouts & training",
-        "SA": "Workouts & training"
+        "PK": "Work & training",
+        "SA": "Work & training"
       },
       "health_clinical": {
         "PK": "Health & medical safety",
         "SA": "Health & medical safety"
       },
-      "lifestyle_desi": {
-        "PK": "Desi lifestyle & chai",
-        "SA": "Saudi lifestyle & Gahwa"
-      },
-      "occupational": {
-        "PK": "Work & daily activity",
-        "SA": "Work & daily activity"
-      },
       "preferences": {
-        "PK": "Diet preferences",
-        "SA": "Diet preferences"
+        "PK": "Diet & chai",
+        "SA": "Diet & gahwa"
       }
     }
   },
@@ -1298,6 +1256,7 @@
         "unknown_food": "Not in our food database yet."
       },
       "remove": "Remove",
+      "servingLabel": "Serving size",
       "title": "Describe your meal"
     },
     "diary": {
@@ -1331,6 +1290,7 @@
       "consumedToday": "Consumed today",
       "dailyGoal": "Daily goal: {{target}} kcal ({{eaten}} eaten)",
       "dailyTarget": "Daily target",
+      "dailyTargets": "Your daily targets",
       "eatenSoFar": "{{eaten}} kcal eaten so far",
       "energyBudget": "Energy budget",
       "goalCaption": "Goal",
@@ -1927,6 +1887,7 @@
       "swapSubtitle": "Cardio you can do with your equipment"
     },
     "more": {
+      "saveAndFinish": "Save and finish",
       "step": "Tell us more · {{current}} of {{total}} · optional",
       "skip": "Skip for now",
       "title": "Tell us more",
@@ -1954,6 +1915,9 @@
         "20_to_45": "20–45 s",
         "over_45": "Over 45 s"
       },
+      "change": "Change",
+      "fromSurveyNever": "You told us you don't exercise right now.",
+      "fromSurveyTraining": "You told us you train {{days}} days a week.",
       "trainingNowQ": "Are you training now?",
       "yes": "Yes",
       "notNow": "Not right now",
