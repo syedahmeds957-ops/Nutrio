@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { AdaptiveTDEEResult } from '@nutrio/nutrition-core';
 import { Notice } from '../../ui/Notice.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 interface AdaptiveTDEECardProps {
@@ -94,7 +94,7 @@ export const AdaptiveTDEECard: React.FC<AdaptiveTDEECardProps> = ({
             {t('weight.adaptive.calibrationDays', { days: daysLogged, pct: calibrationPct })}
           </Text>
         </View>
-        <View style={[styles.track, { backgroundColor: theme.colors.border }]}>
+        <View style={[styles.track, { backgroundColor: theme.colors.progressTrack }]}>
           <View style={[styles.fill, { width: `${calibrationPct}%`, backgroundColor: accentColor }]} />
         </View>
         <Text style={[styles.calibNote, { color: theme.colors.textMuted }]}>
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   heroLabel: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
     textTransform: 'uppercase',
   },
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   deltaSub: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '600',
   },
   calibrationSection: {
@@ -197,15 +197,15 @@ const styles = StyleSheet.create({
   },
   track: {
     height: 6,
-    borderRadius: 999,
+    borderRadius: commonRadii.pill,
     overflow: 'hidden',
   },
   fill: {
     height: '100%',
-    borderRadius: 999,
+    borderRadius: commonRadii.pill,
   },
   calibNote: {
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 6,
   },
 });

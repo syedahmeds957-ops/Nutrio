@@ -10,9 +10,12 @@ import { Icon } from './Icon.js';
  * - Single choice (`radio`): the group is a radiogroup, each option a radio
  *   with `aria-checked`.
  * - Multiple choice (`toggle`): each option is a button with `aria-pressed`.
- * - Selected = filled lime background plus a check. Font weight and border
- *   width never change, so an option keeps its width when picked; the check is
+ * - Selected = filled lime background plus a mark. Font weight and border
+ *   width never change, so an option keeps its width when picked; the mark is
  *   a corner badge (chips, cards) or a slot that is always reserved (rows).
+ * - Not selected still reads as tappable: normal text colour and a visible
+ *   border, never greyed out. Single choice draws a ROUND mark (radio),
+ *   multiple choice a SQUARE one (check box), so the two never look alike.
  *
  * react-native-web only reads the `aria-*` props, hence not accessibilityState
  * alone (`aria-selected` is not allowed on a role=button either).
@@ -32,16 +35,16 @@ export interface OptionColors {
   sub: { color: string };
 }
 
-/** Lime when selected, quiet surface otherwise. */
+/** Lime when selected; otherwise a plain surface with full-strength text and a visible border. */
 export function useOptionColors() {
   const { theme } = useTheme();
   const c = theme.colors;
   return (selected: boolean): OptionColors => ({
     container: {
       backgroundColor: selected ? c.primaryLime : c.surface,
-      borderColor: selected ? c.primaryLime : c.border,
+      borderColor: selected ? c.primaryLime : c.textMuted,
     },
-    text: { color: selected ? c.limeText : c.textSecondary },
+    text: { color: selected ? c.limeText : c.textPrimary },
     sub: { color: selected ? c.limeText : c.textSecondary },
   });
 }
@@ -93,16 +96,34 @@ export const OptionButton: React.FC<OptionButtonProps> = ({
   const { theme } = useTheme();
   const dir = useTextDirection();
   const colors = useOptionColors()(selected);
+  const square = mode === 'toggle';
+  const c = theme.colors;
   const checkNode =
     check === 'badge' ? (
       selected ? (
-        <View style={[styles.badge, { backgroundColor: theme.colors.limeText }]}>
-          <Icon name="check" size={11} color={theme.colors.primaryLime} strokeWidth={3} />
+        <View style={[styles.badge, square && styles.squareRadius, { backgroundColor: c.limeText }]}>
+          <Icon name="check" size={11} color={c.primaryLime} strokeWidth={3} />
         </View>
+      ) : square ? (
+        // An empty check box on the corner: this group takes more than one answer.
+        <View
+          style={[styles.badge, styles.squareRadius, { backgroundColor: c.surface, borderColor: c.textMuted, borderWidth: 1.5 }]}
+        />
       ) : null
     ) : (
-      <View style={[styles.slot, !selected && styles.slotHidden]}>
-        <Icon name="check" size={18} color={theme.colors.limeText} strokeWidth={2.6} />
+      // Round ring (pick one) or square box (pick any); always drawn so the row never shifts.
+      <View
+        style={[
+          styles.slot,
+          square ? styles.squareRadius : styles.roundRadius,
+          {
+            borderColor: selected ? c.limeText : c.textMuted,
+            backgroundColor: selected && square ? c.limeText : 'transparent',
+          },
+        ]}
+      >
+        {selected && square ? <Icon name="check" size={13} color={c.primaryLime} strokeWidth={3} /> : null}
+        {selected && !square ? <View style={[styles.dot, { backgroundColor: c.limeText }]} /> : null}
       </View>
     );
 
@@ -150,6 +171,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  slot: { width: 18, height: 18, alignItems: 'center', justifyContent: 'center' },
-  slotHidden: { opacity: 0 },
+  slot: { width: 20, height: 20, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center' },
+  roundRadius: { borderRadius: 10 },
+  squareRadius: { borderRadius: 5 },
+  dot: { width: 10, height: 10, borderRadius: 5 },
 });

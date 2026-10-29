@@ -61,6 +61,34 @@ describe('option roles', () => {
   });
 });
 
+describe('option look', () => {
+  const opt = (selected: boolean, mode: 'radio' | 'toggle', check: 'badge' | 'inline' = 'inline') =>
+    render(React.createElement(OptionButton, { label: 'Gym', selected, onPress: noop, mode, check }));
+
+  it('an unselected option is not greyed out: primary text and a visible border', () => {
+    const html = opt(false, 'radio');
+    // textPrimary (#0F172A) and textMuted (#626D7B) in the light theme, never the secondary grey.
+    expect(html).toContain('color:rgba(15,23,42,1.00)');
+    expect(html).toContain('border-top-color:rgba(98,109,123,1.00)');
+  });
+
+  // react-native-web turns each radius into a class, so compare the distinct radii drawn.
+  const radii = (html: string) => new Set(html.match(/r-borderRadius-\w+/g));
+
+  it('single choice draws a round mark and multiple choice a square one, selected or not', () => {
+    for (const selected of [false, true]) {
+      const radio = radii(opt(selected, 'radio'));
+      const toggle = radii(opt(selected, 'toggle'));
+      // Same row, different mark: the radii drawn are not the same set.
+      expect([...radio].sort()).not.toEqual([...toggle].sort());
+    }
+  });
+
+  it('a corner-badge chip shows an empty check box only when it takes more than one answer', () => {
+    expect(radii(opt(false, 'toggle', 'badge')).size).toBeGreaterThan(radii(opt(false, 'radio', 'badge')).size);
+  });
+});
+
 describe('auth form', () => {
   it('checks fields before sending and says which one is wrong', () => {
     expect(validateAuthFields('register', { name: ' ', email: 'nope', password: '123' })).toEqual({

@@ -46,19 +46,41 @@ export function formatNumber(
 const LRM = '\u200E';
 
 /**
- * "25.3%" as ONE left-to-right unit. In an Arabic (RTL) line the percent sign
- * can otherwise land on the wrong side of the number ("%25.3"), especially
+ * "25%" as ONE left-to-right unit. In an Arabic (RTL) line the percent sign
+ * can otherwise land on the wrong side of the number ("%25"), especially
  * inside parentheses. Arabic gets a left-to-right mark on each side so the
  * number and its sign stay together and in order; English is returned bare.
  * Western digits and "%" in both languages, like formatNumber.
+ *
+ * Unless the caller passes options, one decimal rule applies everywhere:
+ * whole numbers from 10 up ("37%"), one decimal below 10 ("4.5%"), so a share
+ * never reads "36.7%" next to "37%".
  */
 export function formatPercent(
   value: number,
   language: AppLanguage = 'en',
-  options: Intl.NumberFormatOptions = { maximumFractionDigits: 1 }
+  options?: Intl.NumberFormatOptions
 ): string {
-  const text = `${formatNumber(value, language, options)}%`;
+  const digits = options ?? { maximumFractionDigits: Math.abs(value) < 10 ? 1 : 0 };
+  const text = `${formatNumber(value, language, digits)}%`;
   return language === 'ar' ? `${LRM}${text}${LRM}` : text;
+}
+
+/**
+ * Weight-change pace in kg per week, e.g. 0.5 or 0.25, never 0.62 or 0.4999.
+ * Rounded to the nearest 0.05 so the picker steps (0.25, 0.5, 0.75, 1) stay
+ * exact and anything else shows at most two digits ("0.6"). Pass 'down' for a
+ * safety LIMIT, so the figure shown never exceeds the real limit.
+ */
+export function formatRate(
+  value: number,
+  language: AppLanguage = 'en',
+  rounding: 'nearest' | 'down' = 'nearest'
+): string {
+  const steps = value / 0.05;
+  // The small epsilon keeps 0.15 / 0.05 (2.9999999999999996) from rounding down a whole step.
+  const rounded = (rounding === 'down' ? Math.floor(steps + 1e-9) : Math.round(steps)) * 0.05;
+  return formatNumber(Number(rounded.toFixed(2)), language, { maximumFractionDigits: 2 });
 }
 
 /** "25 Oct 2026" / "25 أكتوبر 2026" by default. */

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { useFormat } from '../../i18n/useFormat.js';
 
@@ -8,6 +8,17 @@ interface ProgressBarProps {
   currentStep: number;
   totalSteps: number;
   stepTitle: string;
+}
+
+/**
+ * Share of the survey already DONE: the current step is not finished yet, so
+ * the first screen reads 0% and the last one still shows less than 100% until
+ * the answers are submitted.
+ */
+export function completedPercent(currentStep: number, totalSteps: number): number {
+  if (totalSteps <= 0) return 0;
+  const done = Math.min(Math.max(currentStep, 0), totalSteps - 1);
+  return Math.round((done / totalSteps) * 100);
 }
 
 export const ProgressBar: React.FC<ProgressBarProps> = ({
@@ -20,7 +31,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   const { formatPercent } = useFormat();
   const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
-  const percentage = Math.round(((currentStep + 1) / totalSteps) * 100);
+  const percentage = completedPercent(currentStep, totalSteps);
 
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.canvas }]}>
@@ -31,14 +42,14 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
         <Text
           style={[
             styles.percentage,
-            { color: theme.isDark ? theme.colors.primaryLime : '#4B6200' },
+            { color: theme.colors.primaryAccessible },
           ]}
         >
           {formatPercent(percentage)}
         </Text>
       </View>
       <View
-        style={[styles.track, { backgroundColor: theme.colors.surfaceSecondary }]}
+        style={[styles.track, { backgroundColor: theme.colors.progressTrack }]}
         accessibilityRole="progressbar"
         accessibilityLabel={t('survey.progress.step', { current: currentStep + 1, total: totalSteps })}
         accessibilityValue={{ min: 0, max: 100, now: percentage }}
@@ -77,12 +88,12 @@ const styles = StyleSheet.create({
   },
   track: {
     height: 6,
-    borderRadius: 999,
+    borderRadius: commonRadii.pill,
     overflow: 'hidden',
   },
   fill: {
     height: '100%',
-    borderRadius: 999,
+    borderRadius: commonRadii.pill,
   },
   title: {
     marginTop: 12,

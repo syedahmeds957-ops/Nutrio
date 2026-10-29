@@ -15,7 +15,7 @@ import { Icon } from '../../ui/Icon.js';
 import { AppleTextInput } from '../../ui/AppleInput.js';
 import { OptionGroup, optionA11y } from '../../ui/Selectable.js';
 import { useFormat } from '../../i18n/useFormat.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { addDaysToKey, formatDayKey, localDateKey } from '../../common/dateKey.js';
 import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
 
@@ -73,7 +73,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
   const { t } = useTranslation();
   const { language } = useI18nState();
   const dir = useTextDirection();
-  const { formatNumber } = useFormat();
+  const { formatRate } = useFormat();
 
   const bmi = useMemo(
     () => calculateBMI(context.weightKg, context.heightCm),
@@ -170,7 +170,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                 selectedGoal === 'lose'
                   ? isDark
                     ? 'rgba(164, 235, 63, 0.12)'
-                    : '#F7FEE7'
+                    : theme.colors.limeTint
                   : theme.colors.surface,
               borderColor:
                 selectedGoal === 'lose'
@@ -194,8 +194,8 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                   selectedGoal === 'lose'
                     ? isDark
                       ? theme.colors.primaryLime
-                      : '#4B6200'
-                    : '#EF4444'
+                      : theme.colors.primaryAccessible
+                    : theme.colors.danger
                 }
               />
               <Text
@@ -218,7 +218,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
               <View
                 style={[
                   styles.disabledBadge,
-                  { backgroundColor: isDark ? 'rgba(239, 68, 68, 0.2)' : '#FEE2E2' },
+                  { backgroundColor: isDark ? 'rgba(239, 68, 68, 0.2)' : theme.colors.dangerLight },
                 ]}
               >
                 <Text style={styles.disabledBadgeText}>{t('plan.goal.clinicallyDisabled')}</Text>
@@ -259,7 +259,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                 selectedGoal === 'maintain'
                   ? isDark
                     ? 'rgba(164, 235, 63, 0.12)'
-                    : '#F7FEE7'
+                    : theme.colors.limeTint
                   : theme.colors.surface,
               borderColor:
                 selectedGoal === 'maintain'
@@ -281,7 +281,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                   selectedGoal === 'maintain'
                     ? isDark
                       ? theme.colors.primaryLime
-                      : '#4B6200'
+                      : theme.colors.primaryAccessible
                     : '#3B82F6'
                 }
               />
@@ -326,7 +326,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                 selectedGoal === 'gain'
                   ? isDark
                     ? 'rgba(164, 235, 63, 0.12)'
-                    : '#F7FEE7'
+                    : theme.colors.limeTint
                   : theme.colors.surface,
               borderColor:
                 selectedGoal === 'gain'
@@ -348,7 +348,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                   selectedGoal === 'gain'
                     ? isDark
                       ? theme.colors.primaryLime
-                      : '#4B6200'
+                      : theme.colors.primaryAccessible
                     : '#10B981'
                 }
               />
@@ -401,10 +401,10 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
 
           <View style={styles.section}>
             <Text style={[styles.label, { color: theme.colors.textPrimary }]}>
-              {t('plan.goal.weeklyPace', { rate: rateKgPerWeek })}
+              {t('plan.goal.weeklyPace', { rate: formatRate(rateKgPerWeek) })}
             </Text>
             <Text style={[styles.subtext, { color: theme.colors.textSecondary }]}>
-              {t('plan.goal.maxSafeRate', { rate: maxSafeRate })}
+              {t('plan.goal.maxSafeRate', { rate: formatRate(maxSafeRate, 'down') })}
             </Text>
 
             <OptionGroup label={t('plan.goal.paceLabel')} style={styles.rateOptionsRow}>
@@ -446,7 +446,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                           // Disabled chips dim the surface and the weight, never the text:
                           // the kg value must stay >= 4.5:1.
                           color: isSelected
-                            ? '#0A0B0D'
+                            ? theme.colors.limeText
                             : isOverMax
                               ? isDark
                                 ? theme.colors.textMuted
@@ -456,7 +456,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                         },
                       ]}
                     >
-                      {t('common.kgValue', { value: rate })}
+                      {t('common.kgValue', { value: formatRate(rate) })}
                     </Text>
                   </TouchableOpacity>
                 );
@@ -469,13 +469,13 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                 style={[styles.paceLimitNote, dir.text, { color: theme.colors.textPrimary }]}
               >
                 {t(`plan.goal.paceLimit.${paceLimitKey}`, {
-                  rate: formatNumber(paceLimit.effectiveRateKgPerWeek, { maximumFractionDigits: 2 }),
+                  rate: formatRate(paceLimit.effectiveRateKgPerWeek, 'down'),
                 })}
               </Text>
             )}
             {PACE_OPTIONS.some((rate) => rate > maxSafeRate) && (
               <Text style={[styles.subtext, dir.text, { color: theme.colors.textSecondary }]}>
-                {t('plan.goal.pacesDisabledReason', { rate: maxSafeRate })}
+                {t('plan.goal.pacesDisabledReason', { rate: formatRate(maxSafeRate, 'down') })}
               </Text>
             )}
           </View>
@@ -488,7 +488,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                 {
                   backgroundColor: isDark
                     ? 'rgba(164, 235, 63, 0.08)'
-                    : '#F7FEE7',
+                    : theme.colors.limeTint,
                   borderColor: isDark
                     ? 'rgba(164, 235, 63, 0.25)'
                     : '#D9F99D',
@@ -499,12 +499,12 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                 <Icon
                   name="calendar"
                   size={16}
-                  color={isDark ? theme.colors.primaryLime : '#4B6200'}
+                  color={theme.colors.primaryAccessible}
                 />
                 <Text
                   style={[
                     styles.projectionTitle,
-                    { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                    { color: theme.colors.primaryAccessible },
                   ]}
                 >
                   {t('plan.goal.projectedMilestone')}
@@ -617,11 +617,11 @@ const styles = StyleSheet.create({
   disabledBadge: {
     paddingVertical: 3,
     paddingHorizontal: 8,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
   },
   disabledBadgeText: {
     color: '#EF4444',
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '800',
   },
   activeBadge: {
@@ -631,7 +631,7 @@ const styles = StyleSheet.create({
   },
   activeBadgeText: {
     color: '#0A0B0D',
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '900',
     letterSpacing: 0.5,
   },
@@ -652,7 +652,7 @@ const styles = StyleSheet.create({
     minHeight: 44,
     justifyContent: 'center',
     paddingVertical: 12,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     borderWidth: 1,
     alignItems: 'center',
   },
@@ -702,7 +702,7 @@ const styles = StyleSheet.create({
   confirmBtn: {
     flex: 1,
     paddingVertical: 16,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -14,7 +14,7 @@ import { WeighInLogModal } from './WeighInLogModal.js';
 import { WeightTrendEngine } from '../engine.js';
 import { saveWeighIns } from '../weightStorage.js';
 import { WeightTrackerState } from '../types.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 import { hiddenFromAssistiveTech } from '../../common/a11yHidden.js';
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
   },
   headerSubtitle: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '800',
     textTransform: 'uppercase',
     letterSpacing: 0.8,
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   logWeightBtn: {
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     paddingVertical: 14,
     alignItems: 'center',
     justifyContent: 'center',

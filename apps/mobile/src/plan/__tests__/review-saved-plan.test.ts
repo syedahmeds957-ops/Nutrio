@@ -76,7 +76,7 @@ describe('goal screen prefill', () => {
     );
     expect(html).toContain('value="92"');
     expect(html).not.toContain('value="99"');
-    expect(html).toContain('Weekly pace: 0.25 kg / week');
+    expect(html).toContain('Weekly pace: 0.25 kg/week');
   });
 
   it('keeps the defaults for a first setup', () => {
@@ -84,7 +84,7 @@ describe('goal screen prefill', () => {
       React.createElement(GoalSelectionView, { context: surveyContext, onConfirmGoal: () => {}, onBack: () => {} })
     );
     expect(html).toContain('value="99"');
-    expect(html).toContain('Weekly pace: 0.5 kg / week');
+    expect(html).toContain('Weekly pace: 0.5 kg/week');
   });
 
   it('falls back sensibly when the saved values no longer apply', () => {

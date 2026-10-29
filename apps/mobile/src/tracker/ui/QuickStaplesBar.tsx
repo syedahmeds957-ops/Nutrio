@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import { NamedModal } from '../../ui/NamedModal.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
@@ -46,7 +46,7 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
   const { t } = useTranslation();
   const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
-  const activeTextColor = '#0A0B0D';
+  const activeTextColor = theme.colors.limeText;
   const [justLoggedId, setJustLoggedId] = useState<string | null>(null);
   // A staple is logged only once the user has picked a meal, so a tap parks
   // the chip here while the slot sheet is open instead of logging blind.
@@ -91,7 +91,7 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
   const chips = staples.map(({ item, resolved }) => ({
     item,
     label: item.label.replace(/^\+\s*/, ''),
-    kcal: String(resolved.calories),
+    kcal: t('common.kcalValue', { value: resolved.calories }),
   }));
   const visibleCount =
     rowWidth > 0
@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
   pillBtn: {
     height: 34,
     justifyContent: 'center',
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     paddingHorizontal: 12,
     borderWidth: 1,
     flexShrink: 1,
@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   pillKcal: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
     fontVariant: ['tabular-nums'],
   },

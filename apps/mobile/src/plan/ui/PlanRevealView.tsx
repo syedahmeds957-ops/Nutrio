@@ -10,7 +10,7 @@ import { BackButton } from '../../ui/BackButton.js';
 import { ComputedUserPlan } from '../types.js';
 import { planPaceLimit } from '../engine.js';
 import { Icon } from '../../ui/Icon.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { useFormat } from '../../i18n/useFormat.js';
@@ -41,7 +41,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
   const { theme } = useTheme();
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
-  const { formatNumber, formatPercent } = useFormat();
+  const { formatNumber, formatPercent, formatRate } = useFormat();
   const dir = useTextDirection();
   const isSaudi = (plan.region || activeRegion) === 'SA';
   const accentColor = theme.colors.heroCardBg;
@@ -77,7 +77,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
           <Text
             style={[
               styles.badgeSuccessText,
-              { color: theme.isDark ? theme.colors.primaryLime : '#465A00' },
+              { color: theme.colors.primaryAccessible },
             ]}
           >
             {t('plan.reveal.formulationComplete')}
@@ -132,8 +132,8 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
         {paceLimit.limited && (
           <Text style={[styles.paceLimitText, dir.textCenter, { color: accentTextColor }]}>
             {t('plan.reveal.paceLimit', {
-              requested: formatNumber(paceLimit.requestedRateKgPerWeek, { maximumFractionDigits: 2 }),
-              rate: formatNumber(paceLimit.effectiveRateKgPerWeek, { maximumFractionDigits: 2 }),
+              requested: formatRate(paceLimit.requestedRateKgPerWeek),
+              rate: formatRate(paceLimit.effectiveRateKgPerWeek, 'down'),
             })}
           </Text>
         )}
@@ -252,7 +252,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
 
         <View style={styles.safeguardItem}>
           <View style={[styles.safeguardIconCircle, { backgroundColor: theme.colors.surfaceSecondary }]}>
-            <Icon name="check" size={14} color={theme.colors.primaryLime} strokeWidth={3} />
+            <Icon name="check" size={14} color={theme.colors.primaryAccessible} strokeWidth={3} />
           </View>
           <Text style={[styles.safeguardText, { color: theme.colors.textPrimary }]}>
             {t('plan.reveal.safeguardBmr', { bmr: userContext.bmr })}
@@ -261,7 +261,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
 
         <View style={styles.safeguardItem}>
           <View style={[styles.safeguardIconCircle, { backgroundColor: theme.colors.surfaceSecondary }]}>
-            <Icon name="check" size={14} color={theme.colors.primaryLime} strokeWidth={3} />
+            <Icon name="check" size={14} color={theme.colors.primaryAccessible} strokeWidth={3} />
           </View>
           <Text style={[styles.safeguardText, { color: theme.colors.textPrimary }]}>
             {t('plan.reveal.safeguardDeficit')}
@@ -270,7 +270,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
 
         <View style={styles.safeguardItem}>
           <View style={[styles.safeguardIconCircle, { backgroundColor: theme.colors.surfaceSecondary }]}>
-            <Icon name="check" size={14} color={theme.colors.primaryLime} strokeWidth={3} />
+            <Icon name="check" size={14} color={theme.colors.primaryAccessible} strokeWidth={3} />
           </View>
           <Text style={[styles.safeguardText, { color: theme.colors.textPrimary }]}>
             {t('plan.reveal.safeguardFat')}
@@ -332,7 +332,7 @@ const styles = StyleSheet.create({
   badgeSuccess: {
     paddingVertical: 5,
     paddingHorizontal: 12,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     alignSelf: 'flex-start',
     marginBottom: 10,
     borderWidth: 1,
@@ -392,7 +392,7 @@ const styles = StyleSheet.create({
   deltaBox: {
     marginTop: 18,
     backgroundColor: '#0A0B0D',
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     paddingVertical: 8,
     paddingHorizontal: 16,
   },
@@ -443,7 +443,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.4,
   },
   macroSub: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '600',
     marginTop: 4,
     textAlign: 'center',
@@ -499,7 +499,7 @@ const styles = StyleSheet.create({
   adjustBtn: {
     flex: 1,
     paddingVertical: 16,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
@@ -511,7 +511,7 @@ const styles = StyleSheet.create({
   acceptBtn: {
     flex: 2,
     paddingVertical: 16,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     alignItems: 'center',
     justifyContent: 'center',
   },

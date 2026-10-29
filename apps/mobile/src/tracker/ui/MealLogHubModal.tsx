@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BackButton } from '../../ui/BackButton.js';
+import { UndoToast, UNDO_WINDOW_MS } from '../../ui/UndoToast.js';
 import { NamedModal } from '../../ui/NamedModal.js';
 import type { NormalizedFood, RestaurantBrand } from '@nutrio/food-db';
 import { foodDb } from '../../catalogue/index.js';
@@ -20,6 +21,8 @@ import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { filterSectionsForSlot, orderSectionsForSlot } from '../dietSlotOrder.js';
+import { suggestedForSlot } from '../forYou.js';
+import { foodDisplayName } from '../foodDisplayName.js';
 import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
 import { pickText } from '../../i18n/displayName.js';
 import { getMostLoggedFoodIds, loadMealPresets, MAX_RECENT_FOODS } from '../mealPresets.js';
@@ -52,6 +55,14 @@ export interface MealLogHubModalProps {
   onSlotChange?: (slot: MealSlot) => void;
   /** Logs a meal the user described in a sentence and reviewed. */
   onLogDescribedMeal?: (slot: MealSlot, entries: DraftLogEntry[]) => void;
+  /**
+   * The "+" on a dish: logs one standard serving into the current meal without
+   * opening the detail sheet. Returns the logged item's id (for Undo), or null
+   * when nothing was logged (a guest is sent to sign up instead).
+   */
+  onQuickLog?: (food: NormalizedFood) => string | null;
+  /** Takes back a quick log by the id `onQuickLog` returned. */
+  onUndoQuickLog?: (id: string) => void;
 }
 
 const MEAL_SLOT_IDS: MealSlot[] = ['breakfast', 'lunch', 'dinner', 'snacks_chai'];
@@ -119,6 +130,8 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   slot,
   onSlotChange,
   onLogDescribedMeal,
+  onQuickLog,
+  onUndoQuickLog,
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
@@ -241,6 +254,42 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
     [showsFoodList, presetsVersion]
   );
 
+  // Foods that suit this meal and region, shown first to someone with no history.
+  const suggestedFoods = useMemo(
+    () => (slot ? suggestedForSlot(allDietSections, slot, activeRegion) : []),
+    [allDietSections, slot, activeRegion]
+  );
+
+  // The last "+" quick log, kept for UNDO_WINDOW_MS so one tap takes it back.
+  const [quickAdded, setQuickAdded] = useState<{ id: string; name: string } | null>(null);
+  const quickTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const clearQuickAdded = () => {
+    if (quickTimer.current) clearTimeout(quickTimer.current);
+    quickTimer.current = null;
+    setQuickAdded(null);
+  };
+  useEffect(() => () => {
+    if (quickTimer.current) clearTimeout(quickTimer.current);
+  }, []);
+  useEffect(() => {
+    if (!visible) clearQuickAdded();
+  }, [visible]);
+
+  const handleQuickAdd = (item: NormalizedFood) => {
+    if (!onQuickLog) return;
+    const id = onQuickLog(item);
+    if (!id) return;
+    if (quickTimer.current) clearTimeout(quickTimer.current);
+    setQuickAdded({ id, name: foodDisplayName(item.name, item.nameAr, dir.isRTL).primary });
+    quickTimer.current = setTimeout(clearQuickAdded, UNDO_WINDOW_MS);
+  };
+
+  const handleUndoQuickAdd = () => {
+    if (!quickAdded) return;
+    onUndoQuickLog?.(quickAdded.id);
+    clearQuickAdded();
+  };
+
   const handleDishPress = (item: NormalizedFood) => {
     if (isBuildMode) {
       addToBasket(item);
@@ -323,6 +372,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
       isBuildMode={isBuildMode}
       onPress={() => handleDishPress(item)}
       onRemoveOne={() => removeFromBasket(item)}
+      onQuickAdd={onQuickLog ? () => handleQuickAdd(item) : undefined}
     />
   );
 
@@ -559,7 +609,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                         styles.groupPillText,
                         {
                           color: isActive
-                            ? '#0A0B0D'
+                            ? theme.colors.limeText
                             : theme.colors.textSecondary,
                           fontWeight: isActive ? '800' : '600',
                         },
@@ -668,7 +718,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                     onPress={() => setAddDishName(searchQuery.trim())}
                     accessibilityRole="button"
                   >
-                    <Icon name="plus" size={16} color="#0A0B0D" />
+                    <Icon name="plus" size={16} color={theme.colors.limeText} />
                     <Text style={styles.addDishButtonText}>
                       {t('tracker.addDish.addButton', { name: searchQuery.trim() })}
                     </Text>
@@ -767,8 +817,8 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                     accessibilityRole="button"
                     accessibilityState={{ expanded: showSavedMeals }}
                   >
-                    <View style={[styles.actionIcon, { backgroundColor: isDark ? theme.colors.surfaceSecondary : '#EDFCD2' }]}>
-                      <Icon name="bookmark" size={22} color={isDark ? theme.colors.primaryLime : '#365314'} />
+                    <View style={[styles.actionIcon, { backgroundColor: isDark ? theme.colors.surfaceSecondary : theme.colors.limeTint }]}>
+                      <Icon name="bookmark" size={22} color={theme.colors.primaryTintText} />
                     </View>
                     <Text style={[styles.actionLabel, { color: theme.colors.textPrimary }]}>
                       {t('tracker.hub.savedMeals')}
@@ -826,6 +876,16 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                       </View>
                     ))}
                   </View>
+                </>
+              )}
+
+              {/* No history yet: start from this region's foods for this meal, not the first fruit. */}
+              {showDietList && !isBuildMode && suggestedFoods.length > 0 && (
+                <>
+                  <Text style={[styles.sectionEyebrow, { color: theme.colors.textMuted }]}>
+                    {t('tracker.hub.suggestedHeading', { meal: t(`tracker.mealSlots.${slot}.${activeRegion}`) })}
+                  </Text>
+                  {suggestedFoods.map((food) => renderDishCard(food, 'suggested_'))}
                 </>
               )}
 
@@ -1012,6 +1072,15 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
           onClose={() => setAddDishName(null)}
           onDishAdded={handleDishAdded}
         />
+
+        {quickAdded && (
+          <UndoToast
+            message={t('tracker.hub.quickAdded', { name: quickAdded.name })}
+            undoAccessibilityLabel={t('tracker.hub.undoQuickAdd', { name: quickAdded.name })}
+            onUndo={handleUndoQuickAdd}
+            style={{ bottom: 96 }}
+          />
+        )}
       </SafeAreaView>
     </NamedModal>
   );

@@ -53,3 +53,52 @@ export function sparklinePoints(values: readonly number[], width: number, height
     y: span === 0 ? height / 2 : pad + innerH * (1 - (value - min) / span),
   }));
 }
+
+export type WeightTrendStage = 'empty' | 'single' | 'trend';
+
+/**
+ * How much the Weight screen has to show: nothing yet, one weigh-in (no trend
+ * can exist, so the screen shows one reading and asks for a second), or two
+ * or more (a real trend).
+ */
+export function weightTrendStage(pointCount: number): WeightTrendStage {
+  if (pointCount <= 0) return 'empty';
+  return pointCount === 1 ? 'single' : 'trend';
+}
+
+export interface TrendChartSeries {
+  /** The scale readings, oldest first. */
+  raw: SparkPoint[];
+  /** The smoothed trend, oldest first. */
+  trend: SparkPoint[];
+}
+
+/**
+ * Points for the Weight screen's chart inside a `width` x `height` box. Both
+ * lines share one vertical range so they sit where they really are relative to
+ * each other. Unlike a sparkline it draws from the FIRST weigh-in: a single
+ * reading becomes one point in the middle of the box. A flat series draws
+ * mid-height.
+ */
+export function trendChartSeries(
+  points: readonly { rawWeightKg: number; ewmaWeightKg: number }[],
+  width: number,
+  height: number,
+  pad = 8
+): TrendChartSeries {
+  if (points.length === 0) return { raw: [], trend: [] };
+  const all = points.flatMap((p) => [p.rawWeightKg, p.ewmaWeightKg]);
+  const min = Math.min(...all);
+  const max = Math.max(...all);
+  const span = max - min;
+  const innerW = Math.max(0, width - pad * 2);
+  const innerH = Math.max(0, height - pad * 2);
+  const place = (value: number, i: number): SparkPoint => ({
+    x: points.length === 1 ? width / 2 : pad + (innerW * i) / (points.length - 1),
+    y: span === 0 ? height / 2 : pad + innerH * (1 - (value - min) / span),
+  });
+  return {
+    raw: points.map((p, i) => place(p.rawWeightKg, i)),
+    trend: points.map((p, i) => place(p.ewmaWeightKg, i)),
+  };
+}

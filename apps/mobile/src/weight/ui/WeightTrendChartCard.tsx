@@ -1,6 +1,8 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { LayoutChangeEvent, StyleSheet, Text, View } from 'react-native';
+import Svg, { Circle, Path } from 'react-native-svg';
 import { WeightTrendSummary } from '../types.js';
+import { trendChartSeries, weightTrendStage } from '../weightGlance.js';
 import { Notice } from '../../ui/Notice.js';
 import { useTheme } from '../../theme.js';
 import { formatDayKey } from '../../common/dateKey.js';
@@ -22,6 +24,12 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
   const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
   const { currentWeightKg, currentEWMAKg, totalDeltaKg, points } = summary;
+  const stage = weightTrendStage(points.length);
+  const [box, setBox] = useState({ width: 0, height: 0 });
+  const series = trendChartSeries(points, box.width, box.height);
+  const pathOf = (pts: { x: number; y: number }[]) =>
+    pts.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ');
+  const lastTrend = series.trend[series.trend.length - 1];
   // Zero change is neutral: neither progress nor a warning.
   const changeColor =
     totalDeltaKg === 0 ? theme.colors.textPrimary : totalDeltaKg < 0 ? theme.colors.primaryAccessible : theme.colors.fatText;
@@ -39,6 +47,12 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
       </View>
 
       {/* Hero Stats */}
+      {stage === 'empty' && (
+        <Text style={[styles.logAgain, dir.text, { color: theme.colors.textSecondary }]}>
+          {t('weight.trend.logFirst')}
+        </Text>
+      )}
+      {stage !== 'empty' && (
       <View style={styles.statsRow}>
         <View style={[styles.statBox, { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border }]}>
           <Text numberOfLines={1} style={[styles.statLabel, dir.text, { color: theme.colors.textMuted }]}>
@@ -46,10 +60,11 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
           </Text>
           <Text style={[styles.statVal, dir.text, { color: theme.colors.textPrimary }]}>{t('common.kgValue', { value: currentWeightKg })}</Text>
           <Text style={[styles.statSub, dir.text, { color: theme.colors.textMuted }]}>
-            {t('weight.trend.rawReading')}
+            {points[0]?.fromSurvey && stage === 'single' ? t('weight.trend.fromSurvey') : t('weight.trend.rawReading')}
           </Text>
         </View>
 
+        {stage === 'trend' && (<>
         <View style={[styles.statBox, { backgroundColor: theme.colors.surfaceSecondary, borderColor: accentColor }]}>
           <Text numberOfLines={1} style={[styles.statLabel, dir.text, { color: theme.colors.textMuted }]}>
             {t('weight.trend.trendWeight')}
@@ -77,7 +92,53 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
             {t('weight.trend.overallProgress')}
           </Text>
         </View>
+        </>)}
       </View>
+      )}
+
+      {/* One reading cannot make a trend: say so, then ask for the next one. */}
+      {stage === 'single' && (
+        <Text style={[styles.logAgain, dir.text, { color: theme.colors.textSecondary }]}>
+          {t('weight.trend.logAgain')}
+        </Text>
+      )}
+
+      {/* The chart draws from the first weigh-in on */}
+      {stage !== 'empty' && (
+        <View
+          accessibilityRole="image"
+          accessibilityLabel={t('weight.trend.chartLabel', {
+            n: points.length,
+            first: points[0].rawWeightKg,
+            last: points[points.length - 1].rawWeightKg,
+          })}
+          style={[styles.chart, { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border }]}
+          onLayout={(e: LayoutChangeEvent) =>
+            setBox({ width: e.nativeEvent.layout.width, height: e.nativeEvent.layout.height })
+          }
+        >
+          {box.width > 0 && (
+            <Svg width={box.width} height={box.height} style={StyleSheet.absoluteFill}>
+              {series.trend.length > 1 && (
+                <Path
+                  d={pathOf(series.trend)}
+                  fill="none"
+                  stroke={theme.colors.primaryAccessible}
+                  strokeWidth={2.4}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              )}
+              {series.raw.map((p, i) => (
+                <Circle key={i} cx={p.x} cy={p.y} r={series.raw.length === 1 ? 5 : 2.5} fill={series.raw.length === 1 ? theme.colors.primaryAccessible : theme.colors.textMuted} />
+              ))}
+              {lastTrend && series.trend.length > 1 ? (
+                <Circle cx={lastTrend.x} cy={lastTrend.y} r={4} fill={theme.colors.primaryAccessible} />
+              ) : null}
+            </Svg>
+          )}
+        </View>
+      )}
 
       {/* Water Retention Warning */}
       {spikeWarning && (
@@ -138,6 +199,18 @@ const styles = StyleSheet.create({
     marginTop: 2,
     lineHeight: 18,
   },
+  logAgain: {
+    fontSize: 14,
+    lineHeight: 20,
+    marginBottom: 12,
+  },
+  chart: {
+    height: 110,
+    borderRadius: 14,
+    borderWidth: 1,
+    marginBottom: 16,
+    overflow: 'hidden',
+  },
   statsRow: {
     flexDirection: 'row',
     gap: 8,
@@ -151,7 +224,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   statLabel: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
     letterSpacing: 0.6,
     textTransform: 'uppercase',
@@ -162,7 +235,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   statSub: {
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 2,
   },
   pointsList: {
@@ -170,7 +243,7 @@ const styles = StyleSheet.create({
     paddingTop: 14,
   },
   pointsTitle: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '800',
     textTransform: 'uppercase',
     letterSpacing: 0.8,
@@ -185,7 +258,7 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   pointTag: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
     marginTop: 1,
   },

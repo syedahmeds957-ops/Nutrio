@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { sparklinePoints, weightGlance } from '../weightGlance.js';
+import { sparklinePoints, trendChartSeries, weightGlance, weightTrendStage } from '../weightGlance.js';
 import type { WeighInEntry } from '../types.js';
 
 const entry = (date: string, weightKg: number): WeighInEntry => ({ id: date, date, weightKg, loggedAt: `${date}T08:00:00Z` });
@@ -45,5 +45,36 @@ describe('sparklinePoints', () => {
   });
   it('draws a flat series mid-height', () => {
     expect(sparklinePoints([74, 74, 74], 100, 30).every((p) => p.y === 15)).toBe(true);
+  });
+});
+
+describe('weightTrendStage', () => {
+  it('has three states: nothing, one reading, a trend', () => {
+    expect(weightTrendStage(0)).toBe('empty');
+    expect(weightTrendStage(1)).toBe('single');
+    expect(weightTrendStage(2)).toBe('trend');
+    expect(weightTrendStage(30)).toBe('trend');
+  });
+});
+
+describe('trendChartSeries', () => {
+  const pt = (raw: number, ewma = raw) => ({ rawWeightKg: raw, ewmaWeightKg: ewma });
+
+  it('draws nothing without a weigh-in', () => {
+    expect(trendChartSeries([], 200, 100)).toEqual({ raw: [], trend: [] });
+  });
+
+  it('draws from the first weigh-in: one reading is one centred point', () => {
+    const { raw, trend } = trendChartSeries([pt(62)], 200, 100);
+    expect(raw).toEqual([{ x: 100, y: 50 }]);
+    expect(trend).toEqual([{ x: 100, y: 50 }]);
+  });
+
+  it('puts both lines on one scale: the lowest value at the bottom, the highest at the top', () => {
+    const { raw, trend } = trendChartSeries([pt(64, 64), pt(62, 63)], 200, 100, 8);
+    expect(raw[0]).toEqual({ x: 8, y: 8 });
+    expect(raw[1]).toEqual({ x: 192, y: 92 });
+    // 63 sits halfway between 62 and 64 on the shared scale.
+    expect(trend[1].y).toBe(50);
   });
 });

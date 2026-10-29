@@ -3,6 +3,7 @@ import {
   formatDate,
   formatNumber,
   formatPercent,
+  formatRate,
   formatTime,
   monthName,
   weekdayName,
@@ -85,14 +86,41 @@ describe('weekday and month names', () => {
 });
 
 describe('formatPercent', () => {
-  it('en: bare number and sign, one decimal at most', () => {
-    expect(formatPercent(25.3, 'en')).toBe('25.3%');
+  it('en: whole numbers from 10 up, one decimal below 10', () => {
+    expect(formatPercent(36.7, 'en')).toBe('37%');
+    expect(formatPercent(25.3, 'en')).toBe('25%');
     expect(formatPercent(40, 'en')).toBe('40%');
-    expect(formatPercent(25.26, 'en')).toBe('25.3%');
+    expect(formatPercent(4.46, 'en')).toBe('4.5%');
+    expect(formatPercent(0, 'en')).toBe('0%');
+    expect(formatPercent(100, 'en')).toBe('100%');
+  });
+  it('explicit options still win', () => {
+    expect(formatPercent(25.26, 'en', { maximumFractionDigits: 1 })).toBe('25.3%');
   });
   it('ar: Latin digits, number and sign kept together by left-to-right marks', () => {
     const out = formatPercent(25.3, 'ar');
-    expect(out).toBe('‎25.3%‎');
+    expect(out).toBe('\u200E25%\u200E');
     expect(out).not.toMatch(ARABIC_INDIC);
+  });
+});
+
+describe('formatRate', () => {
+  it('keeps the pace steps exact and tidies everything else', () => {
+    expect(formatRate(0.25)).toBe('0.25');
+    expect(formatRate(0.5)).toBe('0.5');
+    expect(formatRate(0.75)).toBe('0.75');
+    expect(formatRate(1)).toBe('1');
+    expect(formatRate(0.62)).toBe('0.6');
+    expect(formatRate(0.4999)).toBe('0.5');
+  });
+  it('rounds a safety limit down so it is never shown above the real limit', () => {
+    expect(formatRate(0.62, 'en', 'down')).toBe('0.6');
+    expect(formatRate(0.59, 'en', 'down')).toBe('0.55');
+    expect(formatRate(0.4, 'en', 'down')).toBe('0.4');
+    expect(formatRate(0.15, 'en', 'down')).toBe('0.15');
+  });
+  it('ar: Latin digits', () => {
+    expect(formatRate(0.62, 'ar')).toBe('0.6');
+    expect(formatRate(0.62, 'ar')).not.toMatch(ARABIC_INDIC);
   });
 });

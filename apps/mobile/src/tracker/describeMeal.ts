@@ -60,7 +60,7 @@ function servingFor(
 ): { serving: ServingUnit; quantity: number } {
   const count = parsed.quantity > 0 ? parsed.quantity : 1;
   if (portion.certainty === 'exact_grams' || count === 1) {
-    const label = portion.certainty === 'exact_grams' ? `${portion.grams}g` : portion.servingLabel;
+    const label = portion.certainty === 'exact_grams' ? `${portion.grams} g` : portion.servingLabel;
     return { serving: { label, grams: portion.grams, isDefault: false }, quantity: 1 };
   }
   return {
@@ -128,7 +128,7 @@ export function setRowServing(row: DraftRow, serving: ServingUnit): DraftRow {
 export function setRowGrams(row: DraftRow, grams: number): DraftRow {
   if (!row.food || !Number.isFinite(grams) || grams <= 0) return row;
   const g = Math.min(MAX_ROW_GRAMS, Math.round(grams));
-  return { ...row, serving: { label: `${g}g`, grams: g, isDefault: false }, quantity: 1 };
+  return { ...row, serving: { label: `${g} g`, grams: g, isDefault: false }, quantity: 1 };
 }
 
 /** The food's own serving sizes worth offering as chips: distinct, real weights, at most `limit`. */

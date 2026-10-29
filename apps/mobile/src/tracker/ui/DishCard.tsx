@@ -22,10 +22,12 @@ export interface DishCardProps {
   isBuildMode: boolean;
   onPress: () => void;
   onRemoveOne: () => void;
+  /** Logs one standard serving without opening the detail sheet; shows a "+" button when set. */
+  onQuickAdd?: () => void;
 }
 
 /** One food row in the meal-logging hub, with its default serving and macros. */
-export const DishCard: React.FC<DishCardProps> = ({ item, qty, isBuildMode, onPress, onRemoveOne }) => {
+export const DishCard: React.FC<DishCardProps> = ({ item, qty, isBuildMode, onPress, onRemoveOne, onQuickAdd }) => {
   const { theme, isDark } = useTheme();
   const { t } = useTranslation();
   const dir = useTextDirection();
@@ -84,12 +86,12 @@ export const DishCard: React.FC<DishCardProps> = ({ item, qty, isBuildMode, onPr
           style={[
             styles.caloriePill,
             {
-              backgroundColor: isDark ? 'rgba(164, 235, 63, 0.15)' : '#F7FEE7',
+              backgroundColor: theme.colors.limeTint,
               borderColor: theme.colors.primaryLime,
             },
           ]}
         >
-          <Text style={[styles.caloriePillText, { color: macroColor }]}>≈{t('common.kcalValue', { value: kcal })}</Text>
+          <Text style={[styles.caloriePillText, { color: macroColor }]}>~{t('common.kcalValue', { value: kcal })}</Text>
         </View>
         {isBuildMode ? (
           <View style={styles.qtyControls}>
@@ -116,6 +118,17 @@ export const DishCard: React.FC<DishCardProps> = ({ item, qty, isBuildMode, onPr
               <Icon name="plus" size={14} color={qty > 0 ? ACCENT_TEXT : theme.colors.textPrimary} />
             </View>
           </View>
+        ) : onQuickAdd ? (
+          // Its own target, beside the card's: add one serving here, or tap the card for detail.
+          <TouchableOpacity
+            style={[styles.qtyBtn, { width: 44, height: 44, borderRadius: 22, backgroundColor: theme.colors.primaryLime }]}
+            onPress={onQuickAdd}
+            activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityLabel={t('tracker.hub.quickAdd', { name: names.primary })}
+          >
+            <Icon name="plus" size={18} color={ACCENT_TEXT} strokeWidth={2.6} />
+          </TouchableOpacity>
         ) : (
           <Icon name={dir.isRTL ? 'chevron-left' : 'chevron-right'} size={16} color={theme.colors.textMuted} />
         )}

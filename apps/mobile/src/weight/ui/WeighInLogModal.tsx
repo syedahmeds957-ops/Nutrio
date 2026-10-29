@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NamedModal } from '../../ui/NamedModal.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 import { AppleTextInput, noOutlineStyle } from '../../ui/AppleInput.js';
@@ -335,7 +335,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   saveBtn: {
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     paddingVertical: 16,
     alignItems: 'center',
     justifyContent: 'center',

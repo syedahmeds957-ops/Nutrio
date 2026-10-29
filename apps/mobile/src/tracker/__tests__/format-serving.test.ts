@@ -11,20 +11,20 @@ const targets = {
 
 describe('formatServingLine', () => {
   it('prints the weight once when the catalogue label already carries it', () => {
-    expect(formatServingLine(1, '1 bazinga burger (200g)', 200)).toBe('1 bazinga burger (200g)');
-    expect(formatServingLine(1, '1 standard serving (200g)', 200)).toBe('1 standard serving (200g)');
+    expect(formatServingLine(1, '1 bazinga burger (200g)', 200)).toBe('1 bazinga burger (200 g)');
+    expect(formatServingLine(1, '1 standard serving (200g)', 200)).toBe('1 standard serving (200 g)');
   });
 
   it('scales the printed weight with quantity instead of repeating the label figure', () => {
-    expect(formatServingLine(2, '1 bazinga burger (200g)', 400)).toBe('2 × 1 bazinga burger (400g)');
+    expect(formatServingLine(2, '1 bazinga burger (200g)', 400)).toBe('2 × 1 bazinga burger (400 g)');
   });
 
   it('leaves labels without an embedded weight alone', () => {
-    expect(formatServingLine(1, '1 plate', 250)).toBe('1 plate (250g)');
+    expect(formatServingLine(1, '1 plate', 250)).toBe('1 plate (250 g)');
   });
 
   it('falls back to a generic label rather than rendering "undefined"', () => {
-    expect(formatServingLine(1, undefined, 100)).toBe('serving (100g)');
+    expect(formatServingLine(1, undefined, 100)).toBe('serving (100 g)');
   });
 });
 
@@ -47,7 +47,7 @@ describe('TrackerEngine.logCustomizedItem portion weight', () => {
     expect(item.totalGrams).toBe(200);
     expect(item.servingGrams).toBe(200);
     expect(formatServingLine(item.quantity, item.servingLabel, item.totalGrams)).toBe(
-      '1 bazinga burger (200g)'
+      '1 bazinga burger (200 g)'
     );
   });
 

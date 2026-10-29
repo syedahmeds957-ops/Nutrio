@@ -5,7 +5,7 @@ import { PlanUserContext, AssessmentNarrative } from '../types.js';
 import { sittingBand } from '../sittingBand.js';
 import { ritualCupKcal } from '../../common/ritualDrinks.js';
 import { Icon } from '../../ui/Icon.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { useFormat } from '../../i18n/useFormat.js';
@@ -23,12 +23,16 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
   onProceedToGoal,
   onBack,
 }) => {
-  const { theme, isDark } = useTheme();
+  const { theme } = useTheme();
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
   const { formatNumber } = useFormat();
   const dir = useTextDirection();
   const isSaudi = activeRegion === 'SA';
+  // The levers card is green for Saudi and amber for Pakistan; both pairs come from the theme.
+  const tone = isSaudi
+    ? { text: theme.colors.successText, tint: theme.colors.successLight, border: theme.colors.successBorder }
+    : { text: theme.colors.warningText, tint: theme.colors.warningLight, border: theme.colors.warningBorder };
 
   const sittingHours = Number.isFinite(context.dailySittingHours) ? context.dailySittingHours : 8;
   // Priced for the region from the survey's cup count. The Saudi card used to
@@ -110,7 +114,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
             <Text
               style={[
                 styles.totalSub,
-                { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                { color: theme.colors.primaryAccessible },
               ]}
             >
               {t('plan.analysis.tdeeSub')}
@@ -119,7 +123,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
           <Text
             style={[
               styles.totalValue,
-              { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+              { color: theme.colors.primaryAccessible },
             ]}
           >
             {t('common.kcalValue', { value: context.tdee })}
@@ -133,13 +137,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
           styles.card,
           {
             backgroundColor: theme.colors.surface,
-            borderColor: isDark
-              ? isSaudi
-                ? '#065F46'
-                : '#854D0E'
-              : isSaudi
-              ? '#A7F3D0'
-              : '#FDE68A',
+            borderColor: tone.border,
           },
         ]}
       >
@@ -148,13 +146,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
             style={[
               styles.chaiTitle,
               {
-                color: isDark
-                  ? isSaudi
-                    ? '#34D399'
-                    : '#FDE047'
-                  : isSaudi
-                  ? '#047857'
-                  : '#B45309',
+                color: tone.text,
               },
             ]}
           >
@@ -164,13 +156,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
             style={[
               styles.badgeAmber,
               {
-                backgroundColor: isDark
-                  ? isSaudi
-                    ? 'rgba(16, 185, 129, 0.2)'
-                    : 'rgba(234, 179, 8, 0.2)'
-                  : isSaudi
-                  ? '#D1FAE5'
-                  : '#FEF3C7',
+                backgroundColor: tone.tint,
               },
             ]}
           >
@@ -178,13 +164,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
               style={[
                 styles.badgeAmberText,
                 {
-                  color: isDark
-                    ? isSaudi
-                      ? '#34D399'
-                      : '#FDE047'
-                    : isSaudi
-                    ? '#065F46'
-                    : '#B45309',
+                  color: tone.text,
                 },
               ]}
             >
@@ -201,13 +181,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
             style={[
               styles.chaiHighlight,
               {
-                color: isDark
-                  ? isSaudi
-                    ? '#34D399'
-                    : '#FBBF24'
-                  : isSaudi
-                  ? '#059669'
-                  : '#B45309',
+                color: tone.text,
               },
             ]}
           >
@@ -223,13 +197,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
             style={[
               styles.chaiHighlight,
               {
-                color: isDark
-                  ? isSaudi
-                    ? '#34D399'
-                    : '#FBBF24'
-                  : isSaudi
-                  ? '#059669'
-                  : '#B45309',
+                color: tone.text,
               },
             ]}
           >
@@ -243,14 +211,8 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
           style={[
             styles.insightBox,
             {
-              backgroundColor: isDark
-                ? isSaudi
-                  ? 'rgba(6, 95, 70, 0.2)'
-                  : 'rgba(217, 119, 6, 0.15)'
-                : isSaudi
-                ? '#F0FDF4'
-                : '#FFFBEB',
-              borderLeftColor: isSaudi ? '#059669' : '#B45309',
+              backgroundColor: tone.tint,
+              borderLeftColor: tone.text,
             },
           ]}
         >
@@ -258,13 +220,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
             style={[
               styles.insightText,
               {
-                color: isDark
-                  ? isSaudi
-                    ? '#D1FAE5'
-                    : '#FDE68A'
-                  : isSaudi
-                  ? '#064E3B'
-                  : '#92400E',
+                color: tone.text,
               },
             ]}
           >
@@ -307,15 +263,11 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
 
       {/* Action Navigation Buttons */}
       <View style={styles.btnRow}>
-        {onBack && (
-          <BackButton variant="icon" onPress={onBack} style={styles.footerBack} />
-        )}
-
         <TouchableOpacity
           style={[
             styles.actionBtn,
             { backgroundColor: theme.colors.primaryLime },
-            onBack ? styles.actionBtnFlex : null,
+            styles.actionBtnFlex,
           ]}
           onPress={onProceedToGoal}
           activeOpacity={0.8}
@@ -424,10 +376,10 @@ const styles = StyleSheet.create({
   badgeAmber: {
     paddingVertical: 4,
     paddingHorizontal: 10,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
   },
   badgeAmberText: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '800',
   },
   chaiHighlight: {
@@ -473,10 +425,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   // Beside the primary button: natural width, not an equal share.
-  footerBack: {
-    flexGrow: 0,
-    flexShrink: 0,
-  },
   btnRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -484,7 +432,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   actionBtn: {
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     paddingVertical: 16,
     alignItems: 'center',
     justifyContent: 'center',

@@ -19,6 +19,6 @@ export function formatServingLine(
   const stripped = withoutAmountBracket(label || 'serving');
   const cleanLabel = localizeServingLabel(stripped || 'serving', language);
   const qtyPrefix = quantity !== 1 ? `${quantity} × ` : '';
-  const weight = language === 'ar' ? `${Math.round(totalGrams)} غ` : `${Math.round(totalGrams)}g`;
+  const weight = language === 'ar' ? `${Math.round(totalGrams)} غ` : `${Math.round(totalGrams)} g`;
   return `${qtyPrefix}${cleanLabel} (${weight})`;
 }
