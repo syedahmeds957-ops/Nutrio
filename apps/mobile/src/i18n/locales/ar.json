@@ -247,6 +247,12 @@
       "PK": "اسأل المدرب (مثلاً: كيف أتعامل مع رغيفين على العشاء؟)...",
       "SA": "اسأل المدرب (مثلاً: كيف أوازن الكبسة؟)..."
     },
+    "log": {
+      "chip": "سجّل {{name}} · {{kcal}} سعرة",
+      "chipLabel": "سجّل {{name}}، {{serving}}، {{kcal}} سعرة، في يوميات اليوم",
+      "done": "تم تسجيل {{name}} ({{serving}}) في {{meal}}: {{kcal}} سعرة.",
+      "failed": "تعذّر التسجيل. جرّب مرة أخرى من شاشة اليوم."
+    },
     "offlineAnswer": "إجابة دون اتصال",
     "send": "إرسال الرسالة",
     "suggestedTopics": "أسئلة شائعة",
@@ -580,10 +586,16 @@
     "reveal": {
       "acceptLaunch": "قبول وبدء المتتبع",
       "adjustGoal": "تعديل الهدف",
+      "burnActivity": "النشاط",
+      "burnRest": "أثناء الراحة",
+      "burnSummary": "أثناء الراحة {{rest}} + النشاط {{activity}} = {{burn}} سعرة محروقة؛ الهدف {{target}} سعرة",
+      "burnSurplus": "الزيادة",
+      "burnTarget": "الهدف",
+      "burnTitle": "كيف يتكوّن هدفك",
       "caloriesPerDay": "سعرة حرارية / اليوم",
       "dailyFibre": "الألياف اليومية:",
       "dailyTarget": "الهدف اليومي",
-      "deficit": "{{value}} سعرة أقل مما تحرق ({{tdee}})",
+      "deficit": "{{value}} سعرة أقل من حرقك اليومي ({{tdee}})",
       "formulationComplete": "خطتك جاهزة",
       "hydration": "الترطيب:",
       "macroBreakdown": "البروتين والكربوهيدرات والدهون يومياً",
@@ -594,7 +606,7 @@
       "safeguardFat": "لا تنزل الدهون عن 0.6 غ لكل كغ من وزنك أو عن 20% من السعرات، فهرموناتك تحتاجها.",
       "safeguards": "حدود السلامة",
       "subtitle": "محسوبة من قياسات جسمك ومستوى نشاطك وطريقة أكلك.",
-      "surplus": "{{value}} سعرة أكثر مما تحرق ({{tdee}})",
+      "surplus": "{{value}} سعرة أكثر من حرقك اليومي ({{tdee}})",
       "title": "أهدافك المخصصة"
     },
     "slotCard": {
@@ -1321,6 +1333,7 @@
     },
     "header": {
       "banked": "المتبقي بالرصيد",
+      "calorieProgress": "السعرات المتناولة من هدفك اليومي",
       "caloriesConsumed": "سعرة حرارية تم تناولها اليوم",
       "caloriesOver": "سعرة حرارية زائدة عن الهدف",
       "caloriesRemaining": "سعرة حرارية متبقية اليوم",
@@ -1355,6 +1368,7 @@
       "pendingSync_zero": "لا إدخالات بانتظار المزامنة",
       "readyFirstMeal": "جاهز لأول وجبة",
       "targetNotSet": "غير محدد",
+      "todayName": "اليوم، {{name}}",
       "trackYourDay": "سجل وجبات اليوم"
     },
     "hub": {
@@ -1508,6 +1522,9 @@
       "banana": "+ موزة",
       "bhutta": "+ ذرة مسلوقة",
       "chai": "+ شاي",
+      "chaiLogged": "تمت إضافة الشاي ×{{cups}}",
+      "chaiToday": "الشاي ×{{cups}} اليوم",
+      "chaiUndo": "تراجع عن إضافة الشاي",
       "chana": "+ حمص محمص",
       "chooseSlotSubtitle": "اختر الوجبة التي تريد تسجيله فيها.",
       "chooseSlotTitle": "أين تريد إضافة {{item}}؟",

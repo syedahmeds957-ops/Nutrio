@@ -243,6 +243,12 @@
       "PK": "Ask coach (e.g., how to handle 2 rotis at dinner?)…",
       "SA": "Ask coach (e.g., how do I balance a Kabsa?)…"
     },
+    "log": {
+      "chip": "Log {{name}} · {{kcal}} kcal",
+      "chipLabel": "Log {{name}}, {{serving}}, {{kcal}} kcal, to today's diary",
+      "done": "Logged {{name}} ({{serving}}) to {{meal}}: {{kcal}} kcal.",
+      "failed": "Could not log that. Try again from the Today screen."
+    },
     "offlineAnswer": "Offline answer",
     "send": "Send message",
     "suggestedTopics": "Suggested topics",
@@ -560,10 +566,16 @@
     "reveal": {
       "acceptLaunch": "Accept & launch tracker",
       "adjustGoal": "Adjust goal",
+      "burnActivity": "Activity",
+      "burnRest": "At rest",
+      "burnSummary": "At rest {{rest}} + activity {{activity}} = {{burn}} kcal burned; target {{target}} kcal",
+      "burnSurplus": "Extra",
+      "burnTarget": "Target",
+      "burnTitle": "How your target adds up",
       "caloriesPerDay": "calories / day",
       "dailyFibre": "Daily fibre:",
       "dailyTarget": "Daily target",
-      "deficit": "−{{value}} kcal below what you burn ({{tdee}})",
+      "deficit": "{{value}} kcal below your daily burn ({{tdee}})",
       "formulationComplete": "Your plan is ready",
       "hydration": "Hydration:",
       "macroBreakdown": "Daily protein, carbs and fat",
@@ -574,7 +586,7 @@
       "safeguardFat": "Fat never drops below 0.6 g per kg of body weight or 20% of calories, which your hormones need.",
       "safeguards": "Safety limits",
       "subtitle": "Worked out from your body measurements, how active you are and the way you eat.",
-      "surplus": "+{{value}} kcal above what you burn ({{tdee}})",
+      "surplus": "{{value}} kcal above your daily burn ({{tdee}})",
       "title": "Your personalized targets"
     },
     "slotCard": {
@@ -1285,6 +1297,7 @@
     },
     "header": {
       "banked": "Banked",
+      "calorieProgress": "Calories eaten, as a share of your daily target",
       "caloriesConsumed": "calories consumed today",
       "caloriesOver": "calories over limit",
       "caloriesRemaining": "calories remaining",
@@ -1315,6 +1328,7 @@
       "pendingSync_other": "{{count}} offline entries pending sync",
       "readyFirstMeal": "Ready for first meal",
       "targetNotSet": "Not set",
+      "todayName": "Today, {{name}}",
       "trackYourDay": "Track your day"
     },
     "hub": {
@@ -1448,6 +1462,9 @@
       "banana": "+ 1 Banana",
       "bhutta": "+ 1 Bhutta",
       "chai": "+ 1 Chai",
+      "chaiLogged": "Chai ×{{cups}} added",
+      "chaiToday": "Chai ×{{cups}} today",
+      "chaiUndo": "Undo adding chai",
       "chana": "+ Roasted chana",
       "chooseSlotSubtitle": "Pick the meal to log it under.",
       "chooseSlotTitle": "Where does {{item}} go?",
