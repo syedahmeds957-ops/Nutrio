@@ -8,6 +8,7 @@ import { useTheme } from '../../theme.js';
 import { formatDayKey } from '../../common/dateKey.js';
 import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
+import { useFormat } from '../../i18n/useFormat.js';
 
 interface WeightTrendChartCardProps {
   summary: WeightTrendSummary;
@@ -22,6 +23,9 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
   const { t } = useTranslation();
   const { language } = useI18nState();
   const dir = useTextDirection();
+  const { formatNumber } = useFormat();
+  // One decimal everywhere a weight is shown, so 61 and 60.8 never sit side by side.
+  const kg = (value: number) => formatNumber(value, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
   const accentColor = theme.colors.primaryLime;
   const { currentWeightKg, currentEWMAKg, totalDeltaKg, points } = summary;
   const stage = weightTrendStage(points.length);
@@ -58,7 +62,7 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
           <Text numberOfLines={1} style={[styles.statLabel, dir.text, { color: theme.colors.textMuted }]}>
             {t('weight.trend.scaleWeight')}
           </Text>
-          <Text style={[styles.statVal, dir.text, { color: theme.colors.textPrimary }]}>{t('common.kgValue', { value: currentWeightKg })}</Text>
+          <Text numberOfLines={1} style={[styles.statVal, dir.text, { color: theme.colors.textPrimary }]}>{t('common.kgValue', { value: kg(currentWeightKg) })}</Text>
           <Text style={[styles.statSub, dir.text, { color: theme.colors.textMuted }]}>
             {points[0]?.fromSurvey && stage === 'single' ? t('weight.trend.fromSurvey') : t('weight.trend.rawReading')}
           </Text>
@@ -69,7 +73,7 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
           <Text numberOfLines={1} style={[styles.statLabel, dir.text, { color: theme.colors.textMuted }]}>
             {t('weight.trend.trendWeight')}
           </Text>
-          <Text style={[styles.statVal, dir.text, { color: theme.colors.primaryAccessible, fontWeight: '800' }]}>{t('common.kgValue', { value: currentEWMAKg })}</Text>
+          <Text numberOfLines={1} style={[styles.statVal, dir.text, { color: theme.colors.primaryAccessible, fontWeight: '800' }]}>{t('common.kgValue', { value: kg(currentEWMAKg) })}</Text>
           <Text style={[styles.statSub, dir.text, { color: theme.colors.textMuted }]}>
             {t('weight.trend.trueTissue')}
           </Text>
@@ -80,13 +84,14 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
             {t('weight.trend.netChange')}
           </Text>
           <Text
+            numberOfLines={1}
             style={[
               styles.statVal,
               dir.text,
               { color: changeColor },
             ]}
           >
-            {t('common.kgValue', { value: totalDeltaKg > 0 ? `+${totalDeltaKg}` : totalDeltaKg })}
+            {t('common.kgValue', { value: `${totalDeltaKg > 0 ? '+' : totalDeltaKg < 0 ? '−' : ''}${kg(Math.abs(totalDeltaKg))}` })}
           </Text>
           <Text style={[styles.statSub, dir.text, { color: theme.colors.textMuted }]}>
             {t('weight.trend.overallProgress')}
@@ -109,8 +114,8 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
           accessibilityRole="image"
           accessibilityLabel={t('weight.trend.chartLabel', {
             n: points.length,
-            first: points[0].rawWeightKg,
-            last: points[points.length - 1].rawWeightKg,
+            first: kg(points[0].rawWeightKg),
+            last: kg(points[points.length - 1].rawWeightKg),
           })}
           style={[styles.chart, { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border }]}
           onLayout={(e: LayoutChangeEvent) =>
@@ -139,6 +144,18 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
           )}
         </View>
       )}
+      {stage === 'trend' && (
+        <View style={styles.legend}>
+          <View style={styles.legendItem}>
+            <View style={[styles.legendDot, { backgroundColor: theme.colors.textMuted }]} />
+            <Text style={[styles.legendText, { color: theme.colors.textSecondary }]}>{t('weight.trend.scaleWeight')}</Text>
+          </View>
+          <View style={styles.legendItem}>
+            <View style={[styles.legendLine, { backgroundColor: theme.colors.primaryAccessible }]} />
+            <Text style={[styles.legendText, { color: theme.colors.textSecondary }]}>{t('weight.trend.trendWeight')}</Text>
+          </View>
+        </View>
+      )}
 
       {/* Water Retention Warning */}
       {spikeWarning && (
@@ -161,12 +178,12 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
               </View>
               <View style={styles.pointValues}>
                 <Text style={[styles.pointRaw, { color: theme.colors.textMuted }]}>
-                  {t('weight.trend.kgScale', { value: pt.rawWeightKg })}
+                  {t('weight.trend.kgScale', { value: kg(pt.rawWeightKg) })}
                 </Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                   <Icon name={dir.isRTL ? 'arrow-left' : 'arrow-right'} size={14} color={accentColor} />
                   <Text style={[styles.pointEwma, { color: theme.colors.primaryAccessible }]}>
-                    {t('weight.trend.kgTrend', { value: pt.ewmaWeightKg })}
+                    {t('weight.trend.kgTrend', { value: kg(pt.ewmaWeightKg) })}
                   </Text>
                 </View>
               </View>
@@ -229,6 +246,11 @@ const styles = StyleSheet.create({
     letterSpacing: 0.6,
     textTransform: 'uppercase',
   },
+  legend: { flexDirection: 'row', gap: 16, marginTop: 8, marginBottom: 12 },
+  legendItem: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  legendDot: { width: 8, height: 8, borderRadius: 4 },
+  legendLine: { width: 16, height: 3, borderRadius: 2 },
+  legendText: { fontSize: 12, fontWeight: '600' },
   statVal: {
     fontSize: 18,
     fontWeight: '900',

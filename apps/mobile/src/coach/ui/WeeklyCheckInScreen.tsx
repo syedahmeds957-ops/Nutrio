@@ -56,7 +56,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { t } = useTranslation();
-  const { formatPercent } = useFormat();
+  const { formatPercent, formatNumber } = useFormat();
   const dir = useTextDirection();
   const isTargetChanged = metrics.targetDelta !== 0;
   // Nothing to share before a day is logged. On web, React Native's Share needs
@@ -332,7 +332,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
             ]}
           >
             <Text style={[styles.metricNumber, { color: theme.colors.textPrimary }]}>
-              {metrics.meanDailyIntake}
+              {formatNumber(metrics.meanDailyIntake)}
             </Text>
             <Text style={[styles.metricLabel, { color: theme.colors.textMuted }]}>
               {t('checkin.avgIntake')}
@@ -352,14 +352,14 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
             ]}
           >
             <Text style={[styles.metricNumber, { color: theme.colors.textPrimary }]}>
-              {metrics.newTDEE}
+              {formatNumber(metrics.newTDEE)}
             </Text>
             <Text style={[styles.metricLabel, { color: theme.colors.textMuted }]}>
               {t('checkin.adaptiveTdee')}
             </Text>
             <Text style={[styles.metricSub, { color: theme.colors.textMuted }]}>
               {t('checkin.kcalShift', {
-                value: metrics.tdeeDelta >= 0 ? `+${metrics.tdeeDelta}` : metrics.tdeeDelta,
+                value: metrics.tdeeDelta >= 0 ? `+${formatNumber(metrics.tdeeDelta)}` : formatNumber(metrics.tdeeDelta),
               })}
             </Text>
           </View>

@@ -18,7 +18,7 @@
   "app": {
     "checkin": {
       "adjusted": {
-        "headline": "Your targets have been updated",
+        "headline": "A new calorie target is ready",
         "keyAction": "Apply the new target and keep logging so next week stays accurate.",
         "summary": "Your weight trend and logged intake show that your real daily energy use differs from our first estimate. The change is capped so your targets move gradually."
       },

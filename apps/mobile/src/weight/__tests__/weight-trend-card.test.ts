@@ -24,7 +24,7 @@ describe('weight trend card with little data', () => {
     expect(html).toContain('Weigh in again in a few days');
     // The chart exists from the first entry on.
     expect(html).toContain('role="img"');
-    expect(html).toContain('Weight chart: 1 weigh-ins, from 62 kg to 62 kg');
+    expect(html).toContain('Weight chart: 1 weigh-ins, from 62.0 kg to 62.0 kg');
   });
 
   it('shows the three tiles and the chart once there is a trend', () => {
