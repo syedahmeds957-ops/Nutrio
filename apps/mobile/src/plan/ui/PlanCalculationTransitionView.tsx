@@ -20,7 +20,6 @@ export const PlanCalculationTransitionView: React.FC<PlanCalculationTransitionVi
   const { theme } = useTheme();
   const { t } = useTranslation();
   const dir = useTextDirection();
-  const isSaudi = dir.isRTL;
   const accentColor = theme.colors.primaryLime;
   const [stepIndex, setStepIndex] = useState(0);
 
@@ -120,7 +119,7 @@ export const PlanCalculationTransitionView: React.FC<PlanCalculationTransitionVi
                     <Icon
                       name="check"
                       size={13}
-                      color={isSaudi ? '#FFFFFF' : theme.colors.limeText}
+                      color={theme.colors.limeText}
                     />
                   ) : isCurrent ? (
                     <ActivityIndicator size="small" color={accentColor} />

@@ -12,7 +12,6 @@ import { useFormat } from '../../i18n/useFormat.js';
 import { styles } from './TrackerDashboardScreen.styles.js';
 import { waterLitres, waterTargetMl } from '../waterTile.js';
 
-const ACCENT_TEXT = '#0A0B0D';
 
 export interface ProfileSheetProps {
   visible: boolean;
@@ -91,9 +90,8 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
       label={label}
       selected={mode === choice}
       onPress={() => setMode(choice)}
-      // Shape only when selected, so the lime fill from OptionButton shows;
-      // unselected keeps the sheet's quiet transparent look.
-      style={[localStyles.themeChoice, mode !== choice && styles.themeChoiceBtn]}
+      // Same border and fill in light and dark: OptionButton's own theme colours decide both.
+      style={localStyles.themeChoice}
       labelStyle={styles.themeChoiceText}
     />
   );
@@ -128,7 +126,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
 
           <View style={styles.profileHeaderRow}>
             <View style={[styles.profileAvatarLarge, { backgroundColor: accentColor }]}>
-              <Text style={[styles.profileAvatarLargeText, { color: ACCENT_TEXT }]}>
+              <Text style={[styles.profileAvatarLargeText, { color: theme.colors.limeText }]}>
                 {userName.charAt(0).toUpperCase()}
               </Text>
             </View>
@@ -204,7 +202,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
             )}
             {onOpenTargets && (
               <ProfileAction
-                icon="clipboard"
+                icon="target"
                 label={t('tracker.dashboard.nav.targets')}
                 onPress={() => onClose(onOpenTargets)}
               />
@@ -224,12 +222,12 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
                 activeOpacity={0.8}
               >
                 <View style={styles.actionBtnRow}>
-                  <Icon name="shield" size={16} color={ACCENT_TEXT} />
-                  <Text style={[styles.actionBtnText, { color: ACCENT_TEXT, fontWeight: '800' }]}>
+                  <Icon name="shield" size={16} color={theme.colors.limeText} />
+                  <Text style={[styles.actionBtnText, { color: theme.colors.limeText, fontWeight: '800' }]}>
                     {t('tracker.dashboard.signInCreate')}
                   </Text>
                 </View>
-                <Icon name={dir.isRTL ? 'arrow-left' : 'arrow-right'} size={14} color={ACCENT_TEXT} />
+                <Icon name={dir.isRTL ? 'arrow-left' : 'arrow-right'} size={14} color={theme.colors.limeText} />
               </TouchableOpacity>
             )}
 
@@ -238,6 +236,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
                 style={[
                   styles.profileActionBtn,
                   styles.logoutBtn,
+                  { backgroundColor: theme.colors.dangerLight, borderColor: theme.colors.dangerLight },
                   isDark && { backgroundColor: 'rgba(239, 68, 68, 0.14)', borderColor: 'rgba(239, 68, 68, 0.35)' },
                 ]}
                 onPress={() =>

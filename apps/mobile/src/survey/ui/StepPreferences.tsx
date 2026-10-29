@@ -60,7 +60,7 @@ export const StepPreferences: React.FC<StepPreferencesProps> = ({
           ))}
         </OptionGroup>
         {errors.dietPreference && (
-          <Text style={styles.errorText}>{errors.dietPreference}</Text>
+          <Text style={[styles.errorText, { color: theme.colors.danger }]}>{errors.dietPreference}</Text>
         )}
       </View>
     </View>
@@ -118,18 +118,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginStart: 8,
   },
-  activePillText: {
-    fontSize: 12,
-    fontWeight: '900',
-    color: '#0A0B0D',
-    letterSpacing: 0.5,
-  },
   cardSubtitle: {
     fontSize: 12,
     lineHeight: 17,
   },
   errorText: {
-    color: '#EF4444',
     fontSize: 12,
     marginTop: 4,
     fontWeight: '600',

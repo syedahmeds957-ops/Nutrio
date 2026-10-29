@@ -23,7 +23,6 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
   const { t } = useTranslation();
   const { formatNumber } = useFormat();
   const dir = useTextDirection();
-  const isSaudi = activeRegion === 'SA';
   const accentColor = theme.colors.primaryLime;
   const chaiCount = data.chaiWithSugarCupsPerDay ?? 2;
   const estimatedChaiKcal = chaiCount * ritualCupKcal(activeRegion);
@@ -46,7 +45,7 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
             {t(`survey.lifestyle.chai.title.${activeRegion}`)}
           </Text>
           <View style={[styles.chaiBadge, { backgroundColor: accentColor }]}>
-            <Text style={[styles.chaiBadgeText, isSaudi && { color: '#FFFFFF' }]}>
+            <Text style={[styles.chaiBadgeText, { color: theme.colors.limeText }]}>
               {t(`survey.lifestyle.chai.badge.${activeRegion}`)}
             </Text>
           </View>
@@ -125,7 +124,7 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
           </View>
         )}
         {errors.chaiWithSugarCupsPerDay && (
-          <Text style={styles.errorText}>{errors.chaiWithSugarCupsPerDay}</Text>
+          <Text style={[styles.errorText, { color: theme.colors.danger }]}>{errors.chaiWithSugarCupsPerDay}</Text>
         )}
       </View>
     </View>
@@ -143,16 +142,21 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderWidth: 1,
   },
+  // The badge drops under a long title instead of squeezing against it.
   chaiHeader: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
     alignItems: 'center',
+    columnGap: 8,
+    rowGap: 6,
     marginBottom: 4,
   },
   chaiTitle: {
     fontSize: 15,
     fontWeight: '700',
-    flex: 1,
+    flexShrink: 1,
+    flexGrow: 1,
   },
   chaiBadge: {
     paddingHorizontal: 8,
@@ -160,7 +164,6 @@ const styles = StyleSheet.create({
     borderRadius: commonRadii.pill,
   },
   chaiBadgeText: {
-    color: '#0A0B0D',
     fontSize: 12,
     fontWeight: '800',
   },
@@ -216,7 +219,6 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   errorText: {
-    color: '#EF4444',
     fontSize: 12,
     marginTop: 4,
   },

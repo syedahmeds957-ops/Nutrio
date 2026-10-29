@@ -251,7 +251,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
                   { backgroundColor: theme.colors.primaryLime },
                 ]}
               >
-                <Text style={styles.leverIndexText}>{index + 1}</Text>
+                <Text style={[styles.leverIndexText, { color: theme.colors.limeText }]}>{index + 1}</Text>
               </View>
               <Text style={[styles.leverText, { color: theme.colors.textPrimary }]}>
                 {lever}
@@ -412,7 +412,6 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   leverIndexText: {
-    color: '#0A0B0D',
     fontSize: 12,
     fontWeight: '900',
   },

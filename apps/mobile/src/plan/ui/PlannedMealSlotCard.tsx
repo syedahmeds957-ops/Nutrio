@@ -233,7 +233,7 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
           style={[
             styles.swapButton,
             {
-              backgroundColor: isDark ? '#1C2E12' : '#F2FF9E',
+              backgroundColor: theme.colors.limeTint,
               borderColor: theme.colors.primaryLime,
             },
           ]}

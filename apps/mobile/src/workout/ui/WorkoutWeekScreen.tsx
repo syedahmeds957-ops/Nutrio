@@ -77,7 +77,7 @@ export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({
     today: { bg: c.primaryLime, fg: c.limeText },
     planned: { bg: c.surfaceSecondary, fg: c.textSecondary },
     done: { bg: c.successLight, fg: c.successText },
-    missed: { bg: c.warningLight, fg: theme.isDark ? c.warning : '#92400E' },
+    missed: { bg: c.warningLight, fg: c.warningText },
   };
 
   return (

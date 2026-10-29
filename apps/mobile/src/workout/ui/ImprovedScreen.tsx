@@ -88,7 +88,7 @@ export const ImprovedScreen: React.FC<ImprovedScreenProps> = ({ plan, changes, o
   const dir = useTextDirection();
   const tones = {
     kept: { bg: c.successLight, fg: c.successText },
-    changed: { bg: c.warningLight, fg: theme.isDark ? c.warning : '#92400E' },
+    changed: { bg: c.warningLight, fg: c.warningText },
     added: { bg: c.primaryLight, fg: c.primaryTintText },
   };
   const keptCount = changes.find((ch) => ch.kind === 'kept_exercises');

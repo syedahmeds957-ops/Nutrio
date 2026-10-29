@@ -57,7 +57,7 @@ export const GuestAuthModal: React.FC<GuestAuthModalProps> = ({
                 style={[
                   styles.iconCircle,
                   {
-                    backgroundColor: isDark ? '#16191E' : '#EDF8D3',
+                    backgroundColor: isDark ? theme.colors.surface : theme.colors.limeTint,
                     borderColor: accentColor,
                   },
                 ]}

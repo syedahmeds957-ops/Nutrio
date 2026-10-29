@@ -84,8 +84,25 @@ describe('option look', () => {
     }
   });
 
-  it('a corner-badge chip shows an empty check box only when it takes more than one answer', () => {
-    expect(radii(opt(false, 'toggle', 'badge')).size).toBeGreaterThan(radii(opt(false, 'radio', 'badge')).size);
+  const divs = (html: string) => html.match(/<div/g)?.length ?? 0;
+  // react-native-web turns position:absolute into this class.
+  const floating = (html: string) => html.includes('r-position-u8s1d');
+
+  it('a pick-any chip keeps its check box inside the chip: reserved when not picked, nothing on the corner', () => {
+    const off = opt(false, 'toggle', 'badge');
+    const on = opt(true, 'toggle', 'badge');
+    // The slot is laid out in both states (same elements), so the chip never changes width.
+    expect(divs(off)).toBe(divs(on));
+    expect(floating(off)).toBe(false);
+    expect(floating(on)).toBe(false);
+    // Nothing is drawn in the slot until it is picked.
+    expect(off).not.toContain('background-color:rgba(10,11,13,1.00)');
+    expect(on).toContain('background-color:rgba(10,11,13,1.00)');
+  });
+
+  it('a single-choice badge still floats on the corner only once selected', () => {
+    expect(floating(opt(false, 'radio', 'badge'))).toBe(false);
+    expect(floating(opt(true, 'radio', 'badge'))).toBe(true);
   });
 });
 

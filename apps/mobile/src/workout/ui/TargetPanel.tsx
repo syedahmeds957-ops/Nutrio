@@ -31,7 +31,7 @@ export const TargetPanel: React.FC<TargetPanelProps> = ({ target, unit, tracksLo
           <Icon
             name={tone === 'new' ? 'star' : 'arrow-up'}
             size={13}
-            color={up ? '#FFFFFF' : c.textPrimary}
+            color={up ? c.textInverse : c.textPrimary}
             strokeWidth={2.5}
             style={tone === 'down' ? styles.down : undefined}
           />

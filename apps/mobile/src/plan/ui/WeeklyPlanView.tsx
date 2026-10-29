@@ -86,7 +86,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
 
   const currentDayPlan = weekPlans[selectedDayIndex];
   const macroStatus = planMacroStatus(currentDayPlan);
-  const offTargetColor = isDark ? '#F87171' : '#B91C1C';
+  const offTargetColor = theme.colors.danger;
   const targetLine = (s: MacroStatus) => (
     <Text style={[styles.macroTarget, { color: s.isOff ? offTargetColor : theme.colors.textMuted }]} numberOfLines={1}>
       {t('plan.weekly.ofTarget', { grams: Math.round(s.target) })}
@@ -478,7 +478,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
     paddingVertical: 12,
     borderBottomWidth: 1,
   },
@@ -493,7 +493,7 @@ const styles = StyleSheet.create({
   },
   daySelectorPad: {
     flexDirection: 'row',
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
     paddingVertical: 12,
     gap: 6,
   },
@@ -524,7 +524,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollPad: {
-    padding: 16,
+    padding: 20,
     paddingBottom: 100,
   },
   daySummaryCard: {

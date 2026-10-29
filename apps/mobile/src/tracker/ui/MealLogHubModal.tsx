@@ -719,7 +719,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
                     accessibilityRole="button"
                   >
                     <Icon name="plus" size={16} color={theme.colors.limeText} />
-                    <Text style={styles.addDishButtonText}>
+                    <Text style={[styles.addDishButtonText, { color: theme.colors.limeText }]}>
                       {t('tracker.addDish.addButton', { name: searchQuery.trim() })}
                     </Text>
                   </TouchableOpacity>

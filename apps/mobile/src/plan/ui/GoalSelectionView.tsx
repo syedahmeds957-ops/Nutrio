@@ -206,7 +206,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                       selectedGoal === 'lose'
                         ? isDark
                           ? theme.colors.primaryLime
-                          : '#1E293B'
+                          : theme.colors.textPrimary
                         : theme.colors.textPrimary,
                   },
                 ]}
@@ -231,7 +231,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                   { backgroundColor: theme.colors.primaryLime },
                 ]}
               >
-                <Text style={styles.activeBadgeText}>{t('common.selected')}</Text>
+                <Text style={[styles.activeBadgeText, { color: theme.colors.limeText }]}>{t('common.selected')}</Text>
               </View>
             )}
           </View>
@@ -282,7 +282,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                     ? isDark
                       ? theme.colors.primaryLime
                       : theme.colors.primaryAccessible
-                    : '#3B82F6'
+                    : theme.colors.protein
                 }
               />
               <Text
@@ -293,7 +293,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                       selectedGoal === 'maintain'
                         ? isDark
                           ? theme.colors.primaryLime
-                          : '#1E293B'
+                          : theme.colors.textPrimary
                         : theme.colors.textPrimary,
                   },
                 ]}
@@ -308,7 +308,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                   { backgroundColor: theme.colors.primaryLime },
                 ]}
               >
-                <Text style={styles.activeBadgeText}>{t('common.selected')}</Text>
+                <Text style={[styles.activeBadgeText, { color: theme.colors.limeText }]}>{t('common.selected')}</Text>
               </View>
             )}
           </View>
@@ -349,7 +349,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                     ? isDark
                       ? theme.colors.primaryLime
                       : theme.colors.primaryAccessible
-                    : '#10B981'
+                    : theme.colors.banked
                 }
               />
               <Text
@@ -360,7 +360,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                       selectedGoal === 'gain'
                         ? isDark
                           ? theme.colors.primaryLime
-                          : '#1E293B'
+                          : theme.colors.textPrimary
                         : theme.colors.textPrimary,
                   },
                 ]}
@@ -375,7 +375,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                   { backgroundColor: theme.colors.primaryLime },
                 ]}
               >
-                <Text style={styles.activeBadgeText}>{t('common.selected')}</Text>
+                <Text style={[styles.activeBadgeText, { color: theme.colors.limeText }]}>{t('common.selected')}</Text>
               </View>
             )}
           </View>
@@ -491,7 +491,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                     : theme.colors.limeTint,
                   borderColor: isDark
                     ? 'rgba(164, 235, 63, 0.25)'
-                    : '#D9F99D',
+                    : theme.colors.limeTintBorder,
                 },
               ]}
             >
@@ -630,7 +630,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   activeBadgeText: {
-    color: '#0A0B0D',
     fontSize: 12,
     fontWeight: '900',
     letterSpacing: 0.5,

@@ -11,8 +11,11 @@ import { Icon } from './Icon.js';
  *   with `aria-checked`.
  * - Multiple choice (`toggle`): each option is a button with `aria-pressed`.
  * - Selected = filled lime background plus a mark. Font weight and border
- *   width never change, so an option keeps its width when picked; the mark is
- *   a corner badge (chips, cards) or a slot that is always reserved (rows).
+ *   width never change, so an option keeps its width when picked. The mark
+ *   sits inside the option in a slot that is always reserved: a pick-any chip
+ *   shows a small check box there once picked (and nothing before, so a row
+ *   of chips stays calm), a row shows an empty ring or box. Only the
+ *   single-choice corner badge (check="badge" in radio mode) floats on the edge.
  * - Not selected still reads as tappable: normal text colour and a visible
  *   border, never greyed out. Single choice draws a ROUND mark (radio),
  *   multiple choice a SQUARE one (check box), so the two never look alike.
@@ -69,7 +72,10 @@ interface OptionButtonProps {
   selected: boolean;
   onPress: () => void;
   mode?: OptionMode;
-  /** Where the check goes: a corner badge (default) or a slot at the end of the row. */
+  /**
+   * Where the check goes: a badge (default) or a slot at the end of the row.
+   * A pick-any chip with the default badge puts its check box inside the chip, in a reserved slot.
+   */
   check?: 'badge' | 'inline';
   /** Replaces the default label with custom content that follows the selected colours. */
   children?: (colors: OptionColors) => React.ReactNode;
@@ -98,34 +104,39 @@ export const OptionButton: React.FC<OptionButtonProps> = ({
   const colors = useOptionColors()(selected);
   const square = mode === 'toggle';
   const c = theme.colors;
-  const checkNode =
-    check === 'badge' ? (
-      selected ? (
-        <View style={[styles.badge, square && styles.squareRadius, { backgroundColor: c.limeText }]}>
-          <Icon name="check" size={11} color={c.primaryLime} strokeWidth={3} />
-        </View>
-      ) : square ? (
-        // An empty check box on the corner: this group takes more than one answer.
-        <View
-          style={[styles.badge, styles.squareRadius, { backgroundColor: c.surface, borderColor: c.textMuted, borderWidth: 1.5 }]}
-        />
-      ) : null
-    ) : (
-      // Round ring (pick one) or square box (pick any); always drawn so the row never shifts.
-      <View
-        style={[
-          styles.slot,
-          square ? styles.squareRadius : styles.roundRadius,
-          {
-            borderColor: selected ? c.limeText : c.textMuted,
-            backgroundColor: selected && square ? c.limeText : 'transparent',
-          },
-        ]}
-      >
-        {selected && square ? <Icon name="check" size={13} color={c.primaryLime} strokeWidth={3} /> : null}
-        {selected && !square ? <View style={[styles.dot, { backgroundColor: c.limeText }]} /> : null}
+  // A pick-any chip keeps its check box inside the chip, so it never overlaps the border.
+  const chipSlot = check === 'badge' && square;
+  const checkNode = chipSlot ? (
+    // Always laid out, so the chip is the same width picked or not; only drawn once picked.
+    <View
+      style={[styles.chipBox, selected && { backgroundColor: c.limeText }]}
+      importantForAccessibility="no-hide-descendants"
+      accessibilityElementsHidden
+    >
+      {selected ? <Icon name="check" size={11} color={c.primaryLime} strokeWidth={3} /> : null}
+    </View>
+  ) : check === 'badge' ? (
+    selected ? (
+      <View style={[styles.badge, { backgroundColor: c.limeText }]}>
+        <Icon name="check" size={11} color={c.primaryLime} strokeWidth={3} />
       </View>
-    );
+    ) : null
+  ) : (
+    // Round ring (pick one) or square box (pick any); always drawn so the row never shifts.
+    <View
+      style={[
+        styles.slot,
+        square ? styles.squareRadius : styles.roundRadius,
+        {
+          borderColor: selected ? c.limeText : c.textMuted,
+          backgroundColor: selected && square ? c.limeText : 'transparent',
+        },
+      ]}
+    >
+      {selected && square ? <Icon name="check" size={13} color={c.primaryLime} strokeWidth={3} /> : null}
+      {selected && !square ? <View style={[styles.dot, { backgroundColor: c.limeText }]} /> : null}
+    </View>
+  );
 
   return (
     <TouchableOpacity
@@ -135,7 +146,7 @@ export const OptionButton: React.FC<OptionButtonProps> = ({
       onPress={onPress}
       activeOpacity={0.7}
       testID={testID}
-      style={[styles.base, colors.container, check === 'inline' && styles.inlineRow, style]}
+      style={[styles.base, colors.container, check === 'inline' && styles.inlineRow, chipSlot && styles.chipRow, style]}
     >
       {children ? (
         children(colors)
@@ -158,6 +169,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   inlineRow: { flexDirection: 'row', justifyContent: 'space-between', gap: 10 },
+  chipRow: { flexDirection: 'row', gap: 6 },
+  chipBox: { width: 16, height: 16, borderRadius: 4, alignItems: 'center', justifyContent: 'center' },
   // One weight for selected and not, so picking never changes the width.
   label: { fontSize: 14, fontWeight: '700' },
   labelInline: { flex: 1 },

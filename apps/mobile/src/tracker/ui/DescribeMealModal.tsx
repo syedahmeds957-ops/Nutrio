@@ -371,7 +371,7 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
             {isAnalysing ? (
               <ActivityIndicator color={theme.colors.limeText} />
             ) : (
-              <Text style={styles.primaryBtnText}>
+              <Text style={[styles.primaryBtnText, { color: theme.colors.limeText }]}>
                 {rows ? t('tracker.describeMeal.analyseAgain') : t('tracker.describeMeal.analyse')}
               </Text>
             )}
@@ -433,7 +433,7 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
               disabled={!canLogDraft(rows)}
               accessibilityRole="button"
             >
-              <Text style={styles.primaryBtnText}>{t('tracker.describeMeal.logMeal')}</Text>
+              <Text style={[styles.primaryBtnText, { color: theme.colors.limeText }]}>{t('tracker.describeMeal.logMeal')}</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -476,7 +476,7 @@ const styles = StyleSheet.create({
     borderRadius: commonRadii.pill,
     alignItems: 'center',
   },
-  primaryBtnText: { fontSize: 15, fontWeight: '800', color: '#0A0B0D' },
+  primaryBtnText: { fontSize: 15, fontWeight: '800' },
   slotRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   slotChip: { paddingVertical: 7, paddingHorizontal: 14, borderRadius: commonRadii.pill, borderWidth: 1 },
   row: { borderWidth: 1, borderRadius: 16, padding: 14, gap: 10 },

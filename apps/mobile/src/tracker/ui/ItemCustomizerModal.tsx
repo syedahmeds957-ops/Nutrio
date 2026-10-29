@@ -368,7 +368,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
               <TouchableOpacity
                 style={[
                   styles.peachCircleButton,
-                  { backgroundColor: isDark ? '#272A33' : '#F1F5F9' },
+                  { backgroundColor: theme.colors.surfaceSecondary },
                   quantity <= 1 && styles.peachCircleButtonDisabled,
                 ]}
                 onPress={() => {
@@ -384,7 +384,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                 <Icon
                   name="minus"
                   size={18}
-                  color={quantity <= 1 ? (isDark ? '#4B5563' : '#CBD5E1') : theme.colors.text}
+                  color={quantity <= 1 ? (theme.colors.textMuted) : theme.colors.text}
                   strokeWidth={2.5}
                 />
               </TouchableOpacity>
@@ -397,7 +397,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
               </Text>
 
               <TouchableOpacity
-                style={[styles.peachCircleButton, { backgroundColor: isDark ? '#272A33' : '#F1F5F9' }]}
+                style={[styles.peachCircleButton, { backgroundColor: theme.colors.surfaceSecondary }]}
                 onPress={() => {
                   HapticFeedback.impactLight();
                   setQuantity((q) => q + 1);
@@ -464,7 +464,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                         <TouchableOpacity
                           style={[
                             styles.peachCircleButtonSmall,
-                            { backgroundColor: isDark ? '#272A33' : '#F1F5F9' },
+                            { backgroundColor: theme.colors.surfaceSecondary },
                             count === 0 && styles.peachCircleButtonDisabled,
                           ]}
                           onPress={() => handleUpdateModifier(mod.id, -1)}
@@ -477,7 +477,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                           <Icon
                             name="minus"
                             size={16}
-                            color={count === 0 ? (isDark ? '#4B5563' : '#CBD5E1') : theme.colors.text}
+                            color={count === 0 ? (theme.colors.textMuted) : theme.colors.text}
                             strokeWidth={2.5}
                           />
                         </TouchableOpacity>
@@ -485,7 +485,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                         <Text style={[styles.stepperNumberSmall, { color: theme.colors.text }]}>{count}</Text>
 
                         <TouchableOpacity
-                          style={[styles.peachCircleButtonSmall, { backgroundColor: isDark ? '#272A33' : '#F1F5F9' }]}
+                          style={[styles.peachCircleButtonSmall, { backgroundColor: theme.colors.surfaceSecondary }]}
                           onPress={() => handleUpdateModifier(mod.id, 1)}
                           activeOpacity={0.7}
                           accessibilityRole="button"

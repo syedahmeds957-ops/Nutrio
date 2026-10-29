@@ -199,7 +199,7 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
                   { backgroundColor: theme.colors.primaryLime },
                 ]}
               >
-                <Text style={styles.percentageText}>{formatPercent(pct, language)}</Text>
+                <Text style={[styles.percentageText, { color: theme.colors.limeText }]}>{formatPercent(pct, language)}</Text>
               </View>
             </View>
 
@@ -454,7 +454,6 @@ const styles = StyleSheet.create({
   percentageText: {
     fontSize: 12,
     fontWeight: '900',
-    color: '#0A0B0D',
   },
   progressBarTrack: {
     height: 8,

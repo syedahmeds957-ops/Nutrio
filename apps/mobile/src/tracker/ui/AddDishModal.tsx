@@ -178,7 +178,7 @@ export const AddDishModal: React.FC<AddDishModalProps> = ({
           onPress={handleSave}
           accessibilityRole="button"
         >
-          <Text style={styles.primaryBtnText}>{t('tracker.addDish.saveAndLog')}</Text>
+          <Text style={[styles.primaryBtnText, { color: theme.colors.limeText }]}>{t('tracker.addDish.saveAndLog')}</Text>
         </TouchableOpacity>
       </>
     );
@@ -305,7 +305,6 @@ const styles = StyleSheet.create({
   primaryBtnText: {
     fontSize: 15,
     fontWeight: '800',
-    color: '#0A0B0D',
   },
   secondaryBtn: {
     paddingVertical: 10,

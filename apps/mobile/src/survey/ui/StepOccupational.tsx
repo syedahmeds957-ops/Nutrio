@@ -45,7 +45,7 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
 
       {/* Job Category */}
       <View style={styles.fieldGroup}>
-        <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }, errors.jobCategory && styles.labelError]}>
+        <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }, errors.jobCategory && { color: theme.colors.danger }]}>
           {t('survey.occupational.workActivityType')} {errors.jobCategory ? t('common.requiredMarker') : ''}
         </Text>
         <OptionGroup label={t('survey.occupational.workActivityType')}>
@@ -58,7 +58,7 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
               onPress={() => onChange({ jobCategory: item.id })}
               style={[
                 styles.cardOption,
-                errors.jobCategory && !data.jobCategory && styles.cardOptionError,
+                errors.jobCategory && !data.jobCategory && { borderColor: theme.colors.danger },
               ]}
             >
               {(colors) => (
@@ -71,7 +71,7 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
           ))}
         </OptionGroup>
         {errors.jobCategory && (
-          <Text style={styles.errorText}>{errors.jobCategory}</Text>
+          <Text style={[styles.errorText, { color: theme.colors.danger }]}>{errors.jobCategory}</Text>
         )}
       </View>
 
@@ -111,11 +111,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 16,
   },
-  errorBannerText: {
-    color: '#EF4444',
-    fontSize: 13,
-    fontWeight: '700',
-  },
   fieldGroup: {
     marginBottom: 20,
   },
@@ -124,18 +119,12 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginBottom: 8,
   },
-  labelError: {
-    color: '#EF4444',
-  },
   cardOption: {
     borderRadius: 18,
     padding: 16,
     marginBottom: 10,
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-  },
-  cardOptionError: {
-    borderColor: '#EF4444',
   },
   cardTitle: {
     fontSize: 15,
@@ -154,11 +143,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
-  inputError: {
-    borderColor: '#EF4444',
-  },
   errorText: {
-    color: '#EF4444',
     fontSize: 12,
     marginTop: 4,
   },

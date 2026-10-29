@@ -34,7 +34,14 @@ export const TodayHeader: React.FC<TodayHeaderProps> = ({
   return (
     <View style={styles.wrap}>
       <View style={styles.row}>
-        <TouchableOpacity style={styles.user} onPress={onOpenProfile} activeOpacity={0.7} accessibilityRole="button">
+        <TouchableOpacity
+          style={styles.user}
+          onPress={onOpenProfile}
+          activeOpacity={0.7}
+          accessibilityRole="button"
+          // The greeting and the name are two lines on screen; read out they are "Today, <name>", not one run-on phrase.
+          accessibilityLabel={t('tracker.header.todayName', { name: userName })}
+        >
           <View style={[styles.avatar, { backgroundColor: c.surface, borderColor: c.primaryLime }]}>
             <Text style={[styles.avatarInitial, { color: c.primaryAccessible }]}>{userName.charAt(0).toUpperCase()}</Text>
           </View>
@@ -100,7 +107,7 @@ const styles = StyleSheet.create({
   avatar: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', borderWidth: 2 },
   avatarInitial: { fontSize: 17, fontWeight: '900' },
   names: { flexShrink: 1 },
-  greeting: { fontSize: 12, fontWeight: '700', letterSpacing: 0.8 },
+  greeting: { fontSize: 12, fontWeight: '700', letterSpacing: 0.8, marginBottom: 2 },
   name: { fontSize: 18, fontWeight: '800', letterSpacing: -0.3 },
   actions: { flexDirection: 'row', alignItems: 'center', gap: 0 },
   // A 44 x 44 target around each small round or pill control.

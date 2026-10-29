@@ -75,14 +75,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     bottom: 0,
-    right: 0,
+    end: 0,
     width: FADE_WIDTH,
   },
   chevron: {
     position: 'absolute',
     top: 0,
     bottom: 0,
-    right: 6,
+    end: 6,
     justifyContent: 'center',
   },
 });

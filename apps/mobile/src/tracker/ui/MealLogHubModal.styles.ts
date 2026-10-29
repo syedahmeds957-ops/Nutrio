@@ -616,7 +616,6 @@ export const styles = StyleSheet.create({
   addDishButtonText: {
     fontSize: 14,
     fontWeight: '800',
-    color: '#0A0B0D',
   },
   addDishLink: {
     paddingVertical: 16,

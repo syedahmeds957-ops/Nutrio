@@ -46,7 +46,7 @@ export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }
             />
           ))}
         </OptionGroup>
-        {errors.sex && <Text style={styles.errorText}>{errors.sex}</Text>}
+        {errors.sex && <Text style={[styles.errorText, { color: theme.colors.danger }]}>{errors.sex}</Text>}
       </View>
 
       {/* 2. Apple Grouped Inset Card: Physical Measurements */}
@@ -192,19 +192,9 @@ const styles = StyleSheet.create({
     height: 1,
     marginStart: 16,
   },
-  inputError: {
-    color: '#EF4444',
-  },
   errorText: {
-    color: '#EF4444',
     fontSize: 12,
     marginTop: 6,
     marginStart: 4,
-  },
-  rowErrorText: {
-    color: '#EF4444',
-    fontSize: 12,
-    marginBottom: 8,
-    paddingHorizontal: 16,
   },
 });

@@ -28,7 +28,7 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
   errors,
   userSex,
 }) => {
-  const { theme, isDark } = useTheme();
+  const { theme } = useTheme();
   const { t } = useTranslation();
   const dir = useTextDirection();
   const isMale = userSex === 'male';
@@ -88,14 +88,14 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
             />
           </OptionGroup>
           {data.isPregnantOrBreastfeeding && (
-            <View style={[styles.warningBox, { backgroundColor: isDark ? 'rgba(234, 179, 8, 0.15)' : '#FEF9C3', borderColor: '#EAB308' }]}>
-              <Text style={[styles.warningText, dir.text, { color: isDark ? '#FACC15' : '#854D0E' }]}>
+            <View style={[styles.warningBox, { backgroundColor: theme.colors.warningLight, borderColor: theme.colors.warningBorder }]}>
+              <Text style={[styles.warningText, dir.text, { color: theme.colors.warningText }]}>
                 {t('survey.health.pregnancyWarning')}
               </Text>
             </View>
           )}
           {errors.isPregnantOrBreastfeeding && (
-            <Text style={styles.errorText}>{errors.isPregnantOrBreastfeeding}</Text>
+            <Text style={[styles.errorText, { color: theme.colors.danger }]}>{errors.isPregnantOrBreastfeeding}</Text>
           )}
         </View>
       )}
@@ -120,7 +120,7 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
           ))}
         </OptionGroup>
         {errors.medicalConditions && (
-          <Text style={styles.errorText}>{errors.medicalConditions}</Text>
+          <Text style={[styles.errorText, { color: theme.colors.danger }]}>{errors.medicalConditions}</Text>
         )}
       </View>
 
@@ -152,7 +152,7 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
           labelStyle={styles.disclaimerLabel}
         />
         {errors.medicalDisclaimerAccepted && (
-          <Text style={styles.errorText}>{errors.medicalDisclaimerAccepted}</Text>
+          <Text style={[styles.errorText, { color: theme.colors.danger }]}>{errors.medicalDisclaimerAccepted}</Text>
         )}
       </View>
     </View>
@@ -225,7 +225,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   errorText: {
-    color: '#EF4444',
     fontSize: 12,
     marginTop: 4,
   },

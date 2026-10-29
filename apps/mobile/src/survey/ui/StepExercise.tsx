@@ -64,7 +64,7 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
           ))}
         </OptionGroup>
         {errors.trainingType && (
-          <Text style={styles.errorText}>{errors.trainingType}</Text>
+          <Text style={[styles.errorText, { color: theme.colors.danger }]}>{errors.trainingType}</Text>
         )}
       </View>
 
@@ -88,7 +88,7 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
               ))}
             </OptionGroup>
             {errors.frequencyDaysPerWeek && (
-              <Text style={styles.errorText}>{errors.frequencyDaysPerWeek}</Text>
+              <Text style={[styles.errorText, { color: theme.colors.danger }]}>{errors.frequencyDaysPerWeek}</Text>
             )}
           </View>
 
@@ -188,11 +188,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
-  inputError: {
-    borderColor: '#EF4444',
-  },
   errorText: {
-    color: '#EF4444',
     fontSize: 12,
     marginTop: 4,
   },

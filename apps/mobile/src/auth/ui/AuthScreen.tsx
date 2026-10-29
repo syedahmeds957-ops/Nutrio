@@ -718,11 +718,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  checkmark: {
-    color: '#0A0B0D',
-    fontSize: 12,
-    fontWeight: '900',
-  },
   rememberText: {
     fontSize: 12,
   },

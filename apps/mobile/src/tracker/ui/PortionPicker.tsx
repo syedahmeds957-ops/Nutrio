@@ -7,8 +7,6 @@ import { LabelledServing, PERSONAL_SERVING_ID } from '../personalServings.js';
 import { servingDisplayLabel } from '../servingLabel.js';
 import { createStyles } from './ItemCustomizerModal.styles.js';
 
-const ACCENT = '#A4EB3F';
-const ACCENT_TEXT_LIGHT = '#4B6200';
 
 export interface PortionPickerProps {
   /** Sits inside another card (no border, padding or margin of its own). */
@@ -56,7 +54,7 @@ export const PortionPicker: React.FC<PortionPickerProps> = ({
   const { t } = useTranslation();
   const { language } = useI18nState();
   const dir = useTextDirection();
-  const accentText = isDark ? ACCENT : ACCENT_TEXT_LIGHT;
+  const accentText = theme.colors.primaryAccessible;
   const hasPersonal = servings.some((s) => s.personalId === PERSONAL_SERVING_ID);
 
   return (
@@ -96,7 +94,7 @@ export const PortionPicker: React.FC<PortionPickerProps> = ({
                   key={`${srv.personalId ?? 'srv'}_${idx}`}
                   style={[
                     styles.servingPill,
-                    { backgroundColor: isDark ? '#1C1D24' : '#F8FAFC', borderColor: theme.colors.border },
+                    { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border },
                     isSelected && styles.servingPillActive,
                   ]}
                   onPress={() => {
@@ -137,13 +135,13 @@ export const PortionPicker: React.FC<PortionPickerProps> = ({
               styles.gramDisplayBadge,
               styles.gramsInputBox,
               {
-                backgroundColor: isDark ? '#1F2410' : '#F4FCE3',
-                borderColor: gramsValid ? ACCENT : theme.colors.danger,
+                backgroundColor: theme.colors.limeTint,
+                borderColor: gramsValid ? theme.colors.primaryLime : theme.colors.danger,
               },
             ]}
           >
             <TextInput
-              style={[styles.gramDisplayNumber, styles.gramsInput, { color: isDark ? ACCENT : '#1C1917' }]}
+              style={[styles.gramDisplayNumber, styles.gramsInput, { color: isDark ? theme.colors.primaryLime : theme.colors.textPrimary }]}
               value={gramsText}
               onChangeText={onGramsTextChange}
               keyboardType="decimal-pad"
@@ -152,7 +150,7 @@ export const PortionPicker: React.FC<PortionPickerProps> = ({
               maxLength={7}
               accessibilityLabel={t('tracker.customizer.gramsField')}
             />
-            <Text style={[styles.gramDisplayUnit, { color: isDark ? ACCENT : theme.colors.primaryAccessible }]}>g</Text>
+            <Text style={[styles.gramDisplayUnit, { color: theme.colors.primaryAccessible }]}>g</Text>
           </View>
 
           <View style={styles.gramsAdjustRow}>

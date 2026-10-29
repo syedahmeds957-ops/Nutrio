@@ -11,8 +11,6 @@ import { defaultServingFor, servingNutrition } from '../personalServings.js';
 import { foodKey } from './useMealBasket.js';
 import { styles } from './MealLogHubModal.styles.js';
 
-const ACCENT_TEXT = '#0A0B0D';
-const LIGHT_MACRO_TEXT = '#4B6200';
 
 export interface DishCardProps {
   item: NormalizedFood;
@@ -28,14 +26,14 @@ export interface DishCardProps {
 
 /** One food row in the meal-logging hub, with its default serving and macros. */
 export const DishCard: React.FC<DishCardProps> = ({ item, qty, isBuildMode, onPress, onRemoveOne, onQuickAdd }) => {
-  const { theme, isDark } = useTheme();
+  const { theme } = useTheme();
   const { t } = useTranslation();
   const dir = useTextDirection();
   const { language } = useI18nState();
   // At most one local name. Urdu names are not displayed (lists show the
   // English name; Urdu still matches in search). Saudi users see the Arabic name.
   const names = foodDisplayName(item.name, item.nameAr, dir.isRTL);
-  const macroColor = isDark ? theme.colors.primaryLime : LIGHT_MACRO_TEXT;
+  const macroColor = theme.colors.primaryAccessible;
 
   // The serving one tap logs (the user's own, if saved), and its numbers. The
   // per-100g values used to be shown as the serving's when it had no kcal of
@@ -115,7 +113,7 @@ export const DishCard: React.FC<DishCardProps> = ({ item, qty, isBuildMode, onPr
                 { backgroundColor: qty > 0 ? theme.colors.primaryLime : theme.colors.surfaceSecondary },
               ]}
             >
-              <Icon name="plus" size={14} color={qty > 0 ? ACCENT_TEXT : theme.colors.textPrimary} />
+              <Icon name="plus" size={14} color={qty > 0 ? theme.colors.limeText : theme.colors.textPrimary} />
             </View>
           </View>
         ) : onQuickAdd ? (
@@ -127,7 +125,7 @@ export const DishCard: React.FC<DishCardProps> = ({ item, qty, isBuildMode, onPr
             accessibilityRole="button"
             accessibilityLabel={t('tracker.hub.quickAdd', { name: names.primary })}
           >
-            <Icon name="plus" size={18} color={ACCENT_TEXT} strokeWidth={2.6} />
+            <Icon name="plus" size={18} color={theme.colors.limeText} strokeWidth={2.6} />
           </TouchableOpacity>
         ) : (
           <Icon name={dir.isRTL ? 'chevron-left' : 'chevron-right'} size={16} color={theme.colors.textMuted} />
