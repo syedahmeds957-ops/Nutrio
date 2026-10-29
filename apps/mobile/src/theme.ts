@@ -25,6 +25,7 @@ export interface ThemeColors {
   primaryBorder: string;     // #A4EB3F
   primaryLime: string;       // #A4EB3F
   heroCardBg: string;        // #A4EB3F (Solid Lime - NO gradient)
+  heroCardDrained: string;   // The hero card behind the fill once calories are eaten; limeText stays 4.5:1 on it
   limeText: string;          // #0A0B0D (Pitch Black for extreme contrast)
   primaryAccessible: string; // WCAG AA compliant accent for text/borders
   primaryTintText: string;   // High-contrast tint for text tags and pills
@@ -87,6 +88,7 @@ export const darkColors: ThemeColors = {
   primaryBorder: '#A4EB3F',
   primaryLime: '#A4EB3F',
   heroCardBg: '#7FB82F',      // dimmed from full lime: the big hero block glared on the dark canvas
+  heroCardDrained: '#5C8F22',
   limeText: '#0A0B0D',
   primaryAccessible: '#A4EB3F',
   primaryTintText: '#A4EB3F',
@@ -142,6 +144,7 @@ export const lightColors: ThemeColors = {
   primaryBorder: '#A4EB3F',
   primaryLime: '#A4EB3F',
   heroCardBg: '#A4EB3F',
+  heroCardDrained: '#6E9E28',
   limeText: '#0A0B0D',
   primaryAccessible: '#4B6200', // Dark lime for text on light surfaces (7:1 on white); raw lime is 1.4:1
   primaryTintText: '#365314',

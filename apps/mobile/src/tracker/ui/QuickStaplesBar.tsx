@@ -14,7 +14,8 @@ import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { HapticFeedback } from '../../ui/haptics.js';
 import { MealSlot } from '../types.js';
-import { StapleItem, getStapleDefinitions, resolveStaple } from '../staples.js';
+import { StapleItem, getStapleDefinitions, resolveStaple, usualChaiServing } from '../staples.js';
+import { useFormat } from '../../i18n/useFormat.js';
 import { chipsThatFit } from '../mealsCard.js';
 
 export type { StapleItem } from '../staples.js';
@@ -25,11 +26,19 @@ interface QuickStaplesBarProps {
   onRequireAccount?: () => void;
   /** Told when the meal picker opens or closes, so the screen behind it can be hidden from screen readers. */
   onSheetOpenChange?: (open: boolean) => void;
+  /**
+   * Cups of chai a day from the survey. When 1 or more, a chip pinned first logs
+   * that many cups into snacks and chai in one tap; 0 or left out shows the usual chips only.
+   */
+  chaiCups?: number;
+  /** Logs `cups` of the usual chai. The screen owns the diary write and the undo toast. */
+  onQuickLogChai?: (cups: number) => void;
 }
 
 const SLOT_IDS: MealSlot[] = ['breakfast', 'lunch', 'dinner', 'snacks_chai'];
 
 const CHIP_GAP = 8;
+const CHAI_CHIP_ID = 'usual_chai';
 /** Chip width = padding, plus icon, gaps (about 48 px) + text at about 7 px a character, with 8% to spare. */
 const CHIP_FIXED_PX = 48;
 const CHIP_CHAR_PX = 7;
@@ -40,10 +49,13 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
   onQuickLog,
   onRequireAccount,
   onSheetOpenChange,
+  chaiCups = 0,
+  onQuickLogChai,
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
+  const { formatNumber } = useFormat();
   const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
   const activeTextColor = theme.colors.limeText;
@@ -63,10 +75,25 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
   // against the food database, so translating it would log the wrong dish.
   // Calories come from the resolved catalogue serving, not the chip row, so
   // the number on the chip is the number that lands in the diary.
-  const staples = getStapleDefinitions(activeRegion).map((staple) => ({
+  const showChai = chaiCups >= 1 && !!onQuickLogChai;
+  const staples = getStapleDefinitions(activeRegion)
+    // The pinned chai chip replaces the single-cup one.
+    .filter((staple) => !(showChai && staple.id === 'chai'))
+    .map((staple) => ({
     item: { ...staple, label: t(`tracker.staples.${staple.id}`) } as StapleItem,
     resolved: resolveStaple(staple, activeRegion),
   }));
+
+  const handleChaiPress = () => {
+    HapticFeedback.impactLight();
+    if (onRequireAccount) {
+      onRequireAccount();
+      return;
+    }
+    onQuickLogChai?.(chaiCups);
+    setJustLoggedId(CHAI_CHIP_ID);
+    setTimeout(() => setJustLoggedId(null), 1800);
+  };
 
   const handlePress = (staple: StapleItem) => {
     HapticFeedback.impactLight();
@@ -88,19 +115,28 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
 
   // One line, never scrolled or clipped: show the staples that fit the width,
   // in order. Until the row is measured, show the first few.
+  const chaiChip = showChai
+    ? {
+        label: t('tracker.staples.chaiToday', { cups: formatNumber(chaiCups) }),
+        kcal: t('common.kcalValue', { value: usualChaiServing(activeRegion).calories * chaiCups }),
+      }
+    : null;
   const chips = staples.map(({ item, resolved }) => ({
     item,
     label: item.label.replace(/^\+\s*/, ''),
     kcal: t('common.kcalValue', { value: resolved.calories }),
   }));
-  const visibleCount =
+  // The pinned chip always shows first; the others fill what room is left.
+  const pinnedCount = chaiChip ? 1 : 0;
+  const widths = [
+    ...(chaiChip ? [estimateChipWidth(chaiChip.label, chaiChip.kcal)] : []),
+    ...chips.map((chip) => estimateChipWidth(chip.label, chip.kcal)),
+  ];
+  const fitting =
     rowWidth > 0
-      ? chipsThatFit(
-          chips.map((chip) => estimateChipWidth(chip.label, chip.kcal)),
-          rowWidth,
-          CHIP_GAP
-        )
-      : Math.min(3, chips.length);
+      ? chipsThatFit(widths, rowWidth, CHIP_GAP)
+      : Math.min(3, chips.length + pinnedCount);
+  const visibleCount = Math.max(0, fitting - pinnedCount);
 
   return (
     <View style={styles.container}>
@@ -109,6 +145,38 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
         onLayout={(e: LayoutChangeEvent) => setRowWidth(e.nativeEvent.layout.width)}
         accessibilityLabel={t('tracker.staples.heading')}
       >
+        {chaiChip && (
+          <TouchableOpacity
+            key={CHAI_CHIP_ID}
+            testID="chai-chip"
+            style={styles.pillHit}
+            onPress={handleChaiPress}
+            activeOpacity={0.7}
+            accessibilityRole="button"
+          >
+            <View
+              style={[
+                styles.pillBtn,
+                { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border },
+              ]}
+            >
+              <View style={styles.pillContent}>
+                <Icon
+                  name={justLoggedId === CHAI_CHIP_ID ? 'check' : 'coffee'}
+                  size={12}
+                  color={theme.colors.textPrimary}
+                  strokeWidth={2.6}
+                />
+                <Text numberOfLines={1} style={[styles.pillLabel, { color: theme.colors.textPrimary }]}>
+                  {justLoggedId === CHAI_CHIP_ID ? t('tracker.staples.added') : chaiChip.label}
+                </Text>
+                <Text numberOfLines={1} style={[styles.pillKcal, { color: theme.colors.textSecondary }]}>
+                  {chaiChip.kcal}
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        )}
         {chips.slice(0, visibleCount).map(({ item: staple, label, kcal }) => {
           const isJustLogged = justLoggedId === staple.id;
 

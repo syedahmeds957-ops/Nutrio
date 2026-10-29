@@ -281,3 +281,10 @@ describe('pregnancy question', () => {
     expect(result.errors.isPregnantOrBreastfeeding).toBeUndefined();
   });
 });
+
+describe('The chai default', () => {
+  it('saves the 2 cups the stepper opens on when the user never touches it', () => {
+    const engine = new SurveyStateEngine();
+    expect(engine.getLifestyleDesi().chaiWithSugarCupsPerDay).toBe(2);
+  });
+});

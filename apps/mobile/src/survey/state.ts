@@ -35,7 +35,8 @@ export class SurveyStateEngine {
   private basics: Partial<SurveyBasics> = {};
   private occupational: Partial<SurveyOccupational> = {};
   private exercise: Partial<SurveyExercise> = {};
-  private lifestyleDesi: Partial<SurveyLifestyleDesi> = {};
+  // The chai stepper opens on 2 cups; the answer starts at 2 too, so accepting the shown value saves it.
+  private lifestyleDesi: Partial<SurveyLifestyleDesi> = { chaiWithSugarCupsPerDay: 2 };
   private healthClinical: Partial<SurveyHealthClinical> = {
     medicalConditions: ['none'],
     // Unanswered for women until they choose: a silent "No" would set calorie

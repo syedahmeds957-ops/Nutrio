@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
 import { DailyTrackerSummary } from '../types.js';
 import { useTheme, commonRadii } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
@@ -7,6 +7,11 @@ import { useFormat } from '../../i18n/useFormat.js';
 import type { Weekday } from '@nutrio/workout-core';
 import { localDateKey } from '../../common/dateKey.js';
 import { MONDAY_FIRST_WEEKDAYS, dayIndexInWeek } from '../weekStrip.js';
+import { caloriesEatenFraction, caloriesEatenPercent, heroFillFraction } from '../heroFill.js';
+import { useReducedMotion } from '../../ui/useReducedMotion.js';
+
+/** How long the hero takes to drain when something is logged. */
+const HERO_DRAIN_MS = 300;
 
 interface DailyProgressHeaderProps {
   summary: DailyTrackerSummary;
@@ -105,6 +110,60 @@ export function heroSize(text: string): { fontSize: number; lineHeight: number }
   return { fontSize, lineHeight: Math.round(fontSize * 1.08) };
 }
 
+interface HeroFillProps {
+  /** Share of the card still filled, 0-1. */
+  fill: number;
+  fillColor: string;
+  drainedColor: string;
+  /** Eaten share in whole percent; `null` leaves the layer out of the accessibility tree (first day). */
+  percent: number | null;
+  label: string;
+}
+
+/**
+ * The card's own progress: a lime fill anchored to the bottom that shrinks as
+ * calories are eaten, over a darker "drained" base. It sits behind the text,
+ * which is black and passes 4.5:1 on both colours. Over the target the fill is
+ * 0, never negative. With reduced motion the fill jumps; otherwise it eases
+ * for a short moment.
+ */
+const HeroFill: React.FC<HeroFillProps> = ({ fill, fillColor, drainedColor, percent, label }) => {
+  const reduceMotion = useReducedMotion();
+  const level = React.useRef(new Animated.Value(fill)).current;
+
+  React.useEffect(() => {
+    if (reduceMotion) {
+      level.setValue(fill);
+      return;
+    }
+    const animation = Animated.timing(level, {
+      toValue: fill,
+      duration: HERO_DRAIN_MS,
+      easing: Easing.out(Easing.cubic),
+      useNativeDriver: false,
+    });
+    animation.start();
+    return () => animation.stop();
+  }, [fill, reduceMotion, level]);
+
+  const height = level.interpolate({ inputRange: [0, 1], outputRange: ['0%', '100%'], extrapolate: 'clamp' });
+  const progress =
+    percent === null
+      ? {}
+      : {
+          accessible: true,
+          accessibilityRole: 'progressbar' as const,
+          accessibilityLabel: label,
+          accessibilityValue: { min: 0, max: 100, now: percent },
+        };
+
+  return (
+    <View style={[StyleSheet.absoluteFill, styles.heroFillLayer, { backgroundColor: drainedColor }]} {...progress}>
+      <Animated.View testID="hero-fill" style={[styles.heroFill, { height, backgroundColor: fillColor }]} />
+    </View>
+  );
+};
+
 export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
   summary,
   weeklyHistoryFills,
@@ -137,6 +196,10 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
 
   const totalTarget = Math.max(1, targetCalories);
   const calRatio = Math.min(1, Math.max(0, totalCaloriesConsumed / totalTarget));
+  // The card drains as calories are eaten. The first day stays full.
+  const heroFill = firstDay ? 1 : heroFillFraction(totalCaloriesConsumed, targetCalories);
+  const heroPercent =
+    firstDay || targetCalories <= 0 ? null : caloriesEatenPercent(totalCaloriesConsumed, targetCalories);
 
 
   // Today's position in the strip (0 = the week's first day).
@@ -150,11 +213,18 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
         style={[
           styles.heroCard,
           {
-            backgroundColor: heroBg,
+            backgroundColor: theme.colors.heroCardDrained,
             borderColor: heroBorder,
           },
         ]}
       >
+        <HeroFill
+          fill={heroFill}
+          fillColor={heroBg}
+          drainedColor={theme.colors.heroCardDrained}
+          percent={heroPercent}
+          label={t('tracker.header.calorieProgress')}
+        />
         <View style={styles.heroTopRow}>
           <View style={styles.heroCategoryPill}>
             <Text style={styles.heroCategoryText}>
@@ -340,6 +410,14 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: 16,
     borderWidth: 1,
+    overflow: 'hidden',
+  },
+  heroFillLayer: { pointerEvents: 'none' },
+  heroFill: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   heroTopRow: {
     flexDirection: 'row',
@@ -387,7 +465,7 @@ const styles = StyleSheet.create({
   heroTargetSub: {
     fontSize: 12,
     fontWeight: '600',
-    opacity: 0.8,
+    opacity: 0.9,
     marginTop: 6,
   },
   weekPillChart: {
@@ -438,11 +516,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '700',
     color: '#0A0B0D',
-    opacity: 0.75,
+    opacity: 0.92,
     fontVariant: ['tabular-nums'],
   },
+  // Days to come are told apart by a lighter weight and their dimmed track; the
+  // label itself stays dark enough to read on the fill and the drained base.
   weekDayLabelFuture: {
-    opacity: 0.5,
+    fontWeight: '600',
   },
   weekDayLabelActive: {
     opacity: 1,

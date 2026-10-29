@@ -13,7 +13,9 @@ import { DiaryViewModal } from './DiaryViewModal.js';
 import { AiRecommendationCard } from './AiRecommendationCard.js';
 import type { SuggestionItem } from '../suggestions.js';
 import { QuickStaplesBar, StapleItem } from './QuickStaplesBar.js';
-import { resolveStaple } from '../staples.js';
+import { resolveStaple, usualChaiCups, usualChaiServing } from '../staples.js';
+import { getPersistedSurvey } from '../../survey/surveyStorage.js';
+import { useFormat } from '../../i18n/useFormat.js';
 import { TrackerEngine } from '../engine.js';
 import { MealSlot, DailyTrackerSummary, LoggedItem } from '../types.js';
 import { foodDisplayName } from '../foodDisplayName.js';
@@ -108,6 +110,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   const { activeRegion } = useRegion();
   const requestRegionSwitch = useConfirmedRegionSwitch();
   const { t } = useTranslation();
+  const { formatNumber } = useFormat();
   const dir = useTextDirection();
 
   let insetsBottom = 0;
@@ -501,7 +504,33 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     forceUpdate();
   };
 
+  // "Chai ×N today": the last one-tap chai, undoable for the same window as a removal.
+  const [chaiUndo, setChaiUndo] = useState<{ id: string; cups: number } | null>(null);
+  const chaiUndoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const clearChaiUndo = () => {
+    if (chaiUndoTimer.current) clearTimeout(chaiUndoTimer.current);
+    chaiUndoTimer.current = null;
+    setChaiUndo(null);
+  };
+  React.useEffect(() => () => {
+    if (chaiUndoTimer.current) clearTimeout(chaiUndoTimer.current);
+  }, []);
+  React.useEffect(() => {
+    clearChaiUndo();
+  }, [activeRegion]);
+
   const undoToast = (style: object) => {
+    if (chaiUndo) {
+      const cups = formatNumber(chaiUndo.cups);
+      return (
+        <UndoToast
+          message={t('tracker.staples.chaiLogged', { cups })}
+          undoAccessibilityLabel={t('tracker.staples.chaiUndo')}
+          onUndo={handleUndoChai}
+          style={style}
+        />
+      );
+    }
     if (!pendingUndo) return null;
     const name = foodDisplayName(pendingUndo.item.foodName, pendingUndo.item.foodNameAr, dir.isRTL).primary;
     return (
@@ -559,6 +588,28 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     const { food, serving } = resolveStaple(staple, activeRegion);
     engine.logItem(slot, food, serving, 1);
     persistCurrentActivities();
+    forceUpdate();
+  };
+
+  // The usual chai from the survey, logged as one item with a quantity into snacks and chai.
+  const handleQuickLogChai = (cups: number) => {
+    if (blockGuest()) return;
+    const { food, serving } = usualChaiServing(activeRegion);
+    const logged = engine.logItem('snacks_chai', food, serving, cups);
+    persistCurrentActivities();
+    HapticFeedback.impactMedium();
+    if (chaiUndoTimer.current) clearTimeout(chaiUndoTimer.current);
+    setChaiUndo({ id: logged.id, cups });
+    chaiUndoTimer.current = setTimeout(clearChaiUndo, UNDO_WINDOW_MS);
+    forceUpdate();
+  };
+
+  const handleUndoChai = () => {
+    if (!chaiUndo) return;
+    engine.deleteItem(chaiUndo.id);
+    persistCurrentActivities();
+    clearChaiUndo();
+    HapticFeedback.selection();
     forceUpdate();
   };
 
@@ -655,6 +706,8 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
 
             <QuickStaplesBar
               onQuickLog={handleQuickLogStaple}
+              chaiCups={isGuest ? 0 : usualChaiCups(getPersistedSurvey(), activeRegion)}
+              onQuickLogChai={handleQuickLogChai}
               onRequireAccount={isGuest ? () => setGuestModalVisible(true) : undefined}
               onSheetOpenChange={setStaplesSheetOpen}
             />

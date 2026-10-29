@@ -344,3 +344,31 @@ export function resolveStaple(
 export function getStapleDefinitions(region: Region): StapleDefinition[] {
   return region === 'SA' ? SA_STAPLES : PK_STAPLES;
 }
+
+/** The most cups one tap will log, so a mistyped survey answer cannot flood the diary. */
+export const MAX_USUAL_CHAI_CUPS = 12;
+
+/**
+ * Cups of chai a day from the survey, for the pinned "Chai ×N today" chip.
+ * 0 means no chip: no survey, none a day, or a region that has no chai staple
+ * (the Saudi survey counts gahwa finjans, a different serving).
+ */
+export function usualChaiCups(
+  survey: { lifestyleDesi?: { chaiWithSugarCupsPerDay?: number | null } } | null | undefined,
+  region: Region
+): number {
+  if (region !== 'PK') return 0;
+  const cups = survey?.lifestyleDesi?.chaiWithSugarCupsPerDay;
+  if (typeof cups !== 'number' || !Number.isFinite(cups) || cups < 1) return 0;
+  return Math.min(MAX_USUAL_CHAI_CUPS, Math.round(cups));
+}
+
+/**
+ * One cup of the catalogue's standard sweet chai (the same serving the chai chip
+ * and the survey count), so the chip's calories are the diary's calories.
+ */
+export function usualChaiServing(region: Region): ResolvedStaple {
+  const chai = getStapleDefinitions(region).find((staple) => staple.id === 'chai');
+  if (!chai) throw new Error('The chai staple is missing');
+  return resolveStaple(chai, region);
+}

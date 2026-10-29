@@ -65,7 +65,6 @@ export const styles = StyleSheet.create({
   profileAvatarLargeText: {
     fontSize: 22,
     fontWeight: '900',
-    color: '#0A0B0D',
   },
   profileNameLarge: {
     fontSize: 20,
@@ -103,17 +102,6 @@ export const styles = StyleSheet.create({
   themeToggleRow: {
     flexDirection: 'row',
     gap: 10,
-  },
-  themeChoiceBtn: {
-    flex: 1,
-    paddingVertical: 10,
-    minHeight: 44,
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.1)',
   },
   themeChoiceText: {
     fontSize: 13,
@@ -170,8 +158,6 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
   },
   logoutBtn: {
-    backgroundColor: '#FEF2F2',
-    borderColor: '#FEE2E2',
     marginTop: 6,
   },
 });

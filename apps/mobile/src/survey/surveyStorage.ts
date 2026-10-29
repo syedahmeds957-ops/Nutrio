@@ -66,6 +66,11 @@ export function savePersistedSurvey(payload: LifestyleSurveyPayload): void {
   void enqueueDurable(() => authStorageAdapter.setItem(key, serialized));
 }
 
+/** The signed-in user's survey from the in-memory cache, or null before it is hydrated or saved. */
+export function getPersistedSurvey(): LifestyleSurveyPayload | null {
+  return memorySurveys.get(surveyKey()) ?? null;
+}
+
 /** Restores the survey from durable native storage on boot or re-login. */
 export async function hydratePersistedSurvey(): Promise<LifestyleSurveyPayload | null> {
   const key = surveyKey();
