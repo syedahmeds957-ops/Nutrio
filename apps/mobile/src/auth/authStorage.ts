@@ -633,6 +633,114 @@ export async function resendEmailOtp(email: string): Promise<{ success: boolean;
 }
 
 /**
+ * Password reset by emailed code, the same way sign-up codes work, so it needs
+ * no deep link or URL scheme. Supabase's "Reset password" email template must
+ * show the code (`{{ .Token }}`); the app never reads a link from it.
+ */
+let lastResetRequest = 0;
+const RESET_COOLDOWN_MS = 60000;
+
+function cleanResetEmail(email: string): string {
+  const clean = (email || '').trim().toLowerCase();
+  if (!clean || !clean.includes('@') || !clean.includes('.')) {
+    throw new Error('Valid email address is required');
+  }
+  return clean;
+}
+
+/**
+ * Emails a reset code. Succeeds the same way whether or not the address has an
+ * account, so the screen cannot be used to find out who is registered.
+ */
+export async function requestPasswordReset(email: string): Promise<void> {
+  const cleanEmail = cleanResetEmail(email);
+
+  const now = Date.now();
+  if (now - lastResetRequest < RESET_COOLDOWN_MS) {
+    throw new Error('Please wait a minute before requesting a new code.');
+  }
+
+  if (isSupabaseConfigured()) {
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(cleanEmail);
+      if (error) {
+        throw new Error(error.message);
+      }
+    } catch (err) {
+      if (isNetworkError(err)) {
+        throw new Error(
+          'Unable to reach authentication server. Please check your internet connection or configure active Supabase credentials in .env.'
+        );
+      }
+      throw err;
+    }
+  }
+
+  lastResetRequest = now;
+}
+
+/**
+ * Checks the emailed code, sets the new password and returns the signed-in
+ * session. If the password cannot be set, the session the code opened is
+ * dropped again, so a failed reset never leaves the user signed in.
+ */
+export async function resetPasswordWithCode(payload: {
+  email: string;
+  token: string;
+  newPassword: string;
+}): Promise<AuthSession> {
+  const email = cleanResetEmail(payload.email);
+  const token = (payload.token || '').replace(/\s/g, '');
+  const newPassword = payload.newPassword || '';
+
+  if (!/^\d{6,10}$/.test(token)) {
+    throw new Error('Please enter a valid 6-digit verification code.');
+  }
+  if (newPassword.length < 6) {
+    throw new Error('Password must be at least 6 characters');
+  }
+
+  // Decides whether the session skips onboarding, so it loads before the user is built.
+  await hydrateSurveyRegistry();
+
+  if (!isSupabaseConfigured()) {
+    // Local mock mode accepts any code, like its sign-up check, and signs in with the new password.
+    return authenticateUser({ email, password: newPassword });
+  }
+
+  try {
+    const { data, error } = await supabase.auth.verifyOtp({ email, token, type: 'recovery' });
+    if (error) {
+      throw new Error(error.message);
+    }
+    if (!data.session || !data.user) {
+      throw new Error('Verification completed but no session was created.');
+    }
+
+    const { error: updateError } = await supabase.auth.updateUser({ password: newPassword });
+    if (updateError) {
+      await supabase.auth.signOut({ scope: 'local' }).catch(() => undefined);
+      throw new Error(updateError.message);
+    }
+
+    const session: AuthSession = {
+      token: data.session.access_token,
+      user: mapSupabaseUserToAuthUser(data.user),
+      createdAt: new Date().toISOString(),
+    };
+    saveAuthSession(session);
+    return session;
+  } catch (err) {
+    if (isNetworkError(err)) {
+      throw new Error(
+        'Unable to reach authentication server. Please check your internet connection or configure active Supabase credentials in .env.'
+      );
+    }
+    throw err;
+  }
+}
+
+/**
  * Marks the active user's survey as completed.
  * Persists status to active session, local mock user registry, and remote Supabase metadata.
  */

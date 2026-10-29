@@ -7,7 +7,11 @@
 const RULES: ReadonlyArray<readonly [RegExp, string]> = [
   [/unable to reach authentication server|network request failed|failed to fetch/i, 'auth.errors.network'],
   [/invalid email or password|invalid login credentials/i, 'auth.errors.invalidCredentials'],
-  [/password must be at least/i, 'auth.errors.passwordTooShort'],
+  [/password (must|should) be at least/i, 'auth.errors.passwordTooShort'],
+  [/valid 6-digit|token has expired|otp.?expired|invalid (otp|token|code)/i, 'auth.errors.codeInvalid'],
+  [/different from the old password|same as the old/i, 'auth.errors.passwordSame'],
+  [/weak|easy to guess/i, 'auth.errors.passwordWeak'],
+  [/wait a minute|rate limit|only request this after|too many/i, 'auth.errors.resetWait'],
   [/name is required/i, 'auth.errors.nameRequired'],
   [/valid email address is required|email address is required/i, 'auth.errors.emailRequired'],
   [/already registered|already exists/i, 'auth.errors.alreadyRegistered'],
@@ -23,13 +27,16 @@ export function authErrorKey(message: string | undefined): string {
   return 'auth.genericError';
 }
 
-export type AuthField = 'name' | 'email' | 'password';
+export type AuthField = 'name' | 'email' | 'password' | 'code';
 export type AuthFieldErrors = Partial<Record<AuthField, string>>;
 
 const FIELD_FOR_KEY: Readonly<Record<string, AuthField>> = {
   'auth.errors.nameRequired': 'name',
   'auth.errors.emailRequired': 'email',
   'auth.errors.passwordTooShort': 'password',
+  'auth.errors.passwordSame': 'password',
+  'auth.errors.passwordWeak': 'password',
+  'auth.errors.codeInvalid': 'code',
 };
 
 /** The form field an error key belongs under, or undefined when it is about the whole attempt (banner). */

@@ -43,4 +43,4 @@ export interface OtpResult {
   message?: string;
 }
 
-export type AuthScreenMode = 'login' | 'register' | 'verify_otp';
+export type AuthScreenMode = 'login' | 'register' | 'verify_otp' | 'forgot_password';

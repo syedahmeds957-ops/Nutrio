@@ -10,7 +10,7 @@ import Module from 'node:module';
 type Loader = (module: { exports: unknown }, filename: string) => void;
 const extensions = (Module as unknown as { _extensions: Record<string, Loader> })._extensions;
 
-for (const ext of ['.jpg', '.jpeg', '.png']) {
+for (const ext of ['.jpg', '.jpeg', '.png', '.webp']) {
   extensions[ext] = (module, filename) => {
     module.exports = { uri: filename };
   };

@@ -23,6 +23,7 @@ import { AppleTextInput } from '../../ui/AppleInput.js';
 import { Notice } from '../../ui/Notice.js';
 import { authenticateUser, registerUser } from '../authStorage.js';
 import { AuthSession, AuthScreenMode } from '../types.js';
+import { PasswordResetForm } from './PasswordResetForm.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
 interface AuthScreenProps {
@@ -161,7 +162,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
     );
   };
 
-  const formBody = (
+  const signInBody = (
     <>
       {/* Segmented Tab Switcher */}
       <View accessibilityRole="tablist" style={[styles.tabContainer, { backgroundColor: theme.colors.surfaceSecondary }]}>
@@ -254,28 +255,40 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
         }
       />
 
-      {/* Remember Me */}
-      <TouchableOpacity
-        style={styles.rememberRow}
-        onPress={() => setRememberMe((r) => !r)}
-        activeOpacity={0.7}
-        accessibilityRole="checkbox"
-        aria-checked={rememberMe}
-        accessibilityLabel={t('auth.rememberMe')}
-      >
-        <View
-          style={[
-            styles.checkbox,
-            {
-              backgroundColor: rememberMe ? theme.colors.primaryLime : theme.colors.surfaceSecondary,
-              borderColor: rememberMe ? theme.colors.primaryLime : theme.colors.border,
-            },
-          ]}
+      {/* Remember Me, and the way back in for a forgotten password */}
+      <View style={styles.optionsRow}>
+        <TouchableOpacity
+          style={[styles.rememberRow, styles.rememberInRow]}
+          onPress={() => setRememberMe((r) => !r)}
+          activeOpacity={0.7}
+          accessibilityRole="checkbox"
+          aria-checked={rememberMe}
+          accessibilityLabel={t('auth.rememberMe')}
         >
-          {rememberMe && <Icon name="check" size={14} color="#0A0B0D" strokeWidth={3} />}
-        </View>
-        <Text style={[styles.rememberText, { color: theme.colors.textSecondary }]}>{t('auth.rememberMe')}</Text>
-      </TouchableOpacity>
+          <View
+            style={[
+              styles.checkbox,
+              {
+                backgroundColor: rememberMe ? theme.colors.primaryLime : theme.colors.surfaceSecondary,
+                borderColor: rememberMe ? theme.colors.primaryLime : theme.colors.border,
+              },
+            ]}
+          >
+            {rememberMe && <Icon name="check" size={14} color="#0A0B0D" strokeWidth={3} />}
+          </View>
+          <Text style={[styles.rememberText, { color: theme.colors.textSecondary }]}>{t('auth.rememberMe')}</Text>
+        </TouchableOpacity>
+        {mode === 'login' && (
+          <TouchableOpacity
+            style={styles.forgotBtn}
+            onPress={() => switchMode('forgot_password')}
+            activeOpacity={0.7}
+            accessibilityRole="button"
+          >
+            <Text style={[styles.forgotText, { color: theme.colors.primaryAccessible }]}>{t('auth.forgotPassword')}</Text>
+          </TouchableOpacity>
+        )}
+      </View>
 
       {/* Submit Button: a real button with a lift on hover and a press-in, not only a colour change */}
       <Pressable
@@ -327,6 +340,17 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
       )}
     </>
   );
+
+  const formBody =
+    mode === 'forgot_password' ? (
+      <PasswordResetForm
+        initialEmail={email}
+        onBackToSignIn={() => switchMode('login')}
+        onDone={onAuthSuccess}
+      />
+    ) : (
+      signInBody
+    );
 
   const brandRow = (
     <View style={styles.brandRow}>
@@ -617,6 +641,27 @@ const styles = StyleSheet.create({
   eyeText: {
     fontSize: 12,
     fontWeight: '600',
+  },
+  optionsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 12,
+    marginBottom: 24,
+    marginTop: 4,
+  },
+  rememberInRow: {
+    flexShrink: 1,
+    marginBottom: 0,
+    marginTop: 0,
+  },
+  forgotBtn: {
+    minHeight: 44,
+    justifyContent: 'center',
+  },
+  forgotText: {
+    fontSize: 12,
+    fontWeight: '700',
   },
   rememberRow: {
     minHeight: 44,
