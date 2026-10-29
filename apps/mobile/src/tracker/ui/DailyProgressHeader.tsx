@@ -16,6 +16,12 @@ interface DailyProgressHeaderProps {
   weekdays?: readonly Weekday[];
   /** Today's position in `weekdays`; by default found from the device's date. */
   todayIndex?: number;
+  /**
+   * Nothing logged today or earlier this week. The macro tiles would read 0 of
+   * everything, so one card shows the targets instead, and earlier days are
+   * not marked as missed (the user was not here yet).
+   */
+  firstDay?: boolean;
 }
 
 interface MacroTileProps {
@@ -104,6 +110,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
   weeklyHistoryFills,
   weekdays = MONDAY_FIRST_WEEKDAYS,
   todayIndex,
+  firstDay = false,
 }) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
@@ -193,7 +200,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
                 : 0; // 0 for unlogged days
               const hasIntake = dayFillPct > 0;
               const isFuture = idx > currentDayOfWeek;
-              const isMissed = idx < currentDayOfWeek && !hasIntake;
+              const isMissed = !firstDay && idx < currentDayOfWeek && !hasIntake;
 
               return (
                 <View
@@ -244,6 +251,36 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
       </View>
 
       {/* 2. Macro row (Protein, Carbs, Fat). Calories live in the hero above. */}
+      {firstDay ? (
+        <View
+          style={[
+            styles.targetsCard,
+            { backgroundColor: theme.colors.surface, borderColor: theme.colors.border },
+          ]}
+        >
+          <Text style={[styles.tileLabel, dir.text, { color: theme.colors.textSecondary }]}>
+            {t('tracker.header.dailyTargets')}
+          </Text>
+          <View style={styles.targetsRow}>
+            {[
+              { label: t('common.protein'), grams: targetProteinGrams, color: theme.colors.protein },
+              { label: t('common.carbs'), grams: targetCarbGrams, color: theme.colors.carbs },
+              { label: t('common.fat'), grams: targetFatGrams, color: theme.colors.fat },
+            ].map((macro) => (
+              <View key={macro.label} style={styles.targetCol}>
+                <Text style={[styles.targetValue, { color: theme.colors.textPrimary }]} numberOfLines={1}>
+                  {formatNumber(Math.round(macro.grams))}
+                  <Text style={[styles.tileUnit, { color: theme.colors.textSecondary }]}>{` ${t('common.gramsUnit')}`}</Text>
+                </Text>
+                <View style={[styles.targetBar, { backgroundColor: macro.color }]} />
+                <Text style={[styles.targetLabel, dir.text, { color: theme.colors.textSecondary }]} numberOfLines={1}>
+                  {macro.label}
+                </Text>
+              </View>
+            ))}
+          </View>
+        </View>
+      ) : (
       <View style={styles.metricGrid}>
         <MacroTile
           label={t('common.protein')}
@@ -273,11 +310,18 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
           fallback={t('tracker.header.consumedToday')}
         />
       </View>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  targetsCard: { borderRadius: 20, borderWidth: 1, padding: 14, gap: 10 },
+  targetsRow: { flexDirection: 'row', gap: 12 },
+  targetCol: { flex: 1, minWidth: 0, gap: 6 },
+  targetValue: { fontSize: 20, fontWeight: '800', letterSpacing: -0.3, fontVariant: ['tabular-nums'] },
+  targetBar: { height: 4, borderRadius: 2, width: '100%' },
+  targetLabel: { fontSize: 12, fontWeight: '600' },
   container: {
     paddingHorizontal: 16,
     marginBottom: 16,

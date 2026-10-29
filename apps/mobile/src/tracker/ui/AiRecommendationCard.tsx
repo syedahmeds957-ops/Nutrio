@@ -40,7 +40,8 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(15)).current;
 
-  const btnTextColor = '#0A0B0D';
+  // Lime is reserved for Quick log in the bottom bar; this is the card's own action.
+  const btnTextColor = theme.colors.textPrimary;
 
   useEffect(() => {
     setLogged(false);
@@ -124,7 +125,7 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
 
       <View style={styles.actions}>
         <TouchableOpacity
-          style={[styles.btn, { backgroundColor: accentColor }]}
+          style={[styles.btn, { backgroundColor: theme.colors.surfaceSecondary }]}
           onPress={handleLog}
           activeOpacity={0.8}
           disabled={logged}
@@ -144,12 +145,12 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
 
         {onAskCoach && (
           <TouchableOpacity
-            style={[styles.btn, { backgroundColor: theme.colors.surfaceSecondary }]}
+            style={styles.btn}
             onPress={onAskCoach}
             activeOpacity={0.7}
             accessibilityRole="button"
           >
-            <Text style={[styles.btnText, { color: theme.colors.textPrimary }]}>{t('tracker.aiCard.askCoach')}</Text>
+            <Text style={[styles.btnText, { color: theme.colors.primaryAccessible }]}>{t('tracker.aiCard.askCoach')}</Text>
           </TouchableOpacity>
         )}
       </View>

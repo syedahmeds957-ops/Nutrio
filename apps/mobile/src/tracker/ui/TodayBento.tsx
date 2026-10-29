@@ -41,7 +41,7 @@ export const WeightTile: React.FC<{ glance: WeightGlance | null; onPress?: () =>
   const cardStyle = [styles.card, { backgroundColor: c.surface, borderColor: c.border }];
 
   if (!glance) {
-    // No weigh-ins yet: a centred invitation. The card is a plain view so the lime button is its own target.
+    // No weigh-ins yet: a centred invitation. The card is a plain view so the button is its own target.
     const invitation = (
       <>
         <View style={[styles.emptyIcon, { backgroundColor: c.surfaceSecondary }]}>
@@ -54,7 +54,7 @@ export const WeightTile: React.FC<{ glance: WeightGlance | null; onPress?: () =>
     );
     return (
       <View style={cardStyle}>
-        {/* One target, the lime button below: a second small button here only repeated it. */}
+        {/* One target, the button below: a second small button here only repeated it. */}
         <View style={styles.headRow}>
           <Text style={[styles.overline, dir.text, { color: c.textSecondary }]}>{t('tracker.dashboard.nav.weight')}</Text>
         </View>
@@ -69,9 +69,9 @@ export const WeightTile: React.FC<{ glance: WeightGlance | null; onPress?: () =>
                 HapticFeedback.impactLight();
                 onPress();
               }}
-              style={[styles.pill, { backgroundColor: c.primaryLime }]}
+              style={[styles.pill, { backgroundColor: c.surfaceSecondary }]}
             >
-              <Text style={[styles.pillText, { color: c.limeText }]} numberOfLines={1}>
+              <Text style={[styles.pillText, { color: c.textPrimary }]} numberOfLines={1}>
                 {t('tracker.weightTile.logCta')}
               </Text>
             </TouchableOpacity>
@@ -164,8 +164,8 @@ export const WaterTile: React.FC<{
           }}
           style={styles.addHit}
         >
-          <View style={[styles.addBtn, { backgroundColor: c.primaryLime }]}>
-            <Text style={[styles.addBtnText, { color: c.limeText }]}>{`+${GLASS_ML}`}</Text>
+          <View style={[styles.addBtn, { backgroundColor: c.surfaceSecondary }]}>
+            <Text style={[styles.addBtnText, { color: c.textPrimary }]}>{`+${GLASS_ML}`}</Text>
           </View>
         </TouchableOpacity>
       </View>

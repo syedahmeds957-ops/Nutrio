@@ -109,8 +109,8 @@ export const TodayWorkoutCard: React.FC<TodayWorkoutCardProps> = ({ plan, logs =
         </TouchableOpacity>
 
         {!plan && (
-          <TouchableOpacity accessibilityRole="button" onPress={onSetUp} style={[tile.button, { backgroundColor: c.primaryLime }]}>
-            <Text style={[styles.primaryText, { color: c.limeText }]}>{t('workout.card.setupCta')}</Text>
+          <TouchableOpacity accessibilityRole="button" onPress={onSetUp} style={[tile.button, { backgroundColor: c.surfaceSecondary }]}>
+            <Text style={[styles.primaryText, { color: c.textPrimary }]}>{t('workout.card.setupCta')}</Text>
           </TouchableOpacity>
         )}
         {plan && session && (
@@ -160,8 +160,8 @@ export const TodayWorkoutCard: React.FC<TodayWorkoutCardProps> = ({ plan, logs =
         <>
           <Text style={[styles.title, dir.text, { color: c.textPrimary }]}>{t('workout.card.setupTitle')}</Text>
           <Text style={[styles.body, dir.text, { color: c.textSecondary }]}>{t('workout.card.setupBody')}</Text>
-          <TouchableOpacity accessibilityRole="button" onPress={onSetUp} style={[styles.primary, { backgroundColor: c.primaryLime }]}>
-            <Text style={[styles.primaryText, { color: c.limeText }]}>{t('workout.card.setupCta')}</Text>
+          <TouchableOpacity accessibilityRole="button" onPress={onSetUp} style={[styles.primary, { backgroundColor: c.surfaceSecondary }]}>
+            <Text style={[styles.primaryText, { color: c.textPrimary }]}>{t('workout.card.setupCta')}</Text>
           </TouchableOpacity>
         </>
       )}

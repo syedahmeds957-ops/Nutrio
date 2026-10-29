@@ -306,6 +306,11 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     });
   })();
 
+  // A brand-new user: nothing logged today or earlier this week. The tiles that
+  // would read 0 (macros, weekly bank, streak) give way to the targets and the
+  // first-meal card.
+  const isFirstDay = weekDays.every((d) => !d.isLogged);
+
   // Fill (0-1) of the daily calorie target for each finished day of the week.
   // Today and later days stay 0 here; the hero draws today separately.
   const weeklyHistoryFills = weekDays.map((d) =>
@@ -570,6 +575,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
               weeklyHistoryFills={weeklyHistoryFills}
               weekdays={weekStrip.weekdays}
               todayIndex={weekStrip.todayIndex}
+              firstDay={isFirstDay}
             />
           </View>
 
@@ -626,19 +632,21 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
               onOpenMealPlan={onOpenMealPlan}
             />
 
-            {loggingStreak ? <StreakBadge {...loggingStreak} weekStart={weekStart} /> : null}
+            {loggingStreak && !isFirstDay ? <StreakBadge {...loggingStreak} weekStart={weekStart} /> : null}
 
-            <WeeklyCalorieBankCard
-              targetCalories={targets.targetCalories}
-              weekStart={weekStart}
-              dailyHistory={weekDays.map((d, idx) => ({
-                day: weekStrip.weekdays[idx],
-                consumed: Math.round(d.consumed),
-                target: targets.targetCalories,
-                isLogged: d.isLogged,
-                isToday: d.isToday,
-              }))}
-            />
+            {!isFirstDay && (
+              <WeeklyCalorieBankCard
+                targetCalories={targets.targetCalories}
+                weekStart={weekStart}
+                dailyHistory={weekDays.map((d, idx) => ({
+                  day: weekStrip.weekdays[idx],
+                  consumed: Math.round(d.consumed),
+                  target: targets.targetCalories,
+                  isLogged: d.isLogged,
+                  isToday: d.isToday,
+                }))}
+              />
+            )}
           </View>
         </ScrollView>
 

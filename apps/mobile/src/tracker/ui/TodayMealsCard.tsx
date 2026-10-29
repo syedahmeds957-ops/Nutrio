@@ -171,8 +171,8 @@ export const TodayMealsCard: React.FC<TodayMealsCardProps> = ({
                   }}
                   style={styles.plusHit}
                 >
-                  <View style={[styles.plus, { backgroundColor: filled ? c.surfaceSecondary : c.primaryLime }]}>
-                    <Icon name="plus" size={15} color={filled ? c.textPrimary : c.limeText} strokeWidth={2.8} />
+                  <View style={[styles.plus, { backgroundColor: c.surfaceSecondary }]}>
+                    <Icon name="plus" size={15} color={c.textPrimary} strokeWidth={2.8} />
                   </View>
                 </TouchableOpacity>
               </View>
