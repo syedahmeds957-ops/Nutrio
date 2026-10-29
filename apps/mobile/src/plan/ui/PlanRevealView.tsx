@@ -10,6 +10,7 @@ import { BackButton } from '../../ui/BackButton.js';
 import { ComputedUserPlan } from '../types.js';
 import { planPaceLimit } from '../engine.js';
 import { Icon } from '../../ui/Icon.js';
+import { BurnBar } from './BurnBar.js';
 import { useTheme, commonRadii } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
@@ -106,7 +107,6 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
           <Text style={[styles.heroLabel, { color: accentTextColor }]}>
             {t('plan.reveal.dailyTarget')}
           </Text>
-          <View style={[styles.heroStatusDot, isSaudi && { backgroundColor: '#FFFFFF' }]} />
         </View>
 
         <Text style={[styles.heroValue, { color: accentTextColor }]}>
@@ -120,12 +120,12 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
           <Text style={[styles.deltaText, isSaudi && { color: '#FFFFFF' }]}>
             {isDeficit
               ? `${t('plan.reveal.deficit', {
-                  value: Math.abs(signedDelta),
-                  tdee: userContext.tdee,
+                  value: formatNumber(Math.abs(signedDelta)),
+                  tdee: formatNumber(userContext.tdee),
                 })}`
               : signedDelta > 0
-              ? `${t('plan.reveal.surplus', { value: signedDelta, tdee: userContext.tdee })}`
-              : `${t('plan.reveal.maintenance', { tdee: userContext.tdee })}`}
+              ? `${t('plan.reveal.surplus', { value: formatNumber(signedDelta), tdee: formatNumber(userContext.tdee) })}`
+              : `${t('plan.reveal.maintenance', { tdee: formatNumber(userContext.tdee) })}`}
           </Text>
         </View>
 
@@ -137,6 +137,22 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
             })}
           </Text>
         )}
+      </View>
+
+      {/* How the target adds up: rest + activity = daily burn, marker at the target */}
+      <View
+        style={[
+          styles.card,
+          {
+            backgroundColor: theme.colors.surface,
+            borderColor: theme.colors.border,
+          },
+        ]}
+      >
+        <Text role="heading" aria-level={2} style={[styles.cardHeader, dir.text, { color: theme.colors.textPrimary }]}>
+          {t('plan.reveal.burnTitle')}
+        </Text>
+        <BurnBar bmr={userContext.bmr} tdee={userContext.tdee} kcalTarget={targetResult.kcalTarget} />
       </View>
 
       {/* Macro Split Card */}
@@ -369,12 +385,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '700',
     letterSpacing: 0,
-  },
-  heroStatusDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#0A0B0D',
   },
   heroValue: {
     fontSize: 52,

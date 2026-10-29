@@ -148,7 +148,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
               styles.cardEyebrow,
               {
                 color: isTargetChanged
-                  ? '#3A4400'
+                  ? theme.colors.limeText
                   : isDark
                   ? theme.colors.primaryLime
                   : theme.colors.primaryAccessible,
@@ -175,16 +175,16 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
                   styles.deltaPill,
                   {
                     backgroundColor: isTargetChanged
-                      ? '#BEE600'
+                      ? theme.colors.primaryDark
                       : theme.colors.surfaceSecondary,
-                    borderColor: isTargetChanged ? '#ABCF00' : theme.colors.border,
+                    borderColor: isTargetChanged ? theme.colors.primaryDark : theme.colors.border,
                   },
                 ]}
               >
                 <Text
                   style={[
                     styles.deltaPillLabel,
-                    { color: isTargetChanged ? '#333A00' : theme.colors.textMuted },
+                    { color: isTargetChanged ? theme.colors.limeText : theme.colors.textMuted },
                   ]}
                 >
                   {t('checkin.oldTarget')}
@@ -409,8 +409,8 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
           style={[
             styles.actionLeverCard,
             {
-              backgroundColor: isDark ? '#1F1E14' : theme.colors.warningLight,
-              borderColor: isDark ? '#3D3815' : theme.colors.warningBorder,
+              backgroundColor: theme.colors.warningLight,
+              borderColor: theme.colors.warningBorder,
             },
           ]}
         >
@@ -425,7 +425,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
           <Text
             style={[
               styles.actionLeverText,
-              { color: isDark ? '#E5E7EB' : '#92400E' },
+              { color: isDark ? theme.colors.textPrimary : theme.colors.warningText },
             ]}
           >
             {narrative.keyActionLever}

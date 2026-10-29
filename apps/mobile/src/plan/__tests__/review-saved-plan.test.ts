@@ -51,7 +51,9 @@ describe('reviewing saved targets', () => {
       })
     );
     expect(html).toContain('1,975');
-    expect(html).not.toContain('1,951<');
+    // 1,951 is still shown, but only as the at-rest burn, never as the target.
+    expect(html).toContain('target 1,975 kcal');
+    expect(html).not.toContain('target 1,951');
     // The saved plan reaches its pace, so no safety-limit line either.
     expect(html).not.toContain('You picked');
   });

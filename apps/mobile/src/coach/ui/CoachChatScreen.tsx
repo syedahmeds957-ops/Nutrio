@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 import {
   Animated,
   KeyboardAvoidingView,
@@ -24,6 +24,10 @@ import { firstName } from '../../common/firstName.js';
 import type { CoachSwapResult, CoachSwapTopic } from '../../workout/coachWorkout.js';
 import { ApplySwapCard, type SwapCardState } from './ApplySwapCard.js';
 import { useReducedMotion } from '../../ui/useReducedMotion.js';
+import type { NormalizedFood, ServingUnit } from '@nutrio/food-db';
+import { useCatalogueReady } from '../../catalogue/index.js';
+import { findDishMentions } from '../dishMentions.js';
+import { DishLogChips, type DishLogOutcome } from './DishLogChips.js';
 
 export interface Message {
   id: string;
@@ -44,6 +48,14 @@ interface CoachChatScreenProps {
   swapTopic?: CoachSwapTopic | null;
   /** Applies a proposed swap the user accepted; refused when the plan no longer allows it. */
   onApplySwap?: (topic: CoachSwapTopic, toId: string) => CoachSwapResult;
+  /**
+   * Logs one serving of a catalogue dish to today's diary. Passed only for
+   * signed-in users; without it no "Log" chips appear, so a guest is never
+   * offered a log action here.
+   */
+  onLogFood?: (food: NormalizedFood, serving: ServingUnit) => DishLogOutcome | null;
+  /** Starts the chat with these messages instead of the greeting (tests). */
+  initialMessages?: Message[];
 }
 
 /**
@@ -97,6 +109,8 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
   onBack,
   swapTopic,
   onApplySwap,
+  onLogFood,
+  initialMessages,
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
@@ -115,14 +129,31 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
     remaining: context.todaySummary?.remainingCalories ?? context.targets.kcalTarget,
   });
 
-  const [messages, setMessages] = useState<Message[]>(() => [
-    {
-      id: '1',
-      role: 'assistant',
-      text: initialGreeting,
-      sentAt: Date.now(),
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>(
+    () =>
+      initialMessages ?? [
+        {
+          id: '1',
+          role: 'assistant',
+          text: initialGreeting,
+          sentAt: Date.now(),
+        },
+      ],
+  );
+  // Dishes a reply names, found in the catalogue once it has loaded. The
+  // greeting and the user's own messages never get chips.
+  const catalogueReady = useCatalogueReady();
+  const mentionsById = useMemo(() => {
+    const byId = new Map<string, ReturnType<typeof findDishMentions>>();
+    if (!onLogFood || !catalogueReady) return byId;
+    const label = t('tracker.customizer.myServing');
+    for (const m of messages) {
+      if (m.role !== 'assistant' || m.id === '1') continue;
+      const found = findDishMentions(m.text, chatRegion, { servingLabel: label });
+      if (found.length > 0) byId.set(m.id, found);
+    }
+    return byId;
+  }, [messages, onLogFood, catalogueReady, chatRegion, t]);
   const [inputText, setInputText] = useState('');
   const [suggestedChips, setSuggestedChips] = useState<string[]>(chips);
   const [isTyping, setIsTyping] = useState(false);
@@ -337,6 +368,9 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
                     : formatTime(m.sentAt)}
                 </Text>
               </View>
+              {onLogFood && mentionsById.get(m.id) ? (
+                <DishLogChips mentions={mentionsById.get(m.id)!} onLog={onLogFood} />
+              ) : null}
               {m.swap && m.swap.state !== 'kept' ? (
                 <ApplySwapCard
                   fromId={m.swap.topic.exerciseId}

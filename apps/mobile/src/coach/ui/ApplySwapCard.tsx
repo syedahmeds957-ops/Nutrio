@@ -44,7 +44,7 @@ export const ApplySwapCard: React.FC<ApplySwapCardProps> = ({ fromId, toId, stat
   }
 
   if (state === 'refused') {
-    const fg = theme.isDark ? c.warning : '#92400E';
+    const fg = c.warningText;
     return (
       <View accessibilityRole="alert" style={[styles.notice, { backgroundColor: c.warningLight }]}>
         <Icon name="alert" size={18} color={fg} />

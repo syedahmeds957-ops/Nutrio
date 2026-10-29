@@ -54,6 +54,7 @@ import { hydrateWeighIns, loadWeighIns, releaseWeightCache } from './src/weight/
 import { buildWeighInSeed, collectIntakeLogs, surveyBaselineDate } from './src/weight/weightSeed.js';
 import { buildCoachContext } from './src/coach/coachContext.js';
 import { buildWeeklyCheckIn } from './src/coach/weeklyCheckIn.js';
+import { logCoachDish } from './src/coach/logCoachDish.js';
 import { pickRestoredPlan } from './src/plan/restoredPlan.js';
 import { planUserContextFromSurvey } from './src/plan/userContext.js';
 import { AuthScreen, WIDE_BREAKPOINT as AUTH_WIDE_BREAKPOINT, getAuthSession, clearAuthSession, restoreSession, markSurveyCompleted } from './src/auth/index.js';
@@ -799,6 +800,31 @@ function NutrioAppContent() {
           if (result.applied) setWorkoutRevision((n) => n + 1);
           return result;
         }}
+        // "Log" chips under a reply; a guest is never offered them.
+        onLogFood={
+          isGuest
+            ? undefined
+            : (food, serving) => {
+                try {
+                  const logged = logCoachDish({
+                    food,
+                    serving,
+                    region: activeRegion,
+                    targets: {
+                      targetCalories: activePlan.targetResult.kcalTarget,
+                      targetProteinGrams: activePlan.macros.proteinGrams,
+                      targetFatGrams: activePlan.macros.fatGrams,
+                      targetCarbGrams: activePlan.macros.carbGrams,
+                      targetWaterMl: activePlan.macros.waterMl,
+                    },
+                  });
+                  setTrackerSummary(logged.summary);
+                  return { slot: logged.slot, kcal: logged.item.calories };
+                } catch {
+                  return null;
+                }
+              }
+        }
         onBack={goBack}
       />
     );
