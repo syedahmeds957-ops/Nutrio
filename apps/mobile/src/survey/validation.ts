@@ -50,18 +50,9 @@ export function validateOccupational(
     errors.jobCategory = 'Please select your primary job / daily work activity.';
   }
 
-  const workingHours = data.workingHoursPerDay ?? 8;
-  if (workingHours < 0 || workingHours > 24) {
-    errors.workingHoursPerDay = 'Working hours must be between 0 and 24.';
-  }
-
   const sittingHours = data.dailySittingHours ?? 8;
   if (sittingHours < 0 || sittingHours > 24) {
     errors.dailySittingHours = 'Sitting hours must be between 0 and 24.';
-  }
-
-  if (!data.shiftPattern) {
-    errors.shiftPattern = 'Please select your typical work shift pattern.';
   }
 
   return {
@@ -113,28 +104,9 @@ export function validateLifestyleDesi(
 ): StepValidationResult {
   const errors: Record<string, string> = {};
 
-  const sleepHours = data.sleepHoursPerNight ?? 7;
-  if (sleepHours < 2 || sleepHours > 16) {
-    errors.sleepHoursPerNight = 'Please enter typical sleep duration between 2 and 16 hours.';
-  }
-
-  const stressRating = data.stressRating ?? 3;
-  if (stressRating < 1 || stressRating > 5) {
-    errors.stressRating = 'Stress rating must be between 1 (low) and 5 (extreme).';
-  }
-
   const chaiCups = data.chaiWithSugarCupsPerDay ?? 2;
   if (chaiCups < 0 || chaiCups > 25) {
     errors.chaiWithSugarCupsPerDay = 'Please specify daily sweetened tea/chai cups (0 or more).';
-  }
-
-  const waterLitres = data.dailyWaterLitres ?? 2.5;
-  if (waterLitres < 0.5 || waterLitres > 15) {
-    errors.dailyWaterLitres = 'Daily water intake must be between 0.5 and 15 litres.';
-  }
-
-  if (!data.whoCooksAtHome) {
-    errors.whoCooksAtHome = 'Please select how meals are typically prepared at home.';
   }
 
   return {

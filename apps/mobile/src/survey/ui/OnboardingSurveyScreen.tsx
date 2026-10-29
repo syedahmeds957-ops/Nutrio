@@ -191,35 +191,25 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
               errors={errors}
             />
           )}
-          {currentStep === 'occupational' && (
-            <StepOccupational
-              data={engine.getOccupational()}
-              onChange={(updated) => {
-                engine.setOccupational(updated);
-                forceUpdate();
-              }}
-              errors={errors}
-            />
-          )}
           {currentStep === 'exercise' && (
-            <StepExercise
-              data={engine.getExercise()}
-              onChange={(updated) => {
-                engine.setExercise(updated);
-                forceUpdate();
-              }}
-              errors={errors}
-            />
-          )}
-          {currentStep === 'lifestyle_desi' && (
-            <StepLifestyleDesi
-              data={engine.getLifestyleDesi()}
-              onChange={(updated) => {
-                engine.setLifestyleDesi(updated);
-                forceUpdate();
-              }}
-              errors={errors}
-            />
+            <>
+              <StepOccupational
+                data={engine.getOccupational()}
+                onChange={(updated) => {
+                  engine.setOccupational(updated);
+                  forceUpdate();
+                }}
+                errors={errors}
+              />
+              <StepExercise
+                data={engine.getExercise()}
+                onChange={(updated) => {
+                  engine.setExercise(updated);
+                  forceUpdate();
+                }}
+                errors={errors}
+              />
+            </>
           )}
           {currentStep === 'health_clinical' && (
             <StepHealthClinical
@@ -233,14 +223,24 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
             />
           )}
           {currentStep === 'preferences' && (
-            <StepPreferences
-              data={engine.getPreferences()}
-              onChange={(updated) => {
-                engine.setPreferences(updated);
-                forceUpdate();
-              }}
-              errors={errors}
-            />
+            <>
+              <StepPreferences
+                data={engine.getPreferences()}
+                onChange={(updated) => {
+                  engine.setPreferences(updated);
+                  forceUpdate();
+                }}
+                errors={errors}
+              />
+              <StepLifestyleDesi
+                data={engine.getLifestyleDesi()}
+                onChange={(updated) => {
+                  engine.setLifestyleDesi(updated);
+                  forceUpdate();
+                }}
+                errors={errors}
+              />
+            </>
           )}
         </ScrollView>
 

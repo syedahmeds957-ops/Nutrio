@@ -46,10 +46,6 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.description, dir.text, { color: theme.colors.textSecondary }]}>
-        {t('survey.exercise.description')}
-      </Text>
-
       {/* Training Type */}
       <View style={styles.fieldGroup}>
         <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }]}>
@@ -141,11 +137,6 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
     paddingTop: 8,
-  },
-  description: {
-    fontSize: 14,
-    marginBottom: 20,
-    lineHeight: 20,
   },
   fieldGroup: {
     marginBottom: 20,

@@ -1,12 +1,8 @@
 import { BiologicalSex, type TrainingType, type WorkoutIntensity } from '@nutrio/nutrition-core';
 
-export type SurveyStepId =
-  | 'basics'
-  | 'occupational'
-  | 'exercise'
-  | 'lifestyle_desi'
-  | 'health_clinical'
-  | 'preferences';
+// Work and training share the `exercise` screen; diet and chai share
+// `preferences`. The payload below keeps its six sections.
+export type SurveyStepId = 'basics' | 'exercise' | 'health_clinical' | 'preferences';
 
 export interface SurveyBasics {
   sex: BiologicalSex;
@@ -25,12 +21,14 @@ export type JobCategory =
 
 export type ShiftPattern = 'regular_day' | 'night_shift' | 'rotating_shifts';
 
+// Only the job category and sitting hours are asked and used. The rest are
+// kept optional for payloads saved before the survey was shortened.
 export interface SurveyOccupational {
   jobCategory: JobCategory;
-  workingHoursPerDay: number;
-  shiftPattern: ShiftPattern;
+  workingHoursPerDay?: number;
+  shiftPattern?: ShiftPattern;
   dailySittingHours: number;
-  commuteType: 'bike_motorbike' | 'car_cab' | 'public_transport' | 'walking' | 'work_from_home';
+  commuteType?: 'bike_motorbike' | 'car_cab' | 'public_transport' | 'walking' | 'work_from_home';
 }
 
 // The survey's training answers are nutrition-core's exercise types.
@@ -50,15 +48,17 @@ export type HomeCookingStyle =
   | 'hostel_mess'
   | 'daily_takeaway';
 
+// Only the chai cups are asked and used. The rest are kept optional for
+// payloads saved before the survey was shortened.
 export interface SurveyLifestyleDesi {
-  sleepHoursPerNight: number;
-  stressRating: 1 | 2 | 3 | 4 | 5;
+  sleepHoursPerNight?: number;
+  stressRating?: 1 | 2 | 3 | 4 | 5;
   chaiWithSugarCupsPerDay: number; // Critical 300-600 kcal/day lever in Pakistan
-  eatingOutTimesPerWeek: number;
-  whoCooksAtHome: HomeCookingStyle;
-  dailyWaterLitres: number;
-  lateNightEating: boolean;
-  smoker: boolean;
+  eatingOutTimesPerWeek?: number;
+  whoCooksAtHome?: HomeCookingStyle;
+  dailyWaterLitres?: number;
+  lateNightEating?: boolean;
+  smoker?: boolean;
 }
 
 export type MedicalConditionFlag =

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { JobCategory, ShiftPattern, SurveyOccupational } from '../types.js';
+import { JobCategory, SurveyOccupational } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
@@ -22,8 +22,6 @@ const JOB_CATEGORY_IDS: JobCategory[] = [
   'heavy_manual_labor',
 ];
 
-const SHIFT_IDS: ShiftPattern[] = ['regular_day', 'night_shift', 'rotating_shifts'];
-
 export const StepOccupational: React.FC<StepOccupationalProps> = ({
   data,
   onChange,
@@ -37,10 +35,6 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
     id,
     title: t(`survey.occupational.jobs.${id}.title`),
     subtitle: t(`survey.occupational.jobs.${id}.subtitle.${activeRegion}`),
-  }));
-  const shiftOptions = SHIFT_IDS.map((id) => ({
-    id,
-    label: t(`survey.occupational.shifts.${id}`),
   }));
 
   return (
@@ -97,27 +91,6 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
         }}
         error={errors.dailySittingHours}
       />
-
-      {/* Shift Pattern */}
-      <View style={styles.fieldGroup}>
-        <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }]}>
-          {t('survey.occupational.shiftPattern')}
-        </Text>
-        <OptionGroup label={t('survey.occupational.shiftPattern')} style={styles.chipGrid}>
-          {shiftOptions.map((opt) => (
-            <OptionButton
-              key={opt.id}
-              label={opt.label}
-              selected={data.shiftPattern === opt.id}
-              onPress={() => onChange({ shiftPattern: opt.id })}
-              labelStyle={styles.chipText}
-            />
-          ))}
-        </OptionGroup>
-        {errors.shiftPattern && (
-          <Text style={styles.errorText}>{errors.shiftPattern}</Text>
-        )}
-      </View>
     </View>
   );
 };
@@ -188,11 +161,5 @@ const styles = StyleSheet.create({
     color: '#EF4444',
     fontSize: 12,
     marginTop: 4,
-  },
-  chipGrid: {
-    gap: 8,
-  },
-  chipText: {
-    fontSize: 14,
   },
 });

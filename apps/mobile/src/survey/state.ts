@@ -6,6 +6,7 @@ import {
   SurveyLifestyleDesi,
   SurveyOccupational,
   SurveyPreferences,
+  StepValidationResult,
   SurveyStepId,
 } from './types.js';
 import {
@@ -19,12 +20,15 @@ import {
 
 export const SURVEY_STEPS: SurveyStepId[] = [
   'basics',
-  'occupational',
   'exercise',
-  'lifestyle_desi',
   'health_clinical',
   'preferences',
 ];
+
+function mergeValidation(...results: StepValidationResult[]): StepValidationResult {
+  const errors = Object.assign({}, ...results.map((r) => r.errors));
+  return { isValid: Object.keys(errors).length === 0, errors };
+}
 
 export class SurveyStateEngine {
   private currentStepIndex: number = 0;
@@ -136,20 +140,20 @@ export class SurveyStateEngine {
       case 'basics':
         result = validateBasics(this.basics);
         break;
-      case 'occupational':
-        result = validateOccupational(this.occupational);
-        break;
       case 'exercise':
-        result = validateExercise(this.exercise);
-        break;
-      case 'lifestyle_desi':
-        result = validateLifestyleDesi(this.lifestyleDesi);
+        result = mergeValidation(
+          validateOccupational(this.occupational),
+          validateExercise(this.exercise)
+        );
         break;
       case 'health_clinical':
         result = validateHealthClinical(this.healthClinical, this.basics.sex);
         break;
       case 'preferences':
-        result = validatePreferences(this.preferences);
+        result = mergeValidation(
+          validatePreferences(this.preferences),
+          validateLifestyleDesi(this.lifestyleDesi)
+        );
         break;
     }
 

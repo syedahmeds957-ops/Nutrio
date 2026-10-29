@@ -85,10 +85,11 @@ describe('SurveyStateEngine Navigation & Persistence', () => {
     expect(Object.keys(engine.getErrors()).length).toBeGreaterThan(0);
   });
 
-  it('advances through steps and serializes a complete survey', () => {
+  it('advances through the four screens and serializes a complete survey', () => {
     const engine = new SurveyStateEngine();
+    expect(engine.getTotalSteps()).toBe(4);
 
-    // Step 1: Basics
+    // Screen 1: Basics
     engine.setBasics({
       sex: 'male',
       ageYears: 29,
@@ -96,20 +97,13 @@ describe('SurveyStateEngine Navigation & Persistence', () => {
       weightKg: 82,
     });
     expect(engine.nextStep()).toBe(true);
-    expect(engine.getCurrentStep()).toBe('occupational');
-
-    // Step 2: Occupational
-    engine.setOccupational({
-      jobCategory: 'desk_sedentary',
-      workingHoursPerDay: 8,
-      shiftPattern: 'regular_day',
-      dailySittingHours: 9,
-      commuteType: 'bike_motorbike',
-    });
-    expect(engine.nextStep()).toBe(true);
     expect(engine.getCurrentStep()).toBe('exercise');
 
-    // Step 3: Exercise
+    // Screen 2: work and training, validated together
+    expect(engine.nextStep()).toBe(false);
+    expect(engine.getErrors().jobCategory).toBeDefined();
+    expect(engine.getErrors().trainingType).toBeDefined();
+    engine.setOccupational({ jobCategory: 'desk_sedentary', dailySittingHours: 9 });
     engine.setExercise({
       trainingType: 'gym_resistance',
       frequencyDaysPerWeek: 4,
@@ -117,23 +111,9 @@ describe('SurveyStateEngine Navigation & Persistence', () => {
       intensity: 'moderate',
     });
     expect(engine.nextStep()).toBe(true);
-    expect(engine.getCurrentStep()).toBe('lifestyle_desi');
-
-    // Step 4: Lifestyle Desi
-    engine.setLifestyleDesi({
-      sleepHoursPerNight: 6.5,
-      stressRating: 3,
-      chaiWithSugarCupsPerDay: 3,
-      eatingOutTimesPerWeek: 2,
-      whoCooksAtHome: 'family_traditional',
-      dailyWaterLitres: 2.0,
-      lateNightEating: true,
-      smoker: false,
-    });
-    expect(engine.nextStep()).toBe(true);
     expect(engine.getCurrentStep()).toBe('health_clinical');
 
-    // Step 5: Health & Clinical
+    // Screen 3: Health & Clinical
     engine.setHealthClinical({
       medicalConditions: ['none'],
       isPregnantOrBreastfeeding: false,
@@ -142,17 +122,21 @@ describe('SurveyStateEngine Navigation & Persistence', () => {
     expect(engine.nextStep()).toBe(true);
     expect(engine.getCurrentStep()).toBe('preferences');
 
-    // Step 6: Diet preferences
+    // Screen 4: diet and chai, validated together
+    expect(engine.nextStep()).toBe(false);
+    expect(engine.getErrors().dietPreference).toBeDefined();
     engine.setPreferences({
       dietPreference: 'halal_omnivore',
       dislikedFoods: ['karela'],
     });
+    engine.setLifestyleDesi({ chaiWithSugarCupsPerDay: 3 });
 
     expect(engine.isComplete()).toBe(true);
     const payload = engine.serializePayload();
     expect(payload.version).toBe(1);
     expect(payload.basics.weightKg).toBe(82);
     expect(payload.lifestyleDesi.chaiWithSugarCupsPerDay).toBe(3);
+    expect(payload.occupational.dailySittingHours).toBe(9);
   });
 });
 

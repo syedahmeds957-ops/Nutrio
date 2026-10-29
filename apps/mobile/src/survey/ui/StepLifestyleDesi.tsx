@@ -1,29 +1,17 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { HomeCookingStyle, SurveyLifestyleDesi } from '../types.js';
+import { SurveyLifestyleDesi } from '../types.js';
 import { ritualCupKcal } from '../../common/ritualDrinks.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { useFormat } from '../../i18n/useFormat.js';
-import { AppleTextInput } from '../../ui/AppleInput.js';
-import { OptionButton, OptionGroup } from '../../ui/Selectable.js';
 
 interface StepLifestyleDesiProps {
   data: Partial<SurveyLifestyleDesi>;
   onChange: (updated: Partial<SurveyLifestyleDesi>) => void;
   errors: Record<string, string>;
 }
-
-// Meal-preparation norms are market specific (hostel mess in Pakistan,
-// company camp in Saudi), so the label key carries the region.
-const COOKING_STYLE_IDS: HomeCookingStyle[] = [
-  'family_traditional',
-  'cook_maid',
-  'self',
-  'hostel_mess',
-  'daily_takeaway',
-];
 
 export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
   data,
@@ -37,21 +25,12 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
   const dir = useTextDirection();
   const isSaudi = activeRegion === 'SA';
   const accentColor = theme.colors.primaryLime;
-  const cookingStyles = COOKING_STYLE_IDS.map((id) => ({
-    id,
-    label: t(`survey.lifestyle.cookingStyles.${id}.${activeRegion}`),
-  }));
   const chaiCount = data.chaiWithSugarCupsPerDay ?? 2;
   const estimatedChaiKcal = chaiCount * ritualCupKcal(activeRegion);
   const estimatedWeeklyChaiKcal = estimatedChaiKcal * 7;
-  const dawatCount = data.eatingOutTimesPerWeek ?? 1;
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.description, dir.text, { color: theme.colors.textSecondary }]}>
-        {t(`survey.lifestyle.description.${activeRegion}`)}
-      </Text>
-
       {/* Chai with Sugar Stepper Card */}
       <View
         style={[
@@ -149,109 +128,6 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
           <Text style={styles.errorText}>{errors.chaiWithSugarCupsPerDay}</Text>
         )}
       </View>
-
-      {/* Sleep Duration */}
-      <AppleTextInput
-        label={t('survey.lifestyle.sleepDuration')}
-        placeholder={t('survey.placeholderExample', { value: 7 })}
-        keyboardType="numeric"
-        value={
-          data.sleepHoursPerNight !== undefined
-            ? String(data.sleepHoursPerNight)
-            : ''
-        }
-        onChangeText={(val) => {
-          const num = parseFloat(val);
-          onChange({ sleepHoursPerNight: isNaN(num) ? undefined : num });
-        }}
-        error={errors.sleepHoursPerNight}
-      />
-
-      {/* Dawat / Dining Out Frequency */}
-      <View
-        style={[
-          styles.chaiCard,
-          {
-            backgroundColor: theme.colors.surface,
-            borderColor: theme.colors.border,
-          },
-        ]}
-      >
-        <View style={styles.chaiHeader}>
-          <Text style={[styles.chaiTitle, dir.text, { color: theme.colors.textPrimary }]}>
-            {t(`survey.lifestyle.dineOut.title.${activeRegion}`)}
-          </Text>
-        </View>
-        <Text style={[styles.chaiSubtitle, dir.text, { color: theme.colors.textSecondary }]}>
-          {t(`survey.lifestyle.dineOut.subtitle.${activeRegion}`)}
-        </Text>
-
-        <View style={styles.stepperRow}>
-          <TouchableOpacity
-            style={[
-              styles.stepperBtn,
-              {
-                backgroundColor: theme.colors.surfaceSecondary,
-                borderColor: theme.colors.border,
-              },
-            ]}
-            onPress={() => onChange({ eatingOutTimesPerWeek: Math.max(0, dawatCount - 1) })}
-            activeOpacity={0.7}
-            accessibilityRole="button"
-            accessibilityLabel={t('common.decrease')}
-          >
-            <Text style={[styles.stepperBtnText, { color: theme.colors.textPrimary }]}>−</Text>
-          </TouchableOpacity>
-
-          <View style={styles.stepperValueBox}>
-            <Text style={[styles.stepperValue, { color: theme.colors.textPrimary }]}>
-              {dawatCount}
-            </Text>
-            <Text style={[styles.stepperUnit, dir.textCenter, { color: theme.colors.textSecondary }]}>
-              {t('survey.lifestyle.dineOut.unit')}
-            </Text>
-          </View>
-
-          <TouchableOpacity
-            style={[
-              styles.stepperBtn,
-              {
-                backgroundColor: theme.colors.surfaceSecondary,
-                borderColor: theme.colors.border,
-              },
-            ]}
-            onPress={() => onChange({ eatingOutTimesPerWeek: dawatCount + 1 })}
-            activeOpacity={0.7}
-            accessibilityRole="button"
-            accessibilityLabel={t('common.increase')}
-          >
-            <Text style={[styles.stepperBtnText, { color: theme.colors.textPrimary }]}>+</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      {/* Primary Cooking Style */}
-      <View style={styles.fieldGroup}>
-        <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }]}>
-          {t('survey.lifestyle.mealPrepStyle')}
-        </Text>
-        <OptionGroup label={t('survey.lifestyle.mealPrepStyle')} style={styles.styleGrid}>
-          {cookingStyles.map((style) => (
-            <OptionButton
-              key={style.id}
-              label={style.label}
-              check="inline"
-              selected={data.whoCooksAtHome === style.id}
-              onPress={() => onChange({ whoCooksAtHome: style.id })}
-              style={styles.styleChip}
-              labelStyle={styles.styleChipText}
-            />
-          ))}
-        </OptionGroup>
-        {errors.whoCooksAtHome && (
-          <Text style={styles.errorText}>{errors.whoCooksAtHome}</Text>
-        )}
-      </View>
     </View>
   );
 };
@@ -260,11 +136,6 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
     paddingTop: 8,
-  },
-  description: {
-    fontSize: 14,
-    marginBottom: 20,
-    lineHeight: 20,
   },
   chaiCard: {
     borderRadius: 20,
@@ -344,39 +215,9 @@ const styles = StyleSheet.create({
   impactHighlight: {
     fontWeight: '800',
   },
-  fieldGroup: {
-    marginBottom: 20,
-  },
-  label: {
-    fontSize: 13,
-    fontWeight: '700',
-    marginBottom: 8,
-  },
-  input: {
-    borderWidth: 1,
-    borderRadius: 16,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  inputError: {
-    borderColor: '#EF4444',
-  },
   errorText: {
     color: '#EF4444',
     fontSize: 12,
     marginTop: 4,
-  },
-  styleGrid: {
-    gap: 8,
-  },
-  styleChip: {
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 14,
-  },
-  styleChipText: {
-    fontSize: 14,
   },
 });
