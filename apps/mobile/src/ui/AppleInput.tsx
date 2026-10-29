@@ -11,6 +11,7 @@ import {
   TextStyle,
 } from 'react-native';
 import { useTheme } from '../theme.js';
+import { useTextDirection } from '../i18n/index.js';
 import { Icon, IconName } from './Icon.js';
 
 // Global web outline suppressor for React Native Web
@@ -161,6 +162,7 @@ export const AppleTextInput: React.FC<AppleTextInputProps> = ({
   ...rest
 }) => {
   const { theme } = useTheme();
+  const dir = useTextDirection();
   const [isFocused, setIsFocused] = useState(false);
 
   return (
@@ -208,6 +210,8 @@ export const AppleTextInput: React.FC<AppleTextInputProps> = ({
             styles.fieldInput,
             noOutlineStyle,
             !rest.value && styles.hintWeight,
+            // Follow the content direction so an Arabic hint reads from the right.
+            dir.text,
             { color: theme.colors.textPrimary },
             style,
           ]}
@@ -340,6 +344,8 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     borderWidth: 1.5,
     paddingHorizontal: 14,
+    // gap, not margins: logical margins resolve against the wrong direction on web in Arabic.
+    gap: 10,
     ...Platform.select({
       web: {
         transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
@@ -356,7 +362,6 @@ const styles = StyleSheet.create({
     }),
   },
   fieldIconSlot: {
-    marginEnd: 10,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -368,9 +373,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     borderWidth: 0,
   },
-  rightActionSlot: {
-    marginStart: 10,
-  },
+  rightActionSlot: {},
   fieldFeedback: {
     fontSize: 12,
     fontWeight: '600',

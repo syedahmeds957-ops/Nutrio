@@ -17,6 +17,11 @@ import { useTheme } from '../../theme.js';
 import { addDaysToKey, formatDayKey, localDateKey } from '../../common/dateKey.js';
 import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
 
+// Light-mode disabled pace chip. Against the page (#F6F7FB) the border is 3.4:1;
+// the kg text (textSecondary #556274) is 5.0:1 on the fill. Dark mode keeps
+// surfaceSecondary + textMuted (5.06:1).
+const DISABLED_CHIP_LIGHT = { fill: '#E3E7ED', border: '#7C8796' } as const;
+
 interface GoalSelectionViewProps {
   context: PlanUserContext;
   onConfirmGoal: (selection: GoalSelectionState) => void;
@@ -353,10 +358,16 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                       {
                         backgroundColor: isSelected
                           ? theme.colors.primaryLime
-                          : theme.colors.surface,
+                          : isOverMax
+                            ? isDark
+                              ? theme.colors.surfaceSecondary
+                              : DISABLED_CHIP_LIGHT.fill
+                            : theme.colors.surface,
                         borderColor: isSelected
                           ? theme.colors.primaryLime
-                          : theme.colors.border,
+                          : isOverMax && !isDark
+                            ? DISABLED_CHIP_LIGHT.border
+                            : theme.colors.border,
                       },
                       isOverMax && styles.rateBtnDisabled,
                     ]}
@@ -370,7 +381,15 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                       style={[
                         styles.rateBtnText,
                         {
-                          color: isSelected ? '#0A0B0D' : theme.colors.textPrimary,
+                          // Disabled chips dim the surface and the weight, never the text:
+                          // the kg value must stay >= 4.5:1.
+                          color: isSelected
+                            ? '#0A0B0D'
+                            : isOverMax
+                              ? isDark
+                                ? theme.colors.textMuted
+                                : theme.colors.textSecondary
+                              : theme.colors.textPrimary,
                           fontWeight: isSelected ? '800' : '600',
                         },
                       ]}
@@ -565,7 +584,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rateBtnDisabled: {
-    opacity: 0.4,
+    borderStyle: 'dashed',
   },
   rateBtnText: {
     fontSize: 13,

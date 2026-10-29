@@ -16,6 +16,7 @@ import { useRegion } from '../../common/region/index.js';
 import { foodDisplayName } from '../foodDisplayName.js';
 import { formatDayKey } from '../../common/dateKey.js';
 import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
+import { formatPercent } from '../../i18n/format.js';
 import { formatServingLine } from '../formatServing.js';
 
 interface DiaryViewModalProps {
@@ -182,7 +183,7 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
                   { backgroundColor: theme.colors.primaryLime },
                 ]}
               >
-                <Text style={styles.percentageText}>{pct}%</Text>
+                <Text style={styles.percentageText}>{formatPercent(pct, language)}</Text>
               </View>
             </View>
 

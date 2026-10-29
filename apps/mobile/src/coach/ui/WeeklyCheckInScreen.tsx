@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useFormat } from '../../i18n/useFormat.js';
 import { Icon } from '../../ui/Icon.js';
 import type { TrainingAdherence } from '../../workout/weekView.js';
 import { TrainingCard } from './TrainingCard.js';
@@ -54,6 +55,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { t } = useTranslation();
+  const { formatPercent } = useFormat();
   const dir = useTextDirection();
   const isTargetChanged = metrics.targetDelta !== 0;
   // Nothing to share before a day is logged. On web, React Native's Share needs
@@ -286,7 +288,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
             ]}
           >
             <Text style={[styles.metricNumber, { color: theme.colors.textPrimary }]}>
-              {metrics.adherenceRatePct}%
+              {formatPercent(metrics.adherenceRatePct)}
             </Text>
             <Text style={[styles.metricLabel, { color: theme.colors.textMuted }]}>
               {t('checkin.adherenceRate')}

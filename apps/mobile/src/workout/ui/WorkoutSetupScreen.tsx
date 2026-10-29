@@ -22,6 +22,8 @@ import { TellUsMore } from './TellUsMore.js';
 import { RoutineBuilder } from './RoutineBuilder.js';
 import { RamadanCard } from './RamadanCard.js';
 import { localDateKey } from '../../common/dateKey.js';
+import { useRegion } from '../../common/region/index.js';
+import { weekStartFor } from '../weekView.js';
 import {
   canContinue,
   continueBlocker,
@@ -47,6 +49,12 @@ const LOCATIONS: { id: TrainingLocation; icon: IconName }[] = [
 ];
 const HOME_EQUIPMENT: Equipment[] = ['dumbbell', 'bands', 'kettlebell', 'bench', 'pullup_bar'];
 const DAYS: Weekday[] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+/** The day chips start on the region's first day of the week. */
+function daysFrom(start: Weekday): Weekday[] {
+  const at = DAYS.indexOf(start);
+  return [...DAYS.slice(at), ...DAYS.slice(0, at)];
+}
 const LENGTHS: SessionMinutes[] = [20, 30, 45, 60, 75];
 const FOCUS: FocusArea[] = ['full_body', 'upper', 'lower_glutes', 'core', 'arms'];
 const JOINTS: JointLoad[] = ['knee', 'lower_back', 'shoulder', 'wrist'];
@@ -73,6 +81,7 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
   const c = theme.colors;
   const { t } = useTranslation();
   const dir = useTextDirection();
+  const { activeRegion } = useRegion();
   const [step, setStep] = useState<SetupStep>(1);
   const [settings, setSettings] = useState<WorkoutSettings>(initialSettings);
   const scrollRef = useRef<ScrollView>(null);
@@ -271,7 +280,7 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
             <Question>{t('workout.setup.daysQuestion')}</Question>
             {beginner ? <Text style={[styles.hint, dir.text, { color: c.textSecondary }]}>{t('workout.setup.beginnerDaysHint')}</Text> : null}
             <ChipGroup label={t('workout.setup.daysQuestion')} mode="toggle" style={styles.grid4}>
-              {DAYS.map((day) => (
+              {daysFrom(weekStartFor(activeRegion)).map((day) => (
                 <Chip
                   key={day}
                   label={t(`workout.days.${day}`)}

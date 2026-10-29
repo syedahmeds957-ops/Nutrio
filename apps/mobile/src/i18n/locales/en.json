@@ -1184,13 +1184,15 @@
       "balanceNone": "No full days yet",
       "balanceOver": "{{kcal}} kcal over",
       "balanceUnder": "{{kcal}} kcal under",
-      "emptyHint": "Start logging your meals today. Nutrio dynamically banks your rolling weekly energy balance to keep your progress protected.",
-      "onTrackHint": "On track! Rolling weekly energy balance is accumulating to safeguard your sustainable fat loss target.",
-      "overHint": "This week's finished days are over your target. A lighter day or two will even it out.",
+      "dayEmpty": "{{day}} not logged",
+      "dayLine": "{{day}} {{consumed}} of {{target}} kcal",
+      "emptyHint": "Log your meals and finished days build up your weekly balance.",
+      "onTrackHint": "On track. Finished days are at or under your target.",
+      "overHint": "Finished days are over your target. A lighter day or two will even it out.",
       "subtitle": "Rolling energy balance",
       "targetLabel": "Target",
       "title": "Weekly calorie bank",
-      "todayPendingHint": "Today counts once it's over. The bank compares this week's finished days with your target."
+      "todayPendingHint": "Today counts once it's over."
     },
     "customizer": {
       "addModifier": "Add {{name}}",
@@ -1326,6 +1328,10 @@
       "noTargetHint": "Start logging meals · Set daily target in survey",
       "onTrackDaily": "On track for daily goal",
       "pctOfGoal": "{{pct}}% of {{grams}}g goal",
+      "regionShort": {
+        "PK": "PK",
+        "SA": "SA"
+      },
       "pendingSync": "{{count}} offline entry pending sync",
       "pendingSync_other": "{{count}} offline entries pending sync",
       "readyFirstMeal": "Ready for first meal",
@@ -1482,6 +1488,7 @@
     "streak": {
       "days_one": "{{count}} day streak",
       "days_other": "{{count}} day streak",
+      "days_zero": "No streak yet",
       "weekly": "{{pct}}% of days logged this week"
     },
     "water": {

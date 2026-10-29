@@ -43,6 +43,24 @@ export function formatNumber(
   return value.toLocaleString(numberLocale(language), options);
 }
 
+const LRM = '\u200E';
+
+/**
+ * "25.3%" as ONE left-to-right unit. In an Arabic (RTL) line the percent sign
+ * can otherwise land on the wrong side of the number ("%25.3"), especially
+ * inside parentheses. Arabic gets a left-to-right mark on each side so the
+ * number and its sign stay together and in order; English is returned bare.
+ * Western digits and "%" in both languages, like formatNumber.
+ */
+export function formatPercent(
+  value: number,
+  language: AppLanguage = 'en',
+  options: Intl.NumberFormatOptions = { maximumFractionDigits: 1 }
+): string {
+  const text = `${formatNumber(value, language, options)}%`;
+  return language === 'ar' ? `${LRM}${text}${LRM}` : text;
+}
+
 /** "25 Oct 2026" / "25 أكتوبر 2026" by default. */
 export function formatDate(
   date: Date | number,

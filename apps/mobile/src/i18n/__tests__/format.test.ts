@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   formatDate,
   formatNumber,
+  formatPercent,
   formatTime,
   monthName,
   weekdayName,
@@ -80,5 +81,18 @@ describe('weekday and month names', () => {
     expect(weekdayShort(7, 'en')).toBe('Mon');
     expect(weekdayShort(-1, 'en')).toBe('Sun');
     expect(monthName(12, 'en')).toBe('January');
+  });
+});
+
+describe('formatPercent', () => {
+  it('en: bare number and sign, one decimal at most', () => {
+    expect(formatPercent(25.3, 'en')).toBe('25.3%');
+    expect(formatPercent(40, 'en')).toBe('40%');
+    expect(formatPercent(25.26, 'en')).toBe('25.3%');
+  });
+  it('ar: Latin digits, number and sign kept together by left-to-right marks', () => {
+    const out = formatPercent(25.3, 'ar');
+    expect(out).toBe('‎25.3%‎');
+    expect(out).not.toMatch(ARABIC_INDIC);
   });
 });

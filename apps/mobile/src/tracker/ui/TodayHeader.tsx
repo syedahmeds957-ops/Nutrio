@@ -28,6 +28,7 @@ export const TodayHeader: React.FC<TodayHeaderProps> = ({
   const { t } = useTranslation();
   const dir = useTextDirection();
   const [syncHintOpen, setSyncHintOpen] = useState(false);
+  const regionLabel = t(`tracker.header.regionShort.${region}`);
   const syncText = t('tracker.header.pendingSync', { count: pendingSyncCount });
 
   return (
@@ -73,10 +74,10 @@ export const TodayHeader: React.FC<TodayHeaderProps> = ({
             }}
             activeOpacity={0.7}
             accessibilityRole="button"
-            accessibilityLabel={`${region}, ${t('tracker.dashboard.toggleRegion')}`}
+            accessibilityLabel={`${regionLabel}, ${t('tracker.dashboard.toggleRegion')}`}
           >
             <View style={[styles.region, { backgroundColor: c.surface, borderColor: c.border }]}>
-              <Text style={[styles.regionText, { color: c.textPrimary }]}>{region}</Text>
+              <Text style={[styles.regionText, { color: c.textPrimary }]}>{regionLabel}</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
   syncCountText: { fontSize: 9, fontWeight: '800' },
   region: {
     height: 34,
-    minWidth: 44,
+    minWidth: 56,
     paddingHorizontal: 10,
     borderRadius: 9999,
     borderWidth: 1,

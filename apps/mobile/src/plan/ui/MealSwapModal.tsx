@@ -18,6 +18,7 @@ import {
 import { useTheme } from '../../theme.js';
 import { Notice } from '../../ui/Notice.js';
 import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
+import { formatPercent } from '../../i18n/format.js';
 import { Icon } from '../../ui/Icon.js';
 
 interface MealSwapModalProps {
@@ -168,7 +169,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                         ]}
                       >
                         {deltaSign}
-                        {option.calorieDeltaPct}%
+                        {formatPercent(option.calorieDeltaPct, language)}
                       </Text>
                     </View>
                   </View>

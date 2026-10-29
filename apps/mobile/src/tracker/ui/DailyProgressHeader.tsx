@@ -4,13 +4,19 @@ import { DailyTrackerSummary } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { useFormat } from '../../i18n/useFormat.js';
+import type { Weekday } from '@nutrio/workout-core';
+import { localDateKey } from '../../common/dateKey.js';
+import { MONDAY_FIRST_WEEKDAYS, dayIndexInWeek } from '../weekStrip.js';
 
 interface DailyProgressHeaderProps {
   summary: DailyTrackerSummary;
-  weeklyHistoryFills?: number[]; // Optional array of fills 0-1 for [M, T, W, T, F, S, S]
+  /** Fill 0-1 of each day, in the same order as `weekdays`. */
+  weeklyHistoryFills?: number[];
+  /** The week's days in display order (`weekStripFor`); Monday first by default. */
+  weekdays?: readonly Weekday[];
+  /** Today's position in `weekdays`; by default found from the device's date. */
+  todayIndex?: number;
 }
-
-const WEEK_DAY_KEYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
 interface MacroTileProps {
   label: string;
@@ -96,6 +102,8 @@ export function heroSize(text: string): { fontSize: number; lineHeight: number }
 export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
   summary,
   weeklyHistoryFills,
+  weekdays = MONDAY_FIRST_WEEKDAYS,
+  todayIndex,
 }) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
@@ -124,8 +132,8 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
   const calRatio = Math.min(1, Math.max(0, totalCaloriesConsumed / totalTarget));
 
 
-  // Current day index (0 for Monday, 6 for Sunday)
-  const currentDayOfWeek = (new Date().getDay() + 6) % 7;
+  // Today's position in the strip (0 = the week's first day).
+  const currentDayOfWeek = todayIndex ?? dayIndexInWeek(localDateKey(), weekdays[0]);
 
   return (
     <View style={styles.container}>
@@ -175,7 +183,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
 
           {/* 7-Day Vertical Pill Intake Chart (Clean Slate: No fake history for new users) */}
           <View style={styles.weekPillChart}>
-            {WEEK_DAY_KEYS.map((dayKey, idx) => {
+            {weekdays.map((dayKey, idx) => {
               const isToday = idx === currentDayOfWeek;
               // If weeklyHistoryFills is provided, use it; otherwise only today fills based on real intake
               const dayFillPct = isToday

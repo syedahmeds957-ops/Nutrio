@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useFormat } from '../../i18n/useFormat.js';
 
 interface ProgressBarProps {
   currentStep: number;
@@ -16,6 +17,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
 }) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
+  const { formatPercent } = useFormat();
   const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
   const percentage = Math.round(((currentStep + 1) / totalSteps) * 100);
@@ -32,7 +34,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
             { color: theme.isDark ? theme.colors.primaryLime : '#4B6200' },
           ]}
         >
-          {percentage}%
+          {formatPercent(percentage)}
         </Text>
       </View>
       <View

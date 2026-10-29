@@ -1,50 +1,36 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import {
-  Animated,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
 import { useTheme } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
-import { useTranslation } from '../../i18n/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import type { Weekday } from '@nutrio/workout-core';
 import type { LoggingStreak } from '../streak.js';
+import { weekdaysFrom } from '../weekStrip.js';
 
 // Computed by computeLoggingStreak; no defaults, so it can never show a streak
 // the user did not earn.
-type StreakBadgeProps = LoggingStreak;
-
-const WEEKDAY_KEYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+type StreakBadgeProps = LoggingStreak & {
+  /** The week's first day, the same one passed to computeLoggingStreak. Monday by default. */
+  weekStart?: Weekday;
+  /** Also draw the seven day dots. Off by default: the weekly bank card already shows the week. */
+  showWeek?: boolean;
+};
 
 export const StreakBadge: React.FC<StreakBadgeProps> = ({
   streakDays,
   consistencyPct,
   completedDays,
   currentDayIndex,
+  weekStart = 'mon',
+  showWeek = false,
 }) => {
-  const { theme, isDark } = useTheme();
+  const { theme } = useTheme();
+  const dir = useTextDirection();
   const { t } = useTranslation();
-  const pulseAnim = useRef(new Animated.Value(1)).current;
-
-  useEffect(() => {
-    const animation = Animated.loop(
-      Animated.sequence([
-        Animated.timing(pulseAnim, {
-          toValue: 1.12,
-          duration: 900,
-          useNativeDriver: true,
-        }),
-        Animated.timing(pulseAnim, {
-          toValue: 1,
-          duration: 900,
-          useNativeDriver: true,
-        }),
-      ])
-    );
-    animation.start();
-
-    return () => animation.stop();
-  }, [pulseAnim]);
 
   return (
     <View
@@ -56,24 +42,17 @@ export const StreakBadge: React.FC<StreakBadgeProps> = ({
         },
       ]}
     >
-      {/* Streak info with pulsing flame */}
+      {/* Streak info */}
       <View style={styles.streakCol}>
         <View style={styles.flameRow}>
-          <Animated.View style={{ transform: [{ scale: pulseAnim }] }}>
-            <View
-              style={[
-                styles.flameCircle,
-                { backgroundColor: isDark ? 'rgba(239, 68, 68, 0.18)' : '#FEE2E2' },
-              ]}
-            >
-              <Icon name="flame" size={16} color="#EF4444" />
-            </View>
-          </Animated.View>
-          <View>
-            <Text style={[styles.streakNumber, { color: theme.colors.textPrimary }]}>
+          <View style={[styles.flameCircle, { backgroundColor: theme.colors.dangerLight }]}>
+            <Icon name="flame" size={16} color={theme.colors.danger} />
+          </View>
+          <View style={styles.streakText}>
+            <Text style={[styles.streakNumber, dir.text, { color: theme.colors.textPrimary }]}>
               {t('tracker.streak.days', { count: streakDays })}
             </Text>
-            <Text style={[styles.consistencyText, { color: theme.colors.primaryAccessible }]}>
+            <Text style={[styles.consistencyText, dir.text, { color: theme.colors.primaryAccessible }]}>
               {t('tracker.streak.weekly', { pct: consistencyPct })}
             </Text>
           </View>
@@ -81,8 +60,9 @@ export const StreakBadge: React.FC<StreakBadgeProps> = ({
       </View>
 
       {/* 7-day dot tracker */}
+      {showWeek ? (
       <View style={styles.dotsRow}>
-        {WEEKDAY_KEYS.map((dayKey, idx) => {
+        {weekdaysFrom(weekStart).map((dayKey, idx) => {
           const isDone = completedDays.includes(idx);
           const isToday = idx === currentDayIndex;
 
@@ -115,39 +95,40 @@ export const StreakBadge: React.FC<StreakBadgeProps> = ({
                     styles.dotToday,
                     {
                       borderColor: theme.colors.primaryLime,
-                      backgroundColor: isDark ? 'rgba(164, 235, 63, 0.15)' : '#F7FEE7',
+                      backgroundColor: theme.colors.primaryLight,
                     },
                   ],
                 ]}
               >
-                {isDone && <Icon name="check" size={10} color="#0A0B0D" />}
+                {isDone && <Icon name="check" size={10} color={theme.colors.limeText} />}
               </View>
             </View>
           );
         })}
       </View>
+      ) : null}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 22,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    marginHorizontal: 16,
-    marginBottom: 12,
+    borderRadius: 20,
+    padding: 12,
     gap: 12,
     borderWidth: 1,
   },
   streakCol: {
     flexDirection: 'row',
     alignItems: 'center',
+    minHeight: 34,
   },
   flameRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
+    flexShrink: 1,
+    minWidth: 0,
   },
   flameCircle: {
     width: 34,
@@ -156,13 +137,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  streakText: {
+    flexShrink: 1,
+    minWidth: 0,
+  },
   streakNumber: {
+    flexShrink: 1,
     fontSize: 14,
     fontWeight: '800',
     letterSpacing: -0.2,
   },
   consistencyText: {
-    fontSize: 11,
+    flexShrink: 1,
+    fontSize: 12,
     fontWeight: '700',
     marginTop: 1,
   },
@@ -177,7 +164,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   dayLabel: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: '600',
   },
   dayLabelToday: {

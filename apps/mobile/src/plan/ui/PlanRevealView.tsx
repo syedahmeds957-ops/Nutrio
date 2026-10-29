@@ -40,7 +40,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
   const { theme } = useTheme();
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
-  const { formatNumber } = useFormat();
+  const { formatNumber, formatPercent } = useFormat();
   const dir = useTextDirection();
   const isSaudi = (plan.region || activeRegion) === 'SA';
   const accentColor = theme.colors.heroCardBg;
@@ -158,7 +158,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
               {t('common.gramsValue', { value: macros.proteinGrams })}
             </Text>
             <Text style={[styles.macroSub, { color: theme.colors.textMuted }]}>
-              {t('common.kcalValue', { value: macros.proteinKcal })} ({macros.proteinPct}%)
+              {t('common.kcalValue', { value: macros.proteinKcal })} ({formatPercent(macros.proteinPct)})
             </Text>
           </View>
 
@@ -178,7 +178,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
               {t('common.gramsValue', { value: macros.carbGrams })}
             </Text>
             <Text style={[styles.macroSub, { color: theme.colors.textMuted }]}>
-              {t('common.kcalValue', { value: macros.carbKcal })} ({macros.carbPct}%)
+              {t('common.kcalValue', { value: macros.carbKcal })} ({formatPercent(macros.carbPct)})
             </Text>
           </View>
 
@@ -198,7 +198,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
               {t('common.gramsValue', { value: macros.fatGrams })}
             </Text>
             <Text style={[styles.macroSub, { color: theme.colors.textMuted }]}>
-              {t('common.kcalValue', { value: macros.fatKcal })} ({macros.fatPct}%)
+              {t('common.kcalValue', { value: macros.fatKcal })} ({formatPercent(macros.fatPct)})
             </Text>
           </View>
         </View>

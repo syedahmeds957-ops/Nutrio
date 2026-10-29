@@ -39,6 +39,11 @@ import { MEAL_SLOTS, defaultSlotForHour, nextSlotToLog } from '../mealsCard.js';
 import { loadWeighIns } from '../../weight/weightStorage.js';
 import { withSurveyBaseline } from '../../weight/surveyBaseline.js';
 import { weightGlance } from '../../weight/weightGlance.js';
+import { weekStripFor } from '../weekStrip.js';
+import { weekStartFor } from '../../workout/weekView.js';
+import { computeLoggingStreak } from '../streak.js';
+import { StreakBadge } from './StreakBadge.js';
+import { WeeklyCalorieBankCard } from './WeeklyCalorieBankCard.js';
 
 interface TrackerDashboardScreenProps {
   userName?: string;
@@ -278,18 +283,18 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
           return pastEngine.getSummary();
         })();
 
-  // Calories eaten on each day of the current Mon-Sun week: past days from what
-  // was saved, today from the live summary, later days not yet. The hero bars
-  // read it.
+  // Calories eaten on each day of the current calendar week, which starts on
+  // the region's first day (SA Sunday, else Monday): past days from what was
+  // saved, today from the live summary, later days not yet. The hero bars read
+  // it. Days are found by date, so a region switch only re-windows the week.
+  const weekStrip = weekStripFor(summary.date, activeRegion);
   const weekDays = (() => {
-    const today = new Date(`${summary.date}T00:00:00Z`);
-    const todayIdx = (today.getUTCDay() + 6) % 7;
-    return Array.from({ length: 7 }, (_, idx) => {
+    const todayIdx = weekStrip.todayIndex;
+    return weekStrip.dateKeys.map((date, idx) => {
       if (idx === todayIdx) {
         return { consumed: summary.totalCaloriesConsumed, isLogged: summary.items.length > 0, isToday: true };
       }
       if (idx > todayIdx) return { consumed: 0, isLogged: false, isToday: false };
-      const date = addDaysToKey(summary.date, -(todayIdx - idx));
       const saved = loadDay(date, activeRegion);
       if (!saved?.items?.length) return { consumed: 0, isLogged: false, isToday: false };
       const dayEngine = new TrackerEngine({ ...targets, date });
@@ -303,6 +308,17 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   const weeklyHistoryFills = weekDays.map((d) =>
     d.isToday ? 0 : Math.min(1, d.consumed / Math.max(1, targets.targetCalories))
   );
+
+  // Logging streak from which days have a saved log (today from the live
+  // list). Guests read nothing saved, so they get no streak.
+  const weekStart = weekStartFor(activeRegion);
+  const loggingStreak = isGuest
+    ? null
+    : computeLoggingStreak(
+        (date) => (date === summary.date ? summary.items.length > 0 : !!loadDay(date, activeRegion)?.items?.length),
+        summary.date,
+        weekStart
+      );
 
   /** True (and the sign-up prompt opens) when a guest tries to log or change anything. */
   const blockGuest = () => {
@@ -499,7 +515,12 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
 
           {/* Hero + macro tiles. Their own bottom margin is 16; cards below sit 12 apart. */}
           <View style={styles.heroWrap}>
-            <DailyProgressHeader summary={summary} weeklyHistoryFills={weeklyHistoryFills} />
+            <DailyProgressHeader
+              summary={summary}
+              weeklyHistoryFills={weeklyHistoryFills}
+              weekdays={weekStrip.weekdays}
+              todayIndex={weekStrip.todayIndex}
+            />
           </View>
 
           <View style={styles.sections}>
@@ -553,6 +574,20 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
               onAddItem={handleOpenAdd}
               onDeleteItem={handleDeleteItem}
               onOpenMealPlan={onOpenMealPlan}
+            />
+
+            {loggingStreak ? <StreakBadge {...loggingStreak} weekStart={weekStart} /> : null}
+
+            <WeeklyCalorieBankCard
+              targetCalories={targets.targetCalories}
+              weekStart={weekStart}
+              dailyHistory={weekDays.map((d, idx) => ({
+                day: weekStrip.weekdays[idx],
+                consumed: Math.round(d.consumed),
+                target: targets.targetCalories,
+                isLogged: d.isLogged,
+                isToday: d.isToday,
+              }))}
             />
           </View>
         </ScrollView>

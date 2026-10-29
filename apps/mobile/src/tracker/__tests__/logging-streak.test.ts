@@ -51,4 +51,17 @@ describe('computeLoggingStreak', () => {
     const result = computeLoggingStreak(logged('2026-10-12', '2026-10-14'), TODAY);
     expect(result.consistencyPct).toBe(67);
   });
+
+  it('starts the week on Sunday when given the Saudi week start', () => {
+    // Sunday 11th opens the SA week that contains Wednesday 14th.
+    const result = computeLoggingStreak(logged('2026-10-11', '2026-10-12', '2026-10-14'), TODAY, 'sun');
+    expect(result.currentDayIndex).toBe(3);
+    expect(result.completedDays).toEqual([0, 1, 3]);
+    expect(result.consistencyPct).toBe(75);
+  });
+
+  it('defaults to a Monday week, the same as passing mon', () => {
+    const hasLog = logged('2026-10-11', '2026-10-12', '2026-10-14');
+    expect(computeLoggingStreak(hasLog, TODAY)).toEqual(computeLoggingStreak(hasLog, TODAY, 'mon'));
+  });
 });

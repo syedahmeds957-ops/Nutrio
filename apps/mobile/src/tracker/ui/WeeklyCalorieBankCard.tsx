@@ -9,7 +9,10 @@ import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { useFormat } from '../../i18n/useFormat.js';
 import { Icon } from '../../ui/Icon.js';
+import type { Weekday } from '@nutrio/workout-core';
 import { weeklyCalorieBank } from '../calorieBank.js';
+import { dayIndexInWeek, weekdaysFrom } from '../weekStrip.js';
+import { localDateKey } from '../../common/dateKey.js';
 
 export interface DayIntake {
   day: string;
@@ -23,10 +26,13 @@ export interface DayIntake {
 interface WeeklyCalorieBankCardProps {
   dailyHistory?: DayIntake[];
   targetCalories?: number;
+  /**
+   * The week's first day (`weekStartFor(region)`): orders the day labels and,
+   * with no history given, finds today. `dailyHistory` must be in the same order.
+   * Monday by default.
+   */
+  weekStart?: Weekday;
 }
-
-const WEEK_DAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-const DAY_KEYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
 // Pinned explicitly rather than left to the platform's default leading: the
 // target guide is positioned off these, so a font-dependent line height would
@@ -35,9 +41,10 @@ const DAY_LABEL_LINE_HEIGHT = 14;
 const BAR_LABEL_GAP = 6;
 
 const BAR_MAX_HEIGHT = 68;
+const BARS_ROW_HEIGHT = 94;
 
 /** Width reserved on the left for the TARGET caption, so no bar sits under it. */
-const TARGET_LABEL_GUTTER = 42;
+const TARGET_LABEL_GUTTER = 48;
 
 /**
  * Where the target line sits inside the plot, as a fraction of bar height.
@@ -79,21 +86,21 @@ export function computeCalorieBankScale(targetCalories: number): {
 export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
   dailyHistory,
   targetCalories = 1850,
+  weekStart = 'mon',
 }) => {
-  const { theme, isDark } = useTheme();
+  const { theme } = useTheme();
   const { t } = useTranslation();
   const { formatNumber } = useFormat();
   const dir = useTextDirection();
-  const accentColor = theme.colors.primaryLime;
-  const accentBg = theme.colors.surfaceSecondary;
 
   const animProgress = useRef(new Animated.Value(0)).current;
 
   // Derive dynamic history: if not provided, construct clean week where unlogged days have 0 consumed
-  const currentDayIdx = (new Date().getDay() + 6) % 7;
+  const dayKeys = weekdaysFrom(weekStart);
+  const currentDayIdx = dayIndexInWeek(localDateKey(), weekStart);
   const history: DayIntake[] = dailyHistory && dailyHistory.length > 0
     ? dailyHistory
-    : WEEK_DAY_LABELS.map((day, idx) => ({
+    : dayKeys.map((day, idx) => ({
         day,
         consumed: 0,
         target: targetCalories,
@@ -104,6 +111,8 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
   const bank = weeklyCalorieBank(
     history.map((h) => ({ consumed: h.consumed, target: h.target, isLogged: !!h.isLogged, isToday: h.isToday }))
   );
+  const balanceColor =
+    bank.countedDays > 0 && bank.balanceKcal < 0 ? theme.colors.warning : theme.colors.primaryAccessible;
   const isLoggingToday = history.some((h) => h.isToday && h.consumed > 0);
   const balanceLabel =
     bank.countedDays === 0
@@ -136,6 +145,22 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
   const { hasTarget, maxBarKcal } = computeCalorieBankScale(targetCalories);
   const targetLineBottom = DAY_LABEL_BLOCK + TARGET_LINE_FRACTION * BAR_MAX_HEIGHT;
 
+  const dayName = (idx: number) => t(`common.weekdayAbbrev.${dayKeys[idx]}`);
+  // One spoken summary for the whole chart: the bars alone say nothing to a
+  // screen reader. It starts with the visible title.
+  const chartSummary = [
+    t('tracker.calorieBank.title'),
+    ...history.map((item, idx) =>
+      item.consumed > 0
+        ? t('tracker.calorieBank.dayLine', {
+            day: dayName(idx),
+            consumed: formatNumber(Math.round(item.consumed)),
+            target: formatNumber(Math.round(item.target)),
+          })
+        : t('tracker.calorieBank.dayEmpty', { day: dayName(idx) })
+    ),
+  ].join(', ');
+
   return (
     <View
       style={[
@@ -146,58 +171,46 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
         },
       ]}
     >
-      {/* Card Header */}
       <View style={styles.headerRow}>
         <View style={styles.titleRow}>
-          <View
-            style={[
-              styles.iconCircle,
-              { backgroundColor: accentBg },
-            ]}
+          <Text
+            role="heading"
+            aria-level={2}
+            style={[styles.cardTitle, dir.text, { color: theme.colors.textPrimary }]}
           >
-            <Icon name="calendar" size={14} color={accentColor} />
-          </View>
-          <View>
-            <Text style={[styles.cardTitle, dir.text, { color: theme.colors.textPrimary }]}>
-              {t('tracker.calorieBank.title')}
-            </Text>
-            <Text style={[styles.cardSubtitle, dir.text, { color: theme.colors.textSecondary }]}>
-              {t('tracker.calorieBank.subtitle')}
-            </Text>
-          </View>
+            {t('tracker.calorieBank.title')}
+          </Text>
         </View>
 
         <View
           style={[
-            styles.deficitPill,
-            {
-              backgroundColor: accentBg,
-              borderColor: isDark ? theme.colors.border : accentColor,
-            },
+            styles.balancePill,
+            { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border },
           ]}
         >
-          <Icon name="zap" size={12} color={accentColor} />
-          <Text style={[styles.deficitText, { color: theme.colors.primaryAccessible }]}>
-            {balanceLabel}
-          </Text>
+          <Icon name="zap" size={12} color={balanceColor} />
+          <Text style={[styles.balanceText, dir.text, { color: balanceColor }]}>{balanceLabel}</Text>
         </View>
       </View>
 
-      {/* Reassurance Message */}
-      <Text style={[styles.reassuranceText, dir.text, { color: theme.colors.textMuted }]}>
-        {hint}
-      </Text>
+      <Text style={[styles.hintText, dir.text, { color: theme.colors.textSecondary }]}>{hint}</Text>
 
-      {/* 7-Day Mini Bar Chart */}
-      <View style={styles.chartContainer}>
-        {/* Target Line Guide */}
-        {hasTarget ? (
-          <View style={[styles.targetLine, { bottom: targetLineBottom }]}>
-            <Text style={[styles.targetLineLabel, { color: theme.colors.textMuted }]}>
+      {/* 7-day mini bar chart, one summary for assistive tech. */}
+      <View style={styles.chartContainer} role="img" aria-label={chartSummary}>
+        {/* Caption gutter and plot are siblings, not padding, so the same layout mirrors in Arabic. */}
+        <View style={styles.gutter}>
+          {hasTarget ? (
+            <Text
+              numberOfLines={1}
+              style={[styles.targetLineLabel, dir.text, { bottom: targetLineBottom - 7, color: theme.colors.textMuted }]}
+            >
               {t('tracker.calorieBank.targetLabel')}
             </Text>
-            <View style={[styles.targetDashedLine, { backgroundColor: theme.colors.border }]} />
-          </View>
+          ) : null}
+        </View>
+        <View style={styles.plot}>
+        {hasTarget ? (
+          <View style={[styles.targetDashedLine, { bottom: targetLineBottom, backgroundColor: theme.colors.border }]} />
         ) : null}
 
         <View style={styles.barsRow}>
@@ -216,7 +229,7 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
                   style={[
                     styles.barTrack,
                     { backgroundColor: theme.colors.surfaceSecondary },
-                    isToday && { borderColor: accentColor, borderWidth: 1 },
+                    isToday && { borderColor: theme.colors.primaryAccessible, borderWidth: 1.5 },
                   ]}
                 >
                   <Animated.View
@@ -225,12 +238,10 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
                       {
                         height: heightValue,
                         backgroundColor: isToday
-                          ? accentColor
+                          ? theme.colors.primaryLime
                           : isOver
-                          ? '#F59E0B'
-                          : isDark
-                          ? '#3B82F6'
-                          : theme.colors.primary,
+                          ? theme.colors.warning
+                          : theme.colors.primaryAccessible,
                       },
                     ]}
                   />
@@ -245,11 +256,12 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
                     isToday && [styles.dayLabelToday, { color: theme.colors.primaryAccessible }],
                   ]}
                 >
-                  {t(`common.weekdayAbbrev.${DAY_KEYS[idx]}`)}
+                  {dayName(idx)}
                 </Text>
               </View>
             );
           })}
+        </View>
         </View>
       </View>
     </View>
@@ -257,91 +269,86 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
 };
 
 const styles = StyleSheet.create({
+  // Same shell as the other cards in the Today column: the column supplies the gutters.
   card: {
-    borderRadius: 22,
-    padding: 18,
-    marginHorizontal: 16,
-    marginBottom: 14,
+    borderRadius: 20,
+    padding: 14,
     borderWidth: 1,
   },
   headerRow: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
+    columnGap: 8,
+    rowGap: 8,
+    marginBottom: 8,
   },
   titleRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
-  },
-  iconCircle: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexShrink: 1,
+    minWidth: 0,
   },
   cardTitle: {
+    flexShrink: 1,
     fontSize: 15,
     fontWeight: '700',
     letterSpacing: -0.2,
   },
-  cardSubtitle: {
-    fontSize: 12,
-    fontWeight: '500',
-  },
-  deficitPill: {
+  balancePill: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
+    flexShrink: 1,
+    minHeight: 28,
     paddingVertical: 4,
     paddingHorizontal: 10,
     borderRadius: 9999,
     borderWidth: 1,
   },
-  deficitText: {
-    fontSize: 11,
-    fontWeight: '800',
+  balanceText: {
+    flexShrink: 1,
+    fontSize: 12,
+    fontWeight: '700',
   },
-  reassuranceText: {
-    fontSize: 11,
-    marginBottom: 16,
-    lineHeight: 16,
+  hintText: {
+    fontSize: 12,
+    marginBottom: 12,
+    lineHeight: 17,
   },
   chartContainer: {
-    position: 'relative',
+    flexDirection: 'row',
     paddingTop: 10,
   },
-  targetLine: {
+  gutter: {
+    width: TARGET_LABEL_GUTTER,
+    height: BARS_ROW_HEIGHT,
+  },
+  plot: {
+    flex: 1,
+    position: 'relative',
+  },
+  // Painted before the bars, so they cover it: a reference line, not a strike-through.
+  targetDashedLine: {
     position: 'absolute',
     left: 0,
     right: 0,
-    flexDirection: 'row',
-    alignItems: 'center',
-    // No zIndex on purpose. It is declared before barsRow, so it paints
-    // underneath and the bars occlude it, which is how a reference line should
-    // read. On top it looked like a line scribbled across the chart.
-  },
-  targetDashedLine: {
-    flex: 1,
     height: 1,
   },
   targetLineLabel: {
-    width: TARGET_LABEL_GUTTER,
-    fontSize: 9,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    fontSize: 10,
+    lineHeight: 14,
     fontWeight: '700',
-    textTransform: 'uppercase',
   },
   barsRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'flex-end',
-    height: 94,
-    // Left gutter matches the caption's width so no bar sits under "TARGET".
-    // The caption used to start at x=0, right on top of Monday's bar.
-    paddingStart: TARGET_LABEL_GUTTER,
-    paddingEnd: 8,
+    height: BARS_ROW_HEIGHT,
   },
   barCol: {
     alignItems: 'center',
@@ -360,7 +367,7 @@ const styles = StyleSheet.create({
     borderRadius: 7,
   },
   dayLabel: {
-    fontSize: 10,
+    fontSize: 11,
     lineHeight: DAY_LABEL_LINE_HEIGHT,
     fontWeight: '600',
   },
