@@ -127,6 +127,9 @@ describe('the questions follow the user’s answers', () => {
     const html = more(toggleSport(BASE, 'cricket'), 3);
     expect(html).toContain('Cricket · which days?');
     expect(html).toContain('No heavy leg day on these days or the day before.');
+    // A sport with no days is dropped on save, so the card says so until a day is picked.
+    expect(html).toContain('Pick at least one day, or this won');
+    expect(more(toggleSportDay(toggleSport(BASE, 'cricket'), 'cricket', 'sat'), 3)).not.toContain('Pick at least one day');
   });
 
   it('asks in Arabic', async () => {

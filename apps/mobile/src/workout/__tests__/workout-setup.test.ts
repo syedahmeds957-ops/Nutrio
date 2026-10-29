@@ -10,6 +10,7 @@ initI18n('en');
 import { createWorkoutPlan, updateWorkoutPlan } from '../planActions.js';
 import {
   canContinue,
+  canSkipRest,
   continueBlocker,
   stepProgress,
   settingsForEdit,
@@ -52,6 +53,10 @@ describe('setup rules', () => {
     expect(stepProgress(3).optional).toBe(false);
     expect(stepProgress(4)).toEqual({ current: 4, total: 6, optional: true });
     expect(stepProgress(6)).toEqual({ current: 6, total: 6, optional: true });
+  });
+
+  it('offers "Skip for now" on the optional steps but not the last, where the main button finishes', () => {
+    expect([1, 2, 3, 4, 5, 6].filter((step) => canSkipRest(step as 1 | 2 | 3 | 4 | 5 | 6))).toEqual([4, 5]);
   });
 
   it('says why Continue is off, and only on the days step', () => {

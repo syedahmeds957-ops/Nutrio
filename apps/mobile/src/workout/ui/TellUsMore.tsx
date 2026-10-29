@@ -331,6 +331,10 @@ export const TellUsMore: React.FC<TellUsMoreProps> = ({ part, settings, update, 
                   />
                 ))}
               </ChipGroup>
+              {/* A sport with no days is dropped when the plan is saved, so say so while it can still be fixed. */}
+              {sport.days.length === 0 ? (
+                <Text style={[styles.sportHint, dir.text, { color: c.textSecondary }]}>{t('workout.more.sportPickDays')}</Text>
+              ) : null}
             </View>
           ))}
           {(profile.sports ?? []).length ? (
@@ -382,6 +386,7 @@ const styles = StyleSheet.create({
   routineSub: { fontSize: 12, fontWeight: '600' },
   flipped: { transform: [{ scaleX: -1 }] },
   sportTitle: { fontSize: 14, fontWeight: '800' },
+  sportHint: { fontSize: 12, lineHeight: 17, fontWeight: '500' },
   days: { gap: 6, marginBottom: 0 },
   dayChip: { minWidth: 44, paddingHorizontal: 8 },
 });

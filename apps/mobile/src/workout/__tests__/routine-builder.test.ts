@@ -9,6 +9,7 @@ import {
   clearRoutine,
   moveRoutineExercise,
   removeRoutineExercise,
+  routineBlocker,
   routineOf,
   routineReady,
   setRoutineExercise,
@@ -76,6 +77,19 @@ describe('routine builder rules', () => {
     expect(routineOf(s).days).toHaveLength(6);
   });
 
+  it('says why Improve is off: too few days, or which days have no exercise yet', () => {
+    // Opening the builder seeds one empty day per training day (Mon, Thu here).
+    expect(routineBlocker(routineOf(BASE))).toEqual({ kind: 'empty', days: ['mon', 'thu'] });
+    expect(routineBlocker(routineOf(addRoutineExercise(BASE, 'mon', 'barbell-bench-press')))).toEqual({ kind: 'empty', days: ['thu'] });
+    expect(routineBlocker(routineOf(twoDays()))).toBeNull();
+    expect(routineBlocker(routineOf(toggleRoutineDay(twoDays(), 'thu')))).toEqual({ kind: 'days' });
+    expect(routineBlocker({ days: [] })).toEqual({ kind: 'days' });
+    // Training days are kept in the order they were tapped; the builder lists them in week order.
+    const tapped = { ...BASE, trainingDays: ['fri', 'mon', 'wed'] as WorkoutSettings['trainingDays'] };
+    expect(routineOf(tapped).days.map((d) => d.day)).toEqual(['mon', 'wed', 'fri']);
+    expect(routineBlocker(routineOf(tapped))).toEqual({ kind: 'empty', days: ['mon', 'wed', 'fri'] });
+  });
+
   it('saves the routine’s days as the training days, and drops the routine for beginners or when cleared', () => {
     let s = toggleRoutineDay(twoDays(), 'sat');
     s = addRoutineExercise(s, 'sat', 'romanian-deadlift');
@@ -93,10 +107,12 @@ describe('routine builder screen', () => {
     expect(ready).toContain('Barbell bench press');
     expect(ready).toContain('aria-label="Sets for Barbell bench press"');
     expect(ready).toContain('Improve my routine');
-    expect(ready).not.toContain('Add 2–6 days');
+    expect(ready).not.toContain('to continue.');
     const empty = render(React.createElement(RoutineBuilder, { settings: BASE, update: noop, onBack: noop, onImprove: noop }));
-    expect(empty).toContain('Add 2–6 days, each with at least one exercise.');
+    expect(empty).toContain('Add at least one exercise to Mon, Thu to continue.');
     expect(empty).toMatch(/aria-disabled="true"[^>]*>[\s\S]*Improve my routine/);
+    const oneDay = render(React.createElement(RoutineBuilder, { settings: toggleRoutineDay(twoDays(), 'thu'), update: noop, onBack: noop, onImprove: noop }));
+    expect(oneDay).toContain('Pick 2–6 days you train to continue.');
   });
 
   it('is offered from "Tell us more" to people training now', () => {

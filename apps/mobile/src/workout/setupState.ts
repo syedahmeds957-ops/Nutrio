@@ -31,6 +31,15 @@ export function stepProgress(step: SetupStep): { current: number; total: number;
   return { current: step, total: TOTAL_STEPS, optional: step > SETUP_STEPS };
 }
 
+/**
+ * "Skip for now" leaves the optional questions early. It is not offered on the
+ * last step, where the main button already finishes and a second control that
+ * does the same thing under another name only confuses.
+ */
+export function canSkipRest(step: SetupStep): boolean {
+  return step > SETUP_STEPS && step < LAST_STEP;
+}
+
 /** Beginners get simple checks; anyone with some experience is asked about their training. */
 export function isBeginner(settings: WorkoutSettings): boolean {
   return settings.experience === 'new';
@@ -212,8 +221,12 @@ export function profileForSave(settings: WorkoutSettings): TrainingProfile | und
 
 const WEEK_ORDER: readonly Weekday[] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
+/** The routine being entered, or one empty day per training day, in week order like every edited routine. */
 export function routineOf(settings: WorkoutSettings): ImportedRoutine {
-  return profileOf(settings).routine ?? { days: settings.trainingDays.map((day) => ({ day, exercises: [] })) };
+  const saved = profileOf(settings).routine;
+  if (saved) return saved;
+  const days = [...settings.trainingDays].sort((a, b) => WEEK_ORDER.indexOf(a) - WEEK_ORDER.indexOf(b));
+  return { days: days.map((day) => ({ day, exercises: [] })) };
 }
 
 function withRoutine(settings: WorkoutSettings, routine: ImportedRoutine): WorkoutSettings {
@@ -221,9 +234,21 @@ function withRoutine(settings: WorkoutSettings, routine: ImportedRoutine): Worko
   return updateProfile(settings, { routine: { days } });
 }
 
+/**
+ * Why "Improve my routine" is off, so the screen can say it in words: too few
+ * (or too many) days, or which days still have no exercise. Null when ready.
+ */
+export type RoutineBlocker = { kind: 'days' } | { kind: 'empty'; days: Weekday[] };
+
+export function routineBlocker(routine: ImportedRoutine): RoutineBlocker | null {
+  if (routine.days.length < MIN_TRAINING_DAYS || routine.days.length > MAX_TRAINING_DAYS) return { kind: 'days' };
+  const empty = routine.days.filter((d) => d.exercises.length === 0).map((d) => d.day);
+  return empty.length ? { kind: 'empty', days: empty } : null;
+}
+
 /** A routine is ready to improve with 2–6 training days, each with at least one exercise. */
 export function routineReady(routine: ImportedRoutine): boolean {
-  return routine.days.length >= MIN_TRAINING_DAYS && routine.days.length <= MAX_TRAINING_DAYS && routine.days.every((d) => d.exercises.length > 0);
+  return routineBlocker(routine) === null;
 }
 
 export function toggleRoutineDay(settings: WorkoutSettings, day: Weekday): WorkoutSettings {

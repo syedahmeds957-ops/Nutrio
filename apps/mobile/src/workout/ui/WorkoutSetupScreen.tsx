@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import type {
   Equipment,
   FocusArea,
@@ -21,11 +22,13 @@ import { Chip, ChipGroup, Question } from './SetupChips.js';
 import { TellUsMore } from './TellUsMore.js';
 import { RoutineBuilder } from './RoutineBuilder.js';
 import { RamadanCard } from './RamadanCard.js';
+import { KEYBOARD_BEHAVIOR } from './keyboard.js';
 import { localDateKey } from '../../common/dateKey.js';
 import { useRegion } from '../../common/region/index.js';
 import { weekStartFor } from '../weekView.js';
 import {
   canContinue,
+  canSkipRest,
   continueBlocker,
   stepProgress,
   DUMBBELL_CHOICES_KG,
@@ -129,9 +132,10 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
           label={step === 1 ? t('common.cancel') : t('common.back')}
         />
         <View style={styles.flex} />
-        {more ? (
+        {/* A quiet text link, so it never reads as the main action; the last step has none, its main button finishes. */}
+        {canSkipRest(step) ? (
           <TouchableOpacity accessibilityRole="button" onPress={() => onSave(settings)} style={styles.skip}>
-            <Text style={[styles.skipText, { color: c.primaryAccessible }]}>{t('workout.more.skip')}</Text>
+            <Text style={[styles.skipText, { color: c.textSecondary }]}>{t('workout.more.skip')}</Text>
           </TouchableOpacity>
         ) : null}
       </View>
@@ -141,233 +145,242 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
         stepTitle={more ? `${t('workout.more.title')} · ${t('workout.setup.optional')}` : t('workout.setup.title')}
       />
 
-      <ScrollView ref={scrollRef} style={styles.flex} contentContainerStyle={styles.content}>
-        {more ? (
-          <Text style={[styles.subtitle, dir.text, { color: c.textSecondary }]}>
-            {beginner ? t('workout.more.subtitleBeginner') : t('workout.more.subtitle')}
-          </Text>
-        ) : null}
+      {/* The questions and the button bar rise with the keyboard (step 4 has number fields), so the button stays reachable. */}
+      <KeyboardAvoidingView style={styles.flex} behavior={KEYBOARD_BEHAVIOR}>
+        <ScrollView ref={scrollRef} style={styles.flex} contentContainerStyle={styles.content} keyboardDismissMode="on-drag">
+          {more ? (
+            <Text style={[styles.subtitle, dir.text, { color: c.textSecondary }]}>
+              {beginner ? t('workout.more.subtitleBeginner') : t('workout.more.subtitle')}
+            </Text>
+          ) : null}
 
-        {step === 1 && (
-          <>
-            {mode === 'create' && prefilled && (
-              <Notice icon="info" style={styles.notice}>
-                {t('workout.setup.prefillNote')}
-              </Notice>
-            )}
-            <Question>{t('workout.setup.goalQuestion')}</Question>
-            <OptionGroup label={t('workout.setup.goalQuestion')} style={styles.grid2}>
-              {GOALS.map((goal) => (
-                <OptionButton
-                  key={goal}
-                  label={t(`workout.setup.goal.${goal}.label`)}
-                  accessibilityLabel={`${t(`workout.setup.goal.${goal}.label`)}. ${t(`workout.setup.goal.${goal}.desc`)}`}
-                  selected={settings.goal === goal}
-                  onPress={() => update({ ...settings, goal })}
-                  style={styles.optionCard}
-                >
-                  {(colors) => (
-                    <>
-                      <Text style={[styles.optionLabel, dir.text, colors.text]}>{t(`workout.setup.goal.${goal}.label`)}</Text>
-                      <Text style={[styles.optionDesc, dir.text, colors.sub]}>{t(`workout.setup.goal.${goal}.desc`)}</Text>
-                    </>
-                  )}
-                </OptionButton>
-              ))}
-            </OptionGroup>
-
-            <Question>{t('workout.setup.experienceQuestion')}</Question>
-            <OptionGroup label={t('workout.setup.experienceQuestion')} style={styles.stack}>
-              {EXPERIENCE.map((level) => (
-                <OptionButton
-                  key={level}
-                  label={t(`workout.setup.experience.${level}`)}
-                  check="inline"
-                  selected={settings.experience === level}
-                  onPress={() => update({ ...settings, experience: level })}
-                  style={styles.optionRow}
-                  labelStyle={styles.optionRowText}
-                />
-              ))}
-            </OptionGroup>
-          </>
-        )}
-
-        {step === 2 && (
-          <>
-            <Question>{t('workout.setup.locationQuestion')}</Question>
-            <OptionGroup label={t('workout.setup.locationQuestion')} style={styles.stack}>
-              {LOCATIONS.map(({ id, icon }) => {
-                const selected = settings.location === id;
-                return (
+          {step === 1 && (
+            <>
+              {mode === 'create' && prefilled && (
+                <Notice icon="info" style={styles.notice}>
+                  {t('workout.setup.prefillNote')}
+                </Notice>
+              )}
+              <Question>{t('workout.setup.goalQuestion')}</Question>
+              <OptionGroup label={t('workout.setup.goalQuestion')} style={styles.grid2}>
+                {GOALS.map((goal) => (
                   <OptionButton
-                    key={id}
-                    label={t(`workout.setup.location.${id}.label`)}
-                    accessibilityLabel={`${t(`workout.setup.location.${id}.label`)}. ${t(`workout.setup.location.${id}.desc`)}`}
-                    check="inline"
-                    selected={selected}
-                    onPress={() => update({ ...settings, location: id })}
-                    style={styles.locationCard}
+                    key={goal}
+                    label={t(`workout.setup.goal.${goal}.label`)}
+                    accessibilityLabel={`${t(`workout.setup.goal.${goal}.label`)}. ${t(`workout.setup.goal.${goal}.desc`)}`}
+                    selected={settings.goal === goal}
+                    onPress={() => update({ ...settings, goal })}
+                    style={styles.optionCard}
                   >
                     {(colors) => (
                       <>
-                        <View style={[styles.locationIcon, { backgroundColor: selected ? c.limeText : c.surfaceSecondary }]}>
-                          <Icon name={icon} size={20} color={selected ? c.primaryLime : c.textPrimary} />
-                        </View>
-                        <View style={styles.flex}>
-                          <Text style={[styles.optionLabel, dir.text, colors.text]}>{t(`workout.setup.location.${id}.label`)}</Text>
-                          <Text style={[styles.optionDesc, dir.text, colors.sub]}>{t(`workout.setup.location.${id}.desc`)}</Text>
-                        </View>
+                        <Text style={[styles.optionLabel, dir.text, colors.text]}>{t(`workout.setup.goal.${goal}.label`)}</Text>
+                        <Text style={[styles.optionDesc, dir.text, colors.sub]}>{t(`workout.setup.goal.${goal}.desc`)}</Text>
                       </>
                     )}
                   </OptionButton>
-                );
-              })}
-            </OptionGroup>
+                ))}
+              </OptionGroup>
 
-            {settings.location === 'home_none' && (
-              <Notice tone="info" style={styles.notice}>
-                {t('workout.setup.bandTip')}
-              </Notice>
-            )}
+              <Question>{t('workout.setup.experienceQuestion')}</Question>
+              <OptionGroup label={t('workout.setup.experienceQuestion')} style={styles.stack}>
+                {EXPERIENCE.map((level) => (
+                  <OptionButton
+                    key={level}
+                    label={t(`workout.setup.experience.${level}`)}
+                    check="inline"
+                    selected={settings.experience === level}
+                    onPress={() => update({ ...settings, experience: level })}
+                    style={styles.optionRow}
+                    labelStyle={styles.optionRowText}
+                  />
+                ))}
+              </OptionGroup>
+            </>
+          )}
 
-            {settings.location === 'home_equipment' && (
-              <>
-                <Question>{t('workout.setup.equipmentQuestion')}</Question>
-                <ChipGroup label={t('workout.setup.equipmentQuestion')} mode="toggle">
-                  {HOME_EQUIPMENT.map((item) => (
-                    <Chip
-                      key={item}
-                      label={t(`workout.setup.equipment.${item}`)}
-                      selected={settings.homeEquipment.includes(item)}
-                      onPress={() => update(toggleEquipment(settings, item))}
-                    />
-                  ))}
-                </ChipGroup>
-                {settings.homeEquipment.includes('dumbbell') && (
-                  <>
-                    <Question>{t('workout.setup.dumbbellQuestion')}</Question>
-                    <Text style={[styles.hint, dir.text, { color: c.textSecondary }]}>{t('workout.setup.dumbbellHint')}</Text>
-                    <ChipGroup label={t('workout.setup.dumbbellQuestion')} mode="toggle" style={styles.grid4}>
-                      {DUMBBELL_CHOICES_KG.map((kg) => (
-                        <Chip
-                          key={kg}
-                          label={kg === 0 ? t('workout.setup.adjustable') : t('workout.setup.kg', { kg })}
-                          selected={settings.dumbbellWeightsKg.includes(kg)}
-                          onPress={() => update(toggleDumbbell(settings, kg))}
-                          style={styles.gridCell}
-                        />
-                      ))}
-                    </ChipGroup>
-                  </>
-                )}
-              </>
-            )}
+          {step === 2 && (
+            <>
+              <Question>{t('workout.setup.locationQuestion')}</Question>
+              <OptionGroup label={t('workout.setup.locationQuestion')} style={styles.stack}>
+                {LOCATIONS.map(({ id, icon }) => {
+                  const selected = settings.location === id;
+                  return (
+                    <OptionButton
+                      key={id}
+                      label={t(`workout.setup.location.${id}.label`)}
+                      accessibilityLabel={`${t(`workout.setup.location.${id}.label`)}. ${t(`workout.setup.location.${id}.desc`)}`}
+                      check="inline"
+                      selected={selected}
+                      onPress={() => update({ ...settings, location: id })}
+                      style={styles.locationCard}
+                    >
+                      {(colors) => (
+                        <>
+                          <View style={[styles.locationIcon, { backgroundColor: selected ? c.limeText : c.surfaceSecondary }]}>
+                            <Icon name={icon} size={20} color={selected ? c.primaryLime : c.textPrimary} />
+                          </View>
+                          <View style={styles.flex}>
+                            <Text style={[styles.optionLabel, dir.text, colors.text]}>{t(`workout.setup.location.${id}.label`)}</Text>
+                            <Text style={[styles.optionDesc, dir.text, colors.sub]}>{t(`workout.setup.location.${id}.desc`)}</Text>
+                          </View>
+                        </>
+                      )}
+                    </OptionButton>
+                  );
+                })}
+              </OptionGroup>
 
-            {settings.location === 'gym' && (
-              <Notice style={styles.notice}>{beginner ? t('workout.setup.gymNoteBeginner') : t('workout.setup.gymNote')}</Notice>
-            )}
-          </>
-        )}
+              {settings.location === 'home_none' && (
+                <Notice tone="info" style={styles.notice}>
+                  {t('workout.setup.bandTip')}
+                </Notice>
+              )}
 
-        {step === 3 && (
-          <>
-            {settings.lowIntensity && (
-              <Notice tone="warning" style={styles.notice}>
-                {t('workout.setup.lowIntensityNote')}
-              </Notice>
-            )}
-            <Question>{t('workout.setup.daysQuestion')}</Question>
-            {beginner ? <Text style={[styles.hint, dir.text, { color: c.textSecondary }]}>{t('workout.setup.beginnerDaysHint')}</Text> : null}
-            <ChipGroup label={t('workout.setup.daysQuestion')} mode="toggle" style={styles.grid4}>
-              {daysFrom(weekStartFor(activeRegion)).map((day) => (
-                <Chip
-                  key={day}
-                  label={t(`workout.days.${day}`)}
-                  selected={settings.trainingDays.includes(day)}
-                  onPress={() => update(toggleDay(settings, day))}
-                  style={styles.gridCell}
-                />
-              ))}
-            </ChipGroup>
-            <Text
-              accessibilityLiveRegion="polite"
-              style={[styles.daysCount, dir.text, { color: ready ? c.textSecondary : c.danger }]}
-            >
-              {ready ? t('workout.setup.daysCount', { count: dayCount }) : t('workout.setup.daysError')}
-            </Text>
-
-            <Question>{t('workout.setup.lengthQuestion')}</Question>
-            {beginner ? <Text style={[styles.hint, dir.text, { color: c.textSecondary }]}>{t('workout.setup.beginnerLengthHint')}</Text> : null}
-            <OptionGroup label={t('workout.setup.lengthQuestion')} style={styles.row}>
-              {LENGTHS.map((minutes) => (
-                <OptionButton
-                  key={minutes}
-                  label={`${minutes} ${t('workout.setup.minutesShort')}`}
-                  selected={settings.sessionMinutes === minutes}
-                  onPress={() => update({ ...settings, sessionMinutes: minutes })}
-                  style={styles.lengthTile}
-                >
-                  {(colors) => (
+              {settings.location === 'home_equipment' && (
+                <>
+                  <Question>{t('workout.setup.equipmentQuestion')}</Question>
+                  <ChipGroup label={t('workout.setup.equipmentQuestion')} mode="toggle">
+                    {HOME_EQUIPMENT.map((item) => (
+                      <Chip
+                        key={item}
+                        label={t(`workout.setup.equipment.${item}`)}
+                        selected={settings.homeEquipment.includes(item)}
+                        onPress={() => update(toggleEquipment(settings, item))}
+                      />
+                    ))}
+                  </ChipGroup>
+                  {settings.homeEquipment.includes('dumbbell') && (
                     <>
-                      <Text style={[styles.lengthValue, colors.text]}>{minutes}</Text>
-                      <Text style={[styles.lengthUnit, colors.sub]}>{t('workout.setup.minutesShort')}</Text>
+                      <Question>{t('workout.setup.dumbbellQuestion')}</Question>
+                      <Text style={[styles.hint, dir.text, { color: c.textSecondary }]}>{t('workout.setup.dumbbellHint')}</Text>
+                      <ChipGroup label={t('workout.setup.dumbbellQuestion')} mode="toggle" style={styles.grid4}>
+                        {DUMBBELL_CHOICES_KG.map((kg) => (
+                          <Chip
+                            key={kg}
+                            label={kg === 0 ? t('workout.setup.adjustable') : t('workout.setup.kg', { kg })}
+                            selected={settings.dumbbellWeightsKg.includes(kg)}
+                            onPress={() => update(toggleDumbbell(settings, kg))}
+                            style={styles.gridCell}
+                          />
+                        ))}
+                      </ChipGroup>
                     </>
                   )}
-                </OptionButton>
-              ))}
-            </OptionGroup>
+                </>
+              )}
 
-            <Question optional>{t('workout.setup.focusQuestion')}</Question>
-            <ChipGroup label={t('workout.setup.focusQuestion')} mode="toggle">
-              {FOCUS.map((area) => (
-                <Chip
-                  key={area}
-                  label={t(`workout.setup.focus.${area}`)}
-                  selected={settings.focus.includes(area)}
-                  onPress={() => update(toggleFocus(settings, area))}
-                />
-              ))}
-            </ChipGroup>
+              {settings.location === 'gym' && (
+                <Notice style={styles.notice}>{beginner ? t('workout.setup.gymNoteBeginner') : t('workout.setup.gymNote')}</Notice>
+              )}
+            </>
+          )}
 
-            <Question optional>{t('workout.setup.protectQuestion')}</Question>
-            <ChipGroup label={t('workout.setup.protectQuestion')} mode="toggle">
-              {JOINTS.map((joint) => (
-                <Chip
-                  key={joint}
-                  label={t(`workout.setup.protect.${joint}`)}
-                  selected={settings.protectedJoints.includes(joint)}
-                  onPress={() => update(toggleProtected(settings, joint))}
-                />
-              ))}
-            </ChipGroup>
-            <RamadanCard ramadan={settings.ramadan} todayKey={localDateKey()} onChange={(ramadan) => update({ ...settings, ramadan })} />
-          </>
-        )}
-        {more ? (
-          <TellUsMore part={(step - SETUP_STEPS) as 1 | 2 | 3} settings={settings} update={update} onOpenRoutine={() => setBuilding(true)} />
-        ) : null}
-      </ScrollView>
+          {step === 3 && (
+            <>
+              {settings.lowIntensity && (
+                <Notice tone="warning" style={styles.notice}>
+                  {t('workout.setup.lowIntensityNote')}
+                </Notice>
+              )}
+              <Question>{t('workout.setup.daysQuestion')}</Question>
+              {beginner ? <Text style={[styles.hint, dir.text, { color: c.textSecondary }]}>{t('workout.setup.beginnerDaysHint')}</Text> : null}
+              <ChipGroup label={t('workout.setup.daysQuestion')} mode="toggle" style={styles.grid4}>
+                {daysFrom(weekStartFor(activeRegion)).map((day) => (
+                  <Chip
+                    key={day}
+                    label={t(`workout.days.${day}`)}
+                    selected={settings.trainingDays.includes(day)}
+                    onPress={() => update(toggleDay(settings, day))}
+                    style={styles.gridCell}
+                  />
+                ))}
+              </ChipGroup>
+              <Text
+                accessibilityLiveRegion="polite"
+                style={[styles.daysCount, dir.text, { color: ready ? c.textSecondary : c.danger }]}
+              >
+                {ready ? t('workout.setup.daysCount', { count: dayCount }) : t('workout.setup.daysError')}
+              </Text>
 
-      <View style={[styles.bottomBar, { backgroundColor: c.surface, borderTopColor: c.border }]}>
-        {blocker ? (
-          <Text accessibilityLiveRegion="polite" style={[styles.blockerText, dir.text, { color: c.danger }]}>
-            {t('workout.setup.daysError')}
-          </Text>
-        ) : null}
-        <TouchableOpacity
-          accessibilityRole="button"
-          accessibilityState={{ disabled: !ready }}
-          disabled={!ready}
-          onPress={handleNext}
-          activeOpacity={0.7}
-          style={[styles.nextAction, { backgroundColor: c.primaryLime }, !ready && styles.disabled]}
-        >
-          <Text style={[styles.nextActionText, dir.textCenter, { color: c.limeText }]}>
-            {isLast ? t(mode === 'edit' ? 'workout.setup.saveChanges' : 'workout.setup.createPlan') : t('common.continue')}
-          </Text>
-        </TouchableOpacity>
-      </View>
+              <Question>{t('workout.setup.lengthQuestion')}</Question>
+              {beginner ? <Text style={[styles.hint, dir.text, { color: c.textSecondary }]}>{t('workout.setup.beginnerLengthHint')}</Text> : null}
+              <OptionGroup label={t('workout.setup.lengthQuestion')} style={styles.row}>
+                {LENGTHS.map((minutes) => (
+                  <OptionButton
+                    key={minutes}
+                    label={`${minutes} ${t('workout.setup.minutesShort')}`}
+                    selected={settings.sessionMinutes === minutes}
+                    onPress={() => update({ ...settings, sessionMinutes: minutes })}
+                    style={styles.lengthTile}
+                  >
+                    {(colors) => (
+                      <>
+                        <Text style={[styles.lengthValue, colors.text]}>{minutes}</Text>
+                        <Text style={[styles.lengthUnit, colors.sub]}>{t('workout.setup.minutesShort')}</Text>
+                      </>
+                    )}
+                  </OptionButton>
+                ))}
+              </OptionGroup>
+
+              <Question optional>{t('workout.setup.focusQuestion')}</Question>
+              <ChipGroup label={t('workout.setup.focusQuestion')} mode="toggle">
+                {FOCUS.map((area) => (
+                  <Chip
+                    key={area}
+                    label={t(`workout.setup.focus.${area}`)}
+                    selected={settings.focus.includes(area)}
+                    onPress={() => update(toggleFocus(settings, area))}
+                  />
+                ))}
+              </ChipGroup>
+
+              <Question optional>{t('workout.setup.protectQuestion')}</Question>
+              <ChipGroup label={t('workout.setup.protectQuestion')} mode="toggle">
+                {JOINTS.map((joint) => (
+                  <Chip
+                    key={joint}
+                    label={t(`workout.setup.protect.${joint}`)}
+                    selected={settings.protectedJoints.includes(joint)}
+                    onPress={() => update(toggleProtected(settings, joint))}
+                  />
+                ))}
+              </ChipGroup>
+              <RamadanCard ramadan={settings.ramadan} todayKey={localDateKey()} onChange={(ramadan) => update({ ...settings, ramadan })} />
+            </>
+          )}
+          {more ? (
+            <TellUsMore part={(step - SETUP_STEPS) as 1 | 2 | 3} settings={settings} update={update} onOpenRoutine={() => setBuilding(true)} />
+          ) : null}
+        </ScrollView>
+
+        <View style={[styles.bottomBar, { backgroundColor: c.surface, borderTopColor: c.border }]}>
+          {blocker ? (
+            <Text accessibilityLiveRegion="polite" style={[styles.blockerText, dir.text, { color: c.danger }]}>
+              {t('workout.setup.daysError')}
+            </Text>
+          ) : isLast ? (
+            // What the last button does, so finishing the optional questions has a clear next step.
+            <Text style={[styles.lastNote, dir.textCenter, { color: c.textSecondary }]}>
+              {t(mode === 'edit' ? 'workout.setup.saveNote' : 'workout.setup.createNote')}
+            </Text>
+          ) : null}
+          <TouchableOpacity
+            accessibilityRole="button"
+            accessibilityState={{ disabled: !ready }}
+            accessibilityHint={blocker ? t('workout.setup.daysError') : undefined}
+            disabled={!ready}
+            onPress={handleNext}
+            activeOpacity={0.7}
+            style={[styles.nextAction, { backgroundColor: ready ? c.primaryLime : c.surfaceSecondary, borderColor: ready ? c.primaryLime : c.border }]}
+          >
+            <Text style={[styles.nextActionText, dir.textCenter, { color: ready ? c.limeText : c.textSecondary }]}>
+              {isLast ? t(mode === 'edit' ? 'workout.setup.saveChanges' : 'workout.setup.createPlan') : t('common.continue')}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -379,7 +392,7 @@ const styles = StyleSheet.create({
   content: { paddingHorizontal: 20, paddingTop: 10, paddingBottom: 28 },
   subtitle: { fontSize: 13, lineHeight: 19, marginBottom: 18 },
   skip: { minHeight: 44, paddingHorizontal: 6, justifyContent: 'center' },
-  skipText: { fontSize: 14, fontWeight: '700' },
+  skipText: { fontSize: 14, fontWeight: '600' },
   notice: { marginBottom: 18 },
   hint: { fontSize: 12, marginTop: -6, marginBottom: 10 },
   grid2: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 22 },
@@ -400,7 +413,7 @@ const styles = StyleSheet.create({
   lengthUnit: { fontSize: 11, fontWeight: '600' },
   bottomBar: { gap: 8, paddingHorizontal: 20, paddingTop: 12, paddingBottom: 14, borderTopWidth: 1 },
   blockerText: { fontSize: 13, fontWeight: '600' },
-  nextAction: { minHeight: 50, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
+  lastNote: { fontSize: 12, lineHeight: 17, fontWeight: '500' },
+  nextAction: { minHeight: 50, borderRadius: 999, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
   nextActionText: { fontSize: 15, fontWeight: '800' },
-  disabled: { opacity: 0.35 },
 });
