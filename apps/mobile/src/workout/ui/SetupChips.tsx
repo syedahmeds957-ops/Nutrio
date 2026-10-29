@@ -1,42 +1,37 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { OptionButton, OptionGroup, useOptionColors, type OptionMode } from '../../ui/Selectable.js';
 
-/** Lime when selected, quiet surface otherwise: the survey's chip language. */
-export function useChipColors() {
-  const { theme } = useTheme();
-  const c = theme.colors;
-  return (selected: boolean) => ({
-    container: {
-      backgroundColor: selected ? c.primaryLime : c.surface,
-      borderColor: selected ? c.primaryLime : c.border,
-    },
-    text: { color: selected ? c.limeText : c.textSecondary, fontWeight: selected ? ('800' as const) : ('600' as const) },
-    sub: { color: selected ? c.limeText : c.textSecondary },
-  });
-}
+/** Lime when selected, quiet surface otherwise: the survey's chip language (one shared style). */
+export const useChipColors = useOptionColors;
 
-export const Chip: React.FC<{ label: string; selected: boolean; onPress: () => void; style?: object }> = ({
+/**
+ * A wizard chip. `mode` is 'radio' for a single choice (inside a
+ * `ChipGroup mode="radio"`) and 'toggle' (default) for pick-any.
+ */
+export const Chip: React.FC<{
+  label: string;
+  selected: boolean;
+  onPress: () => void;
+  style?: object;
+  mode?: OptionMode;
+}> = ({ label, selected, onPress, style, mode = 'toggle' }) => (
+  <OptionButton label={label} selected={selected} onPress={onPress} mode={mode} style={[styles.chip, style]} labelStyle={styles.chipText} />
+);
+
+/** A labelled group of chips: a radiogroup for a single choice, a group for pick-any. */
+export const ChipGroup: React.FC<{ label: string; mode: OptionMode; style?: object; children: React.ReactNode }> = ({
   label,
-  selected,
-  onPress,
+  mode,
   style,
-}) => {
-  const colors = useChipColors()(selected);
-  const dir = useTextDirection();
-  return (
-    <TouchableOpacity
-      accessibilityRole="button"
-      aria-selected={selected}
-      onPress={onPress}
-      activeOpacity={0.7}
-      style={[styles.chip, colors.container, style]}
-    >
-      <Text style={[styles.chipText, colors.text, dir.textCenter]}>{label}</Text>
-    </TouchableOpacity>
-  );
-};
+  children,
+}) => (
+  <OptionGroup label={label} mode={mode} style={[styles.wrap, style]}>
+    {children}
+  </OptionGroup>
+);
 
 export const Question: React.FC<{ children: string; optional?: boolean }> = ({ children, optional }) => {
   const { theme } = useTheme();
@@ -53,7 +48,8 @@ export const Question: React.FC<{ children: string; optional?: boolean }> = ({ c
 };
 
 const styles = StyleSheet.create({
-  chip: { minHeight: 44, paddingHorizontal: 16, borderRadius: 14, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
+  chip: { paddingHorizontal: 16, paddingVertical: 0, minWidth: 44 },
   chipText: { fontSize: 13 },
+  wrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 22 },
   question: { fontSize: 14, fontWeight: '700', marginBottom: 10 },
 });

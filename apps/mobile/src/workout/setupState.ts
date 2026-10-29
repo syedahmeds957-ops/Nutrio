@@ -23,6 +23,13 @@ export type SetupStep = 1 | 2 | 3 | 4 | 5 | 6;
 export const SETUP_STEPS = 3;
 export const MORE_STEPS = 3;
 export const LAST_STEP: SetupStep = 6;
+/** Setup and "Tell us more" are one flow, counted as one: "Step 4 of 6". */
+export const TOTAL_STEPS = SETUP_STEPS + MORE_STEPS;
+
+/** The one step counter for the whole wizard; steps past the plan are the optional ones. */
+export function stepProgress(step: SetupStep): { current: number; total: number; optional: boolean } {
+  return { current: step, total: TOTAL_STEPS, optional: step > SETUP_STEPS };
+}
 
 /** Beginners get simple checks; anyone with some experience is asked about their training. */
 export function isBeginner(settings: WorkoutSettings): boolean {
@@ -35,9 +42,15 @@ export const MAX_TRAINING_DAYS = 6;
 /** Dumbbell weights offered at setup; 0 stands for "adjustable". */
 export const DUMBBELL_CHOICES_KG: readonly number[] = [2, 4, 6, 8, 10, 12, 14, 16, 20, 24, 30, 0];
 
+/** Why Continue is off on a step, so the screen can say it; null when it is on. */
+export function continueBlocker(step: SetupStep, settings: WorkoutSettings): 'days' | null {
+  if (step !== 3) return null;
+  const count = settings.trainingDays.length;
+  return count >= MIN_TRAINING_DAYS && count <= MAX_TRAINING_DAYS ? null : 'days';
+}
+
 export function canContinue(step: SetupStep, settings: WorkoutSettings): boolean {
-  if (step !== 3) return true;
-  return settings.trainingDays.length >= MIN_TRAINING_DAYS && settings.trainingDays.length <= MAX_TRAINING_DAYS;
+  return continueBlocker(step, settings) === null;
 }
 
 function toggle<T>(list: readonly T[], value: T): T[] {

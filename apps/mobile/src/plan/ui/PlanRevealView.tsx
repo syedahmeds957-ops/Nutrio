@@ -58,7 +58,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
       showsVerticalScrollIndicator={false}
     >
       {onBack && (
-        <BackButton onPress={onBack} style={styles.topBackBtn} />
+        <BackButton variant="icon" onPress={onBack} style={styles.topBackBtn} />
       )}
 
       <View style={styles.header}>
@@ -113,7 +113,7 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
           {t('plan.reveal.caloriesPerDay')}
         </Text>
 
-        <View style={[styles.deltaBox, isSaudi && { backgroundColor: 'rgba(0, 0, 0, 0.25)' }]}>
+        <View style={[styles.deltaBox, isSaudi && { backgroundColor: 'rgba(0, 0, 0, 0.6)' }]}>
           <Text style={[styles.deltaText, isSaudi && { color: '#FFFFFF' }]}>
             {isDeficit
               ? `${t('plan.reveal.deficit', {
@@ -326,10 +326,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   badgeSuccessText: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '800',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
+    letterSpacing: 0,
   },
   title: {
     fontSize: 26,
@@ -355,10 +354,9 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   heroLabel: {
-    fontSize: 12,
-    fontWeight: '800',
-    letterSpacing: 1,
-    textTransform: 'uppercase',
+    fontSize: 13,
+    fontWeight: '700',
+    letterSpacing: 0,
   },
   heroStatusDot: {
     width: 8,
@@ -378,7 +376,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     opacity: 0.8,
     marginTop: 2,
-    textTransform: 'uppercase',
   },
   deltaBox: {
     marginTop: 18,
@@ -417,10 +414,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   macroName: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
-    textTransform: 'uppercase',
-    letterSpacing: 0.4,
+    letterSpacing: 0,
   },
   macroValue: {
     fontSize: 22,

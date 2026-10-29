@@ -301,11 +301,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   modalSubtitle: {
-    fontSize: 11,
-    fontWeight: '800',
-    letterSpacing: 0.8,
+    fontSize: 12,
+    fontWeight: '700',
+    letterSpacing: 0,
     marginBottom: 2,
-    textTransform: 'uppercase',
   },
   modalTitle: {
     fontSize: 20,
@@ -362,9 +361,8 @@ const styles = StyleSheet.create({
     marginEnd: 10,
   },
   optionIndex: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
-    textTransform: 'uppercase',
   },
   optionTitle: {
     fontSize: 16,

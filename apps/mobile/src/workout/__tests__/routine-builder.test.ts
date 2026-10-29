@@ -115,13 +115,13 @@ describe('What we improved', () => {
   it('lists what was kept, changed and added, each with its reason', () => {
     const html = render(React.createElement(ImprovedScreen, { plan, changes, onDone: noop }));
     expect(html).toContain('What we improved');
-    expect(html).toContain('KEPT');
+    expect(html).toContain('Kept');
     expect(html).toContain('Your days: Mon, Thu');
-    expect(html).toContain('CHANGED');
+    expect(html).toContain('Changed');
     expect(html).toContain('Barbell back squat');
     expect(html).not.toContain('Left out: Barbell back squat');
     expect(html).toContain('Loads a joint you asked us to protect.');
-    expect(html).toContain('ADDED');
+    expect(html).toContain('Added');
     expect(html).toContain('min after each session');
     expect(html).toContain('See my plan');
   });

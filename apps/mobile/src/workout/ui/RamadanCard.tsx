@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, Switch, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { currentOrNextRamadan, isRamadan, type RamadanSlot, type WorkoutSettings } from '@nutrio/workout-core';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 import { setRamadanSlot, toggleRamadan } from '../setupState.js';
-import { Chip } from './SetupChips.js';
+import { Chip, ChipGroup } from './SetupChips.js';
 import { monthName } from '../format.js';
 
 const SLOTS: RamadanSlot[] = ['after_suhoor', 'before_iftar', 'after_taraweeh'];
@@ -61,27 +61,34 @@ export const RamadanCard: React.FC<RamadanCardProps> = ({ ramadan, todayKey, onC
             </Text>
           ) : null}
         </View>
-        <Switch
+        {/* A drawn switch: the whole 44 px box is the touch target (the stock one is 40x20). */}
+        <Pressable
+          accessibilityRole="switch"
           accessibilityLabel={t('workout.ramadan.title')}
-          value={ramadan.enabled}
-          onValueChange={() => onChange(toggleRamadan(asSettings).ramadan)}
-          trackColor={{ false: c.border, true: c.primaryLime }}
-          thumbColor="#FFFFFF"
-        />
+          aria-checked={ramadan.enabled}
+          accessibilityState={{ checked: ramadan.enabled }}
+          onPress={() => onChange(toggleRamadan(asSettings).ramadan)}
+          style={styles.switchHit}
+        >
+          <View style={[styles.track, { backgroundColor: ramadan.enabled ? c.primaryLime : c.border }]}>
+            <View style={[styles.thumb, ramadan.enabled ? styles.thumbOn : styles.thumbOff]} />
+          </View>
+        </Pressable>
       </View>
       {ramadan.enabled ? (
         <>
           <Text style={[styles.when, dir.text, { color: c.textPrimary }]}>{t('workout.ramadan.whenQ')}</Text>
-          <View style={styles.slots}>
+          <ChipGroup label={t('workout.ramadan.whenQ')} mode="radio" style={styles.slots}>
             {SLOTS.map((slot) => (
               <Chip
+                mode="radio"
                 key={slot}
                 label={t(`workout.ramadan.slot.${slot}`)}
                 selected={ramadan.slot === slot}
                 onPress={() => onChange(setRamadanSlot(asSettings, slot).ramadan)}
               />
             ))}
-          </View>
+          </ChipGroup>
         </>
       ) : null}
     </View>
@@ -97,5 +104,10 @@ const styles = StyleSheet.create({
   sub: { fontSize: 12, marginTop: 2 },
   status: { fontSize: 12, fontWeight: '700', marginTop: 4 },
   when: { fontSize: 13, fontWeight: '700' },
-  slots: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  switchHit: { minWidth: 52, minHeight: 44, alignItems: 'center', justifyContent: 'center' },
+  track: { width: 44, height: 26, borderRadius: 13, justifyContent: 'center', paddingHorizontal: 3 },
+  thumb: { width: 20, height: 20, borderRadius: 10, backgroundColor: '#FFFFFF' },
+  thumbOn: { alignSelf: 'flex-end' },
+  thumbOff: { alignSelf: 'flex-start' },
+  slots: { marginBottom: 0 },
 });

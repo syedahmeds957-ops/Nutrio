@@ -27,8 +27,20 @@ export const AdaptiveTDEECard: React.FC<AdaptiveTDEECardProps> = ({
     weightFactor,
     isUnderLogging,
     recommendedKcalDelta,
-    explanation,
+    observedTDEE,
   } = adaptiveResult;
+
+  // Written here, not taken from the calculator: its text is English and says TDEE.
+  const explanation = isUnderLogging
+    ? t('weight.adaptive.explainUnderLogging')
+    : daysLogged < 7 || observedTDEE === undefined
+      ? t('weight.adaptive.explainNeedMore', { days: daysLogged })
+      : t('weight.adaptive.explainBlended', {
+          observed: (weightFactor * 100).toFixed(0),
+          formula: ((1 - weightFactor) * 100).toFixed(0),
+          observedKcal: observedTDEE,
+          formulaKcal: formulaTDEE,
+        });
 
   const calibrationPct = Math.min(100, Math.round((daysLogged / 28) * 100));
 
@@ -131,6 +143,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: 12,
     borderRadius: 18,
     padding: 18,
     marginBottom: 16,
@@ -151,6 +165,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   deltaBadge: {
+    flexShrink: 0,
     alignItems: 'flex-end',
     paddingVertical: 6,
     paddingHorizontal: 12,

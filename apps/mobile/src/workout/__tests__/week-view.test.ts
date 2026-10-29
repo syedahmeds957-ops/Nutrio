@@ -151,11 +151,26 @@ describe('days before the plan began', () => {
     expect(week.days.find((d) => d.weekday === 'wed')!.status).toBe('planned');
     expect(week.days.find((d) => d.weekday === 'fri')!.status).toBe('today');
     expect(week).toMatchObject({ trainingDays: 1, doneDays: 0 });
+    // Not listed as planned workouts: the screen shows them as "before your plan started".
+    expect(week.days.filter((d) => d.beforePlan).map((d) => d.weekday)).toEqual(['mon', 'wed']);
+    expect(week.days.find((d) => d.weekday === 'fri')!.beforePlan).toBe(false);
+    expect(week.days.filter((d) => d.session && !d.beforePlan).length).toBe(week.trainingDays);
 
     // Monday's session done on Thursday ("Do it today") counts.
     const done = buildWeekView(thursdayPlan, '2026-10-23', 'PK', [mondayLog('2026-10-22')]);
     expect(done.days.find((d) => d.weekday === 'mon')!.status).toBe('done');
     expect(done).toMatchObject({ trainingDays: 2, doneDays: 1 });
+    expect(done.days.find((d) => d.weekday === 'mon')!.beforePlan).toBe(false);
+    expect(done.days.find((d) => d.weekday === 'wed')!.beforePlan).toBe(true);
+  });
+
+  it('are the same under the Saudi week and when the plan starts on the first day', () => {
+    const sa = buildWeekView(thursdayPlan, '2026-10-23', 'SA');
+    expect(sa.days[0].weekday).toBe('sun');
+    expect(sa.days.filter((d) => d.beforePlan).map((d) => d.weekday)).toEqual(['mon', 'wed']);
+    const mondayPlan = generateWeeklyPlan(SETTINGS, { seed: 11, today: '2026-10-19' });
+    const week = buildWeekView(mondayPlan, '2026-10-19', 'PK');
+    expect(week.days.some((d) => d.beforePlan)).toBe(false);
   });
 
   it('follow the same rule in the check-in window', () => {

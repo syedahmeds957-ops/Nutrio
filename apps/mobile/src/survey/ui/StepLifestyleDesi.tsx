@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { HomeCookingStyle, SurveyLifestyleDesi } from '../types.js';
 import { ritualCupKcal } from '../../common/ritualDrinks.js';
 import { useTheme } from '../../theme.js';
@@ -7,6 +7,7 @@ import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { useFormat } from '../../i18n/useFormat.js';
 import { AppleTextInput } from '../../ui/AppleInput.js';
+import { OptionButton, OptionGroup } from '../../ui/Selectable.js';
 
 interface StepLifestyleDesiProps {
   data: Partial<SurveyLifestyleDesi>;
@@ -29,14 +30,13 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
   onChange,
   errors,
 }) => {
-  const { theme, isDark } = useTheme();
+  const { theme } = useTheme();
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
   const { formatNumber } = useFormat();
   const dir = useTextDirection();
   const isSaudi = activeRegion === 'SA';
   const accentColor = theme.colors.primaryLime;
-  const activeTextColor = '#0A0B0D';
   const cookingStyles = COOKING_STYLE_IDS.map((id) => ({
     id,
     label: t(`survey.lifestyle.cookingStyles.${id}.${activeRegion}`),
@@ -87,6 +87,8 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
             ]}
             onPress={() => onChange({ chaiWithSugarCupsPerDay: Math.max(0, chaiCount - 1) })}
             activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityLabel={t('common.decrease')}
           >
             <Text style={[styles.stepperBtnText, { color: theme.colors.textPrimary }]}>−</Text>
           </TouchableOpacity>
@@ -110,6 +112,8 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
             ]}
             onPress={() => onChange({ chaiWithSugarCupsPerDay: chaiCount + 1 })}
             activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityLabel={t('common.increase')}
           >
             <Text style={[styles.stepperBtnText, { color: theme.colors.textPrimary }]}>+</Text>
           </TouchableOpacity>
@@ -193,6 +197,8 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
             ]}
             onPress={() => onChange({ eatingOutTimesPerWeek: Math.max(0, dawatCount - 1) })}
             activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityLabel={t('common.decrease')}
           >
             <Text style={[styles.stepperBtnText, { color: theme.colors.textPrimary }]}>−</Text>
           </TouchableOpacity>
@@ -216,6 +222,8 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
             ]}
             onPress={() => onChange({ eatingOutTimesPerWeek: dawatCount + 1 })}
             activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityLabel={t('common.increase')}
           >
             <Text style={[styles.stepperBtnText, { color: theme.colors.textPrimary }]}>+</Text>
           </TouchableOpacity>
@@ -227,41 +235,21 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
         <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }]}>
           {t('survey.lifestyle.mealPrepStyle')}
         </Text>
-        <View style={styles.styleGrid}>
-          {cookingStyles.map((style) => {
-            const isSelected = data.whoCooksAtHome === style.id;
-            return (
-              <TouchableOpacity
-                key={style.id}
-                style={[
-                  styles.styleChip,
-                  {
-                    backgroundColor: theme.colors.surface,
-                    borderColor: theme.colors.border,
-                  },
-                  isSelected && {
-                    backgroundColor: accentColor,
-                    borderColor: accentColor,
-                  },
-                ]}
-                onPress={() => onChange({ whoCooksAtHome: style.id })}
-                activeOpacity={0.7}
-              >
-                <Text
-                  style={[
-                    styles.styleChipText,
-                    { color: theme.colors.textSecondary },
-                    isSelected && { color: activeTextColor, fontWeight: '800' },
-                  ]}
-                >
-                  {style.label}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-        {errors.cookingStyle && (
-          <Text style={styles.errorText}>{errors.cookingStyle}</Text>
+        <OptionGroup label={t('survey.lifestyle.mealPrepStyle')} style={styles.styleGrid}>
+          {cookingStyles.map((style) => (
+            <OptionButton
+              key={style.id}
+              label={style.label}
+              check="inline"
+              selected={data.whoCooksAtHome === style.id}
+              onPress={() => onChange({ whoCooksAtHome: style.id })}
+              style={styles.styleChip}
+              labelStyle={styles.styleChipText}
+            />
+          ))}
+        </OptionGroup>
+        {errors.whoCooksAtHome && (
+          <Text style={styles.errorText}>{errors.whoCooksAtHome}</Text>
         )}
       </View>
     </View>
@@ -387,10 +375,8 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 14,
-    borderWidth: 1,
   },
   styleChipText: {
     fontSize: 14,
-    fontWeight: '600',
   },
 });

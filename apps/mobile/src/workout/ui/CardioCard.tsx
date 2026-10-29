@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   top: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   flex: { flex: 1, minWidth: 0 },
   overline: { alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 8, paddingVertical: 2, borderRadius: 999, marginBottom: 2 },
-  overlineText: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6 },
+  overlineText: { fontSize: 12, fontWeight: '800', letterSpacing: 0 },
   name: { fontSize: 15, fontWeight: '700', lineHeight: 20 },
   swappedTag: { alignSelf: 'flex-start', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 999, marginTop: 3 },
   swappedText: { fontSize: 11, fontWeight: '800' },

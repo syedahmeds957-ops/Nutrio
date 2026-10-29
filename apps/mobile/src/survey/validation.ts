@@ -12,7 +12,7 @@ export function validateBasics(data: Partial<SurveyBasics>): StepValidationResul
   const errors: Record<string, string> = {};
 
   if (!data.sex) {
-    errors.sex = 'Biological sex is required for metabolic BMR calculation.';
+    errors.sex = 'Biological sex is needed to estimate your calories.';
   }
 
   if (data.ageYears === undefined || data.ageYears < 12 || data.ageYears > 100) {

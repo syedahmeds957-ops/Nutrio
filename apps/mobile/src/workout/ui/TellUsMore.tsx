@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import {
   getExercise,
   type BreakLength,
@@ -34,7 +34,7 @@ import {
 import { ExerciseImageLoop } from './ExerciseImageLoop.js';
 import { ExercisePickerSheet } from './ExercisePickerSheet.js';
 import { parseNumber } from './SetLogger.js';
-import { Chip, Question } from './SetupChips.js';
+import { Chip, ChipGroup, Question } from './SetupChips.js';
 
 const BACKGROUNDS: TrainingBackground[] = ['never', 'a_little', 'used_to'];
 const PUSH_UPS: PushUpAbility[] = ['none', '1_to_5', '6_to_15', '16_plus'];
@@ -60,7 +60,11 @@ interface TellUsMoreProps {
   onOpenRoutine?: () => void;
 }
 
-/** A number field that keeps what is typed and commits it when the field loses focus. */
+/**
+ * A number field that keeps what is typed and commits it when the field loses
+ * focus. The whole box is the touch target: tapping the unit or the padding
+ * focuses the input.
+ */
 const NumberField: React.FC<{ value?: number; label: string; suffix: string; onCommit: (value: number | undefined) => void }> = ({
   value,
   label,
@@ -71,10 +75,13 @@ const NumberField: React.FC<{ value?: number; label: string; suffix: string; onC
   const c = theme.colors;
   const shown = value === undefined || value === 0 ? '' : String(value);
   const [text, setText] = useState(shown);
+  const input = useRef<TextInput>(null);
   useEffect(() => setText(shown), [shown]);
   return (
-    <View style={[styles.field, { borderColor: c.border, backgroundColor: c.surfaceSecondary }]}>
+    // focusable={false}: the input is the one tab stop; the box only forwards taps to it.
+    <Pressable focusable={false} onPress={() => input.current?.focus()} style={[styles.field, { borderColor: c.border, backgroundColor: c.surfaceSecondary }]}>
       <TextInput
+        ref={input}
         accessibilityLabel={label}
         value={text}
         onChangeText={setText}
@@ -85,7 +92,7 @@ const NumberField: React.FC<{ value?: number; label: string; suffix: string; onC
         style={[styles.fieldInput, { color: c.textPrimary }]}
       />
       <Text style={[styles.fieldSuffix, { color: c.textSecondary }]}>{suffix}</Text>
-    </View>
+    </Pressable>
   );
 };
 
@@ -107,12 +114,20 @@ export const TellUsMore: React.FC<TellUsMoreProps> = ({ part, settings, update, 
   const now = profile.trainingNow;
   const nameOf = (id: string) => getExercise(id)?.name[language] ?? id;
 
-  const chips = <T extends string>(values: readonly T[], selected: (value: T) => boolean, onPress: (value: T) => void, key: string) => (
-    <View style={styles.wrap}>
+  /** One question's chips: a radiogroup for a single choice, a group for pick-any. */
+  const chips = <T extends string>(
+    values: readonly T[],
+    selected: (value: T) => boolean,
+    onPress: (value: T) => void,
+    key: string,
+    question: string,
+    mode: 'radio' | 'toggle' = 'radio'
+  ) => (
+    <ChipGroup label={question} mode={mode}>
       {values.map((value) => (
-        <Chip key={value} label={t(`workout.more.${key}.${value}`)} selected={selected(value)} onPress={() => onPress(value)} />
+        <Chip key={value} mode={mode} label={t(`workout.more.${key}.${value}`)} selected={selected(value)} onPress={() => onPress(value)} />
       ))}
-    </View>
+    </ChipGroup>
   );
 
   const exerciseList = (list: 'likes' | 'dislikes') => {
@@ -149,7 +164,7 @@ export const TellUsMore: React.FC<TellUsMoreProps> = ({ part, settings, update, 
       {part === 1 && beginner ? (
         <>
           <Question>{t('workout.more.backgroundQ')}</Question>
-          {chips(BACKGROUNDS, (v) => profile.background === v, (v) => update(updateProfile(settings, { background: v })), 'background')}
+          {chips(BACKGROUNDS, (v) => profile.background === v, (v) => update(updateProfile(settings, { background: v })), 'background', t('workout.more.backgroundQ'))}
           {profile.background === 'used_to' ? (
             <View style={styles.notice}>
               <Notice tone="info">{t('workout.more.switchNote')}</Notice>
@@ -164,43 +179,43 @@ export const TellUsMore: React.FC<TellUsMoreProps> = ({ part, settings, update, 
           ) : null}
           <Question>{t('workout.more.pushUpsQ')}</Question>
           <Text style={[styles.hint, dir.text, { color: c.textSecondary }]}>{t('workout.more.pushUpsHint')}</Text>
-          {chips(PUSH_UPS, (v) => profile.ability?.pushUps === v, (v) => update(updateProfile(settings, { ability: { ...profile.ability, pushUps: v } })), 'pushUps')}
+          {chips(PUSH_UPS, (v) => profile.ability?.pushUps === v, (v) => update(updateProfile(settings, { ability: { ...profile.ability, pushUps: v } })), 'pushUps', t('workout.more.pushUpsQ'))}
           <Question>{t('workout.more.plankQ')}</Question>
-          {chips(PLANKS, (v) => profile.ability?.plank === v, (v) => update(updateProfile(settings, { ability: { ...profile.ability, plank: v } })), 'plank')}
+          {chips(PLANKS, (v) => profile.ability?.plank === v, (v) => update(updateProfile(settings, { ability: { ...profile.ability, plank: v } })), 'plank', t('workout.more.plankQ'))}
         </>
       ) : null}
 
       {part === 1 && !beginner ? (
         <>
           <Question>{t('workout.more.trainingNowQ')}</Question>
-          <View style={styles.wrap}>
-            <Chip label={t('workout.more.yes')} selected={now?.active === true} onPress={() => update(setTrainingNow(settings, { active: true }))} />
-            <Chip label={t('workout.more.notNow')} selected={now?.active === false} onPress={() => update(setTrainingNow(settings, { active: false }))} />
-          </View>
+          <ChipGroup label={t('workout.more.trainingNowQ')} mode="radio">
+            <Chip mode="radio" label={t('workout.more.yes')} selected={now?.active === true} onPress={() => update(setTrainingNow(settings, { active: true }))} />
+            <Chip mode="radio" label={t('workout.more.notNow')} selected={now?.active === false} onPress={() => update(setTrainingNow(settings, { active: false }))} />
+          </ChipGroup>
           {now?.active === true ? (
             <>
               <Question>{t('workout.more.daysNowQ')}</Question>
-              <View style={styles.wrap}>
+              <ChipGroup label={t('workout.more.daysNowQ')} mode="radio">
                 {[1, 2, 3, 4, 5, 6].map((n) => (
-                  <Chip key={n} label={String(n)} selected={now.daysPerWeek === n} onPress={() => update(setTrainingNow(settings, { daysPerWeek: n }))} />
+                  <Chip key={n} mode="radio" label={String(n)} selected={now.daysPerWeek === n} onPress={() => update(setTrainingNow(settings, { daysPerWeek: n }))} />
                 ))}
-              </View>
+              </ChipGroup>
               <Question>{t('workout.more.splitQ')}</Question>
-              {chips(SPLITS, (v) => now.split === v, (v) => update(setTrainingNow(settings, { split: v })), 'split')}
+              {chips(SPLITS, (v) => now.split === v, (v) => update(setTrainingNow(settings, { split: v })), 'split', t('workout.more.splitQ'))}
               <Question>{t('workout.more.durationQ')}</Question>
-              {chips(DURATIONS, (v) => now.duration === v, (v) => update(setTrainingNow(settings, { duration: v })), 'duration')}
+              {chips(DURATIONS, (v) => now.duration === v, (v) => update(setTrainingNow(settings, { duration: v })), 'duration', t('workout.more.durationQ'))}
             </>
           ) : null}
           {now?.active === false ? (
             <>
               <Question>{t('workout.more.breakQ')}</Question>
-              {chips(BREAKS, (v) => now.breakLength === v, (v) => update(setTrainingNow(settings, { breakLength: v })), 'break')}
+              {chips(BREAKS, (v) => now.breakLength === v, (v) => update(setTrainingNow(settings, { breakLength: v })), 'break', t('workout.more.breakQ'))}
             </>
           ) : null}
 
           <Question optional>{t('workout.more.styleQ')}</Question>
           <Text style={[styles.hint, dir.text, { color: c.textSecondary }]}>{t('workout.more.styleHint')}</Text>
-          {chips(STYLES, (v) => (profile.sessionStyle ?? 'straight') === v, (v) => update(updateProfile(settings, { sessionStyle: v })), 'style')}
+          {chips(STYLES, (v) => (profile.sessionStyle ?? 'straight') === v, (v) => update(updateProfile(settings, { sessionStyle: v })), 'style', t('workout.more.styleQ'))}
 
           <Question optional>{now?.active === false ? t('workout.more.usedToLiftQ') : t('workout.more.liftsQ')}</Question>
           <Text style={[styles.hint, dir.text, { color: c.textSecondary }]}>
@@ -257,12 +272,12 @@ export const TellUsMore: React.FC<TellUsMoreProps> = ({ part, settings, update, 
           {beginner ? (
             <>
               <Question>{t('workout.more.walkQ')}</Question>
-              {chips(WALKS, (v) => profile.ability?.walk === v, (v) => update(updateProfile(settings, { ability: { ...profile.ability, walk: v } })), 'walk')}
+              {chips(WALKS, (v) => profile.ability?.walk === v, (v) => update(updateProfile(settings, { ability: { ...profile.ability, walk: v } })), 'walk', t('workout.more.walkQ'))}
             </>
           ) : (
             <>
               <Question>{t('workout.more.habitQ')}</Question>
-              {chips(HABITS, (v) => profile.cardio?.habit === v, (v) => setCardio({ habit: v }), 'habit')}
+              {chips(HABITS, (v) => profile.cardio?.habit === v, (v) => setCardio({ habit: v }), 'habit', t('workout.more.habitQ'))}
             </>
           )}
           <Question optional>{t('workout.more.cardioLikesQ')}</Question>
@@ -270,16 +285,18 @@ export const TellUsMore: React.FC<TellUsMoreProps> = ({ part, settings, update, 
             CARDIO_KINDS,
             (v) => cardioLikes.includes(v),
             (v) => setCardio({ likes: cardioLikes.includes(v) ? cardioLikes.filter((k) => k !== v) : [...cardioLikes, v] }),
-            'cardioKind'
+            'cardioKind',
+            t('workout.more.cardioLikesQ'),
+            'toggle'
           )}
           {beginner ? (
-            <View style={styles.wrap}>
+            <ChipGroup label={t('workout.more.avoidJumping')} mode="toggle">
               <Chip
                 label={t('workout.more.avoidJumping')}
                 selected={Boolean(profile.avoidJumping)}
                 onPress={() => update(updateProfile(settings, { avoidJumping: !profile.avoidJumping }))}
               />
-            </View>
+            </ChipGroup>
           ) : (
             <>
               <Question optional>{t('workout.more.likesQ')}</Question>
@@ -297,13 +314,13 @@ export const TellUsMore: React.FC<TellUsMoreProps> = ({ part, settings, update, 
         <>
           <Question optional>{t('workout.more.sportsQ')}</Question>
           <Text style={[styles.hint, dir.text, { color: c.textSecondary }]}>{t('workout.more.sportsHint')}</Text>
-          {chips(SPORTS, (v) => Boolean(profile.sports?.some((s) => s.kind === v)), (v) => update(toggleSport(settings, v)), 'sport')}
+          {chips(SPORTS, (v) => Boolean(profile.sports?.some((s) => s.kind === v)), (v) => update(toggleSport(settings, v)), 'sport', t('workout.more.sportsQ'), 'toggle')}
           {(profile.sports ?? []).map((sport) => (
             <View key={sport.kind} style={[styles.card, styles.sportCard, { backgroundColor: c.surface, borderColor: c.border }]}>
               <Text style={[styles.sportTitle, dir.text, { color: c.textPrimary }]}>
                 {t('workout.more.sportDaysQ', { sport: t(`workout.more.sport.${sport.kind}`) })}
               </Text>
-              <View style={styles.days}>
+              <ChipGroup label={t('workout.more.sportDaysQ', { sport: t(`workout.more.sport.${sport.kind}`) })} mode="toggle" style={styles.days}>
                 {WEEK.map((day) => (
                   <Chip
                     key={day}
@@ -313,7 +330,7 @@ export const TellUsMore: React.FC<TellUsMoreProps> = ({ part, settings, update, 
                     style={styles.dayChip}
                   />
                 ))}
-              </View>
+              </ChipGroup>
             </View>
           ))}
           {(profile.sports ?? []).length ? (
@@ -343,20 +360,20 @@ const styles = StyleSheet.create({
   wrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 22 },
   hint: { fontSize: 12, lineHeight: 17, marginTop: -6, marginBottom: 10 },
   notice: { gap: 8, marginTop: -8, marginBottom: 22 },
-  switch: { alignSelf: 'flex-start', minHeight: 40, paddingHorizontal: 14, borderRadius: 999, borderWidth: 1, justifyContent: 'center' },
+  switch: { alignSelf: 'flex-start', minHeight: 44, paddingHorizontal: 14, borderRadius: 999, borderWidth: 1, justifyContent: 'center' },
   switchText: { fontSize: 13, fontWeight: '700' },
   card: { borderRadius: 18, borderWidth: 1, marginBottom: 22 },
   liftRow: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 10, paddingVertical: 8 },
   liftName: { flex: 1, minWidth: 0, fontSize: 13, fontWeight: '700' },
-  field: { flexDirection: 'row', alignItems: 'center', height: 40, paddingHorizontal: 8, borderRadius: 10, borderWidth: 1, gap: 2 },
-  fieldInput: { width: 40, fontSize: 14, fontWeight: '800', textAlign: 'center', paddingVertical: 0 },
+  field: { flexDirection: 'row', alignItems: 'center', minHeight: 44, minWidth: 76, paddingHorizontal: 8, borderRadius: 10, borderWidth: 1, gap: 2 },
+  fieldInput: { width: 44, minHeight: 44, fontSize: 14, fontWeight: '800', textAlign: 'center', paddingVertical: 0 },
   fieldSuffix: { fontSize: 11, fontWeight: '700' },
   addRow: { minHeight: 48, alignItems: 'center', justifyContent: 'center', borderTopWidth: 1 },
   addRowText: { fontSize: 14, fontWeight: '700' },
-  pill: { flexDirection: 'row', alignItems: 'center', gap: 2, paddingStart: 12, paddingEnd: 2, minHeight: 36, borderRadius: 999 },
+  pill: { flexDirection: 'row', alignItems: 'center', gap: 2, paddingStart: 12, paddingEnd: 2, minHeight: 44, borderRadius: 999 },
   pillText: { fontSize: 13, fontWeight: '700' },
-  pillRemove: { width: 32, height: 32, alignItems: 'center', justifyContent: 'center' },
-  addPill: { minHeight: 36, paddingHorizontal: 14, borderRadius: 999, borderWidth: 1, borderStyle: 'dashed', justifyContent: 'center' },
+  pillRemove: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
+  addPill: { minHeight: 44, paddingHorizontal: 14, borderRadius: 999, borderWidth: 1, borderStyle: 'dashed', justifyContent: 'center' },
   addPillText: { fontSize: 13, fontWeight: '700' },
   sportCard: { padding: 14, gap: 10 },
   routineLink: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14, borderRadius: 18, marginBottom: 22 },
@@ -365,6 +382,6 @@ const styles = StyleSheet.create({
   routineSub: { fontSize: 12, fontWeight: '600' },
   flipped: { transform: [{ scaleX: -1 }] },
   sportTitle: { fontSize: 14, fontWeight: '800' },
-  days: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+  days: { gap: 6, marginBottom: 0 },
   dayChip: { minWidth: 44, paddingHorizontal: 8 },
 });

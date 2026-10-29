@@ -50,7 +50,6 @@ export const TodayWorkoutCard: React.FC<TodayWorkoutCardProps> = ({ plan, logs =
       <View style={[tile.card, { backgroundColor: c.surface, borderColor: c.border }]}>
         <TouchableOpacity
           accessibilityRole="button"
-          accessibilityLabel={t('tracker.dashboard.nav.workouts')}
           activeOpacity={0.7}
           onPress={plan ? onSeeWeek : onSetUp}
           style={tile.body}
@@ -235,10 +234,10 @@ export const TodayWorkoutCard: React.FC<TodayWorkoutCardProps> = ({ plan, logs =
 
 const tile = StyleSheet.create({
   card: { flex: 1, padding: 14, borderRadius: 20, borderWidth: 1, gap: 10 },
-  body: { flex: 1, gap: 4 },
+  body: { gap: 4 },
   headRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 6 },
   iconBox: { width: 34, height: 34, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
-  overline: { flex: 1, fontSize: 11, fontWeight: '700', letterSpacing: 0.8, textTransform: 'uppercase' },
+  overline: { flex: 1, fontSize: 12, fontWeight: '700', letterSpacing: 0 },
   title: { fontSize: 19, fontWeight: '800', letterSpacing: -0.2 },
   meta: { fontSize: 12.5, lineHeight: 17 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: TILE_THUMB_GAP, marginTop: 8, alignSelf: 'stretch' },
@@ -250,7 +249,7 @@ const styles = StyleSheet.create({
   card: { marginHorizontal: 16, marginTop: 14, padding: 16, borderRadius: 22, borderWidth: 1, gap: 10 },
   overlineRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   iconBox: { width: 36, height: 36, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
-  overline: { fontSize: 11, fontWeight: '700', letterSpacing: 0.8 },
+  overline: { fontSize: 12, fontWeight: '700', letterSpacing: 0 },
   flex: { flex: 1, minWidth: 0 },
   title: { fontSize: 16, fontWeight: '700' },
   body: { fontSize: 13, lineHeight: 19 },

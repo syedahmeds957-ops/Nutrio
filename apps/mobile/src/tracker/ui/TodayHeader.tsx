@@ -51,31 +51,33 @@ export const TodayHeader: React.FC<TodayHeaderProps> = ({
               accessibilityRole="button"
               accessibilityLabel={syncText}
               activeOpacity={0.7}
-              hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
               onPress={() => {
                 HapticFeedback.selection();
                 setSyncHintOpen((open) => !open);
               }}
-              style={[styles.sync, { backgroundColor: c.warningLight, borderColor: c.warning }]}
+              style={styles.hit}
             >
-              <Icon name="sync" size={15} color={c.warning} strokeWidth={2.4} />
-              <View style={[styles.syncCount, { backgroundColor: c.warning }]}>
-                <Text style={[styles.syncCountText, { color: c.limeText }]}>{pendingSyncCount > 9 ? '9+' : pendingSyncCount}</Text>
+              <View style={[styles.sync, { backgroundColor: c.warningLight, borderColor: c.warning }]}>
+                <Icon name="sync" size={15} color={c.warning} strokeWidth={2.4} />
+                <View style={[styles.syncCount, { backgroundColor: c.warning }]}>
+                  <Text style={[styles.syncCountText, { color: c.textInverse }]}>{pendingSyncCount > 9 ? '9+' : pendingSyncCount}</Text>
+                </View>
               </View>
             </TouchableOpacity>
           )}
           <TouchableOpacity
-            style={[styles.region, { backgroundColor: c.surface, borderColor: c.border }]}
+            style={styles.hit}
             onPress={() => {
               HapticFeedback.selection();
               onSwitchRegion();
             }}
             activeOpacity={0.7}
-            hitSlop={{ top: 6, bottom: 6, left: 4, right: 4 }}
             accessibilityRole="button"
             accessibilityLabel={`${region}, ${t('tracker.dashboard.toggleRegion')}`}
           >
-            <Text style={[styles.regionText, { color: c.textPrimary }]}>{region}</Text>
+            <View style={[styles.region, { backgroundColor: c.surface, borderColor: c.border }]}>
+              <Text style={[styles.regionText, { color: c.textPrimary }]}>{region}</Text>
+            </View>
           </TouchableOpacity>
         </View>
       </View>
@@ -97,7 +99,9 @@ const styles = StyleSheet.create({
   names: { flexShrink: 1 },
   greeting: { fontSize: 11, fontWeight: '700', letterSpacing: 0.8 },
   name: { fontSize: 18, fontWeight: '800', letterSpacing: -0.3 },
-  actions: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  actions: { flexDirection: 'row', alignItems: 'center', gap: 0 },
+  // A 44 x 44 target around each small round or pill control.
+  hit: { minWidth: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center' },
   sync: { width: 34, height: 34, borderRadius: 17, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
   syncCount: {
     position: 'absolute',

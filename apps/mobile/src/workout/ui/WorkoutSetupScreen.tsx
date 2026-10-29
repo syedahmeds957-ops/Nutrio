@@ -11,20 +11,24 @@ import type {
   WorkoutSettings,
 } from '@nutrio/workout-core';
 import { Icon, IconName } from '../../ui/Icon.js';
+import { BackButton } from '../../ui/BackButton.js';
+import { OptionButton, OptionGroup } from '../../ui/Selectable.js';
+import { ProgressBar } from '../../survey/ui/ProgressBar.js';
 import { Notice } from '../../ui/Notice.js';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
-import { Chip, Question, useChipColors } from './SetupChips.js';
+import { Chip, ChipGroup, Question } from './SetupChips.js';
 import { TellUsMore } from './TellUsMore.js';
 import { RoutineBuilder } from './RoutineBuilder.js';
 import { RamadanCard } from './RamadanCard.js';
 import { localDateKey } from '../../common/dateKey.js';
 import {
   canContinue,
+  continueBlocker,
+  stepProgress,
   DUMBBELL_CHOICES_KG,
   isBeginner,
   LAST_STEP,
-  MORE_STEPS,
   SETUP_STEPS,
   SetupStep,
   toggleDay,
@@ -61,7 +65,7 @@ interface WorkoutSetupScreenProps {
 /**
  * Three short steps that turn into a weekly plan (goal and experience, where
  * you train, then days, length and preferences), then the optional "Tell us
- * more", which asks beginners and people already training different
+ * more" (steps 4 to 6 of the same six-step count), which asks beginners and people already training different
  * questions. Answers start from the survey, so most users only confirm.
  */
 export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialSettings, mode, prefilled, onCancel, onSave }) => {
@@ -76,6 +80,8 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
   const [building, setBuilding] = useState(false);
 
   const ready = canContinue(step, settings);
+  const blocker = continueBlocker(step, settings);
+  const progress = stepProgress(step);
   const isLast = step === LAST_STEP;
   const more = step > SETUP_STEPS;
   const beginner = isBeginner(settings);
@@ -91,8 +97,6 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
     if (isLast) onSave(settings);
     else goTo((step + 1) as SetupStep);
   };
-
-  const chipColors = useChipColors();
 
   if (building) {
     return (
@@ -110,40 +114,25 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: c.canvas }]}>
       <View style={styles.header}>
-        <TouchableOpacity
-          accessibilityRole="button"
-          accessibilityLabel={t('common.back')}
+        <BackButton
+          variant="icon"
           onPress={handleBack}
-          style={[styles.backBtn, { backgroundColor: c.surface, borderColor: c.border }]}
-        >
-          <Icon name="arrow-left" size={18} color={c.textPrimary} style={dir.isRTL ? styles.flipped : undefined} />
-        </TouchableOpacity>
-        <View style={styles.headerProgress}>
-          <Text style={[styles.stepLabel, dir.text, { color: c.textSecondary }]}>
-            {more
-              ? t('workout.more.step', { current: step - SETUP_STEPS, total: MORE_STEPS })
-              : t('workout.setup.step', { current: step, total: SETUP_STEPS })}
-          </Text>
-          <View style={styles.segments}>
-            {[1, 2, 3].map((n) => (
-              <View
-                key={n}
-                style={[styles.segment, { backgroundColor: n <= (more ? step - SETUP_STEPS : step) ? c.primaryLime : c.border }]}
-              />
-            ))}
-          </View>
-        </View>
+          label={step === 1 ? t('common.cancel') : t('common.back')}
+        />
+        <View style={styles.flex} />
         {more ? (
           <TouchableOpacity accessibilityRole="button" onPress={() => onSave(settings)} style={styles.skip}>
             <Text style={[styles.skipText, { color: c.primaryAccessible }]}>{t('workout.more.skip')}</Text>
           </TouchableOpacity>
         ) : null}
       </View>
+      <ProgressBar
+        currentStep={progress.current - 1}
+        totalSteps={progress.total}
+        stepTitle={more ? `${t('workout.more.title')} · ${t('workout.setup.optional')}` : t('workout.setup.title')}
+      />
 
       <ScrollView ref={scrollRef} style={styles.flex} contentContainerStyle={styles.content}>
-        <Text accessibilityRole="header" style={[styles.title, more && styles.titleMore, dir.text, { color: c.textPrimary }]}>
-          {more ? t('workout.more.title') : t('workout.setup.title')}
-        </Text>
         {more ? (
           <Text style={[styles.subtitle, dir.text, { color: c.textSecondary }]}>
             {beginner ? t('workout.more.subtitleBeginner') : t('workout.more.subtitle')}
@@ -158,81 +147,74 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
               </Notice>
             )}
             <Question>{t('workout.setup.goalQuestion')}</Question>
-            <View style={styles.grid2}>
-              {GOALS.map((goal) => {
-                const colors = chipColors(settings.goal === goal);
-                return (
-                  <TouchableOpacity
-                    key={goal}
-                    accessibilityRole="button"
-                    aria-selected={settings.goal === goal}
-                    onPress={() => update({ ...settings, goal })}
-                    activeOpacity={0.7}
-                    style={[styles.optionCard, colors.container]}
-                  >
-                    <Text style={[styles.optionLabel, dir.text, colors.text, { fontWeight: '800' }]}>
-                      {t(`workout.setup.goal.${goal}.label`)}
-                    </Text>
-                    <Text style={[styles.optionDesc, dir.text, colors.sub]}>{t(`workout.setup.goal.${goal}.desc`)}</Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
+            <OptionGroup label={t('workout.setup.goalQuestion')} style={styles.grid2}>
+              {GOALS.map((goal) => (
+                <OptionButton
+                  key={goal}
+                  label={t(`workout.setup.goal.${goal}.label`)}
+                  accessibilityLabel={`${t(`workout.setup.goal.${goal}.label`)}. ${t(`workout.setup.goal.${goal}.desc`)}`}
+                  selected={settings.goal === goal}
+                  onPress={() => update({ ...settings, goal })}
+                  style={styles.optionCard}
+                >
+                  {(colors) => (
+                    <>
+                      <Text style={[styles.optionLabel, dir.text, colors.text]}>{t(`workout.setup.goal.${goal}.label`)}</Text>
+                      <Text style={[styles.optionDesc, dir.text, colors.sub]}>{t(`workout.setup.goal.${goal}.desc`)}</Text>
+                    </>
+                  )}
+                </OptionButton>
+              ))}
+            </OptionGroup>
 
             <Question>{t('workout.setup.experienceQuestion')}</Question>
-            <View style={styles.stack}>
-              {EXPERIENCE.map((level) => {
-                const selected = settings.experience === level;
-                const colors = chipColors(selected);
-                return (
-                  <TouchableOpacity
-                    key={level}
-                    accessibilityRole="button"
-                    aria-selected={selected}
-                    onPress={() => update({ ...settings, experience: level })}
-                    activeOpacity={0.7}
-                    style={[styles.optionRow, colors.container]}
-                  >
-                    <Text style={[styles.optionRowText, dir.text, colors.text, { fontWeight: '700' }]}>
-                      {t(`workout.setup.experience.${level}`)}
-                    </Text>
-                    {selected ? <Icon name="check" size={18} color={c.limeText} strokeWidth={2.6} /> : null}
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
+            <OptionGroup label={t('workout.setup.experienceQuestion')} style={styles.stack}>
+              {EXPERIENCE.map((level) => (
+                <OptionButton
+                  key={level}
+                  label={t(`workout.setup.experience.${level}`)}
+                  check="inline"
+                  selected={settings.experience === level}
+                  onPress={() => update({ ...settings, experience: level })}
+                  style={styles.optionRow}
+                  labelStyle={styles.optionRowText}
+                />
+              ))}
+            </OptionGroup>
           </>
         )}
 
         {step === 2 && (
           <>
             <Question>{t('workout.setup.locationQuestion')}</Question>
-            <View style={styles.stack}>
+            <OptionGroup label={t('workout.setup.locationQuestion')} style={styles.stack}>
               {LOCATIONS.map(({ id, icon }) => {
                 const selected = settings.location === id;
-                const colors = chipColors(selected);
                 return (
-                  <TouchableOpacity
+                  <OptionButton
                     key={id}
-                    accessibilityRole="button"
-                    aria-selected={selected}
+                    label={t(`workout.setup.location.${id}.label`)}
+                    accessibilityLabel={`${t(`workout.setup.location.${id}.label`)}. ${t(`workout.setup.location.${id}.desc`)}`}
+                    check="inline"
+                    selected={selected}
                     onPress={() => update({ ...settings, location: id })}
-                    activeOpacity={0.7}
-                    style={[styles.locationCard, colors.container]}
+                    style={styles.locationCard}
                   >
-                    <View style={[styles.locationIcon, { backgroundColor: selected ? c.limeText : c.surfaceSecondary }]}>
-                      <Icon name={icon} size={20} color={selected ? c.primaryLime : c.textPrimary} />
-                    </View>
-                    <View style={styles.flex}>
-                      <Text style={[styles.optionLabel, dir.text, colors.text, { fontWeight: '800' }]}>
-                        {t(`workout.setup.location.${id}.label`)}
-                      </Text>
-                      <Text style={[styles.optionDesc, dir.text, colors.sub]}>{t(`workout.setup.location.${id}.desc`)}</Text>
-                    </View>
-                  </TouchableOpacity>
+                    {(colors) => (
+                      <>
+                        <View style={[styles.locationIcon, { backgroundColor: selected ? c.limeText : c.surfaceSecondary }]}>
+                          <Icon name={icon} size={20} color={selected ? c.primaryLime : c.textPrimary} />
+                        </View>
+                        <View style={styles.flex}>
+                          <Text style={[styles.optionLabel, dir.text, colors.text]}>{t(`workout.setup.location.${id}.label`)}</Text>
+                          <Text style={[styles.optionDesc, dir.text, colors.sub]}>{t(`workout.setup.location.${id}.desc`)}</Text>
+                        </View>
+                      </>
+                    )}
+                  </OptionButton>
                 );
               })}
-            </View>
+            </OptionGroup>
 
             {settings.location === 'home_none' && (
               <Notice tone="info" style={styles.notice}>
@@ -243,7 +225,7 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
             {settings.location === 'home_equipment' && (
               <>
                 <Question>{t('workout.setup.equipmentQuestion')}</Question>
-                <View style={styles.wrap}>
+                <ChipGroup label={t('workout.setup.equipmentQuestion')} mode="toggle">
                   {HOME_EQUIPMENT.map((item) => (
                     <Chip
                       key={item}
@@ -252,12 +234,12 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
                       onPress={() => update(toggleEquipment(settings, item))}
                     />
                   ))}
-                </View>
+                </ChipGroup>
                 {settings.homeEquipment.includes('dumbbell') && (
                   <>
                     <Question>{t('workout.setup.dumbbellQuestion')}</Question>
                     <Text style={[styles.hint, dir.text, { color: c.textSecondary }]}>{t('workout.setup.dumbbellHint')}</Text>
-                    <View style={styles.grid4}>
+                    <ChipGroup label={t('workout.setup.dumbbellQuestion')} mode="toggle" style={styles.grid4}>
                       {DUMBBELL_CHOICES_KG.map((kg) => (
                         <Chip
                           key={kg}
@@ -267,7 +249,7 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
                           style={styles.gridCell}
                         />
                       ))}
-                    </View>
+                    </ChipGroup>
                   </>
                 )}
               </>
@@ -288,7 +270,7 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
             )}
             <Question>{t('workout.setup.daysQuestion')}</Question>
             {beginner ? <Text style={[styles.hint, dir.text, { color: c.textSecondary }]}>{t('workout.setup.beginnerDaysHint')}</Text> : null}
-            <View style={styles.grid4}>
+            <ChipGroup label={t('workout.setup.daysQuestion')} mode="toggle" style={styles.grid4}>
               {DAYS.map((day) => (
                 <Chip
                   key={day}
@@ -298,7 +280,7 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
                   style={styles.gridCell}
                 />
               ))}
-            </View>
+            </ChipGroup>
             <Text
               accessibilityLiveRegion="polite"
               style={[styles.daysCount, dir.text, { color: ready ? c.textSecondary : c.danger }]}
@@ -308,29 +290,27 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
 
             <Question>{t('workout.setup.lengthQuestion')}</Question>
             {beginner ? <Text style={[styles.hint, dir.text, { color: c.textSecondary }]}>{t('workout.setup.beginnerLengthHint')}</Text> : null}
-            <View style={styles.row}>
-              {LENGTHS.map((minutes) => {
-                const selected = settings.sessionMinutes === minutes;
-                const colors = chipColors(selected);
-                return (
-                  <TouchableOpacity
-                    key={minutes}
-                    accessibilityRole="button"
-                    aria-selected={selected}
-                    accessibilityLabel={`${minutes} ${t('workout.setup.minutesShort')}`}
-                    onPress={() => update({ ...settings, sessionMinutes: minutes })}
-                    activeOpacity={0.7}
-                    style={[styles.lengthTile, colors.container]}
-                  >
-                    <Text style={[styles.lengthValue, colors.text, { fontWeight: '800' }]}>{minutes}</Text>
-                    <Text style={[styles.lengthUnit, colors.sub]}>{t('workout.setup.minutesShort')}</Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
+            <OptionGroup label={t('workout.setup.lengthQuestion')} style={styles.row}>
+              {LENGTHS.map((minutes) => (
+                <OptionButton
+                  key={minutes}
+                  label={`${minutes} ${t('workout.setup.minutesShort')}`}
+                  selected={settings.sessionMinutes === minutes}
+                  onPress={() => update({ ...settings, sessionMinutes: minutes })}
+                  style={styles.lengthTile}
+                >
+                  {(colors) => (
+                    <>
+                      <Text style={[styles.lengthValue, colors.text]}>{minutes}</Text>
+                      <Text style={[styles.lengthUnit, colors.sub]}>{t('workout.setup.minutesShort')}</Text>
+                    </>
+                  )}
+                </OptionButton>
+              ))}
+            </OptionGroup>
 
             <Question optional>{t('workout.setup.focusQuestion')}</Question>
-            <View style={styles.wrap}>
+            <ChipGroup label={t('workout.setup.focusQuestion')} mode="toggle">
               {FOCUS.map((area) => (
                 <Chip
                   key={area}
@@ -339,10 +319,10 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
                   onPress={() => update(toggleFocus(settings, area))}
                 />
               ))}
-            </View>
+            </ChipGroup>
 
             <Question optional>{t('workout.setup.protectQuestion')}</Question>
-            <View style={styles.wrap}>
+            <ChipGroup label={t('workout.setup.protectQuestion')} mode="toggle">
               {JOINTS.map((joint) => (
                 <Chip
                   key={joint}
@@ -351,7 +331,7 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
                   onPress={() => update(toggleProtected(settings, joint))}
                 />
               ))}
-            </View>
+            </ChipGroup>
             <RamadanCard ramadan={settings.ramadan} todayKey={localDateKey()} onChange={(ramadan) => update({ ...settings, ramadan })} />
           </>
         )}
@@ -361,16 +341,11 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
       </ScrollView>
 
       <View style={[styles.bottomBar, { backgroundColor: c.surface, borderTopColor: c.border }]}>
-        <TouchableOpacity
-          accessibilityRole="button"
-          onPress={handleBack}
-          activeOpacity={0.7}
-          style={[styles.backAction, { backgroundColor: c.surfaceSecondary }]}
-        >
-          <Text style={[styles.backActionText, dir.textCenter, { color: c.textPrimary }]}>
-            {step === 1 ? t('common.cancel') : t('common.back')}
+        {blocker ? (
+          <Text accessibilityLiveRegion="polite" style={[styles.blockerText, dir.text, { color: c.danger }]}>
+            {t('workout.setup.daysError')}
           </Text>
-        </TouchableOpacity>
+        ) : null}
         <TouchableOpacity
           accessibilityRole="button"
           accessibilityState={{ disabled: !ready }}
@@ -391,50 +366,32 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
 const styles = StyleSheet.create({
   safeArea: { flex: 1 },
   flex: { flex: 1 },
-  header: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingTop: 14, paddingBottom: 6 },
-  backBtn: { width: 44, height: 44, borderRadius: 22, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
-  flipped: { transform: [{ scaleX: -1 }] },
-  headerProgress: { flex: 1, gap: 6 },
-  stepLabel: { fontSize: 12, fontWeight: '700' },
-  segments: { flexDirection: 'row', gap: 4 },
-  segment: { flex: 1, height: 4, borderRadius: 999 },
+  header: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 16, paddingTop: 14 },
   content: { paddingHorizontal: 20, paddingTop: 10, paddingBottom: 28 },
-  title: { fontSize: 22, fontWeight: '800', letterSpacing: -0.4, marginBottom: 14 },
-  titleMore: { marginBottom: 4 },
   subtitle: { fontSize: 13, lineHeight: 19, marginBottom: 18 },
   skip: { minHeight: 44, paddingHorizontal: 6, justifyContent: 'center' },
   skipText: { fontSize: 14, fontWeight: '700' },
   notice: { marginBottom: 18 },
   hint: { fontSize: 12, marginTop: -6, marginBottom: 10 },
   grid2: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 22 },
-  optionCard: { width: '48.5%', minHeight: 76, paddingVertical: 12, paddingHorizontal: 14, borderRadius: 16, borderWidth: 1, gap: 4 },
-  optionLabel: { fontSize: 15 },
+  optionCard: { width: '48.5%', minHeight: 76, paddingVertical: 12, paddingHorizontal: 14, borderRadius: 16, gap: 4, alignItems: 'flex-start', justifyContent: 'flex-start' },
+  optionLabel: { fontSize: 15, fontWeight: '800' },
   optionDesc: { fontSize: 12, lineHeight: 16, fontWeight: '500' },
   stack: { gap: 8, marginBottom: 18 },
-  optionRow: {
-    minHeight: 52,
-    paddingHorizontal: 16,
-    borderRadius: 16,
-    borderWidth: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
+  optionRow: { minHeight: 52, paddingHorizontal: 16, borderRadius: 16 },
   optionRowText: { fontSize: 15 },
-  locationCard: { minHeight: 68, padding: 12, borderRadius: 18, borderWidth: 1, flexDirection: 'row', alignItems: 'center', gap: 14 },
+  locationCard: { minHeight: 68, padding: 12, borderRadius: 18, gap: 14, justifyContent: 'flex-start' },
   locationIcon: { width: 40, height: 40, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
-  wrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 22 },
   grid4: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 8 },
   gridCell: { width: '23%', paddingHorizontal: 4 },
   daysCount: { fontSize: 13, fontWeight: '600', marginBottom: 20 },
   row: { flexDirection: 'row', gap: 8, marginBottom: 22 },
-  lengthTile: { flex: 1, minHeight: 52, borderRadius: 12, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
-  lengthValue: { fontSize: 15 },
+  lengthTile: { flex: 1, minHeight: 52, paddingHorizontal: 0, paddingVertical: 4, borderRadius: 12 },
+  lengthValue: { fontSize: 15, fontWeight: '800' },
   lengthUnit: { fontSize: 11, fontWeight: '600' },
-  bottomBar: { flexDirection: 'row', gap: 12, paddingHorizontal: 20, paddingTop: 12, paddingBottom: 14, borderTopWidth: 1 },
-  backAction: { flex: 1, minHeight: 50, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
-  backActionText: { fontSize: 14, fontWeight: '700' },
-  nextAction: { flex: 2, minHeight: 50, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
+  bottomBar: { gap: 8, paddingHorizontal: 20, paddingTop: 12, paddingBottom: 14, borderTopWidth: 1 },
+  blockerText: { fontSize: 13, fontWeight: '600' },
+  nextAction: { minHeight: 50, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
   nextActionText: { fontSize: 15, fontWeight: '800' },
   disabled: { opacity: 0.35 },
 });

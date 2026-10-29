@@ -5,12 +5,11 @@ import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon, IconName } from '../../ui/Icon.js';
+import { useFormat } from '../../i18n/useFormat.js';
 import { styles } from './TrackerDashboardScreen.styles.js';
+import { waterLitres, waterTargetMl } from '../waterTile.js';
 
 const ACCENT_TEXT = '#0A0B0D';
-// Red text for Log out, lightened on dark (#EF4444 is 4.05:1 on the tinted button) and darkened on light.
-const LOGOUT_RED_LIGHT = '#B91C1C';
-const LOGOUT_RED_DARK = '#F87171';
 
 export interface ProfileSheetProps {
   visible: boolean;
@@ -20,6 +19,8 @@ export interface ProfileSheetProps {
   /** Animates the sheet away, then runs `then` (an action the user picked). */
   onClose: (then?: () => void) => void;
   userName: string;
+  /** The signed-in user's email; guests have none. */
+  email?: string | null;
   targets: { targetCalories: number; targetProteinGrams: number; targetWaterMl?: number };
   isGuest: boolean;
   onOpenSurvey?: () => void;
@@ -64,6 +65,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
   slide,
   onClose,
   userName,
+  email = null,
   targets,
   isGuest,
   onOpenSurvey,
@@ -77,6 +79,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
   const dir = useTextDirection();
+  const { formatNumber } = useFormat();
   const accentColor = theme.colors.primaryLime;
 
   const themeChoice = (choice: 'dark' | 'light', label: string) => (
@@ -124,14 +127,25 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
               </Text>
             </View>
             <View style={{ flex: 1 }}>
-              <Text style={[styles.profileNameLarge, { color: theme.colors.textPrimary }]}>
+              <Text style={[styles.profileNameLarge, dir.text, { color: theme.colors.textPrimary }]}>
                 {userName}
               </Text>
-              <Text style={[styles.profileEmail, { color: theme.colors.textMuted }]}>
-                {t(`tracker.dashboard.planBlurb.${activeRegion}`)}
+              {email ? (
+                <Text style={[styles.profileEmail, dir.text, { color: theme.colors.textSecondary }]} numberOfLines={1}>
+                  {email}
+                </Text>
+              ) : null}
+              <Text style={[styles.profileEmail, dir.text, { color: theme.colors.textSecondary }]}>
+                {t(`tracker.dashboard.regionName.${activeRegion}`)}
               </Text>
             </View>
-            <TouchableOpacity style={styles.profileCloseBtn} onPress={() => onClose()} activeOpacity={0.7}>
+            <TouchableOpacity
+              style={styles.profileCloseBtn}
+              onPress={() => onClose()}
+              activeOpacity={0.7}
+              accessibilityRole="button"
+              accessibilityLabel={t('common.close')}
+            >
               <Icon name="x" size={18} color={theme.colors.textSecondary} />
             </TouchableOpacity>
           </View>
@@ -163,7 +177,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
             {divider}
             {stat(t('common.protein'), `${targets.targetProteinGrams}g`)}
             {divider}
-            {stat(t('tracker.dashboard.waterGoal'), t('common.mlValue', { value: targets.targetWaterMl || 3000 }))}
+            {stat(t('tracker.dashboard.waterGoal'), t('common.litresValue', { value: formatNumber(waterLitres(waterTargetMl(targets.targetWaterMl)), { maximumFractionDigits: 1 }) }))}
           </View>
 
           {/* Action Buttons */}
@@ -224,8 +238,8 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
                 activeOpacity={0.7}
               >
                 <View style={styles.actionBtnRow}>
-                  <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={16} color={isDark ? LOGOUT_RED_DARK : LOGOUT_RED_LIGHT} />
-                  <Text style={[styles.actionBtnText, { color: isDark ? LOGOUT_RED_DARK : LOGOUT_RED_LIGHT }]}>
+                  <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={16} color={theme.colors.danger} />
+                  <Text style={[styles.actionBtnText, { color: theme.colors.danger }]}>
                     {t('tracker.dashboard.logout')}
                   </Text>
                 </View>

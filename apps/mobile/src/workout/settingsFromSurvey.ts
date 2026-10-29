@@ -1,4 +1,4 @@
-import type { SessionMinutes, Weekday, WorkoutGoal, WorkoutSettings } from '@nutrio/workout-core';
+import type { SessionMinutes, TrainingProfile, Weekday, WorkoutGoal, WorkoutSettings } from '@nutrio/workout-core';
 import type { GoalType } from '@nutrio/nutrition-core';
 import type { LifestyleSurveyPayload } from '../survey/types.js';
 import type { ComputedUserPlan } from '../plan/types.js';
@@ -32,6 +32,20 @@ function nearestSessionLength(minutes: number | undefined): SessionMinutes {
 }
 
 /**
+ * What "Tell us more" would otherwise ask again: whether they train now and how
+ * many days (when the survey said they do), or that they have not trained
+ * (when it said they do not). Only what the survey already answered.
+ */
+function profileFromSurvey(survey: LifestyleSurveyPayload | null | undefined, experience: WorkoutSettings['experience']): TrainingProfile | undefined {
+  const exercise = survey?.exercise;
+  if (!exercise) return undefined;
+  if (exercise.trainingType === 'none') return { background: 'never' };
+  if (experience === 'new') return undefined;
+  const days = exercise.frequencyDaysPerWeek > 0 ? Math.min(6, Math.max(1, Math.round(exercise.frequencyDaysPerWeek))) : undefined;
+  return { trainingNow: { active: true, ...(days ? { daysPerWeek: days } : {}) } };
+}
+
+/**
  * The workout setup's starting answers, from what the user already told us,
  * so setup is mostly a confirmation. Only safe inferences: a gym-goer trains
  * at the gym, a light or non-exerciser is new; nobody is assumed experienced.
@@ -47,9 +61,12 @@ export function defaultWorkoutSettings({
   const health = survey?.healthClinical;
   const trains = exercise && exercise.trainingType !== 'none';
 
+  const experience: WorkoutSettings['experience'] = !trains || exercise.intensity === 'light' ? 'new' : 'some';
+  const profile = profileFromSurvey(survey, experience);
+
   return {
     goal: plan ? GOAL_FOR_PLAN[plan.goalSelection.goal] : 'general',
-    experience: !trains || exercise.intensity === 'light' ? 'new' : 'some',
+    experience,
     location: exercise?.trainingType === 'gym_resistance' ? 'gym' : 'home_none',
     homeEquipment: [],
     dumbbellWeightsKg: [],
@@ -59,5 +76,6 @@ export function defaultWorkoutSettings({
     protectedJoints: [],
     lowIntensity: Boolean(health?.isPregnantOrBreastfeeding || health?.medicalConditions.includes('hypertension')),
     ramadan: { enabled: false },
+    ...(profile ? { profile } : {}),
   };
 }

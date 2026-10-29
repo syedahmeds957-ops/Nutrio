@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import { BackButton } from '../../ui/BackButton.js';
 import { PlanUserContext, AssessmentNarrative } from '../types.js';
+import { sittingBand } from '../sittingBand.js';
 import { ritualCupKcal } from '../../common/ritualDrinks.js';
 import { Icon } from '../../ui/Icon.js';
 import { useTheme } from '../../theme.js';
@@ -47,7 +48,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
     >
       {/* Top Back Button */}
       {onBack && (
-        <BackButton onPress={onBack} style={styles.topBackBtn} />
+        <BackButton variant="icon" onPress={onBack} style={styles.topBackBtn} />
       )}
 
       <View style={styles.header}>
@@ -97,7 +98,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
             </Text>
           </View>
           <Text style={[styles.metricValue, { color: theme.colors.textPrimary }]}>
-            {sittingHours >= 8 ? t('plan.analysis.sedentary') : t('plan.analysis.active')}
+            {t(`plan.analysis.${sittingBand(sittingHours)}`)}
           </Text>
         </View>
 
@@ -206,7 +207,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
                     : '#FBBF24'
                   : isSaudi
                   ? '#059669'
-                  : '#D97706',
+                  : '#B45309',
               },
             ]}
           >
@@ -228,7 +229,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
                     : '#FBBF24'
                   : isSaudi
                   ? '#059669'
-                  : '#D97706',
+                  : '#B45309',
               },
             ]}
           >
@@ -249,7 +250,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
                 : isSaudi
                 ? '#F0FDF4'
                 : '#FFFBEB',
-              borderLeftColor: isSaudi ? '#059669' : '#D97706',
+              borderLeftColor: isSaudi ? '#059669' : '#B45309',
             },
           ]}
         >
@@ -307,7 +308,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
       {/* Action Navigation Buttons */}
       <View style={styles.btnRow}>
         {onBack && (
-          <BackButton variant="footer" onPress={onBack} style={styles.footerBack} />
+          <BackButton variant="icon" onPress={onBack} style={styles.footerBack} />
         )}
 
         <TouchableOpacity
@@ -473,8 +474,8 @@ const styles = StyleSheet.create({
   },
   // Beside the primary button: natural width, not an equal share.
   footerBack: {
-    flex: 0,
-    paddingHorizontal: 24,
+    flexGrow: 0,
+    flexShrink: 0,
   },
   btnRow: {
     flexDirection: 'row',

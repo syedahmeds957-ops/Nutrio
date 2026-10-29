@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   safeArea: { flex: 1 },
   content: { paddingHorizontal: 20, paddingTop: 22, paddingBottom: 24, gap: 12 },
   over: { alignSelf: 'flex-start', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 999 },
-  overText: { fontSize: 11, fontWeight: '800', letterSpacing: 0.6 },
+  overText: { fontSize: 12, fontWeight: '800', letterSpacing: 0 },
   title: { fontSize: 24, fontWeight: '800', letterSpacing: -0.4 },
   sub: { fontSize: 14, lineHeight: 20 },
   group: { gap: 8 },

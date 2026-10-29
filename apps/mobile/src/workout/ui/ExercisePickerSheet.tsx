@@ -5,6 +5,8 @@ import { EXERCISES, getExercise, isAllowed, MUSCLE_NAMES, searchExercises, type 
 import { useTheme } from '../../theme.js';
 import { useI18nState, useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
+import { BackButton } from '../../ui/BackButton.js';
+import { optionA11y } from '../../ui/Selectable.js';
 import { equipmentText } from '../format.js';
 import { MAX_WALK_MINUTES, WALK_EXERCISE_ID } from '../workoutEdit.js';
 import { ExerciseImageLoop } from './ExerciseImageLoop.js';
@@ -112,14 +114,7 @@ export const ExercisePickerBody: React.FC<ExercisePickerProps & { initialQuery?:
   const header = (heading: string, onBack?: () => void) => (
     <View style={styles.titleRow}>
       {onBack ? (
-        <TouchableOpacity
-          accessibilityRole="button"
-          accessibilityLabel={t('common.back')}
-          onPress={onBack}
-          style={[styles.close, { backgroundColor: c.surfaceSecondary }]}
-        >
-          <Icon name="arrow-left" size={16} color={c.textPrimary} style={dir.isRTL ? styles.flipped : undefined} />
-        </TouchableOpacity>
+        <BackButton variant="icon" onPress={onBack} />
       ) : null}
       <Text accessibilityRole="header" style={[styles.title, dir.text, { color: c.textPrimary }]}>
         {heading}
@@ -208,14 +203,13 @@ export const ExercisePickerBody: React.FC<ExercisePickerProps & { initialQuery?:
         />
       </View>
       {multi && !typed ? (
-        <View style={styles.groups}>
+        <View role="radiogroup" accessibilityLabel={t('workout.edit.groupLabel')} style={styles.groups}>
           {(['strength', 'cardio'] as const).map((value) => {
             const on = group === value;
             return (
               <TouchableOpacity
                 key={value}
-                accessibilityRole="button"
-                aria-selected={on}
+                {...optionA11y('radio', on)}
                 onPress={() => setGroup(value)}
                 style={[styles.group, { backgroundColor: on ? c.primaryLime : c.surfaceSecondary, borderColor: on ? c.primaryLime : c.border }]}
               >

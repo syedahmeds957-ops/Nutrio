@@ -756,21 +756,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
             <View style={styles.searchResultsSection}>
               {!isBuildMode && (
                 <View style={styles.actionRow}>
-                  {onConfirmBasket && (
-                    <TouchableOpacity
-                      style={[styles.actionCard, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}
-                      onPress={() => setIsBuildMode(true)}
-                      activeOpacity={0.7}
-                      accessibilityRole="button"
-                    >
-                      <View style={[styles.actionIcon, { backgroundColor: isDark ? theme.colors.surfaceSecondary : '#EDFCD2' }]}>
-                        <Icon name="plus" size={22} color={isDark ? theme.colors.primaryLime : '#365314'} />
-                      </View>
-                      <Text style={[styles.actionLabel, { color: theme.colors.textPrimary }]}>
-                        {t('tracker.hub.customMealPill')}
-                      </Text>
-                    </TouchableOpacity>
-                  )}
+                  {/* Custom meal is the pinned pill below, on every tab: a tile here said it twice. */}
                   <TouchableOpacity
                     style={[
                       styles.actionCard,
@@ -932,7 +918,7 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
               activeOpacity={0.85}
               accessibilityRole="button"
             >
-              <Icon name="plus" size={18} color={theme.colors.primaryLime} />
+              <Icon name="plus" size={18} color={theme.isDark ? theme.colors.canvas : theme.colors.primaryLime} />
               <Text style={[styles.customPillText, { color: theme.colors.canvas }]}>
                 {t('tracker.hub.customMealPill')}
               </Text>

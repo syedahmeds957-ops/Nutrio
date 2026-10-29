@@ -78,14 +78,14 @@ export const darkColors: ThemeColors = {
   primaryLight: '#263B0E',
   primaryBorder: '#A4EB3F',
   primaryLime: '#A4EB3F',
-  heroCardBg: '#A4EB3F',
+  heroCardBg: '#7FB82F',      // dimmed from full lime: the big hero block glared on the dark canvas
   limeText: '#0A0B0D',
   primaryAccessible: '#A4EB3F',
   primaryTintText: '#A4EB3F',
 
-  floatingBarBg: '#18191E',
+  floatingBarBg: '#2A2D37',           // lighter than the cards (#18191E) so the bar lifts off them
   floatingBarActive: '#A4EB3F',
-  floatingBarInactive: '#9CA3AF',     // #636674 was ~3:1 on the bar; 11 px labels need 4.5:1
+  floatingBarInactive: '#B4BAC6',     // 7:1 on the bar; 11 px labels need 4.5:1
 
   textPrimary: '#FFFFFF',
   text: '#FFFFFF',
@@ -96,7 +96,7 @@ export const darkColors: ThemeColors = {
   protein: '#3B82F6',
   carbs: '#A4EB3F',
   fat: '#F59E0B',
-  proteinText: '#3B82F6',
+  proteinText: '#60A5FA',
   carbsText: '#A4EB3F',
   fatText: '#F59E0B',
   water: '#0EA5E9',
@@ -104,7 +104,7 @@ export const darkColors: ThemeColors = {
 
   warning: '#F59E0B',
   warningLight: '#332306',
-  danger: '#EF4444',
+  danger: '#F87171',          // #EF4444 was 4.2:1 on the raised surface
   dangerLight: '#380E0E',
   success: '#10B981',
   successLight: '#082E1E',
@@ -150,9 +150,9 @@ export const lightColors: ThemeColors = {
   water: '#0EA5E9',
   banked: '#10B981',
 
-  warning: '#F59E0B',
+  warning: '#B45309',         // #F59E0B / #D97706 were 2.1-3.2:1 as text; 4.5:1 on every light surface
   warningLight: '#FEF3C7',
-  danger: '#EF4444',
+  danger: '#B91C1C',          // #EF4444 was 3.5:1 on the canvas
   dangerLight: '#FEE2E2',
   success: '#10B981',
   successLight: '#DCFCE7',

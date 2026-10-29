@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Icon } from '../../ui/Icon.js';
+import { BackButton } from '../../ui/BackButton.js';
 import { useTheme } from '../../theme.js';
-import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useTextDirection } from '../../i18n/index.js';
 
 interface WorkoutHeaderProps {
   title: string;
@@ -16,19 +16,11 @@ interface WorkoutHeaderProps {
 export const WorkoutHeader: React.FC<WorkoutHeaderProps> = ({ title, subtitle, onBack, action }) => {
   const { theme } = useTheme();
   const c = theme.colors;
-  const { t } = useTranslation();
   const dir = useTextDirection();
 
   return (
     <View style={styles.header}>
-      <TouchableOpacity
-        accessibilityRole="button"
-        accessibilityLabel={t('common.back')}
-        onPress={onBack}
-        style={[styles.backBtn, { backgroundColor: c.surface, borderColor: c.border }]}
-      >
-        <Icon name="arrow-left" size={18} color={c.textPrimary} style={dir.isRTL ? styles.flipped : undefined} />
-      </TouchableOpacity>
+      <BackButton variant="icon" onPress={onBack} />
       <View style={styles.titles}>
         <Text accessibilityRole="header" numberOfLines={1} style={[styles.title, dir.text, { color: c.textPrimary }]}>
           {title}

@@ -168,7 +168,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
           },
         ]}
       >
-        <BackButton onPress={onBackToDashboard} />
+        <BackButton variant="icon" onPress={onBackToDashboard} />
       </View>
 
       {/* Horizontal Day Selector */}

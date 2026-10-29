@@ -61,11 +61,11 @@ describe('WorkoutWeekScreen', () => {
   it('opens on today with every exercise, then the week', () => {
     const week = buildWeekView(plan, THURSDAY, 'PK');
     const html = render(React.createElement(WorkoutWeekScreen, { plan, week, onBack: () => {}, onEdit: () => {}, onOpenDay: () => {}, onDoToday: () => {} }));
-    expect(html).toContain("TODAY&#x27;S WORKOUT");
+    expect(html).toContain("Today&#x27;s workout");
     for (const slot of week.today.session!.slots) expect(html).toContain(nameOf(slot.exerciseId));
     expect(html).toContain('Start workout');
     expect(html).toContain('This week');
-    expect(html).toContain('WEEK 1');
+    expect(html).toContain('Week 1');
     expect(html).toContain('Rest day');
     expect(html).not.toMatch(/Breakfast|kcal/);
   });
@@ -110,7 +110,7 @@ describe('WorkoutDayScreen', () => {
     const week = buildWeekView(fatLoss, THURSDAY, 'PK');
     const day = week.today as typeof week.today & { session: NonNullable<typeof week.today.session> };
     const html = render(React.createElement(WorkoutDayScreen, { ...dayProps, plan: fatLoss, day, weekIndex: 0 }));
-    expect(html).toContain('CARDIO');
+    expect(html).toContain('Cardio');
     expect(html).toContain('15 min · moderate pace');
     expect(html).toContain('Moderate: you can talk in short sentences');
     expect(html).not.toContain('Finisher');

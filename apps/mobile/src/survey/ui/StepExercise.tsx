@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { SurveyExercise, TrainingType, WorkoutIntensity } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { AppleTextInput } from '../../ui/AppleInput.js';
+import { OptionButton, OptionGroup } from '../../ui/Selectable.js';
 
 interface StepExerciseProps {
   data: Partial<SurveyExercise>;
@@ -30,12 +31,10 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
   onChange,
   errors,
 }) => {
-  const { theme, isDark: _isDark } = useTheme();
+  const { theme } = useTheme();
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
   const dir = useTextDirection();
-  const accentColor = theme.colors.primaryLime;
-  const activeTextColor = '#0A0B0D';
   const trainingTypes = TRAINING_TYPE_IDS.map((id) => ({
     id,
     label: t(`survey.exercise.trainingTypes.${id}.${activeRegion}`),
@@ -56,39 +55,18 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
         <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }]}>
           {t('survey.exercise.primaryType')}
         </Text>
-        <View style={styles.chipGrid}>
-          {trainingTypes.map((option) => {
-            const isSelected = data.trainingType === option.id;
-            return (
-              <TouchableOpacity
-                key={option.id}
-                style={[
-                  styles.chip,
-                  {
-                    backgroundColor: theme.colors.surface,
-                    borderColor: theme.colors.border,
-                  },
-                  isSelected && {
-                    backgroundColor: accentColor,
-                    borderColor: accentColor,
-                  },
-                ]}
-                onPress={() => onChange({ trainingType: option.id })}
-                activeOpacity={0.7}
-              >
-                <Text
-                  style={[
-                    styles.chipText,
-                    { color: theme.colors.textSecondary },
-                    isSelected && { color: activeTextColor, fontWeight: '800' },
-                  ]}
-                >
-                  {option.label}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
+        <OptionGroup label={t('survey.exercise.primaryType')} style={styles.chipGrid}>
+          {trainingTypes.map((option) => (
+            <OptionButton
+              key={option.id}
+              label={option.label}
+              selected={data.trainingType === option.id}
+              onPress={() => onChange({ trainingType: option.id })}
+              style={styles.chip}
+              labelStyle={styles.chipText}
+            />
+          ))}
+        </OptionGroup>
         {errors.trainingType && (
           <Text style={styles.errorText}>{errors.trainingType}</Text>
         )}
@@ -101,39 +79,18 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
             <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }]}>
               {t('survey.exercise.frequency')}
             </Text>
-            <View style={styles.frequencyRow}>
-              {[1, 2, 3, 4, 5, 6, 7].map((num) => {
-                const isSelected = data.frequencyDaysPerWeek === num;
-                return (
-                  <TouchableOpacity
-                    key={num}
-                    style={[
-                      styles.numBtn,
-                      {
-                        backgroundColor: theme.colors.surface,
-                        borderColor: theme.colors.border,
-                      },
-                      isSelected && {
-                        backgroundColor: accentColor,
-                        borderColor: accentColor,
-                      },
-                    ]}
-                    onPress={() => onChange({ frequencyDaysPerWeek: num })}
-                    activeOpacity={0.7}
-                  >
-                    <Text
-                      style={[
-                        styles.numText,
-                        { color: theme.colors.textSecondary },
-                        isSelected && { color: activeTextColor, fontWeight: '800' },
-                      ]}
-                    >
-                      {num}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
+            <OptionGroup label={t('survey.exercise.frequency')} style={styles.frequencyRow}>
+              {[1, 2, 3, 4, 5, 6, 7].map((num) => (
+                <OptionButton
+                  key={num}
+                  label={String(num)}
+                  selected={data.frequencyDaysPerWeek === num}
+                  onPress={() => onChange({ frequencyDaysPerWeek: num })}
+                  style={styles.numBtn}
+                  labelStyle={styles.numText}
+                />
+              ))}
+            </OptionGroup>
             {errors.frequencyDaysPerWeek && (
               <Text style={styles.errorText}>{errors.frequencyDaysPerWeek}</Text>
             )}
@@ -161,39 +118,18 @@ export const StepExercise: React.FC<StepExerciseProps> = ({
             <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }]}>
               {t('survey.exercise.intensityLabel')}
             </Text>
-            <View style={styles.intensityRow}>
-              {intensityOptions.map((item) => {
-                const isSelected = data.intensity === item.id;
-                return (
-                  <TouchableOpacity
-                    key={item.id}
-                    style={[
-                      styles.intensityBtn,
-                      {
-                        backgroundColor: theme.colors.surface,
-                        borderColor: theme.colors.border,
-                      },
-                      isSelected && {
-                        backgroundColor: accentColor,
-                        borderColor: accentColor,
-                      },
-                    ]}
-                    onPress={() => onChange({ intensity: item.id })}
-                    activeOpacity={0.7}
-                  >
-                    <Text
-                      style={[
-                        styles.intensityText,
-                        { color: theme.colors.textSecondary },
-                        isSelected && { color: activeTextColor, fontWeight: '800' },
-                      ]}
-                    >
-                      {item.label}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
+            <OptionGroup label={t('survey.exercise.intensityLabel')} style={styles.intensityRow}>
+              {intensityOptions.map((item) => (
+                <OptionButton
+                  key={item.id}
+                  label={item.label}
+                  selected={data.intensity === item.id}
+                  onPress={() => onChange({ intensity: item.id })}
+                  style={styles.intensityBtn}
+                  labelStyle={styles.intensityText}
+                />
+              ))}
+            </OptionGroup>
           </View>
         </>
       )}
@@ -225,33 +161,22 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   chip: {
-    minHeight: 44,
-    paddingVertical: 10,
     paddingHorizontal: 16,
-    borderRadius: 14,
-    borderWidth: 1,
-    justifyContent: 'center',
   },
   chipText: {
     fontSize: 13,
-    fontWeight: '600',
   },
   frequencyRow: {
     flexDirection: 'row',
     gap: 4,
   },
   numBtn: {
-    minHeight: 44,
     flex: 1,
-    paddingVertical: 12,
+    paddingHorizontal: 0,
     borderRadius: 12,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   numText: {
     fontSize: 15,
-    fontWeight: '700',
   },
   intensityRow: {
     flexDirection: 'row',
@@ -259,14 +184,10 @@ const styles = StyleSheet.create({
   },
   intensityBtn: {
     flex: 1,
-    paddingVertical: 12,
-    borderRadius: 14,
-    borderWidth: 1,
-    alignItems: 'center',
+    paddingHorizontal: 8,
   },
   intensityText: {
     fontSize: 13,
-    fontWeight: '700',
   },
   input: {
     borderWidth: 1,

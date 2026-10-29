@@ -59,7 +59,7 @@ export const WeighInLogModal: React.FC<WeighInLogModalProps> = ({
   };
 
   return (
-    <NamedModal accessibilityName={t('a11y.dialog.weighIn')} visible={visible} animationType="slide" transparent>
+    <NamedModal accessibilityName={t('a11y.dialog.weighIn')} visible={visible} animationType="slide" transparent onRequestClose={onClose}>
       <SafeAreaView style={styles.overlay}>
         <View
           style={[
@@ -185,7 +185,7 @@ export const WeighInLogModal: React.FC<WeighInLogModalProps> = ({
                 </Text>
               </TouchableOpacity>
             </View>
-            {error && <Text style={styles.errorText}>{error}</Text>}
+            {error && <Text style={[styles.errorText, { color: theme.colors.danger }]}>{error}</Text>}
           </View>
 
           {/* Optional Notes */}
@@ -313,7 +313,6 @@ const styles = StyleSheet.create({
     marginStart: 4,
   },
   errorText: {
-    color: '#EF4444',
     fontSize: 12,
     marginTop: 8,
     fontWeight: '600',

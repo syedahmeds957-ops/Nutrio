@@ -53,7 +53,7 @@ export const Stepper: React.FC<StepperProps> = ({ value, format, onMinus, onPlus
         void HapticFeedback.selection();
         onPress();
       }}
-      hitSlop={{ top: 6, bottom: 6 }}
+      hitSlop={{ top: 4, bottom: 4, left: 4, right: 4 }}
       style={[styles.stepButton, { backgroundColor: c.surfaceSecondary }]}
     >
       <Icon name={icon} size={14} color={c.textPrimary} strokeWidth={2.5} />
@@ -192,7 +192,8 @@ const styles = StyleSheet.create({
   setNumber: { width: 24, fontSize: 15, fontWeight: '800', textAlign: 'center' },
   stepper: { flex: 1, flexDirection: 'row', alignItems: 'center', minWidth: 0 },
   stepButton: { width: 30, height: 36, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
-  value: { flex: 1, minWidth: 0, fontSize: 16, fontWeight: '800', textAlign: 'center', paddingVertical: 6, paddingHorizontal: 0 },
+  // minHeight 44: the whole box is the input, not just the line of text.
+  value: { flex: 1, minWidth: 0, minHeight: 44, fontSize: 16, fontWeight: '800', textAlign: 'center', paddingVertical: 6, paddingHorizontal: 0 },
   bodyweight: { flex: 1, fontSize: 12, fontWeight: '600', textAlign: 'center' },
   check: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
 });

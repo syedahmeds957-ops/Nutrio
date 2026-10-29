@@ -312,7 +312,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
                 metrics.weightDeltaKg < 0
                   ? { color: isDark ? theme.colors.primaryLime : '#4B6200' }
                   : metrics.weightDeltaKg > 0
-                  ? { color: '#D97706' }
+                  ? { color: theme.colors.warning }
                   : null,
               ]}
             >

@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { SurveyBasics } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { HapticFeedback } from '../../ui/haptics.js';
 import { AppleGroupedRowInput } from '../../ui/AppleInput.js';
+import { OptionButton, OptionGroup } from '../../ui/Selectable.js';
 
 interface StepBasicsProps {
   data: Partial<SurveyBasics>;
@@ -13,11 +14,9 @@ interface StepBasicsProps {
 }
 
 export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }) => {
-  const { theme, isDark } = useTheme();
+  const { theme } = useTheme();
   const { t } = useTranslation();
   const dir = useTextDirection();
-  const activeColor = theme.colors.primaryLime;
-  const activeTextColor = '#0A0B0D';
 
   const handleSelectSex = (sex: 'male' | 'female') => {
     HapticFeedback.selection();
@@ -36,75 +35,17 @@ export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }
           {t('survey.basics.sexEyebrow')}
         </Text>
 
-        <View
-          style={[
-            styles.segmentedContainer,
-            {
-              backgroundColor: theme.colors.surfaceSecondary,
-              borderColor: theme.colors.border,
-            },
-          ]}
-        >
-          <TouchableOpacity
-            style={[
-              styles.segmentBtn,
-              data.sex === 'male' && [
-                styles.segmentBtnActive,
-                { backgroundColor: activeColor },
-              ],
-            ]}
-            onPress={() => handleSelectSex('male')}
-            activeOpacity={0.7}
-            accessibilityRole="button"
-            accessibilityLabel={t('survey.basics.male')}
-            accessibilityState={{ selected: data.sex === 'male' }}
-          >
-            <Text
-              style={[
-                styles.segmentText,
-                {
-                  color:
-                    data.sex === 'male'
-                      ? activeTextColor
-                      : theme.colors.textSecondary,
-                  fontWeight: data.sex === 'male' ? '800' : '600',
-                },
-              ]}
-            >
-              {t('survey.basics.male')}
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[
-              styles.segmentBtn,
-              data.sex === 'female' && [
-                styles.segmentBtnActive,
-                { backgroundColor: activeColor },
-              ],
-            ]}
-            onPress={() => handleSelectSex('female')}
-            activeOpacity={0.7}
-            accessibilityRole="button"
-            accessibilityLabel={t('survey.basics.female')}
-            accessibilityState={{ selected: data.sex === 'female' }}
-          >
-            <Text
-              style={[
-                styles.segmentText,
-                {
-                  color:
-                    data.sex === 'female'
-                      ? activeTextColor
-                      : theme.colors.textSecondary,
-                  fontWeight: data.sex === 'female' ? '800' : '600',
-                },
-              ]}
-            >
-              {t('survey.basics.female')}
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <OptionGroup label={t('survey.basics.sexEyebrow')} style={styles.segmentedRow}>
+          {(['male', 'female'] as const).map((sex) => (
+            <OptionButton
+              key={sex}
+              label={t(`survey.basics.${sex}`)}
+              selected={data.sex === sex}
+              onPress={() => handleSelectSex(sex)}
+              style={[styles.segmentBtn, errors.sex && !data.sex && { borderColor: theme.colors.danger }]}
+            />
+          ))}
+        </OptionGroup>
         {errors.sex && <Text style={styles.errorText}>{errors.sex}</Text>}
       </View>
 
@@ -127,7 +68,7 @@ export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }
           <AppleGroupedRowInput
             label={t('survey.basics.age')}
             unit={t('survey.basics.unitYears')}
-            placeholder="28"
+            placeholder={t('survey.placeholderExample', { value: 28 })}
             keyboardType="numeric"
             value={data.ageYears !== undefined ? String(data.ageYears) : ''}
             onChangeText={(val) => {
@@ -143,7 +84,7 @@ export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }
           <AppleGroupedRowInput
             label={t('survey.basics.height')}
             unit={t('survey.basics.unitCm')}
-            placeholder="170"
+            placeholder={t('survey.placeholderExample', { value: 170 })}
             keyboardType="numeric"
             value={data.heightCm !== undefined ? String(data.heightCm) : ''}
             onChangeText={(val) => {
@@ -159,7 +100,7 @@ export const StepBasics: React.FC<StepBasicsProps> = ({ data, onChange, errors }
           <AppleGroupedRowInput
             label={t('survey.basics.weight')}
             unit={t('survey.basics.unitKg')}
-            placeholder="78"
+            placeholder={t('survey.placeholderExample', { value: 78 })}
             keyboardType="numeric"
             value={data.weightKg !== undefined ? String(data.weightKg) : ''}
             onChangeText={(val) => {
@@ -188,36 +129,19 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   sectionEyebrow: {
-    fontSize: 11,
-    fontWeight: '800',
-    letterSpacing: 0.8,
-    textTransform: 'uppercase',
+    fontSize: 13,
+    fontWeight: '700',
     marginBottom: 10,
     marginStart: 4,
   },
-  segmentedContainer: {
+  segmentedRow: {
     flexDirection: 'row',
-    borderRadius: 14,
-    borderWidth: 1,
-    padding: 4,
-    gap: 4,
+    gap: 8,
   },
   segmentBtn: {
     flex: 1,
-    paddingVertical: 12,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  segmentBtnActive: {
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
-    shadowRadius: 2,
-    elevation: 1,
-  },
-  segmentText: {
-    fontSize: 14,
+    minHeight: 48,
+    borderRadius: 14,
   },
   groupedCard: {
     borderRadius: 18,

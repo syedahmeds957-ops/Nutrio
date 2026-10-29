@@ -160,7 +160,7 @@ export const AddDishModal: React.FC<AddDishModalProps> = ({
                 <Text style={[styles.ingredientName, dir.text, { color: theme.colors.textPrimary }]}>
                   {i.name}
                 </Text>
-                <Text style={[styles.mutedText, dir.text, { color: '#B45309' }]}>
+                <Text style={[styles.mutedText, dir.text, { color: theme.colors.warning }]}>
                   {t('tracker.addDish.notCounted', { grams: i.grams })}
                 </Text>
               </View>

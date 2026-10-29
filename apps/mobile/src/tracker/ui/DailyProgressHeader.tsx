@@ -102,7 +102,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
   const { formatNumber } = useFormat();
   const dir = useTextDirection();
   const heroBg = theme.colors.heroCardBg;
-  const heroBorder = theme.colors.primaryLime;
+  const heroBorder = theme.colors.heroCardBg;
   const heroTextColor = theme.colors.limeText;
   const heroSubTextColor = theme.colors.limeText;
 

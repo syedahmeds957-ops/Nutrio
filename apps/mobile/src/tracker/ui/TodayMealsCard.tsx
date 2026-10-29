@@ -78,7 +78,6 @@ export const TodayMealsCard: React.FC<TodayMealsCardProps> = ({
           <TouchableOpacity
             accessibilityRole="button"
             activeOpacity={0.7}
-            hitSlop={{ top: 12, bottom: 12, left: 8, right: 8 }}
             onPress={onOpenMealPlan}
             style={styles.link}
           >
@@ -131,7 +130,6 @@ export const TodayMealsCard: React.FC<TodayMealsCardProps> = ({
                 <TouchableOpacity
                   accessibilityRole="button"
                   accessibilityState={filled ? { expanded } : undefined}
-                  accessibilityLabel={title}
                   activeOpacity={0.7}
                   onPress={() => {
                     HapticFeedback.selection();
@@ -167,14 +165,15 @@ export const TodayMealsCard: React.FC<TodayMealsCardProps> = ({
                   accessibilityRole="button"
                   accessibilityLabel={t('tracker.mealsCard.addTo', { slot: title })}
                   activeOpacity={0.8}
-                  hitSlop={{ top: 5, bottom: 5, left: 5, right: 5 }}
                   onPress={() => {
                     HapticFeedback.selection();
                     onAddItem(slot);
                   }}
-                  style={[styles.plus, { backgroundColor: filled ? c.surfaceSecondary : c.primaryLime }]}
+                  style={styles.plusHit}
                 >
-                  <Icon name="plus" size={15} color={filled ? c.textPrimary : c.limeText} strokeWidth={2.8} />
+                  <View style={[styles.plus, { backgroundColor: filled ? c.surfaceSecondary : c.primaryLime }]}>
+                    <Icon name="plus" size={15} color={filled ? c.textPrimary : c.limeText} strokeWidth={2.8} />
+                  </View>
                 </TouchableOpacity>
               </View>
 
@@ -200,7 +199,6 @@ export const TodayMealsCard: React.FC<TodayMealsCardProps> = ({
                         accessibilityRole="button"
                         accessibilityLabel={t('tracker.mealsCard.removeDish', { name: foodDisplayName(item.foodName, item.foodNameAr, dir.isRTL).primary })}
                         activeOpacity={0.6}
-                        hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                         onPress={() => {
                           HapticFeedback.impactHeavy();
                           onDeleteItem(item.id);
@@ -224,7 +222,8 @@ export const TodayMealsCard: React.FC<TodayMealsCardProps> = ({
 const styles = StyleSheet.create({
   sectionHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, minHeight: 28 },
   heading: { fontSize: 18, fontWeight: '800', letterSpacing: -0.3 },
-  link: { flexDirection: 'row', alignItems: 'center', gap: 2 },
+  // 44 px to tap; the negative margin keeps the header the height it was.
+  link: { flexDirection: 'row', alignItems: 'center', gap: 2, minHeight: 44, minWidth: 44, marginVertical: -8 },
   linkText: { fontSize: 13, fontWeight: '700' },
   card: { borderRadius: 20, borderWidth: 1, paddingHorizontal: 14 },
   dist: { paddingTop: 14, paddingBottom: 12, borderBottomWidth: StyleSheet.hairlineWidth },
@@ -243,6 +242,8 @@ const styles = StyleSheet.create({
   nextTagText: { fontSize: 10, fontWeight: '800' },
   slotSub: { fontSize: 12, marginTop: 1 },
   slotKcal: { fontSize: 14, fontWeight: '700', fontVariant: ['tabular-nums'] },
+  // The 34 px circle sits in a 44 px target; the margin gives the row its width back.
+  plusHit: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', marginHorizontal: -5 },
   plus: { width: 34, height: 34, borderRadius: 17, alignItems: 'center', justifyContent: 'center' },
   dishes: { paddingBottom: 10, paddingStart: 44, gap: 10 },
   dish: { flexDirection: 'row', alignItems: 'flex-start', gap: 8 },
@@ -250,5 +251,5 @@ const styles = StyleSheet.create({
   dishName: { fontSize: 14, fontWeight: '600' },
   dishMeta: { fontSize: 12, marginTop: 2 },
   dishKcal: { fontSize: 13, fontWeight: '700', fontVariant: ['tabular-nums'] },
-  dishDelete: { width: 28, height: 28, alignItems: 'center', justifyContent: 'center' },
+  dishDelete: { width: 44, height: 44, margin: -8, alignItems: 'center', justifyContent: 'center' },
 });

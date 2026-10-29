@@ -12,6 +12,7 @@ import {
   WeightTrendSummary,
 } from './types.js';
 import { daysBetweenKeys, localDateKey } from '../common/dateKey.js';
+import { isSurveyBaseline } from './surveyBaseline.js';
 
 export function validateWeighIn(weightKg: number): {
   isValid: boolean;
@@ -148,6 +149,7 @@ export class WeightTrendEngine {
       date: w.date,
       rawWeightKg: w.weightKg,
       ewmaWeightKg: ewmaSeries[idx],
+      ...(isSurveyBaseline(w) ? { fromSurvey: true } : {}),
     }));
 
     const startWeightKg = rawWeights[0];

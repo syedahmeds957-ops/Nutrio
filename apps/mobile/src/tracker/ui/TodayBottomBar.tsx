@@ -8,6 +8,8 @@ import { HapticFeedback } from '../../ui/haptics.js';
 interface TodayBottomBarProps {
   /** Distance from the screen's bottom edge, including the safe area. */
   bottom: number;
+  /** Sits in the layout below the scroll area instead of floating over it (wide browsers). */
+  docked?: boolean;
   onOpenDiary: () => void;
   onQuickLog: () => void;
   onOpenCoach: () => void;
@@ -18,7 +20,7 @@ interface TodayBottomBarProps {
  * There is no Today tab: Today is the screen under it, and Diary and Coach
  * each have a back arrow that returns here.
  */
-export const TodayBottomBar: React.FC<TodayBottomBarProps> = ({ bottom, onOpenDiary, onQuickLog, onOpenCoach }) => {
+export const TodayBottomBar: React.FC<TodayBottomBarProps> = ({ bottom, docked, onOpenDiary, onQuickLog, onOpenCoach }) => {
   const { theme } = useTheme();
   const c = theme.colors;
   const { t } = useTranslation();
@@ -41,7 +43,8 @@ export const TodayBottomBar: React.FC<TodayBottomBarProps> = ({ bottom, onOpenDi
   );
 
   return (
-    <View style={[styles.bar, { backgroundColor: c.floatingBarBg, borderColor: c.border, bottom }]}>
+    <View style={[styles.bar, { backgroundColor: c.floatingBarBg, borderColor: c.isDark ? 'rgba(255, 255, 255, 0.16)' : c.border, bottom },
+      docked && { position: 'relative', bottom: undefined, marginTop: 12, marginBottom: 16 }]}>
       {item('clipboard', t('tracker.dashboard.diary'), onOpenDiary)}
       <TouchableOpacity
         accessibilityRole="button"

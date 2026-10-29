@@ -10,6 +10,8 @@ initI18n('en');
 import { createWorkoutPlan, updateWorkoutPlan } from '../planActions.js';
 import {
   canContinue,
+  continueBlocker,
+  stepProgress,
   settingsForEdit,
   settingsForSave,
   toggleDay,
@@ -43,6 +45,20 @@ describe('setup rules', () => {
     expect(canContinue(3, oneDay)).toBe(false);
     expect(canContinue(1, oneDay)).toBe(true);
     expect(canContinue(2, oneDay)).toBe(true);
+  });
+
+  it('counts setup and "Tell us more" as one six-step flow', () => {
+    expect(stepProgress(1)).toEqual({ current: 1, total: 6, optional: false });
+    expect(stepProgress(3).optional).toBe(false);
+    expect(stepProgress(4)).toEqual({ current: 4, total: 6, optional: true });
+    expect(stepProgress(6)).toEqual({ current: 6, total: 6, optional: true });
+  });
+
+  it('says why Continue is off, and only on the days step', () => {
+    const oneDay = { ...BASE, trainingDays: ['mon' as const] };
+    expect(continueBlocker(3, oneDay)).toBe('days');
+    expect(continueBlocker(3, BASE)).toBeNull();
+    for (const step of [1, 2, 4, 5, 6] as const) expect(continueBlocker(step, oneDay)).toBeNull();
   });
 
   it('stops at six training days', () => {
@@ -112,7 +128,12 @@ describe('workout screens render in English and Arabic', () => {
         React.createElement(WorkoutSetupScreen, { mode: 'create', prefilled: true, initialSettings: BASE, onCancel: () => {}, onSave: () => {} })
       );
       expect(html, language).toContain(goal);
-      expect(html, language).toContain(i18n.t('workout.setup.step', { current: 1, total: 3 }));
+      // One counter for the whole wizard, shared with the survey's progress bar.
+      expect(html, language).toContain(i18n.t('survey.progress.step', { current: 1, total: 6 }));
+      expect(html, language).not.toContain('role="button" aria-selected');
+      expect(html, language).not.toContain('aria-selected');
+      expect(html, language).toContain('role="radiogroup"');
+      expect(html, language).toContain('role="radio"');
       expect(html, language).toContain(i18n.t('workout.setup.prefillNote'));
       if (cta) expect(html).toContain(cta);
     }

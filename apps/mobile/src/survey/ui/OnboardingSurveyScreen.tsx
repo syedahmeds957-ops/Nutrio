@@ -12,6 +12,7 @@ import {
   Platform,
 } from 'react-native';
 import { BackButton } from '../../ui/BackButton.js';
+import { Notice } from '../../ui/Notice.js';
 import { ProgressBar } from './ProgressBar.js';
 import { StepBasics } from './StepBasics.js';
 import { StepOccupational } from './StepOccupational.js';
@@ -123,19 +124,30 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
 
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.canvas }]}>
-      {onSkip && (
+      {(!isFirstStep || onCancel || onSkip) && (
         <View style={styles.topBar}>
-          <TouchableOpacity
-            style={styles.skipBtn}
-            onPress={onSkip}
-            activeOpacity={0.7}
-            accessibilityRole="button"
-            accessibilityLabel={t('survey.skip')}
-          >
-            <Text style={[styles.skipBtnText, { color: theme.colors.textMuted }]}>
-              {t('survey.skip')}
-            </Text>
-          </TouchableOpacity>
+          {!isFirstStep || onCancel ? (
+            <BackButton
+              variant="icon"
+              onPress={handlePrev}
+              label={isFirstStep ? t('common.cancel') : t('common.back')}
+            />
+          ) : (
+            <View />
+          )}
+          {onSkip && (
+            <TouchableOpacity
+              style={styles.skipBtn}
+              onPress={onSkip}
+              activeOpacity={0.7}
+              accessibilityRole="button"
+              accessibilityLabel={t('survey.skip')}
+            >
+              <Text style={[styles.skipBtnText, { color: theme.colors.textMuted }]}>
+                {t('survey.skip')}
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       )}
 
@@ -164,6 +176,11 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
             viewportHeight.current = e.nativeEvent.layout.height;
           }}
         >
+          {Object.keys(errors).length > 0 && (
+            <View style={styles.errorBanner}>
+              <Notice tone="danger">{t('common.completeRequiredFields')}</Notice>
+            </View>
+          )}
           {currentStep === 'basics' && (
             <StepBasics
               data={engine.getBasics()}
@@ -237,29 +254,21 @@ export const OnboardingSurveyScreen: React.FC<OnboardingSurveyScreenProps> = ({
             },
           ]}
         >
-          <View style={styles.buttonRow}>
-            <BackButton
-              variant="footer"
-              onPress={handlePrev}
-              disabled={isFirstStep && !onCancel}
-              text={isFirstStep ? t('common.cancel') : t('common.back')}
-            />
-
-            <TouchableOpacity
-              style={[
-                styles.nextBtn,
-                {
-                  backgroundColor: theme.colors.primaryLime,
-                },
-              ]}
-              onPress={handleNext}
-              activeOpacity={0.7}
-            >
-              <Text style={[styles.nextBtnText, dir.textCenter, { color: theme.colors.limeText }]}>
-                {isLastStep ? t('survey.completeAssessment') : t('common.continue')}
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            style={[
+              styles.nextBtn,
+              {
+                backgroundColor: theme.colors.primaryLime,
+              },
+            ]}
+            onPress={handleNext}
+            activeOpacity={0.7}
+            accessibilityRole="button"
+          >
+            <Text style={[styles.nextBtnText, dir.textCenter, { color: theme.colors.limeText }]}>
+              {isLastStep ? t('survey.completeAssessment') : t('common.continue')}
+            </Text>
+          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -283,7 +292,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     // Trailing edge, so the skip sits in the top-right in English and mirrors
     // to the top-left under native RTL.
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 8,
+  },
+  errorBanner: {
     paddingHorizontal: 20,
     paddingTop: 8,
   },
@@ -293,12 +307,8 @@ const styles = StyleSheet.create({
     paddingBottom: 14,
     borderTopWidth: 1,
   },
-  buttonRow: {
-    flexDirection: 'row',
-    gap: 12,
-  },
   nextBtn: {
-    flex: 2,
+    minHeight: 50,
     paddingVertical: 14,
     borderRadius: 9999,
     alignItems: 'center',

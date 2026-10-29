@@ -18,14 +18,14 @@
   "app": {
     "checkin": {
       "adjusted": {
-        "headline": "Your targets have been recalibrated",
+        "headline": "Your targets have been updated",
         "keyAction": "Apply the new target and keep logging so next week stays accurate.",
-        "summary": "Your weight trend and logged intake show that your real daily energy use differs from the formula estimate. The change is capped so your targets move gradually."
+        "summary": "Your weight trend and logged intake show that your real daily energy use differs from our first estimate. The change is capped so your targets move gradually."
       },
       "needs_more_data": {
-        "headline": "Keep logging to unlock your recalibration",
+        "headline": "Keep logging to update your targets",
         "keyAction": "Log every meal and weigh in each morning this week.",
-        "summary": "Your check-in needs at least 7 days with both a weigh-in and logged meals, counted since your last recalibration and within the last 4 weeks. Until then, your targets stay as they are."
+        "summary": "Your check-in needs at least 7 days with both a weigh-in and logged meals, counted since your last update and within the last 4 weeks. Until then, your targets stay as they are."
       },
       "on_track": {
         "headline": "You're on track",
@@ -48,6 +48,11 @@
     }
   },
   "auth": {
+    "brandHeadline": "Eat well, your way.",
+    "brandPoint1": "Local dishes, from karahi to kabsa, already in the catalogue",
+    "brandPoint2": "Daily targets worked out from your body and your goal",
+    "brandPoint3": "A coach that answers from your own logged data",
+    "brandSub": "Your AI nutrition and calorie coach, built for Pakistan and Saudi Arabia.",
     "continueAsGuest": "Continue as guest",
     "createAccount": "Create account",
     "emailAddress": "Email address",
@@ -59,6 +64,7 @@
       "nameRequired": "Your name is required.",
       "network": "Unable to reach the sign-in server. Please check your internet connection.",
       "noSession": "Signing in did not complete. Please try again.",
+      "passwordRequired": "Enter your password.",
       "passwordTooShort": "The password must be at least 6 characters."
     },
     "fullName": "Full name",
@@ -76,11 +82,11 @@
   },
   "checkin": {
     "actionLever": "Next week's action lever",
-    "adaptiveTdee": "Adaptive TDEE",
+    "adaptiveTdee": "Daily calorie burn",
     "adherenceRate": "Adherence rate",
     "applyNewTarget": "Apply new target ({{value}} kcal/day)",
     "avgIntake": "Avg daily intake",
-    "coachAssessment": "Coach's metabolic assessment",
+    "coachAssessment": "Coach's assessment",
     "currentTarget": "Current target",
     "dashboard": "Dashboard",
     "daysOnTarget": "{{count}} of 7 days on-target",
@@ -94,7 +100,7 @@
     "noChange": "No change this week",
     "oldTarget": "Old target",
     "progressStats": "7-day progress",
-    "recalibration": "Metabolic adaptive recalibration",
+    "recalibration": "Your calorie burn, re-checked",
     "share": "Share",
     "shareBody": "Nutrio weekly check-in report ({{name}})\n- Adherence rate: {{adherence}}% ({{daysLogged}}/7 days logged)\n- Weight trend: {{weightDelta}} kg\n- Daily intake avg: {{intake}} kcal\n- New daily target: {{newTarget}} kcal ({{targetDelta}} kcal)\n- Next week habit: {{habit}}",
     "shareTitle": "Shareable summary",
@@ -243,6 +249,8 @@
     "carbs": "Carbs",
     "close": "Close",
     "completeRequiredFields": "Please complete all required fields.",
+    "decrease": "Decrease",
+    "increase": "Increase",
     "continue": "Continue",
     "daysAgo": "{{count}} day ago",
     "daysAgo_other": "{{count}} days ago",
@@ -323,7 +331,7 @@
     },
     "feature": {
       "adaptive": {
-        "desc": "A weekly recalibration that follows your real weight change.",
+        "desc": "A weekly update that follows your real weight change.",
         "title": "Targets that adapt to you"
       },
       "coach": {
@@ -348,25 +356,25 @@
       "inApp": "In-app purchase",
       "jazzcash": "JazzCash"
     },
-    "subheadline": "Unlock adaptive nutrition and coaching built for Pakistan and Saudi Arabia.",
+    "subheadline": "Unlock targets that adjust to you, plus coaching built for Pakistan and Saudi Arabia.",
     "subscribe": "Unlock Nutrio Premium ({{price}})",
     "whatYouUnlock": "What you unlock"
   },
   "plan": {
     "analysis": {
       "active": "Active",
-      "bmr": "Basal metabolic rate (BMR)",
-      "bmrSub": "Resting energy required for basic biological life",
-      "expenditureBreakdown": "Energy expenditure breakdown",
+      "bmr": "Calories at rest",
+      "bmrSub": "What your body uses just to stay alive",
+      "expenditureBreakdown": "Where your calories go",
       "levers": {
         "dailyLoad": {
-          "PK": "Sweetened chai energy load:",
-          "SA": "Daily dates & Gahwa load:"
+          "PK": "Calories from sweetened chai:",
+          "SA": "Daily dates & Gahwa calories:"
         },
         "highImpact": "High impact",
         "insight": {
-          "PK": "Traditional sweetened tea and unchecked cooking oil in karahis and daals account for ~30% of unlogged calories in Pakistan. Moderating tea sugar alone yields rapid progress without eating less food.",
-          "SA": "Dates served alongside traditional Saudi Gahwa, generous Kabsa/Mandi rice portions, and full-fat dairy account for ~30% of unlogged calories in Saudi Arabia. Moderating dates to 3 Sukari dates and measuring spiced rice portions yields rapid fat loss without missing out on family banquets."
+          "PK": "Sweet tea and cooking oil in karahis and daals are common hidden calories in Pakistani eating. Cutting back on tea sugar alone can make a real difference without eating less food.",
+          "SA": "Dates with Saudi Gahwa, generous Kabsa/Mandi rice portions and full-fat dairy are common hidden calories in Saudi eating. Having 3 Sukari dates and measuring your spiced rice can make a real difference without missing family banquets."
         },
         "perDay": "~{{value}} kcal/day",
         "perWeek": "~{{value}} kcal/week",
@@ -375,18 +383,19 @@
           "SA": "Saudi eating habits that add up"
         },
         "weeklyLoad": {
-          "PK": "Weekly chai energy load:",
-          "SA": "Weekly dates & Gahwa energy load:"
+          "PK": "Weekly chai calories:",
+          "SA": "Weekly dates & Gahwa calories:"
         }
       },
-      "sedentary": "Sedentary",
+      "moderate": "Some sitting",
+      "sedentary": "Mostly seated",
       "selectGoal": "Choose your goal & pace",
       "sittingHours": "{{count}} hour seated per day",
       "sittingHours_other": "{{count}} hours seated per day",
-      "sittingLoad": "Daily sitting load",
-      "subtitle": "Your baseline resting requirements and lifestyle energy expenditure.",
-      "tdee": "Total daily expenditure (TDEE)",
-      "tdeeSub": "Estimated maintenance calorie baseline",
+      "sittingLoad": "Daily sitting time",
+      "subtitle": "Calories you burn at rest, plus what your daily activity adds.",
+      "tdee": "Calories you burn in a day",
+      "tdeeSub": "Roughly what keeps your weight steady",
       "title": "Your energy needs",
       "topLevers": "3 changes that matter most"
     },
@@ -482,27 +491,27 @@
       "calculatePlan": "Calculate custom plan",
       "clinicallyDisabled": "Clinically disabled",
       "gain": {
-        "sub": "Controlled caloric surplus (~0.25 kg/wk) to fuel muscle synthesis without excess fat storage.",
+        "sub": "Eat a little more than you burn (~0.25 kg a week) to build muscle without gaining much fat.",
         "title": "Lean muscle gain"
       },
       "lose": {
         "disabledPregnant": "Disabled: Caloric restriction is medically contraindicated during pregnancy/lactation.",
         "disabledUnderweight": "Disabled: BMI of {{bmi}} indicates underweight status. Weight loss is unsafe.",
-        "sub": "Controlled caloric deficit preserving lean muscle tissue while reducing body fat.",
+        "sub": "Eat a little less than you burn to lose body fat while keeping your muscle.",
         "title": "Fat loss / Cut"
       },
       "maintain": {
-        "sub": "Balance calories to current expenditure. Optimizes athletic energy and recovery.",
+        "sub": "Eat about what you burn, to keep your weight steady and your energy up.",
         "title": "Maintenance & performance"
       },
       "maxSafeRate": "Fastest safe pace: {{rate}} kg/week (1% of your body weight)",
       "pacesDisabledReason": "Faster paces are switched off because they are above the safe limit for your weight ({{rate}} kg/week).",
       "pacingAdvice": {
         "aggressive": "Aggressive pace (>1% bodyweight/week) increases risk of lean muscle and water loss.",
-        "gentle": "Gentle, sustainable deficit. Easiest for long-term lifestyle adherence.",
-        "leanGain": "Lean hypertrophy pace (~0.25 kg/week). Maximizes muscle synthesis over fat storage.",
-        "maintain": "Steady weight maintenance supporting metabolic recovery and athletic performance.",
-        "optimal": "Optimal fat loss pace (~0.5–1% BW/week). Strongly protects lean body mass.",
+        "gentle": "A gentle, sustainable pace. The easiest to stick with.",
+        "leanGain": "Slow, steady muscle gain (~0.25 kg a week), with as little fat gain as possible.",
+        "maintain": "Keeps your weight steady while you recover and perform.",
+        "optimal": "A good fat-loss pace (about 0.5–1% of your body weight a week) that protects your muscle.",
         "rapidGain": "Rapid mass gain. A significant portion of weight gained may be body fat."
       },
       "primaryTarget": "Primary target",
@@ -527,17 +536,17 @@
       "caloriesPerDay": "calories / day",
       "dailyFibre": "Daily fibre:",
       "dailyTarget": "Daily target",
-      "deficit": "−{{value}} kcal vs maintenance ({{tdee}})",
+      "deficit": "−{{value}} kcal below what you burn ({{tdee}})",
       "formulationComplete": "Your plan is ready",
       "hydration": "Hydration:",
-      "macroBreakdown": "Daily macronutrient breakdown",
-      "maintenance": "Matched to maintenance ({{tdee}} kcal)",
-      "safeguardBmr": "Target never goes below your resting BMR ({{bmr}} kcal).",
-      "safeguardDeficit": "Your daily deficit is capped at 25% of the calories you burn, to protect your muscle.",
+      "macroBreakdown": "Daily protein, carbs and fat",
+      "maintenance": "Matched to what you burn ({{tdee}} kcal)",
+      "safeguardBmr": "Your target never goes below the calories you burn at rest ({{bmr}} kcal).",
+      "safeguardDeficit": "You never eat more than 25% below the calories you burn, to protect your muscle.",
       "safeguardFat": "Fat never drops below 0.6 g per kg of body weight or 20% of calories, which your hormones need.",
       "safeguards": "Safety limits",
       "subtitle": "Worked out from your body measurements, how active you are and the way you eat.",
-      "surplus": "+{{value}} kcal vs maintenance ({{tdee}})",
+      "surplus": "+{{value}} kcal above what you burn ({{tdee}})",
       "title": "Your personalized targets"
     },
     "slotCard": {
@@ -586,12 +595,12 @@
   "survey": {
     "basics": {
       "age": "Age",
-      "description": "These measurements set your resting energy needs (BMR), the base of your daily calorie target.",
+      "description": "These measurements set the calories you burn at rest, the base of your daily calorie target.",
       "female": "Female",
       "height": "Height",
       "male": "Male",
       "measurementsEyebrow": "Body measurements",
-      "sexEyebrow": "Biological sex (for BMR)",
+      "sexEyebrow": "Biological sex (for your calorie estimate)",
       "unitCm": "cm",
       "unitKg": "kg",
       "unitYears": "yrs",
@@ -599,7 +608,7 @@
     },
     "completeAssessment": "Complete assessment",
     "exercise": {
-      "description": "Tell us about your intentional workouts. This enables our split TDEE model to credit your training accurately.",
+      "description": "Tell us about your regular workouts so we can count the calories they burn.",
       "frequency": "Frequency (days per week)",
       "intensity": {
         "high": "High intensity",
@@ -649,7 +658,7 @@
       "jobCategory": "Please select your primary job / daily work activity.",
       "medicalDisclaimerAccepted": "You must acknowledge the clinical disclaimer to proceed.",
       "sessionDurationMins": "Enter how long a session lasts, in minutes (0 to 360).",
-      "sex": "Biological sex is required for metabolic BMR calculation.",
+      "sex": "Biological sex is needed to estimate your calories.",
       "shiftPattern": "Please select your typical work shift pattern.",
       "sleepHoursPerNight": "Please enter typical sleep duration between 2 and 16 hours.",
       "stressRating": "Stress rating must be between 1 (low) and 5 (extreme).",
@@ -668,7 +677,7 @@
         "pcos": "PCOS / Hormonal imbalance",
         "thyroid_hypo": "Hypothyroidism"
       },
-      "description": "Your safety is non-negotiable. Medical conditions adjust your safety floors and prevent unsafe caloric restrictions.",
+      "description": "Your safety is non-negotiable. Medical conditions adjust your safety floors and stop your calories dropping too low.",
       "diagnosesLabel": "Known medical & health diagnoses",
       "disclaimer": "I acknowledge that Nutrio provides algorithmic nutritional guidance and is not a substitute for clinical diagnosis or prescription by a physician.",
       "disclaimerTitle": "Safety & medical disclaimer",
@@ -725,7 +734,7 @@
         }
       },
       "description": {
-        "PK": "Regional habits shape your caloric profile. Sweetened chai and desi cooking oil are often the largest hidden energy sources.",
+        "PK": "Regional habits shape your calories. Sweetened chai and desi cooking oil are often the biggest hidden sources.",
         "SA": "Saudi cultural habits shape your nutritional rhythm. Saudi Gahwa, companion Sukari/Ajwa dates, fresh Laban, and family Kabsa banquets are central to daily life."
       },
       "dineOut": {
@@ -744,8 +753,8 @@
     },
     "occupational": {
       "description": {
-        "PK": "Your daily job accounts for most non-exercise calories (NEAT). A desk worker burns very differently from a Lahore rider.",
-        "SA": "Your daily job accounts for most non-exercise calories (NEAT). A desk worker burns very differently from a delivery rider (Jahez / HungerStation)."
+        "PK": "Your daily job accounts for most of the calories you burn outside workouts. A desk worker burns very differently from a Lahore rider.",
+        "SA": "Your daily job accounts for most of the calories you burn outside workouts. A desk worker burns very differently from a delivery rider (Jahez / HungerStation)."
       },
       "jobs": {
         "active_walking": {
@@ -1230,9 +1239,9 @@
         "weight": "Weight",
         "workouts": "Workouts"
       },
-      "planBlurb": {
-        "PK": "100% free plan • All 60+ brands unlocked",
-        "SA": "100% free plan • 12+ Saudi chains & traditional cuisine"
+      "regionName": {
+        "PK": "Pakistan",
+        "SA": "Saudi Arabia"
       },
       "retakeSurvey": "Retake lifestyle survey",
       "signInCreate": "Sign in / Create account",
@@ -1486,6 +1495,7 @@
     },
     "weightTile": {
       "empty": "No weigh-ins yet",
+      "fromSurvey": "From your survey",
       "logCta": "Log weight",
       "weekDelta": "{{value}} kg this week"
     }
@@ -1494,14 +1504,17 @@
     "adaptive": {
       "blendedTdee": "Calorie burn estimate",
       "calibrationDays": "{{days}} / 28 days ({{pct}}%)",
-      "calibrationWindow": "Calibration window (28 days)",
-      "formulaBaseline": "Formula baseline: {{value}} kcal",
-      "subtitle": "Calibrating your true metabolic expenditure using scale trends & intake logs",
+      "calibrationWindow": "Learning window (28 days)",
+      "explainBlended": "Your estimate mixes {{observed}}% of what we measured ({{observedKcal}} kcal a day) with {{formula}}% of the standard estimate ({{formulaKcal}} kcal).",
+      "explainNeedMore": "Log food and your weight on at least 7 days to improve this estimate. You have {{days}} so far, so the standard estimate is used.",
+      "explainUnderLogging": "The food you logged looks too low to be everything you ate, so some meals are probably missing. Your calorie targets will not be cut.",
+      "formulaBaseline": "Standard estimate: {{value}} kcal",
+      "subtitle": "Learned from your weight trend and the food you log",
       "targetAdjustment": "target adjustment",
       "title": "Your real calorie burn",
-      "underLoggingDesc": "Your logged caloric intake is below biological baseline (<1.1× BMR). To protect your health and lean muscle, our clinical engine will NOT slash your calorie targets.",
+      "underLoggingDesc": "The food you logged is less than your body needs at rest, so some meals are probably missing. To protect your health and muscle, we will NOT cut your calorie targets.",
       "underLoggingTitle": "Under-logging detected",
-      "weightFactor": "Weight factor: {{observed}}% observed data / {{formula}}% formula"
+      "weightFactor": "{{observed}}% from your logs / {{formula}}% standard estimate"
     },
     "kcalPerWeek": "kcal/wk",
     "log": {
@@ -1513,22 +1526,23 @@
       "title": "Log body weight"
     },
     "screen": {
-      "eyebrow": "Metabolic feedback",
+      "eyebrow": "Progress",
       "logTodayWeight": "Log today's weight",
       "title": "Weight & calorie burn"
     },
     "spikeWarning": "Temporary +{{diff}} kg water-weight fluctuation (likely sodium/carb retention from a desi meal). Your trend line smooths this out automatically.",
     "trend": {
       "kgScale": "{{value}} kg scale",
+      "fromSurvey": "From your survey",
       "kgTrend": "{{value}} kg trend",
-      "netChange": "Net change",
+      "netChange": "Change",
       "overallProgress": "Overall progress",
       "rawReading": "Raw scale reading",
       "recentHistory": "Recent history",
-      "scaleWeight": "Scale weight",
+      "scaleWeight": "Scale",
       "subtitle": "Smoothed so day-to-day water changes don't distract",
       "title": "Weight trend",
-      "trendWeight": "Trend weight",
+      "trendWeight": "Trend",
       "trueTissue": "True tissue trend"
     }
   },
@@ -1645,14 +1659,15 @@
       "arms": "Arms"
     },
     "week": {
-      "done": "Done",
+      "done": "{{done}} of {{count}} workouts done",
       "restDay": "Rest day",
+      "beforePlan": "Before your plan started",
       "exercises": "{{count}} exercise",
       "exercises_other": "{{count}} exercises",
       "minutes": "~{{count}} min",
       "heading": "This week",
-      "label": "WEEK {{number}}",
-      "done": "{{done}} of {{count}} workouts done",
+      "label": "Week {{number}}",
+      "doneButton": "Done",
       "doToday": "Do it today",
       "saved": "Workout saved"
     },
@@ -1706,7 +1721,7 @@
       "focus_mixed": "Your focus areas"
     },
     "today": {
-      "overline": "TODAY'S WORKOUT",
+      "overline": "Today's workout",
       "startWorkout": "Start workout",
       "restTitle": "Rest day today",
       "restNext": "Next: {{title}} on {{day}}",
@@ -1714,18 +1729,18 @@
     },
     "day": {
       "startWorkout": "Start workout",
-      "details": "Details for {{name}}",
+      "details": "{{name}}, details",
       "supersetFirst": "Superset {{group}} (1 of 2): go straight to the next exercise",
       "supersetSecond": "Superset {{group}} (2 of 2): rest after this, then repeat",
       "doneOn": "Done · {{date}}"
     },
     "detail": {
-      "muscles": "MUSCLES WORKED",
-      "howTo": "HOW TO DO IT",
+      "muscles": "Muscles worked",
+      "howTo": "How to do it",
       "close": "Close"
     },
     "card": {
-      "overline": "TODAY'S WORKOUT",
+      "overline": "Today's workout",
       "setupTitle": "Get a weekly workout plan",
       "setupBody": "Home or gym, built around your goal. Setup takes about a minute.",
       "setupCta": "Set up workouts",
@@ -1799,6 +1814,7 @@
     },
     "edit": {
       "edit": "Edit workout",
+      "groupLabel": "Exercise type",
       "addExercise": "Add exercise",
       "subtitle": "Editing what you logged",
       "save": "Save changes",
@@ -1860,7 +1876,7 @@
       "ez_bar": "EZ bar"
     },
     "cardio": {
-      "overline": "CARDIO",
+      "overline": "Cardio",
       "presc": "{{count}} min · {{pace}}",
       "pace": {
         "easy": "easy pace",
@@ -2021,9 +2037,9 @@
       "over": "YOUR ROUTINE, IMPROVED",
       "title": "What we improved",
       "subtitle": "We kept your {{days}} training days and {{count}} of your exercises.",
-      "kept": "KEPT",
-      "changed": "CHANGED",
-      "added": "ADDED",
+      "kept": "Kept",
+      "changed": "Changed",
+      "added": "Added",
       "listSeparator": ", ",
       "andSeparator": " and ",
       "keptDays": "Your days: {{days}}",
@@ -2093,7 +2109,7 @@
     },
     "guest": {
       "sampleTag": "Sample",
-      "sampleWeek": "SAMPLE WEEK",
+      "sampleWeek": "Sample week",
       "perWeek": "{{count}} workout a week",
       "perWeek_other": "{{count}} workouts a week",
       "bannerTitle": "This is a sample plan",

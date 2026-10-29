@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   StyleSheet,
   Text,
   View,
+  Pressable,
   TextInput,
   TextInputProps,
   Platform,
@@ -47,6 +48,7 @@ export const AppleGroupedRowInput: React.FC<AppleGroupedRowInputProps> = ({
 }) => {
   const { theme } = useTheme();
   const [isFocused, setIsFocused] = useState(false);
+  const inputRef = useRef<TextInput>(null);
 
   return (
     <View style={[styles.rowContainer, containerStyle]}>
@@ -58,7 +60,10 @@ export const AppleGroupedRowInput: React.FC<AppleGroupedRowInputProps> = ({
         </View>
 
         {/* Apple Inset Measurement Capsule */}
-        <View
+        <Pressable
+          // The whole capsule is the touch target; the input stays the one tab stop.
+          focusable={false}
+          onPress={() => inputRef.current?.focus()}
           style={[
             styles.capsuleBox,
             {
@@ -74,10 +79,13 @@ export const AppleGroupedRowInput: React.FC<AppleGroupedRowInputProps> = ({
         >
           <TextInput
             {...rest}
+            ref={inputRef}
             accessibilityLabel={rest.accessibilityLabel ?? label}
             style={[
               styles.capsuleInput,
               noOutlineStyle,
+              // A hint ("e.g. 28") must not look like an entered value: regular weight until typed.
+              !rest.value && styles.hintWeight,
               { color: theme.colors.textPrimary },
               style,
             ]}
@@ -116,7 +124,7 @@ export const AppleGroupedRowInput: React.FC<AppleGroupedRowInputProps> = ({
               </Text>
             </View>
           ) : null}
-        </View>
+        </Pressable>
       </View>
 
       {error ? (
@@ -199,6 +207,7 @@ export const AppleTextInput: React.FC<AppleTextInputProps> = ({
           style={[
             styles.fieldInput,
             noOutlineStyle,
+            !rest.value && styles.hintWeight,
             { color: theme.colors.textPrimary },
             style,
           ]}
@@ -258,7 +267,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 12,
     borderWidth: 1.5,
-    paddingVertical: 6,
+    minHeight: 44,
+    paddingVertical: 0,
     paddingHorizontal: 10,
     // Fixed width: on web a TextInput's intrinsic width (~20 chars) grew the
     // capsule and squeezed the label until "Height" broke mid-word.
@@ -275,7 +285,7 @@ const styles = StyleSheet.create({
   capsuleBoxFocused: {
     ...Platform.select({
       web: {
-        boxShadow: '0 0 0 3px rgba(164, 235, 63, 0.15)',
+        boxShadow: '0 0 0 3px rgba(164, 235, 63, 0.4)',
       },
       default: {},
     }),
@@ -286,11 +296,16 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     flex: 1,
     minWidth: 0,
+    // The input fills the capsule, so the focus ring and tap target are >= 44px.
+    minHeight: 44,
     paddingVertical: 2,
     paddingHorizontal: 4,
     fontVariant: ['tabular-nums'],
     backgroundColor: 'transparent',
     borderWidth: 0,
+  },
+  hintWeight: {
+    fontWeight: '400',
   },
   capsuleUnitBadge: {
     paddingHorizontal: 6,
@@ -313,10 +328,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   fieldLabel: {
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '700',
-    textTransform: 'uppercase',
-    letterSpacing: 0.6,
     marginBottom: 8,
     marginStart: 2,
   },
@@ -337,7 +350,7 @@ const styles = StyleSheet.create({
   fieldBoxFocused: {
     ...Platform.select({
       web: {
-        boxShadow: '0 0 0 3px rgba(164, 235, 63, 0.15)',
+        boxShadow: '0 0 0 3px rgba(164, 235, 63, 0.4)',
       },
       default: {},
     }),

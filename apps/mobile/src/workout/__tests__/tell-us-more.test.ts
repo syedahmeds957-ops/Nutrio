@@ -216,3 +216,20 @@ describe('session style', () => {
     expect(session.slots.filter((s) => !s.supersetWith).every((s) => !places.has(s.slotId))).toBe(true);
   });
 });
+
+describe('"Tell us more" chips', () => {
+  it('shows what the survey already answered as the selected radio, and groups each question', () => {
+    const answered = setTrainingNow(BASE, { active: true, daysPerWeek: 4 });
+    const html = more(answered, 1);
+    expect(html).toContain('role="radiogroup"');
+    // "Yes" and "4 days" are picked; nothing uses the invalid aria-selected on a button.
+    expect(html.match(/aria-checked="true"/g)?.length).toBeGreaterThanOrEqual(2);
+    expect(html).not.toContain('aria-selected');
+  });
+
+  it('keeps pick-any questions as pressed buttons', () => {
+    const html = more(BASE, 2);
+    expect(html).toContain('role="group"');
+    expect(html).toContain('aria-pressed="false"');
+  });
+});

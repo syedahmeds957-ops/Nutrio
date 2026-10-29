@@ -71,4 +71,14 @@ describe('defaultWorkoutSettings', () => {
     expect(s.homeEquipment).toEqual([]);
     expect(s.ramadan).toEqual({ enabled: false });
   });
+
+  it('answers "Tell us more" from the survey so it is not asked twice', () => {
+    const trains = defaultWorkoutSettings({ survey: survey({ frequencyDaysPerWeek: 4 }) });
+    expect(trains.profile?.trainingNow).toEqual({ active: true, daysPerWeek: 4 });
+    expect(defaultWorkoutSettings({ survey: survey({ frequencyDaysPerWeek: 7 }) }).profile?.trainingNow?.daysPerWeek).toBe(6);
+    expect(defaultWorkoutSettings({ survey: survey({ trainingType: 'none' }) }).profile).toEqual({ background: 'never' });
+    // Nothing to prefill without a survey, or for a light exerciser who is asked the beginner checks.
+    expect(defaultWorkoutSettings({}).profile).toBeUndefined();
+    expect(defaultWorkoutSettings({ survey: survey({ intensity: 'light' }) }).profile).toBeUndefined();
+  });
 });

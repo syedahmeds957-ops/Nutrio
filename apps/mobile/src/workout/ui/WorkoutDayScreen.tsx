@@ -329,7 +329,6 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
                 <View style={styles.cardTop}>
                   <TouchableOpacity
                     accessibilityRole="button"
-                    accessibilityLabel={t('workout.day.details', { name })}
                     onPress={openDetail}
                     activeOpacity={0.8}
                     style={styles.cardMain}
@@ -428,7 +427,6 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
                     <View style={styles.cardTop}>
                       <TouchableOpacity
                         accessibilityRole="button"
-                        accessibilityLabel={t('workout.day.details', { name })}
                         onPress={() => {
                           setDetailId(entry.exerciseId);
                           setDetailSlotId(null);

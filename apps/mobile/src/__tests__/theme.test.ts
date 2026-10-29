@@ -7,10 +7,13 @@ describe('Solid Lime Dual Theme System (Task 1)', () => {
     expect(dark.colors.canvas).toBe('#0C0D10');
     expect(dark.colors.surface).toBe('#18191E');
     expect(dark.colors.primaryLime).toBe('#A4EB3F');
-    expect(dark.colors.heroCardBg).toBe('#A4EB3F');
+    // Dimmed from full lime: the large hero glared on the dark canvas.
+    expect(dark.colors.heroCardBg).toBe('#7FB82F');
+    expect(dark.colors.heroCardBg).not.toBe(dark.colors.primaryLime);
     expect(dark.colors.limeText).toBe('#0A0B0D');
     expect(dark.colors.textPrimary).toBe('#FFFFFF');
-    expect(dark.colors.floatingBarBg).toBe('#18191E');
+    // The floating bar must not be the card colour.
+    expect(dark.colors.floatingBarBg).not.toBe(dark.colors.surface);
     expect(dark.radii.card).toBe(22);
   });
 

@@ -190,7 +190,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
   }, [filteredItems, selectedCategory]);
 
   return (
-    <NamedModal accessibilityName={t('a11y.dialog.brandMenu')} visible={visible} animationType="slide" transparent={false}>
+    <NamedModal accessibilityName={t('a11y.dialog.brandMenu')} visible={visible} animationType="slide" transparent={false} onRequestClose={onBack}>
       <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.canvas }]}>
         {/* Header */}
         <View

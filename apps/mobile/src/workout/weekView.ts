@@ -44,6 +44,12 @@ export interface DayView {
   month: number;
   session: WorkoutSession | null;
   status: DayStatus;
+  /**
+   * The weekday has a session, but the day came before the plan began and the
+   * session wasn't done. It isn't a planned workout: it is not counted in
+   * `trainingDays` and the week screen shows it as "before your plan started".
+   */
+  beforePlan: boolean;
   /** The finished workout for this day's session, when there is one this week. */
   log?: WorkoutLog;
 }
@@ -94,6 +100,7 @@ export function buildWeekView(
       month: date.getUTCMonth(),
       session,
       status,
+      beforePlan: Boolean(session) && status !== 'done' && dateKey < plan.blockStart,
       ...(log ? { log } : {}),
     };
   });
@@ -102,7 +109,7 @@ export function buildWeekView(
     weekIndex: weekIndexFor(plan.blockStart, todayKey),
     days,
     today: days[offset],
-    trainingDays: days.filter((day) => day.session && (day.status === 'done' || day.dateKey >= plan.blockStart)).length,
+    trainingDays: days.filter((day) => day.session && !day.beforePlan).length,
     doneDays: days.filter((day) => day.status === 'done').length,
   };
 }

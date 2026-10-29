@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   close: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
   body: { paddingHorizontal: 20, paddingTop: 12, paddingBottom: 34, gap: 10 },
   image: { borderRadius: 18 },
-  overline: { fontSize: 12, fontWeight: '700', letterSpacing: 0.6, marginTop: 6 },
+  overline: { fontSize: 13, fontWeight: '700', letterSpacing: 0, marginTop: 6 },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
   chip: { paddingHorizontal: 10, paddingVertical: 6, borderRadius: 999 },
   chipText: { fontSize: 12, fontWeight: '700' },

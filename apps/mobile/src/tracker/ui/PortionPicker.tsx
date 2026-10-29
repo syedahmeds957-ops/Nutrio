@@ -9,7 +9,6 @@ import { createStyles } from './ItemCustomizerModal.styles.js';
 
 const ACCENT = '#A4EB3F';
 const ACCENT_TEXT_LIGHT = '#4B6200';
-const ERROR = '#DC2626';
 
 export interface PortionPickerProps {
   /** Sits inside another card (no border, padding or margin of its own). */
@@ -139,7 +138,7 @@ export const PortionPicker: React.FC<PortionPickerProps> = ({
               styles.gramsInputBox,
               {
                 backgroundColor: isDark ? '#1F2410' : '#F4FCE3',
-                borderColor: gramsValid ? ACCENT : ERROR,
+                borderColor: gramsValid ? ACCENT : theme.colors.danger,
               },
             ]}
           >
@@ -163,7 +162,7 @@ export const PortionPicker: React.FC<PortionPickerProps> = ({
           </View>
 
           {!gramsValid && (
-            <Text style={[styles.gramsErrorText, { color: ERROR }]} accessibilityLiveRegion="polite">
+            <Text style={[styles.gramsErrorText, { color: theme.colors.danger }]} accessibilityLiveRegion="polite">
               {t('tracker.customizer.gramsInvalid')}
             </Text>
           )}

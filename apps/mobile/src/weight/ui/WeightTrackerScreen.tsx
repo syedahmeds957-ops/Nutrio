@@ -17,6 +17,7 @@ import { WeightTrackerState } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
+import { hiddenFromAssistiveTech } from '../../common/a11yHidden.js';
 
 interface WeightTrackerScreenProps {
   initialState: WeightTrackerState;
@@ -56,7 +57,11 @@ export const WeightTrackerScreen: React.FC<WeightTrackerScreenProps> = ({
 
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.canvas }]}>
-      <ScrollView style={styles.container} contentContainerStyle={styles.scrollPad}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.scrollPad}
+        {...hiddenFromAssistiveTech(modalVisible)}
+      >
         {/* Top Header: Back first, where every other screen puts it */}
         <View style={styles.topNav}>
           {onBackToTracker && (

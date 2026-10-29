@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { waterGoalPercent } from '../waterTile.js';
+import { DEFAULT_WATER_TARGET_ML, waterGoalPercent, waterLitres, waterTargetMl } from '../waterTile.js';
 
 describe('waterGoalPercent', () => {
   it('is the rounded share of the goal', () => {
@@ -12,5 +12,19 @@ describe('waterGoalPercent', () => {
   });
   it('is 0 without a target', () => {
     expect(waterGoalPercent(500, 0)).toBe(0);
+  });
+});
+
+describe('water goal formatting', () => {
+  it('falls back to one default goal', () => {
+    expect(waterTargetMl(0)).toBe(DEFAULT_WATER_TARGET_ML);
+    expect(waterTargetMl(undefined)).toBe(DEFAULT_WATER_TARGET_ML);
+    expect(waterTargetMl(2170)).toBe(2170);
+  });
+  it('shows litres to one decimal, so 2,170 ml reads 2.2 everywhere', () => {
+    expect(waterLitres(2170)).toBe(2.2);
+    expect(waterLitres(2500)).toBe(2.5);
+    expect(waterLitres(250)).toBe(0.3);
+    expect(waterLitres(0)).toBe(0);
   });
 });

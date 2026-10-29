@@ -241,13 +241,15 @@ export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({
             </View>
           );
 
-          if (!day.session) {
+          if (!day.session || (!sample && day.beforePlan)) {
             return (
               <View key={day.dateKey} style={styles.restRow}>
                 {dateColumn(true)}
                 <View style={styles.flex}>
-                  <Text style={[styles.restLabel, dir.text, { color: c.textSecondary }]}>{t('workout.week.restDay')}</Text>
-                  {walk ? (
+                  <Text style={[styles.restLabel, dir.text, { color: c.textSecondary }]}>
+                    {day.session ? t('workout.week.beforePlan') : t('workout.week.restDay')}
+                  </Text>
+                  {walk && !day.session ? (
                     <Text style={[styles.walk, dir.text, { color: c.textSecondary }]}>
                       {t('workout.cardio.walk', { min: walk.minMinutes, max: walk.maxMinutes })}
                     </Text>
@@ -316,7 +318,7 @@ export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({
             activeOpacity={0.8}
             style={[styles.doneButton, { backgroundColor: c.primaryLime }]}
           >
-            <Text style={[styles.doneButtonText, { color: c.limeText }]}>{t('workout.week.done')}</Text>
+            <Text style={[styles.doneButtonText, { color: c.limeText }]}>{t('workout.week.doneButton')}</Text>
           </TouchableOpacity>
         </View>
       ) : null}
@@ -337,7 +339,7 @@ const styles = StyleSheet.create({
   content: { paddingHorizontal: 20, paddingTop: 6, paddingBottom: 40, gap: 10 },
   todayCard: { padding: 16, borderRadius: 22, borderWidth: 2, gap: 4 },
   restCard: { padding: 16, borderRadius: 22, borderWidth: 1, gap: 4 },
-  overline: { fontSize: 11, fontWeight: '700', letterSpacing: 0.8 },
+  overline: { fontSize: 12, fontWeight: '700', letterSpacing: 0 },
   todayTitle: { fontSize: 19, fontWeight: '800', letterSpacing: -0.3 },
   meta: { fontSize: 13 },
   todayList: { marginTop: 8 },

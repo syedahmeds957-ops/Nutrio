@@ -23,6 +23,8 @@ interface QuickStaplesBarProps {
   onQuickLog: (staple: StapleItem, slot: MealSlot) => void;
   /** Set for guests: a tap asks them to create an account instead of opening the meal picker. */
   onRequireAccount?: () => void;
+  /** Told when the meal picker opens or closes, so the screen behind it can be hidden from screen readers. */
+  onSheetOpenChange?: (open: boolean) => void;
 }
 
 const SLOT_IDS: MealSlot[] = ['breakfast', 'lunch', 'dinner', 'snacks_chai'];
@@ -37,6 +39,7 @@ const estimateChipWidth = (label: string, kcal: string) =>
 export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
   onQuickLog,
   onRequireAccount,
+  onSheetOpenChange,
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
@@ -49,6 +52,11 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
   // the chip here while the slot sheet is open instead of logging blind.
   const [pendingStaple, setPendingStaple] = useState<StapleItem | null>(null);
   const [rowWidth, setRowWidth] = useState(0);
+  const sheetOpen = pendingStaple !== null;
+  React.useEffect(() => {
+    onSheetOpenChange?.(sheetOpen);
+    return () => onSheetOpenChange?.(false);
+  }, [sheetOpen]);
 
   // Which staples appear is regional (roti in Pakistan, tamees in Saudi) and
   // only the chip label is translated: `name` is the key the resolver matches
@@ -107,42 +115,44 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
           return (
             <TouchableOpacity
               key={staple.id}
-              style={[
-                styles.pillBtn,
-                {
-                  backgroundColor: theme.colors.surface,
-                  borderColor: theme.colors.border,
-                },
-                isJustLogged && {
-                  backgroundColor: accentColor,
-                  borderColor: accentColor,
-                },
-              ]}
+              style={styles.pillHit}
               onPress={() => handlePress(staple)}
               activeOpacity={0.7}
-              hitSlop={{ top: 5, bottom: 5, left: 0, right: 0 }}
               accessibilityRole="button"
-              accessibilityLabel={`${label}, ${t('common.kcalValue', { value: kcal })}`}
             >
-              <View style={styles.pillContent}>
-                <Icon
-                  name={isJustLogged ? 'check' : 'plus'}
-                  size={12}
-                  color={isJustLogged ? activeTextColor : theme.colors.textPrimary}
-                  strokeWidth={2.6}
-                />
-                <Text
-                  numberOfLines={1}
-                  style={[styles.pillLabel, { color: isJustLogged ? activeTextColor : theme.colors.textPrimary }]}
-                >
-                  {isJustLogged ? t('tracker.staples.added') : label}
-                </Text>
-                <Text
-                  numberOfLines={1}
-                  style={[styles.pillKcal, { color: isJustLogged ? activeTextColor : theme.colors.textSecondary }]}
-                >
-                  {kcal}
-                </Text>
+              <View
+                style={[
+                  styles.pillBtn,
+                  {
+                    backgroundColor: theme.colors.surface,
+                    borderColor: theme.colors.border,
+                  },
+                  isJustLogged && {
+                    backgroundColor: accentColor,
+                    borderColor: accentColor,
+                  },
+                ]}
+              >
+                <View style={styles.pillContent}>
+                  <Icon
+                    name={isJustLogged ? 'check' : 'plus'}
+                    size={12}
+                    color={isJustLogged ? activeTextColor : theme.colors.textPrimary}
+                    strokeWidth={2.6}
+                  />
+                  <Text
+                    numberOfLines={1}
+                    style={[styles.pillLabel, { color: isJustLogged ? activeTextColor : theme.colors.textPrimary }]}
+                  >
+                    {isJustLogged ? t('tracker.staples.added') : label}
+                  </Text>
+                  <Text
+                    numberOfLines={1}
+                    style={[styles.pillKcal, { color: isJustLogged ? activeTextColor : theme.colors.textSecondary }]}
+                  >
+                    {kcal}
+                  </Text>
+                </View>
               </View>
             </TouchableOpacity>
           );
@@ -223,13 +233,16 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  // The row is 44 px tall for tapping; the margin gives the 10 px back so the gaps to its neighbours stay as they were.
+  container: { marginVertical: -5 },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: CHIP_GAP,
     overflow: 'hidden',
   },
+  // The chip stays 34 px tall inside a 44 px touchable.
+  pillHit: { minHeight: 44, justifyContent: 'center', flexShrink: 1 },
   pillBtn: {
     height: 34,
     justifyContent: 'center',

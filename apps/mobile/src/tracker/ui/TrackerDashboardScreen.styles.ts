@@ -7,6 +7,12 @@ export const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
   },
+  // Holds the scrolling screen and the floating bar, so both can be hidden together while a sheet is open.
+  screenLayer: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     width: '100%',
@@ -72,7 +78,10 @@ export const styles = StyleSheet.create({
     marginTop: 2,
   },
   profileCloseBtn: {
-    padding: 8,
+    minWidth: 44,
+    minHeight: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   profileCloseText: {
     fontSize: 18,
@@ -98,6 +107,7 @@ export const styles = StyleSheet.create({
   themeChoiceBtn: {
     flex: 1,
     paddingVertical: 10,
+    minHeight: 44,
     borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',

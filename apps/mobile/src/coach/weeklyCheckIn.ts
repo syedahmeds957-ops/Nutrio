@@ -3,6 +3,7 @@ import { addDaysToKey, localDateKey } from '../common/dateKey.js';
 import { computePlan } from '../plan/engine.js';
 import type { ComputedUserPlan } from '../plan/types.js';
 import { pairDailyLogs } from '../weight/engine.js';
+import { withSurveyTrendStart } from '../weight/surveyBaseline.js';
 import { CALIBRATION_WINDOW_DAYS } from '../weight/weightSeed.js';
 import type { DailyIntakeLog, WeighInEntry } from '../weight/types.js';
 import type { WeeklyWorkoutPlan, WorkoutLog } from '@nutrio/workout-core';
@@ -23,6 +24,11 @@ export type WeeklyCheckInStatus = 'needs_more_data' | 'under_logging' | 'adjuste
 export interface WeeklyCheckInInput {
   plan: ComputedUserPlan;
   weighIns: WeighInEntry[];
+  /**
+   * The weight from the survey and the date it counts from. Used only as the
+   * start of the weight trend; the calorie recalibration still reads real weigh-ins.
+   */
+  survey?: { weightKg: number | null | undefined; baselineDate: string };
   intakeLogs: DailyIntakeLog[];
   /** Local day key; defaults to today. */
   today?: string;
@@ -70,6 +76,7 @@ function weeklyWeightChange(weighIns: WeighInEntry[], weekStart: string): {
 export function buildWeeklyCheckIn({
   plan,
   weighIns,
+  survey,
   intakeLogs,
   today = localDateKey(),
   workouts,
@@ -123,7 +130,10 @@ export function buildWeeklyCheckIn({
           formulaTdee: plan.formulaTdee ?? formulaTDEE,
         };
 
-  const { currentEWMA, deltaKg } = weeklyWeightChange(weighInsToDate, weekStart);
+  const trendWeighIns = survey
+    ? withSurveyTrendStart(weighInsToDate, survey.weightKg, survey.baselineDate).filter((w) => w.date <= today)
+    : weighInsToDate;
+  const { currentEWMA, deltaKg } = weeklyWeightChange(trendWeighIns, weekStart);
   const oldKcalTarget = plan.targetResult.kcalTarget;
   const newKcalTarget = proposedPlan.targetResult.kcalTarget;
   const training = workouts ? trainingInWindow(workouts.plan, workouts.logs, weekStart, today, workouts.region) : null;

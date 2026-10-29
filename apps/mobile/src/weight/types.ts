@@ -12,6 +12,8 @@ export interface WeightTrendPoint {
   date: string;
   rawWeightKg: number;
   ewmaWeightKg: number;
+  /** This point is the survey weight, not a logged weigh-in. */
+  fromSurvey?: boolean;
 }
 
 export interface DailyIntakeLog {

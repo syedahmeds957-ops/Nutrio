@@ -2,34 +2,38 @@ import { DailyIntakeLog, WeighInEntry } from './types.js';
 import { loadWeighIns } from './weightStorage.js';
 import { getOrInitHistoryStartDate, loadDailyActivities } from '../tracker/activityStorage.js';
 import { localDateKey } from '../common/dateKey.js';
+import { withSurveyBaseline } from './surveyBaseline.js';
 
 /** The adaptive TDEE calibrates over 28 days, so there is no point reading more. */
 export const CALIBRATION_WINDOW_DAYS = 28;
 
 /**
- * The weigh-in log to open the weight screen with.
- *
- * Stored entries win. Only a user who has never weighed in gets the synthetic
- * baseline, and only so that "net change" has something to measure from — the
- * screen used to fabricate this entry on *every* mount, which is what made three
- * real weigh-ins collapse into one row reading 0 kg of change.
+ * The date the survey weight counts from: the day the user first opened the
+ * tracker, which never moves. (Dating it today re-dated it every morning and
+ * collided with the user's first real weigh-in.)
+ */
+export function surveyBaselineDate(): string {
+  try {
+    return getOrInitHistoryStartDate();
+  } catch {
+    return localDateKey();
+  }
+}
+
+/**
+ * The weigh-in log every screen starts from: the stored entries, or, for a
+ * user who has never weighed in, their survey weight as the first weigh-in
+ * (see `withSurveyBaseline`). Stored entries win, so real weigh-ins are never
+ * collapsed into the synthetic one.
  */
 export function buildWeighInSeed(
-  surveyWeightKg: number,
-  today: string = localDateKey()
+  surveyWeightKg: number | null | undefined,
+  baselineDate: string = surveyBaselineDate()
 ): WeighInEntry[] {
-  const stored = loadWeighIns();
-  if (stored.length > 0) return stored;
-
-  return [
-    {
-      id: 'initial_weigh_in',
-      date: today,
-      weightKg: surveyWeightKg,
-      loggedAt: new Date().toISOString(),
-    },
-  ];
+  return withSurveyBaseline(loadWeighIns(), surveyWeightKg, baselineDate);
 }
+
+export { SURVEY_BASELINE_ID, isSurveyBaseline, withSurveyBaseline, withSurveyTrendStart } from './surveyBaseline.js';
 
 /** Every date from `start` to `end` inclusive, oldest first, ISO `YYYY-MM-DD`. */
 export function datesInRange(start: string, end: string, maxDays: number): string[] {

@@ -61,11 +61,11 @@ describe('guest week', () => {
     expect(html).toContain('This is a sample plan');
     expect(html).toContain('Create free account');
     expect(html).toContain('I have an account');
-    expect(html).toContain('SAMPLE WEEK');
+    expect(html).toContain('Sample week');
     expect(html).toContain('3 workouts a week');
     expect(html).toContain('Start workout');
     expect(html).not.toContain('Edit plan');
-    expect(html).not.toContain('WEEK 1');
+    expect(html).not.toContain('Week 1');
   });
 
   it('shows no history: nothing done or missed, and no status on earlier days', () => {
@@ -88,7 +88,7 @@ describe('guest week', () => {
   it('leaves the signed-in week unchanged', () => {
     const html = render(React.createElement(WorkoutWeekScreen, { ...props, onRequireAccount: undefined }));
     expect(html).toContain('Edit plan');
-    expect(html).toContain('WEEK 1');
+    expect(html).toContain('Week 1');
     expect(html).not.toContain('This is a sample plan');
   });
 });

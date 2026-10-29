@@ -1,11 +1,14 @@
 import type { WeighInEntry } from './types.js';
 import { addDaysToKey } from '../common/dateKey.js';
+import { isSurveyBaseline } from './surveyBaseline.js';
 
 export interface WeightGlance {
   latestKg: number;
   latestDate: string;
   /** Latest minus the earliest weigh-in of the 7 days up to it; null with no earlier weigh-in in that window. */
   weekDeltaKg: number | null;
+  /** The latest entry is the survey weight, not a weigh-in the user logged. */
+  latestFromSurvey: boolean;
   /** The last few weigh-ins, oldest first, for the sparkline. */
   series: number[];
 }
@@ -22,6 +25,7 @@ export function weightGlance(entries: readonly WeighInEntry[]): WeightGlance | n
   return {
     latestKg: latest.weightKg,
     latestDate: latest.date,
+    latestFromSurvey: isSurveyBaseline(latest),
     weekDeltaKg: reference ? Math.round((latest.weightKg - reference.weightKg) * 10) / 10 : null,
     series: sorted.slice(-SERIES_LENGTH).map((entry) => entry.weightKg),
   };

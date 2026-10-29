@@ -433,7 +433,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
 
       {/* Navigation Buttons */}
       <View style={styles.btnRow}>
-        <BackButton variant="footer" onPress={onBack} />
+        <BackButton variant="icon" onPress={onBack} />
 
         <TouchableOpacity
           style={[
@@ -557,6 +557,8 @@ const styles = StyleSheet.create({
   },
   rateBtn: {
     flex: 1,
+    minHeight: 44,
+    justifyContent: 'center',
     paddingVertical: 12,
     borderRadius: 9999,
     borderWidth: 1,
@@ -580,10 +582,9 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   projectionTitle: {
-    fontSize: 12,
-    fontWeight: '800',
-    letterSpacing: 0.5,
-    textTransform: 'uppercase',
+    fontSize: 13,
+    fontWeight: '700',
+    letterSpacing: 0,
   },
   projectionValue: {
     fontSize: 22,
@@ -601,7 +602,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   confirmBtn: {
-    flex: 2,
+    flex: 1,
     paddingVertical: 16,
     borderRadius: 9999,
     alignItems: 'center',

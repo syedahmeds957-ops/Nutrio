@@ -292,10 +292,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   slotCategory: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '700',
-    letterSpacing: 0.5,
-    textTransform: 'uppercase',
+    letterSpacing: 0,
   },
   slotTitle: {
     fontSize: 16,

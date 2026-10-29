@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { MedicalConditionFlag, SurveyHealthClinical } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { AppleTextInput } from '../../ui/AppleInput.js';
-import { Icon } from '../../ui/Icon.js';
+import { OptionButton, OptionGroup } from '../../ui/Selectable.js';
 
 interface StepHealthClinicalProps {
   data: Partial<SurveyHealthClinical>;
@@ -31,10 +31,7 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
   const { theme, isDark } = useTheme();
   const { t } = useTranslation();
   const dir = useTextDirection();
-  const isSaudi = dir.isRTL;
   const isMale = userSex === 'male';
-  const accentColor = theme.colors.primaryLime;
-  const activeTextColor = '#0A0B0D';
   const currentConditions = data.medicalConditions ?? [];
   const isDisclaimerAccepted = data.medicalDisclaimerAccepted === true;
 
@@ -74,59 +71,22 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
           <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }]}>
             {t('survey.health.pregnancyQuestion')}
           </Text>
-          <View style={styles.toggleRow}>
-            <TouchableOpacity
-              style={[
-                styles.toggleBtn,
-                {
-                  backgroundColor: theme.colors.surface,
-                  borderColor: theme.colors.border,
-                },
-                data.isPregnantOrBreastfeeding === true && {
-                  backgroundColor: accentColor,
-                  borderColor: accentColor,
-                },
-              ]}
+          <OptionGroup label={t('survey.health.pregnancyQuestion')} style={styles.toggleRow}>
+            <OptionButton
+              label={t('common.yes')}
+              selected={data.isPregnantOrBreastfeeding === true}
               onPress={() => onChange({ isPregnantOrBreastfeeding: true })}
-              activeOpacity={0.7}
-            >
-              <Text
-                style={[
-                  styles.toggleText,
-                  { color: theme.colors.textSecondary },
-                  data.isPregnantOrBreastfeeding === true && { color: activeTextColor, fontWeight: '800' },
-                ]}
-              >
-                {t('common.yes')}
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[
-                styles.toggleBtn,
-                {
-                  backgroundColor: theme.colors.surface,
-                  borderColor: theme.colors.border,
-                },
-                data.isPregnantOrBreastfeeding === false && {
-                  backgroundColor: accentColor,
-                  borderColor: accentColor,
-                },
-              ]}
+              style={styles.toggleBtn}
+              labelStyle={styles.toggleText}
+            />
+            <OptionButton
+              label={t('common.no')}
+              selected={data.isPregnantOrBreastfeeding === false}
               onPress={() => onChange({ isPregnantOrBreastfeeding: false })}
-              activeOpacity={0.7}
-            >
-              <Text
-                style={[
-                  styles.toggleText,
-                  { color: theme.colors.textSecondary },
-                  data.isPregnantOrBreastfeeding === false && { color: activeTextColor, fontWeight: '800' },
-                ]}
-              >
-                {t('common.no')}
-              </Text>
-            </TouchableOpacity>
-          </View>
+              style={styles.toggleBtn}
+              labelStyle={styles.toggleText}
+            />
+          </OptionGroup>
           {data.isPregnantOrBreastfeeding && (
             <View style={[styles.warningBox, { backgroundColor: isDark ? 'rgba(234, 179, 8, 0.15)' : '#FEF9C3', borderColor: '#EAB308' }]}>
               <Text style={[styles.warningText, dir.text, { color: isDark ? '#FACC15' : '#854D0E' }]}>
@@ -145,72 +105,20 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
         <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }]}>
           {t('survey.health.diagnosesLabel')}
         </Text>
-        <View style={styles.conditionsList}>
-          {visibleConditions.map((cond) => {
-            const isChecked = currentConditions.includes(cond.id);
-            return (
-              <TouchableOpacity
-                key={cond.id}
-                style={[
-                  styles.condCard,
-                  {
-                    backgroundColor: theme.colors.surface,
-                    borderColor: theme.colors.border,
-                  },
-                  isChecked && {
-                    backgroundColor: isDark
-                      ? isSaudi
-                        ? 'rgba(16, 185, 129, 0.15)'
-                        : 'rgba(164, 235, 63, 0.12)'
-                      : isSaudi
-                        ? '#ECFDF5'
-                        : '#F7FEE7',
-                    borderColor: accentColor,
-                    borderWidth: 2,
-                  },
-                ]}
-                onPress={() => toggleCondition(cond.id)}
-                activeOpacity={0.7}
-              >
-                <View
-                  style={[
-                    styles.checkbox,
-                    {
-                      backgroundColor: theme.colors.surfaceSecondary,
-                      borderColor: theme.colors.border,
-                    },
-                    isChecked && {
-                      backgroundColor: accentColor,
-                      borderColor: accentColor,
-                    },
-                  ]}
-                >
-                  {isChecked && (
-                    <Icon name="check" size={14} color={isSaudi ? '#FFFFFF' : '#0A0B0D'} strokeWidth={3} />
-                  )}
-                </View>
-                <Text
-                  style={[
-                    styles.condLabel,
-                    { color: theme.colors.textPrimary },
-                    isChecked && {
-                      color: isDark
-                        ? isSaudi
-                          ? '#34D399'
-                          : theme.colors.primaryLime
-                        : isSaudi
-                          ? '#065F46'
-                          : '#0F172A',
-                      fontWeight: '700',
-                    },
-                  ]}
-                >
-                  {cond.label}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
+        <OptionGroup label={t('survey.health.diagnosesLabel')} mode="toggle" style={styles.conditionsList}>
+          {visibleConditions.map((cond) => (
+            <OptionButton
+              key={cond.id}
+              label={cond.label}
+              mode="toggle"
+              check="inline"
+              selected={currentConditions.includes(cond.id)}
+              onPress={() => toggleCondition(cond.id)}
+              style={styles.condCard}
+              labelStyle={styles.condLabel}
+            />
+          ))}
+        </OptionGroup>
         {errors.medicalConditions && (
           <Text style={styles.errorText}>{errors.medicalConditions}</Text>
         )}
@@ -231,71 +139,18 @@ export const StepHealthClinical: React.FC<StepHealthClinicalProps> = ({
         <Text style={[styles.label, { color: theme.colors.textPrimary }]}>
           {t('survey.health.disclaimerTitle')}
         </Text>
-        <TouchableOpacity
+        <OptionButton
+          label={t('survey.health.disclaimer')}
+          mode="toggle"
+          check="inline"
+          selected={isDisclaimerAccepted}
+          onPress={() => onChange({ medicalDisclaimerAccepted: !isDisclaimerAccepted })}
           style={[
             styles.condCard,
-            {
-              backgroundColor: theme.colors.surface,
-              borderColor: errors.medicalDisclaimerAccepted
-                ? theme.colors.danger
-                : theme.colors.border,
-            },
-            isDisclaimerAccepted && {
-              backgroundColor: isDark
-                ? isSaudi
-                  ? 'rgba(16, 185, 129, 0.15)'
-                  : 'rgba(164, 235, 63, 0.12)'
-                : isSaudi
-                  ? '#ECFDF5'
-                  : '#F7FEE7',
-              borderColor: accentColor,
-              borderWidth: 2,
-            },
+            errors.medicalDisclaimerAccepted && !isDisclaimerAccepted && { borderColor: theme.colors.danger },
           ]}
-          onPress={() => onChange({ medicalDisclaimerAccepted: !isDisclaimerAccepted })}
-          activeOpacity={0.7}
-        >
-          <View
-            style={[
-              styles.checkbox,
-              {
-                backgroundColor: theme.colors.surfaceSecondary,
-                borderColor: theme.colors.border,
-              },
-              isDisclaimerAccepted && {
-                backgroundColor: accentColor,
-                borderColor: accentColor,
-              },
-            ]}
-          >
-            {isDisclaimerAccepted && (
-              <Icon name="check" size={14} color={isSaudi ? '#FFFFFF' : '#0A0B0D'} strokeWidth={3} />
-            )}
-          </View>
-          <Text
-            style={[
-              styles.condLabel,
-              {
-                color: theme.colors.textPrimary,
-                flex: 1,
-                fontSize: 13,
-                lineHeight: 18,
-              },
-              isDisclaimerAccepted && {
-                color: isDark
-                  ? isSaudi
-                    ? '#34D399'
-                    : theme.colors.primaryLime
-                  : isSaudi
-                    ? '#065F46'
-                    : '#0F172A',
-                fontWeight: '700',
-              },
-            ]}
-          >
-            {t('survey.health.disclaimer')}
-          </Text>
-        </TouchableOpacity>
+          labelStyle={styles.disclaimerLabel}
+        />
         {errors.medicalDisclaimerAccepted && (
           <Text style={styles.errorText}>{errors.medicalDisclaimerAccepted}</Text>
         )}
@@ -328,14 +183,11 @@ const styles = StyleSheet.create({
   },
   toggleBtn: {
     flex: 1,
-    paddingVertical: 14,
+    minHeight: 48,
     borderRadius: 16,
-    borderWidth: 1,
-    alignItems: 'center',
   },
   toggleText: {
     fontSize: 15,
-    fontWeight: '700',
   },
   warningBox: {
     marginTop: 10,
@@ -352,30 +204,17 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   condCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
     padding: 14,
     borderRadius: 16,
-    borderWidth: 1,
-    gap: 12,
-  },
-  checkbox: {
-    width: 22,
-    height: 22,
-    borderRadius: 7,
-    borderWidth: 1.5,
     alignItems: 'center',
-    justifyContent: 'center',
-  },
-  checkmark: {
-    color: '#0A0B0D',
-    fontSize: 14,
-    fontWeight: '900',
-    lineHeight: 16,
   },
   condLabel: {
     fontSize: 14,
-    flex: 1,
+  },
+  disclaimerLabel: {
+    fontSize: 13,
+    fontWeight: '600',
+    lineHeight: 18,
   },
   input: {
     borderWidth: 1,

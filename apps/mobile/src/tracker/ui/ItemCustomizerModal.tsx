@@ -434,7 +434,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
               <Text style={[styles.makeItYoursTitle, dir.text, { color: theme.colors.text }]}>
                 {t('tracker.customizer.makeItYours')}
               </Text>
-              <Text style={[styles.makeItYoursSubtitle, { color: theme.colors.textMuted }]}>
+              <Text style={[styles.makeItYoursSubtitle, dir.text, { color: theme.colors.textMuted }]}>
                 {t('tracker.customizer.makeItYoursSubtitle')}
               </Text>
 
@@ -454,8 +454,8 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
                       ]}
                     >
                       <View style={styles.modifierLeftInfo}>
-                        <Text style={[styles.modifierItemTitle, { color: theme.colors.text }]}>{pickText(mod.name, mod.nameAr, language)}</Text>
-                        <Text style={[styles.modifierItemKcal, { color: theme.colors.textMuted }]}>
+                        <Text style={[styles.modifierItemTitle, dir.text, { color: theme.colors.text }]}>{pickText(mod.name, mod.nameAr, language)}</Text>
+                        <Text style={[styles.modifierItemKcal, dir.text, { color: theme.colors.textMuted }]}>
                           {sign}{t('tracker.customizer.kcalEach', { value: mod.calories })}
                         </Text>
                       </View>

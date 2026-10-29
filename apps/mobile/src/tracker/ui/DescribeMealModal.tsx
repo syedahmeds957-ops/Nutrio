@@ -12,7 +12,8 @@ import {
 import { NamedModal } from '../../ui/NamedModal.js';
 import type { NormalizedFood, RegionCode } from '@nutrio/food-db';
 import { useTheme } from '../../theme.js';
-import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
+import { servingDisplayLabel } from '../servingLabel.js';
 import { foodDisplayName } from '../foodDisplayName.js';
 import { Icon } from '../../ui/Icon.js';
 import { noOutlineStyle } from '../../ui/AppleInput.js';
@@ -67,6 +68,7 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
 }) => {
   const { theme, isDark } = useTheme();
   const { t } = useTranslation();
+  const { language } = useI18nState();
   const dir = useTextDirection();
   const accent = theme.colors.primaryLime;
   const accentInk = isDark ? accent : '#4B6200';
@@ -158,7 +160,7 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
           styles.row,
           {
             backgroundColor: theme.colors.surface,
-            borderColor: needsUser ? '#F59E0B' : theme.colors.border,
+            borderColor: needsUser ? theme.colors.warning : theme.colors.border,
           },
         ]}
       >
@@ -174,7 +176,7 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
               <Text style={[styles.amount, dir.text, { color: theme.colors.textSecondary }]}>
                 {t('tracker.describeMeal.amount', {
                   quantity: row.quantity,
-                  serving: row.serving.label,
+                  serving: servingDisplayLabel(row.serving.label, language),
                   grams: nutrition.grams,
                 })}
               </Text>
@@ -258,7 +260,7 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
                   accessibilityState={{ selected: active }}
                 >
                   <Text style={[styles.chipText, { color: theme.colors.textPrimary }]} numberOfLines={1}>
-                    {s.label}
+                    {servingDisplayLabel(s.label, language)}
                   </Text>
                 </TouchableOpacity>
               );
@@ -268,7 +270,7 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
 
         {row.status === 'needs_confirm' && (
           <View style={styles.decision}>
-            <Text style={[styles.reason, dir.text, { color: '#B45309' }]}>
+            <Text style={[styles.reason, dir.text, { color: theme.colors.warning }]}>
               {t(`tracker.describeMeal.reasons.${row.flags[0] ?? 'ambiguous_food'}`)}
             </Text>
             <View style={styles.chips}>
@@ -298,7 +300,7 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
 
         {row.status === 'unknown' && (
           <View style={styles.decision}>
-            <Text style={[styles.reason, dir.text, { color: '#B45309' }]}>
+            <Text style={[styles.reason, dir.text, { color: theme.colors.warning }]}>
               {t('tracker.describeMeal.reasons.unknown_food')}
             </Text>
             <View style={styles.chips}>
@@ -426,7 +428,7 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
               <Text style={[styles.totalKcal, { color: theme.colors.textPrimary }]}>
                 {t('common.kcalValue', { value: totals.kcal })}
               </Text>
-              <Text style={[styles.footerHint, dir.text, { color: pending ? '#B45309' : theme.colors.textSecondary }]}>
+              <Text style={[styles.footerHint, dir.text, { color: pending ? theme.colors.warning : theme.colors.textSecondary }]}>
                 {pending
                   ? `${t('tracker.describeMeal.pending', { count: pending })} · ${firstPending?.parsed.name ?? ''}: ${pendingReason}`
                   : t('common.macroLine', {

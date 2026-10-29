@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { DietPreference, SurveyPreferences } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { OptionButton, OptionGroup } from '../../ui/Selectable.js';
 
 interface StepPreferencesProps {
   data: Partial<SurveyPreferences>;
@@ -25,12 +26,10 @@ export const StepPreferences: React.FC<StepPreferencesProps> = ({
   onChange,
   errors,
 }) => {
-  const { theme, isDark } = useTheme();
+  const { theme } = useTheme();
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
   const dir = useTextDirection();
-  const accentColor = theme.colors.primaryLime;
-  const activeTextColor = '#0A0B0D';
   const dietOptions = DIET_OPTION_IDS.map((id) => ({
     id,
     label: t(`survey.preferences.diets.${id}.${activeRegion}`),
@@ -47,41 +46,19 @@ export const StepPreferences: React.FC<StepPreferencesProps> = ({
         <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }]}>
           {t('survey.preferences.dietaryPreference')}
         </Text>
-        <View style={styles.chipGrid}>
-          {dietOptions.map((d) => {
-            const isSelected = data.dietPreference === d.id;
-            return (
-              <TouchableOpacity
-                key={d.id}
-                style={[
-                  styles.chip,
-                  {
-                    backgroundColor: isSelected
-                      ? accentColor
-                      : theme.colors.surface,
-                    borderColor: isSelected
-                      ? accentColor
-                      : theme.colors.border,
-                  },
-                ]}
-                onPress={() => onChange({ dietPreference: d.id })}
-                activeOpacity={0.7}
-              >
-                <Text
-                  style={[
-                    styles.chipText,
-                    {
-                      color: isSelected ? activeTextColor : theme.colors.textPrimary,
-                      fontWeight: isSelected ? '800' : '600',
-                    },
-                  ]}
-                >
-                  {d.label}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
+        <OptionGroup label={t('survey.preferences.dietaryPreference')} style={styles.chipGrid}>
+          {dietOptions.map((d) => (
+            <OptionButton
+              key={d.id}
+              label={d.label}
+              check="inline"
+              selected={data.dietPreference === d.id}
+              onPress={() => onChange({ dietPreference: d.id })}
+              style={styles.chip}
+              labelStyle={styles.chipText}
+            />
+          ))}
+        </OptionGroup>
         {errors.dietPreference && (
           <Text style={styles.errorText}>{errors.dietPreference}</Text>
         )}
@@ -105,10 +82,8 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 13,
-    fontWeight: '800',
-    letterSpacing: 0.3,
-    textTransform: 'uppercase',
-    marginBottom: 10,
+    fontWeight: '700',
+    marginBottom: 8,
   },
   chipGrid: {
     gap: 8,
@@ -117,7 +92,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     paddingVertical: 14,
     paddingHorizontal: 16,
-    borderWidth: 1,
   },
   chipText: {
     fontSize: 14,

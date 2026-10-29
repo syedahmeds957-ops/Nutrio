@@ -73,7 +73,7 @@ describe('day screen', () => {
 
   it('ends the session with the cardio card: move, minutes, pace, talk test and a swap menu', () => {
     const html = dayScreen(plan);
-    expect(html).toContain('CARDIO');
+    expect(html).toContain('Cardio');
     expect(html).toContain(name);
     expect(html).toContain('15 min · moderate pace');
     expect(html).toContain('Moderate: you can talk in short sentences');

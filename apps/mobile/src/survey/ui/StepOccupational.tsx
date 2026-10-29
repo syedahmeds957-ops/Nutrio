@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { JobCategory, ShiftPattern, SurveyOccupational } from '../types.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
-import { Notice } from '../../ui/Notice.js';
 import { AppleTextInput } from '../../ui/AppleInput.js';
+import { OptionButton, OptionGroup } from '../../ui/Selectable.js';
 
 interface StepOccupationalProps {
   data: Partial<SurveyOccupational>;
@@ -29,13 +29,10 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
   onChange,
   errors,
 }) => {
-  const { theme, isDark } = useTheme();
+  const { theme } = useTheme();
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
   const dir = useTextDirection();
-  const accentColor = theme.colors.primaryLime;
-  const activeTextColor = '#0A0B0D';
-  const isSaudi = activeRegion === 'SA';
   const jobOptions = JOB_CATEGORY_IDS.map((id) => ({
     id,
     title: t(`survey.occupational.jobs.${id}.title`),
@@ -48,12 +45,6 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
 
   return (
     <View style={styles.container}>
-      {Object.keys(errors).length > 0 && (
-        <Notice tone="danger" style={{ marginBottom: 16 }}>
-          {t('common.completeRequiredFields')}
-        </Notice>
-      )}
-
       <Text style={[styles.description, dir.text, { color: theme.colors.textSecondary }]}>
         {t(`survey.occupational.description.${activeRegion}`)}
       </Text>
@@ -63,53 +54,28 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
         <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }, errors.jobCategory && styles.labelError]}>
           {t('survey.occupational.workActivityType')} {errors.jobCategory ? t('common.requiredMarker') : ''}
         </Text>
-        {jobOptions.map((item) => {
-          const isSelected = data.jobCategory === item.id;
-          return (
-            <TouchableOpacity
+        <OptionGroup label={t('survey.occupational.workActivityType')}>
+          {jobOptions.map((item) => (
+            <OptionButton
               key={item.id}
+              label={item.title}
+              accessibilityLabel={`${item.title}. ${item.subtitle}`}
+              selected={data.jobCategory === item.id}
+              onPress={() => onChange({ jobCategory: item.id })}
               style={[
                 styles.cardOption,
-                {
-                  backgroundColor: theme.colors.surface,
-                  borderColor: theme.colors.border,
-                },
-                isSelected && {
-                  backgroundColor: isDark
-                    ? isSaudi
-                      ? 'rgba(16, 185, 129, 0.15)'
-                      : 'rgba(164, 235, 63, 0.12)'
-                    : isSaudi
-                      ? '#ECFDF5'
-                      : '#F7FEE7',
-                  borderColor: accentColor,
-                  borderWidth: 2,
-                },
                 errors.jobCategory && !data.jobCategory && styles.cardOptionError,
               ]}
-              onPress={() => onChange({ jobCategory: item.id })}
-              activeOpacity={0.7}
             >
-              <Text style={[
-                styles.cardTitle,
-                { color: theme.colors.textPrimary },
-                isSelected && {
-                  color: isDark
-                    ? isSaudi
-                      ? '#34D399'
-                      : theme.colors.primaryLime
-                    : isSaudi
-                      ? '#065F46'
-                      : '#0F172A',
-                  fontWeight: '800',
-                }
-              ]}>
-                {item.title}
-              </Text>
-              <Text style={[styles.cardSubtitle, dir.text, { color: theme.colors.textSecondary }]}>{item.subtitle}</Text>
-            </TouchableOpacity>
-          );
-        })}
+              {(colors) => (
+                <>
+                  <Text style={[styles.cardTitle, dir.text, colors.text]}>{item.title}</Text>
+                  <Text style={[styles.cardSubtitle, dir.text, colors.sub]}>{item.subtitle}</Text>
+                </>
+              )}
+            </OptionButton>
+          ))}
+        </OptionGroup>
         {errors.jobCategory && (
           <Text style={styles.errorText}>{errors.jobCategory}</Text>
         )}
@@ -137,39 +103,17 @@ export const StepOccupational: React.FC<StepOccupationalProps> = ({
         <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }]}>
           {t('survey.occupational.shiftPattern')}
         </Text>
-        <View style={styles.chipGrid}>
-          {shiftOptions.map((opt) => {
-            const isSelected = data.shiftPattern === opt.id;
-            return (
-              <TouchableOpacity
-                key={opt.id}
-                style={[
-                  styles.chip,
-                  {
-                    backgroundColor: theme.colors.surface,
-                    borderColor: theme.colors.border,
-                  },
-                  isSelected && {
-                    backgroundColor: accentColor,
-                    borderColor: accentColor,
-                  },
-                ]}
-                onPress={() => onChange({ shiftPattern: opt.id })}
-                activeOpacity={0.7}
-              >
-                <Text
-                  style={[
-                    styles.chipText,
-                    { color: theme.colors.textSecondary },
-                    isSelected && { color: activeTextColor, fontWeight: '800' },
-                  ]}
-                >
-                  {opt.label}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
+        <OptionGroup label={t('survey.occupational.shiftPattern')} style={styles.chipGrid}>
+          {shiftOptions.map((opt) => (
+            <OptionButton
+              key={opt.id}
+              label={opt.label}
+              selected={data.shiftPattern === opt.id}
+              onPress={() => onChange({ shiftPattern: opt.id })}
+              labelStyle={styles.chipText}
+            />
+          ))}
+        </OptionGroup>
         {errors.shiftPattern && (
           <Text style={styles.errorText}>{errors.shiftPattern}</Text>
         )}
@@ -212,16 +156,17 @@ const styles = StyleSheet.create({
   },
   cardOption: {
     borderRadius: 18,
-    borderWidth: 1,
     padding: 16,
     marginBottom: 10,
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
   },
   cardOptionError: {
     borderColor: '#EF4444',
   },
   cardTitle: {
     fontSize: 15,
-    fontWeight: '700',
+    fontWeight: '800',
     marginBottom: 4,
   },
   cardSubtitle: {
@@ -247,15 +192,7 @@ const styles = StyleSheet.create({
   chipGrid: {
     gap: 8,
   },
-  chip: {
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 14,
-    borderWidth: 1,
-    alignItems: 'center',
-  },
   chipText: {
     fontSize: 14,
-    fontWeight: '600',
   },
 });

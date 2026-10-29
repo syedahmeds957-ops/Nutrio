@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
-import { Animated, View, ScrollView, SafeAreaView } from 'react-native';
+import { Animated, View, ScrollView, SafeAreaView, Platform, useWindowDimensions } from 'react-native';
+import { hiddenFromAssistiveTech } from '../../common/a11yHidden.js';
 import { DailyProgressHeader } from './DailyProgressHeader.js';
 import { TodayHeader } from './TodayHeader.js';
 import { TodayBento, WaterTile, WeightTile } from './TodayBento.js';
@@ -36,6 +37,7 @@ import { addDaysToKey, localDateKey } from '../../common/dateKey.js';
 import { styles } from './TrackerDashboardScreen.styles.js';
 import { MEAL_SLOTS, defaultSlotForHour, nextSlotToLog } from '../mealsCard.js';
 import { loadWeighIns } from '../../weight/weightStorage.js';
+import { withSurveyBaseline } from '../../weight/surveyBaseline.js';
 import { weightGlance } from '../../weight/weightGlance.js';
 
 interface TrackerDashboardScreenProps {
@@ -66,6 +68,10 @@ interface TrackerDashboardScreenProps {
   onLogout?: () => void;
   isGuest?: boolean;
   onRequireAuth?: () => void;
+  /** The weight from the survey: the first weigh-in until the user logs a real one. */
+  surveyWeightKg?: number | null;
+  /** The signed-in user's email, shown in the profile sheet. */
+  userEmail?: string | null;
 }
 
 export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
@@ -87,6 +93,8 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   onLogout,
   isGuest = false,
   onRequireAuth,
+  surveyWeightKg = null,
+  userEmail = null,
 }) => {
   const { theme } = useTheme();
   const { activeRegion } = useRegion();
@@ -103,6 +111,10 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     insetsBottom = 0;
   }
   const bottomBarOffset = Math.max(20, insetsBottom + 8);
+  // On a wide browser the bar sits in the layout under the scroll area instead of
+  // floating over it, so it never covers or clips content.
+  const { width: windowWidth } = useWindowDimensions();
+  const dockBar = Platform.OS === 'web' && windowWidth >= 900;
 
   // Guests explore: they see an empty day and nothing saved on this device,
   // and logging asks them to create an account.
@@ -200,6 +212,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   const [guestModalVisible, setGuestModalVisible] = useState(false);
   /** A guest tapped Start on the sample workout. */
   const [workoutPromptVisible, setWorkoutPromptVisible] = useState(false);
+  const [staplesSheetOpen, setStaplesSheetOpen] = useState(false);
 
   // Profile modal with minimalist animation
   const [profileVisible, setProfileVisible] = useState(false);
@@ -225,6 +238,18 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   };
 
   const summary = engine.getSummary();
+
+  // While any sheet or dialog is open the dashboard under it is hidden from
+  // screen readers (and, on web, out of the reading order).
+  const overlayOpen =
+    hubVisible ||
+    brandMenuVisible ||
+    customizerVisible ||
+    diaryVisible ||
+    profileVisible ||
+    guestModalVisible ||
+    workoutPromptVisible ||
+    staplesSheetOpen;
 
   // Diary history never reaches back further than the day this user (or this
   // guest device) first opened the tracker — a brand-new user has no "before"
@@ -437,7 +462,8 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     MEAL_SLOTS.map((slot) => [slot, engine.getItemsBySlot(slot).length])
   ) as Record<MealSlot, number>;
 
-  const weight = isGuest ? null : weightGlance(loadWeighIns());
+  // The survey weight is the first weigh-in, the same as on the weight screen.
+  const weight = isGuest ? null : weightGlance(withSurveyBaseline(loadWeighIns(), surveyWeightKg, historyStartDate));
   const openWeight = onOpenWeightTracker
     ? () => {
         if (isGuest) {
@@ -457,86 +483,91 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
 
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.canvas }]}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={[styles.scrollPad, { paddingBottom: 115 + insetsBottom }]}
-        showsVerticalScrollIndicator={false}
-      >
-        <TodayHeader
-          userName={userName}
-          region={activeRegion === 'SA' ? 'SA' : 'PK'}
-          pendingSyncCount={summary.pendingSyncCount}
-          onOpenProfile={openProfile}
-          onSwitchRegion={requestRegionSwitch}
-        />
+      <View style={styles.screenLayer} {...hiddenFromAssistiveTech(overlayOpen)}>
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={[styles.scrollPad, { paddingBottom: dockBar ? 24 : 115 + insetsBottom }]}
+          showsVerticalScrollIndicator={false}
+        >
+          <TodayHeader
+            userName={userName}
+            region={activeRegion === 'SA' ? 'SA' : 'PK'}
+            pendingSyncCount={summary.pendingSyncCount}
+            onOpenProfile={openProfile}
+            onSwitchRegion={requestRegionSwitch}
+          />
 
-        {/* Hero + macro tiles. Their own bottom margin is 16; cards below sit 12 apart. */}
-        <View style={styles.heroWrap}>
-          <DailyProgressHeader summary={summary} weeklyHistoryFills={weeklyHistoryFills} />
-        </View>
+          {/* Hero + macro tiles. Their own bottom margin is 16; cards below sit 12 apart. */}
+          <View style={styles.heroWrap}>
+            <DailyProgressHeader summary={summary} weeklyHistoryFills={weeklyHistoryFills} />
+          </View>
 
-        <View style={styles.sections}>
-          <TodayBento
-            workout={
-              onOpenWorkouts ? (
-                <TodayWorkoutCard
-                  variant="tile"
-                  plan={workoutPlan}
-                  logs={workoutLogs}
-                  todayKey={localDateKey()}
-                  onSetUp={onOpenWorkouts}
-                  onSeeWeek={onOpenWorkouts}
-                  onOpenDay={isGuest ? () => setWorkoutPromptVisible(true) : (onOpenWorkoutDay ?? (() => onOpenWorkouts()))}
-                  sample={isGuest}
+          <View style={styles.sections}>
+            <TodayBento
+              workoutWide={!workoutPlan}
+              workout={
+                onOpenWorkouts ? (
+                  <TodayWorkoutCard
+                    variant="tile"
+                    plan={workoutPlan}
+                    logs={workoutLogs}
+                    todayKey={localDateKey()}
+                    onSetUp={onOpenWorkouts}
+                    onSeeWeek={onOpenWorkouts}
+                    onOpenDay={isGuest ? () => setWorkoutPromptVisible(true) : (onOpenWorkoutDay ?? (() => onOpenWorkouts()))}
+                    sample={isGuest}
+                  />
+                ) : undefined
+              }
+              weight={<WeightTile glance={weight} onPress={openWeight} />}
+              water={
+                <WaterTile
+                  consumedMl={summary.waterMlConsumed}
+                  targetMl={summary.targetWaterMl}
+                  onLogWater={handleLogWater}
                 />
-              ) : undefined
-            }
-            weight={<WeightTile glance={weight} onPress={openWeight} />}
-            water={
-              <WaterTile
-                consumedMl={summary.waterMlConsumed}
-                targetMl={summary.targetWaterMl}
-                onLogWater={handleLogWater}
-              />
-            }
-          />
+              }
+            />
 
-          <AiRecommendationCard
-            key={activeRegion}
-            remainingCalories={summary.remainingCalories}
-            remainingProtein={Math.max(0, summary.targetProteinGrams - summary.totalProteinConsumed)}
-            totalCaloriesConsumed={summary.totalCaloriesConsumed}
-            itemsLoggedCount={summary.items.length}
-            onLogRecommendation={handleLogRecommendation}
-            onOpenLogMeal={() => handleOpenAdd('breakfast')}
-            onAskCoach={openCoach}
-          />
+            <AiRecommendationCard
+              key={activeRegion}
+              remainingCalories={summary.remainingCalories}
+              remainingProtein={Math.max(0, summary.targetProteinGrams - summary.totalProteinConsumed)}
+              totalCaloriesConsumed={summary.totalCaloriesConsumed}
+              itemsLoggedCount={summary.items.length}
+              onLogRecommendation={handleLogRecommendation}
+              onOpenLogMeal={() => handleOpenAdd('breakfast')}
+              onAskCoach={openCoach}
+            />
 
-          <QuickStaplesBar
-            onQuickLog={handleQuickLogStaple}
-            onRequireAccount={isGuest ? () => setGuestModalVisible(true) : undefined}
-          />
+            <QuickStaplesBar
+              onQuickLog={handleQuickLogStaple}
+              onRequireAccount={isGuest ? () => setGuestModalVisible(true) : undefined}
+              onSheetOpenChange={setStaplesSheetOpen}
+            />
 
-          <TodayMealsCard
-            items={summary.items}
-            targetCalories={summary.targetCalories}
-            nextSlot={nextSlotToLog(defaultSlotForNow(), itemCountBySlot)}
-            onAddItem={handleOpenAdd}
-            onDeleteItem={handleDeleteItem}
-            onOpenMealPlan={onOpenMealPlan}
-          />
-        </View>
-      </ScrollView>
+            <TodayMealsCard
+              items={summary.items}
+              targetCalories={summary.targetCalories}
+              nextSlot={nextSlotToLog(defaultSlotForNow(), itemCountBySlot)}
+              onAddItem={handleOpenAdd}
+              onDeleteItem={handleDeleteItem}
+              onOpenMealPlan={onOpenMealPlan}
+            />
+          </View>
+        </ScrollView>
 
-      <TodayBottomBar
-        bottom={bottomBarOffset}
-        onOpenDiary={() => {
-          setDiaryDayOffset(0);
-          setDiaryVisible(true);
-        }}
-        onQuickLog={() => handleOpenHub(defaultSlotForNow())}
-        onOpenCoach={openCoach}
-      />
+        <TodayBottomBar
+          bottom={bottomBarOffset}
+          docked={dockBar}
+          onOpenDiary={() => {
+            setDiaryDayOffset(0);
+            setDiaryVisible(true);
+          }}
+          onQuickLog={() => handleOpenHub(defaultSlotForNow())}
+          onOpenCoach={openCoach}
+        />
+      </View>
 
       {/* Log a Meal Hub Screen */}
       <MealLogHubModal
@@ -596,6 +627,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
         slide={profileSlide}
         onClose={closeProfile}
         userName={userName}
+        email={userEmail}
         targets={targets}
         isGuest={!!isGuest}
         onOpenSurvey={onOpenSurvey}

@@ -22,7 +22,9 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
   const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
   const { currentWeightKg, currentEWMAKg, totalDeltaKg, points } = summary;
-  const isLoss = totalDeltaKg < 0;
+  // Zero change is neutral: neither progress nor a warning.
+  const changeColor =
+    totalDeltaKg === 0 ? theme.colors.textPrimary : totalDeltaKg < 0 ? theme.colors.primaryAccessible : theme.colors.fatText;
 
   return (
     <View style={[styles.card, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}>
@@ -39,38 +41,39 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
       {/* Hero Stats */}
       <View style={styles.statsRow}>
         <View style={[styles.statBox, { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border }]}>
-          <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>
+          <Text numberOfLines={1} style={[styles.statLabel, dir.text, { color: theme.colors.textMuted }]}>
             {t('weight.trend.scaleWeight')}
           </Text>
-          <Text style={[styles.statVal, { color: theme.colors.textPrimary }]}>{t('common.kgValue', { value: currentWeightKg })}</Text>
-          <Text style={[styles.statSub, { color: theme.colors.textMuted }]}>
+          <Text style={[styles.statVal, dir.text, { color: theme.colors.textPrimary }]}>{t('common.kgValue', { value: currentWeightKg })}</Text>
+          <Text style={[styles.statSub, dir.text, { color: theme.colors.textMuted }]}>
             {t('weight.trend.rawReading')}
           </Text>
         </View>
 
         <View style={[styles.statBox, { backgroundColor: theme.colors.surfaceSecondary, borderColor: accentColor }]}>
-          <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>
+          <Text numberOfLines={1} style={[styles.statLabel, dir.text, { color: theme.colors.textMuted }]}>
             {t('weight.trend.trendWeight')}
           </Text>
-          <Text style={[styles.statVal, { color: theme.colors.primaryAccessible, fontWeight: '800' }]}>{t('common.kgValue', { value: currentEWMAKg })}</Text>
-          <Text style={[styles.statSub, { color: theme.colors.textMuted }]}>
+          <Text style={[styles.statVal, dir.text, { color: theme.colors.primaryAccessible, fontWeight: '800' }]}>{t('common.kgValue', { value: currentEWMAKg })}</Text>
+          <Text style={[styles.statSub, dir.text, { color: theme.colors.textMuted }]}>
             {t('weight.trend.trueTissue')}
           </Text>
         </View>
 
         <View style={[styles.statBox, { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border }]}>
-          <Text style={[styles.statLabel, { color: theme.colors.textMuted }]}>
+          <Text numberOfLines={1} style={[styles.statLabel, dir.text, { color: theme.colors.textMuted }]}>
             {t('weight.trend.netChange')}
           </Text>
           <Text
             style={[
               styles.statVal,
-              { color: isLoss ? theme.colors.primaryAccessible : theme.colors.fatText },
+              dir.text,
+              { color: changeColor },
             ]}
           >
             {t('common.kgValue', { value: totalDeltaKg > 0 ? `+${totalDeltaKg}` : totalDeltaKg })}
           </Text>
-          <Text style={[styles.statSub, { color: theme.colors.textMuted }]}>
+          <Text style={[styles.statSub, dir.text, { color: theme.colors.textMuted }]}>
             {t('weight.trend.overallProgress')}
           </Text>
         </View>
@@ -89,7 +92,12 @@ export const WeightTrendChartCard: React.FC<WeightTrendChartCardProps> = ({
           </Text>
           {points.slice(-5).reverse().map((pt, idx) => (
             <View key={idx} style={[styles.pointRow, { borderBottomColor: theme.colors.border }]}>
-              <Text style={[styles.pointDate, { color: theme.colors.textPrimary }]}>{formatDayKey(pt.date, language)}</Text>
+              <View style={styles.pointDateCol}>
+                <Text style={[styles.pointDate, { color: theme.colors.textPrimary }]}>{formatDayKey(pt.date, language)}</Text>
+                {pt.fromSurvey ? (
+                  <Text style={[styles.pointTag, { color: theme.colors.textMuted }]}>{t('weight.trend.fromSurvey')}</Text>
+                ) : null}
+              </View>
               <View style={styles.pointValues}>
                 <Text style={[styles.pointRaw, { color: theme.colors.textMuted }]}>
                   {t('weight.trend.kgScale', { value: pt.rawWeightKg })}
@@ -139,12 +147,13 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 14,
     padding: 12,
-    alignItems: 'center',
+    alignItems: 'stretch',
     borderWidth: 1,
   },
   statLabel: {
     fontSize: 11,
     fontWeight: '700',
+    letterSpacing: 0.6,
     textTransform: 'uppercase',
   },
   statVal: {
@@ -153,7 +162,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   statSub: {
-    fontSize: 10,
+    fontSize: 11,
     marginTop: 2,
   },
   pointsList: {
@@ -171,6 +180,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: 7,
+  },
+  pointDateCol: {
+    flexShrink: 1,
+  },
+  pointTag: {
+    fontSize: 11,
+    fontWeight: '600',
+    marginTop: 1,
   },
   pointDate: {
     fontSize: 13,

@@ -52,12 +52,12 @@ import {
   type NavState,
 } from './src/navigation/history.js';
 import { hydrateWeighIns, loadWeighIns, releaseWeightCache } from './src/weight/weightStorage.js';
-import { buildWeighInSeed, collectIntakeLogs } from './src/weight/weightSeed.js';
+import { buildWeighInSeed, collectIntakeLogs, surveyBaselineDate } from './src/weight/weightSeed.js';
 import { buildCoachContext } from './src/coach/coachContext.js';
 import { buildWeeklyCheckIn } from './src/coach/weeklyCheckIn.js';
 import { pickRestoredPlan } from './src/plan/restoredPlan.js';
 import { planUserContextFromSurvey } from './src/plan/userContext.js';
-import { AuthScreen, getAuthSession, clearAuthSession, restoreSession, markSurveyCompleted } from './src/auth/index.js';
+import { AuthScreen, WIDE_BREAKPOINT as AUTH_WIDE_BREAKPOINT, getAuthSession, clearAuthSession, restoreSession, markSurveyCompleted } from './src/auth/index.js';
 import {
   syncCompleteOnboarding,
   syncNutritionTargets,
@@ -557,14 +557,15 @@ function NutrioAppContent() {
 
   // Native mirroring only applies after a restart, and react-native-web reads
   // the CSS direction rather than I18nManager, so the root states it either way.
-  const wrapScreen = (content: React.ReactNode) => (
+  // `full` skips the centred column, for the wide sign-in split layout.
+  const wrapScreen = (content: React.ReactNode, full = false) => (
     <View
       style={[styles.rootWrapper, { backgroundColor: theme.colors.canvas, direction: dir.direction }]}
     >
       <Animated.View
         role="main"
         nativeID="nutrio-main"
-        style={[styles.appConstraint, { transform: [{ translateX: swipeTranslateX }] }]}
+        style={[styles.appConstraint, full && styles.appFull, { transform: [{ translateX: swipeTranslateX }] }]}
         {...swipePanResponder.panHandlers}
       >
         <Suspense fallback={null}>
@@ -598,7 +599,8 @@ function NutrioAppContent() {
           setIsGuest(true);
           resetTo('active_tracker');
         }}
-      />
+      />,
+      Platform.OS === 'web' && windowWidth >= AUTH_WIDE_BREAKPOINT
     );
 
   // Startup Splash Screen during session restore & telemetry synchronization
@@ -715,6 +717,8 @@ function NutrioAppContent() {
         }
         targets={dynamicTargets}
         isGuest={isGuest}
+        surveyWeightKg={activePlan?.userContext.weightKg ?? null}
+        userEmail={isGuest ? null : sessionUser?.email ?? null}
         onRequireAuth={() => resetTo('auth')}
         onSummaryChange={setTrackerSummary}
         onOpenHome={() => resetTo('auth')}
@@ -807,6 +811,7 @@ function NutrioAppContent() {
     const checkIn = buildWeeklyCheckIn({
       plan: activePlan,
       weighIns: loadWeighIns(),
+      survey: { weightKg: activePlan.userContext.weightKg, baselineDate: surveyBaselineDate() },
       intakeLogs: collectIntakeLogs(activeRegion),
       ...(workoutPlan ? { workouts: { plan: workoutPlan, logs: loadWorkoutLogs(), region: activeRegion } } : {}),
     });
@@ -925,6 +930,9 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     maxWidth: APP_MAX_WIDTH,
+  },
+  appFull: {
+    maxWidth: '100%',
   },
   splashContainer: {
     flex: 1,

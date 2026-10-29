@@ -65,10 +65,9 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   stepCount: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
-    textTransform: 'uppercase',
-    letterSpacing: 0.8,
+    letterSpacing: 0,
   },
   percentage: {
     fontSize: 12,

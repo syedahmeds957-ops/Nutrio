@@ -7,10 +7,9 @@ import { useFormat } from '../../i18n/useFormat.js';
 import { Icon } from '../../ui/Icon.js';
 import { HapticFeedback } from '../../ui/haptics.js';
 import { sparklinePoints, WeightGlance } from '../../weight/weightGlance.js';
-import { waterGoalPercent } from '../waterTile.js';
+import { waterGoalPercent, waterLitres, waterTargetMl } from '../waterTile.js';
 
 const SPARK_MIN_HEIGHT = 44;
-const DEFAULT_WATER_TARGET_ML = 2500;
 const GLASS_ML = 250;
 
 
@@ -26,8 +25,9 @@ export const WeightTile: React.FC<{ glance: WeightGlance | null; onPress?: () =>
   const points = glance ? sparklinePoints(glance.series, spark.width, spark.height) : [];
   const last = points[points.length - 1];
   const delta = glance?.weekDeltaKg ?? null;
-  const deltaText =
-    delta === null
+  const deltaText = glance?.latestFromSurvey
+    ? t('tracker.weightTile.fromSurvey')
+    : delta === null
       ? null
       : t('tracker.weightTile.weekDelta', { value: `${delta > 0 ? '+' : delta < 0 ? '−' : ''}${Math.abs(delta)}` });
 
@@ -54,19 +54,10 @@ export const WeightTile: React.FC<{ glance: WeightGlance | null; onPress?: () =>
     );
     return (
       <View style={cardStyle}>
-        {onPress ? (
-          <TouchableOpacity
-            accessibilityRole="button"
-            accessibilityLabel={t('tracker.dashboard.nav.weight')}
-            activeOpacity={0.7}
-            hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}
-            onPress={onPress}
-          >
-            {header}
-          </TouchableOpacity>
-        ) : (
-          header
-        )}
+        {/* One target, the lime button below: a second small button here only repeated it. */}
+        <View style={styles.headRow}>
+          <Text style={[styles.overline, dir.text, { color: c.textSecondary }]}>{t('tracker.dashboard.nav.weight')}</Text>
+        </View>
         <View style={styles.center}>
           {invitation}
           {onPress ? (
@@ -128,7 +119,6 @@ export const WeightTile: React.FC<{ glance: WeightGlance | null; onPress?: () =>
   return onPress ? (
     <TouchableOpacity
       accessibilityRole="button"
-      accessibilityLabel={t('tracker.dashboard.nav.weight')}
       activeOpacity={0.7}
       onPress={onPress}
       style={cardStyle}
@@ -152,7 +142,7 @@ export const WaterTile: React.FC<{
   const { formatNumber } = useFormat();
   const dir = useTextDirection();
 
-  const target = targetMl > 0 ? targetMl : DEFAULT_WATER_TARGET_ML;
+  const target = waterTargetMl(targetMl);
   const pct = waterGoalPercent(consumedMl, target);
 
   return (
@@ -168,21 +158,22 @@ export const WaterTile: React.FC<{
           accessibilityRole="button"
           accessibilityLabel={t('tracker.water.addGlass')}
           activeOpacity={0.8}
-          hitSlop={{ top: 7, bottom: 7, left: 4, right: 4 }}
           onPress={() => {
             HapticFeedback.impactLight();
             onLogWater(GLASS_ML);
           }}
-          style={[styles.addBtn, { backgroundColor: c.primaryLime }]}
+          style={styles.addHit}
         >
-          <Text style={[styles.addBtnText, { color: c.limeText }]}>{`+${GLASS_ML}`}</Text>
+          <View style={[styles.addBtn, { backgroundColor: c.primaryLime }]}>
+            <Text style={[styles.addBtnText, { color: c.limeText }]}>{`+${GLASS_ML}`}</Text>
+          </View>
         </TouchableOpacity>
       </View>
       <View style={styles.center}>
         <Text style={[styles.value, styles.stretchText, dir.text, { color: c.textPrimary }]} numberOfLines={1}>
-          {formatNumber(consumedMl / 1000, { maximumFractionDigits: 1 })}
+          {formatNumber(waterLitres(consumedMl), { maximumFractionDigits: 1 })}
           <Text style={[styles.unit, { color: c.textSecondary }]}>
-            {` / ${t('common.litresValue', { value: formatNumber(target / 1000, { maximumFractionDigits: 1 }) })}`}
+            {` / ${t('common.litresValue', { value: formatNumber(waterLitres(target), { maximumFractionDigits: 1 }) })}`}
           </Text>
         </Text>
         <View
@@ -206,12 +197,28 @@ export const WaterTile: React.FC<{
  * other, both columns the same height. Without a workout tile (no handler to
  * open workouts) the two small tiles sit side by side. Rows are not reversed
  * by hand: native and web mirror them in Arabic.
+ *
+ * `workoutWide` (no plan yet, so the tile is only a short invitation) puts the
+ * workout tile across the full width above the weight and water pair, instead
+ * of stretching it to the height of the two tiles beside it.
  */
 export const TodayBento: React.FC<{
   workout?: React.ReactNode;
+  workoutWide?: boolean;
   weight: React.ReactNode;
   water: React.ReactNode;
-}> = ({ workout, weight, water }) => {
+}> = ({ workout, workoutWide = false, weight, water }) => {
+  if (workout && workoutWide) {
+    return (
+      <View style={styles.stack}>
+        {workout}
+        <View style={styles.row}>
+          <View style={styles.colSmall}>{weight}</View>
+          <View style={styles.colSmall}>{water}</View>
+        </View>
+      </View>
+    );
+  }
   if (!workout) {
     return (
       <View style={styles.row}>
@@ -232,6 +239,7 @@ export const TodayBento: React.FC<{
 };
 
 const styles = StyleSheet.create({
+  stack: { gap: 12 },
   row: { flexDirection: 'row', gap: 12, alignItems: 'stretch' },
   colTall: { flex: 1.08, minWidth: 0 },
   // Cards size to their content and share any leftover height (flexGrow, not flex: 1), so the
@@ -254,6 +262,8 @@ const styles = StyleSheet.create({
   emptyText: { fontSize: 13, lineHeight: 17, fontWeight: '600', textAlign: 'center' },
   pill: { alignSelf: 'stretch', minHeight: 44, borderRadius: 999, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 10 },
   pillText: { fontSize: 13, fontWeight: '800' },
+  // The 30 px pill sits in a 44 px target; the margin keeps the header row its old height.
+  addHit: { minWidth: 48, minHeight: 44, alignItems: 'center', justifyContent: 'center', marginVertical: -7 },
   addBtn: { minWidth: 48, height: 30, borderRadius: 999, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 10 },
   addBtnText: { fontSize: 12, fontWeight: '800' },
   track: { height: 8, borderRadius: 4, overflow: 'hidden', alignSelf: 'stretch' },
