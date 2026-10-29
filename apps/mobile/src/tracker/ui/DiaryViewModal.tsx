@@ -5,8 +5,8 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
-  SafeAreaView,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BackButton } from '../../ui/BackButton.js';
 import { NamedModal } from '../../ui/NamedModal.js';
 import { DailyTrackerSummary, LoggedItem } from '../types.js';
@@ -28,6 +28,11 @@ interface DiaryViewModalProps {
   readOnly?: boolean;
   onClose: () => void;
   onDeleteItem: (id: string) => void;
+  /**
+   * The "removed · Undo" toast. The dashboard owns it; it is passed in because
+   * a native modal covers anything the dashboard draws.
+   */
+  undoToast?: React.ReactNode;
   onOpenLogHub: () => void;
 }
 
@@ -40,6 +45,7 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
   readOnly = false,
   onClose,
   onDeleteItem,
+  undoToast,
   onOpenLogHub,
 }) => {
   const { theme, isDark } = useTheme();
@@ -301,16 +307,16 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
 
                     {!readOnly && (
                       <TouchableOpacity
-                        style={[
-                          styles.deleteBtn,
-                          { backgroundColor: theme.colors.surfaceSecondary },
-                        ]}
+                        style={styles.deleteBtn}
                         onPress={() => onDeleteItem(item.id)}
-                        hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                         accessibilityRole="button"
-                        accessibilityLabel={t('tracker.diary.deleteItem')}
+                        accessibilityLabel={t('tracker.mealsCard.removeDish', {
+                          name: foodDisplayName(item.foodName, item.foodNameAr, dir.isRTL).primary,
+                        })}
                       >
-                        <Icon name="x" size={14} color={theme.colors.textMuted} />
+                        <View style={[styles.deleteCircle, { backgroundColor: theme.colors.surfaceSecondary }]}>
+                          <Icon name="x" size={14} color={theme.colors.textMuted} />
+                        </View>
                       </TouchableOpacity>
                     )}
                   </View>
@@ -346,6 +352,7 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
             </TouchableOpacity>
           </View>
         )}
+        {undoToast}
       </SafeAreaView>
     </NamedModal>
   );
@@ -512,7 +519,15 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '800',
   },
+  // A 44 pt target around the 30 pt circle; the negative margin keeps the row height.
   deleteBtn: {
+    width: 44,
+    height: 44,
+    margin: -7,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  deleteCircle: {
     width: 30,
     height: 30,
     borderRadius: 15,

@@ -121,6 +121,17 @@ export class TrackerEngine {
     return this.items.length < initialLen;
   }
 
+  /**
+   * Puts a deleted item back exactly as it was (same id and data) at its old
+   * position, for Undo. Does nothing if an item with that id is already there.
+   */
+  public restoreItem(item: LoggedItem, index: number): boolean {
+    if (this.items.some((existing) => existing.id === item.id)) return false;
+    const at = Math.max(0, Math.min(index, this.items.length));
+    this.items.splice(at, 0, item);
+    return true;
+  }
+
   public logWater(ml: number): number {
     this.waterMlConsumed = Math.max(0, this.waterMlConsumed + ml);
     return this.waterMlConsumed;

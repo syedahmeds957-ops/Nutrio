@@ -6,8 +6,8 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
-  SafeAreaView,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BackButton } from '../../ui/BackButton.js';
 import { NamedModal } from '../../ui/NamedModal.js';
 import type { NormalizedFood, RestaurantBrand } from '@nutrio/food-db';
@@ -18,6 +18,7 @@ import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme } from '../../theme.js';
 import { foodDisplayName } from '../foodDisplayName.js';
 import { DishThumb } from './DishThumb.js';
+import { OptionButton, OptionGroup } from '../../ui/Selectable.js';
 import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
 import { pickText } from '../../i18n/displayName.js';
 import { servingDisplayLabel } from '../servingLabel.js';
@@ -252,15 +253,23 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
               placeholder={t('tracker.brandMenu.searchPlaceholder', {
                 brand: brandTitle || t('tracker.brandMenu.menuWord'),
               })}
+              accessibilityLabel={t('tracker.brandMenu.searchLabel', {
+                brand: brandTitle || t('tracker.brandMenu.menuWord'),
+              })}
               placeholderTextColor={theme.colors.textMuted}
               value={searchQuery}
               onChangeText={setSearchQuery}
               onFocus={() => setIsSearchFocused(true)}
               onBlur={() => setIsSearchFocused(false)}
-              clearButtonMode="while-editing"
+              returnKeyType="search"
             />
             {searchQuery.length > 0 && (
-              <TouchableOpacity onPress={() => setSearchQuery('')}>
+              <TouchableOpacity
+                onPress={() => setSearchQuery('')}
+                accessibilityRole="button"
+                accessibilityLabel={t('tracker.brandMenu.clearSearch')}
+                style={styles.clearSearchBtn}
+              >
                 <Icon name="x" size={16} color={theme.colors.textMuted} />
               </TouchableOpacity>
             )}
@@ -282,38 +291,18 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.categoryPillsWrapper}
           >
-            {categories.map((cat) => {
-              const isSelected = selectedCategory === cat;
-              return (
-                    <TouchableOpacity
-                      key={cat}
-                      style={[
-                        styles.categoryPill,
-                        {
-                          backgroundColor: isSelected
-                            ? theme.colors.primaryLime
-                            : theme.colors.surfaceSecondary,
-                        },
-                      ]}
-                      onPress={() => setSelectedCategory(cat)}
-                      activeOpacity={0.7}
-                    >
-                      <Text
-                        style={[
-                          styles.categoryPillText,
-                          {
-                            color: isSelected
-                              ? '#0A0B0D'
-                              : theme.colors.textSecondary,
-                            fontWeight: isSelected ? '800' : '600',
-                          },
-                        ]}
-                      >
-                        {t(`tracker.brandGroups.${cat}`, { defaultValue: cat })}
-                      </Text>
-                    </TouchableOpacity>
-              );
-            })}
+            <OptionGroup label={t('tracker.brandMenu.categories')} style={styles.categoryPillsRow}>
+              {categories.map((cat) => (
+                <OptionButton
+                  key={cat}
+                  label={t(`tracker.brandGroups.${cat}`, { defaultValue: cat })}
+                  selected={selectedCategory === cat}
+                  onPress={() => setSelectedCategory(cat)}
+                  style={styles.categoryPill}
+                  labelStyle={styles.categoryPillText}
+                />
+              ))}
+            </OptionGroup>
           </ScrollView>
         </View>
 
@@ -376,6 +365,8 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                         ]}
                         onPress={() => onSelectItem(item)}
                         activeOpacity={0.7}
+                        accessibilityRole="button"
+                        accessibilityLabel={`${foodDisplayName(item.name, item.nameAr, dir.isRTL).primary}, ${t('common.kcalValue', { value: kcal })}`}
                       >
                         <DishThumb category={item.brandCategory || item.category} size={52} style={styles.itemThumb} />
                         <View style={styles.itemCardLeft}>
@@ -511,17 +502,29 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingBottom: 10,
   },
+  // Top padding leaves room for the selected pill's check badge, which sits
+  // above the pill and would otherwise be clipped by the scroll view.
   categoryPillsWrapper: {
     paddingHorizontal: 16,
+    paddingTop: 8,
+  },
+  categoryPillsRow: {
+    flexDirection: 'row',
     gap: 8,
   },
   categoryPill: {
     paddingHorizontal: 16,
-    paddingVertical: 8,
     borderRadius: 9999,
   },
   categoryPillText: {
     fontSize: 13,
+  },
+  clearSearchBtn: {
+    width: 44,
+    height: 44,
+    marginEnd: -12,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   content: {
     flex: 1,

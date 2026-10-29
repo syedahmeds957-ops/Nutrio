@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Animated, View, ScrollView, SafeAreaView, Platform, useWindowDimensions } from 'react-native';
+import { Animated, View, ScrollView, Platform, useWindowDimensions } from 'react-native';
 import { hiddenFromAssistiveTech } from '../../common/a11yHidden.js';
 import { DailyProgressHeader } from './DailyProgressHeader.js';
 import { TodayHeader } from './TodayHeader.js';
@@ -15,13 +15,15 @@ import type { SuggestionItem } from '../suggestions.js';
 import { QuickStaplesBar, StapleItem } from './QuickStaplesBar.js';
 import { resolveStaple } from '../staples.js';
 import { TrackerEngine } from '../engine.js';
-import { MealSlot, DailyTrackerSummary } from '../types.js';
+import { MealSlot, DailyTrackerSummary, LoggedItem } from '../types.js';
+import { foodDisplayName } from '../foodDisplayName.js';
+import { UndoToast, UNDO_WINDOW_MS } from '../../ui/UndoToast.js';
 import type { DraftLogEntry } from '../describeMeal.js';
 import type { NormalizedFood, ServingUnit } from '@nutrio/food-db';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useConfirmedRegionSwitch } from '../../common/region/useConfirmedRegionSwitch.js';
-import { useTranslation } from '../../i18n/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { GuestAuthModal } from './GuestAuthModal.js';
 import { ProfileSheet } from './ProfileSheet.js';
 import type { WeeklyWorkoutPlan, WorkoutLog } from '@nutrio/workout-core';
@@ -32,7 +34,7 @@ import { defaultServingFor } from '../personalServings.js';
 import { foodKey } from './useMealBasket.js';
 import { pushDailyActivities } from '../../sync/activitySync.js';
 import { HapticFeedback } from '../../ui/haptics.js';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { addDaysToKey, localDateKey } from '../../common/dateKey.js';
 import { styles } from './TrackerDashboardScreen.styles.js';
 import { MEAL_SLOTS, defaultSlotForHour, nextSlotToLog } from '../mealsCard.js';
@@ -105,6 +107,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   const { activeRegion } = useRegion();
   const requestRegionSwitch = useConfirmedRegionSwitch();
   const { t } = useTranslation();
+  const dir = useTextDirection();
 
   let insetsBottom = 0;
   try {
@@ -437,11 +440,58 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     forceUpdate();
   };
 
+  // The last removed item, kept for UNDO_WINDOW_MS so one tap can bring it back.
+  const [pendingUndo, setPendingUndo] = useState<{ item: LoggedItem; index: number } | null>(null);
+  const undoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const clearUndo = () => {
+    if (undoTimer.current) clearTimeout(undoTimer.current);
+    undoTimer.current = null;
+    setPendingUndo(null);
+  };
+  React.useEffect(() => () => {
+    if (undoTimer.current) clearTimeout(undoTimer.current);
+  }, []);
+  // The undo belongs to one region's day; switching region closes it.
+  React.useEffect(() => {
+    clearUndo();
+  }, [activeRegion]);
+
   const handleDeleteItem = (id: string) => {
     if (blockGuest()) return;
+    const items = engine.getSummary().items;
+    const index = items.findIndex((item) => item.id === id);
+    if (index === -1) return;
+    const removed = items[index];
     engine.deleteItem(id);
     persistCurrentActivities();
+    // A newer removal replaces the older one; that one stays removed.
+    if (undoTimer.current) clearTimeout(undoTimer.current);
+    setPendingUndo({ item: removed, index });
+    undoTimer.current = setTimeout(clearUndo, UNDO_WINDOW_MS);
     forceUpdate();
+  };
+
+  const handleUndoDelete = () => {
+    if (!pendingUndo || blockGuest()) return;
+    // Same id, data and position, then the same save and push the delete did.
+    engine.restoreItem(pendingUndo.item, pendingUndo.index);
+    persistCurrentActivities();
+    clearUndo();
+    HapticFeedback.selection();
+    forceUpdate();
+  };
+
+  const undoToast = (style: object) => {
+    if (!pendingUndo) return null;
+    const name = foodDisplayName(pendingUndo.item.foodName, pendingUndo.item.foodNameAr, dir.isRTL).primary;
+    return (
+      <UndoToast
+        message={t('tracker.mealsCard.removed', { name })}
+        undoAccessibilityLabel={t('tracker.mealsCard.undoRemove', { name })}
+        onUndo={handleUndoDelete}
+        style={style}
+      />
+    );
   };
 
   const handleLogWater = (ml: number) => {
@@ -602,6 +652,9 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
           onQuickLog={() => handleOpenHub(defaultSlotForNow())}
           onOpenCoach={openCoach}
         />
+
+        {/* Above the floating bar (bar ~64 pt tall); the diary shows its own copy. */}
+        {!diaryVisible && undoToast({ bottom: dockBar ? 24 : bottomBarOffset + 76 })}
       </View>
 
       {/* Log a Meal Hub Screen */}
@@ -649,6 +702,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
         readOnly={diaryDayOffset !== 0}
         onClose={() => setDiaryVisible(false)}
         onDeleteItem={handleDeleteItem}
+        undoToast={diaryVisible ? undoToast({ bottom: diaryDayOffset === 0 ? 116 : 24 }) : null}
         onOpenLogHub={() => {
           setDiaryVisible(false);
           handleOpenHub();

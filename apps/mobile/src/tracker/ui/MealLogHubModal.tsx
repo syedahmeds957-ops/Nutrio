@@ -5,10 +5,10 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
-  SafeAreaView,
   ActivityIndicator,
   Pressable,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BackButton } from '../../ui/BackButton.js';
 import { NamedModal } from '../../ui/NamedModal.js';
 import type { NormalizedFood, RestaurantBrand } from '@nutrio/food-db';

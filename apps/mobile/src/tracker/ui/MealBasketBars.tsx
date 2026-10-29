@@ -43,6 +43,7 @@ export const PresetNamingBar: React.FC<{
           value={name}
           onChangeText={onChangeName}
           placeholder={t('tracker.hub.presetNamePlaceholder')}
+          accessibilityLabel={t('tracker.hub.presetNameLabel')}
           placeholderTextColor={theme.colors.textMuted}
           autoFocus
           returnKeyType="done"

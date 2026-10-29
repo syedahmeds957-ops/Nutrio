@@ -1,6 +1,8 @@
 import React from 'react';
 import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { NamedModal } from '../../ui/NamedModal.js';
+import { OptionButton, OptionGroup } from '../../ui/Selectable.js';
+import { hiddenFromAssistiveTech } from '../../common/a11yHidden.js';
 import { confirmAction } from '../../common/confirm.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
@@ -83,21 +85,17 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
   const { formatNumber } = useFormat();
   const accentColor = theme.colors.primaryLime;
 
+  // A radio pair: the selected one is lime with a check, and is announced as checked.
   const themeChoice = (choice: 'dark' | 'light', label: string) => (
-    <TouchableOpacity
-      style={[styles.themeChoiceBtn, mode === choice && { backgroundColor: accentColor }]}
+    <OptionButton
+      label={label}
+      selected={mode === choice}
       onPress={() => setMode(choice)}
-      activeOpacity={0.8}
-    >
-      <Text
-        style={[
-          styles.themeChoiceText,
-          { color: mode === choice ? ACCENT_TEXT : theme.colors.textSecondary },
-        ]}
-      >
-        {label}
-      </Text>
-    </TouchableOpacity>
+      // Shape only when selected, so the lime fill from OptionButton shows;
+      // unselected keeps the sheet's quiet transparent look.
+      style={[localStyles.themeChoice, mode !== choice && styles.themeChoiceBtn]}
+      labelStyle={styles.themeChoiceText}
+    />
   );
 
   const stat = (label: string, value: string) => (
@@ -111,7 +109,14 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
   return (
     <NamedModal accessibilityName={t('a11y.dialog.profile')} visible={visible} transparent={true} animationType="none" onRequestClose={() => onClose()}>
       <Animated.View style={[styles.profileOverlay, { opacity: fade }]}>
-        <TouchableOpacity style={StyleSheet.absoluteFill} onPress={() => onClose()} activeOpacity={1} />
+        {/* Tap-outside-to-close for sighted users only; screen readers use the Close button. */}
+        <TouchableOpacity
+          style={StyleSheet.absoluteFill}
+          onPress={() => onClose()}
+          activeOpacity={1}
+          accessible={false}
+          {...hiddenFromAssistiveTech(true)}
+        />
         <Animated.View
           style={[
             styles.profileSheet,
@@ -161,10 +166,10 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
             <Text style={[styles.themeSettingTitle, dir.text, { color: theme.colors.textPrimary }]}>
               {t('tracker.dashboard.appearance')}
             </Text>
-            <View style={styles.themeToggleRow}>
+            <OptionGroup label={t('tracker.dashboard.appearance')} style={styles.themeToggleRow}>
               {themeChoice('dark', t('tracker.dashboard.darkMode'))}
               {themeChoice('light', t('tracker.dashboard.lightMode'))}
-            </View>
+            </OptionGroup>
           </View>
 
           {/* Target Summary Stats */}
@@ -260,3 +265,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
     </NamedModal>
   );
 };
+
+const localStyles = StyleSheet.create({
+  themeChoice: { flex: 1, borderRadius: 12 },
+});
