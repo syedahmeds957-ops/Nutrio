@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { StyleSheet, View, SafeAreaView } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { AnalysisView } from './AnalysisView.js';
 import { GoalSelectionView } from './GoalSelectionView.js';
 import { PlanCalculationTransitionView } from './PlanCalculationTransitionView.js';

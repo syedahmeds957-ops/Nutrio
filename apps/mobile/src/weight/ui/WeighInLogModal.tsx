@@ -5,9 +5,9 @@ import {
   View,
   TouchableOpacity,
   TextInput,
-  SafeAreaView,
   Platform,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { NamedModal } from '../../ui/NamedModal.js';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';

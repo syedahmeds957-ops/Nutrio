@@ -4,8 +4,8 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
-  SafeAreaView,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BackButton } from '../../ui/BackButton.js';
 import { NamedModal } from '../../ui/NamedModal.js';
 import type { NormalizedFood, FoodModifier } from '@nutrio/food-db';

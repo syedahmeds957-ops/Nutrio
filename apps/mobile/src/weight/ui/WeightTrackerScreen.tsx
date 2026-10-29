@@ -4,9 +4,9 @@ import {
   View,
   Text,
   ScrollView,
-  SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BackButton } from '../../ui/BackButton.js';
 import { WeightTrendChartCard } from './WeightTrendChartCard.js';
 import { AdaptiveTDEECard } from './AdaptiveTDEECard.js';
