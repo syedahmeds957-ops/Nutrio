@@ -5,6 +5,8 @@ import { slotAllows } from './dietSlotOrder.js';
 interface ForYouFood {
   name: string;
   cuisineTags?: string[];
+  kcal100g?: number;
+  servings?: { label: string; grams: number; kcal?: number; isDefault?: boolean }[];
 }
 
 interface ForYouSection<F extends ForYouFood> {
@@ -24,6 +26,26 @@ const REGION_TAG: Record<Region, string> = { PK: 'Pakistani', SA: 'Saudi' };
 
 /** Add-ons and drinks are not something to open the logger on. */
 const SKIPPED_GROUPS = new Set(['extras', 'beverages']);
+
+/**
+ * The least a default serving must carry to stand as the meal: a 30 g spoon of
+ * dip or a glass of smoothie is not dinner. Snacks have no floor.
+ */
+const MIN_MEAL_KCAL: Record<MealSlot, number> = { breakfast: 120, lunch: 150, dinner: 150, snacks_chai: 0 };
+
+/** Calories in the serving a tap would log, or null when the catalogue entry does not say. */
+function defaultServingKcal(food: ForYouFood): number | null {
+  const serving = food.servings?.find((s) => s.isDefault) ?? food.servings?.[0];
+  if (!serving) return null;
+  if (typeof serving.kcal === 'number') return serving.kcal;
+  return typeof food.kcal100g === 'number' ? (serving.grams * food.kcal100g) / 100 : null;
+}
+
+/** A drink is poured, not plated: it does not open breakfast, lunch or dinner. */
+function isLiquidServing(food: ForYouFood): boolean {
+  const serving = food.servings?.find((s) => s.isDefault) ?? food.servings?.[0];
+  return Boolean(serving && /\bml\b|\bglass\b/i.test(serving.label));
+}
 
 /** The group each meal is most often made of, so a dish beats a loose ingredient. */
 const LEADING_GROUPS: Record<MealSlot, string[]> = {
@@ -54,6 +76,11 @@ export function suggestedForSlot<F extends ForYouFood>(
     for (const food of foods) {
       order += 1;
       if (!slotAllows(group, food, slot)) continue;
+      if (slot !== 'snacks_chai') {
+        const kcal = defaultServingKcal(food);
+        if (kcal !== null && kcal < MIN_MEAL_KCAL[slot]) continue;
+        if (isLiquidServing(food)) continue;
+      }
       const tags = food.cuisineTags ?? [];
       let score = 0;
       if (tags.includes(SLOT_TAG[slot])) score += 4;

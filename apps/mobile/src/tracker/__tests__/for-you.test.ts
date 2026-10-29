@@ -76,3 +76,24 @@ describe('one-tap quick add on a dish card', () => {
     expect(render()).not.toContain('Add one serving of');
   });
 });
+
+describe('For you does not lead with a spoon of dip or a glass of smoothie', () => {
+  const sections = [
+    {
+      group: 'meals',
+      foods: [
+        { name: 'Labneh', cuisineTags: ['Dinner', 'Saudi'], kcal100g: 155, servings: [{ label: '2 tbsp (30g)', grams: 30, isDefault: true }] },
+        { name: 'Mango Smoothie', cuisineTags: ['Breakfast', 'Pakistani'], kcal100g: 79, servings: [{ label: '1 glass (280ml)', grams: 280, isDefault: true }] },
+        { name: 'Kabsa', cuisineTags: ['Dinner', 'Saudi'], kcal100g: 160, servings: [{ label: '1 plate (300g)', grams: 300, isDefault: true }] },
+      ],
+    },
+  ];
+
+  it('skips a serving too small to be the meal', () => {
+    expect(suggestedForSlot(sections, 'dinner', 'SA').map((f) => f.name)).toEqual(['Kabsa']);
+  });
+
+  it('skips a drink for breakfast', () => {
+    expect(suggestedForSlot(sections, 'breakfast', 'PK').map((f) => f.name)).toEqual([]);
+  });
+});
