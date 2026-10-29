@@ -285,6 +285,7 @@
     "standardServing": "{{count}} standard serving",
     "today": "Today",
     "tomorrow": "Tomorrow",
+    "undo": "Undo",
     "weekday": {
       "fri": "Friday",
       "mon": "Monday",
@@ -505,6 +506,12 @@
         "title": "Maintenance & performance"
       },
       "maxSafeRate": "Fastest safe pace: {{rate}} kg/week (1% of your body weight)",
+      "paceLabel": "Weekly pace",
+      "paceLimit": {
+        "floor": "Your safety floor limits you to about {{rate}} kg/week.",
+        "maxDeficit": "Eating no more than 25% below what you burn limits you to about {{rate}} kg/week.",
+        "maxRate": "The safe limit is about {{rate}} kg/week."
+      },
       "pacesDisabledReason": "Faster paces are switched off because they are above the safe limit for your weight ({{rate}} kg/week).",
       "pacingAdvice": {
         "aggressive": "Aggressive pace (>1% bodyweight/week) increases risk of lean muscle and water loss.",
@@ -541,6 +548,7 @@
       "hydration": "Hydration:",
       "macroBreakdown": "Daily protein, carbs and fat",
       "maintenance": "Matched to what you burn ({{tdee}} kcal)",
+      "paceLimit": "You picked {{requested}} kg/week, but your safety limits allow about {{rate}} kg/week, so this target is set for that pace.",
       "safeguardBmr": "Your target never goes below the calories you burn at rest ({{bmr}} kcal).",
       "safeguardDeficit": "You never eat more than 25% below the calories you burn, to protect your muscle.",
       "safeguardFat": "Fat never drops below 0.6 g per kg of body weight or 20% of calories, which your hormones need.",
@@ -1170,11 +1178,14 @@
       "Wraps & Rice": "Wraps & Rice"
     },
     "brandMenu": {
+      "categories": "Menu categories",
+      "clearSearch": "Clear search",
       "fallbackTitle": "Brand menu",
       "menuWord": "menu",
       "noItems": "No items found",
       "noItemsHint": "Try adjusting your search or category filter.",
       "oneServing": "1 serving",
+      "searchLabel": "Search the {{brand}} menu",
       "searchPlaceholder": "Search in {{brand}}…",
       "sfdaCompliant": "SFDA compliant",
       "verifiedItems": "{{count}} verified food item",
@@ -1392,6 +1403,7 @@
       },
       "presetItemCount": "{{count}} item",
       "presetItemCount_other": "{{count}} items",
+      "presetNameLabel": "Meal name",
       "presetNamePlaceholder": "Name it, e.g. My usual breakfast",
       "presetsHeading": "Your saved meals",
       "recentHeading": "You log these most",
@@ -1450,7 +1462,9 @@
       "mealPlan": "Meal plan",
       "next": "Next",
       "nothingLogged": "Nothing logged yet",
-      "removeDish": "Remove {{name}}"
+      "removed": "{{name}} removed",
+      "removeDish": "Remove {{name}}",
+      "undoRemove": "Undo removing {{name}}"
     },
     "slotCard": {
       "addFood": "Add food",
@@ -1645,6 +1659,8 @@
       "lowIntensityNote": "Because of your health answers, sessions stay gentle: no jumping and no lifting to failure. Check with your doctor before you start.",
       "createPlan": "Create my plan",
       "saveChanges": "Save changes",
+      "createNote": "We'll build your week from these answers. You can change anything later.",
+      "saveNote": "Saving rebuilds your week from these answers.",
       "gymNoteBeginner": "You'll start on machines and dumbbells: easier to learn safely.",
       "beginnerDaysHint": "2–3 days a week, with rest days between, is a great start.",
       "beginnerLengthHint": "30–45 minutes is plenty while you learn the moves."
@@ -2023,6 +2039,7 @@
       },
       "sportDaysQ": "{{sport}} · which days?",
       "sportNote": "No heavy leg day on these days or the day before.",
+      "sportPickDays": "Pick at least one day, or this won't change your plan.",
       "searchLabel": "Search exercises",
       "searchPlaceholder": "Search exercises",
       "noResults": "Nothing found. Try another name.",
@@ -2042,7 +2059,8 @@
       "moveUp": "Move {{name}} up",
       "moveDown": "Move {{name}} down",
       "clear": "Clear my routine",
-      "needs": "Add 2–6 days, each with at least one exercise.",
+      "needs": "Pick 2–6 days you train to continue.",
+      "needsExercises": "Add at least one exercise to {{days}} to continue.",
       "improve": "Improve my routine"
     },
     "improved": {
