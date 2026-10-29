@@ -1233,6 +1233,11 @@
       "lightMode": "Light mode",
       "logMeal": "Quick log",
       "logout": "Log out",
+      "logoutConfirm": {
+        "confirm": "Log out",
+        "message": "You can sign back in any time. Your saved meals, weight and plans stay with your account.",
+        "title": "Log out of Nutrio?"
+      },
       "nav": {
         "coach": "Coach",
         "meals": "Meals",

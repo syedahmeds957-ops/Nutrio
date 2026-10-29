@@ -1,6 +1,7 @@
 import React from 'react';
 import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { NamedModal } from '../../ui/NamedModal.js';
+import { confirmAction } from '../../common/confirm.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
@@ -234,7 +235,15 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
                   styles.logoutBtn,
                   isDark && { backgroundColor: 'rgba(239, 68, 68, 0.14)', borderColor: 'rgba(239, 68, 68, 0.35)' },
                 ]}
-                onPress={() => onClose(onLogout)}
+                onPress={() =>
+                  confirmAction({
+                    title: t('tracker.dashboard.logoutConfirm.title'),
+                    message: t('tracker.dashboard.logoutConfirm.message'),
+                    confirmLabel: t('tracker.dashboard.logoutConfirm.confirm'),
+                    cancelLabel: t('common.cancel'),
+                    onConfirm: () => onClose(onLogout),
+                  })
+                }
                 activeOpacity={0.7}
               >
                 <View style={styles.actionBtnRow}>
