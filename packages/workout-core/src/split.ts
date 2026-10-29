@@ -30,6 +30,8 @@ export const SESSION_TEMPLATES: Record<SessionTemplateId, readonly TemplateSlot[
   push: [main('horizontal_push'), main('vertical_push'), acc('horizontal_push'), acc('triceps'), acc('shoulders_iso'), acc('triceps'), acc('core')],
   pull: [main('vertical_pull'), main('horizontal_pull'), acc('horizontal_pull'), acc('biceps'), acc('shoulders_iso'), acc('biceps'), acc('core')],
   legs: [main('squat'), main('hinge'), acc('lunge'), acc('glutes'), acc('calves'), acc('core'), acc('hinge')],
+  core: [acc('core'), acc('core'), acc('core'), acc('core'), acc('core'), acc('core'), acc('core')],
+  arms: [acc('biceps'), acc('triceps'), acc('biceps'), acc('triceps'), acc('biceps'), acc('triceps'), acc('biceps')],
 };
 
 export interface SplitChoice {
@@ -97,4 +99,51 @@ export function slotsWithFocus(template: SessionTemplateId, focus: readonly Focu
     insertAt += 1;
   }
   return slots;
+}
+
+/** The only patterns a strict focus plan may use. Everything else is dropped rather than substituted. */
+const FOCUS_ONLY: Record<Exclude<FocusArea, 'full_body'>, readonly MovementPattern[]> = {
+  upper: ['horizontal_push', 'horizontal_pull', 'vertical_push', 'vertical_pull', 'biceps', 'triceps', 'shoulders_iso'],
+  lower_glutes: ['squat', 'hinge', 'lunge', 'glutes', 'calves'],
+  core: ['core'],
+  arms: ['biceps', 'triceps'],
+};
+
+const FOCUS_TEMPLATES: Record<Exclude<FocusArea, 'full_body'>, readonly SessionTemplateId[]> = {
+  upper: ['upper', 'push', 'pull'],
+  lower_glutes: ['lower', 'legs'],
+  core: ['core'],
+  arms: ['arms'],
+};
+
+const FOCUS_ORDER: readonly Exclude<FocusArea, 'full_body'>[] = ['upper', 'lower_glutes', 'core', 'arms'];
+
+export interface FocusSplit extends SplitChoice {
+  /** Slots outside these patterns are left out of the plan. */
+  only: ReadonlySet<MovementPattern>;
+}
+
+/**
+ * A plan that trains only what the user asked to focus on: upper body means
+ * upper-body sessions every day, and so on. Several areas take turns across the
+ * days. "Full body", or no focus, returns null and the usual split applies.
+ */
+export function focusSplit(days: number, focus: readonly FocusArea[]): FocusSplit | null {
+  if (focus.length === 0 || focus.includes('full_body')) return null;
+  if (days < 2 || days > 6) throw new RangeError(`No split for ${days} training days`);
+  const areas = FOCUS_ORDER.filter((area) => focus.includes(area));
+  if (areas.length === 0) return null;
+  const used = new Map<string, number>();
+  const templates = Array.from({ length: days }, (_, i) => {
+    const area = areas[i % areas.length];
+    const n = used.get(area) ?? 0;
+    used.set(area, n + 1);
+    const options = FOCUS_TEMPLATES[area];
+    return options[n % options.length];
+  });
+  return {
+    split: areas.length > 1 ? 'focus_mixed' : (`focus_${areas[0] === 'lower_glutes' ? 'lower' : areas[0]}` as SplitId),
+    templates,
+    only: new Set(areas.flatMap((area) => FOCUS_ONLY[area])),
+  };
 }

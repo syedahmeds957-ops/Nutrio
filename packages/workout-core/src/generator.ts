@@ -4,7 +4,7 @@ import { Caps, prescribe } from './prescription.js';
 import { isRamadan, settingsOn } from './ramadan.js';
 import { layoutForRoutine, routineExercisesFor } from './routine.js';
 import { alternatesFor, isAllowed, pickExercise } from './select.js';
-import { chooseSplit, SLOTS_FOR_MINUTES, slotsWithFocus } from './split.js';
+import { chooseSplit, focusSplit, SLOTS_FOR_MINUTES, slotsWithFocus } from './split.js';
 import { pairSupersets, supersetPartner, supersetsApply } from './superset.js';
 import {
   CardioBlock,
@@ -12,10 +12,13 @@ import {
   Finisher,
   FocusArea,
   JointLoad,
+  MovementPattern,
   PlannedSlot,
   SessionMinutes,
   SessionStyle,
   SessionTemplateId,
+  SessionVariant,
+  SplitId,
   Weekday,
   WeeklyWorkoutPlan,
   WorkoutSession,
@@ -30,6 +33,7 @@ const FOCUS: readonly FocusArea[] = ['full_body', 'upper', 'lower_glutes', 'core
 const JOINTS: readonly JointLoad[] = ['knee', 'lower_back', 'shoulder', 'wrist'];
 const STYLES: readonly SessionStyle[] = ['straight', 'supersets'];
 
+const VARIANTS: readonly SessionVariant[] = ['a', 'b', 'c', 'd', 'e', 'f'];
 const WARM_UP_SEC = 5 * 60;
 const WORK_SEC_PER_SET = 40;
 /** Ramadan sessions aim for 40 minutes so the +5 margin keeps them within 45. */
@@ -170,7 +174,7 @@ function experienceForVolume(settings: WorkoutSettings): WorkoutSettings['experi
 interface SessionInput {
   day: Weekday;
   template: SessionTemplateId;
-  variant: 'a' | 'b' | null;
+  variant: SessionVariant | null;
   settings: WorkoutSettings;
   seed: number;
   caps: Caps;
@@ -181,6 +185,8 @@ interface SessionInput {
   easyLegs: boolean;
   /** The user's own exercises for this day, kept where they fit. */
   preferred: ReadonlySet<string>;
+  /** Set for a strict focus plan: the only patterns that may fill a slot. */
+  only?: ReadonlySet<MovementPattern>;
 }
 
 function buildSession(input: SessionInput): WorkoutSession {
@@ -204,6 +210,7 @@ function buildSession(input: SessionInput): WorkoutSession {
       usedInSession,
       usedInWeek: input.usedInWeek,
       preferred: input.preferred,
+      only: input.only,
     });
     if (!pick) continue;
     usedInSession.add(pick.exercise.id);
@@ -272,30 +279,41 @@ export function generateWeeklyPlan(userSettings: WorkoutSettings, options: Gener
   const routine = settings.profile?.routine;
   // A routine the user already follows sets the structure; otherwise the split comes from the day count.
   const layout = routine ? layoutForRoutine(days, routine, settings) : null;
-  const chosen = chooseSplit(days.length, settings.experience, settings.location);
-  const split = layout ? layout.split : chosen.split;
-  const templates = layout ? layout.templates : arrangeTemplates(days, chosen.templates, blocked);
-  const caps: Caps = { ramadan: settings.ramadan.enabled, lowIntensity: settings.lowIntensity };
   const slotCount = Math.min(SLOTS_FOR_MINUTES[settings.sessionMinutes], settings.ramadan.enabled ? 4 : Infinity);
   const targetMinutes = settings.ramadan.enabled
     ? Math.min(settings.sessionMinutes, RAMADAN_TARGET_MINUTES)
     : settings.sessionMinutes;
+  const caps: Caps = { ramadan: settings.ramadan.enabled, lowIntensity: settings.lowIntensity };
 
-  const totals = new Map<SessionTemplateId, number>();
-  for (const template of templates) totals.set(template, (totals.get(template) ?? 0) + 1);
-  const seen = new Map<SessionTemplateId, number>();
-  const usedInWeek = new Map<string, number>();
-
-  const sessions = days.map((day, i) => {
-    const template = templates[i];
-    const index = seen.get(template) ?? 0;
-    seen.set(template, index + 1);
-    const variant = (totals.get(template) ?? 0) > 1 ? (index === 0 ? 'a' : 'b') : null;
-    return buildSession({
-      day, template, variant, settings, seed: options.seed, caps, slotCount, targetMinutes, usedInWeek, easyLegs: blocked.has(day),
-      preferred: routineExercisesFor(routine, day),
+  const build = (templates: readonly SessionTemplateId[], only?: ReadonlySet<MovementPattern>) => {
+    const totals = new Map<SessionTemplateId, number>();
+    for (const template of templates) totals.set(template, (totals.get(template) ?? 0) + 1);
+    const seen = new Map<SessionTemplateId, number>();
+    const usedInWeek = new Map<string, number>();
+    return days.map((day, i) => {
+      const template = templates[i];
+      const index = seen.get(template) ?? 0;
+      seen.set(template, index + 1);
+      const variant = (totals.get(template) ?? 0) > 1 ? VARIANTS[index] : null;
+      return buildSession({
+        day, template, variant, settings, seed: options.seed, caps, slotCount, targetMinutes, usedInWeek, easyLegs: blocked.has(day),
+        preferred: routineExercisesFor(routine, day), only,
+      });
     });
-  });
+  };
+
+  // A focus the user chose (upper, lower, core, arms) is trained on its own. Without equipment a focus may
+  // have nothing to fill a session; then the balanced plan is better than an empty day.
+  const focused = layout ? null : focusSplit(days.length, settings.focus);
+  let split: SplitId;
+  let sessions = focused ? build(arrangeTemplates(days, focused.templates, blocked), focused.only) : null;
+  if (focused && sessions && !sessions.some((session) => session.slots.length === 0)) {
+    split = focused.split;
+  } else {
+    const chosen = chooseSplit(days.length, settings.experience, settings.location);
+    split = layout ? layout.split : chosen.split;
+    sessions = build(layout ? layout.templates : arrangeTemplates(days, chosen.templates, blocked));
+  }
 
   return {
     version: 1,

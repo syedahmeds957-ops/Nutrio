@@ -218,7 +218,8 @@ export interface PlannedSlot extends Prescription {
   supersetWith?: string;
 }
 
-export type SessionTemplateId = 'full_a' | 'full_b' | 'full_c' | 'upper' | 'lower' | 'push' | 'pull' | 'legs';
+export type SessionTemplateId = 'full_a' | 'full_b' | 'full_c' | 'upper' | 'lower' | 'push' | 'pull' | 'legs' | 'core' | 'arms';
+export type SessionVariant = 'a' | 'b' | 'c' | 'd' | 'e' | 'f';
 export type SplitId =
   | 'full_body_2'
   | 'full_body_3'
@@ -228,7 +229,12 @@ export type SplitId =
   | 'ppl_3'
   | 'upper_lower_4'
   | 'upper_lower_ppl_5'
-  | 'ppl_6';
+  | 'ppl_6'
+  | 'focus_upper'
+  | 'focus_lower'
+  | 'focus_core'
+  | 'focus_arms'
+  | 'focus_mixed';
 
 export interface Finisher {
   exerciseIds: string[];
@@ -253,8 +259,8 @@ export interface CardioBlock {
 export interface WorkoutSession {
   day: Weekday;
   template: SessionTemplateId;
-  /** 'a' or 'b' when a template appears twice in the week (Upper body A / B). */
-  variant: 'a' | 'b' | null;
+  /** A letter when a template appears more than once in the week (Upper body A / B). */
+  variant: SessionVariant | null;
   slots: PlannedSlot[];
   /** Only on plans made before the cardio block (phase 6b); new plans have `cardio` instead. */
   finisher?: Finisher;

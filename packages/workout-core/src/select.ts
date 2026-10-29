@@ -143,11 +143,13 @@ export interface PickInput {
   usedInWeek: WeekUsage;
   /** The user's own exercises for this day (their routine): taken first when they fit. */
   preferred?: ReadonlySet<string>;
+  /** A strict focus plan: only these patterns, and no fallback to others. */
+  only?: ReadonlySet<MovementPattern>;
 }
 
 /** The best exercise for a slot, falling back to related patterns; null only when nothing at all fits. */
 export function pickExercise(input: PickInput): Pick | null {
-  const patterns = [input.pattern, ...(FALLBACK_PATTERNS[input.pattern] ?? [])];
+  const patterns = [input.pattern, ...(FALLBACK_PATTERNS[input.pattern] ?? [])].filter((pattern) => !input.only || input.only.has(pattern));
   for (const pattern of patterns) {
     const pool = EXERCISES.filter(
       (exercise) =>

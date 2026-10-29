@@ -1640,7 +1640,9 @@
       "lower": "Lower body",
       "push": "Push",
       "pull": "Pull",
-      "legs": "Legs"
+      "legs": "Legs",
+      "core": "Core",
+      "arms": "Arms"
     },
     "week": {
       "done": "Done",
@@ -1696,7 +1698,12 @@
       "ppl_3": "Push / pull / legs",
       "upper_lower_4": "Upper / lower",
       "upper_lower_ppl_5": "Upper / lower + push / pull / legs",
-      "ppl_6": "Push / pull / legs"
+      "ppl_6": "Push / pull / legs",
+      "focus_upper": "Upper body",
+      "focus_lower": "Lower body and glutes",
+      "focus_core": "Core",
+      "focus_arms": "Arms",
+      "focus_mixed": "Your focus areas"
     },
     "today": {
       "overline": "TODAY'S WORKOUT",

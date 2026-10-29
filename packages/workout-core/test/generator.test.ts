@@ -261,11 +261,64 @@ describe('exercise choice', () => {
     }
   });
 
-  it('promotes a focus area so it survives in a short session', () => {
-    const p = plan(settings({ sessionMinutes: 30, focus: ['arms'] }));
-    const upper = p.sessions[0];
-    expect(upper.slots.slice(0, 2).every((slot) => slot.role === 'main')).toBe(true);
-    expect(['biceps', 'triceps']).toContain(upper.slots[2].pattern);
+  describe('focus plans train only the chosen area', () => {
+    const UPPER = ['horizontal_push', 'horizontal_pull', 'vertical_push', 'vertical_pull', 'biceps', 'triceps', 'shoulders_iso'];
+    const LOWER = ['squat', 'hinge', 'lunge', 'glutes', 'calves'];
+    const patternsOf = (p: WeeklyWorkoutPlan) => new Set(p.sessions.flatMap((session) => session.slots.map((slot) => slot.pattern)));
+
+    for (const days of [2, 3, 4, 5, 6]) {
+      it(`upper focus, ${days} days: every session is upper body`, () => {
+        const s = settings({ focus: ['upper'], trainingDays: DAY_SETS[days] });
+        const p = plan(s);
+        expect(p.split).toBe('focus_upper');
+        expect(p.sessions.every((session) => ['upper', 'push', 'pull'].includes(session.template))).toBe(true);
+        for (const pattern of patternsOf(p)) expect(UPPER).toContain(pattern);
+        expectValidPlan(p, s);
+        const slotIds = p.sessions.flatMap((session) => session.slots.map((slot) => slot.slotId));
+        expect(new Set(slotIds).size).toBe(slotIds.length);
+      });
+    }
+
+    it('lower focus: only legs and glutes', () => {
+      const s = settings({ focus: ['lower_glutes'], trainingDays: DAY_SETS[4] });
+      const p = plan(s);
+      expect(p.split).toBe('focus_lower');
+      for (const pattern of patternsOf(p)) expect(LOWER).toContain(pattern);
+      expectValidPlan(p, s);
+    });
+
+    it('core focus: only core, with a distinct session on each of six days', () => {
+      const s = settings({ focus: ['core'], trainingDays: DAY_SETS[6], sessionMinutes: 45 });
+      const p = plan(s);
+      expect([...patternsOf(p)]).toEqual(['core']);
+      expect(p.sessions.map((session) => session.variant)).toEqual(['a', 'b', 'c', 'd', 'e', 'f']);
+      expectValidPlan(p, s);
+    });
+
+    it('arms focus: only biceps and triceps', () => {
+      const s = settings({ focus: ['arms'], trainingDays: DAY_SETS[3] });
+      const p = plan(s);
+      expect(p.split).toBe('focus_arms');
+      for (const pattern of patternsOf(p)) expect(['biceps', 'triceps']).toContain(pattern);
+      expectValidPlan(p, s);
+    });
+
+    it('two areas take turns across the days', () => {
+      const p = plan(settings({ focus: ['upper', 'lower_glutes'], trainingDays: DAY_SETS[4] }));
+      expect(p.split).toBe('focus_mixed');
+      expect(p.sessions.map((session) => session.template)).toEqual(['upper', 'lower', 'push', 'legs']);
+    });
+
+    it('full body, or full body alongside another area, keeps the balanced plan', () => {
+      expect(plan(settings({ focus: ['full_body'], trainingDays: DAY_SETS[3] })).split).toBe('full_body_3');
+      expect(plan(settings({ focus: ['full_body', 'arms'], trainingDays: DAY_SETS[3] })).split).toBe('full_body_3');
+    });
+
+    it('falls back to the balanced plan when the equipment cannot fill the focus', () => {
+      const s = settings({ focus: ['arms'], location: 'home_none', trainingDays: DAY_SETS[3] });
+      const p = plan(s);
+      expect(p.sessions.every((session) => session.slots.length >= 2)).toBe(true);
+    });
   });
 
   it('limits repeats within the week when there are alternatives', () => {

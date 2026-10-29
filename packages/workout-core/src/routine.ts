@@ -76,6 +76,8 @@ const COVERS: Record<SessionTemplateId, readonly Group[]> = {
   push: ['push'],
   pull: ['pull'],
   legs: ['lower'],
+  core: [],
+  arms: ['push', 'pull'],
 };
 
 /** The user's days turned into our session templates, in the user's day order. */
