@@ -16,6 +16,9 @@ import {
   type Weekday,
   type WorkoutSettings,
 } from '@nutrio/workout-core';
+import { useRegion } from '../../common/region/index.js';
+import { weekdaysFrom } from '../../tracker/weekStrip.js';
+import { weekStartFor } from '../weekView.js';
 import { useTheme } from '../../theme.js';
 import { useI18nState, useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
@@ -47,7 +50,6 @@ const BREAKS: BreakLength[] = ['under_1_month', '1_to_6_months', 'over_6_months'
 const HABITS: CardioHabit[] = ['none', 'under_15', '15_to_30', '30_to_60', 'over_60'];
 const CARDIO_KINDS: CardioKind[] = ['walking', 'cycling', 'running', 'rowing', 'elliptical', 'stairs', 'swimming'];
 const SPORTS: SportKind[] = ['football', 'cricket', 'padel', 'running', 'swimming', 'physical_job', 'other'];
-const WEEK: Weekday[] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
 type Picker = 'lift' | 'likes' | 'dislikes' | null;
 
@@ -58,6 +60,11 @@ interface TellUsMoreProps {
   update: (settings: WorkoutSettings) => void;
   /** Opens the routine builder (people training now). */
   onOpenRoutine?: () => void;
+  /**
+   * Answers the survey already gave. Those questions become a one-line recap
+   * with a Change link instead of being asked a second time.
+   */
+  fromSurvey?: { training: boolean; never: boolean };
 }
 
 /**
@@ -102,13 +109,16 @@ const NumberField: React.FC<{ value?: number; label: string; suffix: string; onC
  * training now get their routine and current lifts, and people who stopped
  * get how long ago and what they used to lift.
  */
-export const TellUsMore: React.FC<TellUsMoreProps> = ({ part, settings, update, onOpenRoutine }) => {
+export const TellUsMore: React.FC<TellUsMoreProps> = ({ part, settings, update, onOpenRoutine, fromSurvey }) => {
   const { theme } = useTheme();
   const c = theme.colors;
   const { t } = useTranslation();
+  const { activeRegion } = useRegion();
   const { language } = useI18nState();
   const dir = useTextDirection();
   const [picker, setPicker] = useState<Picker>(null);
+  /** Set when the user taps Change on a recap, so the full question comes back. */
+  const [reasking, setReasking] = useState(false);
   const profile = settings.profile ?? {};
   const beginner = isBeginner(settings);
   const now = profile.trainingNow;
@@ -159,12 +169,29 @@ export const TellUsMore: React.FC<TellUsMoreProps> = ({ part, settings, update, 
   const setCardio = (patch: Partial<NonNullable<typeof profile.cardio>>) =>
     update(updateProfile(settings, { cardio: { likes: cardioLikes, ...profile.cardio, ...patch } }));
 
+  const recap = (text: string) => (
+    <View style={styles.recap}>
+      <Text style={[styles.hint, styles.recapText, dir.text, { color: c.textSecondary }]}>{text}</Text>
+      <TouchableOpacity accessibilityRole="button" onPress={() => setReasking(true)} style={styles.recapChange}>
+        <Text style={[styles.switchText, { color: c.primaryAccessible }]}>{t('workout.more.change')}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+  const knowsNever = Boolean(fromSurvey?.never) && !reasking && profile.background === 'never';
+  const knowsTraining = Boolean(fromSurvey?.training) && !reasking && now?.active === true && Boolean(now.daysPerWeek);
+
   return (
     <View>
       {part === 1 && beginner ? (
         <>
-          <Question>{t('workout.more.backgroundQ')}</Question>
-          {chips(BACKGROUNDS, (v) => profile.background === v, (v) => update(updateProfile(settings, { background: v })), 'background', t('workout.more.backgroundQ'))}
+          {knowsNever ? (
+            recap(t('workout.more.fromSurveyNever'))
+          ) : (
+            <>
+              <Question>{t('workout.more.backgroundQ')}</Question>
+              {chips(BACKGROUNDS, (v) => profile.background === v, (v) => update(updateProfile(settings, { background: v })), 'background', t('workout.more.backgroundQ'))}
+            </>
+          )}
           {profile.background === 'used_to' ? (
             <View style={styles.notice}>
               <Notice tone="info">{t('workout.more.switchNote')}</Notice>
@@ -187,19 +214,29 @@ export const TellUsMore: React.FC<TellUsMoreProps> = ({ part, settings, update, 
 
       {part === 1 && !beginner ? (
         <>
-          <Question>{t('workout.more.trainingNowQ')}</Question>
-          <ChipGroup label={t('workout.more.trainingNowQ')} mode="radio">
-            <Chip mode="radio" label={t('workout.more.yes')} selected={now?.active === true} onPress={() => update(setTrainingNow(settings, { active: true }))} />
-            <Chip mode="radio" label={t('workout.more.notNow')} selected={now?.active === false} onPress={() => update(setTrainingNow(settings, { active: false }))} />
-          </ChipGroup>
+          {knowsTraining ? (
+            recap(t('workout.more.fromSurveyTraining', { days: now?.daysPerWeek }))
+          ) : (
+            <>
+              <Question>{t('workout.more.trainingNowQ')}</Question>
+              <ChipGroup label={t('workout.more.trainingNowQ')} mode="radio">
+                <Chip mode="radio" label={t('workout.more.yes')} selected={now?.active === true} onPress={() => update(setTrainingNow(settings, { active: true }))} />
+                <Chip mode="radio" label={t('workout.more.notNow')} selected={now?.active === false} onPress={() => update(setTrainingNow(settings, { active: false }))} />
+              </ChipGroup>
+            </>
+          )}
           {now?.active === true ? (
             <>
-              <Question>{t('workout.more.daysNowQ')}</Question>
-              <ChipGroup label={t('workout.more.daysNowQ')} mode="radio">
-                {[1, 2, 3, 4, 5, 6].map((n) => (
-                  <Chip key={n} mode="radio" label={String(n)} selected={now.daysPerWeek === n} onPress={() => update(setTrainingNow(settings, { daysPerWeek: n }))} />
-                ))}
-              </ChipGroup>
+              {knowsTraining ? null : (
+                <>
+                  <Question>{t('workout.more.daysNowQ')}</Question>
+                  <ChipGroup label={t('workout.more.daysNowQ')} mode="radio">
+                    {[1, 2, 3, 4, 5, 6].map((n) => (
+                      <Chip key={n} mode="radio" label={String(n)} selected={now.daysPerWeek === n} onPress={() => update(setTrainingNow(settings, { daysPerWeek: n }))} />
+                    ))}
+                  </ChipGroup>
+                </>
+              )}
               <Question>{t('workout.more.splitQ')}</Question>
               {chips(SPLITS, (v) => now.split === v, (v) => update(setTrainingNow(settings, { split: v })), 'split', t('workout.more.splitQ'))}
               <Question>{t('workout.more.durationQ')}</Question>
@@ -321,7 +358,7 @@ export const TellUsMore: React.FC<TellUsMoreProps> = ({ part, settings, update, 
                 {t('workout.more.sportDaysQ', { sport: t(`workout.more.sport.${sport.kind}`) })}
               </Text>
               <ChipGroup label={t('workout.more.sportDaysQ', { sport: t(`workout.more.sport.${sport.kind}`) })} mode="toggle" style={styles.days}>
-                {WEEK.map((day) => (
+                {weekdaysFrom(weekStartFor(activeRegion)).map((day) => (
                   <Chip
                     key={day}
                     label={t(`workout.days.${day}`)}
@@ -366,6 +403,9 @@ const styles = StyleSheet.create({
   notice: { gap: 8, marginTop: -8, marginBottom: 22 },
   switch: { alignSelf: 'flex-start', minHeight: 44, paddingHorizontal: 14, borderRadius: 999, borderWidth: 1, justifyContent: 'center' },
   switchText: { fontSize: 13, fontWeight: '700' },
+  recap: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 22 },
+  recapText: { flex: 1, marginTop: 0, marginBottom: 0, fontSize: 14, lineHeight: 20 },
+  recapChange: { minHeight: 44, minWidth: 44, paddingHorizontal: 4, justifyContent: 'center', alignItems: 'center' },
   card: { borderRadius: 18, borderWidth: 1, marginBottom: 22 },
   liftRow: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 10, paddingVertical: 8 },
   liftName: { flex: 1, minWidth: 0, fontSize: 13, fontWeight: '700' },

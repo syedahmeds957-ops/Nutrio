@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getExercise, type Weekday, type WorkoutSettings } from '@nutrio/workout-core';
+import { useRegion } from '../../common/region/index.js';
+import { weekdaysFrom } from '../../tracker/weekStrip.js';
+import { weekStartFor } from '../weekView.js';
 import { useTheme } from '../../theme.js';
 import { useI18nState, useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
@@ -22,7 +25,6 @@ import { parseNumber } from './SetLogger.js';
 import { Chip } from './SetupChips.js';
 import { WorkoutHeader } from './WorkoutHeader.js';
 
-const WEEK: Weekday[] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
 interface RoutineBuilderProps {
   settings: WorkoutSettings;
@@ -61,6 +63,7 @@ export const RoutineBuilder: React.FC<RoutineBuilderProps> = ({ settings, update
   const { theme } = useTheme();
   const c = theme.colors;
   const { t } = useTranslation();
+  const { activeRegion } = useRegion();
   const { language } = useI18nState();
   const dir = useTextDirection();
   const routine = routineOf(settings);
@@ -90,7 +93,7 @@ export const RoutineBuilder: React.FC<RoutineBuilderProps> = ({ settings, update
 
           <Text style={[styles.label, dir.text, { color: c.textPrimary }]}>{t('workout.routine.daysQ')}</Text>
           <View style={styles.days}>
-            {WEEK.map((day) => (
+            {weekdaysFrom(weekStartFor(activeRegion)).map((day) => (
               <Chip
                 key={day}
                 label={t(`workout.days.${day}`)}

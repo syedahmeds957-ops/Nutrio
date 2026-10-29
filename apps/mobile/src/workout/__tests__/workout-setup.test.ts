@@ -21,6 +21,7 @@ import {
 } from '../setupState.js';
 import { sessionTitle } from '../sessionTitle.js';
 import { loadWorkoutPlan, releaseWorkoutCache } from '../workoutStorage.js';
+import { TellUsMore } from '../ui/TellUsMore.js';
 import { WorkoutSetupScreen } from '../ui/WorkoutSetupScreen.js';
 import { WorkoutWeekScreen } from '../ui/WorkoutWeekScreen.js';
 import { buildWeekView } from '../weekView.js';
@@ -171,5 +172,39 @@ describe('workout screens render in English and Arabic', () => {
     expect(sessionTitle(i18n.t, { template: 'full_a', variant: 'a' })).toBe('Full body A');
     expect(sessionTitle(i18n.t, { template: 'full_a', variant: 'b' })).toBe('Full body A 2');
     expect(sessionTitle(i18n.t, { template: 'push', variant: null })).toBe('Push');
+  });
+});
+
+describe('"Tell us more" does not re-ask what the survey answered', () => {
+  const training: WorkoutSettings = {
+    ...BASE,
+    experience: 'some',
+    profile: { trainingNow: { active: true, daysPerWeek: 4 } },
+  };
+  const never: WorkoutSettings = { ...BASE, profile: { background: 'never' } };
+  const render = (settings: WorkoutSettings, fromSurvey?: { training: boolean; never: boolean }) =>
+    renderToStaticMarkup(React.createElement(TellUsMore, { part: 1, settings, update: () => {}, fromSurvey }));
+
+  it('shows a recap instead of "Are you training now?" and the days question', () => {
+    const html = render(training, { training: true, never: false });
+    expect(html).toContain('You told us you train 4 days a week.');
+    expect(html).toContain('Change');
+    expect(html).not.toContain('Are you training now?');
+    expect(html).not.toContain(i18n.t('workout.more.daysNowQ'));
+    // What the survey could not know is still asked.
+    expect(html).toContain(i18n.t('workout.more.splitQ'));
+  });
+
+  it('shows a recap instead of "Have you trained before?" for someone who does not exercise', () => {
+    const html = render(never, { training: false, never: true });
+    // The apostrophe is HTML-escaped in the markup, so compare the part before it.
+    expect(html).toContain('You told us you don');
+    expect(html).not.toContain('Have you trained before?');
+    expect(html).toContain(i18n.t('workout.more.pushUpsQ'));
+  });
+
+  it('asks everything when the answers did not come from the survey', () => {
+    expect(render(training)).toContain('Are you training now?');
+    expect(render(never)).toContain('Have you trained before?');
   });
 });

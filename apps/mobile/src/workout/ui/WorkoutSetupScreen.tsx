@@ -87,6 +87,14 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
   const { activeRegion } = useRegion();
   const [step, setStep] = useState<SetupStep>(1);
   const [settings, setSettings] = useState<WorkoutSettings>(initialSettings);
+  // What the survey already told us, read once: those questions become a recap in "Tell us more".
+  const [fromSurvey] = useState(() => {
+    const start = initialSettings.profile;
+    return {
+      training: Boolean(prefilled && mode === 'create' && start?.trainingNow?.active === true && start.trainingNow.daysPerWeek),
+      never: Boolean(prefilled && mode === 'create' && start?.background === 'never'),
+    };
+  });
   const scrollRef = useRef<ScrollView>(null);
   /** The routine builder, opened from "Tell us more" by people training now. */
   const [building, setBuilding] = useState(false);
@@ -135,7 +143,7 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
         {/* A quiet text link, so it never reads as the main action; the last step has none, its main button finishes. */}
         {canSkipRest(step) ? (
           <TouchableOpacity accessibilityRole="button" onPress={() => onSave(settings)} style={styles.skip}>
-            <Text style={[styles.skipText, { color: c.textSecondary }]}>{t('workout.more.skip')}</Text>
+            <Text style={[styles.skipText, { color: c.textSecondary }]}>{t(mode === 'edit' ? 'workout.more.saveAndFinish' : 'workout.more.skip')}</Text>
           </TouchableOpacity>
         ) : null}
       </View>
@@ -351,7 +359,7 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
             </>
           )}
           {more ? (
-            <TellUsMore part={(step - SETUP_STEPS) as 1 | 2 | 3} settings={settings} update={update} onOpenRoutine={() => setBuilding(true)} />
+            <TellUsMore part={(step - SETUP_STEPS) as 1 | 2 | 3} settings={settings} update={update} onOpenRoutine={() => setBuilding(true)} fromSurvey={fromSurvey} />
           ) : null}
         </ScrollView>
 
