@@ -1,5 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
+  Animated,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -15,13 +16,14 @@ import { CoachContext } from '@nutrio/nutrition-core';
 import { sendCoachMessage } from '../../ai/ai-service.js';
 import { Icon } from '../../ui/Icon.js';
 import { noOutlineStyle } from '../../ui/AppleInput.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
 import { formatTime as formatClockTime } from '../../i18n/format.js';
 import { firstName } from '../../common/firstName.js';
 import type { CoachSwapResult, CoachSwapTopic } from '../../workout/coachWorkout.js';
 import { ApplySwapCard, type SwapCardState } from './ApplySwapCard.js';
+import { useReducedMotion } from '../../ui/useReducedMotion.js';
 
 export interface Message {
   id: string;
@@ -55,6 +57,37 @@ export function appendCoachMessage(messages: readonly Message[], next: Message):
     : messages;
   return [...earlier, next];
 }
+
+/** Three dots that pulse in turn while the coach is answering (still when motion is reduced). */
+const TypingDots: React.FC<{ color: string }> = ({ color }) => {
+  const reduceMotion = useReducedMotion();
+  const [dots] = useState(() => [new Animated.Value(0.3), new Animated.Value(0.3), new Animated.Value(0.3)]);
+  useEffect(() => {
+    if (reduceMotion) {
+      dots.forEach((d) => d.setValue(0.7));
+      return;
+    }
+    const loops = dots.map((d, i) =>
+      Animated.loop(
+        Animated.sequence([
+          Animated.delay(i * 160),
+          Animated.timing(d, { toValue: 1, duration: 320, useNativeDriver: true }),
+          Animated.timing(d, { toValue: 0.3, duration: 320, useNativeDriver: true }),
+          Animated.delay((2 - i) * 160),
+        ]),
+      ),
+    );
+    loops.forEach((l) => l.start());
+    return () => loops.forEach((l) => l.stop());
+  }, [dots, reduceMotion]);
+  return (
+    <View style={styles.typingDots}>
+      {dots.map((opacity, i) => (
+        <Animated.View key={i} style={[styles.typingDot, { backgroundColor: color, opacity }]} />
+      ))}
+    </View>
+  );
+};
 
 // Starter questions differ by market; the ids are stable and the text is translated.
 const CHIP_IDS = ['one', 'two', 'three', 'four'];
@@ -194,7 +227,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
 
         <View style={styles.headerCenter}>
           <View style={styles.titleRow}>
-            <Icon name="sparkles" size={16} color={isDark ? theme.colors.primaryLime : '#4B6200'} />
+            <Icon name="sparkles" size={16} color={theme.colors.primaryAccessible} />
             <Text role="heading" aria-level={1} style={[styles.headerTitle, dir.text, { color: theme.colors.textPrimary }]}>
               {t('coach.title')}
             </Text>
@@ -206,17 +239,19 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
 
         {/* Market badge; also balances the back button so the title stays centred. */}
         <View
+          accessible
+          accessibilityLabel={t(`tracker.dashboard.regionName.${chatRegion}`)}
           style={[
             styles.headerRightBadge,
             {
               backgroundColor: isSaudi
                 ? (isDark ? 'rgba(16, 185, 129, 0.15)' : '#ECFDF5')
-                : (isDark ? 'rgba(164, 235, 63, 0.15)' : '#F7FEE7'),
+                : (theme.colors.limeTint),
               borderColor: accentColor,
             },
           ]}
         >
-          <Text style={[styles.badgeText, { color: isDark ? theme.colors.primaryLime : '#4B6200' }]}>
+          <Text style={[styles.badgeText, { color: theme.colors.primaryAccessible }]}>
             {chatRegion}
           </Text>
         </View>
@@ -271,7 +306,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
                   <Text
                     style={[
                       styles.avatarLabel,
-                      { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                      { color: theme.colors.primaryAccessible },
                     ]}
                   >
                     {t('coach.badge')}
@@ -281,7 +316,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
                   style={[
                     styles.messageText,
                     m.role === 'user'
-                      ? [styles.userText, { color: '#0A0B0D' }]
+                      ? [styles.userText, { color: theme.colors.limeText }]
                       : [styles.assistantText, { color: theme.colors.textPrimary }],
                   ]}
                 >
@@ -317,19 +352,23 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
 
           {isTyping && (
             <View
+              accessibilityLiveRegion="polite"
+              accessibilityLabel={t('coach.typing')}
               style={[
                 styles.messageBubble,
                 styles.assistantBubble,
+                styles.typingBubble,
                 {
                   backgroundColor: theme.colors.surface,
                   borderColor: theme.colors.border,
                 },
               ]}
             >
+              <TypingDots color={theme.colors.primaryAccessible} />
               <Text
                 style={[
                   styles.typingIndicator,
-                  { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                  { color: theme.colors.primaryAccessible },
                 ]}
               >
                 {t('coach.typing')}
@@ -375,6 +414,8 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
             },
           ]}
         >
+          {/* Own wrapper: the web focus ring wraps the field's parent, which must be the pill, not the whole bar. */}
+          <View style={styles.inputWrap}>
           <TextInput
             style={[
               styles.textInput,
@@ -393,8 +434,13 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
             onChangeText={setInputText}
             multiline
             maxLength={500}
+            accessibilityLabel={t(`coach.inputPlaceholder.${chatRegion}`)}
           />
+          </View>
           <TouchableOpacity
+            accessibilityRole="button"
+            accessibilityLabel={t('coach.send')}
+            accessibilityState={{ disabled: !inputText.trim() || isTyping }}
             style={[
               styles.sendBtn,
               { backgroundColor: accentColor },
@@ -404,7 +450,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
             disabled={!inputText.trim() || isTyping}
             activeOpacity={0.8}
           >
-            <Icon name="arrow-up" size={20} color="#0A0B0D" strokeWidth={2.5} />
+            <Icon name="arrow-up" size={20} color={theme.colors.limeText} strokeWidth={2.5} />
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -415,7 +461,7 @@ export const CoachChatScreen: React.FC<CoachChatScreenProps> = ({
 
 const styles = StyleSheet.create({
   topicWrap: { paddingHorizontal: 16, paddingTop: 8 },
-  topicChip: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingStart: 12, borderRadius: 999 },
+  topicChip: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingStart: 12, borderRadius: commonRadii.pill },
   topicText: { flex: 1, minWidth: 0, fontSize: 13, fontWeight: '600' },
   topicName: { fontWeight: '800' },
   topicClose: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
@@ -444,17 +490,17 @@ const styles = StyleSheet.create({
     letterSpacing: -0.3,
   },
   headerSubtitle: {
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 1,
   },
   headerRightBadge: {
     paddingVertical: 6,
     paddingHorizontal: 10,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     borderWidth: 1,
   },
   badgeText: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '800',
   },
   keyboardContainer: {
@@ -483,7 +529,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   avatarLabel: {
-    fontSize: 9,
+    fontSize: 12,
     fontWeight: '900',
     letterSpacing: 0.8,
     marginBottom: 4,
@@ -500,10 +546,13 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
   timestamp: {
-    fontSize: 10,
+    fontSize: 12,
     marginTop: 4,
     alignSelf: 'flex-end',
   },
+  typingBubble: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  typingDots: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  typingDot: { width: 6, height: 6, borderRadius: 3 },
   typingIndicator: {
     fontSize: 13,
     fontStyle: 'italic',
@@ -513,7 +562,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   chipsHeader: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '800',
     letterSpacing: 0.5,
   },
@@ -524,7 +573,7 @@ const styles = StyleSheet.create({
   },
   chip: {
     minHeight: 44,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     paddingVertical: 8,
     paddingHorizontal: 14,
     borderWidth: 1,
@@ -541,9 +590,10 @@ const styles = StyleSheet.create({
     gap: 8,
     alignItems: 'center',
   },
+  inputWrap: { flex: 1, minWidth: 0, borderRadius: commonRadii.pill },
   textInput: {
-    flex: 1,
-    borderRadius: 9999,
+    width: '100%',
+    borderRadius: commonRadii.pill,
     paddingHorizontal: 16,
     paddingVertical: 10,
     fontSize: 14,
@@ -551,9 +601,9 @@ const styles = StyleSheet.create({
     ...noOutlineStyle,
   },
   sendBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
   },

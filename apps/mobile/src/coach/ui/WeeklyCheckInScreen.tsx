@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BackButton } from '../../ui/BackButton.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { useFormat } from '../../i18n/useFormat.js';
 import { Icon } from '../../ui/Icon.js';
@@ -104,7 +104,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
           <TouchableOpacity
             style={[
               styles.shareHeaderBtn,
-              { backgroundColor: isDark ? 'rgba(164, 235, 63, 0.15)' : '#F7FEE7' },
+              { backgroundColor: theme.colors.limeTint },
             ]}
             onPress={handleShareSummary}
             activeOpacity={0.7}
@@ -112,7 +112,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
             <Text
               style={[
                 styles.shareHeaderBtnText,
-                { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                { color: theme.colors.primaryAccessible },
               ]}
             >
               {t('checkin.share')}
@@ -151,7 +151,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
                   ? '#3A4400'
                   : isDark
                   ? theme.colors.primaryLime
-                  : '#4B6200',
+                  : theme.colors.primaryAccessible,
               },
             ]}
           >
@@ -161,7 +161,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
             style={[
               styles.headlineText,
               {
-                color: isTargetChanged ? '#0A0B0D' : theme.colors.textPrimary,
+                color: isTargetChanged ? theme.colors.limeText : theme.colors.textPrimary,
               },
             ]}
           >
@@ -192,7 +192,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
                 <Text
                   style={[
                     styles.deltaPillVal,
-                    { color: isTargetChanged ? '#0A0B0D' : theme.colors.textPrimary },
+                    { color: isTargetChanged ? theme.colors.limeText : theme.colors.textPrimary },
                   ]}
                 >
                   {t('common.kcalValue', { value: metrics.oldKcalTarget })}
@@ -202,7 +202,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
               <Icon
                 name={dir.isRTL ? 'arrow-left' : 'arrow-right'}
                 size={20}
-                color={isTargetChanged ? '#0A0B0D' : isDark ? theme.colors.primaryLime : '#4B6200'}
+                color={isTargetChanged ? theme.colors.limeText : theme.colors.primaryAccessible}
               />
 
               <View
@@ -210,11 +210,11 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
                   styles.deltaPill,
                   {
                     backgroundColor: isTargetChanged
-                      ? '#0A0B0D'
+                      ? theme.colors.limeText
                       : isDark
                       ? 'rgba(164, 235, 63, 0.12)'
-                      : '#F7FEE7',
-                    borderColor: isTargetChanged ? '#0A0B0D' : theme.colors.primaryLime,
+                      : theme.colors.limeTint,
+                    borderColor: isTargetChanged ? theme.colors.limeText : theme.colors.primaryLime,
                   },
                 ]}
               >
@@ -234,7 +234,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
                         ? theme.colors.primaryLime
                         : isDark
                         ? theme.colors.primaryLime
-                        : '#4B6200',
+                        : theme.colors.primaryAccessible,
                     },
                   ]}
                 >
@@ -304,7 +304,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
                 styles.metricNumber,
                 { color: theme.colors.textPrimary },
                 metrics.weightDeltaKg < 0
-                  ? { color: isDark ? theme.colors.primaryLime : '#4B6200' }
+                  ? { color: theme.colors.primaryAccessible }
                   : metrics.weightDeltaKg > 0
                   ? { color: theme.colors.warning }
                   : null,
@@ -385,14 +385,14 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
               style={[
                 styles.zdrBadge,
                 {
-                  backgroundColor: isDark ? 'rgba(164, 235, 63, 0.15)' : '#F7FEE7',
+                  backgroundColor: theme.colors.limeTint,
                 },
               ]}
             >
               <Text
                 style={[
                   styles.zdrBadgeText,
-                  { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                  { color: theme.colors.primaryAccessible },
                 ]}
               >
                 {t('checkin.grounded')}
@@ -409,15 +409,15 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
           style={[
             styles.actionLeverCard,
             {
-              backgroundColor: isDark ? '#1F1E14' : '#FEF3C7',
-              borderColor: isDark ? '#3D3815' : '#FDE68A',
+              backgroundColor: isDark ? '#1F1E14' : theme.colors.warningLight,
+              borderColor: isDark ? '#3D3815' : theme.colors.warningBorder,
             },
           ]}
         >
           <Text
             style={[
               styles.actionLeverEyebrow,
-              { color: isDark ? theme.colors.primaryLime : '#B45309' },
+              { color: isDark ? theme.colors.primaryLime : theme.colors.warningText },
             ]}
           >
             {t('checkin.actionLever')}
@@ -482,7 +482,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 6,
     paddingHorizontal: 12,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
   },
   shareHeaderBtnText: {
     fontSize: 12,
@@ -502,7 +502,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   cardEyebrow: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '800',
     letterSpacing: 0.8,
     textTransform: 'uppercase',
@@ -525,7 +525,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   deltaPillLabel: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
   },
   deltaPillVal: {
@@ -569,7 +569,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   metricSub: {
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 2,
   },
   narrativeCard: {
@@ -588,12 +588,12 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   zdrBadge: {
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     paddingVertical: 3,
     paddingHorizontal: 8,
   },
   zdrBadgeText: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '900',
     letterSpacing: 0.5,
   },
@@ -608,7 +608,7 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   actionLeverEyebrow: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '800',
     letterSpacing: 0.8,
     textTransform: 'uppercase',
@@ -619,7 +619,7 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
   acceptBtn: {
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     paddingVertical: 16,
     alignItems: 'center',
     justifyContent: 'center',

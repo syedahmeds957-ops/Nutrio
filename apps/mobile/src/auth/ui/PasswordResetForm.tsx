@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { AppleTextInput } from '../../ui/AppleInput.js';
 import { Notice } from '../../ui/Notice.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
@@ -102,7 +102,7 @@ export const PasswordResetForm: React.FC<PasswordResetFormProps> = ({ initialEma
         <AppleTextInput
           label={t('auth.emailAddress')}
           icon="mail"
-          placeholder="you@gmail.com"
+          placeholder={t('auth.emailPlaceholder')}
           value={email}
           onChangeText={(value) => {
             setEmail(value);
@@ -170,7 +170,7 @@ export const PasswordResetForm: React.FC<PasswordResetFormProps> = ({ initialEma
         style={[styles.submitBtn, { backgroundColor: theme.colors.primaryLime }, loading && styles.submitBtnDisabled]}
       >
         {loading ? (
-          <ActivityIndicator color="#0A0B0D" size="small" />
+          <ActivityIndicator color={theme.colors.limeText} size="small" />
         ) : (
           <Text style={[styles.submitBtnText, { color: theme.colors.limeText }]}>
             {step === 'email' ? t('auth.reset.sendCode') : t('auth.reset.submit')}
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   banner: { marginBottom: 16 },
   eyeBtn: { minHeight: 44, minWidth: 44, paddingHorizontal: 8, paddingVertical: 4, justifyContent: 'center' },
   eyeText: { fontSize: 12, fontWeight: '600' },
-  submitBtn: { height: 50, borderRadius: 9999, alignItems: 'center', justifyContent: 'center', marginTop: 8, marginBottom: 8 },
+  submitBtn: { height: 50, borderRadius: commonRadii.pill, alignItems: 'center', justifyContent: 'center', marginTop: 8, marginBottom: 8 },
   submitBtnDisabled: { opacity: 0.6 },
   submitBtnText: { fontSize: 15, fontWeight: '800', letterSpacing: -0.2 },
   linkBtn: { minHeight: 44, alignItems: 'center', justifyContent: 'center' },

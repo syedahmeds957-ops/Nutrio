@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BackButton } from '../../ui/BackButton.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
 import { AppleTextInput } from '../../ui/AppleInput.js';
 import { Notice } from '../../ui/Notice.js';
@@ -25,6 +25,7 @@ import { authenticateUser, registerUser } from '../authStorage.js';
 import { AuthSession, AuthScreenMode } from '../types.js';
 import { PasswordResetForm } from './PasswordResetForm.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useReducedMotion } from '../../ui/useReducedMotion.js';
 
 interface AuthScreenProps {
   initialMode?: AuthScreenMode;
@@ -55,6 +56,8 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
   // Translated messages, shown under the field they are about.
   const [fieldErrors, setFieldErrors] = useState<AuthFieldErrors>({});
   const [ctaHovered, setCtaHovered] = useState(false);
+  const [showHovered, setShowHovered] = useState(false);
+  const [guestHovered, setGuestHovered] = useState(false);
   const { width } = useWindowDimensions();
   // Wide web: a brand side beside the form instead of a small card in an empty page. Phones are untouched.
   const wide = Platform.OS === 'web' && width >= WIDE_BREAKPOINT;
@@ -64,7 +67,16 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(20)).current;
 
+  const reduceMotion = useReducedMotion();
+
   useEffect(() => {
+    if (reduceMotion) {
+      fadeAnim.setValue(1);
+      slideAnim.setValue(0);
+      return;
+    }
+    fadeAnim.setValue(0);
+    slideAnim.setValue(20);
     Animated.parallel([
       Animated.timing(fadeAnim, {
         toValue: 1,
@@ -77,7 +89,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
         useNativeDriver: true,
       }),
     ]).start();
-  }, [mode]);
+  }, [mode, reduceMotion]);
 
   const clearFieldError = (field: AuthField) => setFieldErrors((current) => (current[field] ? { ...current, [field]: undefined } : current));
 
@@ -215,7 +227,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
       <AppleTextInput
         label={t('auth.emailAddress')}
         icon="mail"
-        placeholder="you@gmail.com"
+        placeholder={t('auth.emailPlaceholder')}
         value={email}
         onChangeText={(value) => {
           setEmail(value);
@@ -239,19 +251,29 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
         secureTextEntry={!showPassword}
         error={fieldErrors.password}
         rightAction={
-          <TouchableOpacity
-            style={styles.eyeBtn}
+          <Pressable
+            style={({ pressed }) => [
+              styles.eyeBtn,
+              (showHovered || pressed) && { backgroundColor: theme.colors.surfaceSecondary },
+            ]}
             onPress={() => setShowPassword((p) => !p)}
+            onHoverIn={() => setShowHovered(true)}
+            onHoverOut={() => setShowHovered(false)}
             hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-            activeOpacity={0.7}
             accessibilityRole="button"
             aria-pressed={showPassword}
             accessibilityLabel={showPassword ? t('auth.hide') : t('auth.show')}
           >
-            <Text style={[styles.eyeText, { color: theme.colors.textSecondary }]}>
+            <Text
+              style={[
+                styles.eyeText,
+                { color: showHovered ? theme.colors.textPrimary : theme.colors.textSecondary },
+                showHovered && styles.hoverUnderline,
+              ]}
+            >
               {showPassword ? t('auth.hide') : t('auth.show')}
             </Text>
-          </TouchableOpacity>
+          </Pressable>
         }
       />
 
@@ -274,7 +296,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               },
             ]}
           >
-            {rememberMe && <Icon name="check" size={14} color="#0A0B0D" strokeWidth={3} />}
+            {rememberMe && <Icon name="check" size={14} color={theme.colors.limeText} strokeWidth={3} />}
           </View>
           <Text style={[styles.rememberText, { color: theme.colors.textSecondary }]}>{t('auth.rememberMe')}</Text>
         </TouchableOpacity>
@@ -314,7 +336,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               style={[StyleSheet.absoluteFill, styles.submitShade, { opacity: pressed ? 0.14 : ctaHovered ? 0.08 : 0 }]}
             />
             {loading ? (
-              <ActivityIndicator color="#0A0B0D" size="small" />
+              <ActivityIndicator color={theme.colors.limeText} size="small" />
             ) : (
               <Text style={[styles.submitBtnText, { color: theme.colors.limeText }]}>
                 {mode === 'login' ? t('auth.signIn') : t('auth.createAccount')}
@@ -326,17 +348,30 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
 
       {/* Guest Mode */}
       {onExploreGuest && (
-        <TouchableOpacity
-          style={styles.guestBtn}
+        <Pressable
+          style={({ pressed }) => [styles.guestBtn, pressed && { opacity: 0.7 }]}
           onPress={onExploreGuest}
-          activeOpacity={0.7}
+          onHoverIn={() => setGuestHovered(true)}
+          onHoverOut={() => setGuestHovered(false)}
           accessibilityRole="button"
         >
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, justifyContent: 'center' }}>
-            <Text style={[styles.guestText, { color: theme.colors.textSecondary }]}>{t('auth.continueAsGuest')}</Text>
-            <Icon name={dir.isRTL ? 'arrow-left' : 'arrow-right'} size={16} color={theme.colors.textSecondary} />
+            <Text
+              style={[
+                styles.guestText,
+                { color: guestHovered ? theme.colors.textPrimary : theme.colors.textSecondary },
+                guestHovered && styles.hoverUnderline,
+              ]}
+            >
+              {t('auth.continueAsGuest')}
+            </Text>
+            <Icon
+              name={dir.isRTL ? 'arrow-left' : 'arrow-right'}
+              size={16}
+              color={guestHovered ? theme.colors.textPrimary : theme.colors.textSecondary}
+            />
           </View>
-        </TouchableOpacity>
+        </Pressable>
       )}
     </>
   );
@@ -515,7 +550,7 @@ const styles = StyleSheet.create({
   },
   tabContainer: {
     flexDirection: 'row',
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     padding: 4,
     marginBottom: 20,
   },
@@ -524,7 +559,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 10,
     alignItems: 'center',
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     justifyContent: 'center',
   },
   tabText: {
@@ -637,10 +672,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 4,
     justifyContent: 'center',
+    borderRadius: 8,
   },
   eyeText: {
     fontSize: 12,
     fontWeight: '600',
+  },
+  hoverUnderline: {
+    textDecorationLine: 'underline',
   },
   optionsRow: {
     flexDirection: 'row',
@@ -689,7 +728,7 @@ const styles = StyleSheet.create({
   },
   submitBtn: {
     height: 50,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 16,

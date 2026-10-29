@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { getExercise } from '../../workout/core.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useI18nState, useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 import { ExerciseImageLoop } from '../../workout/ui/ExerciseImageLoop.js';
@@ -32,7 +32,7 @@ export const ApplySwapCard: React.FC<ApplySwapCardProps> = ({ fromId, toId, stat
   const name = (id: string) => getExercise(id)?.name[language] ?? id;
 
   if (state === 'applied') {
-    const fg = theme.isDark ? c.success : '#166534';
+    const fg = c.successText;
     return (
       <View accessibilityRole="alert" style={[styles.notice, { backgroundColor: c.successLight }]}>
         <Icon name="check" size={18} color={fg} strokeWidth={3} />
@@ -99,9 +99,9 @@ const styles = StyleSheet.create({
   flipped: { transform: [{ scaleX: -1 }] },
   note: { fontSize: 12 },
   buttons: { flexDirection: 'row', gap: 8 },
-  keep: { flex: 1, minHeight: 46, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
+  keep: { flex: 1, minHeight: 46, borderRadius: commonRadii.pill, alignItems: 'center', justifyContent: 'center' },
   keepText: { fontSize: 14, fontWeight: '700' },
-  apply: { flex: 1.4, minHeight: 46, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
+  apply: { flex: 1.4, minHeight: 46, borderRadius: commonRadii.pill, alignItems: 'center', justifyContent: 'center' },
   applyText: { fontSize: 14, fontWeight: '800' },
   notice: { flexDirection: 'row', gap: 10, padding: 12, borderRadius: 16, marginBottom: 12, alignItems: 'flex-start' },
   noticeText: { flex: 1, fontSize: 13, lineHeight: 19, fontWeight: '600' },

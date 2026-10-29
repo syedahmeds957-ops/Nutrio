@@ -53,7 +53,7 @@ const ProfileAction: React.FC<{
       activeOpacity={0.7}
     >
       <View style={styles.actionBtnRow}>
-        <Icon name={icon} size={16} color={theme.colors.primaryLime} />
+        <Icon name={icon} size={16} color={theme.colors.primaryAccessible} />
         <Text style={[styles.actionBtnText, { color: theme.colors.textPrimary }]}>{label}</Text>
       </View>
       <Icon name={dir.isRTL ? 'arrow-left' : 'arrow-right'} size={14} color={theme.colors.textMuted} />
@@ -181,7 +181,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
           >
             {stat(t('tracker.dashboard.dailyTarget'), t('common.kcalValue', { value: targets.targetCalories }))}
             {divider}
-            {stat(t('common.protein'), `${targets.targetProteinGrams}g`)}
+            {stat(t('common.protein'), t('common.gramsValue', { value: targets.targetProteinGrams }))}
             {divider}
             {stat(t('tracker.dashboard.waterGoal'), t('common.litresValue', { value: formatNumber(waterLitres(waterTargetMl(targets.targetWaterMl)), { maximumFractionDigits: 1 }) }))}
           </View>

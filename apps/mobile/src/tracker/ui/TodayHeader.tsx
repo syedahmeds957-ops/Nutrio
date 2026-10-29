@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 import { Notice } from '../../ui/Notice.js';
@@ -28,7 +28,7 @@ export const TodayHeader: React.FC<TodayHeaderProps> = ({
   const { t } = useTranslation();
   const dir = useTextDirection();
   const [syncHintOpen, setSyncHintOpen] = useState(false);
-  const regionLabel = t(`tracker.header.regionShort.${region}`);
+  const regionLabel = t(`tracker.dashboard.regionName.${region}`);
   const syncText = t('tracker.header.pendingSync', { count: pendingSyncCount });
 
   return (
@@ -74,10 +74,12 @@ export const TodayHeader: React.FC<TodayHeaderProps> = ({
             }}
             activeOpacity={0.7}
             accessibilityRole="button"
-            accessibilityLabel={`${regionLabel}, ${t('tracker.dashboard.toggleRegion')}`}
+            accessibilityLabel={t('tracker.header.regionPill', { name: regionLabel })}
           >
             <View style={[styles.region, { backgroundColor: c.surface, borderColor: c.border }]}>
-              <Text style={[styles.regionText, { color: c.textPrimary }]}>{regionLabel}</Text>
+              <Text style={[styles.regionText, { color: c.textPrimary }]} numberOfLines={1}>
+                {regionLabel}
+              </Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -98,7 +100,7 @@ const styles = StyleSheet.create({
   avatar: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', borderWidth: 2 },
   avatarInitial: { fontSize: 17, fontWeight: '900' },
   names: { flexShrink: 1 },
-  greeting: { fontSize: 11, fontWeight: '700', letterSpacing: 0.8 },
+  greeting: { fontSize: 12, fontWeight: '700', letterSpacing: 0.8 },
   name: { fontSize: 18, fontWeight: '800', letterSpacing: -0.3 },
   actions: { flexDirection: 'row', alignItems: 'center', gap: 0 },
   // A 44 x 44 target around each small round or pill control.
@@ -115,12 +117,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  syncCountText: { fontSize: 9, fontWeight: '800' },
+  syncCountText: { fontSize: 11, fontWeight: '800' },
   region: {
     height: 34,
     minWidth: 56,
-    paddingHorizontal: 10,
-    borderRadius: 9999,
+    paddingHorizontal: 12,
+    borderRadius: commonRadii.pill,
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',

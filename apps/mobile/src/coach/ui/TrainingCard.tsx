@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 import { sessionTitle } from '../../workout/sessionTitle.js';
@@ -51,6 +51,6 @@ const styles = StyleSheet.create({
   labelText: { fontSize: 15, fontWeight: '700' },
   value: { fontSize: 20, fontWeight: '800', fontVariant: ['tabular-nums'] },
   segments: { flexDirection: 'row', gap: 4 },
-  segment: { flex: 1, height: 6, borderRadius: 999 },
+  segment: { flex: 1, height: 6, borderRadius: commonRadii.pill },
   missed: { fontSize: 13 },
 });

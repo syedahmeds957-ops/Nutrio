@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { BackButton } from '../../ui/BackButton.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useTextDirection } from '../../i18n/index.js';
 
 interface WorkoutHeaderProps {
@@ -22,7 +22,7 @@ export const WorkoutHeader: React.FC<WorkoutHeaderProps> = ({ title, subtitle, o
     <View style={styles.header}>
       <BackButton variant="icon" onPress={onBack} />
       <View style={styles.titles}>
-        <Text accessibilityRole="header" numberOfLines={1} style={[styles.title, dir.text, { color: c.textPrimary }]}>
+        <Text accessibilityRole="header" numberOfLines={2} style={[styles.title, dir.text, { color: c.textPrimary }]}>
           {title}
         </Text>
         {subtitle ? (
@@ -51,14 +51,14 @@ export const WorkoutHeader: React.FC<WorkoutHeaderProps> = ({ title, subtitle, o
 };
 
 const styles = StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 16, paddingTop: 14, paddingBottom: 8 },
+  header: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 16, paddingTop: 14, paddingBottom: 10, minHeight: 68 },
   backBtn: { width: 44, height: 44, borderRadius: 22, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
   flipped: { transform: [{ scaleX: -1 }] },
   titles: { flex: 1, minWidth: 0 },
-  title: { fontSize: 20, fontWeight: '800', letterSpacing: -0.3 },
-  subtitle: { fontSize: 12, fontWeight: '600', marginTop: 1 },
+  title: { fontSize: 20, lineHeight: 26, fontWeight: '800', letterSpacing: -0.3 },
+  subtitle: { fontSize: 12, lineHeight: 16, fontWeight: '600', marginTop: 1 },
   action: { minHeight: 44, paddingHorizontal: 10, justifyContent: 'center' },
-  primaryAction: { paddingHorizontal: 18, borderRadius: 999 },
+  primaryAction: { paddingHorizontal: 18, borderRadius: commonRadii.pill },
   disabled: { opacity: 0.4 },
   actionText: { fontSize: 14, fontWeight: '700' },
 });

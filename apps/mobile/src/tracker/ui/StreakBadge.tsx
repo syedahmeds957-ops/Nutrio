@@ -45,8 +45,9 @@ export const StreakBadge: React.FC<StreakBadgeProps> = ({
       {/* Streak info */}
       <View style={styles.streakCol}>
         <View style={styles.flameRow}>
-          <View style={[styles.flameCircle, { backgroundColor: theme.colors.dangerLight }]}>
-            <Icon name="flame" size={16} color={theme.colors.danger} />
+          <View style={[styles.flameCircle, { backgroundColor: theme.colors.surfaceSecondary }]}>
+            {/* Warm amber on a neutral disc: red read as an error state. */}
+            <Icon name="flame" size={16} color={theme.colors.warning} />
           </View>
           <View style={styles.streakText}>
             <Text style={[styles.streakNumber, dir.text, { color: theme.colors.textPrimary }]}>
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   dayLabel: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
   },
   dayLabelToday: {

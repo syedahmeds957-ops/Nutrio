@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 
+import { commonRadii } from '../../theme.js';
 /** Styles for MealLogHubModal, kept apart so the component file stays readable. */
 export const styles = StyleSheet.create({
   mealChip: {
@@ -38,7 +39,7 @@ export const styles = StyleSheet.create({
     padding: 8,
   },
   pickerTitle: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '800',
     letterSpacing: 0.8,
     textTransform: 'uppercase',
@@ -120,13 +121,14 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  // 44 px target (was 40); the bar is 48 px tall so it still fits inside the field.
   sparkleBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
-    marginEnd: -10,
+    marginEnd: -12,
   },
   describeCard: {
     flexDirection: 'row',
@@ -175,7 +177,7 @@ export const styles = StyleSheet.create({
     gap: 6,
     paddingVertical: 8,
     paddingHorizontal: 14,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     borderWidth: 1,
   },
   buildModeBtnText: {
@@ -183,7 +185,7 @@ export const styles = StyleSheet.create({
     fontWeight: '800',
   },
   buildModeHint: {
-    fontSize: 11,
+    fontSize: 12,
     lineHeight: 15,
   },
   qtyControls: {
@@ -255,7 +257,7 @@ export const styles = StyleSheet.create({
     maxWidth: 160,
   },
   presetChipMeta: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '500',
     marginTop: 1,
   },
@@ -268,14 +270,14 @@ export const styles = StyleSheet.create({
     fontWeight: '800',
   },
   basketKcal: {
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 2,
     lineHeight: 15,
   },
   basketConfirmBtn: {
     paddingVertical: 12,
     paddingHorizontal: 18,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
   },
   basketConfirmText: {
     fontSize: 13,
@@ -437,14 +439,15 @@ export const styles = StyleSheet.create({
   content: {
     flex: 1,
   },
+  // Clears the pinned Custom meal pill (52 tall, 24 up) with room to spare, so the last rows' macros stay readable.
   contentContainer: {
-    paddingBottom: 110,
+    paddingBottom: 132,
   },
   contentBody: {
     padding: 16,
   },
   dietGroupHeading: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '800',
     letterSpacing: 0.6,
     textTransform: 'uppercase',
@@ -452,7 +455,7 @@ export const styles = StyleSheet.create({
     marginBottom: 8,
   },
   sectionEyebrow: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '800',
     letterSpacing: 0.8,
     marginBottom: 12,
@@ -543,7 +546,7 @@ export const styles = StyleSheet.create({
     marginEnd: 8,
   },
   brandBadgeText: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
   },
   dishServingText: {
@@ -608,7 +611,7 @@ export const styles = StyleSheet.create({
     marginTop: 18,
     paddingVertical: 12,
     paddingHorizontal: 20,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
   },
   addDishButtonText: {
     fontSize: 14,
