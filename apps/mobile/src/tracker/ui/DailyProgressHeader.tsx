@@ -36,13 +36,16 @@ interface MacroTileProps {
   /** 0 means no target is set yet; the tile then shows the fallback line and no goal. */
   goal: number;
   color: string;
+  /** The macro's text-contrast colour; outlines the empty track so it passes 3:1 (WCAG 1.4.11). */
+  outlineColor: string;
   overKey: string;
   fallback: string;
 }
 
 /**
  * One macro tile: the label, "eaten / goal unit" once, and a progress bar
- * whose empty track is tinted in the macro's colour. The only extra line is
+ * whose empty track is tinted in the macro's colour and outlined in its
+ * contrast-safe shade, so it reads as protein, carbs or fat even at 0. The only extra line is
  * the warning when you are over the goal (under it, the bar says it).
  */
 const MacroTile: React.FC<MacroTileProps> = ({
@@ -51,6 +54,7 @@ const MacroTile: React.FC<MacroTileProps> = ({
   unit,
   goal,
   color,
+  outlineColor,
   overKey,
   fallback,
 }) => {
@@ -85,7 +89,7 @@ const MacroTile: React.FC<MacroTileProps> = ({
         accessibilityRole="progressbar"
         accessibilityLabel={label}
         accessibilityValue={{ min: 0, max: 100, now: Math.round(pct) }}
-        style={[styles.tileProgressTrack, { backgroundColor: theme.colors.progressTrack }]}
+        style={[styles.tileProgressTrack, { backgroundColor: `${color}33`, borderColor: outlineColor }]}
       >
         <View style={[styles.tileProgressFill, { width: `${pct}%`, backgroundColor: color }]} />
       </View>
@@ -358,6 +362,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
           unit={t('common.gramsUnit')}
           goal={targetProteinGrams}
           color={theme.colors.protein}
+          outlineColor={theme.colors.proteinText}
           overKey="tracker.header.gramsOver"
           fallback={t('tracker.header.consumedToday')}
         />
@@ -367,6 +372,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
           unit={t('common.gramsUnit')}
           goal={targetCarbGrams}
           color={theme.colors.carbs}
+          outlineColor={theme.colors.carbsText}
           overKey="tracker.header.gramsOver"
           fallback={t('tracker.header.consumedToday')}
         />
@@ -376,6 +382,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
           unit={t('common.gramsUnit')}
           goal={targetFatGrams}
           color={theme.colors.fat}
+          outlineColor={theme.colors.fatText}
           overKey="tracker.header.gramsOver"
           fallback={t('tracker.header.consumedToday')}
         />
@@ -559,8 +566,9 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   tileProgressTrack: {
-    height: 6,
-    borderRadius: 3,
+    height: 8,
+    borderRadius: 4,
+    borderWidth: 1,
     overflow: 'hidden',
   },
   tileProgressFill: {
