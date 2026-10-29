@@ -10,9 +10,11 @@ import {
 import { BackButton } from '../../ui/BackButton.js';
 import { calculateBMI, GoalType } from '@nutrio/nutrition-core';
 import { GoalSelectionState, PlanUserContext } from '../types.js';
-import { computeProjection } from '../engine.js';
+import { computeProjection, pacePreview } from '../engine.js';
 import { Icon } from '../../ui/Icon.js';
 import { AppleTextInput } from '../../ui/AppleInput.js';
+import { OptionGroup, optionA11y } from '../../ui/Selectable.js';
+import { useFormat } from '../../i18n/useFormat.js';
 import { useTheme } from '../../theme.js';
 import { addDaysToKey, formatDayKey, localDateKey } from '../../common/dateKey.js';
 import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
@@ -22,14 +24,48 @@ import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index
 // surfaceSecondary + textMuted (5.06:1).
 const DISABLED_CHIP_LIGHT = { fill: '#E3E7ED', border: '#7C8796' } as const;
 
+const PACE_OPTIONS = [0.25, 0.5, 0.75, 1.0];
+
+/** The saved goal, unless it is a cut that is now clinically disabled. */
+export function initialSelectionGoal(initial: GoalSelectionState | undefined, isCutDisabled: boolean): GoalType {
+  if (initial && !(initial.goal === 'lose' && isCutDisabled)) return initial.goal;
+  return isCutDisabled ? 'maintain' : 'lose';
+}
+
+/** The saved pace when it is one of the chips and still safe, else 0.5 (or the safe maximum). */
+export function initialSelectionRate(initial: GoalSelectionState | undefined, maxSafeRate: number): number {
+  const saved = initial?.targetRateKgPerWeek;
+  if (saved !== undefined && PACE_OPTIONS.includes(saved) && saved <= maxSafeRate) return saved;
+  return Math.min(0.5, maxSafeRate);
+}
+
+/** The saved goal weight; the defaults (5 kg down, 4 kg up) only for a first setup. */
+export function initialTargetWeight(
+  initial: GoalSelectionState | undefined,
+  goal: GoalType,
+  weightKg: number
+): string {
+  if (initial?.targetWeightKg !== undefined && Number.isFinite(initial.targetWeightKg)) {
+    return String(initial.targetWeightKg);
+  }
+  return goal === 'lose'
+    ? String(Math.round(weightKg - 5))
+    : goal === 'gain'
+      ? String(Math.round(weightKg + 4))
+      : String(weightKg);
+}
+
 interface GoalSelectionViewProps {
   context: PlanUserContext;
+  /** The saved goal, when there is one; without it the screen starts from defaults. */
+  initialSelection?: GoalSelectionState;
   onConfirmGoal: (selection: GoalSelectionState) => void;
   onBack: () => void;
 }
 
 export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
   context,
+  initialSelection,
   onConfirmGoal,
   onBack,
 }) => {
@@ -37,6 +73,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
   const { t } = useTranslation();
   const { language } = useI18nState();
   const dir = useTextDirection();
+  const { formatNumber } = useFormat();
 
   const bmi = useMemo(
     () => calculateBMI(context.weightKg, context.heightCm),
@@ -47,34 +84,53 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
   const isPregnant = Boolean(context.isPregnantOrBreastfeeding);
   const isCutDisabled = isUnderweight || isPregnant;
 
-  const [selectedGoal, setSelectedGoal] = useState<GoalType>(
-    isCutDisabled ? 'maintain' : 'lose'
-  );
+  const initialGoal = initialSelectionGoal(initialSelection, isCutDisabled);
+  const [selectedGoal, setSelectedGoal] = useState<GoalType>(initialGoal);
 
   const maxSafeRate = Number((context.weightKg * 0.01).toFixed(2));
-  const [rateKgPerWeek, setRateKgPerWeek] = useState(
-    Math.min(0.5, maxSafeRate)
+  const [rateKgPerWeek, setRateKgPerWeek] = useState(() =>
+    initialSelectionRate(initialSelection, maxSafeRate)
   );
 
-  const [targetWeight, setTargetWeight] = useState<string>(
-    selectedGoal === 'lose'
-      ? String(Math.round(context.weightKg - 5))
-      : selectedGoal === 'gain'
-      ? String(Math.round(context.weightKg + 4))
-      : String(context.weightKg)
+  const [targetWeight, setTargetWeight] = useState<string>(() =>
+    initialTargetWeight(initialSelection, initialGoal, context.weightKg)
   );
 
   const parsedTargetWeight = parseFloat(targetWeight);
+
+  // What nutrition-core will actually allow for this pace: a safety floor can
+  // slow it, and the milestone has to follow the pace the plan really uses.
+  const paceLimit = useMemo(
+    () => pacePreview(context, selectedGoal, rateKgPerWeek),
+    [context, selectedGoal, rateKgPerWeek]
+  );
+  const effectiveRate = paceLimit.limited ? paceLimit.effectiveRateKgPerWeek : rateKgPerWeek;
+  const paceLimitKey =
+    paceLimit.reason === 'bmr' || paceLimit.reason === 'absoluteFloor'
+      ? 'floor'
+      : paceLimit.reason === 'maxDeficit'
+        ? 'maxDeficit'
+        : 'maxRate';
 
   const projection = useMemo(() => {
     return computeProjection(
       context.weightKg,
       selectedGoal,
-      rateKgPerWeek,
+      effectiveRate,
       isNaN(parsedTargetWeight) ? undefined : parsedTargetWeight,
       language
     );
-  }, [context.weightKg, selectedGoal, rateKgPerWeek, parsedTargetWeight, language]);
+  }, [context.weightKg, selectedGoal, effectiveRate, parsedTargetWeight, language]);
+
+  /** Radio role and checked state for a goal card (disabled merged in, not dropped). */
+  const goalA11y = (goal: GoalType, disabled = false) => {
+    const a11y = optionA11y('radio', selectedGoal === goal);
+    return {
+      ...a11y,
+      accessibilityState: { ...a11y.accessibilityState, disabled },
+      'aria-disabled': disabled,
+    };
+  };
 
   const handleConfirm = () => {
     onConfirmGoal({
@@ -104,6 +160,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
           {t('plan.goal.primaryTarget')}
         </Text>
 
+        <OptionGroup label={t('plan.goal.primaryTarget')}>
         {/* Lose Weight */}
         <TouchableOpacity
           style={[
@@ -126,6 +183,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
           onPress={() => !isCutDisabled && setSelectedGoal('lose')}
           activeOpacity={0.7}
           disabled={isCutDisabled}
+          {...goalA11y('lose', isCutDisabled)}
         >
           <View style={styles.goalCardTop}>
             <View style={styles.goalTitleRow}>
@@ -212,6 +270,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
           ]}
           onPress={() => setSelectedGoal('maintain')}
           activeOpacity={0.7}
+          {...goalA11y('maintain')}
         >
           <View style={styles.goalCardTop}>
             <View style={styles.goalTitleRow}>
@@ -278,6 +337,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
           ]}
           onPress={() => setSelectedGoal('gain')}
           activeOpacity={0.7}
+          {...goalA11y('gain')}
         >
           <View style={styles.goalCardTop}>
             <View style={styles.goalTitleRow}>
@@ -323,6 +383,7 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
             {t('plan.goal.gain.sub')}
           </Text>
         </TouchableOpacity>
+        </OptionGroup>
       </View>
 
       {/* Target Weight & Pace (if not maintain) */}
@@ -346,8 +407,8 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
               {t('plan.goal.maxSafeRate', { rate: maxSafeRate })}
             </Text>
 
-            <View style={styles.rateOptionsRow}>
-              {[0.25, 0.5, 0.75, 1.0].map((rate) => {
+            <OptionGroup label={t('plan.goal.paceLabel')} style={styles.rateOptionsRow}>
+              {PACE_OPTIONS.map((rate) => {
                 const isOverMax = rate > maxSafeRate;
                 const isSelected = rateKgPerWeek === rate;
                 return (
@@ -373,8 +434,9 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                     ]}
                     onPress={() => !isOverMax && setRateKgPerWeek(rate)}
                     disabled={isOverMax}
-                    accessibilityRole="button"
-                    accessibilityState={{ disabled: isOverMax, selected: isSelected }}
+                    {...optionA11y('radio', isSelected)}
+                    accessibilityState={{ checked: isSelected, disabled: isOverMax }}
+                    aria-disabled={isOverMax}
                     activeOpacity={0.7}
                   >
                     <Text
@@ -399,8 +461,19 @@ export const GoalSelectionView: React.FC<GoalSelectionViewProps> = ({
                   </TouchableOpacity>
                 );
               })}
-            </View>
-            {[0.25, 0.5, 0.75, 1.0].some((rate) => rate > maxSafeRate) && (
+            </OptionGroup>
+            {paceLimit.limited && (
+              <Text
+                accessibilityLiveRegion="polite"
+                role="status"
+                style={[styles.paceLimitNote, dir.text, { color: theme.colors.textPrimary }]}
+              >
+                {t(`plan.goal.paceLimit.${paceLimitKey}`, {
+                  rate: formatNumber(paceLimit.effectiveRateKgPerWeek, { maximumFractionDigits: 2 }),
+                })}
+              </Text>
+            )}
+            {PACE_OPTIONS.some((rate) => rate > maxSafeRate) && (
               <Text style={[styles.subtext, dir.text, { color: theme.colors.textSecondary }]}>
                 {t('plan.goal.pacesDisabledReason', { rate: maxSafeRate })}
               </Text>
@@ -588,6 +661,12 @@ const styles = StyleSheet.create({
   },
   rateBtnText: {
     fontSize: 13,
+  },
+  paceLimitNote: {
+    fontSize: 13,
+    fontWeight: '600',
+    lineHeight: 18,
+    marginTop: 10,
   },
   projectionCard: {
     borderRadius: 20,

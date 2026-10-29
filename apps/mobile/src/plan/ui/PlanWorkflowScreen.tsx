@@ -11,7 +11,7 @@ import {
   PlanUserContext,
   AssessmentNarrative,
 } from '../types.js';
-import { computePlan } from '../engine.js';
+import { computePlan, replanWithGoal } from '../engine.js';
 
 import { useTheme } from '../../theme.js';
 
@@ -58,15 +58,23 @@ export const PlanWorkflowScreen: React.FC<PlanWorkflowScreenProps> = ({
         }
   );
 
+  // Reviewing shows the saved plan itself, the same one the dashboard reads,
+  // and an adjusted goal is applied to the saved plan's own inputs. Rebuilding
+  // from the survey instead dropped any accepted training calories or weekly
+  // recalibration, so the targets screen disagreed with Today.
+  const context = existingPlan ? existingPlan.userContext : userContext;
   const computedPlan = useMemo(() => {
+    if (existingPlan) {
+      return hasAdjustedGoal ? replanWithGoal(existingPlan, goalSelection) : existingPlan;
+    }
     return computePlan(userContext, goalSelection, narrative);
-  }, [userContext, goalSelection, narrative]);
+  }, [existingPlan, hasAdjustedGoal, userContext, goalSelection, narrative]);
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.canvas }]}>
       {phase === 'analysis' && (
         <AnalysisView
-          context={userContext}
+          context={context}
           narrative={narrative}
           onProceedToGoal={() => setPhase('goal')}
           onBack={onCancel}
@@ -75,7 +83,10 @@ export const PlanWorkflowScreen: React.FC<PlanWorkflowScreenProps> = ({
 
       {phase === 'goal' && (
         <GoalSelectionView
-          context={userContext}
+          context={context}
+          // A saved or already-confirmed goal opens as it was; only a first
+          // run starts from the defaults.
+          initialSelection={existingPlan || hasAdjustedGoal ? goalSelection : undefined}
           onConfirmGoal={(selection) => {
             setGoalSelection(selection);
             setHasAdjustedGoal(true);

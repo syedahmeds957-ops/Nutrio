@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { BackButton } from '../../ui/BackButton.js';
 import { ComputedUserPlan } from '../types.js';
+import { planPaceLimit } from '../engine.js';
 import { Icon } from '../../ui/Icon.js';
 import { useTheme } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
@@ -50,6 +51,8 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
 
   const signedDelta = targetResult.appliedDelta;
   const isDeficit = signedDelta < 0;
+  // A safety floor can stop the target reaching the pace picked on the goal screen.
+  const paceLimit = planPaceLimit(plan);
 
   return (
     <ScrollView
@@ -125,6 +128,15 @@ export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
               : `${t('plan.reveal.maintenance', { tdee: userContext.tdee })}`}
           </Text>
         </View>
+
+        {paceLimit.limited && (
+          <Text style={[styles.paceLimitText, dir.textCenter, { color: accentTextColor }]}>
+            {t('plan.reveal.paceLimit', {
+              requested: formatNumber(paceLimit.requestedRateKgPerWeek, { maximumFractionDigits: 2 }),
+              rate: formatNumber(paceLimit.effectiveRateKgPerWeek, { maximumFractionDigits: 2 }),
+            })}
+          </Text>
+        )}
       </View>
 
       {/* Macro Split Card */}
@@ -383,6 +395,12 @@ const styles = StyleSheet.create({
     borderRadius: 9999,
     paddingVertical: 8,
     paddingHorizontal: 16,
+  },
+  paceLimitText: {
+    marginTop: 12,
+    fontSize: 13,
+    fontWeight: '600',
+    lineHeight: 18,
   },
   deltaText: {
     color: '#A4EB3F',
