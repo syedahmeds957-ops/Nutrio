@@ -56,6 +56,7 @@
     "continueAsGuest": "Continue as guest",
     "createAccount": "Create account",
     "emailAddress": "Email address",
+    "emailPlaceholder": "you@example.com",
     "errors": {
       "alreadyRegistered": "An account with this email already exists. Try signing in.",
       "codeInvalid": "That code is wrong or has expired. Request a new one.",
@@ -134,8 +135,8 @@
   "coach": {
     "badge": "Nutrio coach",
     "calibrated": {
-      "PK": "Desi-calibrated intelligence",
-      "SA": "Saudi-calibrated intelligence"
+      "PK": "Knows Pakistani food",
+      "SA": "Knows Saudi food"
     },
     "chips": {
       "four": {
@@ -243,6 +244,7 @@
       "SA": "Ask coach (e.g., how do I balance a Kabsa?)…"
     },
     "offlineAnswer": "Offline answer",
+    "send": "Send message",
     "suggestedTopics": "Suggested topics",
     "title": "AI nutrition coach",
     "typing": "AI coach is typing…",
@@ -276,12 +278,12 @@
     "daysAhead_other": "{{count}} days ahead",
     "fat": "Fat",
     "gramsUnit": "g",
-    "gramsValue": "{{value}}g",
+    "gramsValue": "{{value}} g",
     "kcal": "kcal",
     "kcalValue": "{{value}} kcal",
     "kgValue": "{{value}} kg",
     "litresValue": "{{value}} L",
-    "macroLine": "P {{protein}}g · C {{carbs}}g · F {{fat}}g",
+    "macroLine": "P {{protein}} g · C {{carbs}} g · F {{fat}} g",
     "mlValue": "{{value}} ml",
     "no": "No",
     "oil": "Oil",
@@ -545,7 +547,7 @@
       "targetWeight": "Goal target weight (kg)",
       "targetWeightHelper": "Sustainable target to project your timeline",
       "title": "Choose your target goal",
-      "weeklyPace": "Weekly pace: {{rate}} kg / week",
+      "weeklyPace": "Weekly pace: {{rate}} kg/week",
       "weeks": "{{count}} week",
       "weeks_other": "{{count}} weeks"
     },
@@ -576,10 +578,10 @@
       "title": "Your personalized targets"
     },
     "slotCard": {
-      "carbsChip": "{{value}}g Carbs",
+      "carbsChip": "{{value}} g Carbs",
       "fitsTargets": "Fits your targets",
       "oil": "{{count}} tsp oil",
-      "proteinChip": "{{value}}g Protein",
+      "proteinChip": "{{value}} g Protein",
       "swapAlternatives": "Swap alternatives"
     },
     "slotTitle": {
@@ -614,7 +616,7 @@
       "dayTargetKcal": "Target: {{kcal}} kcal",
       "fatOver": "About {{grams}} g over your fat target today.",
       "notEnoughFoods": "We don't have enough dishes for your diet in this region yet, so we can't build this day's plan.",
-      "ofTarget": "of {{grams}}g",
+      "ofTarget": "of {{grams}} g",
       "proteinShort": "About {{grams}} g short of your protein target today. Add a protein side to close the gap."
     }
   },
@@ -853,7 +855,7 @@
       "logIt": "Log it",
       "logSuggestion": "Log suggestion",
       "logged": "Logged!",
-      "proteinValue": "{{grams}}g protein",
+      "proteinValue": "{{grams}} g protein",
       "suggestions": {
         "PK.full": {
           "rationale": "Fits within your remaining {{remaining}} kcal, with plenty of protein toward your target.",
@@ -861,7 +863,7 @@
           "title": "Chicken tikka plate"
         },
         "PK.light": {
-          "rationale": "A light {{kcal}} kcal snack with {{protein}}g of protein.",
+          "rationale": "A light {{kcal}} kcal snack with {{protein}} g of protein.",
           "subtitle": "1 boiled egg + fresh cucumber lemon salad",
           "title": "Light protein snack"
         },
@@ -876,7 +878,7 @@
           "title": "Tazaj farrouj & salad"
         },
         "SA.light": {
-          "rationale": "A light {{kcal}} kcal snack with {{protein}}g of protein.",
+          "rationale": "A light {{kcal}} kcal snack with {{protein}} g of protein.",
           "subtitle": "Almarai fresh laban (200ml) + 1 boiled egg",
           "title": "Laban & boiled egg"
         },
@@ -1165,8 +1167,8 @@
     },
     "customizer": {
       "addModifier": "Add {{name}}",
-      "customPortion": "{{grams}}g custom portion",
-      "customTotal": "{{grams}}g total",
+      "customPortion": "{{grams}} g custom portion",
+      "customTotal": "{{grams}} g total",
       "customWeight": "Custom weight (g)",
       "customWeightHint": "Type the exact weight in grams, or step it with the buttons",
       "decreaseQty": "Decrease quantity",
@@ -1190,7 +1192,7 @@
       "portionSize": "Portion size",
       "removeModifier": "Remove {{name}}",
       "resetMyServing": "Reset to standard serving",
-      "saveAsMyServing": "Save {{grams}}g as my standard serving",
+      "saveAsMyServing": "Save {{grams}} g as my standard serving",
       "standardServings": "Standard servings"
     },
     "dashboard": {
@@ -1292,7 +1294,7 @@
       "dailyTarget": "Daily target",
       "dailyTargets": "Your daily targets",
       "eatenSoFar": "{{eaten}} kcal eaten so far",
-      "energyBudget": "Energy budget",
+      "energyBudget": "Daily calories",
       "goalCaption": "Goal",
       "weekBar": "{{day}}: {{percent}}% of your daily goal",
       "gramsLeft": "{{value}} g left",
@@ -1303,11 +1305,12 @@
       "kcalOver": "{{value}} kcal over",
       "noTargetHint": "Start logging meals · Set daily target in survey",
       "onTrackDaily": "On track for daily goal",
-      "pctOfGoal": "{{pct}}% of {{grams}}g goal",
+      "pctOfGoal": "{{pct}}% of {{grams}} g goal",
       "regionShort": {
         "PK": "PK",
         "SA": "SA"
       },
+      "regionPill": "Region: {{name}}. Tap to switch.",
       "pendingSync": "{{count}} offline entry pending sync",
       "pendingSync_other": "{{count}} offline entries pending sync",
       "readyFirstMeal": "Ready for first meal",
@@ -1366,6 +1369,8 @@
       "presetNameLabel": "Meal name",
       "presetNamePlaceholder": "Name it, e.g. My usual breakfast",
       "presetsHeading": "Your saved meals",
+      "quickAdd": "Add one serving of {{name}}",
+      "quickAdded": "{{name}} added",
       "recentHeading": "You log these most",
       "removeOne": "Remove one {{name}}",
       "resultsFound": "{{count}} result found",
@@ -1375,6 +1380,8 @@
       "savePresetConfirm": "Save",
       "searchOrDescribe": "Search or describe a meal",
       "searching": "Searching…",
+      "suggestedHeading": "Suggested for {{meal}}",
+      "undoQuickAdd": "Undo adding {{name}}",
       "clearSearch": "Clear search",
       "chooseMeal": "Choose a meal",
       "customMealPill": "Custom meal",
@@ -1391,7 +1398,7 @@
       },
       "variantPicker": "Choose the meat for {{name}}",
       "slotFilter": {
-        "showing": "Showing {{meal}} foods ({{shown}} of {{total}})",
+        "showing": "{{shown}} of {{total}} foods that suit {{meal}}",
         "showingAll": "Showing every food",
         "showAll": "Show all foods",
         "onlyMeal": "Only {{meal}} foods"
@@ -1489,10 +1496,10 @@
   "weight": {
     "adaptive": {
       "blendedTdee": "Calorie burn estimate",
-      "calibrationDays": "{{days}} / 28 days ({{pct}}%)",
-      "calibrationWindow": "Learning window (28 days)",
+      "calibrationDays": "{{days}} of 28 days ({{pct}}%)",
+      "calibrationWindow": "Building your estimate",
       "explainBlended": "Your estimate mixes {{observed}}% of what we measured ({{observedKcal}} kcal a day) with {{formula}}% of the standard estimate ({{formulaKcal}} kcal).",
-      "explainNeedMore": "Log food and your weight on at least 7 days to improve this estimate. You have {{days}} so far, so the standard estimate is used.",
+      "explainNeedMore": "Once you have logged food and weight on 7 days, we start mixing in your own numbers, and trust them more each day up to 28. You have {{days}} so far, so the standard estimate is used.",
       "explainUnderLogging": "The food you logged looks too low to be everything you ate, so some meals are probably missing. Your calorie targets will not be cut.",
       "formulaBaseline": "Standard estimate: {{value}} kcal",
       "subtitle": "Learned from your weight trend and the food you log",
@@ -1518,9 +1525,12 @@
     },
     "spikeWarning": "Temporary +{{diff}} kg water-weight fluctuation (likely sodium/carb retention from a desi meal). Your trend line smooths this out automatically.",
     "trend": {
+      "chartLabel": "Weight chart: {{n}} weigh-ins, from {{first}} kg to {{last}} kg",
       "kgScale": "{{value}} kg scale",
       "fromSurvey": "From your survey",
       "kgTrend": "{{value}} kg trend",
+      "logAgain": "This is your first reading. Weigh in again in a few days and your trend line will appear.",
+      "logFirst": "Log your first weigh-in to start your trend.",
       "netChange": "Change",
       "overallProgress": "Overall progress",
       "rawReading": "Raw scale reading",
@@ -1529,7 +1539,7 @@
       "subtitle": "Smoothed so day-to-day water changes don't distract",
       "title": "Weight trend",
       "trendWeight": "Trend",
-      "trueTissue": "True tissue trend"
+      "trueTissue": "Ignores water swings"
     }
   },
   "workout": {

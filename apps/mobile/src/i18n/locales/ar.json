@@ -56,6 +56,7 @@
     "continueAsGuest": "المتابعة كضيف",
     "createAccount": "إنشاء حساب",
     "emailAddress": "البريد الإلكتروني",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
     "errors": {
       "alreadyRegistered": "يوجد حساب بهذا البريد الإلكتروني بالفعل. جرّب تسجيل الدخول.",
       "codeInvalid": "الرمز غير صحيح أو انتهت صلاحيته. اطلب رمزاً جديداً.",
@@ -138,8 +139,8 @@
   "coach": {
     "badge": "مدرب نيوتريو",
     "calibrated": {
-      "PK": "ذكاء غذائي محلي",
-      "SA": "ذكاء غذائي سعودي"
+      "PK": "يعرف الأكل الباكستاني",
+      "SA": "يعرف الأكل السعودي"
     },
     "chips": {
       "four": {
@@ -247,6 +248,7 @@
       "SA": "اسأل المدرب (مثلاً: كيف أوازن الكبسة؟)..."
     },
     "offlineAnswer": "إجابة دون اتصال",
+    "send": "إرسال الرسالة",
     "suggestedTopics": "أسئلة شائعة",
     "title": "مدرب التغذية الذكي",
     "typing": "المدرب الذكي يكتب...",
@@ -293,7 +295,7 @@
     "kcalValue": "{{value}} سعرة",
     "kgValue": "{{value}} كغ",
     "litresValue": "{{value}} ل",
-    "macroLine": "ب {{protein}}غ · ك {{carbs}}غ · د {{fat}}غ",
+    "macroLine": "ب {{protein}} غ · ك {{carbs}} غ · د {{fat}} غ",
     "mlValue": "{{value}} مل",
     "no": "لا",
     "oil": "الزيت",
@@ -561,7 +563,7 @@
       "targetWeight": "الوزن المستهدف (كغ)",
       "targetWeightHelper": "هدف واقعي لتقدير جدولك الزمني",
       "title": "اختر هدفك",
-      "weeklyPace": "الوتيرة الأسبوعية: {{rate}} كغ / أسبوع",
+      "weeklyPace": "الوتيرة الأسبوعية: {{rate}} كغ/أسبوع",
       "weeks_few": "{{count}} أسابيع",
       "weeks_many": "{{count}} أسبوعاً",
       "weeks_one": "أسبوع واحد",
@@ -1328,7 +1330,7 @@
       "dailyTarget": "الهدف اليومي",
       "dailyTargets": "أهدافك اليومية",
       "eatenSoFar": "تناولت {{eaten}} سعرة حتى الآن",
-      "energyBudget": "ميزانية الطاقة",
+      "energyBudget": "سعراتك اليومية",
       "goalCaption": "الهدف",
       "weekBar": "{{day}}: {{percent}}٪ من هدفك اليومي",
       "gramsLeft": "{{value}} غرام متبقٍ",
@@ -1344,6 +1346,7 @@
         "PK": "باكستان",
         "SA": "السعودية"
       },
+      "regionPill": "المنطقة: {{name}}. اضغط للتبديل.",
       "pendingSync_few": "{{count}} إدخالات بانتظار المزامنة",
       "pendingSync_many": "{{count}} إدخالاً بانتظار المزامنة",
       "pendingSync_one": "إدخال واحد بانتظار المزامنة",
@@ -1418,6 +1421,8 @@
       "presetNameLabel": "اسم الوجبة",
       "presetNamePlaceholder": "سمِّها، مثل: فطوري المعتاد",
       "presetsHeading": "وجباتك المحفوظة",
+      "quickAdd": "إضافة حصة واحدة من {{name}}",
+      "quickAdded": "تمت إضافة {{name}}",
       "recentHeading": "الأكثر تسجيلاً لديك",
       "removeOne": "إزالة {{name}} واحد",
       "resultsFoundMore": "أكثر من {{count}} نتيجة",
@@ -1431,6 +1436,8 @@
       "savePresetConfirm": "حفظ",
       "searchOrDescribe": "ابحث أو صِف وجبة",
       "searching": "جاري البحث...",
+      "suggestedHeading": "مقترح لـ {{meal}}",
+      "undoQuickAdd": "تراجع عن إضافة {{name}}",
       "clearSearch": "مسح البحث",
       "chooseMeal": "اختر الوجبة",
       "customMealPill": "وجبة مخصصة",
@@ -1447,7 +1454,7 @@
       },
       "variantPicker": "اختر نوع اللحم لـ {{name}}",
       "slotFilter": {
-        "showing": "عرض أطعمة {{meal}} ({{shown}} من {{total}})",
+        "showing": "{{shown}} من {{total}} طعاماً يناسب {{meal}}",
         "showingAll": "عرض كل الأطعمة",
         "showAll": "عرض كل الأطعمة",
         "onlyMeal": "أطعمة {{meal}} فقط"
@@ -1552,10 +1559,10 @@
   "weight": {
     "adaptive": {
       "blendedTdee": "تقدير معدل الحرق",
-      "calibrationDays": "{{days}} / 28 يوماً ({{pct}}%)",
-      "calibrationWindow": "فترة التعلّم (28 يوماً)",
+      "calibrationDays": "{{days}} من 28 يوماً ({{pct}}%)",
+      "calibrationWindow": "جارٍ بناء تقديرك",
       "explainBlended": "تقديرك يجمع {{observed}}% مما قسناه ({{observedKcal}} سعرة يومياً) مع {{formula}}% من التقدير المعتاد ({{formulaKcal}} سعرة).",
-      "explainNeedMore": "سجّل طعامك ووزنك في 7 أيام على الأقل لتحسين هذا التقدير. لديك {{days}} حتى الآن، لذا نستخدم التقدير المعتاد.",
+      "explainNeedMore": "بعد تسجيل طعامك ووزنك في 7 أيام، نبدأ بدمج أرقامك الخاصة ونزيد الاعتماد عليها كل يوم حتى 28 يوماً. لديك {{days}} حتى الآن، لذا نستخدم التقدير المعتاد.",
       "explainUnderLogging": "الطعام الذي سجّلته يبدو أقل من كل ما أكلته، فغالباً هناك وجبات لم تُسجَّل. لن نخفض سعراتك اليومية.",
       "formulaBaseline": "التقدير المعتاد: {{value}} سعرة",
       "subtitle": "نتعلمه من مسار وزنك والطعام الذي تسجله",
@@ -1581,9 +1588,12 @@
     },
     "spikeWarning": "ارتفاع مؤقت +{{diff}} كغ بسبب تذبذب وزن الماء (غالباً احتباس صوديوم أو كربوهيدرات بعد وجبة دسمة). يلطّف خط الاتجاه هذا الارتفاع تلقائياً.",
     "trend": {
+      "chartLabel": "مخطط الوزن: {{n}} قياسات، من {{first}} كغ إلى {{last}} كغ",
       "kgScale": "{{value}} كغ ميزان",
       "fromSurvey": "من استبيانك",
       "kgTrend": "{{value}} كغ مسار",
+      "logAgain": "هذه قراءتك الأولى. قِس وزنك مرة أخرى بعد أيام قليلة وسيظهر خط مسارك.",
+      "logFirst": "سجّل أول قياس لوزنك لتبدأ رؤية مسارك.",
       "netChange": "التغيّر",
       "overallProgress": "التقدم الإجمالي",
       "rawReading": "وزن خام",
@@ -1592,7 +1602,7 @@
       "subtitle": "تنعيم القراءات حتى لا تشتّتك تقلبات الماء والأملاح اليومية",
       "title": "منحنى مسار الوزن",
       "trendWeight": "المسار",
-      "trueTissue": "الوزن الحقيقي"
+      "trueTissue": "يتجاهل تقلبات الماء"
     }
   },
   "workout": {
