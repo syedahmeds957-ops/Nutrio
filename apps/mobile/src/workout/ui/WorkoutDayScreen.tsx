@@ -10,7 +10,7 @@ import {
   type WorkoutLog,
   type WorkoutSession,
 } from '@nutrio/workout-core';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useI18nState, useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 import { sessionTitle } from '../sessionTitle.js';
@@ -305,7 +305,7 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
                 <Text style={[styles.name, dir.text, { color: c.textPrimary }]}>{name}</Text>
                 {swapped ? (
                   <View style={[styles.swappedTag, { backgroundColor: c.primaryLight }]}>
-                    <Text style={[styles.swappedText, { color: c.primaryTintText }]}>{t('workout.swap.tag')}</Text>
+                    <Text numberOfLines={1} style={[styles.swappedText, { color: c.primaryTintText }]}>{t('workout.swap.tag')}</Text>
                   </View>
                 ) : null}
                 <Text style={[styles.presc, dir.text, { color: c.textSecondary }]}>{prescriptionText(t, { ...slot, sets: target.sets })}</Text>
@@ -438,7 +438,7 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
                         <View style={styles.flex}>
                           <Text style={[styles.name, dir.text, { color: c.textPrimary }]}>{name}</Text>
                           <View style={[styles.swappedTag, { backgroundColor: c.primaryLight }]}>
-                            <Text style={[styles.swappedText, { color: c.primaryTintText }]}>{t('workout.edit.addedTag')}</Text>
+                            <Text numberOfLines={1} style={[styles.swappedText, { color: c.primaryTintText }]}>{t('workout.edit.addedTag')}</Text>
                           </View>
                         </View>
                       </TouchableOpacity>
@@ -492,8 +492,8 @@ export const WorkoutDayScreen: React.FC<WorkoutDayScreenProps> = ({
           ) : doneLog ? (
             <View style={styles.doneActions}>
               <View style={[styles.doneBar, { backgroundColor: c.successLight }]}>
-                <Icon name="check" size={16} color={theme.isDark ? c.success : '#166534'} strokeWidth={3} />
-                <Text style={[styles.doneText, { color: theme.isDark ? c.success : '#166534' }]}>
+                <Icon name="check" size={16} color={c.successText} strokeWidth={3} />
+                <Text style={[styles.doneText, { color: c.successText }]}>
                   {t('workout.day.doneOn', { date: dateText(t, weekdayOf(doneLog.dateKey), Number(doneLog.dateKey.slice(8)), Number(doneLog.dateKey.slice(5, 7)) - 1) })}
                 </Text>
               </View>
@@ -639,8 +639,8 @@ const styles = StyleSheet.create({
   guideText: { flex: 1, fontSize: 13, lineHeight: 19, fontWeight: '600' },
   cardMain: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 12 },
   more: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
-  swappedTag: { alignSelf: 'flex-start', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 999, marginTop: 3 },
-  swappedText: { fontSize: 11, fontWeight: '800' },
+  swappedTag: { alignSelf: 'flex-start', paddingHorizontal: 8, paddingVertical: 2, borderRadius: commonRadii.pill, marginTop: 3 },
+  swappedText: { fontSize: 12, fontWeight: '800' },
   resetLink: { alignSelf: 'flex-start', minHeight: 36, justifyContent: 'center' },
   resetText: { fontSize: 13, fontWeight: '700' },
   name: { fontSize: 15, fontWeight: '700', lineHeight: 20 },
@@ -649,14 +649,14 @@ const styles = StyleSheet.create({
   logged: { fontSize: 13, fontWeight: '700' },
   flipped: { transform: [{ scaleX: -1 }] },
   bottomBar: { paddingHorizontal: 20, paddingTop: 12, paddingBottom: 14, borderTopWidth: 1 },
-  startButton: { minHeight: 52, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
+  startButton: { minHeight: 52, borderRadius: commonRadii.pill, alignItems: 'center', justifyContent: 'center' },
   startText: { fontSize: 16, fontWeight: '800' },
-  secondaryButton: { minHeight: 52, borderRadius: 999, borderWidth: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, paddingHorizontal: 12 },
+  secondaryButton: { minHeight: 52, borderRadius: commonRadii.pill, borderWidth: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, paddingHorizontal: 12 },
   secondaryText: { fontSize: 15, fontWeight: '800' },
   doneActions: { gap: 10 },
   actionRow: { flexDirection: 'row', gap: 10 },
   actionButton: { flex: 1 },
-  doneBar: { minHeight: 40, borderRadius: 999, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 },
+  doneBar: { minHeight: 40, borderRadius: commonRadii.pill, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 },
   doneText: { fontSize: 15, fontWeight: '800' },
   sampleBar: { gap: 10 },
   sampleNote: { flexDirection: 'row', alignItems: 'flex-start', gap: 8 },

@@ -120,7 +120,7 @@ export const PlanCalculationTransitionView: React.FC<PlanCalculationTransitionVi
                     <Icon
                       name="check"
                       size={13}
-                      color={isSaudi ? '#FFFFFF' : '#0A0B0D'}
+                      color={isSaudi ? '#FFFFFF' : theme.colors.limeText}
                     />
                   ) : isCurrent ? (
                     <ActivityIndicator size="small" color={accentColor} />
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   eyebrow: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '800',
     letterSpacing: 1.2,
     marginBottom: 6,

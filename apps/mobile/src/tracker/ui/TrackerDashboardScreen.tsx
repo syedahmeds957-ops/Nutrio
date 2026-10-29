@@ -46,6 +46,7 @@ import { weekStartFor } from '../../workout/weekView.js';
 import { computeLoggingStreak } from '../streak.js';
 import { StreakBadge } from './StreakBadge.js';
 import { WeeklyCalorieBankCard } from './WeeklyCalorieBankCard.js';
+import { useReducedMotion } from '../../ui/useReducedMotion.js';
 
 interface TrackerDashboardScreenProps {
   userName?: string;
@@ -227,8 +228,15 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   const profileFade = useRef(new Animated.Value(0)).current;
   const profileSlide = useRef(new Animated.Value(150)).current;
 
+  const reduceMotion = useReducedMotion();
+
   const openProfile = () => {
     setProfileVisible(true);
+    if (reduceMotion) {
+      profileFade.setValue(1);
+      profileSlide.setValue(0);
+      return;
+    }
     Animated.parallel([
       Animated.timing(profileFade, { toValue: 1, duration: 250, useNativeDriver: true }),
       Animated.spring(profileSlide, { toValue: 0, friction: 8, tension: 50, useNativeDriver: true }),
@@ -236,6 +244,13 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   };
 
   const closeProfile = (callback?: () => void) => {
+    if (reduceMotion) {
+      profileFade.setValue(0);
+      profileSlide.setValue(150);
+      setProfileVisible(false);
+      if (callback) callback();
+      return;
+    }
     Animated.parallel([
       Animated.timing(profileFade, { toValue: 0, duration: 200, useNativeDriver: true }),
       Animated.timing(profileSlide, { toValue: 150, duration: 200, useNativeDriver: true }),
@@ -518,6 +533,27 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     forceUpdate();
   };
 
+  // The hub's "+" on a dish: one standard serving (the user's own if saved) into
+  // the meal being logged, without opening the detail sheet. Returns the new
+  // item's id so the hub can offer Undo, or null when nothing was logged.
+  const handleQuickLogFromHub = (food: NormalizedFood): string | null => {
+    if (blockGuest()) return null;
+    const serving = defaultServingFor(food, foodKey(food), t('tracker.customizer.myServing'));
+    if (!serving) return null;
+    const logged = engine.logItem(activeSlot, food, serving, 1);
+    recordFoodUsage([food.id || food.name]);
+    persistCurrentActivities();
+    HapticFeedback.impactMedium();
+    forceUpdate();
+    return logged.id;
+  };
+
+  const handleUndoQuickLog = (id: string) => {
+    engine.deleteItem(id);
+    persistCurrentActivities();
+    forceUpdate();
+  };
+
   const handleQuickLogStaple = (staple: StapleItem, slot: MealSlot) => {
     if (blockGuest()) return;
     const { food, serving } = resolveStaple(staple, activeRegion);
@@ -557,7 +593,7 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
       <View style={styles.screenLayer} {...hiddenFromAssistiveTech(overlayOpen)}>
         <ScrollView
           style={styles.container}
-          contentContainerStyle={[styles.scrollPad, { paddingBottom: dockBar ? 24 : 115 + insetsBottom }]}
+          contentContainerStyle={[styles.scrollPad, { paddingBottom: dockBar ? 24 : 136 + insetsBottom }]}
           showsVerticalScrollIndicator={false}
         >
           <TodayHeader
@@ -675,6 +711,8 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
         slot={activeSlot}
         onSlotChange={setActiveSlot}
         onLogDescribedMeal={handleLogDescribedMeal}
+        onQuickLog={handleQuickLogFromHub}
+        onUndoQuickLog={handleUndoQuickLog}
       />
 
       {/* Brand Menu View with Sub-Categories */}

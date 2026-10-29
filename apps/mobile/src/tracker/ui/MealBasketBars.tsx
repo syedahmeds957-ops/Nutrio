@@ -86,7 +86,7 @@ export const BasketSummaryBar: React.FC<{
           {t('tracker.hub.basketCount', { count: totals.count })}
         </Text>
         <Text style={[styles.basketKcal, { color: theme.colors.textSecondary }]} numberOfLines={2}>
-          ≈{t('common.kcalValue', { value: Math.round(totals.kcal) })} · {basket.map((e) => `${e.quantity}x ${foodDisplayName(e.food.name, e.food.nameAr, dir.isRTL).primary}`).join(', ')}
+          ~{t('common.kcalValue', { value: Math.round(totals.kcal) })} · {basket.map((e) => `${e.quantity}x ${foodDisplayName(e.food.name, e.food.nameAr, dir.isRTL).primary}`).join(', ')}
         </Text>
         <TouchableOpacity onPress={onStartNaming} hitSlop={HIT_SLOP} accessibilityRole="button">
           <Text style={[styles.savePresetLink, { color: theme.colors.primaryAccessible }]}>

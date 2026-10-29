@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { getExercise, type Prescription, type WorkoutSettings } from '@nutrio/workout-core';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useI18nState, useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 import { isAddedSlot, isCardioEntry } from '../workoutEdit.js';
@@ -56,7 +56,7 @@ export const EditLogList: React.FC<EditLogListProps> = ({ draft, settings, unitF
                 <Text style={[styles.name, dir.text, { color: c.textPrimary }]}>{name}</Text>
                 {added ? (
                   <View style={[styles.tag, { backgroundColor: c.primaryLight }]}>
-                    <Text style={[styles.tagText, { color: c.primaryTintText }]}>{t('workout.edit.addedTag')}</Text>
+                    <Text numberOfLines={1} style={[styles.tagText, { color: c.primaryTintText }]}>{t('workout.edit.addedTag')}</Text>
                   </View>
                 ) : null}
               </View>
@@ -134,12 +134,12 @@ const styles = StyleSheet.create({
   top: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   flex: { flex: 1, minWidth: 0 },
   name: { fontSize: 15, fontWeight: '700', lineHeight: 20 },
-  tag: { alignSelf: 'flex-start', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 999, marginTop: 3 },
-  tagText: { fontSize: 11, fontWeight: '800' },
+  tag: { alignSelf: 'flex-start', paddingHorizontal: 8, paddingVertical: 2, borderRadius: commonRadii.pill, marginTop: 3 },
+  tagText: { fontSize: 12, fontWeight: '800' },
   cardioRow: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 6, paddingVertical: 4, borderRadius: 14 },
   rowLabel: { width: 64, fontSize: 12, fontWeight: '700' },
   check: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
   setActions: { flexDirection: 'row', gap: 8 },
-  setButton: { flex: 1, minHeight: 44, borderRadius: 999, borderWidth: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, paddingHorizontal: 10 },
+  setButton: { flex: 1, minHeight: 44, borderRadius: commonRadii.pill, borderWidth: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, paddingHorizontal: 10 },
   setButtonText: { fontSize: 13, fontWeight: '700' },
 });

@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-nati
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { currentOrNextRamadan, getExercise, type WeeklyWorkoutPlan, type WorkoutSettings } from '@nutrio/workout-core';
 import { addDaysToKey } from '../../common/dateKey.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useI18nState, useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 import { sessionTitle } from '../sessionTitle.js';
@@ -68,7 +68,7 @@ export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({
   const next = today.session ? null : nextTrainingDay(plan, today.dateKey);
   const todayDone = today.status === 'done';
   const sample = Boolean(onRequireAccount);
-  const doneFg = theme.isDark ? c.success : '#166534';
+  const doneFg = c.successText;
 
   const meta = (exercises: number, minutes: number) =>
     `${t('workout.week.exercises', { count: exercises })} · ${t('workout.week.minutes', { count: minutes })}`;
@@ -76,7 +76,7 @@ export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({
   const chipColors: Record<DayStatus, { bg: string; fg: string }> = {
     today: { bg: c.primaryLime, fg: c.limeText },
     planned: { bg: c.surfaceSecondary, fg: c.textSecondary },
-    done: { bg: c.successLight, fg: theme.isDark ? c.success : '#166534' },
+    done: { bg: c.successLight, fg: c.successText },
     missed: { bg: c.warningLight, fg: theme.isDark ? c.warning : '#92400E' },
   };
 
@@ -235,7 +235,7 @@ export const WorkoutWeekScreen: React.FC<WorkoutWeekScreenProps> = ({
           const dayName = t(`workout.days.${day.weekday}`);
           const dateColumn = (muted: boolean) => (
             <View style={styles.dateColumn}>
-              <Text style={[styles.dayName, { color: c.textSecondary }]}>{dayName}</Text>
+              <Text numberOfLines={1} style={[styles.dayName, { color: c.textSecondary }]}>{dayName}</Text>
               <Text style={[muted ? styles.dateMuted : styles.date, { color: muted ? c.textSecondary : c.textPrimary }]}>
                 {day.dayOfMonth}
               </Text>
@@ -349,15 +349,15 @@ const styles = StyleSheet.create({
   exerciseName: { fontSize: 15, fontWeight: '700', lineHeight: 20 },
   setsReps: { fontSize: 14, fontWeight: '800' },
   rest: { fontSize: 12, fontWeight: '600' },
-  primaryButton: { marginTop: 8, minHeight: 52, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
+  primaryButton: { marginTop: 8, minHeight: 52, borderRadius: commonRadii.pill, alignItems: 'center', justifyContent: 'center' },
   primaryButtonText: { fontSize: 16, fontWeight: '800' },
-  secondaryButton: { marginTop: 8, minHeight: 48, borderRadius: 999, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
+  secondaryButton: { marginTop: 8, minHeight: 48, borderRadius: commonRadii.pill, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
   secondaryButtonText: { fontSize: 15, fontWeight: '700' },
   todayTop: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  doToday: { alignSelf: 'flex-start', marginTop: 8, minHeight: 36, paddingHorizontal: 14, borderRadius: 999, justifyContent: 'center' },
+  doToday: { alignSelf: 'flex-start', marginTop: 8, minHeight: 36, paddingHorizontal: 14, borderRadius: commonRadii.pill, justifyContent: 'center' },
   doTodayText: { fontSize: 13, fontWeight: '800' },
   doneBar: { paddingHorizontal: 20, paddingTop: 12, paddingBottom: 16, borderTopWidth: 1 },
-  doneButton: { minHeight: 52, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
+  doneButton: { minHeight: 52, borderRadius: commonRadii.pill, alignItems: 'center', justifyContent: 'center' },
   doneButtonText: { fontSize: 16, fontWeight: '800' },
   toast: {
     position: 'absolute',
@@ -368,7 +368,7 @@ const styles = StyleSheet.create({
     gap: 8,
     paddingHorizontal: 18,
     paddingVertical: 12,
-    borderRadius: 999,
+    borderRadius: commonRadii.pill,
     backgroundColor: '#0A0B0D',
   },
   toastText: { color: '#FFFFFF', fontSize: 14, fontWeight: '700' },
@@ -378,19 +378,19 @@ const styles = StyleSheet.create({
   splitName: { fontSize: 12, fontWeight: '700' },
   summaryDone: { fontSize: 22, fontWeight: '800', letterSpacing: -0.4 },
   segments: { flexDirection: 'row', gap: 4 },
-  segment: { flex: 1, height: 6, borderRadius: 999 },
+  segment: { flex: 1, height: 6, borderRadius: commonRadii.pill },
   dayCard: { flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 72, padding: 12, borderRadius: 22 },
   dateColumn: { width: 58, alignItems: 'center' },
-  dayName: { fontSize: 11, fontWeight: '700' },
+  dayName: { fontSize: 12, fontWeight: '700' },
   date: { fontSize: 22, fontWeight: '800' },
   dateMuted: { fontSize: 18, fontWeight: '700' },
   dayTitle: { fontSize: 16, fontWeight: '700' },
-  statusChip: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 999 },
+  statusChip: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 10, paddingVertical: 5, borderRadius: commonRadii.pill },
   statusText: { fontSize: 12, fontWeight: '700' },
   restRow: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 12, paddingVertical: 4 },
   restLabel: { fontSize: 14, fontWeight: '600' },
   walk: { fontSize: 12, marginTop: 1 },
-  ramadanBadge: { alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 10, paddingVertical: 6, borderRadius: 999 },
+  ramadanBadge: { alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 10, paddingVertical: 6, borderRadius: commonRadii.pill },
   ramadanBadgeText: { fontSize: 12, fontWeight: '700' },
   slotRow: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 2 },
   slotText: { fontSize: 12, fontWeight: '600' },
@@ -401,5 +401,5 @@ const styles = StyleSheet.create({
   sampleBody: { fontSize: 13, lineHeight: 19, marginTop: 2 },
   // Stacked full width: side by side, the labels wrapped inside their pills at phone widths.
   sampleActions: { gap: 8 },
-  sampleButton: { minHeight: 46, borderRadius: 999, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 18 },
+  sampleButton: { minHeight: 46, borderRadius: commonRadii.pill, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 18 },
 });

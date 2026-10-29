@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon, type IconName } from '../../ui/Icon.js';
 
@@ -68,10 +68,10 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 28,
   },
-  handle: { alignSelf: 'center', width: 40, height: 5, borderRadius: 999, marginBottom: 10 },
+  handle: { alignSelf: 'center', width: 40, height: 5, borderRadius: commonRadii.pill, marginBottom: 10 },
   title: { fontSize: 17, fontWeight: '800', marginBottom: 6 },
   option: { flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 52, borderTopWidth: 1 },
   optionText: { flex: 1, fontSize: 15, fontWeight: '600' },
-  cancel: { marginTop: 10, minHeight: 48, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
+  cancel: { marginTop: 10, minHeight: 48, borderRadius: commonRadii.pill, alignItems: 'center', justifyContent: 'center' },
   cancelText: { fontSize: 15, fontWeight: '700' },
 });

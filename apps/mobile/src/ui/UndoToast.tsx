@@ -1,6 +1,6 @@
 import React from 'react';
 import { AccessibilityInfo, StyleProp, StyleSheet, Text, TouchableOpacity, View, ViewStyle } from 'react-native';
-import { useTheme } from '../theme.js';
+import { useTheme, commonRadii } from '../theme.js';
 import { useTranslation } from '../i18n/index.js';
 import { Icon } from './Icon.js';
 
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     paddingStart: 18,
     paddingEnd: 6,
     paddingVertical: 4,
-    borderRadius: 999,
+    borderRadius: commonRadii.pill,
     boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.3)',
   },
   message: { flex: 1, fontSize: 14, fontWeight: '700' },

@@ -5,7 +5,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { useFormat } from '../../i18n/useFormat.js';
 import { Icon } from '../../ui/Icon.js';
@@ -13,6 +13,7 @@ import type { Weekday } from '@nutrio/workout-core';
 import { weeklyCalorieBank } from '../calorieBank.js';
 import { dayIndexInWeek, weekdaysFrom } from '../weekStrip.js';
 import { localDateKey } from '../../common/dateKey.js';
+import { useReducedMotion } from '../../ui/useReducedMotion.js';
 
 export interface DayIntake {
   day: string;
@@ -129,13 +130,19 @@ export const WeeklyCalorieBankCard: React.FC<WeeklyCalorieBankCardProps> = ({
       ? t('tracker.calorieBank.todayPendingHint')
       : t('tracker.calorieBank.emptyHint');
 
+  const reduceMotion = useReducedMotion();
+
   useEffect(() => {
+    if (reduceMotion) {
+      animProgress.setValue(1);
+      return;
+    }
     Animated.timing(animProgress, {
       toValue: 1,
       duration: 600,
       useNativeDriver: false,
     }).start();
-  }, [animProgress]);
+  }, [animProgress, reduceMotion]);
 
   // Height of the day-label block under each bar (label line + gap), so the
   // absolutely-positioned target guide can be measured from the bar baseline
@@ -305,7 +312,7 @@ const styles = StyleSheet.create({
     minHeight: 28,
     paddingVertical: 4,
     paddingHorizontal: 10,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     borderWidth: 1,
   },
   balanceText: {
@@ -341,7 +348,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     right: 0,
-    fontSize: 10,
+    fontSize: 12,
     lineHeight: 14,
     fontWeight: '700',
   },
@@ -367,7 +374,7 @@ const styles = StyleSheet.create({
     borderRadius: 7,
   },
   dayLabel: {
-    fontSize: 11,
+    fontSize: 12,
     lineHeight: DAY_LABEL_LINE_HEIGHT,
     fontWeight: '600',
   },

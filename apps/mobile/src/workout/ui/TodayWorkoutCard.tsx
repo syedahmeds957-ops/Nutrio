@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { LayoutChangeEvent, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import type { WeeklyWorkoutPlan, WorkoutLog } from '@nutrio/workout-core';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
@@ -39,7 +39,7 @@ export const TodayWorkoutCard: React.FC<TodayWorkoutCardProps> = ({ plan, logs =
 
   const week = plan ? buildWeekView(plan, todayKey, activeRegion, logs) : null;
   const done = week?.today.status === 'done';
-  const doneFg = theme.isDark ? c.success : '#166534';
+  const doneFg = c.successText;
   const session = week?.today.session ?? null;
   const next = plan && !session ? nextTrainingDay(plan, todayKey) : null;
   const [gridWidth, setGridWidth] = useState(0);
@@ -65,7 +65,7 @@ export const TodayWorkoutCard: React.FC<TodayWorkoutCardProps> = ({ plan, logs =
           </View>
           {sample ? (
             <View style={[styles.sampleTag, tile.sampleTag, { backgroundColor: c.surfaceSecondary }]}>
-              <Text style={[styles.sampleTagText, { color: c.textSecondary }]}>{t('workout.guest.sampleTag')}</Text>
+              <Text numberOfLines={1} style={[styles.sampleTagText, { color: c.textSecondary }]}>{t('workout.guest.sampleTag')}</Text>
             </View>
           ) : null}
 
@@ -151,7 +151,7 @@ export const TodayWorkoutCard: React.FC<TodayWorkoutCardProps> = ({ plan, logs =
         <Text style={[styles.overline, dir.text, { color: c.textSecondary }]}>{t('workout.card.overline')}</Text>
         {sample ? (
           <View style={[styles.sampleTag, { backgroundColor: c.surfaceSecondary }]}>
-            <Text style={[styles.sampleTagText, { color: c.textSecondary }]}>{t('workout.guest.sampleTag')}</Text>
+            <Text numberOfLines={1} style={[styles.sampleTagText, { color: c.textSecondary }]}>{t('workout.guest.sampleTag')}</Text>
           </View>
         ) : null}
       </View>
@@ -242,7 +242,7 @@ const tile = StyleSheet.create({
   meta: { fontSize: 12.5, lineHeight: 17 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: TILE_THUMB_GAP, marginTop: 8, alignSelf: 'stretch' },
   sampleTag: { alignSelf: 'flex-start' },
-  button: { minHeight: 44, borderRadius: 999, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 12 },
+  button: { minHeight: 44, borderRadius: commonRadii.pill, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 12 },
 });
 
 const styles = StyleSheet.create({
@@ -256,11 +256,11 @@ const styles = StyleSheet.create({
   trainingRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   thumbs: { flexDirection: 'row', gap: 8 },
   doneRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-  primary: { minHeight: 48, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
-  startPill: { minHeight: 44, paddingHorizontal: 22, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
+  primary: { minHeight: 48, borderRadius: commonRadii.pill, alignItems: 'center', justifyContent: 'center' },
+  startPill: { minHeight: 44, paddingHorizontal: 22, borderRadius: commonRadii.pill, alignItems: 'center', justifyContent: 'center' },
   primaryText: { fontSize: 14, fontWeight: '800' },
-  secondary: { minHeight: 44, borderRadius: 999, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
+  secondary: { minHeight: 44, borderRadius: commonRadii.pill, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
   secondaryText: { fontSize: 14, fontWeight: '700' },
-  sampleTag: { paddingHorizontal: 8, paddingVertical: 2, borderRadius: 999 },
-  sampleTagText: { fontSize: 11, fontWeight: '800' },
+  sampleTag: { paddingHorizontal: 8, paddingVertical: 2, borderRadius: commonRadii.pill },
+  sampleTagText: { fontSize: 12, fontWeight: '800' },
 });

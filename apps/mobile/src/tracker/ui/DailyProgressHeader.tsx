@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { DailyTrackerSummary } from '../types.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { useFormat } from '../../i18n/useFormat.js';
 import type { Weekday } from '@nutrio/workout-core';
@@ -66,7 +66,7 @@ const MacroTile: React.FC<MacroTileProps> = ({
         { backgroundColor: theme.colors.surface, borderColor: theme.colors.border },
       ]}
     >
-      <Text style={[styles.tileLabel, dir.text, { color: theme.colors.textSecondary }]}>{label}</Text>
+      <Text numberOfLines={1} style={[styles.tileLabel, dir.text, { color: theme.colors.textSecondary }]}>{label}</Text>
       <Text style={[styles.tileValue, dir.text, { color: theme.colors.textPrimary }]} numberOfLines={1}>
         {formatNumber(eaten)}
         {hasGoal && (
@@ -80,7 +80,7 @@ const MacroTile: React.FC<MacroTileProps> = ({
         accessibilityRole="progressbar"
         accessibilityLabel={label}
         accessibilityValue={{ min: 0, max: 100, now: Math.round(pct) }}
-        style={[styles.tileProgressTrack, { backgroundColor: `${color}33` }]}
+        style={[styles.tileProgressTrack, { backgroundColor: theme.colors.progressTrack }]}
       >
         <View style={[styles.tileProgressFill, { width: `${pct}%`, backgroundColor: color }]} />
       </View>
@@ -227,7 +227,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
                           {
                             height: `${Math.max(12, Math.round(dayFillPct * 100))}%`,
                             backgroundColor: isToday
-                              ? '#0A0B0D'
+                              ? theme.colors.limeText
                               : 'rgba(10, 11, 13, 0.55)',
                           },
                         ]}
@@ -258,14 +258,14 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
             { backgroundColor: theme.colors.surface, borderColor: theme.colors.border },
           ]}
         >
-          <Text style={[styles.tileLabel, dir.text, { color: theme.colors.textSecondary }]}>
+          <Text numberOfLines={1} style={[styles.tileLabel, dir.text, { color: theme.colors.textSecondary }]}>
             {t('tracker.header.dailyTargets')}
           </Text>
           <View style={styles.targetsRow}>
             {[
-              { label: t('common.protein'), grams: targetProteinGrams, color: theme.colors.protein },
-              { label: t('common.carbs'), grams: targetCarbGrams, color: theme.colors.carbs },
-              { label: t('common.fat'), grams: targetFatGrams, color: theme.colors.fat },
+              { label: t('common.protein'), grams: targetProteinGrams, color: theme.colors.proteinText },
+              { label: t('common.carbs'), grams: targetCarbGrams, color: theme.colors.carbsText },
+              { label: t('common.fat'), grams: targetFatGrams, color: theme.colors.fatText },
             ].map((macro) => (
               <View key={macro.label} style={styles.targetCol}>
                 <Text style={[styles.targetValue, { color: theme.colors.textPrimary }]} numberOfLines={1}>
@@ -329,7 +329,7 @@ const styles = StyleSheet.create({
   syncBadgePending: {
     paddingVertical: 6,
     paddingHorizontal: 14,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
   },
   syncBadgePendingText: {
     fontSize: 12,
@@ -351,11 +351,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#0A0B0D',
     paddingVertical: 5,
     paddingHorizontal: 12,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
   },
   heroCategoryText: {
     color: '#A4EB3F',
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '900',
     letterSpacing: 0.8,
   },
@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   heroTargetSub: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
     opacity: 0.8,
     marginTop: 6,
@@ -408,7 +408,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.55)',
     borderWidth: 1,
     borderColor: 'rgba(10, 11, 13, 0.35)',
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     justifyContent: 'flex-end',
     alignItems: 'center',
     overflow: 'hidden',
@@ -421,7 +421,7 @@ const styles = StyleSheet.create({
   pillMissedDot: {
     width: 5,
     height: 5,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     marginBottom: 4,
     backgroundColor: 'rgba(10, 11, 13, 0.4)',
   },
@@ -432,10 +432,10 @@ const styles = StyleSheet.create({
   },
   pillFill: {
     width: '100%',
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
   },
   weekDayLabel: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '700',
     color: '#0A0B0D',
     opacity: 0.75,
@@ -472,7 +472,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
   },
   tileLabel: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
     textTransform: 'uppercase',
     letterSpacing: 0.5,
@@ -493,7 +493,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
   },
   tileSub: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
     marginTop: 6,
   },

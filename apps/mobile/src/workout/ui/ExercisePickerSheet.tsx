@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { KeyboardAvoidingView, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { EXERCISES, getExercise, isAllowed, MUSCLE_NAMES, searchExercises, type Exercise, type WorkoutSettings } from '@nutrio/workout-core';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useI18nState, useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 import { BackButton } from '../../ui/BackButton.js';
@@ -254,7 +254,7 @@ export const ExercisePickerBody: React.FC<ExercisePickerProps & { initialQuery?:
               </View>
               {added ? (
                 <View style={[styles.added, { backgroundColor: c.successLight }]}>
-                  <Text style={[styles.addedText, { color: theme.isDark ? c.success : '#166534' }]}>{t('workout.more.added')}</Text>
+                  <Text style={[styles.addedText, { color: c.successText }]}>{t('workout.more.added')}</Text>
                 </View>
               ) : multi ? (
                 <View style={[styles.mark, picked ? { backgroundColor: c.primaryLime } : { borderColor: c.border, borderWidth: 1.5 }]}>
@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     gap: 10,
   },
-  handle: { alignSelf: 'center', width: 40, height: 5, borderRadius: 999 },
+  handle: { alignSelf: 'center', width: 40, height: 5, borderRadius: commonRadii.pill },
   titleRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   title: { flex: 1, fontSize: 19, fontWeight: '800' },
   close: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
   unit: { fontSize: 14, fontWeight: '700' },
   hint: { fontSize: 12 },
   groups: { flexDirection: 'row', gap: 8 },
-  group: { flex: 1, minHeight: 44, borderRadius: 999, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
+  group: { flex: 1, minHeight: 44, borderRadius: commonRadii.pill, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
   groupText: { fontSize: 14, fontWeight: '800' },
   // Shrinks with the keyboard, so the search box above and the confirm button below stay in view.
   listScroll: { flexGrow: 0, flexShrink: 1 },
@@ -322,9 +322,9 @@ const styles = StyleSheet.create({
   name: { fontSize: 14, fontWeight: '700' },
   equipment: { fontSize: 12, fontWeight: '600', marginTop: 2 },
   mark: { width: 28, height: 28, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
-  added: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 999 },
+  added: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: commonRadii.pill },
   addedText: { fontSize: 12, fontWeight: '700' },
-  confirm: { minHeight: 52, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
+  confirm: { minHeight: 52, borderRadius: commonRadii.pill, alignItems: 'center', justifyContent: 'center' },
   confirmText: { fontSize: 16, fontWeight: '800' },
   disabled: { opacity: 0.35 },
 });

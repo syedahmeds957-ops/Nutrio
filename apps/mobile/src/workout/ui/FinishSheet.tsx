@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import type { SessionRating } from '@nutrio/workout-core';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { OptionButton, OptionGroup } from '../../ui/Selectable.js';
 import { clockText } from '../format.js';
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
     gap: 8,
   },
-  handle: { alignSelf: 'center', width: 40, height: 5, borderRadius: 999, marginBottom: 6 },
+  handle: { alignSelf: 'center', width: 40, height: 5, borderRadius: commonRadii.pill, marginBottom: 6 },
   title: { fontSize: 24, fontWeight: '800', textAlign: 'center', letterSpacing: -0.4 },
   subtitle: { fontSize: 14, textAlign: 'center' },
   stats: { flexDirection: 'row', gap: 8, marginVertical: 8 },
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   optionTitle: { fontSize: 15, fontWeight: '700' },
   optionBody: { fontSize: 12, marginTop: 2 },
   help: { fontSize: 12, textAlign: 'center', marginTop: 2 },
-  save: { minHeight: 52, borderRadius: 999, alignItems: 'center', justifyContent: 'center', marginTop: 6 },
+  save: { minHeight: 52, borderRadius: commonRadii.pill, alignItems: 'center', justifyContent: 'center', marginTop: 6 },
   saveText: { fontSize: 16, fontWeight: '800' },
   disabled: { opacity: 0.35 },
 });

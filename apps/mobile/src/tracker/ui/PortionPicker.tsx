@@ -152,7 +152,7 @@ export const PortionPicker: React.FC<PortionPickerProps> = ({
               maxLength={7}
               accessibilityLabel={t('tracker.customizer.gramsField')}
             />
-            <Text style={[styles.gramDisplayUnit, { color: isDark ? ACCENT : '#4B6200' }]}>g</Text>
+            <Text style={[styles.gramDisplayUnit, { color: isDark ? ACCENT : theme.colors.primaryAccessible }]}>g</Text>
           </View>
 
           <View style={styles.gramsAdjustRow}>

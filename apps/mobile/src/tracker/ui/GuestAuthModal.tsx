@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import { NamedModal } from '../../ui/NamedModal.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 
@@ -31,7 +31,7 @@ export const GuestAuthModal: React.FC<GuestAuthModalProps> = ({
   const { t } = useTranslation();
   const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
-  const accentTextColor = '#0A0B0D';
+  const accentTextColor = theme.colors.limeText;
 
   return (
     <NamedModal accessibilityName={t('a11y.dialog.guestAuth')}
@@ -62,7 +62,7 @@ export const GuestAuthModal: React.FC<GuestAuthModalProps> = ({
                   },
                 ]}
               >
-                <Icon name="shield" size={28} color={isDark ? accentColor : '#4B6200'} />
+                <Icon name="shield" size={28} color={isDark ? accentColor : theme.colors.primaryAccessible} />
               </View>
 
               {/* Title & Description */}
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   primaryBtn: {
     width: '100%',
     paddingVertical: 14,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   secondaryBtn: {
     width: '100%',
     paddingVertical: 12,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,

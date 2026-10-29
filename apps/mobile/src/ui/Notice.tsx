@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { Icon, IconName } from './Icon.js';
-import { useTheme } from '../theme.js';
+import { useTheme, commonRadii } from '../theme.js';
 
 export type NoticeTone = 'neutral' | 'info' | 'warning' | 'danger';
 
@@ -65,7 +65,7 @@ export const Notice: React.FC<NoticeProps> = ({
 const styles = StyleSheet.create({
   base: { flexDirection: 'row', alignItems: 'center', borderWidth: 1 },
   full: { gap: 10, paddingVertical: 10, paddingHorizontal: 12, borderRadius: 14, alignItems: 'flex-start' },
-  compact: { gap: 6, paddingVertical: 6, paddingHorizontal: 12, borderRadius: 9999, alignSelf: 'center' },
+  compact: { gap: 6, paddingVertical: 6, paddingHorizontal: 12, borderRadius: commonRadii.pill, alignSelf: 'center' },
   body: { flexShrink: 1 },
   title: { fontSize: 13, fontWeight: '700', marginBottom: 2 },
   text: { fontSize: 12, fontWeight: '500', lineHeight: 17 },

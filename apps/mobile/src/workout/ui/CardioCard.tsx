@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { getExercise } from '@nutrio/workout-core';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useI18nState, useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 import { cardioCueText, cardioText } from '../format.js';
@@ -48,7 +48,7 @@ export const CardioCard: React.FC<CardioCardProps> = ({ cardio, paused, onDetail
           <Text style={[styles.name, dir.text, { color: c.textPrimary }]}>{name}</Text>
           {swapped ? (
             <View style={[styles.swappedTag, { backgroundColor: c.primaryLight }]}>
-              <Text style={[styles.swappedText, { color: c.primaryTintText }]}>{t('workout.swap.tag')}</Text>
+              <Text numberOfLines={1} style={[styles.swappedText, { color: c.primaryTintText }]}>{t('workout.swap.tag')}</Text>
             </View>
           ) : null}
           <Text style={[styles.presc, dir.text, { color: c.textPrimary }]}>{cardioText(t, cardio, intervals)}</Text>
@@ -114,11 +114,11 @@ const styles = StyleSheet.create({
   card: { padding: 12, borderRadius: 22, borderWidth: 1, gap: 10 },
   top: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   flex: { flex: 1, minWidth: 0 },
-  overline: { alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 8, paddingVertical: 2, borderRadius: 999, marginBottom: 2 },
+  overline: { alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 8, paddingVertical: 2, borderRadius: commonRadii.pill, marginBottom: 2 },
   overlineText: { fontSize: 12, fontWeight: '800', letterSpacing: 0 },
   name: { fontSize: 15, fontWeight: '700', lineHeight: 20 },
-  swappedTag: { alignSelf: 'flex-start', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 999, marginTop: 3 },
-  swappedText: { fontSize: 11, fontWeight: '800' },
+  swappedTag: { alignSelf: 'flex-start', paddingHorizontal: 8, paddingVertical: 2, borderRadius: commonRadii.pill, marginTop: 3 },
+  swappedText: { fontSize: 12, fontWeight: '800' },
   presc: { fontSize: 13, fontWeight: '700', marginTop: 2 },
   cue: { fontSize: 12, marginTop: 2 },
   more: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },

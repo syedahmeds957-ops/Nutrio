@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useTranslation } from '../../i18n/index.js';
 
 interface DiscardDialogProps {
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   dialog: { width: '100%', maxWidth: 340, borderRadius: 24, padding: 22, gap: 10 },
   title: { fontSize: 19, fontWeight: '800', textAlign: 'center' },
   body: { fontSize: 14, lineHeight: 20, textAlign: 'center', marginBottom: 6 },
-  keep: { minHeight: 50, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
+  keep: { minHeight: 50, borderRadius: commonRadii.pill, alignItems: 'center', justifyContent: 'center' },
   keepText: { fontSize: 16, fontWeight: '800' },
   discard: { minHeight: 44, alignItems: 'center', justifyContent: 'center' },
   discardText: { fontSize: 15, fontWeight: '700' },

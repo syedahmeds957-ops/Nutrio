@@ -102,7 +102,7 @@ export const TodayMealsCard: React.FC<TodayMealsCardProps> = ({
                 : t('common.kcalValue', { value: formatNumber(Math.round(eaten)) })}
             </Text>
           </View>
-          <View style={[styles.distBar, { backgroundColor: c.surfaceSecondary }]}>
+          <View style={[styles.distBar, { backgroundColor: c.progressTrack }]}>
             {segments.map((segment) => (
               <View
                 key={segment.slot}
@@ -149,7 +149,7 @@ export const TodayMealsCard: React.FC<TodayMealsCardProps> = ({
                       {filled && <Icon name="check" size={14} color={c.successText} strokeWidth={3} />}
                       {nextSlot === slot && !filled && (
                         <View style={[styles.nextTag, { backgroundColor: c.primaryLime }]}>
-                          <Text style={[styles.nextTagText, { color: c.limeText }]}>{t('tracker.mealsCard.next')}</Text>
+                          <Text numberOfLines={1} style={[styles.nextTagText, { color: c.limeText }]}>{t('tracker.mealsCard.next')}</Text>
                         </View>
                       )}
                     </View>
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
   nameRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   slotName: { flexShrink: 1, fontSize: 15, fontWeight: '700' },
   nextTag: { paddingHorizontal: 6, paddingVertical: 1, borderRadius: 6 },
-  nextTagText: { fontSize: 10, fontWeight: '800' },
+  nextTagText: { fontSize: 12, fontWeight: '800' },
   slotSub: { fontSize: 12, marginTop: 1 },
   slotKcal: { fontSize: 14, fontWeight: '700', fontVariant: ['tabular-nums'] },
   // The 34 px circle sits in a 44 px target; the margin gives the row its width back.

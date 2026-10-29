@@ -23,7 +23,7 @@ import { StepPreferences } from './StepPreferences.js';
 import { SurveyStateEngine } from '../state.js';
 import { LifestyleSurveyPayload } from '../types.js';
 import { bridgeSurveyToNutritionCore } from '../nutrition-bridge.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 
@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
   nextBtn: {
     minHeight: 50,
     paddingVertical: 14,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     alignItems: 'center',
     justifyContent: 'center',
   },

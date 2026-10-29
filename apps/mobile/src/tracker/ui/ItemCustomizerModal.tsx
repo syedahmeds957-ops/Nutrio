@@ -506,7 +506,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
         <View style={[styles.bottomStickyBar, { backgroundColor: theme.colors.card, borderTopColor: theme.colors.border }]}>
           <View style={styles.bottomTotalsLeft}>
             <View style={styles.calorieRow}>
-              <Text style={[styles.totalCalorieNumber, { color: theme.colors.text }]}>{canLog ? `≈${macros.calories}` : '—'}</Text>
+              <Text style={[styles.totalCalorieNumber, { color: theme.colors.text }]}>{canLog ? `~${macros.calories}` : '—'}</Text>
               <Text style={[styles.totalCalorieUnit, { color: theme.colors.text }]}>
                 {t('common.kcal')}
               </Text>

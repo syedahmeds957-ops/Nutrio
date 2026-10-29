@@ -11,7 +11,7 @@ import { NamedModal } from '../ui/NamedModal.js';
 import { useTranslation, useI18nState } from '../i18n/index.js';
 import { formatNumber } from '../i18n/format.js';
 import type { AppLanguage } from '../i18n/languages.js';
-import { ThemeColors, useTheme } from '../theme.js';
+import { ThemeColors, useTheme, commonRadii } from '../theme.js';
 import {
   BillingPeriod,
   Currency,
@@ -297,14 +297,14 @@ const createStyles = (c: ThemeColors) =>
       alignSelf: 'flex-start',
       paddingVertical: 3,
       paddingHorizontal: 10,
-      borderRadius: 9999,
+      borderRadius: commonRadii.pill,
       borderWidth: 1,
       borderColor: c.warning,
       marginBottom: 6,
     },
     premiumBadgeText: {
       color: c.fatText,
-      fontSize: 10,
+      fontSize: 12,
       fontWeight: '800',
       letterSpacing: 0.8,
     },
@@ -355,7 +355,7 @@ const createStyles = (c: ThemeColors) =>
     },
     currPill: {
       backgroundColor: c.surfaceSecondary,
-      borderRadius: 9999,
+      borderRadius: commonRadii.pill,
       paddingVertical: 6,
       paddingHorizontal: 12,
       borderWidth: 1,
@@ -367,7 +367,7 @@ const createStyles = (c: ThemeColors) =>
     },
     currPillText: {
       color: c.textSecondary,
-      fontSize: 11,
+      fontSize: 12,
       fontWeight: '600',
     },
     currPillTextActive: {
@@ -400,7 +400,7 @@ const createStyles = (c: ThemeColors) =>
     },
     saveTagText: {
       color: c.textInverse,
-      fontSize: 9,
+      fontSize: 12,
       fontWeight: '800',
     },
     periodTitle: {
@@ -416,7 +416,7 @@ const createStyles = (c: ThemeColors) =>
     },
     periodSavings: {
       color: c.textSecondary,
-      fontSize: 11,
+      fontSize: 12,
       marginTop: 2,
     },
     sectionHeading: {
@@ -451,7 +451,7 @@ const createStyles = (c: ThemeColors) =>
     },
     featureDesc: {
       color: c.textSecondary,
-      fontSize: 11,
+      fontSize: 12,
       lineHeight: 15,
       marginTop: 2,
     },
@@ -462,7 +462,7 @@ const createStyles = (c: ThemeColors) =>
     },
     providerChip: {
       backgroundColor: c.surfaceSecondary,
-      borderRadius: 9999,
+      borderRadius: commonRadii.pill,
       paddingVertical: 8,
       paddingHorizontal: 14,
       borderWidth: 1,
@@ -479,7 +479,7 @@ const createStyles = (c: ThemeColors) =>
     },
     subscribeBtn: {
       backgroundColor: c.success,
-      borderRadius: 9999,
+      borderRadius: commonRadii.pill,
       paddingVertical: 14,
       alignItems: 'center',
       marginTop: 4,
@@ -492,7 +492,7 @@ const createStyles = (c: ThemeColors) =>
     },
     guaranteeText: {
       color: c.textSecondary,
-      fontSize: 10,
+      fontSize: 12,
       textAlign: 'center',
       marginTop: 2,
     },

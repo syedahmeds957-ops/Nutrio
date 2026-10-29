@@ -195,7 +195,7 @@ export const createStyles = (c: ThemeColors) =>
       fontWeight: '800',
     },
     servingPillGrams: {
-      fontSize: 11,
+      fontSize: 12,
       color: c.textMuted,
       marginTop: 2,
     },
@@ -294,7 +294,7 @@ export const createStyles = (c: ThemeColors) =>
       textDecorationLine: 'underline',
     },
     gramDisplayUnit: {
-      fontSize: 11,
+      fontSize: 12,
       color: c.textMuted,
       fontWeight: '600',
     },

@@ -15,7 +15,7 @@ import {
   MealSwapResult,
   PlannedMealSlot,
 } from '@nutrio/nutrition-core';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { Notice } from '../../ui/Notice.js';
 import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
 import { formatPercent } from '../../i18n/format.js';
@@ -71,7 +71,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
               <Text
                 style={[
                   styles.modalSubtitle,
-                  { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                  { color: theme.colors.primaryAccessible },
                 ]}
               >
                 {t('plan.swap.eyebrow')}
@@ -131,7 +131,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                       <Text
                         style={[
                           styles.optionIndex,
-                          { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                          { color: theme.colors.primaryAccessible },
                         ]}
                       >
                         {t('plan.swap.option', { number: index + 1 })}
@@ -149,7 +149,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                       style={[
                         styles.calorieBadge,
                         {
-                          backgroundColor: isDark ? '#1C2608' : '#EDFCD2',
+                          backgroundColor: theme.colors.limeTint,
                           borderColor: theme.colors.primaryLime,
                         },
                       ]}
@@ -157,7 +157,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                       <Text
                         style={[
                           styles.calorieText,
-                          { color: isDark ? theme.colors.primaryLime : '#2E4D08' },
+                          { color: theme.colors.primaryTintText },
                         ]}
                       >
                         {t('common.kcalValue', { value: option.calories })}
@@ -165,7 +165,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                       <Text
                         style={[
                           styles.deltaText,
-                          { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                          { color: theme.colors.primaryAccessible },
                         ]}
                       >
                         {deltaSign}
@@ -189,7 +189,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                         P
                       </Text>
                       <Text style={[styles.macroPillVal, { color: theme.colors.textPrimary }]}>
-                        {option.proteinGrams}g
+                        {t('common.gramsValue', { value: option.proteinGrams })}
                       </Text>
                     </View>
                     <View
@@ -201,11 +201,11 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                         },
                       ]}
                     >
-                      <Text style={[styles.macroPillLabel, { color: isDark ? theme.colors.primaryLime : '#4B6200' }]}>
+                      <Text style={[styles.macroPillLabel, { color: theme.colors.primaryAccessible }]}>
                         C
                       </Text>
                       <Text style={[styles.macroPillVal, { color: theme.colors.textPrimary }]}>
-                        {option.carbGrams}g
+                        {t('common.gramsValue', { value: option.carbGrams })}
                       </Text>
                     </View>
                     <View
@@ -221,12 +221,17 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                         F
                       </Text>
                       <Text style={[styles.macroPillVal, { color: theme.colors.textPrimary }]}>
-                        {option.fatGrams}g
+                        {t('common.gramsValue', { value: option.fatGrams })}
                       </Text>
                     </View>
-                    <View style={[styles.macroPill, styles.oilPill]}>
-                      <Text style={styles.oilLabel}>{t('plan.swap.oil')}</Text>
-                      <Text style={styles.oilVal}>{option.oilAddedG}g</Text>
+                    <View
+                      style={[
+                        styles.macroPill,
+                        { backgroundColor: theme.colors.warningLight, borderColor: theme.colors.warningBorder },
+                      ]}
+                    >
+                      <Text style={[styles.oilLabel, { color: theme.colors.warningText }]}>{t('plan.swap.oil')}</Text>
+                      <Text style={[styles.oilVal, { color: theme.colors.warningText }]}>{t('common.gramsValue', { value: option.oilAddedG })}</Text>
                     </View>
                   </View>
 
@@ -262,7 +267,7 @@ export const MealSwapModal: React.FC<MealSwapModalProps> = ({
                     onPress={() => onSelectOption(option)}
                     activeOpacity={0.7}
                   >
-                    <Text style={[styles.selectBtnText, { color: '#0A0B0D' }]}>
+                    <Text style={[styles.selectBtnText, { color: theme.colors.limeText }]}>
                       {t('plan.swap.selectMeal')}
                     </Text>
                   </TouchableOpacity>
@@ -340,7 +345,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingVertical: 8,
     paddingHorizontal: 14,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     borderWidth: 1,
   },
   optionCard: {
@@ -382,7 +387,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   deltaText: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
   },
   macroPillRow: {
@@ -400,24 +405,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   macroPillLabel: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
   },
   macroPillVal: {
     fontSize: 12,
     fontWeight: '700',
   },
-  oilPill: {
-    backgroundColor: '#FEF3C7',
-    borderColor: '#FDE68A',
-  },
   oilLabel: {
-    color: '#B45309',
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
   },
   oilVal: {
-    color: '#B45309',
     fontSize: 12,
     fontWeight: '700',
   },
@@ -433,7 +432,7 @@ const styles = StyleSheet.create({
   selectBtn: {
     minHeight: 44,
     marginTop: 14,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     paddingVertical: 12,
     alignItems: 'center',
     shadowOffset: { width: 0, height: 4 },

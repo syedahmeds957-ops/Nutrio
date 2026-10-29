@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import { getExercise, MUSCLE_NAMES } from '@nutrio/workout-core';
 import { Icon } from '../../ui/Icon.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useI18nState, useTranslation, useTextDirection } from '../../i18n/index.js';
 import { ExerciseImageLoop } from './ExerciseImageLoop.js';
 
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 22,
     paddingTop: 10,
   },
-  handle: { alignSelf: 'center', width: 40, height: 5, borderRadius: 999, marginBottom: 6 },
+  handle: { alignSelf: 'center', width: 40, height: 5, borderRadius: commonRadii.pill, marginBottom: 6 },
   titleRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 20 },
   title: { flex: 1, fontSize: 20, fontWeight: '800', letterSpacing: -0.3 },
   close: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
@@ -112,11 +112,11 @@ const styles = StyleSheet.create({
   image: { borderRadius: 18 },
   overline: { fontSize: 13, fontWeight: '700', letterSpacing: 0, marginTop: 6 },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
-  chip: { paddingHorizontal: 10, paddingVertical: 6, borderRadius: 999 },
+  chip: { paddingHorizontal: 10, paddingVertical: 6, borderRadius: commonRadii.pill },
   chipText: { fontSize: 12, fontWeight: '700' },
   step: { flexDirection: 'row', gap: 8 },
   stepNumber: { fontSize: 14, lineHeight: 20, fontWeight: '700', minWidth: 18 },
   stepText: { flex: 1, fontSize: 14, lineHeight: 20 },
-  swap: { marginTop: 10, minHeight: 48, borderRadius: 999, borderWidth: 1, flexDirection: 'row', gap: 8, alignItems: 'center', justifyContent: 'center' },
+  swap: { marginTop: 10, minHeight: 48, borderRadius: commonRadii.pill, borderWidth: 1, flexDirection: 'row', gap: 8, alignItems: 'center', justifyContent: 'center' },
   swapText: { fontSize: 15, fontWeight: '700' },
 });

@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { SurveyLifestyleDesi } from '../types.js';
 import { ritualCupKcal } from '../../common/ritualDrinks.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { useFormat } from '../../i18n/useFormat.js';
@@ -157,11 +157,11 @@ const styles = StyleSheet.create({
   chaiBadge: {
     paddingHorizontal: 8,
     paddingVertical: 3,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
   },
   chaiBadgeText: {
     color: '#0A0B0D',
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '800',
   },
   chaiSubtitle: {
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.5,
   },
   stepperUnit: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
     marginTop: 2,
   },

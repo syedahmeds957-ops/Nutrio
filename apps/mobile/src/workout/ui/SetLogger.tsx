@@ -113,9 +113,9 @@ export const SetLogger: React.FC<SetLoggerProps> = ({ exercise, unit, settings, 
   return (
     <View style={styles.table}>
       <View style={styles.headerRow}>
-        <Text style={[styles.headerSet, { color: c.textSecondary }]}>{t('workout.log.set')}</Text>
-        <Text style={[styles.headerCell, { color: c.textSecondary }]}>{exercise.tracksLoad ? t('workout.log.kg') : ''}</Text>
-        <Text style={[styles.headerCell, { color: c.textSecondary }]}>{repsLabel}</Text>
+        <Text numberOfLines={1} style={[styles.headerSet, { color: c.textSecondary }]}>{t('workout.log.set')}</Text>
+        <Text numberOfLines={1} style={[styles.headerCell, { color: c.textSecondary }]}>{exercise.tracksLoad ? t('workout.log.kg') : ''}</Text>
+        <Text numberOfLines={1} style={[styles.headerCell, { color: c.textSecondary }]}>{repsLabel}</Text>
         <View style={styles.headerCheck} />
       </View>
       {sets.map((set, index) => {
@@ -184,8 +184,8 @@ export const SetLogger: React.FC<SetLoggerProps> = ({ exercise, unit, settings, 
 const styles = StyleSheet.create({
   table: { gap: 4 },
   headerRow: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 6 },
-  headerSet: { width: 24, fontSize: 11, fontWeight: '700', textAlign: 'center' },
-  headerCell: { flex: 1, fontSize: 11, fontWeight: '700', textAlign: 'center' },
+  headerSet: { width: 24, fontSize: 12, fontWeight: '700', textAlign: 'center' },
+  headerCell: { flex: 1, fontSize: 12, fontWeight: '700', textAlign: 'center' },
   headerCheck: { width: 44 },
   row: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 6, paddingVertical: 4, borderRadius: 14, borderWidth: 2 },
   pending: { opacity: 0.55 },

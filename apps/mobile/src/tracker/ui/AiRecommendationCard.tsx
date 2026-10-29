@@ -6,10 +6,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useReducedMotion } from '../../ui/useReducedMotion.js';
 import { SuggestionItem, suggestionFor } from '../suggestions.js';
 
 interface AiRecommendationCardProps {
@@ -47,7 +48,14 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
     setLogged(false);
   }, [activeRegion]);
 
+  const reduceMotion = useReducedMotion();
+
   useEffect(() => {
+    if (reduceMotion) {
+      fadeAnim.setValue(1);
+      slideAnim.setValue(0);
+      return;
+    }
     Animated.parallel([
       Animated.timing(fadeAnim, {
         toValue: 1,
@@ -60,7 +68,7 @@ export const AiRecommendationCard: React.FC<AiRecommendationCardProps> = ({
         useNativeDriver: true,
       }),
     ]).start();
-  }, [activeRegion]);
+  }, [activeRegion, reduceMotion]);
 
   // The suggestion and every number on it come from food-db (suggestions.ts).
   const suggestion =
@@ -172,11 +180,11 @@ const styles = StyleSheet.create({
     gap: 5,
     paddingVertical: 4,
     paddingHorizontal: 10,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     borderWidth: 1,
   },
   tagText: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '800',
   },
   title: {
@@ -198,7 +206,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 18,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
   },
   btnContent: {
     flexDirection: 'row',

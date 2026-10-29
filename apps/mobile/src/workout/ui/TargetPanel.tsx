@@ -20,7 +20,7 @@ export const TargetPanel: React.FC<TargetPanelProps> = ({ target, unit, tracksLo
   const dir = useTextDirection();
   const tone = reasonTone(target);
   const up = tone === 'up';
-  const fg = up ? (theme.isDark ? c.success : '#166534') : c.textSecondary;
+  const fg = up ? (c.successText) : c.textSecondary;
 
   return (
     <View style={[styles.panel, { backgroundColor: up ? c.successLight : c.surfaceSecondary }]}>

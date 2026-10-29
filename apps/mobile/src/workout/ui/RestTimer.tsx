@@ -4,6 +4,7 @@ import { useTranslation } from '../../i18n/index.js';
 import { HapticFeedback } from '../../ui/haptics.js';
 import { clockText } from '../format.js';
 
+import { commonRadii } from '../../theme.js';
 interface RestTimerProps {
   /** Epoch ms the rest ends at; the countdown reads the clock so it stays right after a stall. */
   endsAt: number;
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
     paddingStart: 18,
     paddingEnd: 6,
     paddingVertical: 6,
-    borderRadius: 999,
+    borderRadius: commonRadii.pill,
     backgroundColor: '#0A0B0D',
     shadowColor: '#000',
     shadowOpacity: 0.25,
@@ -67,6 +68,6 @@ const styles = StyleSheet.create({
   },
   label: { color: '#9CA3AF', fontSize: 13, fontWeight: '700' },
   clock: { color: '#FFFFFF', fontSize: 20, fontWeight: '800', minWidth: 52, fontVariant: ['tabular-nums'] },
-  button: { minHeight: 44, paddingHorizontal: 14, borderRadius: 999, backgroundColor: '#272A33', justifyContent: 'center' },
+  button: { minHeight: 44, paddingHorizontal: 14, borderRadius: commonRadii.pill, backgroundColor: '#272A33', justifyContent: 'center' },
   buttonText: { color: '#FFFFFF', fontSize: 14, fontWeight: '700' },
 });

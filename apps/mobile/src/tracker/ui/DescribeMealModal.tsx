@@ -11,7 +11,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NamedModal } from '../../ui/NamedModal.js';
 import type { NormalizedFood, RegionCode } from '@nutrio/food-db';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
 import { servingDisplayLabel } from '../servingLabel.js';
 import { foodDisplayName } from '../foodDisplayName.js';
@@ -72,7 +72,7 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
   const { language } = useI18nState();
   const dir = useTextDirection();
   const accent = theme.colors.primaryLime;
-  const accentInk = isDark ? accent : '#4B6200';
+  const accentInk = isDark ? accent : theme.colors.primaryAccessible;
 
   const [text, setText] = useState('');
   const [isAnalysing, setIsAnalysing] = useState(false);
@@ -268,8 +268,8 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
                 onPress={() => updateRow(row.key, confirmRow)}
                 accessibilityRole="button"
               >
-                <Icon name="check" size={12} color="#0A0B0D" />
-                <Text style={[styles.chipText, { color: '#0A0B0D' }]}>{t('tracker.describeMeal.looksRight')}</Text>
+                <Icon name="check" size={12} color={theme.colors.limeText} />
+                <Text style={[styles.chipText, { color: theme.colors.limeText }]}>{t('tracker.describeMeal.looksRight')}</Text>
               </TouchableOpacity>
               {row.alternatives.slice(0, MAX_ALTERNATIVES).map((alt) => (
                 <TouchableOpacity
@@ -298,8 +298,8 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
                 onPress={() => setAddingFor(row)}
                 accessibilityRole="button"
               >
-                <Icon name="sparkles" size={12} color="#0A0B0D" />
-                <Text style={[styles.chipText, { color: '#0A0B0D' }]}>
+                <Icon name="sparkles" size={12} color={theme.colors.limeText} />
+                <Text style={[styles.chipText, { color: theme.colors.limeText }]}>
                   {t('tracker.addDish.addButton', { name: row.parsed.name })}
                 </Text>
               </TouchableOpacity>
@@ -369,7 +369,7 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
             accessibilityRole="button"
           >
             {isAnalysing ? (
-              <ActivityIndicator color="#0A0B0D" />
+              <ActivityIndicator color={theme.colors.limeText} />
             ) : (
               <Text style={styles.primaryBtnText}>
                 {rows ? t('tracker.describeMeal.analyseAgain') : t('tracker.describeMeal.analyse')}
@@ -393,7 +393,7 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
                     onPress={() => setSlot(s)}
                     accessibilityRole="button"
                   >
-                    <Text style={[styles.chipText, { color: slot === s ? '#0A0B0D' : theme.colors.textPrimary }]}>
+                    <Text style={[styles.chipText, { color: slot === s ? theme.colors.limeText : theme.colors.textPrimary }]}>
                       {t(`tracker.mealSlots.${s}.${region === 'SA' ? 'SA' : 'PK'}`)}
                     </Text>
                   </TouchableOpacity>
@@ -473,12 +473,12 @@ const styles = StyleSheet.create({
   },
   primaryBtn: {
     paddingVertical: 14,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     alignItems: 'center',
   },
   primaryBtnText: { fontSize: 15, fontWeight: '800', color: '#0A0B0D' },
   slotRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  slotChip: { paddingVertical: 7, paddingHorizontal: 14, borderRadius: 9999, borderWidth: 1 },
+  slotChip: { paddingVertical: 7, paddingHorizontal: 14, borderRadius: commonRadii.pill, borderWidth: 1 },
   row: { borderWidth: 1, borderRadius: 16, padding: 14, gap: 10 },
   rowTop: { flexDirection: 'row', gap: 12 },
   rowInfo: { flex: 1, gap: 2 },
@@ -519,11 +519,11 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
     paddingVertical: 7,
     paddingHorizontal: 12,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     borderWidth: 1,
   },
   chipText: { fontSize: 12, fontWeight: '700' },
-  servingChip: { maxWidth: '100%', paddingVertical: 7, paddingHorizontal: 12, borderRadius: 9999 },
+  servingChip: { maxWidth: '100%', paddingVertical: 7, paddingHorizontal: 12, borderRadius: commonRadii.pill },
   empty: { fontSize: 14, lineHeight: 20, paddingVertical: 16 },
   footer: {
     flexDirection: 'row',
@@ -535,5 +535,5 @@ const styles = StyleSheet.create({
   footerInfo: { flex: 1 },
   totalKcal: { fontSize: 20, fontWeight: '800' },
   footerHint: { fontSize: 12, fontWeight: '600' },
-  logBtn: { paddingVertical: 14, paddingHorizontal: 24, borderRadius: 9999 },
+  logBtn: { paddingVertical: 14, paddingHorizontal: 24, borderRadius: commonRadii.pill },
 });

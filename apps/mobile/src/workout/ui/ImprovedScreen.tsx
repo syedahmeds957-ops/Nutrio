@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-nati
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { TFunction } from 'i18next';
 import { changeGroup, getExercise, type RoutineChange, type WeeklyWorkoutPlan } from '@nutrio/workout-core';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useI18nState, useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon, type IconName } from '../../ui/Icon.js';
 import { sessionTitle } from '../sessionTitle.js';
@@ -87,7 +87,7 @@ export const ImprovedScreen: React.FC<ImprovedScreenProps> = ({ plan, changes, o
   const { language } = useI18nState();
   const dir = useTextDirection();
   const tones = {
-    kept: { bg: c.successLight, fg: theme.isDark ? c.success : '#166534' },
+    kept: { bg: c.successLight, fg: c.successText },
     changed: { bg: c.warningLight, fg: theme.isDark ? c.warning : '#92400E' },
     added: { bg: c.primaryLight, fg: c.primaryTintText },
   };
@@ -151,7 +151,7 @@ export const ImprovedScreen: React.FC<ImprovedScreenProps> = ({ plan, changes, o
 const styles = StyleSheet.create({
   safeArea: { flex: 1 },
   content: { paddingHorizontal: 20, paddingTop: 22, paddingBottom: 24, gap: 12 },
-  over: { alignSelf: 'flex-start', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 999 },
+  over: { alignSelf: 'flex-start', paddingHorizontal: 10, paddingVertical: 4, borderRadius: commonRadii.pill },
   overText: { fontSize: 12, fontWeight: '800', letterSpacing: 0 },
   title: { fontSize: 24, fontWeight: '800', letterSpacing: -0.4 },
   sub: { fontSize: 14, lineHeight: 20 },
@@ -166,6 +166,6 @@ const styles = StyleSheet.create({
   reason: { fontSize: 12, lineHeight: 17 },
   foot: { fontSize: 12, lineHeight: 17 },
   bottomBar: { paddingHorizontal: 20, paddingTop: 12, paddingBottom: 14, borderTopWidth: 1 },
-  cta: { minHeight: 52, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
+  cta: { minHeight: 52, borderRadius: commonRadii.pill, alignItems: 'center', justifyContent: 'center' },
   ctaText: { fontSize: 16, fontWeight: '800' },
 });

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { LayoutChangeEvent, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Svg, { Circle, Path } from 'react-native-svg';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { useFormat } from '../../i18n/useFormat.js';
 import { Icon } from '../../ui/Icon.js';
@@ -180,7 +180,7 @@ export const WaterTile: React.FC<{
           accessibilityRole="progressbar"
           accessibilityLabel={t('tracker.water.title')}
           accessibilityValue={{ min: 0, max: 100, now: pct }}
-          style={[styles.track, { backgroundColor: `${c.water}33` }]}
+          style={[styles.track, { backgroundColor: c.progressTrack }]}
         >
           <View style={[styles.fill, { width: `${pct}%`, backgroundColor: c.water }]} />
         </View>
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
   headRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 30 },
   waterTitle: { flexDirection: 'row', alignItems: 'center', gap: 5, flexShrink: 1 },
   waterTitleText: { flexShrink: 1 },
-  overline: { fontSize: 11, fontWeight: '700', letterSpacing: 0.8, textTransform: 'uppercase' },
+  overline: { fontSize: 12, fontWeight: '700', letterSpacing: 0.8, textTransform: 'uppercase' },
   value: { fontSize: 24, fontWeight: '800', letterSpacing: -0.4, fontVariant: ['tabular-nums'] },
   unit: { fontSize: 12, fontWeight: '600', letterSpacing: 0 },
   stretchText: { alignSelf: 'stretch' },
@@ -260,11 +260,11 @@ const styles = StyleSheet.create({
   sub: { fontSize: 12, fontWeight: '700' },
   emptyIcon: { width: 48, height: 48, borderRadius: 24, alignItems: 'center', justifyContent: 'center' },
   emptyText: { fontSize: 13, lineHeight: 17, fontWeight: '600', textAlign: 'center' },
-  pill: { alignSelf: 'stretch', minHeight: 44, borderRadius: 999, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 10 },
+  pill: { alignSelf: 'stretch', minHeight: 44, borderRadius: commonRadii.pill, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 10 },
   pillText: { fontSize: 13, fontWeight: '800' },
   // The 30 px pill sits in a 44 px target; the margin keeps the header row its old height.
   addHit: { minWidth: 48, minHeight: 44, alignItems: 'center', justifyContent: 'center', marginVertical: -7 },
-  addBtn: { minWidth: 48, height: 30, borderRadius: 999, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 10 },
+  addBtn: { minWidth: 48, height: 30, borderRadius: commonRadii.pill, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 10 },
   addBtnText: { fontSize: 12, fontWeight: '800' },
   track: { height: 8, borderRadius: 4, overflow: 'hidden', alignSelf: 'stretch' },
   fill: { height: '100%', borderRadius: 4 },

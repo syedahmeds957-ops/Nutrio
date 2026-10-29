@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { NamedModal } from '../../ui/NamedModal.js';
 import type { NormalizedFood, RegionCode } from '@nutrio/food-db';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
 import { pickText } from '../../i18n/displayName.js';
 import { Icon } from '../../ui/Icon.js';
@@ -45,7 +45,7 @@ export const AddDishModal: React.FC<AddDishModalProps> = ({
   const { language } = useI18nState();
   const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
-  const accentInk = isDark ? accentColor : '#4B6200';
+  const accentInk = isDark ? accentColor : theme.colors.primaryAccessible;
   const [state, setState] = useState<ScreenState>({ kind: 'loading' });
 
   const lookUp = useCallback(() => {
@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
   },
   primaryBtn: {
     paddingVertical: 14,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     alignItems: 'center',
   },
   primaryBtnText: {
@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
   secondaryBtn: {
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     borderWidth: 1,
   },
   secondaryBtnText: {

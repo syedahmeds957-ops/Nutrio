@@ -19,7 +19,7 @@ import {
 import { useRegion } from '../../common/region/index.js';
 import { weekdaysFrom } from '../../tracker/weekStrip.js';
 import { weekStartFor } from '../weekView.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useI18nState, useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 import { Notice } from '../../ui/Notice.js';
@@ -142,7 +142,7 @@ export const TellUsMore: React.FC<TellUsMoreProps> = ({ part, settings, update, 
 
   const exerciseList = (list: 'likes' | 'dislikes') => {
     const ids = profile[list] ?? [];
-    const tone = list === 'likes' ? { bg: c.successLight, fg: theme.isDark ? c.success : '#166534' } : { bg: c.dangerLight, fg: c.danger };
+    const tone = list === 'likes' ? { bg: c.successLight, fg: c.successText } : { bg: c.dangerLight, fg: c.danger };
     return (
       <View style={styles.wrap}>
         {ids.map((id) => (
@@ -401,7 +401,7 @@ const styles = StyleSheet.create({
   wrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 22 },
   hint: { fontSize: 12, lineHeight: 17, marginTop: -6, marginBottom: 10 },
   notice: { gap: 8, marginTop: -8, marginBottom: 22 },
-  switch: { alignSelf: 'flex-start', minHeight: 44, paddingHorizontal: 14, borderRadius: 999, borderWidth: 1, justifyContent: 'center' },
+  switch: { alignSelf: 'flex-start', minHeight: 44, paddingHorizontal: 14, borderRadius: commonRadii.pill, borderWidth: 1, justifyContent: 'center' },
   switchText: { fontSize: 13, fontWeight: '700' },
   recap: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 22 },
   recapText: { flex: 1, marginTop: 0, marginBottom: 0, fontSize: 14, lineHeight: 20 },
@@ -411,13 +411,13 @@ const styles = StyleSheet.create({
   liftName: { flex: 1, minWidth: 0, fontSize: 13, fontWeight: '700' },
   field: { flexDirection: 'row', alignItems: 'center', minHeight: 44, minWidth: 76, paddingHorizontal: 8, borderRadius: 10, borderWidth: 1, gap: 2 },
   fieldInput: { width: 44, minHeight: 44, fontSize: 14, fontWeight: '800', textAlign: 'center', paddingVertical: 0 },
-  fieldSuffix: { fontSize: 11, fontWeight: '700' },
+  fieldSuffix: { fontSize: 12, fontWeight: '700' },
   addRow: { minHeight: 48, alignItems: 'center', justifyContent: 'center', borderTopWidth: 1 },
   addRowText: { fontSize: 14, fontWeight: '700' },
-  pill: { flexDirection: 'row', alignItems: 'center', gap: 2, paddingStart: 12, paddingEnd: 2, minHeight: 44, borderRadius: 999 },
+  pill: { flexDirection: 'row', alignItems: 'center', gap: 2, paddingStart: 12, paddingEnd: 2, minHeight: 44, borderRadius: commonRadii.pill },
   pillText: { fontSize: 13, fontWeight: '700' },
   pillRemove: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
-  addPill: { minHeight: 44, paddingHorizontal: 14, borderRadius: 999, borderWidth: 1, borderStyle: 'dashed', justifyContent: 'center' },
+  addPill: { minHeight: 44, paddingHorizontal: 14, borderRadius: commonRadii.pill, borderWidth: 1, borderStyle: 'dashed', justifyContent: 'center' },
   addPillText: { fontSize: 13, fontWeight: '700' },
   sportCard: { padding: 14, gap: 10 },
   routineLink: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14, borderRadius: 18, marginBottom: 22 },

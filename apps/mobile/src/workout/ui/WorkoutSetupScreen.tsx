@@ -16,7 +16,7 @@ import { BackButton } from '../../ui/BackButton.js';
 import { OptionButton, OptionGroup } from '../../ui/Selectable.js';
 import { ProgressBar } from '../../survey/ui/ProgressBar.js';
 import { Notice } from '../../ui/Notice.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Chip, ChipGroup, Question } from './SetupChips.js';
 import { TellUsMore } from './TellUsMore.js';
@@ -418,10 +418,10 @@ const styles = StyleSheet.create({
   row: { flexDirection: 'row', gap: 8, marginBottom: 22 },
   lengthTile: { flex: 1, minHeight: 52, paddingHorizontal: 0, paddingVertical: 4, borderRadius: 12 },
   lengthValue: { fontSize: 15, fontWeight: '800' },
-  lengthUnit: { fontSize: 11, fontWeight: '600' },
+  lengthUnit: { fontSize: 12, fontWeight: '600' },
   bottomBar: { gap: 8, paddingHorizontal: 20, paddingTop: 12, paddingBottom: 14, borderTopWidth: 1 },
   blockerText: { fontSize: 13, fontWeight: '600' },
   lastNote: { fontSize: 12, lineHeight: 17, fontWeight: '500' },
-  nextAction: { minHeight: 50, borderRadius: 999, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
+  nextAction: { minHeight: 50, borderRadius: commonRadii.pill, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
   nextActionText: { fontSize: 15, fontWeight: '800' },
 });

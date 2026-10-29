@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { useFormat } from '../../i18n/useFormat.js';
 import { Icon } from '../../ui/Icon.js';
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
     gap: 12,
   },
-  handle: { alignSelf: 'center', width: 40, height: 5, borderRadius: 999 },
+  handle: { alignSelf: 'center', width: 40, height: 5, borderRadius: commonRadii.pill },
   iconBox: { width: 48, height: 48, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
   title: { fontSize: 20, fontWeight: '800', letterSpacing: -0.3 },
   body: { fontSize: 14, lineHeight: 21 },
@@ -110,8 +110,8 @@ const styles = StyleSheet.create({
   flipped: { transform: [{ scaleX: -1 }] },
   later: { fontSize: 12 },
   buttons: { flexDirection: 'row', gap: 8 },
-  notNow: { flex: 1, minHeight: 50, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
+  notNow: { flex: 1, minHeight: 50, borderRadius: commonRadii.pill, alignItems: 'center', justifyContent: 'center' },
   notNowText: { fontSize: 14, fontWeight: '700' },
-  update: { flex: 1.4, minHeight: 50, borderRadius: 999, alignItems: 'center', justifyContent: 'center' },
+  update: { flex: 1.4, minHeight: 50, borderRadius: commonRadii.pill, alignItems: 'center', justifyContent: 'center' },
   updateText: { fontSize: 14, fontWeight: '800' },
 });

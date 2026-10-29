@@ -11,7 +11,7 @@ import { BackButton } from '../../ui/BackButton.js';
 import { NamedModal } from '../../ui/NamedModal.js';
 import { DailyTrackerSummary, LoggedItem } from '../types.js';
 import { Icon } from '../../ui/Icon.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { foodDisplayName } from '../foodDisplayName.js';
 import { formatDayKey } from '../../common/dateKey.js';
@@ -114,12 +114,17 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
             style={[
               styles.dateArrow,
               { backgroundColor: theme.colors.surfaceSecondary },
-              dayOffset <= minDayOffset && { opacity: 0.3 },
+              dayOffset <= minDayOffset && { backgroundColor: 'transparent' },
             ]}
             onPress={() => onDayOffsetChange((d) => Math.max(minDayOffset, d - 1))}
             disabled={dayOffset <= minDayOffset}
+            accessibilityState={{ disabled: dayOffset <= minDayOffset }}
           >
-            <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={16} color={theme.colors.textPrimary} />
+            <Icon
+              name={dir.isRTL ? 'arrow-right' : 'arrow-left'}
+              size={16}
+              color={dayOffset <= minDayOffset ? theme.colors.textMuted : theme.colors.textPrimary}
+            />
           </TouchableOpacity>
 
           <View style={styles.dateCenter}>
@@ -135,12 +140,17 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
             style={[
               styles.dateArrow,
               { backgroundColor: theme.colors.surfaceSecondary },
-              dayOffset >= 0 && { opacity: 0.3 },
+              dayOffset >= 0 && { backgroundColor: 'transparent' },
             ]}
             onPress={() => onDayOffsetChange((d) => Math.min(0, d + 1))}
             disabled={dayOffset >= 0}
+            accessibilityState={{ disabled: dayOffset >= 0 }}
           >
-            <Icon name={dir.isRTL ? 'arrow-left' : 'arrow-right'} size={16} color={theme.colors.textPrimary} />
+            <Icon
+              name={dir.isRTL ? 'arrow-left' : 'arrow-right'}
+              size={16}
+              color={dayOffset >= 0 ? theme.colors.textMuted : theme.colors.textPrimary}
+            />
           </TouchableOpacity>
         </View>
 
@@ -171,7 +181,7 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
                 <Text
                   style={[
                     styles.progressMacroSub,
-                    { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                    { color: theme.colors.primaryAccessible },
                   ]}
                 >
                   {t('common.macroLine', {
@@ -200,7 +210,7 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
               accessibilityValue={{ min: 0, max: 100, now: Math.round(pct) }}
               style={[
                 styles.progressBarTrack,
-                { backgroundColor: theme.colors.surfaceSecondary },
+                { backgroundColor: theme.colors.progressTrack },
               ]}
             >
               <View
@@ -272,7 +282,7 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
                     <Text
                       style={[
                         styles.itemMacros,
-                        { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                        { color: theme.colors.primaryAccessible },
                       ]}
                     >
                       {t('common.macroLine', {
@@ -290,7 +300,7 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
                         {
                           backgroundColor: isDark
                             ? 'rgba(164, 235, 63, 0.15)'
-                            : '#F7FEE7',
+                            : theme.colors.limeTint,
                           borderColor: theme.colors.primaryLime,
                         },
                       ]}
@@ -298,10 +308,10 @@ export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
                       <Text
                         style={[
                           styles.caloriePillText,
-                          { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                          { color: theme.colors.primaryAccessible },
                         ]}
                       >
-                        ≈{t('common.kcalValue', { value: item.calories })}
+                        ~{t('common.kcalValue', { value: item.calories })}
                       </Text>
                     </View>
 
@@ -401,7 +411,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   dateSub: {
-    fontSize: 11,
+    fontSize: 12,
     marginTop: 1,
   },
   content: {
@@ -448,12 +458,12 @@ const styles = StyleSheet.create({
   },
   progressBarTrack: {
     height: 8,
-    borderRadius: 999,
+    borderRadius: commonRadii.pill,
     overflow: 'hidden',
   },
   progressBarFill: {
     height: '100%',
-    borderRadius: 999,
+    borderRadius: commonRadii.pill,
   },
   itemsSection: {
     marginBottom: 16,
@@ -502,7 +512,7 @@ const styles = StyleSheet.create({
     marginBottom: 3,
   },
   itemMacros: {
-    fontSize: 11,
+    fontSize: 12,
   },
   itemRight: {
     flexDirection: 'row',
@@ -559,7 +569,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     paddingVertical: 16,
     gap: 8,
   },

@@ -22,7 +22,7 @@ import { mealPlanFoodPool } from '../mealPlanPool.js';
 import { MacroStatus, planMacroStatus } from '../planMacroStatus.js';
 import { PlannedMealSlotCard } from './PlannedMealSlotCard.js';
 import { MealSwapModal } from './MealSwapModal.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
@@ -216,7 +216,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
                   style={[
                     styles.dayTabShort,
                     {
-                      color: isSelected ? '#0A0B0D' : theme.colors.textSecondary,
+                      color: isSelected ? theme.colors.limeText : theme.colors.textSecondary,
                     },
                   ]}
                 >
@@ -226,7 +226,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
                   style={[
                     styles.dayTabFull,
                     {
-                      color: isSelected ? '#0A0B0D' : theme.colors.textPrimary,
+                      color: isSelected ? theme.colors.limeText : theme.colors.textPrimary,
                     },
                   ]}
                 >
@@ -236,7 +236,7 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
                   <View
                     style={[
                       styles.activeDot,
-                      { backgroundColor: '#0A0B0D' },
+                      { backgroundColor: theme.colors.limeText },
                     ]}
                   />
                 )}
@@ -284,15 +284,15 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
               style={[
                 styles.tolerancePill,
                 {
-                  backgroundColor: isDark ? '#1C2608' : '#EDFCD2',
-                  borderColor: isDark ? '#2D4B05' : '#D4F88D',
+                  backgroundColor: theme.colors.limeTint,
+                  borderColor: theme.colors.limeTintBorder,
                 },
               ]}
             >
               <Text
                 style={[
                   styles.tolerancePillText,
-                  { color: isDark ? theme.colors.primaryLime : '#365314' },
+                  { color: theme.colors.primaryTintText },
                 ]}
               >
                 {t('plan.weekly.calorieDeviation', {
@@ -400,20 +400,20 @@ export const WeeklyPlanView: React.FC<WeeklyPlanViewProps> = ({
                 styles.macroCard,
                 styles.oilCard,
                 {
-                  backgroundColor: isDark ? '#332306' : '#FEF3C7',
-                  borderColor: isDark ? '#6B4C0A' : '#FDE68A',
+                  backgroundColor: theme.colors.warningLight,
+                  borderColor: theme.colors.warningBorder,
                 },
               ]}
             >
               <Text
-                style={[styles.macroVal, styles.oilVal, { color: isDark ? '#FBBF24' : '#B45309' }]}
+                style={[styles.macroVal, styles.oilVal, { color: theme.colors.warningText }]}
                 numberOfLines={1}
                 adjustsFontSizeToFit
               >
                 {t('common.gramsValue', { value: currentDayPlan.totalOilAddedG })}
               </Text>
               <Text
-                style={[styles.oilLabel, { color: isDark ? '#FBBF24' : '#B45309' }]}
+                style={[styles.oilLabel, { color: theme.colors.warningText }]}
               >
                 {t('common.oil')}
               </Text>
@@ -511,12 +511,12 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   dayTabShort: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '700',
     marginBottom: 4,
   },
   dayTabFull: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '700',
     marginTop: 2,
   },
@@ -554,11 +554,11 @@ const styles = StyleSheet.create({
   tolerancePill: {
     paddingVertical: 4,
     paddingHorizontal: 10,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     borderWidth: 1,
   },
   tolerancePillText: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
   },
   macrosRow: {
@@ -579,12 +579,12 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   macroLabel: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '600',
     marginTop: 2,
   },
   macroTarget: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '600',
     marginTop: 1,
   },
@@ -599,7 +599,7 @@ const styles = StyleSheet.create({
   },
   oilVal: {},
   oilLabel: {
-    fontSize: 10,
+    fontSize: 12,
     marginTop: 2,
   },
   slotList: {

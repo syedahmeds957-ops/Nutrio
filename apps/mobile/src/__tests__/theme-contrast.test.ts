@@ -24,9 +24,14 @@ const TEXT: (keyof ThemeColors)[] = [
   'carbsText',
   'fatText',
   'successText',
+  'waterText',
+  'warningText',
   'warning',
   'danger',
 ];
+
+// Icons, bars and rings only need 3:1 (WCAG 1.4.11).
+const GRAPHICS: (keyof ThemeColors)[] = ['progressTrack', 'protein'];
 
 describe.each([
   ['light', lightColors],
@@ -36,6 +41,25 @@ describe.each([
     for (const surface of SURFACES) {
       expect(contrast(colors[token] as string, colors[surface] as string), `${token} on ${surface}`).toBeGreaterThanOrEqual(4.5);
     }
+  });
+
+  it.each(GRAPHICS)('%s is at least 3:1 on every surface', (token) => {
+    for (const surface of SURFACES) {
+      expect(contrast(colors[token] as string, colors[surface] as string), `${token} on ${surface}`).toBeGreaterThanOrEqual(3);
+    }
+  });
+
+  it('keeps the lime icon colour used on grey rows visible', () => {
+    // Row icons on surfaceSecondary use primaryAccessible, not the raw lime (1.30:1 on light grey).
+    expect(contrast(colors.primaryAccessible, colors.surfaceSecondary)).toBeGreaterThanOrEqual(3);
+    expect(contrast(colors.textMuted, colors.surfaceSecondary)).toBeGreaterThanOrEqual(3);
+  });
+
+  it('keeps tinted callout text readable on its own tint', () => {
+    expect(contrast(colors.successText, colors.successLight)).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(colors.warningText, colors.warningLight)).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(colors.primaryTintText, colors.limeTint)).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(colors.primaryAccessible, colors.limeTint)).toBeGreaterThanOrEqual(4.5);
   });
 
   it('keeps warning and danger readable on their own tinted backgrounds', () => {

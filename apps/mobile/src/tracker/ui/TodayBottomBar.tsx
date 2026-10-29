@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useTranslation } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 import { HapticFeedback } from '../../ui/haptics.js';
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: '92%',
     maxWidth: 440,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
@@ -81,13 +81,13 @@ const styles = StyleSheet.create({
     boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.35)',
   },
   item: { minHeight: 44, minWidth: 56, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 8 },
-  itemText: { fontSize: 11, fontWeight: '700', marginTop: 3 },
+  itemText: { fontSize: 12, fontWeight: '700', marginTop: 3 },
   quickLog: {
     minHeight: 46,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     gap: 6,
   },
   quickLogText: { fontSize: 14, fontWeight: '800' },

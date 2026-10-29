@@ -15,7 +15,7 @@ import { foodDb } from '../../catalogue/index.js';
 import { Icon } from '../../ui/Icon.js';
 import { BrandLogo } from '../../ui/BrandLogo.js';
 import { noOutlineStyle } from '../../ui/AppleInput.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { foodDisplayName } from '../foodDisplayName.js';
 import { DishThumb } from './DishThumb.js';
 import { OptionButton, OptionGroup } from '../../ui/Selectable.js';
@@ -387,7 +387,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                           <Text
                             style={[
                               styles.itemMacros,
-                              { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                              { color: theme.colors.primaryAccessible },
                             ]}
                           >
                             {t('common.macroLine', { protein: p, carbs: c, fat: f })}
@@ -399,7 +399,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                             style={[
                               styles.caloriePill,
                               {
-                                backgroundColor: isDark ? 'rgba(164, 235, 63, 0.15)' : '#F7FEE7',
+                                backgroundColor: theme.colors.limeTint,
                                 borderColor: theme.colors.primaryLime,
                               },
                             ]}
@@ -407,10 +407,10 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                             <Text
                               style={[
                                 styles.caloriePillText,
-                                { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                                { color: theme.colors.primaryAccessible },
                               ]}
                             >
-                              ≈{t('common.kcalValue', { value: kcal })}
+                              ~{t('common.kcalValue', { value: kcal })}
                             </Text>
                           </View>
                           <Icon name={dir.isRTL ? 'chevron-left' : 'chevron-right'} size={16} color={theme.colors.textMuted} />
@@ -514,7 +514,7 @@ const styles = StyleSheet.create({
   },
   categoryPill: {
     paddingHorizontal: 16,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
   },
   categoryPillText: {
     fontSize: 13,

@@ -28,6 +28,8 @@ export interface ThemeColors {
   limeText: string;          // #0A0B0D (Pitch Black for extreme contrast)
   primaryAccessible: string; // WCAG AA compliant accent for text/borders
   primaryTintText: string;   // High-contrast tint for text tags and pills
+  limeTint: string;          // Pale lime fill behind lime-tinted chips and callouts
+  limeTintBorder: string;    // Hairline that goes with limeTint
 
   // Floating Capsule Bar
   floatingBarBg: string;
@@ -51,15 +53,21 @@ export interface ThemeColors {
   carbsText: string;
   fatText: string;
   water: string;             // Electric Cyan
+  waterText: string;         // Water blue darkened until it reads as text (>= 4.5:1) on every surface
+  // Empty part of a progress bar: >= 3:1 on every surface so the bar is visible at 0%.
+  progressTrack: string;
   banked: string;            // Emerald Green
 
   // Status & Feedback
   warning: string;
   warningLight: string;
+  warningBorder: string;     // Hairline that goes with warningLight
+  warningText: string;       // Amber that reads as text on warningLight and on every surface
   danger: string;
   dangerLight: string;
   success: string;
   successLight: string;
+  successBorder: string;     // Hairline that goes with successLight
   successText: string;       // the success green darkened until it reads as text on light surfaces
 }
 
@@ -82,6 +90,8 @@ export const darkColors: ThemeColors = {
   limeText: '#0A0B0D',
   primaryAccessible: '#A4EB3F',
   primaryTintText: '#A4EB3F',
+  limeTint: '#1C2608',
+  limeTintBorder: '#2D4B05',
 
   floatingBarBg: '#2A2D37',           // lighter than the cards (#18191E) so the bar lifts off them
   floatingBarActive: '#A4EB3F',
@@ -100,14 +110,19 @@ export const darkColors: ThemeColors = {
   carbsText: '#A4EB3F',
   fatText: '#F59E0B',
   water: '#0EA5E9',
+  waterText: '#38BDF8',
+  progressTrack: '#6B7587',
   banked: '#10B981',
 
   warning: '#F59E0B',
   warningLight: '#332306',
+  warningBorder: '#6B4C0A',
+  warningText: '#FBBF24',
   danger: '#F87171',          // #EF4444 was 4.2:1 on the raised surface
   dangerLight: '#380E0E',
   success: '#10B981',
   successLight: '#082E1E',
+  successBorder: '#0F5132',
   successText: '#10B981',
 };
 
@@ -130,6 +145,8 @@ export const lightColors: ThemeColors = {
   limeText: '#0A0B0D',
   primaryAccessible: '#4B6200', // Dark lime for text on light surfaces (7:1 on white); raw lime is 1.4:1
   primaryTintText: '#365314',
+  limeTint: '#EDFCD2',
+  limeTintBorder: '#D4F88D',
 
   floatingBarBg: '#111215',
   floatingBarActive: '#A4EB3F',
@@ -148,15 +165,20 @@ export const lightColors: ThemeColors = {
   carbsText: '#4B6200',
   fatText: '#9A4A06',
   water: '#0EA5E9',
+  waterText: '#0369A1',
+  progressTrack: '#7F8899',
   banked: '#10B981',
 
   warning: '#B45309',         // #F59E0B / #D97706 were 2.1-3.2:1 as text; 4.5:1 on every light surface
   warningLight: '#FEF3C7',
+  warningBorder: '#FDE68A',
+  warningText: '#B45309',
   danger: '#B91C1C',          // #EF4444 was 3.5:1 on the canvas
   dangerLight: '#FEE2E2',
   success: '#10B981',
   successLight: '#DCFCE7',
-  successText: '#047857',
+  successBorder: '#A7F3D0',
+  successText: '#166534',
 };
 
 export const commonRadii = {
@@ -256,9 +278,9 @@ export const commonTypography = {
   },
   overline: {
     fontFamily: platformFontFamily,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700' as const,
-    lineHeight: 14,
+    lineHeight: 16,
     letterSpacing: 0.8,
     textTransform: 'uppercase' as const,
   },

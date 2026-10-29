@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import type { Exercise } from '@nutrio/workout-core';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useI18nState, useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 import { equipmentText } from '../format.js';
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 24,
   },
-  handle: { alignSelf: 'center', width: 40, height: 5, borderRadius: 999, marginBottom: 6 },
+  handle: { alignSelf: 'center', width: 40, height: 5, borderRadius: commonRadii.pill, marginBottom: 6 },
   titleRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 20, paddingBottom: 8 },
   flex: { flex: 1, minWidth: 0 },
   title: { fontSize: 19, fontWeight: '800', letterSpacing: -0.3 },

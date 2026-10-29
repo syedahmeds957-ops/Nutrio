@@ -138,7 +138,7 @@ export const styles = StyleSheet.create({
     height: 24,
   },
   statLabel: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
     marginBottom: 2,
     textTransform: 'uppercase',

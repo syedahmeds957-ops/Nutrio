@@ -5,7 +5,7 @@ import { getExercise, type Weekday, type WorkoutSettings } from '@nutrio/workout
 import { useRegion } from '../../common/region/index.js';
 import { weekdaysFrom } from '../../tracker/weekStrip.js';
 import { weekStartFor } from '../weekView.js';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { useI18nState, useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 import {
@@ -121,7 +121,7 @@ export const RoutineBuilder: React.FC<RoutineBuilderProps> = ({ settings, update
                     style={[styles.tab, { backgroundColor: selected ? c.primaryLime : c.surface, borderColor: selected ? c.primaryLime : c.border }]}
                   >
                     <Text style={[styles.tabDay, { color: selected ? c.limeText : c.textPrimary }]}>{t(`workout.days.${d.day}`)}</Text>
-                    <Text style={[styles.tabCount, { color: selected ? c.limeText : c.textSecondary }]}>
+                    <Text numberOfLines={1} style={[styles.tabCount, { color: selected ? c.limeText : c.textSecondary }]}>
                       {t('workout.week.exercises', { count: d.exercises.length })}
                     </Text>
                   </TouchableOpacity>
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
   tabs: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   tab: { minWidth: 72, minHeight: 56, paddingHorizontal: 10, borderRadius: 16, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
   tabDay: { fontSize: 13, fontWeight: '800' },
-  tabCount: { fontSize: 11, fontWeight: '600' },
+  tabCount: { fontSize: 12, fontWeight: '600' },
   card: { borderRadius: 18, borderWidth: 1 },
   empty: { padding: 16, fontSize: 13 },
   row: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 10, paddingVertical: 8 },
@@ -285,6 +285,6 @@ const styles = StyleSheet.create({
   bottomBar: { paddingHorizontal: 20, paddingTop: 12, paddingBottom: 14, borderTopWidth: 1, gap: 10 },
   needRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 8 },
   need: { flex: 1, minWidth: 0, fontSize: 13, lineHeight: 18, fontWeight: '600' },
-  cta: { minHeight: 52, borderRadius: 999, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
+  cta: { minHeight: 52, borderRadius: commonRadii.pill, borderWidth: 1, alignItems: 'center', justifyContent: 'center' },
   ctaText: { fontSize: 16, fontWeight: '800' },
 });

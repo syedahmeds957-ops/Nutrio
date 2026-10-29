@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { PlannedMealSlot } from '@nutrio/nutrition-core';
-import { useTheme } from '../../theme.js';
+import { useTheme, commonRadii } from '../../theme.js';
 import { Icon } from '../../ui/Icon.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
@@ -26,15 +26,15 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
   const getSlotIcon = (slotKey: string) => {
     switch (slotKey) {
       case 'breakfast':
-        return <Icon name="sun" size={20} color="#F59E0B" />;
+        return <Icon name="sun" size={20} color={theme.colors.warning} />;
       case 'lunch':
-        return <Icon name="utensils" size={20} color={theme.colors.primaryLime} />;
+        return <Icon name="utensils" size={20} color={theme.colors.primaryAccessible} />;
       case 'dinner':
-        return <Icon name="utensils" size={20} color="#3B82F6" />;
+        return <Icon name="utensils" size={20} color={theme.colors.proteinText} />;
       case 'snacks_chai':
-        return <Icon name="coffee" size={20} color="#B45309" />;
+        return <Icon name="coffee" size={20} color={theme.colors.fatText} />;
       default:
-        return <Icon name="utensils" size={20} color={theme.colors.primaryLime} />;
+        return <Icon name="utensils" size={20} color={theme.colors.primaryAccessible} />;
     }
   };
 
@@ -92,15 +92,15 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
           style={[
             styles.calBadge,
             {
-              backgroundColor: isDark ? '#1C2608' : '#EDFCD2',
-              borderColor: isDark ? '#2D4B05' : '#D4F88D',
+              backgroundColor: theme.colors.limeTint,
+              borderColor: theme.colors.limeTintBorder,
             },
           ]}
         >
           <Text
             style={[
               styles.calorieVal,
-              { color: isDark ? theme.colors.primaryLime : '#365314' },
+              { color: theme.colors.primaryTintText },
             ]}
           >
             {t('common.kcalValue', { value: slot.actualCalories })}
@@ -141,15 +141,15 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
             styles.macroChip,
             styles.oilChip,
             {
-              backgroundColor: isDark ? '#332306' : '#FEF3C7',
-              borderColor: isDark ? '#6B4C0A' : '#FDE68A',
+              backgroundColor: theme.colors.warningLight,
+              borderColor: theme.colors.warningBorder,
             },
           ]}
         >
           <Text
             style={[
               styles.oilText,
-              { color: isDark ? '#FBBF24' : '#B45309' },
+              { color: theme.colors.warningText },
             ]}
           >
             {t('plan.slotCard.oil', { count: oilTsps })}
@@ -163,15 +163,15 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
           style={[
             styles.fitBadge,
             {
-              backgroundColor: isDark ? '#1C2608' : '#EDFCD2',
-              borderColor: isDark ? '#2D4B05' : '#D4F88D',
+              backgroundColor: theme.colors.limeTint,
+              borderColor: theme.colors.limeTintBorder,
             },
           ]}
         >
           <Text
             style={[
               styles.fitBadgeText,
-              { color: isDark ? theme.colors.primaryLime : '#365314' },
+              { color: theme.colors.primaryTintText },
             ]}
           >
             {t('plan.slotCard.fitsTargets')}
@@ -244,12 +244,12 @@ export const PlannedMealSlotCard: React.FC<PlannedMealSlotCardProps> = ({
             <Icon
               name="swap"
               size={13}
-              color={isDark ? theme.colors.primaryLime : '#4B6200'}
+              color={theme.colors.primaryAccessible}
             />
             <Text
               style={[
                 styles.swapButtonText,
-                { color: isDark ? theme.colors.primaryLime : '#4B6200' },
+                { color: theme.colors.primaryAccessible },
               ]}
             >
               {t('plan.slotCard.swapAlternatives')}
@@ -304,7 +304,7 @@ const styles = StyleSheet.create({
   calBadge: {
     paddingVertical: 4,
     paddingHorizontal: 12,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     borderWidth: 1,
   },
   calorieVal: {
@@ -320,7 +320,7 @@ const styles = StyleSheet.create({
   macroChip: {
     paddingVertical: 4,
     paddingHorizontal: 10,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     borderWidth: 1,
   },
   macroChipText: {
@@ -342,21 +342,21 @@ const styles = StyleSheet.create({
   fitBadge: {
     paddingVertical: 3,
     paddingHorizontal: 8,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     borderWidth: 1,
   },
   fitBadgeText: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '700',
   },
   cuisineBadge: {
     paddingVertical: 3,
     paddingHorizontal: 8,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     borderWidth: 1,
   },
   cuisineBadgeText: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
   },
   itemsList: {
@@ -402,7 +402,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 7,
     paddingHorizontal: 14,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
     borderWidth: 1,
   },
   swapBtnContent: {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleProp, StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-native';
-import { useTheme } from '../theme.js';
+import { useTheme, commonRadii } from '../theme.js';
 import { useTranslation, useTextDirection } from '../i18n/index.js';
 import { Icon } from './Icon.js';
 
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     gap: 6,
     paddingVertical: 8,
     paddingHorizontal: 14,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
   },
   footerButton: {
     minHeight: 52,
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 6,
     paddingHorizontal: 18,
-    borderRadius: 9999,
+    borderRadius: commonRadii.pill,
   },
   disabled: {
     opacity: 0.3,

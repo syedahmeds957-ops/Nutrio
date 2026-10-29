@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     marginStart: 8,
   },
   activePillText: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '900',
     color: '#0A0B0D',
     letterSpacing: 0.5,
