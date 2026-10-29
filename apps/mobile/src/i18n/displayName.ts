@@ -1,5 +1,4 @@
-import { ALL_RESTAURANT_BRANDS } from '@nutrio/food-db';
-
+import { foodDb, isCatalogueLoaded } from '../catalogue/index.js';
 import type { AppLanguage } from './languages.js';
 
 /** Bilingual text as the workout catalogue stores it. */
@@ -36,13 +35,14 @@ let brandArByName: Map<string, string> | null = null;
 /**
  * A restaurant's name in the effective language, from the English brand name a
  * food carries (`food.brand`). Unknown brands and brands with no Arabic name
- * keep the English one.
+ * keep the English one. The brand list is part of the food catalogue, which is
+ * its own download, so before it has loaded the English name stands.
  */
 export function brandDisplayName(brand: string, lang: AppLanguage): string {
-  if (lang !== 'ar') return brand;
+  if (lang !== 'ar' || !isCatalogueLoaded()) return brand;
   if (!brandArByName) {
     brandArByName = new Map();
-    for (const b of ALL_RESTAURANT_BRANDS) {
+    for (const b of foodDb().ALL_RESTAURANT_BRANDS) {
       if (b.nameAr) brandArByName.set(b.name.toLowerCase(), b.nameAr);
     }
   }
