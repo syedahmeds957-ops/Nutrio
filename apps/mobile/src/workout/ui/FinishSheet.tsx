@@ -3,6 +3,7 @@ import { Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'reac
 import type { SessionRating } from '@nutrio/workout-core';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { OptionButton, OptionGroup } from '../../ui/Selectable.js';
 import { clockText } from '../format.js';
 import type { DraftStats } from '../workoutDraft.js';
 
@@ -56,24 +57,26 @@ export const FinishSheet: React.FC<FinishSheetProps> = ({ visible, sessionTitle,
           <Text style={[styles.cardio, { color: c.textSecondary }]}>{t('workout.cardio.stat', { count: stats.cardioMinutes })}</Text>
         ) : null}
         <Text style={[styles.question, dir.text, { color: c.textPrimary }]}>{t('workout.finish.feel')}</Text>
-        {RATINGS.map((value) => {
-          const selected = rating === value;
-          return (
-            <TouchableOpacity
+        <OptionGroup label={t('workout.finish.feel')} style={styles.options}>
+          {RATINGS.map((value) => (
+            <OptionButton
               key={value}
-              accessibilityRole="radio"
-              aria-checked={selected}
+              label={t(`workout.finish.${value}`)}
+              accessibilityLabel={`${t(`workout.finish.${value}`)}. ${t(`workout.finish.${value}Body`)}`}
+              check="inline"
+              selected={rating === value}
               onPress={() => setRating(value)}
-              style={[
-                styles.option,
-                { backgroundColor: selected ? c.primaryLight : c.surface, borderColor: selected ? c.primaryLime : c.border },
-              ]}
+              style={styles.option}
             >
-              <Text style={[styles.optionTitle, dir.text, { color: c.textPrimary }]}>{t(`workout.finish.${value}`)}</Text>
-              <Text style={[styles.optionBody, dir.text, { color: c.textSecondary }]}>{t(`workout.finish.${value}Body`)}</Text>
-            </TouchableOpacity>
-          );
-        })}
+              {(colors) => (
+                <View style={styles.optionText}>
+                  <Text style={[styles.optionTitle, dir.text, { color: colors.text.color }]}>{t(`workout.finish.${value}`)}</Text>
+                  <Text style={[styles.optionBody, dir.text, { color: colors.sub.color }]}>{t(`workout.finish.${value}Body`)}</Text>
+                </View>
+              )}
+            </OptionButton>
+          ))}
+        </OptionGroup>
         <Text style={[styles.help, { color: c.textSecondary }]}>{t('workout.finish.help')}</Text>
 
         <TouchableOpacity
@@ -114,7 +117,9 @@ const styles = StyleSheet.create({
   statLabel: { fontSize: 12, fontWeight: '600', marginTop: 2 },
   cardio: { fontSize: 13, fontWeight: '700', textAlign: 'center' },
   question: { fontSize: 16, fontWeight: '800', marginTop: 4 },
-  option: { padding: 12, borderRadius: 16, borderWidth: 1.5 },
+  options: { gap: 8 },
+  option: { paddingVertical: 12, paddingHorizontal: 14, borderRadius: 16 },
+  optionText: { flex: 1 },
   optionTitle: { fontSize: 15, fontWeight: '700' },
   optionBody: { fontSize: 12, marginTop: 2 },
   help: { fontSize: 12, textAlign: 'center', marginTop: 2 },

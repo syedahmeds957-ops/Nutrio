@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { View } from 'react-native';
 import type { NormalizedFood } from '@nutrio/food-db';
 import { foodDb } from '../../catalogue/index.js';
-import { useTheme } from '../../theme.js';
+import { OptionButton } from '../../ui/Selectable.js';
 import { useTranslation, useI18nState } from '../../i18n/index.js';
 import { pickText } from '../../i18n/displayName.js';
 import { DishCard } from './DishCard.js';
 import { styles } from './MealLogHubModal.styles.js';
-
-const ACCENT_TEXT = '#0A0B0D';
 
 export interface VariantDishCardProps {
   /** The search result; a dish with variants is shown once, starting on this one. */
@@ -31,7 +29,6 @@ export const VariantDishCard: React.FC<VariantDishCardProps> = ({
   onPressFood,
   onRemoveFood,
 }) => {
-  const { theme } = useTheme();
   const { t } = useTranslation();
   const { language } = useI18nState();
   const variants = foodDb().getFoodVariants(item);
@@ -56,29 +53,14 @@ export const VariantDishCard: React.FC<VariantDishCardProps> = ({
           {variants.map((variant) => {
             const isSelected = variant.id === selected.id;
             return (
-              <TouchableOpacity
+              <OptionButton
                 key={variant.id ?? variant.name}
-                style={[
-                  styles.variantChip,
-                  {
-                    backgroundColor: isSelected ? theme.colors.primaryLime : theme.colors.surfaceSecondary,
-                    borderColor: isSelected ? theme.colors.primaryLime : theme.colors.border,
-                  },
-                ]}
+                label={t(`tracker.hub.variant.${variant.variantLabel}`)}
+                selected={isSelected}
                 onPress={() => setSelectedId(variant.id)}
-                accessibilityRole="radio"
-                aria-checked={isSelected}
-                hitSlop={{ top: 6, bottom: 6, left: 4, right: 4 }}
-              >
-                <Text
-                  style={[
-                    styles.variantChipText,
-                    { color: isSelected ? ACCENT_TEXT : theme.colors.textPrimary },
-                  ]}
-                >
-                  {t(`tracker.hub.variant.${variant.variantLabel}`)}
-                </Text>
-              </TouchableOpacity>
+                style={styles.variantChip}
+                labelStyle={styles.variantChipText}
+              />
             );
           })}
         </View>

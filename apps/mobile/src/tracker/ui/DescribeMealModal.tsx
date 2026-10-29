@@ -16,6 +16,7 @@ import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index
 import { servingDisplayLabel } from '../servingLabel.js';
 import { foodDisplayName } from '../foodDisplayName.js';
 import { Icon } from '../../ui/Icon.js';
+import { OptionButton, OptionGroup } from '../../ui/Selectable.js';
 import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { describeMeal } from '../../ai/mealText.js';
 import { MealSlot } from '../types.js';
@@ -242,30 +243,18 @@ export const DescribeMealModal: React.FC<DescribeMealModalProps> = ({
         )}
 
         {row.food && servingChoices(row).length > 1 && (
-          <View style={styles.chips}>
-            {servingChoices(row).map((s) => {
-              const active = row.quantity === 1 && row.serving?.label === s.label;
-              return (
-                <TouchableOpacity
-                  key={s.label}
-                  style={[
-                    styles.chip,
-                    {
-                      backgroundColor: active ? theme.colors.surfaceSecondary : 'transparent',
-                      borderColor: active ? accent : theme.colors.border,
-                    },
-                  ]}
-                  onPress={() => updateRow(row.key, (r) => setRowServing(r, s))}
-                  accessibilityRole="button"
-                  accessibilityState={{ selected: active }}
-                >
-                  <Text style={[styles.chipText, { color: theme.colors.textPrimary }]} numberOfLines={1}>
-                    {servingDisplayLabel(s.label, language)}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
+          <OptionGroup label={t('tracker.describeMeal.servingLabel')} style={styles.chips}>
+            {servingChoices(row).map((s) => (
+              <OptionButton
+                key={s.label}
+                label={servingDisplayLabel(s.label, language)}
+                selected={row.quantity === 1 && row.serving?.label === s.label}
+                onPress={() => updateRow(row.key, (r) => setRowServing(r, s))}
+                style={styles.servingChip}
+                labelStyle={styles.chipText}
+              />
+            ))}
+          </OptionGroup>
         )}
 
         {row.status === 'needs_confirm' && (
@@ -534,6 +523,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   chipText: { fontSize: 12, fontWeight: '700' },
+  servingChip: { maxWidth: '100%', paddingVertical: 7, paddingHorizontal: 12, borderRadius: 9999 },
   empty: { fontSize: 14, lineHeight: 20, paddingVertical: 16 },
   footer: {
     flexDirection: 'row',

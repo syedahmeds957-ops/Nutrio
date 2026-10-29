@@ -6,7 +6,7 @@ import { useTheme } from '../../theme.js';
 import { useI18nState, useTranslation, useTextDirection } from '../../i18n/index.js';
 import { Icon } from '../../ui/Icon.js';
 import { BackButton } from '../../ui/BackButton.js';
-import { optionA11y } from '../../ui/Selectable.js';
+import { OptionButton } from '../../ui/Selectable.js';
 import { equipmentText } from '../format.js';
 import { MAX_WALK_MINUTES, WALK_EXERCISE_ID } from '../workoutEdit.js';
 import { ExerciseImageLoop } from './ExerciseImageLoop.js';
@@ -207,14 +207,14 @@ export const ExercisePickerBody: React.FC<ExercisePickerProps & { initialQuery?:
           {(['strength', 'cardio'] as const).map((value) => {
             const on = group === value;
             return (
-              <TouchableOpacity
+              <OptionButton
                 key={value}
-                {...optionA11y('radio', on)}
+                label={t(`workout.edit.group.${value}`)}
+                selected={on}
                 onPress={() => setGroup(value)}
-                style={[styles.group, { backgroundColor: on ? c.primaryLime : c.surfaceSecondary, borderColor: on ? c.primaryLime : c.border }]}
-              >
-                <Text style={[styles.groupText, { color: on ? c.limeText : c.textPrimary }]}>{t(`workout.edit.group.${value}`)}</Text>
-              </TouchableOpacity>
+                style={styles.group}
+                labelStyle={styles.groupText}
+              />
             );
           })}
         </View>

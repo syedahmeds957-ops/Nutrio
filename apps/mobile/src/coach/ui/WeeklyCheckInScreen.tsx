@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { BackButton } from '../../ui/BackButton.js';
 import { useTheme } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { useFormat } from '../../i18n/useFormat.js';
@@ -95,16 +96,7 @@ export const WeeklyCheckInScreen: React.FC<WeeklyCheckInScreenProps> = ({
           },
         ]}
       >
-        <TouchableOpacity
-          style={[styles.backBtn, { backgroundColor: theme.colors.surfaceSecondary }]}
-          onPress={onBack}
-          activeOpacity={0.7}
-        >
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-            <Icon name={dir.isRTL ? 'arrow-right' : 'arrow-left'} size={16} color={theme.colors.textPrimary} />
-            <Text style={[styles.backBtnText, { color: theme.colors.textPrimary }]}>{t('checkin.dashboard')}</Text>
-          </View>
-        </TouchableOpacity>
+        <BackButton onPress={onBack} text={t('checkin.dashboard')} />
         <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>
           {t('checkin.title')}
         </Text>
@@ -473,18 +465,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-  },
-  backBtn: {
-    minHeight: 44,
-    minWidth: 44,
-    justifyContent: 'center',
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderRadius: 9999,
-  },
-  backBtnText: {
-    fontSize: 12,
-    fontWeight: '700',
   },
   headerTitle: {
     fontSize: 16,
