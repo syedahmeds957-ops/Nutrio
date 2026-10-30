@@ -144,6 +144,7 @@ export interface MealPlanSolverInput {
 export interface PlannedMealItem {
   foodName: string;
   foodNameUr?: string;
+  foodNameAr?: string;
   category: string;
   servingLabel: string;
   servingGrams: number;
@@ -180,6 +181,13 @@ export interface DailyMealPlanResult {
   meals: PlannedMealSlot[];
   isWithinTolerance: boolean; // true if Math.abs(calorieDeviationPct) <= 5.0
   dietPreference: PlanDietPreference;
+  // Which regional food rotation the solver built this plan from.
+  region: 'PK' | 'SA';
+  /**
+   * Set when the diet leaves no foods to plan from (a Saudi vegan, today).
+   * The plan has empty slots; the UI should say so rather than show zeros.
+   */
+  insufficientFoodPool?: true;
 }
 
 export interface MealSwapOption {
@@ -198,7 +206,8 @@ export interface MealSwapResult {
   originalSlot: 'breakfast' | 'lunch' | 'dinner' | 'snacks_chai';
   originalCalories: number;
   originalProteinGrams: number;
-  options: [MealSwapOption, MealSwapOption, MealSwapOption];
+  /** Up to three: a thin diet pool can offer fewer, never a dish outside the diet. */
+  options: MealSwapOption[];
 }
 
 
@@ -238,53 +247,6 @@ export interface RamadanPlanResult {
   iftarAdvice: string;
 }
 
-export interface DetectedFoodItem {
-  detectedName: string;
-  estimatedGrams?: number;
-  portionSize?: 'S' | 'M' | 'L';
-  servingMultiplier?: number;
-}
-
-export type VisionConfidence = 'high' | 'medium' | 'low';
-
-export interface ResolvedFoodItem {
-  detectedName: string;
-  matchedFoodName: string;
-  matchedFoodNameUr?: string;
-  category: string;
-  servingLabel: string;
-  servingGrams: number;
-  resolvedGrams: number;
-  calories: number;
-  proteinGrams: number;
-  fatGrams: number;
-  carbGrams: number;
-  fibreGrams: number;
-  oilAddedG: number;
-  matchScore: number;
-  portionSource:
-    | 'user_grams'
-    | 'detected_grams'
-    | 'portion_size'
-    | 'default_serving';
-}
-
-export interface VisionResolutionResult {
-  totalCalories: number;
-  calorieBand: {
-    min: number;
-    max: number;
-    displayEstimate: string; // e.g. "~620 kcal (±10%)"
-  };
-  totalProteinGrams: number;
-  totalFatGrams: number;
-  totalCarbGrams: number;
-  totalFibreGrams: number;
-  totalOilAddedG: number;
-  confidence: VisionConfidence;
-  items: ResolvedFoodItem[];
-}
-
 export interface CoachContext {
   displayName?: string;
   region?: 'PK' | 'SA';
@@ -310,6 +272,18 @@ export interface CoachContext {
   medicalFlags?: string[];
   dietaryPreferences?: string[];
   isRamadanMode?: boolean;
+  /** The user's workout plan this week, when they have one. */
+  workout?: CoachWorkoutContext;
+}
+
+export interface CoachWorkoutContext {
+  location: 'home_none' | 'home_equipment' | 'gym';
+  sessionsPlannedThisWeek: number;
+  sessionsDoneThisWeek: number;
+  /** Today's session, in the app's language; absent on a rest day. */
+  today?: { title: string; exercises: string[] };
+  /** Ramadan mode is shortening sessions now. */
+  ramadan: boolean;
 }
 
 export interface CoachValidationResult {

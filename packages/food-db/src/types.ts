@@ -5,6 +5,11 @@ export interface NormalizedFood {
   name: string;
   nameUr?: string;
   nameAr?: string;
+  /**
+   * Other names people use for this food ("cold drink", "pepsi" for a regular
+   * cola). Search and meal matching treat each like the name; never shown.
+   */
+  aliases?: string[];
   brand?: string;
   brandId?: string;
   brandCategory?: string;
@@ -26,6 +31,13 @@ export interface NormalizedFood {
   verifiedBy?: string;
   confidence?: number;
   isRecipe?: boolean;
+  /**
+   * Foods that are one dish cooked different ways (Aloo Gosht with mutton,
+   * beef or chicken) share a group, so search shows the dish once and the
+   * picker offers `variantLabel` as the choice.
+   */
+  variantGroup?: string;
+  variantLabel?: string;
   oilAddedG: number;
   servings: FoodServingItem[];
 }

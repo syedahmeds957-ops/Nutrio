@@ -1,5 +1,6 @@
 import { ParseFoodTextRequestSchema } from './schema.js';
 import { parseFoodTextService } from './parser.js';
+import { isSignedInUser } from '../_shared/auth.js';
 
 export const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -18,6 +19,15 @@ export async function handleParseFoodTextRequest(
   if (req.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), {
       status: 405,
+      headers: CORS_HEADERS,
+    });
+  }
+
+  // Each call can spend the shared Groq quota, so the public anon key is not
+  // enough. Guests split meals with the on-device parser instead.
+  if (!isSignedInUser(req)) {
+    return new Response(JSON.stringify({ error: 'Sign in to describe a meal' }), {
+      status: 401,
       headers: CORS_HEADERS,
     });
   }

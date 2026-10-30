@@ -1,5 +1,6 @@
 import { CoachChatRequestSchema } from './schema.js';
 import { coachChatService } from './service.js';
+import { isSignedInUser } from '../_shared/auth.js';
 
 export const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -16,6 +17,15 @@ export async function handleCoachChatRequest(req: Request): Promise<Response> {
   if (req.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), {
       status: 405,
+      headers: CORS_HEADERS,
+    });
+  }
+
+  // Each reply spends the account-wide free Groq quota, so only signed-in users
+  // may ask; the anon key alone passes the gateway's JWT check.
+  if (!isSignedInUser(req)) {
+    return new Response(JSON.stringify({ error: 'Sign in to use the coach' }), {
+      status: 401,
       headers: CORS_HEADERS,
     });
   }

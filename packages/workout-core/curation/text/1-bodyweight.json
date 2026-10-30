@@ -1,0 +1,587 @@
+{
+  "bodyweight-squat": {
+    "name_ar": "القرفصاء بوزن الجسم",
+    "steps_en": [
+      "Stand with your feet shoulder-width apart, toes turned out slightly.",
+      "Bend your knees and push your hips back as if sitting into a chair.",
+      "Go as low as you comfortably can, keeping your chest up and knees in line with your toes.",
+      "Push through your whole foot to stand back up."
+    ],
+    "steps_ar": [
+      "قف وقدماك بعرض الكتفين مع توجيه أصابع القدمين للخارج قليلاً.",
+      "اثنِ ركبتيك وادفع وركيك للخلف كأنك تجلس على كرسي.",
+      "انزل بقدر ما تستطيع براحة مع إبقاء صدرك مرفوعاً وركبتيك على خط أصابع قدميك.",
+      "ادفع بكامل قدميك للعودة إلى الوقوف."
+    ]
+  },
+  "jump-squat": {
+    "name_ar": "القرفصاء مع القفز",
+    "steps_en": [
+      "Stand with your feet shoulder-width apart and arms crossed or at your sides.",
+      "Squat down until your thighs are about parallel to the floor.",
+      "Jump straight up as high as you can.",
+      "Land softly with bent knees and go straight into the next squat."
+    ],
+    "steps_ar": [
+      "قف وقدماك بعرض الكتفين وذراعاك متقاطعتان أو بجانبك.",
+      "انزل في وضع القرفصاء حتى يصبح فخذاك موازيين للأرض تقريباً.",
+      "اقفز للأعلى بأقصى ما تستطيع.",
+      "اهبط بنعومة مع ثني الركبتين وابدأ القرفصاء التالية مباشرة."
+    ]
+  },
+  "walking-lunge": {
+    "name_ar": "الطعن مع المشي",
+    "steps_en": [
+      "Stand tall with your hands on your hips.",
+      "Take a long step forward and lower until your back knee almost touches the floor.",
+      "Keep your front knee over your front foot and your body upright.",
+      "Push through your front heel and step forward into the next lunge with the other leg."
+    ],
+    "steps_ar": [
+      "قف مستقيماً ويداك على وركيك.",
+      "تقدّم بخطوة طويلة وانزل حتى تكاد ركبتك الخلفية تلمس الأرض.",
+      "أبقِ ركبتك الأمامية فوق قدمك الأمامية وجسمك مستقيماً.",
+      "ادفع بكعب قدمك الأمامية وتقدّم إلى الطعنة التالية بالرجل الأخرى."
+    ]
+  },
+  "split-jump": {
+    "name_ar": "القفز في وضع الطعن",
+    "steps_en": [
+      "Start in a lunge with one foot forward and both knees bent.",
+      "Jump up explosively, swinging your arms for height.",
+      "Switch legs in the air.",
+      "Land softly in a lunge with the other foot forward and repeat."
+    ],
+    "steps_ar": [
+      "ابدأ في وضع الطعن بقدم للأمام والركبتان مثنيتان.",
+      "اقفز للأعلى بقوة مع أرجحة ذراعيك لزيادة الارتفاع.",
+      "بدّل رجليك في الهواء.",
+      "اهبط بنعومة في وضع الطعن والقدم الأخرى للأمام، ثم كرّر."
+    ]
+  },
+  "step-up-knee-raise": {
+    "name_ar": "الصعود على درجة مع رفع الركبة",
+    "steps_en": [
+      "Stand facing a sturdy step, stair or bench.",
+      "Step up with one foot and drive through that heel to stand on top.",
+      "As you rise, lift the other knee up to hip height.",
+      "Step back down with control and switch legs."
+    ],
+    "steps_ar": [
+      "قف مواجهاً لدرجة أو سلّم أو مقعد ثابت.",
+      "اصعد بقدم واحدة وادفع بكعبها لتقف فوقها.",
+      "أثناء الصعود ارفع ركبتك الأخرى إلى مستوى الورك.",
+      "انزل للخلف بتحكّم وبدّل الرجلين."
+    ]
+  },
+  "glute-bridge": {
+    "name_ar": "جسر الأرداف",
+    "steps_en": [
+      "Lie on your back with knees bent, feet flat and hip-width apart, arms by your sides.",
+      "Push through your heels and lift your hips until your body is straight from shoulders to knees.",
+      "Squeeze your glutes and hold for a second at the top.",
+      "Lower your hips slowly back to the floor."
+    ],
+    "steps_ar": [
+      "استلقِ على ظهرك مع ثني الركبتين والقدمان على الأرض بعرض الورك والذراعان بجانبك.",
+      "ادفع بكعبيك وارفع وركيك حتى يستقيم جسمك من الكتفين إلى الركبتين.",
+      "شدّ عضلات أردافك واثبت ثانية في الأعلى.",
+      "أنزل وركيك ببطء إلى الأرض."
+    ]
+  },
+  "single-leg-glute-bridge": {
+    "name_ar": "جسر الأرداف برجل واحدة",
+    "steps_en": [
+      "Lie on your back with knees bent and feet flat.",
+      "Lift one foot off the floor and hold that knee towards your chest.",
+      "Push through the heel on the floor and raise your hips as high as you can.",
+      "Pause, lower slowly, and finish your reps before switching legs."
+    ],
+    "steps_ar": [
+      "استلقِ على ظهرك مع ثني الركبتين والقدمان على الأرض.",
+      "ارفع قدماً عن الأرض وقرّب تلك الركبة من صدرك.",
+      "ادفع بكعب القدم الموجودة على الأرض وارفع وركيك بأقصى ما تستطيع.",
+      "توقف لحظة ثم انزل ببطء، وأكمل تكراراتك قبل تبديل الرجل."
+    ]
+  },
+  "glute-kickback": {
+    "name_ar": "ركلة الأرداف للخلف",
+    "steps_en": [
+      "Get on your hands and knees, hands under shoulders and knees under hips.",
+      "Keeping the knee bent at 90 degrees, lift one leg until your thigh is in line with your back.",
+      "Squeeze your glute at the top for a second.",
+      "Lower with control and repeat, then switch legs."
+    ],
+    "steps_ar": [
+      "اتخذ وضع الركوع على اليدين والركبتين، اليدان تحت الكتفين والركبتان تحت الوركين.",
+      "مع إبقاء الركبة مثنية بزاوية قائمة، ارفع رجلاً حتى يصبح فخذك على خط ظهرك.",
+      "شدّ عضلة الأرداف في الأعلى لثانية.",
+      "انزل بتحكّم وكرّر، ثم بدّل الرجل."
+    ]
+  },
+  "incline-push-up": {
+    "name_ar": "الضغط على سطح مرتفع",
+    "steps_en": [
+      "Place your hands slightly wider than your shoulders on a sturdy bench, table or wall.",
+      "Step your feet back so your body forms a straight line.",
+      "Bend your elbows to lower your chest towards the edge.",
+      "Push back up until your arms are straight."
+    ],
+    "steps_ar": [
+      "ضع يديك أعرض قليلاً من كتفيك على مقعد أو طاولة ثابتة أو جدار.",
+      "أرجع قدميك للخلف حتى يشكّل جسمك خطاً مستقيماً.",
+      "اثنِ مرفقيك لتُنزل صدرك نحو الحافة.",
+      "ادفع للأعلى حتى تستقيم ذراعاك."
+    ]
+  },
+  "push-up": {
+    "name_ar": "تمرين الضغط",
+    "steps_en": [
+      "Start in a plank with hands slightly wider than your shoulders and body straight.",
+      "Lower your chest towards the floor, keeping your elbows at about 45 degrees.",
+      "Stop just above the floor without letting your hips sag.",
+      "Push back up until your arms are straight."
+    ],
+    "steps_ar": [
+      "ابدأ في وضع البلانك ويداك أعرض قليلاً من كتفيك وجسمك مستقيم.",
+      "أنزل صدرك نحو الأرض مع إبقاء مرفقيك بزاوية 45 درجة تقريباً.",
+      "توقف قبل الأرض مباشرة دون أن يهبط وركاك.",
+      "ادفع للأعلى حتى تستقيم ذراعاك."
+    ]
+  },
+  "feet-elevated-push-up": {
+    "name_ar": "الضغط مع رفع القدمين",
+    "steps_en": [
+      "Put your feet on a bench or step and your hands on the floor, slightly wider than your shoulders.",
+      "Keep your body in a straight line from head to heels.",
+      "Lower your chest towards the floor.",
+      "Push back up until your arms are straight. Higher feet make it harder."
+    ],
+    "steps_ar": [
+      "ضع قدميك على مقعد أو درجة ويديك على الأرض أعرض قليلاً من كتفيك.",
+      "أبقِ جسمك على خط مستقيم من الرأس إلى الكعبين.",
+      "أنزل صدرك نحو الأرض.",
+      "ادفع للأعلى حتى تستقيم ذراعاك. كلما ارتفعت القدمان زادت الصعوبة."
+    ]
+  },
+  "wide-push-up": {
+    "name_ar": "الضغط بفتحة يدين واسعة",
+    "steps_en": [
+      "Start in a plank with your hands placed well outside your shoulders.",
+      "Keep your body straight and your core tight.",
+      "Lower your chest towards the floor.",
+      "Press back up until your arms are straight."
+    ],
+    "steps_ar": [
+      "ابدأ في وضع البلانك مع وضع اليدين أعرض بكثير من الكتفين.",
+      "أبقِ جسمك مستقيماً وعضلات بطنك مشدودة.",
+      "أنزل صدرك نحو الأرض.",
+      "ادفع للأعلى حتى تستقيم ذراعاك."
+    ]
+  },
+  "close-grip-incline-push-up": {
+    "name_ar": "الضغط المرتفع بقبضة ضيقة",
+    "steps_en": [
+      "Place your hands close together on a sturdy raised surface.",
+      "Step your feet back so your body is straight.",
+      "Lower your chest to your hands, keeping your elbows close to your sides.",
+      "Push back up until your arms are straight."
+    ],
+    "steps_ar": [
+      "ضع يديك قريبتين من بعضهما على سطح مرتفع وثابت.",
+      "أرجع قدميك للخلف حتى يستقيم جسمك.",
+      "أنزل صدرك نحو يديك مع إبقاء المرفقين قريبين من جانبيك.",
+      "ادفع للأعلى حتى تستقيم ذراعاك."
+    ]
+  },
+  "close-grip-push-up": {
+    "name_ar": "الضغط بقبضة ضيقة",
+    "steps_en": [
+      "Start in a plank with your hands under your chest, closer than shoulder-width.",
+      "Lower your chest, keeping your elbows tucked close to your body.",
+      "Stop just above the floor.",
+      "Push back up using your triceps until your arms are straight."
+    ],
+    "steps_ar": [
+      "ابدأ في وضع البلانك ويداك تحت صدرك بمسافة أضيق من الكتفين.",
+      "أنزل صدرك مع إبقاء المرفقين ملتصقين بجسمك.",
+      "توقف قبل الأرض مباشرة.",
+      "ادفع للأعلى بعضلة الترايسبس حتى تستقيم ذراعاك."
+    ]
+  },
+  "bench-dip": {
+    "name_ar": "الغطس على المقعد",
+    "steps_en": [
+      "Sit on the edge of a bench or sturdy chair with your hands next to your hips.",
+      "Slide your hips off the edge and walk your feet out in front of you.",
+      "Bend your elbows to lower your body until your upper arms are about parallel to the floor.",
+      "Press back up until your arms are straight."
+    ],
+    "steps_ar": [
+      "اجلس على حافة مقعد أو كرسي ثابت ويداك بجانب وركيك.",
+      "أنزل وركيك عن الحافة وحرّك قدميك للأمام.",
+      "اثنِ مرفقيك لتُنزل جسمك حتى يصبح عضد ذراعك موازياً للأرض تقريباً.",
+      "ادفع للأعلى حتى تستقيم ذراعاك."
+    ]
+  },
+  "plank": {
+    "name_ar": "البلانك",
+    "steps_en": [
+      "Rest on your forearms and toes, elbows under your shoulders.",
+      "Keep your body in a straight line from head to heels.",
+      "Tighten your stomach and glutes so your hips don't sag or lift.",
+      "Hold the position and breathe steadily."
+    ],
+    "steps_ar": [
+      "استند على ساعديك وأصابع قدميك والمرفقان تحت الكتفين.",
+      "أبقِ جسمك على خط مستقيم من الرأس إلى الكعبين.",
+      "شدّ بطنك وأردافك حتى لا يهبط الوركان أو يرتفعا.",
+      "اثبت في هذا الوضع وتنفّس بانتظام."
+    ]
+  },
+  "side-plank": {
+    "name_ar": "البلانك الجانبي",
+    "steps_en": [
+      "Lie on your side and rest on one forearm, elbow under your shoulder.",
+      "Stack your feet and lift your hips so your body forms a straight line.",
+      "Keep your hips high and don't let them drop.",
+      "Hold, then switch sides."
+    ],
+    "steps_ar": [
+      "استلقِ على جانبك واستند على ساعد واحد والمرفق تحت الكتف.",
+      "ضع قدميك فوق بعضهما وارفع وركيك حتى يشكّل جسمك خطاً مستقيماً.",
+      "أبقِ وركيك مرتفعين ولا تدعهما يهبطان.",
+      "اثبت ثم بدّل الجانب."
+    ]
+  },
+  "dead-bug": {
+    "name_ar": "تمرين الحشرة الميتة",
+    "steps_en": [
+      "Lie on your back with arms pointing at the ceiling and knees bent at 90 degrees above your hips.",
+      "Press your lower back flat into the floor.",
+      "Slowly straighten one leg and lower the opposite arm towards the floor.",
+      "Return to the start and repeat on the other side, keeping your back flat."
+    ],
+    "steps_ar": [
+      "استلقِ على ظهرك وذراعاك ممدودتان نحو السقف وركبتاك مثنيتان بزاوية قائمة فوق وركيك.",
+      "ألصق أسفل ظهرك بالأرض.",
+      "مدّ رجلاً ببطء وأنزل الذراع المعاكسة نحو الأرض.",
+      "عُد إلى البداية وكرّر على الجانب الآخر مع إبقاء ظهرك ملتصقاً بالأرض."
+    ]
+  },
+  "crunch": {
+    "name_ar": "الطحن (الكرانش)",
+    "steps_en": [
+      "Lie on your back with knees bent and feet flat.",
+      "Rest your fingertips lightly beside your head.",
+      "Curl your shoulders a few centimetres off the floor by tightening your stomach.",
+      "Pause, then lower slowly. Don't pull on your neck."
+    ],
+    "steps_ar": [
+      "استلقِ على ظهرك مع ثني الركبتين والقدمان على الأرض.",
+      "ضع أطراف أصابعك برفق بجانب رأسك.",
+      "ارفع كتفيك بضعة سنتيمترات عن الأرض بشدّ عضلات بطنك.",
+      "توقف لحظة ثم انزل ببطء. لا تسحب رقبتك بيديك."
+    ]
+  },
+  "sit-up": {
+    "name_ar": "تمرين الجلوس",
+    "steps_en": [
+      "Lie on your back with knees bent and feet anchored under something steady.",
+      "Cross your arms over your chest or place your hands by your head.",
+      "Lift your whole upper body until you are sitting up.",
+      "Lower back down slowly with control."
+    ],
+    "steps_ar": [
+      "استلقِ على ظهرك مع ثني الركبتين وتثبيت القدمين تحت شيء ثابت.",
+      "ضع ذراعيك متقاطعتين على صدرك أو يديك بجانب رأسك.",
+      "ارفع الجزء العلوي من جسمك كاملاً حتى تصل إلى وضع الجلوس.",
+      "انزل ببطء وبتحكّم."
+    ]
+  },
+  "jackknife-sit-up": {
+    "name_ar": "الجلوس بحركة السكين",
+    "steps_en": [
+      "Lie flat with your arms stretched overhead and legs straight.",
+      "In one movement, lift your arms and legs to meet above your hips.",
+      "Reach for your toes at the top.",
+      "Lower your arms and legs slowly back to the floor."
+    ],
+    "steps_ar": [
+      "استلقِ مستقيماً وذراعاك ممدودتان فوق رأسك ورجلاك مستقيمتان.",
+      "ارفع ذراعيك ورجليك معاً في حركة واحدة لتلتقي فوق وركيك.",
+      "حاول لمس أصابع قدميك في الأعلى.",
+      "أنزل ذراعيك ورجليك ببطء إلى الأرض."
+    ]
+  },
+  "reverse-crunch": {
+    "name_ar": "الكرانش العكسي",
+    "steps_en": [
+      "Lie on your back with your hands by your sides and knees bent up at 90 degrees.",
+      "Tighten your stomach and curl your hips off the floor, bringing your knees towards your chest.",
+      "Pause at the top.",
+      "Lower your hips slowly without swinging."
+    ],
+    "steps_ar": [
+      "استلقِ على ظهرك ويداك بجانبك وركبتاك مرفوعتان ومثنيتان بزاوية قائمة.",
+      "شدّ بطنك وارفع وركيك عن الأرض مقرّباً ركبتيك من صدرك.",
+      "توقف لحظة في الأعلى.",
+      "أنزل وركيك ببطء دون أرجحة."
+    ]
+  },
+  "bicycle-crunch": {
+    "name_ar": "كرانش الدراجة",
+    "steps_en": [
+      "Lie on your back with hands lightly by your head and knees lifted.",
+      "Bring one knee in while turning the opposite elbow towards it.",
+      "Straighten that leg as you switch to the other side.",
+      "Keep alternating in a slow pedalling motion."
+    ],
+    "steps_ar": [
+      "استلقِ على ظهرك ويداك برفق بجانب رأسك وركبتاك مرفوعتان.",
+      "قرّب ركبة واحدة مع تدوير المرفق المعاكس نحوها.",
+      "مدّ تلك الرجل أثناء الانتقال إلى الجانب الآخر.",
+      "استمر في التبديل بحركة دوّاسة بطيئة."
+    ]
+  },
+  "russian-twist": {
+    "name_ar": "الالتواء الروسي",
+    "steps_en": [
+      "Sit with knees bent and lean back slightly with a straight back.",
+      "Lift your feet a little off the floor if you can.",
+      "Rotate your torso to bring your hands beside one hip.",
+      "Rotate to the other side and keep alternating."
+    ],
+    "steps_ar": [
+      "اجلس مع ثني الركبتين وامِل بظهرك للخلف قليلاً مع إبقائه مستقيماً.",
+      "ارفع قدميك قليلاً عن الأرض إن استطعت.",
+      "أدِر جذعك لتُحضر يديك بجانب أحد الوركين.",
+      "أدِر إلى الجانب الآخر واستمر في التبديل."
+    ]
+  },
+  "flutter-kicks": {
+    "name_ar": "رفرفة الرجلين على البطن",
+    "steps_en": [
+      "Lie face down on a bench with your hips at the edge and hold the bench.",
+      "Lift your legs until they are level with your body.",
+      "Kick your legs up and down in small, quick movements.",
+      "Keep your hips on the bench and your glutes tight throughout."
+    ],
+    "steps_ar": [
+      "استلقِ على بطنك فوق مقعد ووركاك عند الحافة وأمسك بالمقعد.",
+      "ارفع رجليك حتى تكونا على مستوى جسمك.",
+      "حرّك رجليك للأعلى والأسفل بحركات صغيرة وسريعة.",
+      "أبقِ وركيك على المقعد وأردافك مشدودة طوال التمرين."
+    ]
+  },
+  "bent-knee-hip-raise": {
+    "name_ar": "رفع الورك مع ثني الركبتين",
+    "steps_en": [
+      "Lie on your back with your hands by your sides and knees bent.",
+      "Lift your feet so your knees are above your hips.",
+      "Tighten your stomach and lift your hips slightly off the floor.",
+      "Lower slowly and repeat without swinging your legs."
+    ],
+    "steps_ar": [
+      "استلقِ على ظهرك ويداك بجانبك وركبتاك مثنيتان.",
+      "ارفع قدميك حتى تصبح ركبتاك فوق وركيك.",
+      "شدّ بطنك وارفع وركيك قليلاً عن الأرض.",
+      "انزل ببطء وكرّر دون أرجحة رجليك."
+    ]
+  },
+  "mountain-climbers": {
+    "name_ar": "متسلق الجبل",
+    "steps_en": [
+      "Start in a high plank with your hands under your shoulders.",
+      "Drive one knee towards your chest.",
+      "Switch legs quickly, as if running in place.",
+      "Keep your hips level and your core tight."
+    ],
+    "steps_ar": [
+      "ابدأ في وضع البلانك المرتفع ويداك تحت كتفيك.",
+      "اسحب ركبة واحدة نحو صدرك.",
+      "بدّل الرجلين بسرعة كأنك تجري في مكانك.",
+      "أبقِ وركيك مستويين وعضلات بطنك مشدودة."
+    ]
+  },
+  "star-jump": {
+    "name_ar": "القفز النجمي",
+    "steps_en": [
+      "Stand with your feet together and arms by your sides.",
+      "Bend your knees slightly, then jump up.",
+      "Spread your arms and legs wide into a star shape in the air.",
+      "Land softly with your feet together and repeat."
+    ],
+    "steps_ar": [
+      "قف وقدماك متلاصقتان وذراعاك بجانبك.",
+      "اثنِ ركبتيك قليلاً ثم اقفز للأعلى.",
+      "افتح ذراعيك ورجليك على شكل نجمة في الهواء.",
+      "اهبط بنعومة والقدمان متلاصقتان، ثم كرّر."
+    ]
+  },
+  "fast-skipping": {
+    "name_ar": "القفز السريع في المكان",
+    "steps_en": [
+      "Stand tall with your arms bent at your sides.",
+      "Skip forward or on the spot with quick, light steps.",
+      "Drive your knees up and swing your arms.",
+      "Stay on the balls of your feet and keep the pace quick."
+    ],
+    "steps_ar": [
+      "قف مستقيماً وذراعاك مثنيتان بجانبك.",
+      "اقفز للأمام أو في مكانك بخطوات سريعة وخفيفة.",
+      "ارفع ركبتيك وحرّك ذراعيك.",
+      "ابقَ على مقدمة قدميك وحافظ على سرعة الإيقاع."
+    ]
+  },
+  "butt-kicks": {
+    "name_ar": "ركل المؤخرة بالكعبين",
+    "steps_en": [
+      "Stand tall and start jogging on the spot.",
+      "Kick your heels up towards your glutes on each step.",
+      "Keep your knees pointing down and your arms moving.",
+      "Keep a quick, steady rhythm."
+    ],
+    "steps_ar": [
+      "قف مستقيماً وابدأ الهرولة في مكانك.",
+      "اركل كعبيك نحو مؤخرتك مع كل خطوة.",
+      "أبقِ ركبتيك متجهتين للأسفل وذراعيك في حركة.",
+      "حافظ على إيقاع سريع وثابت."
+    ]
+  },
+  "knee-tuck-jump": {
+    "name_ar": "القفز مع ضم الركبتين",
+    "steps_en": [
+      "Stand with your feet hip-width apart and knees slightly bent.",
+      "Jump up as high as you can.",
+      "Pull your knees up towards your chest in the air.",
+      "Land softly with bent knees and jump again."
+    ],
+    "steps_ar": [
+      "قف وقدماك بعرض الورك وركبتاك مثنيتان قليلاً.",
+      "اقفز للأعلى بأقصى ما تستطيع.",
+      "اسحب ركبتيك نحو صدرك في الهواء.",
+      "اهبط بنعومة مع ثني الركبتين واقفز مجدداً."
+    ]
+  },
+  "scissors-jump": {
+    "name_ar": "القفز المقصّي",
+    "steps_en": [
+      "Stand in a short lunge with one foot forward.",
+      "Jump up and switch your feet in the air.",
+      "Land in a short lunge with the other foot forward.",
+      "Keep switching quickly with soft landings."
+    ],
+    "steps_ar": [
+      "قف في طعنة قصيرة بقدم للأمام.",
+      "اقفز للأعلى وبدّل قدميك في الهواء.",
+      "اهبط في طعنة قصيرة والقدم الأخرى للأمام.",
+      "استمر في التبديل بسرعة مع هبوط ناعم."
+    ]
+  },
+  "inverted-row": {
+    "name_ar": "التجديف المقلوب",
+    "steps_en": [
+      "Set a bar at about waist height and lie under it.",
+      "Hold the bar slightly wider than your shoulders with straight arms and a straight body.",
+      "Pull your chest up to the bar, squeezing your shoulder blades together.",
+      "Lower yourself slowly until your arms are straight."
+    ],
+    "steps_ar": [
+      "ثبّت باراً على ارتفاع الخصر تقريباً واستلقِ تحته.",
+      "أمسك البار بقبضة أعرض قليلاً من الكتفين والذراعان والجسم مستقيمون.",
+      "اسحب صدرك نحو البار مع ضمّ لوحَي كتفيك.",
+      "انزل ببطء حتى تستقيم ذراعاك."
+    ]
+  },
+  "band-assisted-pull-up": {
+    "name_ar": "العقلة بمساعدة حزام مقاومة",
+    "steps_en": [
+      "Loop a resistance band over the pull-up bar and put one foot or knee in it.",
+      "Hold the bar slightly wider than your shoulders.",
+      "Pull yourself up until your chin is over the bar.",
+      "Lower slowly until your arms are straight. A lighter band makes it harder."
+    ],
+    "steps_ar": [
+      "علّق حزام مقاومة على بار العقلة وضع قدماً أو ركبة داخله.",
+      "أمسك البار بقبضة أعرض قليلاً من الكتفين.",
+      "اسحب جسمك للأعلى حتى يتجاوز ذقنك البار.",
+      "انزل ببطء حتى تستقيم ذراعاك. كلما خفّ الحزام زادت الصعوبة."
+    ]
+  },
+  "chin-up": {
+    "name_ar": "العقلة بقبضة معكوسة",
+    "steps_en": [
+      "Hold the bar with palms facing you, about shoulder-width apart.",
+      "Hang with straight arms and your core tight.",
+      "Pull yourself up until your chin is over the bar.",
+      "Lower slowly to a full hang."
+    ],
+    "steps_ar": [
+      "أمسك البار وراحتا يديك نحوك بعرض الكتفين تقريباً.",
+      "تعلّق والذراعان مستقيمتان وعضلات بطنك مشدودة.",
+      "اسحب جسمك للأعلى حتى يتجاوز ذقنك البار.",
+      "انزل ببطء حتى تتعلّق بالكامل."
+    ]
+  },
+  "pull-up": {
+    "name_ar": "العقلة",
+    "steps_en": [
+      "Hold the bar with palms facing away, slightly wider than your shoulders.",
+      "Hang with straight arms and your shoulders pulled down.",
+      "Pull yourself up until your chin is over the bar.",
+      "Lower slowly to a full hang."
+    ],
+    "steps_ar": [
+      "أمسك البار وراحتا يديك للخارج بمسافة أعرض قليلاً من الكتفين.",
+      "تعلّق والذراعان مستقيمتان والكتفان مسحوبان للأسفل.",
+      "اسحب جسمك للأعلى حتى يتجاوز ذقنك البار.",
+      "انزل ببطء حتى تتعلّق بالكامل."
+    ]
+  },
+  "scapular-pull-up": {
+    "name_ar": "عقلة لوحَي الكتف",
+    "steps_en": [
+      "Hang from the bar with straight arms.",
+      "Without bending your elbows, pull your shoulder blades down and together.",
+      "Your body will rise a few centimetres.",
+      "Relax back to a full hang with control."
+    ],
+    "steps_ar": [
+      "تعلّق بالبار والذراعان مستقيمتان.",
+      "دون ثني المرفقين، اسحب لوحَي كتفيك للأسفل ونحو بعضهما.",
+      "سيرتفع جسمك بضعة سنتيمترات.",
+      "ارتخِ بتحكّم حتى تعود إلى التعلّق الكامل."
+    ]
+  },
+  "brisk-walk": {
+    "name_ar": "المشي",
+    "steps_en": [
+      "Walk outdoors, in a corridor or around your home at a pace that raises your breathing.",
+      "Stand tall, look ahead and swing your arms.",
+      "Take quick, natural steps, landing heel first and rolling through to your toes.",
+      "Keep a pace you can hold for the whole time."
+    ],
+    "steps_ar": [
+      "امشِ في الخارج أو في ممر أو داخل المنزل بوتيرة ترفع تنفّسك.",
+      "قف منتصباً وانظر للأمام وحرّك ذراعيك.",
+      "خذ خطوات سريعة وطبيعية، تهبط على الكعب ثم تنتقل إلى أصابع القدم.",
+      "حافظ على وتيرة تستطيع الاستمرار عليها طوال المدة."
+    ]
+  },
+  "stair-step-ups": {
+    "name_ar": "الصعود على الدرج",
+    "steps_en": [
+      "Stand facing the bottom step of a stair or a sturdy low step.",
+      "Step up with one foot, then the other, standing tall at the top.",
+      "Step back down one foot at a time.",
+      "Keep a steady rhythm, switch the leading foot every minute, and hold the rail if you need to."
+    ],
+    "steps_ar": [
+      "قف مواجهاً لأول درجة في السلّم أو لدرجة منخفضة ثابتة.",
+      "اصعد بقدم ثم بالأخرى وقف منتصباً في الأعلى.",
+      "انزل بقدم ثم بالأخرى.",
+      "حافظ على إيقاع ثابت وبدّل القدم الأمامية كل دقيقة، وأمسك الدرابزين إن احتجت."
+    ]
+  }
+}

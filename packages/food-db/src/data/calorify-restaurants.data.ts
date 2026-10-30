@@ -94,11 +94,13 @@ export const CALORIFY_BRANDS: CalorifyBrand[] = [
 ];
 
 // Common KFC Customizers / Modifiers
+// nameAr values are a machine draft pending native-speaker review.
 const KFC_BURGER_MODIFIERS: FoodModifier[] = [
   {
     id: 'kfc_mod_zinger_fillet',
     name: 'Extra Zinger fillet + sauce',
     nameUr: 'اضافی زنگر فلے اور ساس',
+    nameAr: 'فيليه زنجر إضافي مع صلصة',
     calories: 305,
     proteinGrams: 20,
     fatGrams: 18,
@@ -108,6 +110,7 @@ const KFC_BURGER_MODIFIERS: FoodModifier[] = [
     id: 'kfc_mod_cheese_slice',
     name: 'Extra cheese slice',
     nameUr: 'اضافی چیز سلائس',
+    nameAr: 'شريحة جبن إضافية',
     calories: 40,
     proteinGrams: 2.5,
     fatGrams: 3.2,
@@ -117,6 +120,7 @@ const KFC_BURGER_MODIFIERS: FoodModifier[] = [
     id: 'kfc_mod_krunch_fillet',
     name: 'Extra Krunch/mini fillet',
     nameUr: 'اضافی کرینچ فلے',
+    nameAr: 'فيليه كرنش / ميني إضافي',
     calories: 125,
     proteinGrams: 9,
     fatGrams: 7,
@@ -126,6 +130,7 @@ const KFC_BURGER_MODIFIERS: FoodModifier[] = [
     id: 'kfc_mod_mayo',
     name: 'Mayo (1 tbsp / 15g)',
     nameUr: 'مایونیز',
+    nameAr: 'مايونيز (ملعقة كبيرة / 15 غ)',
     calories: 100,
     proteinGrams: 0.2,
     fatGrams: 10.5,
@@ -134,11 +139,13 @@ const KFC_BURGER_MODIFIERS: FoodModifier[] = [
 ];
 
 // Common Chai Customizers
+// nameAr values are a machine draft pending native-speaker review.
 const CHAI_MODIFIERS: FoodModifier[] = [
   {
     id: 'chai_mod_extra_sugar',
     name: 'Extra Sugar (1 tsp / 4g)',
     nameUr: 'اضافی چینی',
+    nameAr: 'سكر إضافي (ملعقة صغيرة / 4 غ)',
     calories: 16,
     proteinGrams: 0,
     fatGrams: 0,
@@ -148,6 +155,7 @@ const CHAI_MODIFIERS: FoodModifier[] = [
     id: 'chai_mod_no_sugar',
     name: 'Without Sugar (No meetha)',
     nameUr: 'بغیر چینی',
+    nameAr: 'بدون سكر',
     calories: -24,
     proteinGrams: 0,
     fatGrams: 0,
@@ -157,6 +165,7 @@ const CHAI_MODIFIERS: FoodModifier[] = [
     id: 'chai_mod_full_cream',
     name: 'Extra Malai / Full Cream Milk',
     nameUr: 'فل کریم ملائی',
+    nameAr: 'قشطة إضافية / حليب كامل الدسم',
     calories: 35,
     proteinGrams: 1.2,
     fatGrams: 3,

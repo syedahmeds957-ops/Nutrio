@@ -170,7 +170,7 @@ export const STREET_FOOD_CHAAT_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Bun Kabab (Daal Anda - Karachi)",
+    "name": "Bun Kabab (Daal Anda)",
     "nameUr": "بن کباب (دال انڈا)",
     "category": "Street Food & Chaat",
     "cuisineTags": [
@@ -1178,7 +1178,7 @@ export const STREET_FOOD_CHAAT_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Aloo Tikki (Street Style Potato Cutlet)",
+    "name": "Aloo Tikki (Potato Cutlet)",
     "nameUr": "آلو ٹکی",
     "category": "Street Food & Chaat",
     "cuisineTags": [
@@ -1206,7 +1206,7 @@ export const STREET_FOOD_CHAAT_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Chicken Cutlet (Bakery Style)",
+    "name": "Chicken Cutlet",
     "nameUr": "چکن کٹلس",
     "category": "Street Food & Chaat",
     "cuisineTags": [
@@ -1794,7 +1794,7 @@ export const STREET_FOOD_CHAAT_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Street Style Gol Gappa Box",
+    "name": "Gol Gappa Box",
     "nameUr": "گول گپا باکس",
     "category": "Street Food & Chaat",
     "cuisineTags": [

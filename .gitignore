@@ -45,3 +45,10 @@ coverage/
 # Build outputs
 build/
 .turbo/
+
+# Bundled edge functions (scripts/build-edge-function.mjs)
+supabase/.build/
+
+# Claude Code: per-machine settings and the graphify knowledge graph (rebuild with `graphify update .`)
+.claude/settings.local.json
+graphify-out/

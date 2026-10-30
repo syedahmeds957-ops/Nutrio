@@ -5,3 +5,6 @@ export * from './usda-normalizer.js';
 export * from './off-filter.js';
 export * from './search-index.js';
 export * from './customization/index.js';
+export * from './variants.js';
+export * from './meal/index.js';
+export * from './recipe/compose-recipe.js';

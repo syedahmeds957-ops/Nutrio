@@ -2,7 +2,7 @@ import { NormalizedFood } from '../types.js';
 
 export const KARAHI_HANDI_DATA: NormalizedFood[] = [
   {
-    "name": "Chicken Karahi (Lahori Restaurant)",
+    "name": "Chicken Karahi (Restaurant Style)",
     "nameUr": "لاہوری چکن کڑاہی",
     "category": "Karahi & Handi",
     "cuisineTags": [
@@ -954,7 +954,7 @@ export const KARAHI_HANDI_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Dhabba Chicken Karahi (Desi Ghee)",
+    "name": "Ghee Chicken Karahi",
     "nameUr": "ڈھابہ چکن کڑاہی مع دیسی گھی",
     "category": "Karahi & Handi",
     "cuisineTags": [
@@ -1766,7 +1766,7 @@ export const KARAHI_HANDI_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Desi Ghee Chicken Roast Handi",
+    "name": "Ghee Chicken Roast Handi",
     "nameUr": "دیسی گھی چکن روسٹ ہانڈی",
     "category": "Karahi & Handi",
     "cuisineTags": [
@@ -1794,7 +1794,7 @@ export const KARAHI_HANDI_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Special Dhabba Keema Ghotala",
+    "name": "Special Keema Ghotala",
     "nameUr": "ڈھابہ قیمہ گھوٹالہ",
     "category": "Karahi & Handi",
     "cuisineTags": [

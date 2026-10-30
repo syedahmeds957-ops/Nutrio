@@ -39,6 +39,9 @@ import { DIET_SEAFOOD_DATA } from './diet-seafood.data.js';
 import { DIET_DAIRY_DATA } from './diet-dairy.data.js';
 import { DIET_GRAINS_DATA } from './diet-grains.data.js';
 import { DIET_NUTS_SEEDS_DATA } from './diet-nuts-seeds.data.js';
+import { RETIRED_DUPLICATE_IDS, resolveFoodId } from './retired-duplicates.js';
+import { DERIVED_VARIANT_FOODS, EXISTING_VARIANT_MEMBERS } from './meat-variants.data.js';
+import { withPieceServing } from './piece-servings.data.js';
 import {
   getDietAddOnModifiers,
   resolveLegacyBasicsClass,
@@ -81,6 +84,9 @@ export * from './diet-grains.data.js';
 export * from './diet-nuts-seeds.data.js';
 export * from './diet-modifiers.data.js';
 export * from './diet-groups.data.js';
+export * from './retired-duplicates.js';
+export * from './meat-variants.data.js';
+export * from './piece-servings.data.js';
 
 export const PAKISTANI_RESTAURANT_BRANDS: RestaurantBrand[] = [
   ...CALORIFY_BRANDS,
@@ -122,6 +128,38 @@ const dietRegionFor = (food: NormalizedFood): RegionCode => {
 const dietFoodsForRegion = (region: 'PK' | 'SA'): NormalizedFood[] =>
   DIET_BASICS_CATALOG.filter((f) => f.region === region || f.region === 'GLOBAL');
 
+/**
+ * Guarantees a food offers a choice of portions.
+ *
+ * 26 diet foods shipped with a single serving, so the customizer's portion row
+ * showed one pill and there was nothing to pick — a bowl of steamed vegetables
+ * was 150g or nothing. Rather than hand-writing alternates for each, and
+ * leaving the next food added to repeat the problem, a half and a double portion
+ * are derived from the default.
+ *
+ * Only applied where the food defines fewer than two servings; anything with
+ * real, named portions ("1 pot", "1 cup", "half cup") keeps exactly those.
+ */
+const withPortionChoices = (food: NormalizedFood): NormalizedFood => {
+  if (food.servings.length > 1) return food;
+
+  const base = food.servings[0];
+  if (!base || base.grams <= 0) return food;
+
+  const half = Math.round(base.grams / 2);
+  const double = base.grams * 2;
+  if (half < 1) return food;
+
+  return {
+    ...food,
+    servings: [
+      { ...base, isDefault: true },
+      { label: `Half portion (${half}g)`, grams: half, isDefault: false },
+      { label: `Double portion (${double}g)`, grams: double, isDefault: false },
+    ],
+  };
+};
+
 const withDietIds = (
   data: NormalizedFood[],
   prefix: string,
@@ -137,8 +175,9 @@ const withDietIds = (
   data.map((item, idx) => {
     const cls = typeof addOns === 'function' ? addOns(item) : addOns;
     const modifiers = item.modifiers ?? getDietAddOnModifiers(cls);
+    const withPortions = withPortionChoices(item);
     return {
-      ...item,
+      ...withPortions,
       id: item.id || `${prefix}_${idx + 1}`,
       region: item.region ?? dietRegionFor(item),
       // Left undefined rather than set to [] so `getDishCustomizationModifiers`
@@ -176,7 +215,17 @@ export const DIET_BASICS_CATALOG: NormalizedFood[] = [
   ...withDietIds(DIET_NUTS_SEEDS_DATA, 'diet_nut', 'none'),
 ];
 
-export const ALL_EXPANDED_PAKISTANI_FOODS: NormalizedFood[] = [
+const VARIANT_BY_NAME = new Map(
+  EXISTING_VARIANT_MEMBERS.map((m) => [m.name, { variantGroup: m.group, variantLabel: m.label }])
+);
+
+/** Tags a hand-entered dish with its variant group, if it belongs to one. */
+const withVariantGroup = (food: NormalizedFood): NormalizedFood => {
+  const variant = VARIANT_BY_NAME.get(food.name);
+  return variant && !food.brand ? { ...food, ...variant } : food;
+};
+
+const PAKISTANI_FOODS_WITH_POSITIONAL_IDS: NormalizedFood[] = [
   ...BBQ_GRILLS_DATA,
   ...KARAHI_HANDI_DATA,
   ...RICE_BIRYANI_DATA,
@@ -202,6 +251,37 @@ export const ALL_EXPANDED_PAKISTANI_FOODS: NormalizedFood[] = [
   id: item.id || `pak_food_${idx + 1}`,
   region: item.region || 'PK',
 }));
+
+/**
+ * Duplicates are dropped only after ids are assigned, so removing one never
+ * renumbers the foods after it. Derived variants carry their own ids and come
+ * last, keeping fuzzy `name.includes` lookups on the original dishes.
+ */
+export const ALL_EXPANDED_PAKISTANI_FOODS: NormalizedFood[] = [
+  ...PAKISTANI_FOODS_WITH_POSITIONAL_IDS.filter((f) => !RETIRED_DUPLICATE_IDS[f.id as string]).map(
+    (f) => withPieceServing(withVariantGroup(f))
+  ),
+  ...DERIVED_VARIANT_FOODS.map((f) => ({ ...f, region: 'PK' as const })),
+];
+
+const RETIRED_NAME_REPLACEMENTS = new Map(
+  PAKISTANI_FOODS_WITH_POSITIONAL_IDS.filter((f) => RETIRED_DUPLICATE_IDS[f.id as string]).map((f) => [
+    f.name.toLowerCase(),
+    resolveFoodId(f.id as string),
+  ])
+);
+
+/**
+ * The Pakistani food with exactly this name, or — when the name belonged to a
+ * retired duplicate (an AI match or saved entry naming "Lassi Namkeen") — the
+ * food that replaced it.
+ */
+export function findPakistaniFoodByName(name: string): NormalizedFood | undefined {
+  const exact = ALL_EXPANDED_PAKISTANI_FOODS.find((f) => f.name === name);
+  if (exact) return exact;
+  const replacementId = RETIRED_NAME_REPLACEMENTS.get(name.toLowerCase());
+  return replacementId ? ALL_EXPANDED_PAKISTANI_FOODS.find((f) => f.id === replacementId) : undefined;
+}
 
 export const ALL_SAUDI_FOODS: NormalizedFood[] = [
   ...SAUDI_TRADITIONAL_FOODS,

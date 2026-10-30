@@ -2,7 +2,7 @@ import {
   enforceCalorieFloors,
   validateClinicalSafety,
 } from './safety.js';
-import { CalorieTargetResult, TargetCalculationInput } from './types.js';
+import { CalorieTargetResult, SafetyViolation, TargetCalculationInput } from './types.js';
 
 export const KCAL_PER_KG_BODYFAT = 7700;
 
@@ -119,5 +119,85 @@ export function calculateCalorieTarget(
     deficitPct: 0,
     safetyViolations: violations,
     safetyWarnings,
+  };
+}
+
+/** Which limit kept the target from reaching the pace the user picked. */
+export type PaceLimitReason =
+  /** The absolute minimum intake (1,200 kcal women / 1,500 kcal men). */
+  | 'absoluteFloor'
+  /** The calories the body burns at rest (BMR). */
+  | 'bmr'
+  /** Never more than 25% below what the user burns. */
+  | 'maxDeficit'
+  /** Loss capped at 1% of body weight a week. */
+  | 'maxLossRate'
+  /** Gain capped at 0.5 kg a week. */
+  | 'maxGainRate';
+
+export interface PaceLimit {
+  /** True when the plan cannot move as fast as the pace the user picked. */
+  limited: boolean;
+  /** The limit that binds, or null when the picked pace is met. */
+  reason: PaceLimitReason | null;
+  requestedRateKgPerWeek: number;
+  effectiveRateKgPerWeek: number;
+  /** Daily kcal change the picked pace needs (negative for loss). */
+  requestedDailyDelta: number;
+  /** Daily kcal change the target actually applies. */
+  appliedDailyDelta: number;
+}
+
+// Rates are rounded to 0.01 kg; anything inside that is the same pace.
+const PACE_TOLERANCE_KG = 0.005;
+
+const CLINICAL_GOAL_BLOCKS: SafetyViolation['code'][] = [
+  'UNDERWEIGHT_CUT_DISABLED',
+  'AGE_UNDER_18_CUT_DISABLED',
+  'PREGNANCY_MAINTENANCE_ONLY',
+];
+
+/**
+ * Compares the pace the user picked with what `calculateCalorieTarget`
+ * actually allows, so a screen can say when a safety limit slows the plan.
+ *
+ * Pure and derived only from the stored result, so it also works on plans
+ * saved before this existed. The requested rate is passed in because the
+ * rate caps are applied before the result's `originalRequestedDelta`.
+ */
+export function describePaceLimit(
+  requestedRateKgPerWeek: number,
+  result: Pick<CalorieTargetResult, 'appliedDelta' | 'effectiveRateKgPerWeek' | 'safetyViolations'>,
+  goal: 'lose' | 'maintain' | 'gain'
+): PaceLimit {
+  const requested = goal === 'maintain' ? 0 : Math.max(0, requestedRateKgPerWeek);
+  const effective = Math.abs(result.effectiveRateKgPerWeek);
+  const sign = goal === 'lose' ? -1 : 1;
+  const requestedDailyDelta =
+    goal === 'maintain' ? 0 : sign * Math.round((requested * KCAL_PER_KG_BODYFAT) / 7);
+
+  const codes = new Set(result.safetyViolations.map((v) => v.code));
+  // A clinical block replaces the goal with maintenance; that is not a pace
+  // limit and has its own explanation.
+  const goalOverridden = CLINICAL_GOAL_BLOCKS.some((code) => codes.has(code));
+  const limited = !goalOverridden && requested > 0 && effective < requested - PACE_TOLERANCE_KG;
+
+  let reason: PaceLimitReason | null = null;
+  if (limited) {
+    // The floors are applied in order (25% cap, then BMR, then the absolute
+    // floor); the last one that raised the target is the one that binds.
+    if (codes.has('BELOW_ABSOLUTE_FLOOR')) reason = 'absoluteFloor';
+    else if (codes.has('BELOW_BMR_FLOOR')) reason = 'bmr';
+    else if (codes.has('EXCESSIVE_DEFICIT')) reason = 'maxDeficit';
+    else reason = goal === 'gain' ? 'maxGainRate' : 'maxLossRate';
+  }
+
+  return {
+    limited,
+    reason,
+    requestedRateKgPerWeek: requested,
+    effectiveRateKgPerWeek: effective,
+    requestedDailyDelta,
+    appliedDailyDelta: result.appliedDelta,
   };
 }

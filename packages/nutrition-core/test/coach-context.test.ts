@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   buildCoachSystemPrompt,
+  buildWorkoutSection,
   validateCoachResponse,
 } from '../src/coach-context.js';
 import { CoachContext } from '../src/types.js';
@@ -106,6 +107,41 @@ describe('AI Coach Context Assembler & Guardrails (Task 4.1)', () => {
     expect(saudiPrompt).toContain('SFDA Caloric Standards');
     expect(saudiPrompt).toContain('Saudi Gahwa & Dates Ritual');
     expect(saudiPrompt).toContain('Almarai Laban');
-    expect(saudiPrompt).toContain('اللهجة السعودية');
+    const pkPrompt = buildCoachSystemPrompt(sampleContext);
+    expect(pkPrompt).toContain('answer in English only');
+    expect(pkPrompt).not.toMatch(/[\u0600-\u06FF]/);
+    expect(saudiPrompt).toContain('answer in Arabic only');
+    expect(saudiPrompt).toContain('Never reply in English');
+  });
+
+  describe('workout block', () => {
+    const workout = {
+      location: 'gym' as const,
+      sessionsPlannedThisWeek: 4,
+      sessionsDoneThisWeek: 1,
+      today: { title: 'Lower body A', exercises: ['Barbell back squat', 'Romanian deadlift'] },
+      ramadan: false,
+    };
+
+    it('is left out entirely when there is no workout plan', () => {
+      const prompt = buildCoachSystemPrompt(sampleContext);
+      expect(prompt).not.toContain('WORKOUT PLAN');
+      expect(buildCoachSystemPrompt({ ...sampleContext, workout })).toBe(`${prompt}\n\n${buildWorkoutSection(workout)}`);
+    });
+
+    it("lists the week's progress and today's exercises, and forbids sets, reps and weights", () => {
+      const section = buildWorkoutSection(workout);
+      expect(section).toContain('Trains in a gym; 1 of 4 sessions done this week.');
+      expect(section).toContain('Today: Lower body A: Barbell back squat, Romanian deadlift.');
+      expect(section).toMatch(/NEVER give sets, reps, weights or loads/);
+      expect(section).not.toContain('Ramadan');
+    });
+
+    it('says rest day and Ramadan when they apply', () => {
+      const section = buildWorkoutSection({ ...workout, location: 'home_none', today: undefined, ramadan: true });
+      expect(section).toContain('at home, bodyweight only');
+      expect(section).toContain('Today: Rest day.');
+      expect(section).toContain('Ramadan mode is shortening sessions');
+    });
   });
 });

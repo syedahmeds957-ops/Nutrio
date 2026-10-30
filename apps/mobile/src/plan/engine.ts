@@ -1,0 +1,165 @@
+import {
+  calculateBMI,
+  calculateCalorieTarget,
+  calculateMacros,
+  describePaceLimit,
+  GoalType,
+  PaceLimit,
+} from '@nutrio/nutrition-core';
+import {
+  ComputedUserPlan,
+  GoalSelectionState,
+  PlanProjection,
+  PlanUserContext,
+  AssessmentNarrative,
+} from './types.js';
+import { formatDate } from '../i18n/format.js';
+import type { AppLanguage } from '../i18n/languages.js';
+
+export function computeProjection(
+  currentWeightKg: number,
+  goal: GoalType,
+  rateKgPerWeek: number,
+  targetWeightKg?: number,
+  /** Language of the projected date text. */
+  language: AppLanguage = 'en'
+): PlanProjection {
+  if (goal === 'maintain' || rateKgPerWeek <= 0 || !targetWeightKg) {
+    return {
+      currentWeightKg,
+      targetWeightKg,
+      weeklyRateKg: 0,
+      isRealistic: true,
+      pacingAdvice: 'Steady weight maintenance supporting metabolic recovery and athletic performance.',
+      pacingAdviceKey: 'maintain',
+    };
+  }
+
+  const diffKg = Math.abs(currentWeightKg - targetWeightKg);
+  const estimatedWeeks = Math.max(1, Math.round(diffKg / rateKgPerWeek));
+
+  const targetDate = new Date();
+  targetDate.setDate(targetDate.getDate() + estimatedWeeks * 7);
+  const projectedDate = formatDate(targetDate, language, { month: 'short', day: 'numeric', year: 'numeric' });
+
+  // Pacing advice
+  const ratePctOfBW = (rateKgPerWeek / currentWeightKg) * 100;
+  let isRealistic = true;
+  let pacingAdvice = '';
+  let pacingAdviceKey: PlanProjection['pacingAdviceKey'];
+
+  if (goal === 'lose') {
+    if (ratePctOfBW > 1.0) {
+      isRealistic = false;
+      pacingAdvice = 'Aggressive pace (>1% bodyweight/week) increases risk of lean muscle and water loss.';
+      pacingAdviceKey = 'aggressive';
+    } else if (ratePctOfBW >= 0.5) {
+      pacingAdvice = 'Optimal fat loss pace (~0.5–1% BW/week). Strongly protects lean body mass.';
+      pacingAdviceKey = 'optimal';
+    } else {
+      pacingAdvice = 'Gentle, sustainable deficit. Easiest for long-term lifestyle adherence.';
+      pacingAdviceKey = 'gentle';
+    }
+  } else if (goal === 'gain') {
+    if (rateKgPerWeek > 0.4) {
+      pacingAdvice = 'Rapid mass gain. A significant portion of weight gained may be body fat.';
+      pacingAdviceKey = 'rapidGain';
+    } else {
+      pacingAdvice = 'Lean hypertrophy pace (~0.25 kg/week). Maximizes muscle synthesis over fat storage.';
+      pacingAdviceKey = 'leanGain';
+    }
+  }
+
+  return {
+    currentWeightKg,
+    targetWeightKg,
+    totalKgToChange: Number(diffKg.toFixed(1)),
+    weeklyRateKg: rateKgPerWeek,
+    estimatedWeeks,
+    projectedDate,
+    isRealistic,
+    pacingAdvice,
+    pacingAdviceKey,
+  };
+}
+
+function calorieTargetFor(userContext: PlanUserContext, goalSelection: Pick<GoalSelectionState, 'goal' | 'targetRateKgPerWeek'>) {
+  return calculateCalorieTarget({
+    weightKg: userContext.weightKg,
+    heightCm: userContext.heightCm,
+    ageYears: userContext.ageYears,
+    sex: userContext.sex,
+    bmr: userContext.bmr,
+    tdee: userContext.tdee,
+    goal: goalSelection.goal,
+    targetRateKgPerWeek: goalSelection.targetRateKgPerWeek,
+    isPregnantOrBreastfeeding: userContext.isPregnantOrBreastfeeding,
+    medicalConditions: userContext.medicalConditions,
+  });
+}
+
+/**
+ * Whether the pace picked on the goal screen can actually be met for this
+ * user, worked out by nutrition-core exactly as `computePlan` will.
+ */
+export function pacePreview(
+  userContext: PlanUserContext,
+  goal: GoalType,
+  rateKgPerWeek: number
+): PaceLimit {
+  const result = calorieTargetFor(userContext, { goal, targetRateKgPerWeek: rateKgPerWeek });
+  return describePaceLimit(rateKgPerWeek, result, goal);
+}
+
+/** The same check for a plan already computed (or saved before it existed). */
+export function planPaceLimit(plan: Pick<ComputedUserPlan, 'goalSelection' | 'targetResult'>): PaceLimit {
+  return describePaceLimit(plan.goalSelection.targetRateKgPerWeek, plan.targetResult, plan.goalSelection.goal);
+}
+
+/**
+ * A saved plan with a new goal. It keeps the saved plan's own inputs: its TDEE
+ * may already include accepted training calories or a weekly recalibration,
+ * which a context rebuilt from the survey would silently drop.
+ */
+export function replanWithGoal(existing: ComputedUserPlan, goalSelection: GoalSelectionState): ComputedUserPlan {
+  return {
+    ...computePlan(existing.userContext, goalSelection, existing.narrative),
+    region: existing.region,
+    recalibratedAt: existing.recalibratedAt,
+    formulaTdee: existing.formulaTdee,
+  };
+}
+
+export function computePlan(
+  userContext: PlanUserContext,
+  goalSelection: GoalSelectionState,
+  narrative?: AssessmentNarrative
+): ComputedUserPlan {
+  // 1. Calculate calorie targets using deterministic nutrition-core engine
+  const targetResult = calorieTargetFor(userContext, goalSelection);
+
+  // 2. Calculate macro distribution
+  const macros = calculateMacros({
+    kcalTarget: targetResult.kcalTarget,
+    weightKg: userContext.weightKg,
+    goal: goalSelection.goal,
+    bodyFatPct: userContext.bodyFatPct,
+  });
+
+  // 3. Compute timeline projection
+  const projection = computeProjection(
+    userContext.weightKg,
+    goalSelection.goal,
+    targetResult.effectiveRateKgPerWeek,
+    goalSelection.targetWeightKg
+  );
+
+  return {
+    userContext,
+    goalSelection,
+    targetResult,
+    macros,
+    projection,
+    narrative,
+  };
+}

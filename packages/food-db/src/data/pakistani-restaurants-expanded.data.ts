@@ -18945,44 +18945,6 @@ const CHUNK_2: NormalizedFood[] = [
     ]
   },
   {
-    "id": "pizza_max_item_38",
-    "name": "Spicy Spicy Peri Peri Wings (6 pcs)",
-    "nameUr": "پیری پیری ونگز",
-    "brand": "Pizza Max",
-    "brandCategory": "Starters",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "Pizza",
-      "Pizza Max",
-      "Pakistani"
-    ],
-    "kcal100g": 149,
-    "protein100g": 10.8,
-    "carb100g": 6.8,
-    "fat100g": 8.7,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 3,
-    "oilAddedG": 3,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "6 wings (190g)",
-        "labelUr": "1 پورشن",
-        "grams": 190,
-        "isDefault": true,
-        "description": "6 wings (190g)",
-        "servingWeightGrams": 190,
-        "kcal": 283,
-        "proteinGrams": 20.5,
-        "carbGrams": 13,
-        "fatGrams": 16.5
-      }
-    ]
-  },
-  {
     "id": "pizza_max_item_39",
     "name": "Spicy Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
@@ -20537,44 +20499,6 @@ const CHUNK_2: NormalizedFood[] = [
         "proteinGrams": 18,
         "carbGrams": 48.5,
         "fatGrams": 18
-      }
-    ]
-  },
-  {
-    "id": "dominos_item_38",
-    "name": "Spicy Spicy Peri Peri Wings (6 pcs)",
-    "nameUr": "پیری پیری ونگز",
-    "brand": "Domino's Pakistan",
-    "brandCategory": "Crust Specials",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "Pizza",
-      "Domino's Pakistan",
-      "Pakistani"
-    ],
-    "kcal100g": 149,
-    "protein100g": 10.8,
-    "carb100g": 6.8,
-    "fat100g": 8.7,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 3,
-    "oilAddedG": 3,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "6 wings (190g)",
-        "labelUr": "1 پورشن",
-        "grams": 190,
-        "isDefault": true,
-        "description": "6 wings (190g)",
-        "servingWeightGrams": 190,
-        "kcal": 283,
-        "proteinGrams": 20.5,
-        "carbGrams": 13,
-        "fatGrams": 16.5
       }
     ]
   },
@@ -22209,44 +22133,6 @@ const CHUNK_2: NormalizedFood[] = [
         "proteinGrams": 18,
         "carbGrams": 48.5,
         "fatGrams": 18
-      }
-    ]
-  },
-  {
-    "id": "pizza_hut_item_38",
-    "name": "Spicy Spicy Peri Peri Wings (6 pcs)",
-    "nameUr": "پیری پیری ونگز",
-    "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Stuffed Crust",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "Pizza",
-      "Pizza Hut Pakistan",
-      "Pakistani"
-    ],
-    "kcal100g": 149,
-    "protein100g": 10.8,
-    "carb100g": 6.8,
-    "fat100g": 8.7,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 3,
-    "oilAddedG": 3,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "6 wings (190g)",
-        "labelUr": "1 پورشن",
-        "grams": 190,
-        "isDefault": true,
-        "description": "6 wings (190g)",
-        "servingWeightGrams": 190,
-        "kcal": 283,
-        "proteinGrams": 20.5,
-        "carbGrams": 13,
-        "fatGrams": 16.5
       }
     ]
   },
@@ -23923,44 +23809,6 @@ const CHUNK_2: NormalizedFood[] = [
     ]
   },
   {
-    "id": "fourteenth_street_item_38",
-    "name": "Spicy Spicy Peri Peri Wings (6 pcs)",
-    "nameUr": "پیری پیری ونگز",
-    "brand": "14th Street Pizza Co.",
-    "brandCategory": "Gourmet Pizzas",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "Pizza",
-      "14th Street Pizza Co.",
-      "Pakistani"
-    ],
-    "kcal100g": 149,
-    "protein100g": 10.8,
-    "carb100g": 6.8,
-    "fat100g": 8.7,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 3,
-    "oilAddedG": 3,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "6 wings (190g)",
-        "labelUr": "1 پورشن",
-        "grams": 190,
-        "isDefault": true,
-        "description": "6 wings (190g)",
-        "servingWeightGrams": 190,
-        "kcal": 283,
-        "proteinGrams": 20.5,
-        "carbGrams": 13,
-        "fatGrams": 16.5
-      }
-    ]
-  },
-  {
     "id": "fourteenth_street_item_39",
     "name": "Spicy Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
@@ -25439,44 +25287,6 @@ const CHUNK_2: NormalizedFood[] = [
         "proteinGrams": 18,
         "carbGrams": 48.5,
         "fatGrams": 18
-      }
-    ]
-  },
-  {
-    "id": "california_pizza_item_38",
-    "name": "Spicy Spicy Peri Peri Wings (6 pcs)",
-    "nameUr": "پیری پیری ونگز",
-    "brand": "California Pizza",
-    "brandCategory": "Sandwiches & Rolls",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "Pizza",
-      "California Pizza",
-      "Pakistani"
-    ],
-    "kcal100g": 149,
-    "protein100g": 10.8,
-    "carb100g": 6.8,
-    "fat100g": 8.7,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 3,
-    "oilAddedG": 3,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "6 wings (190g)",
-        "labelUr": "1 پورشن",
-        "grams": 190,
-        "isDefault": true,
-        "description": "6 wings (190g)",
-        "servingWeightGrams": 190,
-        "kcal": 283,
-        "proteinGrams": 20.5,
-        "carbGrams": 13,
-        "fatGrams": 16.5
       }
     ]
   },
@@ -26963,44 +26773,6 @@ const CHUNK_2: NormalizedFood[] = [
     ]
   },
   {
-    "id": "papa_johns_item_38",
-    "name": "Spicy Spicy Peri Peri Wings (6 pcs)",
-    "nameUr": "پیری پیری ونگز",
-    "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Sides",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "Pizza",
-      "Papa John's Pakistan",
-      "Pakistani"
-    ],
-    "kcal100g": 149,
-    "protein100g": 10.8,
-    "carb100g": 6.8,
-    "fat100g": 8.7,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 3,
-    "oilAddedG": 3,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "6 wings (190g)",
-        "labelUr": "1 پورشن",
-        "grams": 190,
-        "isDefault": true,
-        "description": "6 wings (190g)",
-        "servingWeightGrams": 190,
-        "kcal": 283,
-        "proteinGrams": 20.5,
-        "carbGrams": 13,
-        "fatGrams": 16.5
-      }
-    ]
-  },
-  {
     "id": "papa_johns_item_39",
     "name": "Spicy Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
@@ -28483,44 +28255,6 @@ const CHUNK_2: NormalizedFood[] = [
     ]
   },
   {
-    "id": "tehzeeb_pizza_item_38",
-    "name": "Spicy Spicy Peri Peri Wings (6 pcs)",
-    "nameUr": "پیری پیری ونگز",
-    "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Italian Breads",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "Pizza",
-      "Tehzeeb Pizza & Italian",
-      "Pakistani"
-    ],
-    "kcal100g": 149,
-    "protein100g": 10.8,
-    "carb100g": 6.8,
-    "fat100g": 8.7,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 3,
-    "oilAddedG": 3,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "6 wings (190g)",
-        "labelUr": "1 پورشن",
-        "grams": 190,
-        "isDefault": true,
-        "description": "6 wings (190g)",
-        "servingWeightGrams": 190,
-        "kcal": 283,
-        "proteinGrams": 20.5,
-        "carbGrams": 13,
-        "fatGrams": 16.5
-      }
-    ]
-  },
-  {
     "id": "tehzeeb_pizza_item_39",
     "name": "Spicy Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
@@ -29999,44 +29733,6 @@ const CHUNK_2: NormalizedFood[] = [
         "proteinGrams": 18,
         "carbGrams": 48.5,
         "fatGrams": 18
-      }
-    ]
-  },
-  {
-    "id": "ny212_pizza_item_38",
-    "name": "Spicy Spicy Peri Peri Wings (6 pcs)",
-    "nameUr": "پیری پیری ونگز",
-    "brand": "NY212 Pizza",
-    "brandCategory": "Sides & Breads",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "Pizza",
-      "NY212 Pizza",
-      "Pakistani"
-    ],
-    "kcal100g": 149,
-    "protein100g": 10.8,
-    "carb100g": 6.8,
-    "fat100g": 8.7,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 3,
-    "oilAddedG": 3,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "6 wings (190g)",
-        "labelUr": "1 پورشن",
-        "grams": 190,
-        "isDefault": true,
-        "description": "6 wings (190g)",
-        "servingWeightGrams": 190,
-        "kcal": 283,
-        "proteinGrams": 20.5,
-        "carbGrams": 13,
-        "fatGrams": 16.5
       }
     ]
   },
@@ -31526,44 +31222,6 @@ const CHUNK_3: NormalizedFood[] = [
     ]
   },
   {
-    "id": "ginos_pizza_item_38",
-    "name": "Spicy Spicy Peri Peri Wings (6 pcs)",
-    "nameUr": "پیری پیری ونگز",
-    "brand": "Gino's Pizza",
-    "brandCategory": "Oven Pastas",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "Pizza",
-      "Gino's Pizza",
-      "Pakistani"
-    ],
-    "kcal100g": 149,
-    "protein100g": 10.8,
-    "carb100g": 6.8,
-    "fat100g": 8.7,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 3,
-    "oilAddedG": 3,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "6 wings (190g)",
-        "labelUr": "1 پورشن",
-        "grams": 190,
-        "isDefault": true,
-        "description": "6 wings (190g)",
-        "servingWeightGrams": 190,
-        "kcal": 283,
-        "proteinGrams": 20.5,
-        "carbGrams": 13,
-        "fatGrams": 16.5
-      }
-    ]
-  },
-  {
     "id": "ginos_pizza_item_39",
     "name": "Spicy Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
@@ -33046,44 +32704,6 @@ const CHUNK_3: NormalizedFood[] = [
     ]
   },
   {
-    "id": "pizzalicious_item_38",
-    "name": "Spicy Spicy Peri Peri Wings (6 pcs)",
-    "nameUr": "پیری پیری ونگز",
-    "brand": "Pizzalicious",
-    "brandCategory": "Special Flavors",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "Pizza",
-      "Pizzalicious",
-      "Pakistani"
-    ],
-    "kcal100g": 149,
-    "protein100g": 10.8,
-    "carb100g": 6.8,
-    "fat100g": 8.7,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 3,
-    "oilAddedG": 3,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "6 wings (190g)",
-        "labelUr": "1 پورشن",
-        "grams": 190,
-        "isDefault": true,
-        "description": "6 wings (190g)",
-        "servingWeightGrams": 190,
-        "kcal": 283,
-        "proteinGrams": 20.5,
-        "carbGrams": 13,
-        "fatGrams": 16.5
-      }
-    ]
-  },
-  {
     "id": "pizzalicious_item_39",
     "name": "Spicy Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
@@ -33802,44 +33422,6 @@ const CHUNK_3: NormalizedFood[] = [
         "proteinGrams": 4,
         "carbGrams": 6.5,
         "fatGrams": 4.5
-      }
-    ]
-  },
-  {
-    "id": "student_biryani_item_18",
-    "name": "Special Special Chicken Biryani with Potato",
-    "nameUr": "چکن بریانی مع آلو",
-    "brand": "Student Biryani",
-    "brandCategory": "BBQ & Kabab",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "BBQ",
-      "Student Biryani",
-      "Pakistani"
-    ],
-    "kcal100g": 153,
-    "protein100g": 6.4,
-    "carb100g": 19.7,
-    "fat100g": 5.4,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 1.9,
-    "oilAddedG": 2,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "1 full plate (350g)",
-        "labelUr": "1 پورشن",
-        "grams": 350,
-        "isDefault": true,
-        "description": "1 full plate (350g)",
-        "servingWeightGrams": 350,
-        "kcal": 537,
-        "proteinGrams": 22.5,
-        "carbGrams": 69,
-        "fatGrams": 19
       }
     ]
   },
@@ -35322,44 +34904,6 @@ const CHUNK_3: NormalizedFood[] = [
         "proteinGrams": 4,
         "carbGrams": 6.5,
         "fatGrams": 4.5
-      }
-    ]
-  },
-  {
-    "id": "bundu_khan_item_18",
-    "name": "Special Special Chicken Biryani with Potato",
-    "nameUr": "چکن بریانی مع آلو",
-    "brand": "Bundu Khan",
-    "brandCategory": "Puri Paratha",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "BBQ",
-      "Bundu Khan",
-      "Pakistani"
-    ],
-    "kcal100g": 153,
-    "protein100g": 6.4,
-    "carb100g": 19.7,
-    "fat100g": 5.4,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 1.9,
-    "oilAddedG": 2,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "1 full plate (350g)",
-        "labelUr": "1 پورشن",
-        "grams": 350,
-        "isDefault": true,
-        "description": "1 full plate (350g)",
-        "servingWeightGrams": 350,
-        "kcal": 537,
-        "proteinGrams": 22.5,
-        "carbGrams": 69,
-        "fatGrams": 19
       }
     ]
   },
@@ -37150,44 +36694,6 @@ const CHUNK_3: NormalizedFood[] = [
     ]
   },
   {
-    "id": "butt_karahi_item_18",
-    "name": "Special Special Chicken Biryani with Potato",
-    "nameUr": "چکن بریانی مع آلو",
-    "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Tandoor & Sides",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "BBQ",
-      "Butt Karahi (Lakshmi Chowk)",
-      "Pakistani"
-    ],
-    "kcal100g": 153,
-    "protein100g": 6.4,
-    "carb100g": 19.7,
-    "fat100g": 5.4,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 1.9,
-    "oilAddedG": 2,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "1 full plate (350g)",
-        "labelUr": "1 پورشن",
-        "grams": 350,
-        "isDefault": true,
-        "description": "1 full plate (350g)",
-        "servingWeightGrams": 350,
-        "kcal": 537,
-        "proteinGrams": 22.5,
-        "carbGrams": 69,
-        "fatGrams": 19
-      }
-    ]
-  },
-  {
     "id": "butt_karahi_item_19",
     "name": "Special Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
@@ -38666,44 +38172,6 @@ const CHUNK_3: NormalizedFood[] = [
         "proteinGrams": 4,
         "carbGrams": 6.5,
         "fatGrams": 4.5
-      }
-    ]
-  },
-  {
-    "id": "kolachi_item_18",
-    "name": "Special Special Chicken Biryani with Potato",
-    "nameUr": "چکن بریانی مع آلو",
-    "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Special Karahi",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "BBQ",
-      "Kolachi Restaurant (Do Darya)",
-      "Pakistani"
-    ],
-    "kcal100g": 153,
-    "protein100g": 6.4,
-    "carb100g": 19.7,
-    "fat100g": 5.4,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 1.9,
-    "oilAddedG": 2,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "1 full plate (350g)",
-        "labelUr": "1 پورشن",
-        "grams": 350,
-        "isDefault": true,
-        "description": "1 full plate (350g)",
-        "servingWeightGrams": 350,
-        "kcal": 537,
-        "proteinGrams": 22.5,
-        "carbGrams": 69,
-        "fatGrams": 19
       }
     ]
   },
@@ -40418,44 +39886,6 @@ const CHUNK_3: NormalizedFood[] = [
     ]
   },
   {
-    "id": "lalqila_item_18",
-    "name": "Special Special Chicken Biryani with Potato",
-    "nameUr": "چکن بریانی مع آلو",
-    "brand": "LalQila Restaurant",
-    "brandCategory": "Shahi Curries",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "BBQ",
-      "LalQila Restaurant",
-      "Pakistani"
-    ],
-    "kcal100g": 153,
-    "protein100g": 6.4,
-    "carb100g": 19.7,
-    "fat100g": 5.4,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 1.9,
-    "oilAddedG": 2,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "1 full plate (350g)",
-        "labelUr": "1 پورشن",
-        "grams": 350,
-        "isDefault": true,
-        "description": "1 full plate (350g)",
-        "servingWeightGrams": 350,
-        "kcal": 537,
-        "proteinGrams": 22.5,
-        "carbGrams": 69,
-        "fatGrams": 19
-      }
-    ]
-  },
-  {
     "id": "lalqila_item_19",
     "name": "Special Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
@@ -42086,44 +41516,6 @@ const CHUNK_3: NormalizedFood[] = [
         "proteinGrams": 4,
         "carbGrams": 6.5,
         "fatGrams": 4.5
-      }
-    ]
-  },
-  {
-    "id": "bbq_tonight_item_18",
-    "name": "Special Special Chicken Biryani with Potato",
-    "nameUr": "چکن بریانی مع آلو",
-    "brand": "BBQ Tonight",
-    "brandCategory": "Mutton Specialties",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "BBQ",
-      "BBQ Tonight",
-      "Pakistani"
-    ],
-    "kcal100g": 153,
-    "protein100g": 6.4,
-    "carb100g": 19.7,
-    "fat100g": 5.4,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 1.9,
-    "oilAddedG": 2,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "1 full plate (350g)",
-        "labelUr": "1 پورشن",
-        "grams": 350,
-        "isDefault": true,
-        "description": "1 full plate (350g)",
-        "servingWeightGrams": 350,
-        "kcal": 537,
-        "proteinGrams": 22.5,
-        "carbGrams": 69,
-        "fatGrams": 19
       }
     ]
   },
@@ -43838,44 +43230,6 @@ const CHUNK_3: NormalizedFood[] = [
     ]
   },
   {
-    "id": "ghausia_biryani_item_18",
-    "name": "Special Special Chicken Biryani with Potato",
-    "nameUr": "چکن بریانی مع آلو",
-    "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Sides & Drinks",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "BBQ",
-      "Ghausia Nalli Biryani",
-      "Pakistani"
-    ],
-    "kcal100g": 153,
-    "protein100g": 6.4,
-    "carb100g": 19.7,
-    "fat100g": 5.4,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 1.9,
-    "oilAddedG": 2,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "1 full plate (350g)",
-        "labelUr": "1 پورشن",
-        "grams": 350,
-        "isDefault": true,
-        "description": "1 full plate (350g)",
-        "servingWeightGrams": 350,
-        "kcal": 537,
-        "proteinGrams": 22.5,
-        "carbGrams": 69,
-        "fatGrams": 19
-      }
-    ]
-  },
-  {
     "id": "ghausia_biryani_item_19",
     "name": "Special Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
@@ -45354,44 +44708,6 @@ const CHUNK_3: NormalizedFood[] = [
         "proteinGrams": 4,
         "carbGrams": 6.5,
         "fatGrams": 4.5
-      }
-    ]
-  },
-  {
-    "id": "waris_nihari_item_18",
-    "name": "Special Special Chicken Biryani with Potato",
-    "nameUr": "چکن بریانی مع آلو",
-    "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Kulcha & Tarka",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "BBQ",
-      "Waris Nihari (Lahore)",
-      "Pakistani"
-    ],
-    "kcal100g": 153,
-    "protein100g": 6.4,
-    "carb100g": 19.7,
-    "fat100g": 5.4,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 1.9,
-    "oilAddedG": 2,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "1 full plate (350g)",
-        "labelUr": "1 پورشن",
-        "grams": 350,
-        "isDefault": true,
-        "description": "1 full plate (350g)",
-        "servingWeightGrams": 350,
-        "kcal": 537,
-        "proteinGrams": 22.5,
-        "carbGrams": 69,
-        "fatGrams": 19
       }
     ]
   },
@@ -46881,44 +46197,6 @@ const CHUNK_4: NormalizedFood[] = [
     ]
   },
   {
-    "id": "muhammadi_nihari_item_18",
-    "name": "Special Special Chicken Biryani with Potato",
-    "nameUr": "چکن بریانی مع آلو",
-    "brand": "Muhammadi Nahari",
-    "brandCategory": "Tandoor",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "BBQ",
-      "Muhammadi Nahari",
-      "Pakistani"
-    ],
-    "kcal100g": 153,
-    "protein100g": 6.4,
-    "carb100g": 19.7,
-    "fat100g": 5.4,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 1.9,
-    "oilAddedG": 2,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "1 full plate (350g)",
-        "labelUr": "1 پورشن",
-        "grams": 350,
-        "isDefault": true,
-        "description": "1 full plate (350g)",
-        "servingWeightGrams": 350,
-        "kcal": 537,
-        "proteinGrams": 22.5,
-        "carbGrams": 69,
-        "fatGrams": 19
-      }
-    ]
-  },
-  {
     "id": "muhammadi_nihari_item_19",
     "name": "Special Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
@@ -48397,44 +47675,6 @@ const CHUNK_4: NormalizedFood[] = [
         "proteinGrams": 4,
         "carbGrams": 6.5,
         "fatGrams": 4.5
-      }
-    ]
-  },
-  {
-    "id": "javed_nihari_item_18",
-    "name": "Special Special Chicken Biryani with Potato",
-    "nameUr": "چکن بریانی مع آلو",
-    "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Sides",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "BBQ",
-      "Javed Nihari (Dastagir Karachi)",
-      "Pakistani"
-    ],
-    "kcal100g": 153,
-    "protein100g": 6.4,
-    "carb100g": 19.7,
-    "fat100g": 5.4,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 1.9,
-    "oilAddedG": 2,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "1 full plate (350g)",
-        "labelUr": "1 پورشن",
-        "grams": 350,
-        "isDefault": true,
-        "description": "1 full plate (350g)",
-        "servingWeightGrams": 350,
-        "kcal": 537,
-        "proteinGrams": 22.5,
-        "carbGrams": 69,
-        "fatGrams": 19
       }
     ]
   },
@@ -49921,44 +49161,6 @@ const CHUNK_4: NormalizedFood[] = [
     ]
   },
   {
-    "id": "al_rehman_biryani_item_18",
-    "name": "Special Special Chicken Biryani with Potato",
-    "nameUr": "چکن بریانی مع آلو",
-    "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Raita & Drinks",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "BBQ",
-      "Al-Rehman Biryani (Karachi)",
-      "Pakistani"
-    ],
-    "kcal100g": 153,
-    "protein100g": 6.4,
-    "carb100g": 19.7,
-    "fat100g": 5.4,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 1.9,
-    "oilAddedG": 2,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "1 full plate (350g)",
-        "labelUr": "1 پورشن",
-        "grams": 350,
-        "isDefault": true,
-        "description": "1 full plate (350g)",
-        "servingWeightGrams": 350,
-        "kcal": 537,
-        "proteinGrams": 22.5,
-        "carbGrams": 69,
-        "fatGrams": 19
-      }
-    ]
-  },
-  {
     "id": "al_rehman_biryani_item_19",
     "name": "Special Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
@@ -51441,44 +50643,6 @@ const CHUNK_4: NormalizedFood[] = [
     ]
   },
   {
-    "id": "phajja_siri_paye_item_18",
-    "name": "Special Special Chicken Biryani with Potato",
-    "nameUr": "چکن بریانی مع آلو",
-    "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Kulcha & Sides",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "BBQ",
-      "Phajja Siri Paye (Lahore)",
-      "Pakistani"
-    ],
-    "kcal100g": 153,
-    "protein100g": 6.4,
-    "carb100g": 19.7,
-    "fat100g": 5.4,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 1.9,
-    "oilAddedG": 2,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "1 full plate (350g)",
-        "labelUr": "1 پورشن",
-        "grams": 350,
-        "isDefault": true,
-        "description": "1 full plate (350g)",
-        "servingWeightGrams": 350,
-        "kcal": 537,
-        "proteinGrams": 22.5,
-        "carbGrams": 69,
-        "fatGrams": 19
-      }
-    ]
-  },
-  {
     "id": "phajja_siri_paye_item_19",
     "name": "Special Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
@@ -52957,44 +52121,6 @@ const CHUNK_4: NormalizedFood[] = [
         "proteinGrams": 4,
         "carbGrams": 6.5,
         "fatGrams": 4.5
-      }
-    ]
-  },
-  {
-    "id": "salt_n_pepper_item_18",
-    "name": "Special Special Chicken Biryani with Potato",
-    "nameUr": "چکن بریانی مع آلو",
-    "brand": "Salt'n Pepper",
-    "brandCategory": "Salads & Continental",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "BBQ",
-      "Salt'n Pepper",
-      "Pakistani"
-    ],
-    "kcal100g": 153,
-    "protein100g": 6.4,
-    "carb100g": 19.7,
-    "fat100g": 5.4,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 1.9,
-    "oilAddedG": 2,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "1 full plate (350g)",
-        "labelUr": "1 پورشن",
-        "grams": 350,
-        "isDefault": true,
-        "description": "1 full plate (350g)",
-        "servingWeightGrams": 350,
-        "kcal": 537,
-        "proteinGrams": 22.5,
-        "carbGrams": 69,
-        "fatGrams": 19
       }
     ]
   },
@@ -54553,44 +53679,6 @@ const CHUNK_4: NormalizedFood[] = [
         "proteinGrams": 4,
         "carbGrams": 6.5,
         "fatGrams": 4.5
-      }
-    ]
-  },
-  {
-    "id": "daily_dhaba_item_18",
-    "name": "Special Special Chicken Biryani with Potato",
-    "nameUr": "چکن بریانی مع آلو",
-    "brand": "Daily Dhaba",
-    "brandCategory": "Chai",
-    "category": "Pakistani Fast Food",
-    "cuisineTags": [
-      "BBQ",
-      "Daily Dhaba",
-      "Pakistani"
-    ],
-    "kcal100g": 153,
-    "protein100g": 6.4,
-    "carb100g": 19.7,
-    "fat100g": 5.4,
-    "fibre100g": 1.5,
-    "sugar100g": 2,
-    "sodiumMg100g": 450,
-    "satFat100g": 1.9,
-    "oilAddedG": 2,
-    "source": "pak_custom",
-    "verifiedBy": "dietitian_approved",
-    "servings": [
-      {
-        "label": "1 full plate (350g)",
-        "labelUr": "1 پورشن",
-        "grams": 350,
-        "isDefault": true,
-        "description": "1 full plate (350g)",
-        "servingWeightGrams": 350,
-        "kcal": 537,
-        "proteinGrams": 22.5,
-        "carbGrams": 69,
-        "fatGrams": 19
       }
     ]
   },

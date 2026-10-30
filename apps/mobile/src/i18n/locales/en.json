@@ -1,0 +1,2156 @@
+{
+  "a11y": {
+    "dialog": {
+      "addDish": "Add a dish",
+      "brandMenu": "Restaurant menu",
+      "customizeItem": "Customize dish",
+      "describeMeal": "Describe your meal",
+      "diary": "Food diary",
+      "guestAuth": "Sign in",
+      "logMeal": "Log a meal",
+      "profile": "Profile",
+      "quickStaples": "Quick staples",
+      "swapMeal": "Swap meal",
+      "weighIn": "Log weight"
+    },
+    "skipToContent": "Skip to main content"
+  },
+  "app": {
+    "checkin": {
+      "adjusted": {
+        "headline": "A new calorie target is ready",
+        "keyAction": "Apply the new target and keep logging so next week stays accurate.",
+        "summary": "Your weight trend and logged intake show that your real daily energy use differs from our first estimate. The change is capped so your targets move gradually."
+      },
+      "needs_more_data": {
+        "headline": "Keep logging to update your targets",
+        "keyAction": "Log every meal and weigh in each morning this week.",
+        "summary": "Your check-in needs at least 7 days with both a weigh-in and logged meals, counted since your last update and within the last 4 weeks. Until then, your targets stay as they are."
+      },
+      "on_track": {
+        "headline": "You're on track",
+        "keyAction": "Keep measuring cooking oil and stay consistent with your logging.",
+        "summary": "Your weight trend matches what you are eating, so your current targets suit your goal."
+      },
+      "under_logging": {
+        "headline": "Some meals may be missing from your log",
+        "keyAction": "Log chai, snacks and cooking oil too. They add up quickly.",
+        "summary": "Your logged intake is too low to explain a steady weight, which usually means meals or snacks went unrecorded. Your target stays the same rather than being cut."
+      }
+    },
+    "checkinFallbackName": "Client",
+    "coachFallbackName": "Friend",
+    "defaultUserName": "User",
+    "guest": "Guest",
+    "splash": {
+      "status": "Restoring your session...",
+      "tagline": "Precision cultural nutrition · Pakistan"
+    }
+  },
+  "auth": {
+    "brandHeadline": "Eat well, your way.",
+    "brandPoint1": "Local dishes, from karahi to kabsa, already in the catalogue",
+    "brandPoint2": "Daily targets worked out from your body and your goal",
+    "brandPoint3": "A coach that answers from your own logged data",
+    "brandSub": "Your AI nutrition and calorie coach, built for Pakistan and Saudi Arabia.",
+    "continueAsGuest": "Continue as guest",
+    "createAccount": "Create account",
+    "emailAddress": "Email address",
+    "emailPlaceholder": "you@example.com",
+    "errors": {
+      "alreadyRegistered": "An account with this email already exists. Try signing in.",
+      "codeInvalid": "That code is wrong or has expired. Request a new one.",
+      "emailNotConfirmed": "Please confirm your email address first.",
+      "emailRequired": "A valid email address is required.",
+      "invalidCredentials": "Invalid email or password. The password must be at least 6 characters.",
+      "nameRequired": "Your name is required.",
+      "network": "Unable to reach the sign-in server. Please check your internet connection.",
+      "noSession": "Signing in did not complete. Please try again.",
+      "passwordRequired": "Enter your password.",
+      "passwordSame": "Choose a password different from your old one.",
+      "passwordTooShort": "The password must be at least 6 characters.",
+      "passwordWeak": "That password is too easy to guess. Try a longer one.",
+      "resetWait": "Please wait a minute before asking for another code."
+    },
+    "forgotPassword": "Forgot password?",
+    "fullName": "Full name",
+    "fullNamePlaceholder": "Enter your name",
+    "genericError": "Authentication error. Please check your credentials.",
+    "hide": "Hide",
+    "loginSubheading": "Sign in to access your calibrated daily diary and AI coach.",
+    "password": "Password",
+    "passwordPlaceholder": "Min 6 characters",
+    "registerSubheading": "Sign up with your email and password to start logging and tracking your nutrition.",
+    "rememberMe": "Remember me on this device",
+    "reset": {
+      "backToSignIn": "Back to sign in",
+      "code": "6-digit code",
+      "codeSent": "If an account exists for {{email}}, a 6-digit code is on its way. It can take a minute.",
+      "codeSubheading": "Enter the code from your email and choose a new password.",
+      "emailSubheading": "Enter the email you signed up with. We'll send you a 6-digit code.",
+      "newPassword": "New password",
+      "resend": "Send a new code",
+      "resent": "A new code is on its way.",
+      "sendCode": "Send code",
+      "submit": "Reset password and sign in",
+      "title": "Reset your password"
+    },
+    "show": "Show",
+    "signIn": "Sign in",
+    "welcomeBack": "Welcome back!"
+  },
+  "checkin": {
+    "actionLever": "Next week's action lever",
+    "adaptiveTdee": "Daily calorie burn",
+    "adherenceRate": "Adherence rate",
+    "applyNewTarget": "Apply new target ({{value}} kcal/day)",
+    "avgIntake": "Avg daily intake",
+    "coachAssessment": "Coach's assessment",
+    "currentTarget": "Current target",
+    "dashboard": "Dashboard",
+    "daysOnTarget": "{{count}} of 7 days on-target",
+    "daysOnTarget_other": "{{count}} of 7 days on-target",
+    "ewmaSmoothed": "Smoothed trend",
+    "grounded": "Based on your data",
+    "kcalPerDay": "kcal per day",
+    "kcalShift": "{{value}} kcal shift",
+    "myProgress": "My progress",
+    "newTarget": "New target",
+    "noChange": "No change this week",
+    "oldTarget": "Old target",
+    "progressStats": "7-day progress",
+    "recalibration": "Your calorie burn, re-checked",
+    "share": "Share",
+    "shareBody": "Nutrio weekly check-in report ({{name}})\n- Adherence rate: {{adherence}}% ({{daysLogged}}/7 days logged)\n- Weight trend: {{weightDelta}} kg\n- Daily intake avg: {{intake}} kcal\n- New daily target: {{newTarget}} kcal ({{targetDelta}} kcal)\n- Next week habit: {{habit}}",
+    "shareTitle": "Shareable summary",
+    "title": "Weekly check-in",
+    "weightTrend": "Weight trend",
+    "workouts": {
+      "title": "Workouts",
+      "value": "{{done}} of {{planned}}",
+      "missed": "Missed: {{names}}",
+      "separator": ", "
+    }
+  },
+  "coach": {
+    "badge": "Nutrio coach",
+    "calibrated": {
+      "PK": "Knows Pakistani food",
+      "SA": "Knows Saudi food"
+    },
+    "chips": {
+      "four": {
+        "PK": "I have a wedding tonight. How should I plan my day?",
+        "SA": "How many dates can I eat a day?"
+      },
+      "one": {
+        "PK": "I'm still hungry after dinner. What can I eat?",
+        "SA": "I'm still hungry after dinner. What can I eat?"
+      },
+      "three": {
+        "PK": "How many rotis can I have today?",
+        "SA": "How much rice can I have with kabsa?"
+      },
+      "two": {
+        "PK": "What should I eat before the gym?",
+        "SA": "What should I eat before the gym?"
+      }
+    },
+    "connectionError": {
+      "PK": "I'm having a brief issue connecting to my nutrition intelligence engine. As general advice: for Pakistani dinners, fill half your plate with cucumber/salad, prioritize lean protein, and limit fried puris or naans to 1 portion.",
+      "SA": "I'm having a brief issue connecting to my nutrition intelligence engine. As general advice: for Saudi dinners, fill half your plate with fresh salad, prioritize lean grilled chicken (Farrouj) or fish, and portion rice mindfully."
+    },
+    "defaultName": "there",
+    "fallback": {
+      "banquet": {
+        "prompts": {
+          "one": "How much rice should I take at a family dinner?",
+          "three": "What's the lightest choice at a shawarma place?",
+          "two": "Is laban a good snack for weight loss?"
+        },
+        "reply": "For traditional Saudi banquets (Kabsa, Mandi, Saleeg):\n1. Portion control your rice: 1 standard portion (~150-180g cooked) is around 220-250 kcal.\n2. Prioritize the lean protein first (chicken breast or lean Naeemi lamb).\n3. Pair with fresh green salad and a cup of Almarai Laban for high satiety and digestive health!"
+      },
+      "chai": {
+        "prompts": {
+          "one": "Are 3 cups of chai a day too many?",
+          "three": "How do I stop craving sweets in the evening?",
+          "two": "What can I have with chai instead of biscuits?"
+        },
+        "reply": "Traditional doodh patti made with whole milk and 2 teaspoons of sugar easily packs 180-220 kcal per cup!\n\nTry the half-milk, half-water technique with half a spoon of sugar or stevia. If you drink 2-3 cups a day, this saves ~300 kcal without giving up your chai ritual."
+      },
+      "cookingOil": {
+        "prompts": {
+          "one": "How much oil should I use when cooking for 4 people?",
+          "three": "What should I eat for dinner tonight?",
+          "two": "Is olive oil better than ghee for cooking?"
+        },
+        "reply": "In traditional Pakistani handis like chicken karahi, free-pouring cooking oil often adds 30-50g of hidden fat (270-450 kcal) to the pot.\n\nPro habit: Use a tablespoon (1 tbsp = 14g, ~120 kcal) for the entire family handi, or simmer tomatoes early to create a rich, silky gravy with minimal oil."
+      },
+      "dawat": {
+        "prompts": {
+          "one": "How do I log food I ate at a dawat?",
+          "three": "What should I pick at a BBQ restaurant?",
+          "two": "Should I skip lunch before a big dinner?"
+        },
+        "reply": "For shaadi or dawat nights, use the harm-reduction strategy:\n1. Fill half your plate first with grilled proteins (chicken tikka, seekh kabab) and fresh cucumber/onion salad.\n2. Pick ONE primary carb: either 1 naan OR 1 small cup of biryani, not both.\n3. Drink 2 glasses of water before eating, and enjoy 1 small piece of sweet mindfully."
+      },
+      "fastFood": {
+        "prompts": {
+          "one": "What's the lowest-calorie meal at a fast-food place?",
+          "three": "Is a grilled chicken wrap a good choice?",
+          "two": "How do I log a burger and fries?"
+        },
+        "reply": "At AlBaik or Kudu, you can stay within your targets by choosing grilled chicken fillet or nuggets (ask for garlic dip on the side and dip lightly) instead of double-fried broast with fries.\n\nPro habit: Skip sugary sodas and opt for water or fresh orange juice. A 4-piece nugget portion with moderate dip is ~420 kcal!"
+      },
+      "gahwa": {
+        "prompts": {
+          "one": "How many dates can I eat a day?",
+          "three": "What's a good snack with afternoon coffee?",
+          "two": "Does Arabic coffee affect my diet?"
+        },
+        "reply": "Saudi Gahwa with cardamom and saffron has almost zero calories (~2 kcal per finjan) and is rich in antioxidants!\n\nDates note: Companion Sukari or Ajwa dates are nutrient-rich but calorie-dense (~20-25 kcal per date). Having 2-3 dates with your afternoon Gahwa ritual gives sustained energy without spiking your daily calories."
+      },
+      "greetingPK": {
+        "prompts": {
+          "one": "What breakfast will keep me full until lunch?",
+          "three": "I'm still hungry after dinner. What can I eat?",
+          "two": "How can I get more protein without much meat?"
+        },
+        "reply": "Assalam-o-Alaikum {{name}}! You currently have approximately {{remaining}} kcal remaining in your daily budget.\n\nFocus on getting lean protein (daal, eggs, chicken) and fibre-rich whole wheat roti while keeping cooking oil measured. What specific meal or habit can I help you optimize today?"
+      },
+      "greetingSA": {
+        "prompts": {
+          "one": "How much rice can I have with kabsa?",
+          "three": "I'm still hungry after dinner. What can I eat?",
+          "two": "What breakfast will keep me full until lunch?"
+        },
+        "reply": "Marhaba {{name}}! You currently have approximately {{remaining}} kcal remaining in your daily budget.\n\nFocus on balanced portions of lean protein (Tanmiah chicken, Naeemi lamb, fish), fresh salad, and Almarai Laban, while keeping rice portions measured. How can I help you optimize your meals today?"
+      },
+      "swapTopic": {
+        "reply": "I can't reach the coach right now. You can still pick a safe alternative yourself: open the exercise's ⋯ menu and choose Swap exercise.",
+        "prompts": {
+          "one": "What else can I do instead?",
+          "two": "Is this exercise safe for my knees?",
+          "three": "How do I know if the weight is too heavy?"
+        }
+      }
+    },
+    "greeting": {
+      "PK": "Assalam-o-Alaikum {{name}}! I'm your Nutrio nutrition coach.\n\nYou have ~{{remaining}} kcal remaining today. How can I help you adjust your meals, handle a dawat, or cut down on excess cooking oil?",
+      "SA": "Marhaba {{name}}! I'm your Nutrio nutrition coach.\n\nYou have ~{{remaining}} kcal remaining today. How can I help you balance your Kabsa portions, choose healthy meals at AlBaik or Al Tazaj, or manage dates with Gahwa?"
+    },
+    "inputPlaceholder": {
+      "PK": "Ask coach (e.g., how to handle 2 rotis at dinner?)…",
+      "SA": "Ask coach (e.g., how do I balance a Kabsa?)…"
+    },
+    "log": {
+      "chip": "Log {{name}} · {{kcal}} kcal",
+      "chipLabel": "Log {{name}}, {{serving}}, {{kcal}} kcal, to today's diary",
+      "done": "Logged {{name}} ({{serving}}) to {{meal}}: {{kcal}} kcal.",
+      "failed": "Could not log that. Try again from the Today screen."
+    },
+    "offlineAnswer": "Offline answer",
+    "send": "Send message",
+    "suggestedTopics": "Suggested topics",
+    "title": "AI nutrition coach",
+    "typing": "AI coach is typing…",
+    "topic": {
+      "talkingAbout": "Talking about",
+      "remove": "Stop talking about this exercise"
+    },
+    "swap": {
+      "title": "Swap to {{name}}?",
+      "note": "Sets and weights still come from your plan.",
+      "apply": "Apply swap",
+      "keep": "Keep current",
+      "applied": "Swapped. {{name}} is now in {{day}}.",
+      "refused": "This swap is no longer available because your plan changed. Open the day to choose another.",
+      "from": "From {{from}} to {{to}}"
+    }
+  },
+  "common": {
+    "back": "Back",
+    "calories": "Calories",
+    "cancel": "Cancel",
+    "carbs": "Carbs",
+    "close": "Close",
+    "completeRequiredFields": "Please complete all required fields.",
+    "decrease": "Decrease",
+    "increase": "Increase",
+    "continue": "Continue",
+    "daysAgo": "{{count}} day ago",
+    "daysAgo_other": "{{count}} days ago",
+    "daysAhead": "{{count}} day ahead",
+    "daysAhead_other": "{{count}} days ahead",
+    "fat": "Fat",
+    "gramsUnit": "g",
+    "gramsValue": "{{value}} g",
+    "kcal": "kcal",
+    "kcalValue": "{{value}} kcal",
+    "kgValue": "{{value}} kg",
+    "litresValue": "{{value}} L",
+    "macroLine": "P {{protein}} g · C {{carbs}} g · F {{fat}} g",
+    "mlValue": "{{value}} ml",
+    "no": "No",
+    "oil": "Oil",
+    "portion": "portion",
+    "protein": "Protein",
+    "regionSwitch": {
+      "confirm": "Switch",
+      "message": {
+        "PK": "The app will switch to English, Pakistani dishes and prices in PKR.",
+        "SA": "The app will switch to Arabic (right-to-left), Saudi dishes and prices in SAR."
+      },
+      "title": {
+        "PK": "Switch to Pakistan?",
+        "SA": "Switch to Saudi Arabia?"
+      }
+    },
+    "requiredMarker": "*(Required)",
+    "selected": "Selected",
+    "standardServing": "{{count}} standard serving",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "undo": "Undo",
+    "weekday": {
+      "fri": "Friday",
+      "mon": "Monday",
+      "sat": "Saturday",
+      "sun": "Sunday",
+      "thu": "Thursday",
+      "tue": "Tuesday",
+      "wed": "Wednesday"
+    },
+    "weekdayAbbrev": {
+      "fri": "FRI",
+      "mon": "MON",
+      "sat": "SAT",
+      "sun": "SUN",
+      "thu": "THU",
+      "tue": "TUE",
+      "wed": "WED"
+    },
+    "weekdayShort": {
+      "fri": "F",
+      "mon": "M",
+      "sat": "S",
+      "sun": "S",
+      "thu": "T",
+      "tue": "T",
+      "wed": "W"
+    },
+    "yes": "Yes",
+    "yesterday": "Yesterday"
+  },
+  "paywall": {
+    "annualPlan": "Annual plan",
+    "annualSavings": {
+      "PKR": "Save 42% (PKR 583/month)",
+      "USD": "Save 40% ($4.16/month)"
+    },
+    "badge": "NUTRIO PREMIUM",
+    "bestValue": "Best value · 42% off",
+    "cancelAnytime": "Cancel anytime",
+    "currencyLabel": "Currency:",
+    "currency": {
+      "PKR": "PKR (Pakistan)",
+      "USD": "USD (Global)"
+    },
+    "feature": {
+      "adaptive": {
+        "desc": "A weekly update that follows your real weight change.",
+        "title": "Targets that adapt to you"
+      },
+      "coach": {
+        "desc": "Conversational advice for dawats, family feasts and everyday meals.",
+        "title": "AI nutrition coach, any time"
+      },
+      "plans": {
+        "desc": "A 7-day Pakistani and Saudi meal plan with one-tap swaps.",
+        "title": "Local meal plans and swaps"
+      }
+    },
+    "guarantee": "No risk · Cancel anytime in one tap · Your health data stays private",
+    "headline": "Upgrade to Unlimited",
+    "monthlyPlan": "Monthly plan",
+    "paymentMethod": "Payment method",
+    "priceMonth": "{{amount}} / month",
+    "priceYear": "{{amount}} / year",
+    "provider": {
+      "creditCard": "Credit card",
+      "debitCredit": "Debit / credit card",
+      "easypaisa": "Easypaisa",
+      "inApp": "In-app purchase",
+      "jazzcash": "JazzCash"
+    },
+    "subheadline": "Unlock targets that adjust to you, plus coaching built for Pakistan and Saudi Arabia.",
+    "subscribe": "Unlock Nutrio Premium ({{price}})",
+    "whatYouUnlock": "What you unlock"
+  },
+  "plan": {
+    "analysis": {
+      "active": "Active",
+      "bmr": "Calories at rest",
+      "bmrSub": "What your body uses just to stay alive",
+      "expenditureBreakdown": "Where your calories go",
+      "levers": {
+        "dailyLoad": {
+          "PK": "Calories from sweetened chai:",
+          "SA": "Daily dates & Gahwa calories:"
+        },
+        "highImpact": "High impact",
+        "insight": {
+          "PK": "Sweet tea and cooking oil in karahis and daals are common hidden calories in Pakistani eating. Cutting back on tea sugar alone can make a real difference without eating less food.",
+          "SA": "Dates with Saudi Gahwa, generous Kabsa/Mandi rice portions and full-fat dairy are common hidden calories in Saudi eating. Having 3 Sukari dates and measuring your spiced rice can make a real difference without missing family banquets."
+        },
+        "perDay": "~{{value}} kcal/day",
+        "perWeek": "~{{value}} kcal/week",
+        "title": {
+          "PK": "Pakistani eating habits that add up",
+          "SA": "Saudi eating habits that add up"
+        },
+        "weeklyLoad": {
+          "PK": "Weekly chai calories:",
+          "SA": "Weekly dates & Gahwa calories:"
+        }
+      },
+      "moderate": "Some sitting",
+      "sedentary": "Mostly seated",
+      "selectGoal": "Choose your goal & pace",
+      "sittingHours": "{{count}} hour seated per day",
+      "sittingHours_other": "{{count}} hours seated per day",
+      "sittingLoad": "Daily sitting time",
+      "subtitle": "Calories you burn at rest, plus what your daily activity adds.",
+      "tdee": "Calories you burn in a day",
+      "tdeeSub": "Roughly what keeps your weight steady",
+      "title": "Your energy needs",
+      "topLevers": "3 changes that matter most"
+    },
+    "cultural": {
+      "activateRamadan": "Activate Ramadan mode",
+      "applyDish": "Apply {{dish}} to plan",
+      "calorieSplit": "Daily calorie split:",
+      "disableRamadan": "Disable Ramadan mode",
+      "dishActiveStatus": "{{dish}} is active",
+      "dishes": {
+        "aaloGosht": "Aalo gosht",
+        "beefNihari": "Beef nihari",
+        "bhindiMasala": "Bhindi masala",
+        "camelKabsa": "Hashi camel Kabsa",
+        "chickenBiryani": "Chicken biryani",
+        "chickenKabsa": "Chicken Kabsa",
+        "chickenKarahi": "Chicken karahi",
+        "chickenKorma": "Chicken korma",
+        "daalChana": "Daal chana",
+        "daalMash": "Daal mash",
+        "lambMandi": "Naeemi lamb Mandi",
+        "madhbiChicken": "Madhbi chicken",
+        "mutabbaqMeat": "Mutabbaq meat",
+        "najdiJareesh": "Najdi jareesh",
+        "saleegTaifi": "Saleeg Taifi",
+        "sayadiahFish": "Sayadiah fish"
+      },
+      "enableRamadan": "Enable Ramadan fasting mode",
+      "eyebrow": {
+        "PK": "Pakistani cultural adapters",
+        "SA": "Saudi cultural adapters"
+      },
+      "familyBanner": {
+        "PK": "In Pakistani homes, cooking separate meals leads to failure. Pick whatever handi the family is cooking today. We will automatically re-balance your rotis and breakfast so you stay 100% on target!",
+        "SA": "In Saudi households, family gatherings revolve around shared banquets (Kabsa, Mandi, Saleeg). Pick whatever the family gathers around today. We will calibrate your portions so you hit your macro targets without cooking separate meals!"
+      },
+      "familyDinner": "Family dinner",
+      "familyLunch": "Family lunch",
+      "fastingBadge": "Fasting",
+      "hydration": {
+        "iftarOpening": "Iftar opening:",
+        "iftarOpeningDetail": "500ml water + dates",
+        "postMaghrib": "Post-Maghrib:",
+        "postMaghribDetail": "500ml with meal",
+        "preSleep": "Pre-sleep:",
+        "preSleepDetail": "500ml",
+        "suhoorPacing": "Suhoor pacing:",
+        "suhoorPacingDetail": "750ml steadily sipped",
+        "tarawih": "Tarawih window:",
+        "tarawihDetail": "750ml bottle"
+      },
+      "hydrationPacing": "5-window hydration pacing:",
+      "iftar": "Iftar — 40%:",
+      "iftarDetail": {
+        "PK": "Fruit chaat, baked samosa or grilled kebab with mint chutney.",
+        "SA": "Dates & water break, followed by grilled chicken/meat Kabsa with a balanced rice portion."
+      },
+      "modesDefaultLabel": "Modes",
+      "otherDishLabel": "Or type another family dish",
+      "otherDishPlaceholder": {
+        "PK": "e.g. Haleem, Karelay Gosht…",
+        "SA": "e.g. Bukhari rice, Mathlootha, Gursan…"
+      },
+      "postTaraweeh": {
+        "PK": "Post-Taraweeh chai window — 20%:",
+        "SA": "Post-Taraweeh snack — 20%:"
+      },
+      "postTaraweehDetail": {
+        "PK": "Doodh patti chai + protein oats bowl or roasted almonds.",
+        "SA": "Saudi Gahwa with 3 Sukari dates or protein pudding before sleep."
+      },
+      "ramadanActiveStatus": "Ramadan mode is active",
+      "ramadanInactiveStatus": "Ramadan mode is off",
+      "ramadanSubtitle": "Shifts eating window between Maghrib and Fajr",
+      "selectDish": "Select today's family dish",
+      "suhoor": "Suhoor — 40%:",
+      "suhoorDetail": {
+        "PK": "Eggs, whole wheat roti, dahi for sustained 14-hour satiety.",
+        "SA": "Fresh laban, Sukari dates, foul mudammas, boiled eggs & tamees bread for sustained energy."
+      },
+      "tabs": {
+        "family": {
+          "PK": "Family dinner",
+          "SA": "Family banquet"
+        },
+        "ramadan": "Ramadan mode"
+      },
+      "title": "Cultural diet modes",
+      "updateDish": "Update to {{dish}}",
+      "whenEat": "When will you eat this?"
+    },
+    "goal": {
+      "calculatePlan": "Calculate custom plan",
+      "clinicallyDisabled": "Clinically disabled",
+      "gain": {
+        "sub": "Eat a little more than you burn (~0.25 kg a week) to build muscle without gaining much fat.",
+        "title": "Lean muscle gain"
+      },
+      "lose": {
+        "disabledPregnant": "Disabled: Caloric restriction is medically contraindicated during pregnancy/lactation.",
+        "disabledUnderweight": "Disabled: BMI of {{bmi}} indicates underweight status. Weight loss is unsafe.",
+        "sub": "Eat a little less than you burn to lose body fat while keeping your muscle.",
+        "title": "Fat loss / Cut"
+      },
+      "maintain": {
+        "sub": "Eat about what you burn, to keep your weight steady and your energy up.",
+        "title": "Maintenance & performance"
+      },
+      "maxSafeRate": "Fastest safe pace: {{rate}} kg/week (1% of your body weight)",
+      "paceLabel": "Weekly pace",
+      "paceLimit": {
+        "floor": "Your safety floor limits you to about {{rate}} kg/week.",
+        "maxDeficit": "Eating no more than 25% below what you burn limits you to about {{rate}} kg/week.",
+        "maxRate": "The safe limit is about {{rate}} kg/week."
+      },
+      "pacesDisabledReason": "Faster paces are switched off because they are above the safe limit for your weight ({{rate}} kg/week).",
+      "pacingAdvice": {
+        "aggressive": "Aggressive pace (>1% bodyweight/week) increases risk of lean muscle and water loss.",
+        "gentle": "A gentle, sustainable pace. The easiest to stick with.",
+        "leanGain": "Slow, steady muscle gain (~0.25 kg a week), with as little fat gain as possible.",
+        "maintain": "Keeps your weight steady while you recover and perform.",
+        "optimal": "A good fat-loss pace (about 0.5–1% of your body weight a week) that protects your muscle.",
+        "rapidGain": "Rapid mass gain. A significant portion of weight gained may be body fat."
+      },
+      "primaryTarget": "Primary target",
+      "projectedMilestone": "Projected milestone",
+      "subtitle": "Set your main goal and weekly pace. Paces that are unsafe for your body are switched off.",
+      "targetWeight": "Goal target weight (kg)",
+      "targetWeightHelper": "Sustainable target to project your timeline",
+      "title": "Choose your target goal",
+      "weeklyPace": "Weekly pace: {{rate}} kg/week",
+      "weeks": "{{count}} week",
+      "weeks_other": "{{count}} weeks"
+    },
+    "mealSlot": {
+      "cuisine": {
+        "PK": "Pakistani cuisine",
+        "SA": "Saudi cuisine"
+      }
+    },
+    "reveal": {
+      "acceptLaunch": "Accept & launch tracker",
+      "adjustGoal": "Adjust goal",
+      "burnActivity": "Activity",
+      "burnRest": "At rest",
+      "burnSummary": "At rest {{rest}} + activity {{activity}} = {{burn}} kcal burned; target {{target}} kcal",
+      "burnSurplus": "Extra",
+      "burnTarget": "Target",
+      "burnTitle": "How your target adds up",
+      "caloriesPerDay": "calories / day",
+      "dailyFibre": "Daily fibre:",
+      "dailyTarget": "Daily target",
+      "deficit": "{{value}} kcal below your daily burn ({{tdee}})",
+      "formulationComplete": "Your plan is ready",
+      "hydration": "Hydration:",
+      "macroBreakdown": "Daily protein, carbs and fat",
+      "maintenance": "Matched to what you burn ({{tdee}} kcal)",
+      "paceLimit": "You picked {{requested}} kg/week, but your safety limits allow about {{rate}} kg/week, so this target is set for that pace.",
+      "safeguardBmr": "Your target never goes below the calories you burn at rest ({{bmr}} kcal).",
+      "safeguardDeficit": "You never eat more than 25% below the calories you burn, to protect your muscle.",
+      "safeguardFat": "Fat never drops below 0.6 g per kg of body weight or 20% of calories, which your hormones need.",
+      "safeguards": "Safety limits",
+      "subtitle": "Worked out from your body measurements, how active you are and the way you eat.",
+      "surplus": "{{value}} kcal above your daily burn ({{tdee}})",
+      "title": "Your personalized targets"
+    },
+    "slotCard": {
+      "carbsChip": "{{value}} g Carbs",
+      "fitsTargets": "Fits your targets",
+      "oil": "{{count}} tsp oil",
+      "proteinChip": "{{value}} g Protein",
+      "swapAlternatives": "Swap alternatives"
+    },
+    "slotTitle": {
+      "breakfast": "Protein breakfast",
+      "dinner": "Wholesome dinner",
+      "lunch": "Balanced lunch",
+      "snacks_chai": "Light snack"
+    },
+    "swap": {
+      "allMatch": "All 3 alternatives match your original meal within ±5% calories",
+      "current": "Current: {{value}} kcal",
+      "eyebrow": "One-tap macro match",
+      "oil": "Oil",
+      "option": "Option {{number}}",
+      "selectMeal": "Select this meal",
+      "title": "Swap {{slot}}"
+    },
+    "transition": {
+      "eyebrow": "Building your plan",
+      "steps": {
+        "cultural": "Fitting the foods you eat and your daily routine…",
+        "deficit": "Setting a safe pace and your protein, carbs and fat…",
+        "tdee": "Working out how many calories you burn in a day…"
+      },
+      "subtitle": "Working out your calorie target, your protein, carbs and fat, and the foods you actually eat.",
+      "title": "Synthesizing your plan",
+      "viewPlanNow": "View plan now"
+    },
+    "weekly": {
+      "calorieDeviation": "Calories {{value}}%",
+      "dayMealPlan": "{{day}} meal plan",
+      "dayTargetKcal": "Target: {{kcal}} kcal",
+      "fatOver": "About {{grams}} g over your fat target today.",
+      "notEnoughFoods": "We don't have enough dishes for your diet in this region yet, so we can't build this day's plan.",
+      "ofTarget": "of {{grams}} g",
+      "proteinShort": "About {{grams}} g short of your protein target today. Add a protein side to close the gap."
+    }
+  },
+  "survey": {
+    "basics": {
+      "age": "Age",
+      "description": "These measurements set the calories you burn at rest, the base of your daily calorie target.",
+      "female": "Female",
+      "height": "Height",
+      "male": "Male",
+      "measurementsEyebrow": "Body measurements",
+      "sexEyebrow": "Biological sex (for your calorie estimate)",
+      "unitCm": "cm",
+      "unitKg": "kg",
+      "unitYears": "yrs",
+      "weight": "Current weight"
+    },
+    "completeAssessment": "Complete assessment",
+    "exercise": {
+      "frequency": "Frequency (days per week)",
+      "intensity": {
+        "high": "High intensity",
+        "light": "Light",
+        "moderate": "Moderate"
+      },
+      "intensityLabel": "Workout intensity",
+      "primaryType": "Primary exercise type",
+      "sessionDuration": "Average session duration (minutes)",
+      "trainingTypes": {
+        "cardio_running": {
+          "PK": "Running / Jogging",
+          "SA": "Running / Jogging"
+        },
+        "daily_brisk_walking": {
+          "PK": "Brisk walking",
+          "SA": "Brisk walking"
+        },
+        "gym_resistance": {
+          "PK": "Gym / Weightlifting",
+          "SA": "Gym / Weightlifting"
+        },
+        "home_calisthenics": {
+          "PK": "Home bodyweight / Calisthenics",
+          "SA": "Home bodyweight"
+        },
+        "none": {
+          "PK": "None / Not currently training",
+          "SA": "None / Not currently training"
+        },
+        "sports_cricket_football": {
+          "PK": "Sports (Cricket / Football)",
+          "SA": "Sports (Football / Padel)"
+        }
+      }
+    },
+    "fieldErrors": {
+      "ageYears": "Please enter a valid age between 12 and 100.",
+      "bodyFatPct": "Body fat percentage must be between 3% and 65%.",
+      "chaiWithSugarCupsPerDay": "Please specify daily sweetened tea/chai cups (0 or more).",
+      "dailySittingHours": "Sitting hours must be between 0 and 24.",
+      "dietPreference": "Please select your preferred dietary pattern.",
+      "frequencyDaysPerWeek": "Choose how many days a week you train (0 to 7).",
+      "heightCm": "Please enter a valid height between 100 cm and 250 cm.",
+      "isPregnantOrBreastfeeding": "Please indicate pregnancy or active lactation status for nutritional safety.",
+      "jobCategory": "Please select your primary job / daily work activity.",
+      "medicalDisclaimerAccepted": "You must acknowledge the clinical disclaimer to proceed.",
+      "sessionDurationMins": "Enter how long a session lasts, in minutes (0 to 360).",
+      "sex": "Biological sex is needed to estimate your calories.",
+      "trainingType": "Please select your exercise or workout type.",
+      "waistCm": "Waist circumference must be between 40 cm and 220 cm.",
+      "weightKg": "Please enter a valid weight between 30 kg and 300 kg."
+    },
+    "health": {
+      "conditions": {
+        "ckd_renal": "Kidney / Renal condition",
+        "diabetes_type_2": "Type 2 diabetes / Pre-diabetes",
+        "hypertension": "Hypertension (high blood pressure)",
+        "none": "None of the above",
+        "pcos": "PCOS / Hormonal imbalance",
+        "thyroid_hypo": "Hypothyroidism"
+      },
+      "description": "Your safety is non-negotiable. Medical conditions adjust your safety floors and stop your calories dropping too low.",
+      "diagnosesLabel": "Known medical & health diagnoses",
+      "disclaimer": "I acknowledge that Nutrio provides algorithmic nutritional guidance and is not a substitute for clinical diagnosis or prescription by a physician.",
+      "disclaimerTitle": "Safety & medical disclaimer",
+      "medications": "Medications or clinical notes (optional)",
+      "medicationsPlaceholder": "e.g. Metformin 500mg, insulin, thyroxine",
+      "pregnancyQuestion": "Are you pregnant or currently breastfeeding?",
+      "pregnancyWarning": "Note: Caloric restriction is clinically disabled during pregnancy and active lactation. Your plan will be set to nourishing maintenance only."
+    },
+    "lifestyle": {
+      "chai": {
+        "addsPrefix": "Adds ~",
+        "badge": {
+          "PK": "Key desi factor",
+          "SA": "Saudi tradition"
+        },
+        "kcalPerDay": "{{kcal}} kcal/day",
+        "subtitle": {
+          "PK": "Doodh patti / tea brewed with 1-2 tsp of sugar",
+          "SA": "Finjans of Saudi Gahwa paired with companion dates (Sukari / Ajwa)"
+        },
+        "title": {
+          "PK": "Cups of chai with sugar per day",
+          "SA": "Daily Saudi gahwa & dates ritual"
+        },
+        "unit": {
+          "PK": "cups / day",
+          "SA": "finjans / day"
+        },
+        "weekly": {
+          "PK": "(~{{weekly}} kcal/week) in liquid sugars & milk!",
+          "SA": "(~{{weekly}} kcal/week) in dates & Gahwa ritual!"
+        }
+      }
+    },
+    "occupational": {
+      "description": {
+        "PK": "Your daily job accounts for most of the calories you burn outside workouts. A desk worker burns very differently from a Lahore rider.",
+        "SA": "Your daily job accounts for most of the calories you burn outside workouts. A desk worker burns very differently from a delivery rider (Jahez / HungerStation)."
+      },
+      "jobs": {
+        "active_walking": {
+          "subtitle": {
+            "PK": "Riders (Bykea / Foodpanda), waiters, healthcare nurses",
+            "SA": "Riders (Jahez / HungerStation), healthcare nurses, waiters"
+          },
+          "title": "Active / Walking / Delivery"
+        },
+        "desk_sedentary": {
+          "subtitle": {
+            "PK": "Software, corporate, customer support, remote desk work",
+            "SA": "Software, corporate, customer support, remote desk work"
+          },
+          "title": "Desk / Sedentary"
+        },
+        "heavy_manual_labor": {
+          "subtitle": {
+            "PK": "Construction, factory floor, agriculture, warehouse loading",
+            "SA": "Construction, factory floor, agriculture, warehouse loading"
+          },
+          "title": "Heavy manual labour"
+        },
+        "standing_light": {
+          "subtitle": {
+            "PK": "Shop staff, teachers, salon workers, pharmacists",
+            "SA": "Shop staff, teachers, salon workers, pharmacists, barista"
+          },
+          "title": "Standing / Teaching / Retail"
+        }
+      },
+      "sittingHours": "Daily sitting hours",
+      "workActivityType": "Work activity type"
+    },
+    "placeholderExample": "e.g. {{value}}",
+    "preferences": {
+      "description": {
+        "PK": "Tailoring your nutritional plan to how you eat in Pakistan.",
+        "SA": "Tailoring your nutritional plan to how you eat in Saudi Arabia."
+      },
+      "dietaryPreference": "Dietary preference",
+      "diets": {
+        "eggetarian": {
+          "PK": "Eggetarian (vegetarian + eggs)",
+          "SA": "Eggetarian (vegetarian + eggs)"
+        },
+        "halal_meat_moderate": {
+          "PK": "Moderate meat (poultry/fish 2-3x a week)",
+          "SA": "Moderate meat (Farrouj/fish 2-3x a week)"
+        },
+        "halal_omnivore": {
+          "PK": "Halal omnivore (chicken, beef, mutton, daal, veg)",
+          "SA": "Halal omnivore (chicken, Hashi camel, lamb, Kabsa, fish)"
+        },
+        "vegan": {
+          "PK": "Strict plant-based / Vegan",
+          "SA": "Strict plant-based / Vegan"
+        },
+        "vegetarian_desi": {
+          "PK": "Desi vegetarian (daal, paneer, sabzi, roti)",
+          "SA": "Vegetarian (foul, hummus, salads, tamees, rice)"
+        }
+      }
+    },
+    "progress": {
+      "step": "Step {{current}} of {{total}}"
+    },
+    "skip": "Skip survey for now",
+    "stepTitles": {
+      "basics": {
+        "PK": "Physical metrics",
+        "SA": "Physical metrics"
+      },
+      "exercise": {
+        "PK": "Work & training",
+        "SA": "Work & training"
+      },
+      "health_clinical": {
+        "PK": "Health & medical safety",
+        "SA": "Health & medical safety"
+      },
+      "preferences": {
+        "PK": "Diet & chai",
+        "SA": "Diet & gahwa"
+      }
+    }
+  },
+  "tracker": {
+    "addDish": {
+      "addButton": "Add \"{{name}}\"",
+      "errors": {
+        "incomplete": "We couldn't find verified nutrition data for: {{missing}}. Without it the calories for \"{{name}}\" would be too low, so we can't add it. Try logging its parts one by one.",
+        "sign_in": "Sign in to add your own dishes.",
+        "unavailable": "Couldn't add this dish right now. Check your connection and try again.",
+        "unknown_dish": "We couldn't recognise \"{{name}}\". Try a more common name, or log its ingredients one by one."
+      },
+      "footnote": "Only you can see dishes you add.",
+      "grams": "{{grams}} g",
+      "ingredientsHeading": "What's in one serving",
+      "loading": "Looking up how {{name}} is made…",
+      "notCounted": "{{grams}} g · not counted: no verified nutrition data",
+      "notListed": "Not the dish you meant? Add \"{{name}}\"",
+      "oneServing": "1 serving ({{grams}} g)",
+      "retry": "Try again",
+      "saveAndLog": "Save & log"
+    },
+    "aiCard": {
+      "askCoach": "Ask coach",
+      "awaitingFirstMeal": "Awaiting first meal",
+      "badge": "AI coach daily bite",
+      "cleanSlate": {
+        "subtitle": "Log your breakfast or lunch to activate personalized AI meal suggestions",
+        "title": "Ready for your first meal"
+      },
+      "logFirstMeal": "Log first meal",
+      "logIt": "Log it",
+      "logSuggestion": "Log suggestion",
+      "logged": "Logged!",
+      "proteinValue": "{{grams}} g protein",
+      "suggestions": {
+        "PK.full": {
+          "rationale": "Fits within your remaining {{remaining}} kcal, with plenty of protein toward your target.",
+          "subtitle": "Chicken tikka boti (150g) + 1 whole wheat roti + mint raita",
+          "title": "Chicken tikka plate"
+        },
+        "PK.light": {
+          "rationale": "A light {{kcal}} kcal snack with {{protein}} g of protein.",
+          "subtitle": "1 boiled egg + fresh cucumber lemon salad",
+          "title": "Light protein snack"
+        },
+        "PK.medium": {
+          "rationale": "Satisfying fiber and plant protein fitting cleanly within {{remaining}} kcal.",
+          "subtitle": "1 katori daal chana + 1 whole wheat roti",
+          "title": "Comfort desi daal & roti"
+        },
+        "SA.full": {
+          "rationale": "A high-protein charcoal-grilled meal that fits within your remaining {{remaining}} kcal.",
+          "subtitle": "Half charcoal farrouj + fresh salad + tahina",
+          "title": "Tazaj farrouj & salad"
+        },
+        "SA.light": {
+          "rationale": "A light {{kcal}} kcal snack with {{protein}} g of protein.",
+          "subtitle": "Almarai fresh laban (200ml) + 1 boiled egg",
+          "title": "Laban & boiled egg"
+        },
+        "SA.medium": {
+          "rationale": "Traditional Saudi meal fitting cleanly within {{remaining}} kcal with balanced macros.",
+          "subtitle": "Fresh tomato shakshuka + a quarter of tamees bread",
+          "title": "Shakshuka & warm tamees"
+        }
+      }
+    },
+    "brandGroups": {
+      "All": "All",
+      "Animal Fries": "Animal Fries",
+      "Appetizers": "Appetizers",
+      "Appetizers & Wings": "Appetizers & Wings",
+      "Arabi Platters": "Arabi Platters",
+      "Arabo Boxes": "Arabo Boxes",
+      "Artisan Brownies": "Artisan Brownies",
+      "Artisan Desserts": "Artisan Desserts",
+      "Asian & Continental": "Asian & continental",
+      "Bakery": "Bakery",
+      "Bakery Bites": "Bakery Bites",
+      "Bakery Delights": "Bakery Delights",
+      "BBQ": "BBQ",
+      "BBQ & Grills": "BBQ & Grills",
+      "BBQ & Kabab": "BBQ & Kabab",
+      "BBQ & Karahi": "BBQ & Karahi",
+      "BBQ Grills": "BBQ Grills",
+      "Beef & Seafood": "Beef & Seafood",
+      "Beef Burgers": "Beef Burgers",
+      "Beverages": "Beverages",
+      "Beverages & Drinks": "Beverages & Drinks",
+      "Bihari & Afghani BBQ": "Bihari & Afghani BBQ",
+      "Breads & Raita": "Breads & Raita",
+      "Breakfast": "Breakfast",
+      "Breakfast & Nashta": "Breakfast & Nashta",
+      "Breakfast & Omelettes": "Breakfast & Omelettes",
+      "Breakfast & Street Food": "Breakfast & Street Food",
+      "Brewed Coffee": "Brewed Coffee",
+      "Brews & Lattes": "Brews & Lattes",
+      "Brioche Sandwiches": "Brioche Sandwiches",
+      "Broast": "Broast",
+      "Bun Kabab": "Bun Kabab",
+      "Burgers": "Burgers",
+      "Burgers & Wraps": "Burgers & Wraps",
+      "Cafe & Coffee": "Cafe & coffee",
+      "Cakes & Biscuits": "Cakes & Biscuits",
+      "Cakes & Pastries": "Cakes & Pastries",
+      "Calzones": "Calzones",
+      "Chaat & Fries": "Chaat & Fries",
+      "Chai": "Chai",
+      "Chai & Cafes": "Chai & cafes",
+      "Chai & Drinks": "Chai & Drinks",
+      "Cheesecakes": "Cheesecakes",
+      "Cheesecakes & Tiramisu": "Cheesecakes & Tiramisu",
+      "Chicken": "Chicken",
+      "Chicken & Beef Mains": "Chicken & Beef Mains",
+      "Chicken & Tenders": "Chicken & Tenders",
+      "Chicken & Wings": "Chicken & Wings",
+      "Chicken Banquets": "Chicken Banquets",
+      "Chicken Burgers": "Chicken Burgers",
+      "Chicken Manchurian & Shashlik": "Chicken Manchurian & Shashlik",
+      "Chicken Meals": "Chicken Meals",
+      "Chillattas & Drinks": "Chillattas & Drinks",
+      "Chinese Soups": "Chinese Soups",
+      "Chocolate Desserts": "Chocolate Desserts",
+      "Cinnabon Rolls": "Cinnabon Rolls",
+      "Classic Burgers": "Classic Burgers",
+      "Classic Nihari": "Classic Nihari",
+      "Classic Subs": "Classic Subs",
+      "Coffee & Shakes": "Coffee & Shakes",
+      "Cold Brews": "Cold Brews",
+      "Cold Coffees & Lattes": "Cold Coffees & Lattes",
+      "Condiments": "Condiments",
+      "Continental & Italian": "Continental & Italian",
+      "Cookies & Drinks": "Cookies & Drinks",
+      "Crispy Burgers": "Crispy Burgers",
+      "Crispy Chicken": "Crispy Chicken",
+      "Crown Crust": "Crown Crust",
+      "Crust Specials": "Crust Specials",
+      "Cupcakes & Tarts": "Cupcakes & Tarts",
+      "Curries": "Curries",
+      "Curries & Karahi": "Curries & Karahi",
+      "Custom Wok Bowls": "Custom Wok Bowls",
+      "Deep Pan Pizzas": "Deep Pan Pizzas",
+      "Deli Sandwiches": "Deli Sandwiches",
+      "Desi BBQ": "Desi BBQ",
+      "Desi Ghee Karahi": "Desi Ghee Karahi",
+      "Dessert Slices": "Dessert Slices",
+      "Desserts": "Desserts",
+      "Dhaba Daal & Karahi": "Dhaba Daal & Karahi",
+      "Diet & Basics": "Diet & basics",
+      "Dim Sum & Starters": "Dim Sum & Starters",
+      "Dips": "Dips",
+      "Dips & Desserts": "Dips & Desserts",
+      "Donuts": "Donuts",
+      "Double Masala Biryani": "Double Masala Biryani",
+      "Espresso": "Espresso",
+      "Espresso & Lattes": "Espresso & Lattes",
+      "Espresso with Milk": "Espresso with Milk",
+      "Everyday Value": "Everyday Value",
+      "Extras & Sides": "Extras & Sides",
+      "Falafel": "Falafel",
+      "Famous Biryani": "Famous Biryani",
+      "Famous Breads & Rolls": "Famous Breads & Rolls",
+      "Farrouj Grills": "Farrouj Grills",
+      "Fast Food": "Fast food",
+      "Filter Coffee": "Filter Coffee",
+      "Fish & Nuggets": "Fish & Nuggets",
+      "Fish Sandwiches": "Fish Sandwiches",
+      "Frappes & Coolers": "Frappes & Coolers",
+      "Fresh Fit Subs": "Fresh Fit Subs",
+      "Fresh Juices": "Fresh Juices",
+      "Fried Chicken": "Fried Chicken",
+      "Fried Chicken & Burgers": "Fried Chicken & Burgers",
+      "Fried Chicken Buckets": "Fried Chicken Buckets",
+      "Fried Rice & Chowmein": "Fried Rice & Chowmein",
+      "Fries": "Fries",
+      "Fries & Sides": "Fries & Sides",
+      "Fries & Sticks": "Fries & Sticks",
+      "Gahwa & Drinks": "Gahwa & Drinks",
+      "Gathering Boxes": "Gathering Boxes",
+      "Gourmet Beef": "Gourmet Beef",
+      "Gourmet Pizzas": "Gourmet Pizzas",
+      "Gourmet Steaks": "Gourmet Steaks",
+      "Gourmet Steaks & Mains": "Gourmet Steaks & Mains",
+      "Grills": "Grills",
+      "Grills & Fast Casual": "Grills & fast casual",
+      "Halwa & Ladoo": "Halwa & Ladoo",
+      "Handi & Karahi": "Handi & Karahi",
+      "Handi Specialties": "Handi Specialties",
+      "Home Food": "Home food",
+      "Honey-Butter Biscuits": "Honey-Butter Biscuits",
+      "Hot & Cold Drinks": "Hot & Cold Drinks",
+      "Hot Beverages": "Hot Beverages",
+      "Hot Coffees": "Hot Coffees",
+      "Hot Dogs": "Hot Dogs",
+      "Hot Tenders": "Hot Tenders",
+      "Iced Chillers": "Iced Chillers",
+      "Italian Breads": "Italian Breads",
+      "Juices": "Juices",
+      "Karahi & Handi": "Karahi & Handi",
+      "Karak Chai": "Karak Chai",
+      "Kulcha & Sides": "Kulcha & Sides",
+      "Kulcha & Tarka": "Kulcha & Tarka",
+      "Lamb & Meat Banquets": "Lamb & Meat Banquets",
+      "Loaded Bowls": "Loaded Bowls",
+      "Loaded Fries": "Loaded Fries",
+      "Maghaz & Nalli": "Maghaz & Nalli",
+      "Manhattan Pizzas": "Manhattan Pizzas",
+      "Meetha": "Meetha",
+      "Mithai Delights": "Mithai Delights",
+      "Mughlai Grills": "Mughlai Grills",
+      "Mutton Specialties": "Mutton Specialties",
+      "Naan & Gravy": "Naan & Gravy",
+      "Nalli Biryani": "Nalli Biryani",
+      "Nalli Nihari": "Nalli Nihari",
+      "Nashta": "Nashta",
+      "Nashta & Breakfast": "Nashta & Breakfast",
+      "Nihari Specials": "Nihari Specials",
+      "Noodles & Rice": "Noodles & Rice",
+      "Nuggets & Strips": "Nuggets & Strips",
+      "NY Giant Slices": "NY Giant Slices",
+      "Other": "Other",
+      "Oven Pastas": "Oven Pastas",
+      "Pakistani Fast Food": "Pakistani Fast Food",
+      "Pakistani Platters": "Pakistani Platters",
+      "Pan Pizzas": "Pan Pizzas",
+      "Paninis & Wraps": "Paninis & Wraps",
+      "Papa Pizzas": "Papa Pizzas",
+      "Papa Sides": "Papa Sides",
+      "Paratha & Eggs": "Paratha & Eggs",
+      "Paratha & Tandoor": "Paratha & Tandoor",
+      "Pasta": "Pasta",
+      "Pasta & Seafood": "Pasta & Seafood",
+      "Pastas": "Pastas",
+      "Pastas & Appetizers": "Pastas & Appetizers",
+      "Pastries": "Pastries",
+      "Pastries & Cakes": "Pastries & Cakes",
+      "Patties & Snacks": "Patties & Snacks",
+      "Pizza": "Pizza",
+      "Pizza Slices": "Pizza Slices",
+      "Pizzas": "Pizzas",
+      "Platters": "Platters",
+      "Platters & Meals": "Platters & Meals",
+      "Pulao & Meals": "Pulao & Meals",
+      "Puri Paratha": "Puri Paratha",
+      "Qahwa & Snacks": "Qahwa & Snacks",
+      "Raita & Drinks": "Raita & Drinks",
+      "Rice & Biryani": "Rice & Biryani",
+      "Rice & Meat": "Rice & Meat",
+      "Rice & Noodles": "Rice & Noodles",
+      "Rolls & Wings": "Rolls & Wings",
+      "Roti & Bread": "Roti & Bread",
+      "Royal Biryani": "Royal Biryani",
+      "Sabzi & Lentils": "Sabzi & Lentils",
+      "Salads": "Salads",
+      "Salads & Appetizers": "Salads & Appetizers",
+      "Salads & Continental": "Salads & Continental",
+      "Salads & Dips": "Salads & Dips",
+      "Salads & Sides": "Salads & Sides",
+      "Sandwiches": "Sandwiches",
+      "Sandwiches & Rolls": "Sandwiches & Rolls",
+      "Sandwiches & Snacks": "Sandwiches & Snacks",
+      "Sauces": "Sauces",
+      "Sauces & Dips": "Sauces & Dips",
+      "Sauces & Sides": "Sauces & Sides",
+      "Saudi Traditional Coffee": "Saudi Traditional Coffee",
+      "Savory Bites": "Savory Bites",
+      "Seafood": "Seafood",
+      "Shahi Curries": "Shahi Curries",
+      "Shahi Desserts": "Shahi Desserts",
+      "Shahi Meetha": "Shahi Meetha",
+      "Shakes": "Shakes",
+      "Shawarma": "Shawarma",
+      "Shawarma Platters": "Shawarma Platters",
+      "Shinwari Specialties": "Shinwari Specialties",
+      "Sides": "Sides",
+      "Sides & Breads": "Sides & Breads",
+      "Sides & Dips": "Sides & Dips",
+      "Sides & Drinks": "Sides & Drinks",
+      "Sides & Wings": "Sides & Wings",
+      "Signature BBQ": "Signature BBQ",
+      "Signature Drinks": "Signature Drinks",
+      "Signature Pizzas": "Signature Pizzas",
+      "Signature Teas": "Signature Teas",
+      "Siri Paye Bowls": "Siri Paye Bowls",
+      "Sliders": "Sliders",
+      "Slow-Cooked Curries": "Slow-Cooked Curries",
+      "Soups": "Soups",
+      "Special Flavors": "Special Flavors",
+      "Special Fry Nihari": "Special Fry Nihari",
+      "Special Karahi": "Special Karahi",
+      "Special Pizzas": "Special Pizzas",
+      "Specialty Burgers": "Specialty Burgers",
+      "Specialty Lattes": "Specialty Lattes",
+      "Starters": "Starters",
+      "Steaks": "Steaks",
+      "Steaks & Wraps": "Steaks & Wraps",
+      "Street Food & Chaat": "Street Food & Chaat",
+      "Stuffed Crust": "Stuffed Crust",
+      "Sundaes & Mousse": "Sundaes & Mousse",
+      "Sweets & Desserts": "Sweets & Desserts",
+      "Tandoor": "Tandoor",
+      "Tandoor & Sides": "Tandoor & Sides",
+      "Thickburgers": "Thickburgers",
+      "Traditional Dishes": "Traditional Dishes",
+      "Traditional Rice": "Traditional Rice",
+      "Traditional Saudi": "Traditional Saudi",
+      "Traditional Stews": "Traditional Stews",
+      "Vegetables & Daal": "Vegetables & Daal",
+      "Village BBQ": "Village BBQ",
+      "Waffles & Shakes": "Waffles & Shakes",
+      "Wings": "Wings",
+      "Woodfired Pizzas": "Woodfired Pizzas",
+      "Wraps": "Wraps",
+      "Wraps & Rice": "Wraps & Rice"
+    },
+    "brandMenu": {
+      "categories": "Menu categories",
+      "clearSearch": "Clear search",
+      "fallbackTitle": "Brand menu",
+      "menuWord": "menu",
+      "noItems": "No items found",
+      "noItemsHint": "Try adjusting your search or category filter.",
+      "oneServing": "1 serving",
+      "searchLabel": "Search the {{brand}} menu",
+      "searchPlaceholder": "Search in {{brand}}…",
+      "sfdaCompliant": "SFDA compliant",
+      "verifiedItems": "{{count}} verified food item",
+      "verifiedItems_other": "{{count}} verified food items"
+    },
+    "calorieBank": {
+      "balanceNone": "No full days yet",
+      "balanceOver": "{{kcal}} kcal over",
+      "balanceUnder": "{{kcal}} kcal under",
+      "dayEmpty": "{{day}} not logged",
+      "dayLine": "{{day}} {{consumed}} of {{target}} kcal",
+      "emptyHint": "Log your meals and finished days build up your weekly balance.",
+      "onTrackHint": "On track. Finished days are at or under your target.",
+      "overHint": "Finished days are over your target. A lighter day or two will even it out.",
+      "subtitle": "Rolling energy balance",
+      "targetLabel": "Target",
+      "title": "Weekly calorie bank",
+      "todayPendingHint": "Today counts once it's over."
+    },
+    "customizer": {
+      "addModifier": "Add {{name}}",
+      "customPortion": "{{grams}} g custom portion",
+      "customTotal": "{{grams}} g total",
+      "customWeight": "Custom weight (g)",
+      "customWeightHint": "Type the exact weight in grams, or step it with the buttons",
+      "decreaseQty": "Decrease quantity",
+      "estimateNote": "Estimate — actual can vary ~±15% with kitchen and portion",
+      "estimated": "Estimated",
+      "fallbackBrand": {
+        "PK": "Pakistani dish",
+        "SA": "Saudi dish"
+      },
+      "gramsField": "Weight in grams",
+      "gramsInvalid": "Enter a weight between 1 and 3000 g",
+      "howMany": "How many?",
+      "increaseQty": "Increase quantity",
+      "kcalEach": "{{value}} kcal each",
+      "logThis": "Log this",
+      "logToMeal": "Log to {{meal}}",
+      "logToSlot": "Log to meal slot",
+      "makeItYours": "Make it yours",
+      "makeItYoursSubtitle": "Add or remove — the number follows your real order.",
+      "myServing": "My serving",
+      "portionSize": "Portion size",
+      "removeModifier": "Remove {{name}}",
+      "resetMyServing": "Reset to standard serving",
+      "saveAsMyServing": "Save {{grams}} g as my standard serving",
+      "standardServings": "Standard servings"
+    },
+    "dashboard": {
+      "allMealsDone": "All meals done",
+      "appearance": "Appearance",
+      "dailyTarget": "Daily target",
+      "darkMode": "Dark mode",
+      "diary": "Diary",
+      "lightMode": "Light mode",
+      "logMeal": "Quick log",
+      "logout": "Log out",
+      "logoutConfirm": {
+        "confirm": "Log out",
+        "message": "You can sign back in any time. Your saved meals, weight and plans stay with your account.",
+        "title": "Log out of Nutrio?"
+      },
+      "nav": {
+        "coach": "Coach",
+        "meals": "Meals",
+        "survey": "Survey",
+        "targets": "Targets",
+        "weight": "Weight",
+        "workouts": "Workouts"
+      },
+      "regionName": {
+        "PK": "Pakistan",
+        "SA": "Saudi Arabia"
+      },
+      "retakeSurvey": "Retake lifestyle survey",
+      "signInCreate": "Sign in / Create account",
+      "slotsLogged": "{{count}} / 4 logged",
+      "todaysMeals": "Today's meals",
+      "toggleRegion": "Toggle active region",
+      "viewMealPlan": "View 7-day meal plan",
+      "waterGoal": "Water goal",
+      "weeklyCheckIn": "Weekly check-in"
+    },
+    "describeMeal": {
+      "amount": "{{quantity}} × {{serving}} · {{grams}} g",
+      "analyse": "Find foods",
+      "analyseAgain": "Find foods again",
+      "gramsLabel": "Weight in grams",
+      "gramsUnit": "g",
+      "less": "Less",
+      "logMeal": "Log meal",
+      "looksRight": "Looks right",
+      "more": "More",
+      "notFound": "Not in our food list",
+      "nothingFound": "We couldn't find any foods in that. Try naming each food, like \"2 roti and 1 katori daal\".",
+      "pending": "{{count}} item to check",
+      "pending_other": "{{count}} items to check",
+      "placeholder": {
+        "PK": "Write what you ate and how much…",
+        "SA": "Write what you ate and how much…"
+      },
+      "reasons": {
+        "ambiguous_food": "Several foods match. Is this the one?",
+        "implausible_amount": "That amount looks very large. Check it below.",
+        "loose_match": "Closest match we have. Is this what you ate?",
+        "needs_portion": "Check the amount: we guessed the portion size.",
+        "typo_corrected": "We corrected the spelling. Is this right?",
+        "unclear_quantity": "We couldn't read the amount. Check it below.",
+        "unknown_food": "Not in our food database yet."
+      },
+      "remove": "Remove",
+      "servingLabel": "Serving size",
+      "title": "Describe your meal"
+    },
+    "diary": {
+      "backToDashboard": "Back to dashboard",
+      "deleteItem": "Delete item",
+      "dishCount": "{{count}} dish",
+      "dishCount_other": "{{count}} dishes",
+      "emptyPastDay": "Nothing was logged on this day.",
+      "emptySubtitle": {
+        "PK": "Tap below to log your meals, fast-food favorites, or chai.",
+        "SA": "Tap below to log your meals, AlBaik, Kabsa, or Gahwa."
+      },
+      "emptyTitle": "No dishes logged yet",
+      "itemCount": "{{count}} item",
+      "itemCount_other": "{{count}} items",
+      "loggedDishes": "Logged dishes",
+      "title": "Food diary"
+    },
+    "guestModal": {
+      "continueGuest": "Continue exploring as guest",
+      "description": "You are exploring Nutrio as a guest. Create an account or sign in to log your daily meals, track your macros, and save your progress.",
+      "signIn": "Sign in / Register",
+      "title": "Sign in to save progress"
+    },
+    "header": {
+      "banked": "Banked",
+      "calorieProgress": "Calories eaten, as a share of your daily target",
+      "caloriesConsumed": "calories consumed today",
+      "caloriesOver": "calories over limit",
+      "caloriesRemaining": "calories remaining",
+      "consumed": "Consumed",
+      "consumedToday": "Consumed today",
+      "dailyGoal": "Daily goal: {{target}} kcal ({{eaten}} eaten)",
+      "dailyTarget": "Daily target",
+      "dailyTargets": "Your daily targets",
+      "eatenSoFar": "{{eaten}} kcal eaten so far",
+      "energyBudget": "Daily calories",
+      "goalCaption": "Goal",
+      "weekBar": "{{day}}: {{percent}}% of your daily goal",
+      "gramsLeft": "{{value}} g left",
+      "gramsOver": "{{value}} g over",
+      "kcalEatenLeft": "{{eaten}} eaten · {{value}} left",
+      "kcalEatenOver": "{{eaten}} eaten · {{value}} over",
+      "kcalLeft": "{{value}} kcal left",
+      "kcalOver": "{{value}} kcal over",
+      "noTargetHint": "Start logging meals · Set daily target in survey",
+      "onTrackDaily": "On track for daily goal",
+      "pctOfGoal": "{{pct}}% of {{grams}} g goal",
+      "regionShort": {
+        "PK": "PK",
+        "SA": "SA"
+      },
+      "regionPill": "Region: {{name}}. Tap to switch.",
+      "pendingSync": "{{count}} offline entry pending sync",
+      "pendingSync_other": "{{count}} offline entries pending sync",
+      "readyFirstMeal": "Ready for first meal",
+      "targetNotSet": "Not set",
+      "todayName": "Today, {{name}}",
+      "trackYourDay": "Track your day"
+    },
+    "hub": {
+      "noSavedMeals": "Nothing saved yet. Build a custom meal, then tap “Save as a meal”.",
+      "savedMeals": "Saved meals",
+      "allCategories": "All categories",
+      "tabs": {
+        "browse": "Browse",
+        "forYou": "For you",
+        "restaurants": "Restaurants"
+      },
+      "tileCount": "{{count}} food",
+      "tileCount_other": "{{count}} foods",
+      "allBrandsHeading": {
+        "PK": "60+ Pakistani restaurants & home foods",
+        "SA": "12+ Saudi restaurants & traditional dishes (SFDA)"
+      },
+      "applyPreset": "Load {{name}}",
+      "basketCount": "{{count}} item in your meal",
+      "basketCount_other": "{{count}} items in your meal",
+      "buildCustomMeal": "Build a custom meal",
+      "buildCustomMealHint": "Tap foods to add them — tap again for 2x, 3x. Then log them together.",
+      "cancelCustomMeal": "Cancel custom meal",
+      "deletePreset": "Delete {{name}}",
+      "dietBasicsHeading": "{{count}} plain foods — log eggs, salad, yogurt & more",
+      "dietGroups": {
+        "all": "All",
+        "beverages": "Drinks",
+        "dairy": "Dairy",
+        "extras": "Oils, Sauces & Sweeteners",
+        "fruits": "Fruits",
+        "grains": "Grains & Breads",
+        "legumes": "Daal & Legumes",
+        "meals": "Meals & Dishes",
+        "nuts_seeds": "Nuts & Seeds",
+        "protein": "Protein",
+        "salads": "Salads",
+        "snacks": "Snacks",
+        "soups": "Soups",
+        "vegetables": "Vegetables"
+      },
+      "filtering": "Filtering nutritional database…",
+      "groupBrandsHeading": "{{group}} brands ({{count}})",
+      "logCustomMeal": "Log meal",
+      "noDishes": "No dishes found",
+      "noDishesHint": {
+        "PK": "Try searching for \"Zinger\", \"Biryani\", \"Chai\", \"Pizza\", or \"Karahi\".",
+        "SA": "Try searching for \"Kabsa\", \"AlBaik\", \"Mandi\", \"Saleeg\", or \"Gahwa\"."
+      },
+      "presetItemCount": "{{count}} item",
+      "presetItemCount_other": "{{count}} items",
+      "presetNameLabel": "Meal name",
+      "presetNamePlaceholder": "Name it, e.g. My usual breakfast",
+      "presetsHeading": "Your saved meals",
+      "quickAdd": "Add one serving of {{name}}",
+      "quickAdded": "{{name}} added",
+      "recentHeading": "You log these most",
+      "removeOne": "Remove one {{name}}",
+      "resultsFound": "{{count}} result found",
+      "resultsFoundMore": "{{count}}+ results",
+      "resultsFound_other": "{{count}} results found",
+      "saveAsPreset": "Save as a meal",
+      "savePresetConfirm": "Save",
+      "searchOrDescribe": "Search or describe a meal",
+      "searching": "Searching…",
+      "suggestedHeading": "Suggested for {{meal}}",
+      "undoQuickAdd": "Undo adding {{name}}",
+      "clearSearch": "Clear search",
+      "chooseMeal": "Choose a meal",
+      "customMealPill": "Custom meal",
+      "describeAsMeal": "Describe as a meal",
+      "describeCardHint": "Splits it into items and counts the calories. You review before saving.",
+      "describeCardTitle": "Log “{{text}}” as a meal",
+      "logTo": "Log to {{meal}}",
+      "orPickOneDish": "Or pick one dish",
+      "title": "Log a meal",
+      "variant": {
+        "Beef": "Beef",
+        "Chicken": "Chicken",
+        "Mutton": "Mutton"
+      },
+      "variantPicker": "Choose the meat for {{name}}",
+      "slotFilter": {
+        "showing": "{{shown}} of {{total}} foods that suit {{meal}}",
+        "showingAll": "Showing every food",
+        "showAll": "Show all foods",
+        "onlyMeal": "Only {{meal}} foods"
+      }
+    },
+    "mealSlots": {
+      "breakfast": {
+        "PK": "Breakfast",
+        "SA": "Breakfast"
+      },
+      "dinner": {
+        "PK": "Dinner",
+        "SA": "Dinner"
+      },
+      "lunch": {
+        "PK": "Lunch",
+        "SA": "Lunch"
+      },
+      "snacks_chai": {
+        "PK": "Snack",
+        "SA": "Snack"
+      }
+    },
+    "mealsCard": {
+      "addTo": "Add food to {{slot}}",
+      "caloriesByMeal": "Calories by meal",
+      "eatenOfTarget": "{{eaten}} / {{target}} kcal",
+      "mealPlan": "Meal plan",
+      "next": "Next",
+      "nothingLogged": "Nothing logged yet",
+      "removed": "{{name}} removed",
+      "removeDish": "Remove {{name}}",
+      "undoRemove": "Undo removing {{name}}"
+    },
+    "slotCard": {
+      "addFood": "Add food",
+      "addMore": "Add more to {{slot}}",
+      "dishesTracked": "{{count}} dish tracked",
+      "dishesTracked_other": "{{count}} dishes tracked",
+      "done": "Done",
+      "empty": "No dishes tracked in this slot yet"
+    },
+    "staples": {
+      "added": "Added!",
+      "almonds": "+ 10 Almonds",
+      "apple": "+ 1 Apple",
+      "banana": "+ 1 Banana",
+      "bhutta": "+ 1 Bhutta",
+      "chai": "+ 1 Chai",
+      "chaiLogged": "Chai ×{{cups}} added",
+      "chaiToday": "Chai ×{{cups}} today",
+      "chaiUndo": "Undo adding chai",
+      "chana": "+ Roasted chana",
+      "chooseSlotSubtitle": "Pick the meal to log it under.",
+      "chooseSlotTitle": "Where does {{item}} go?",
+      "dahi": "+ 1 Dahi",
+      "dark_choc": "+ Dark chocolate",
+      "egg": "+ 1 Egg",
+      "green_tea": "+ Green tea",
+      "heading": "Quick log staples",
+      "popcorn": "+ Popcorn",
+      "sa_almonds": "+ 10 Almonds",
+      "sa_banana": "+ 1 Banana",
+      "sa_chana": "+ Roasted chana",
+      "sa_dark_choc": "+ Dark chocolate",
+      "sa_dates": "+ 3 Dates",
+      "sa_egg": "+ Boiled egg",
+      "sa_gahwa": "+ Gahwa",
+      "sa_kabsa_rice": "+ Kabsa rice",
+      "sa_karak": "+ Karak tea",
+      "sa_laban": "+ Laban",
+      "sa_popcorn": "+ Popcorn",
+      "sa_tamees": "+ Tamees",
+      "sa_yogurt": "+ Greek yogurt"
+    },
+    "streak": {
+      "days_one": "{{count}} day streak",
+      "days_other": "{{count}} day streak",
+      "days_zero": "No streak yet",
+      "weekly": "{{pct}}% of days logged this week"
+    },
+    "water": {
+      "addBottle": "+500 ml (Bottle)",
+      "addGlass": "+250 ml (Glass)",
+      "dailyTarget": "Target: {{amount}} ml / day",
+      "goalPercent": "{{value}}% of today's goal",
+      "ofTarget": "of {{amount}} ml",
+      "tileTitle": "Water",
+      "title": "Water"
+    },
+    "weightTile": {
+      "empty": "No weigh-ins yet",
+      "fromSurvey": "From your survey",
+      "logCta": "Log weight",
+      "weekDelta": "{{value}} kg this week"
+    }
+  },
+  "weight": {
+    "adaptive": {
+      "blendedTdee": "Calorie burn estimate",
+      "calibrationDays": "{{days}} of 28 days ({{pct}}%)",
+      "calibrationWindow": "Building your estimate",
+      "explainBlended": "Your estimate mixes {{observed}}% of what we measured ({{observedKcal}} kcal a day) with {{formula}}% of the standard estimate ({{formulaKcal}} kcal).",
+      "explainNeedMore": "Once you have logged food and weight on 7 days, we start mixing in your own numbers, and trust them more each day up to 28. You have {{days}} so far, so the standard estimate is used.",
+      "explainUnderLogging": "The food you logged looks too low to be everything you ate, so some meals are probably missing. Your calorie targets will not be cut.",
+      "formulaBaseline": "Standard estimate: {{value}} kcal",
+      "subtitle": "Learned from your weight trend and the food you log",
+      "targetAdjustment": "target adjustment",
+      "title": "Your real calorie burn",
+      "underLoggingDesc": "The food you logged is less than your body needs at rest, so some meals are probably missing. To protect your health and muscle, we will NOT cut your calorie targets.",
+      "underLoggingTitle": "Under-logging detected",
+      "weightFactor": "{{observed}}% from your logs / {{formula}}% standard estimate"
+    },
+    "kcalPerWeek": "kcal/wk",
+    "log": {
+      "description": "Weigh yourself under consistent conditions (ideally in the morning, fasted, after using the restroom).",
+      "errorRange": "Please enter a realistic weight between 25 kg and 300 kg.",
+      "notesLabel": "Notes (optional)",
+      "notesPlaceholder": "e.g. After dawat, salt retention, morning fasted",
+      "save": "Save weigh-in",
+      "title": "Log body weight"
+    },
+    "screen": {
+      "eyebrow": "Progress",
+      "logTodayWeight": "Log today's weight",
+      "title": "Weight & calorie burn"
+    },
+    "spikeWarning": "Temporary +{{diff}} kg water-weight fluctuation (likely sodium/carb retention from a desi meal). Your trend line smooths this out automatically.",
+    "trend": {
+      "chartLabel": "Weight chart: {{n}} weigh-ins, from {{first}} kg to {{last}} kg",
+      "kgScale": "{{value}} kg scale",
+      "fromSurvey": "From your survey",
+      "kgTrend": "{{value}} kg trend",
+      "logAgain": "This is your first reading. Weigh in again in a few days and your trend line will appear.",
+      "logFirst": "Log your first weigh-in to start your trend.",
+      "netChange": "Change",
+      "overallProgress": "Overall progress",
+      "rawReading": "Raw scale reading",
+      "recentHistory": "Recent history",
+      "scaleWeight": "Scale",
+      "subtitle": "Smoothed so day-to-day water changes don't distract",
+      "title": "Weight trend",
+      "trendWeight": "Trend",
+      "trueTissue": "Ignores water swings"
+    }
+  },
+  "workout": {
+    "title": "Workouts",
+    "newBadge": "New",
+    "editPlan": "Edit plan",
+    "setup": {
+      "title": "Your workout plan",
+      "step": "Step {{current}} of {{total}}",
+      "prefillNote": "We filled in what you told us in your survey. Change anything.",
+      "goalQuestion": "What's your main goal?",
+      "goal": {
+        "muscle": {
+          "label": "Build muscle",
+          "desc": "Grow and shape"
+        },
+        "strength": {
+          "label": "Get stronger",
+          "desc": "Lift heavier"
+        },
+        "fat_loss": {
+          "label": "Lose fat",
+          "desc": "Keep muscle while you lose fat"
+        },
+        "general": {
+          "label": "General fitness",
+          "desc": "Feel fitter every day"
+        }
+      },
+      "experienceQuestion": "How much training experience do you have?",
+      "experience": {
+        "new": "New to training",
+        "some": "Some, under 1 year",
+        "experienced": "Experienced, 1 year or more"
+      },
+      "locationQuestion": "Where will you train?",
+      "location": {
+        "home_none": {
+          "label": "Home, no equipment",
+          "desc": "Bodyweight only"
+        },
+        "home_equipment": {
+          "label": "Home with equipment",
+          "desc": "Dumbbells, bands or a kettlebell"
+        },
+        "gym": {
+          "label": "Gym",
+          "desc": "Barbells, machines and cables"
+        }
+      },
+      "bandTip": "Tip: a resistance band unlocks proper pulling exercises for your back.",
+      "equipmentQuestion": "What do you have?",
+      "equipment": {
+        "dumbbell": "Dumbbells",
+        "bands": "Resistance bands",
+        "kettlebell": "Kettlebell",
+        "bench": "Bench",
+        "pullup_bar": "Pull-up bar"
+      },
+      "dumbbellQuestion": "Which dumbbells do you own?",
+      "dumbbellHint": "So we never suggest a weight you don't have.",
+      "adjustable": "Adjustable",
+      "kg": "{{kg}} kg",
+      "gymNote": "You'll use barbells, dumbbells, cables and machines.",
+      "daysQuestion": "Which days can you train?",
+      "daysCount": "{{count}} day a week",
+      "daysCount_other": "{{count}} days a week",
+      "daysError": "Pick at least 2 days",
+      "lengthQuestion": "How long per session?",
+      "minutesShort": "min",
+      "focusQuestion": "Anything to focus on?",
+      "optional": "optional",
+      "focus": {
+        "full_body": "Full body",
+        "upper": "Upper body",
+        "lower_glutes": "Lower body & glutes",
+        "core": "Core",
+        "arms": "Arms"
+      },
+      "protectQuestion": "Protect any area?",
+      "protect": {
+        "knee": "Knees",
+        "lower_back": "Lower back",
+        "shoulder": "Shoulders",
+        "wrist": "Wrists"
+      },
+      "lowIntensityNote": "Because of your health answers, sessions stay gentle: no jumping and no lifting to failure. Check with your doctor before you start.",
+      "createPlan": "Create my plan",
+      "saveChanges": "Save changes",
+      "createNote": "We'll build your week from these answers. You can change anything later.",
+      "saveNote": "Saving rebuilds your week from these answers.",
+      "gymNoteBeginner": "You'll start on machines and dumbbells: easier to learn safely.",
+      "beginnerDaysHint": "2–3 days a week, with rest days between, is a great start.",
+      "beginnerLengthHint": "30–45 minutes is plenty while you learn the moves."
+    },
+    "days": {
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun"
+    },
+    "template": {
+      "full_a": "Full body A",
+      "full_b": "Full body B",
+      "full_c": "Full body C",
+      "upper": "Upper body",
+      "lower": "Lower body",
+      "push": "Push",
+      "pull": "Pull",
+      "legs": "Legs",
+      "core": "Core",
+      "arms": "Arms"
+    },
+    "week": {
+      "done": "{{done}} of {{count}} workouts done",
+      "restDay": "Rest day",
+      "beforePlan": "Before your plan started",
+      "exercises": "{{count}} exercise",
+      "exercises_other": "{{count}} exercises",
+      "minutes": "~{{count}} min",
+      "heading": "This week",
+      "label": "Week {{number}}",
+      "doneButton": "Done",
+      "doToday": "Do it today",
+      "saved": "Workout saved"
+    },
+    "months": {
+      "jan": "Jan",
+      "feb": "Feb",
+      "mar": "Mar",
+      "apr": "Apr",
+      "may": "May",
+      "jun": "Jun",
+      "jul": "Jul",
+      "aug": "Aug",
+      "sep": "Sep",
+      "oct": "Oct",
+      "nov": "Nov",
+      "dec": "Dec"
+    },
+    "format": {
+      "date": "{{weekday}} {{day}} {{month}}",
+      "reps": "{{min}}–{{max}}",
+      "seconds": "{{min}}–{{max}} s",
+      "presc": "{{sets}} × {{reps}} · {{rest}} s rest",
+      "setsReps": "{{count}} set × {{reps}}",
+      "setsReps_other": "{{count}} sets × {{reps}}",
+      "restBetween": "{{rest}} s rest between sets",
+      "rirOne": "Stop with 1–2 reps left",
+      "rir": "Stop with {{count}} rep left",
+      "rir_other": "Stop with {{count}} reps left",
+      "hold": "Hold with good form the whole time"
+    },
+    "status": {
+      "planned": "Coming up",
+      "today": "Today",
+      "done": "Done",
+      "missed": "Missed"
+    },
+    "split": {
+      "full_body_2": "Full body",
+      "full_body_3": "Full body",
+      "full_body_4": "Full body",
+      "full_body_5": "Full body",
+      "full_body_6": "Full body",
+      "ppl_3": "Push / pull / legs",
+      "upper_lower_4": "Upper / lower",
+      "upper_lower_ppl_5": "Upper / lower + push / pull / legs",
+      "ppl_6": "Push / pull / legs",
+      "focus_upper": "Upper body",
+      "focus_lower": "Lower body and glutes",
+      "focus_core": "Core",
+      "focus_arms": "Arms",
+      "focus_mixed": "Your focus areas"
+    },
+    "today": {
+      "overline": "Today's workout",
+      "startWorkout": "Start workout",
+      "restTitle": "Rest day today",
+      "restNext": "Next: {{title}} on {{day}}",
+      "seeLogged": "See what you logged"
+    },
+    "day": {
+      "startWorkout": "Start workout",
+      "details": "{{name}}, details",
+      "supersetFirst": "Superset {{group}} (1 of 2): go straight to the next exercise",
+      "supersetSecond": "Superset {{group}} (2 of 2): rest after this, then repeat",
+      "doneOn": "Done · {{date}}"
+    },
+    "detail": {
+      "muscles": "Muscles worked",
+      "howTo": "How to do it",
+      "close": "Close"
+    },
+    "card": {
+      "overline": "Today's workout",
+      "setupTitle": "Get a weekly workout plan",
+      "setupBody": "Home or gym, built around your goal. Setup takes about a minute.",
+      "setupCta": "Set up workouts",
+      "start": "Start",
+      "restTitle": "Rest day",
+      "seeWeek": "See the week"
+    },
+    "target": {
+      "load": "{{kg}} kg × {{reps}}",
+      "pickWeight": "— kg × {{reps}}",
+      "bodyweight": "Bodyweight × {{reps}}"
+    },
+    "reason": {
+      "first_time_pick_weight": "First time: pick a weight you could lift {{reps}} times with 2–3 reps to spare",
+      "first_time": "First time: find a steady pace with good form",
+      "hit_top_add_load": "+{{inc}} kg: you hit {{reps}} on every set last time",
+      "in_range_add_reps": "Same weight: aim for one more rep",
+      "in_range_add_reps_bodyweight": "Aim for one more rep than last time",
+      "failed_twice_reduce": "Lighter at {{kg}} kg: two tough sessions in a row, so build back up",
+      "felt_hard_hold": "Felt hard last time: same weight today",
+      "felt_hard_hold_bodyweight": "Felt hard last time: same move today",
+      "top_dumbbell_hold": "Your heaviest dumbbell: aim for more reps instead",
+      "ladder_step_up": "Harder move: you hit {{reps}} on every set, so step up",
+      "add_set": "One more set: you reached the top of the range on every set",
+      "hold": "Same as last time: keep every set strong",
+      "from_current_lift": "From your current lift: {{kg}} kg × {{reps}}",
+      "from_current_lift_bodyweight": "From what you can do now: {{reps}}",
+      "from_current_lift_back": "Back after a break: a little lighter than your {{kg}} kg × {{reps}}",
+      "ramadan_hold": "Ramadan: same weight while you're fasting",
+      "ramadan_hold_bodyweight": "Ramadan: same move while you're fasting"
+    },
+    "log": {
+      "finish": "Finish",
+      "today": "Today",
+      "movedFrom": "Today · moved from {{day}}",
+      "set": "Set",
+      "kg": "kg",
+      "reps": "Reps",
+      "seconds": "Sec",
+      "bodyweight": "Bodyweight",
+      "lessWeight": "Less weight, set {{number}}",
+      "moreWeight": "More weight, set {{number}}",
+      "weightField": "Weight in kg, set {{number}}",
+      "fewerReps": "Fewer reps, set {{number}}",
+      "moreReps": "More reps, set {{number}}",
+      "repsField": "Reps, set {{number}}",
+      "tick": "Set {{number}} done",
+      "rest": "Rest",
+      "addRest": "+30 s",
+      "skipRest": "Skip",
+      "discardTitle": "Discard this workout?",
+      "discardBody": "The sets you've ticked won't be saved.",
+      "keepGoing": "Keep going",
+      "discard": "Discard"
+    },
+    "finish": {
+      "title": "Nice work!",
+      "sessionDone": "{{title}} done",
+      "time": "Time",
+      "sets": "Sets",
+      "kg": "kg lifted",
+      "feel": "How did it feel?",
+      "easy": "Easy",
+      "easyBody": "I could have done more",
+      "right": "Just right",
+      "rightBody": "Challenging, with good form to the end",
+      "hard": "Hard",
+      "hardBody": "I struggled to finish the sets",
+      "help": "This helps set your next targets",
+      "save": "Save workout"
+    },
+    "edit": {
+      "edit": "Edit workout",
+      "groupLabel": "Exercise type",
+      "addExercise": "Add exercise",
+      "subtitle": "Editing what you logged",
+      "save": "Save changes",
+      "addedTag": "Added by you",
+      "addSet": "Add set",
+      "removeSet": "Remove last set",
+      "removeSetLabel": "Remove set {{number}} of {{name}}",
+      "needOne": "Keep at least one set ticked to save this workout.",
+      "walkTitle": "Add a walk session",
+      "walkRowBody": "Log a walk you did, in minutes",
+      "walkHint": "Walking needs no equipment. Add the minutes you walked.",
+      "walkMinutes": "Minutes walked",
+      "walkPlaceholder": "e.g. 30",
+      "walkUnit": "min",
+      "walkAdd": "Add walk",
+      "suggested": "Suggested for your equipment. Search for more.",
+      "addSelected": "Add {{count}} exercises",
+      "group": {
+        "strength": "Strength",
+        "cardio": "Cardio"
+      },
+      "pickerTitle": "Add an exercise",
+      "discardTitle": "Discard your changes?",
+      "discardBody": "Your workout stays as you last saved it.",
+      "keepEditing": "Keep editing",
+      "discard": "Discard changes"
+    },
+    "logged": {
+      "load": "{{kg}} kg × {{reps}}",
+      "reps": "× {{reps}}",
+      "seconds": "{{secs}} s",
+      "skipped": "Not done this time"
+    },
+    "swap": {
+      "title": "Swap {{name}}",
+      "subtitle": "Same muscles, using your equipment",
+      "emptyTitle": "No other safe option with your equipment",
+      "emptyBody": "Add equipment in Edit plan to see more options",
+      "tag": "Swapped",
+      "reset": "Reset to original"
+    },
+    "options": {
+      "label": "Options for {{name}}",
+      "swap": "Swap exercise",
+      "details": "View details",
+      "cancel": "Cancel",
+      "askCoach": "Ask coach about this"
+    },
+    "equipmentName": {
+      "bodyweight": "Bodyweight",
+      "dumbbell": "Dumbbells",
+      "barbell": "Barbell",
+      "kettlebell": "Kettlebell",
+      "bands": "Resistance band",
+      "cable": "Cable machine",
+      "machine": "Machine",
+      "bench": "Bench",
+      "pullup_bar": "Pull-up bar",
+      "ez_bar": "EZ bar"
+    },
+    "cardio": {
+      "overline": "Cardio",
+      "presc": "{{count}} min · {{pace}}",
+      "pace": {
+        "easy": "easy pace",
+        "moderate": "moderate pace"
+      },
+      "intervals": "30 s on, 30 s off",
+      "cue": {
+        "easy": "Easy: you could hold a conversation",
+        "moderate": "Moderate: you can talk in short sentences",
+        "intervals": "Go hard for 30 s, then rest 30 s, until the time is up"
+      },
+      "minutes": "Minutes",
+      "minutesField": "Cardio minutes",
+      "fewer": "Fewer minutes",
+      "more": "More minutes",
+      "done": "Cardio done",
+      "loggedMinutes": "Cardio · {{count}} min",
+      "stat": "Cardio: {{count}} min",
+      "walk": "Optional: {{min}}–{{max}} min walk",
+      "swapSubtitle": "Cardio you can do with your equipment"
+    },
+    "more": {
+      "saveAndFinish": "Save and finish",
+      "step": "Tell us more · {{current}} of {{total}} · optional",
+      "skip": "Skip for now",
+      "title": "Tell us more",
+      "subtitle": "The more we know, the better your plan fits. Every question is optional.",
+      "subtitleBeginner": "A few quick checks so day one feels right. No wrong answers, and every question is optional.",
+      "backgroundQ": "Have you trained before?",
+      "background": {
+        "never": "Never",
+        "a_little": "A little, a while ago",
+        "used_to": "I used to train regularly"
+      },
+      "switchNote": "Sounds like you have some experience. Your plan can start a step up.",
+      "switchCta": "Switch to \"Some experience\"",
+      "pushUpsQ": "How many push-ups can you do in a row?",
+      "pushUpsHint": "On your knees counts.",
+      "pushUps": {
+        "none": "None yet",
+        "1_to_5": "1–5",
+        "6_to_15": "6–15",
+        "16_plus": "16 or more"
+      },
+      "plankQ": "How long can you hold a plank?",
+      "plank": {
+        "under_20": "Under 20 s",
+        "20_to_45": "20–45 s",
+        "over_45": "Over 45 s"
+      },
+      "change": "Change",
+      "fromSurveyNever": "You told us you don't exercise right now.",
+      "fromSurveyTraining": "You told us you train {{days}} days a week.",
+      "trainingNowQ": "Are you training now?",
+      "yes": "Yes",
+      "notNow": "Not right now",
+      "daysNowQ": "How many days a week?",
+      "splitQ": "What kind of routine?",
+      "split": {
+        "full_body": "Full body",
+        "upper_lower": "Upper & lower",
+        "ppl": "Push, pull, legs",
+        "body_part": "One body part a day",
+        "classes": "Classes or sport",
+        "other": "Other"
+      },
+      "durationQ": "For how long?",
+      "duration": {
+        "under_3_months": "Under 3 months",
+        "3_to_12_months": "3–12 months",
+        "over_a_year": "Over a year"
+      },
+      "breakQ": "How long since you last trained?",
+      "break": {
+        "under_1_month": "Under a month",
+        "1_to_6_months": "1–6 months",
+        "over_6_months": "Over 6 months"
+      },
+      "styleQ": "How do you like to structure your sets?",
+      "styleHint": "Supersets pair opposing accessory exercises back to back, so the same work takes less time. Not used in Ramadan or low-intensity plans.",
+      "style": {
+        "straight": "One exercise at a time",
+        "supersets": "Supersets"
+      },
+      "liftsQ": "Your current lifts",
+      "liftsHint": "Weight × reps you can do now. We start you from here instead of guessing.",
+      "usedToLiftQ": "What you used to lift",
+      "usedToLiftHint": "We start you a little lighter after a break, then build back up.",
+      "kgField": "Weight in kg for {{name}}",
+      "repsField": "Reps for {{name}}",
+      "repsSuffix": "reps",
+      "addLift": "+ Add a lift",
+      "addLiftTitle": "Add a lift",
+      "walkQ": "How long can you walk briskly without stopping?",
+      "walk": {
+        "under_10": "Under 10 min",
+        "10_to_20": "10–20 min",
+        "20_to_40": "20–40 min",
+        "over_40": "Over 40 min"
+      },
+      "habitQ": "On a typical day, how much cardio do you do?",
+      "habit": {
+        "none": "None",
+        "under_15": "Under 15 min",
+        "15_to_30": "15–30 min",
+        "30_to_60": "30–60 min",
+        "over_60": "Over an hour"
+      },
+      "cardioLikesQ": "Which cardio do you enjoy?",
+      "cardioKind": {
+        "walking": "Walking",
+        "cycling": "Cycling",
+        "running": "Running",
+        "rowing": "Rowing",
+        "elliptical": "Elliptical",
+        "stairs": "Stairs",
+        "swimming": "Swimming"
+      },
+      "avoidJumping": "Leave out jumping exercises",
+      "likesQ": "Exercises you like",
+      "likesHint": "We keep these in your plan when they fit.",
+      "dislikesQ": "Exercises to avoid",
+      "dislikesHint": "We never pick these, not even as a swap.",
+      "remove": "Remove {{name}}",
+      "add": "+ Add",
+      "sportsQ": "Do you play a sport or have a physical job?",
+      "sportsHint": "So heavy leg work never lands on those days or the day before.",
+      "sport": {
+        "football": "Football",
+        "cricket": "Cricket",
+        "padel": "Padel",
+        "running": "Running",
+        "swimming": "Swimming",
+        "physical_job": "Physical job",
+        "other": "Other"
+      },
+      "sportDaysQ": "{{sport}} · which days?",
+      "sportNote": "No heavy leg day on these days or the day before.",
+      "sportPickDays": "Pick at least one day, or this won't change your plan.",
+      "searchLabel": "Search exercises",
+      "searchPlaceholder": "Search exercises",
+      "noResults": "Nothing found. Try another name.",
+      "added": "Added",
+      "haveRoutine": "Already follow a routine?",
+      "editRoutine": "Your routine is entered",
+      "haveRoutineSub": "Enter it and we'll keep what works and fix the rest"
+    },
+    "routine": {
+      "title": "Your current routine",
+      "subtitle": "Add what you do now, day by day. We'll keep what works and fix the rest.",
+      "daysQ": "Which days do you train?",
+      "emptyDay": "No exercises yet for this day.",
+      "addExercise": "Add exercise",
+      "setsField": "Sets for {{name}}",
+      "repsField": "Reps for {{name}}",
+      "moveUp": "Move {{name}} up",
+      "moveDown": "Move {{name}} down",
+      "clear": "Clear my routine",
+      "needs": "Pick 2–6 days you train to continue.",
+      "needsExercises": "Add at least one exercise to {{days}} to continue.",
+      "improve": "Improve my routine"
+    },
+    "improved": {
+      "over": "YOUR ROUTINE, IMPROVED",
+      "title": "What we improved",
+      "subtitle": "We kept your {{days}} training days and {{count}} of your exercises.",
+      "kept": "Kept",
+      "changed": "Changed",
+      "added": "Added",
+      "listSeparator": ", ",
+      "andSeparator": " and ",
+      "keptDays": "Your days: {{days}}",
+      "keptDaysWhy": "You train on these days now, so we kept them.",
+      "keptMore": "{{names}} and {{count}} more",
+      "keptExercisesWhy": "Your exercises stay where they fit.",
+      "leftOutOne": "Left out: {{name}}",
+      "leftOut": "{{day}}: {{names}} left out",
+      "leftOutWhy": "{{count}} exercises fit in your session length.",
+      "why": {
+        "equipment": "Needs equipment you don't have.",
+        "joint": "Loads a joint you asked us to protect.",
+        "level": "Better once you have some training behind you.",
+        "jumping": "A jumping move, left out as you asked.",
+        "dislike": "You asked us to avoid it."
+      },
+      "rebalanced": "Every muscle, every week",
+      "rebalancedWhy": "Your week had no {{missing}} work, so we used a balanced split ({{split}}).",
+      "group": {
+        "push": "pushing",
+        "pull": "pulling",
+        "lower": "leg"
+      },
+      "moved": "{{session}} moved from {{from}} to {{to}}",
+      "movedWhy": "So the same muscles aren't worked hard on back-to-back days or right before your sport.",
+      "pushPull": "Pushing {{fromPush}} → {{toPush}} sets, pulling {{fromPull}} → {{toPull}} sets a week",
+      "pushPullWhy": "Balanced pushing and pulling protects your shoulders and posture.",
+      "volume": "{{group}}: {{from}} → {{to}} sets a week",
+      "volumeHighWhy": "Over 20 hard sets a week adds tiredness, not muscle.",
+      "volumeLowWhy": "Too few sets a week to keep improving.",
+      "muscle": {
+        "chest": "Chest",
+        "back": "Back",
+        "legs": "Legs",
+        "shoulders": "Shoulders",
+        "arms": "Arms"
+      },
+      "goalReps": "Reps set for your goal",
+      "goalRepsWhy": "Your rep ranges now match what you're training for.",
+      "cardio": "Cardio · {{count}} min after each session",
+      "cardioWhy": "Good for your heart and your recovery.",
+      "startWeights": "Starting weights from your lifts",
+      "startWeightsWhy": "Your first targets come from what you lift now, not a guess.",
+      "foot": "You can still swap any exercise from the day screen.",
+      "seePlan": "See my plan"
+    },
+    "ramadan": {
+      "title": "Ramadan mode",
+      "subtitle": "Shorter, gentler sessions on Ramadan days only",
+      "whenQ": "When will you train?",
+      "slot": {
+        "after_suhoor": "After suhoor",
+        "before_iftar": "Before iftar",
+        "after_taraweeh": "After taraweeh"
+      },
+      "badge": "Ramadan mode · {{slot}}",
+      "guide": {
+        "before_iftar": "Before iftar: keep it light. Break your fast with water and dates afterwards.",
+        "after_taraweeh": "After taraweeh: finish at least an hour before you sleep.",
+        "after_suhoor": "After suhoor: drink plenty of water during suhoor."
+      },
+      "date": "{{day}} {{month}} {{year}}",
+      "onNow": "On now · until {{date}}",
+      "isRamadan": "It's Ramadan · until {{date}}",
+      "turnsOn": "Turns on by itself on {{date}}, and off after Eid",
+      "next": "Next Ramadan starts {{date}}"
+    },
+    "guest": {
+      "sampleTag": "Sample",
+      "sampleWeek": "Sample week",
+      "perWeek": "{{count}} workout a week",
+      "perWeek_other": "{{count}} workouts a week",
+      "bannerTitle": "This is a sample plan",
+      "bannerBody": "Create a free account to get a plan for your goal, days and equipment, and to log your workouts.",
+      "cta": "Create free account",
+      "haveAccount": "I have an account",
+      "dayNote": "Sample session. Create an account to start it and log your sets.",
+      "start": "Create an account to start",
+      "promptTitle": "Create an account to train",
+      "promptBody": "You’re looking at a sample plan. Sign in or create a free account to build your own plan and log your workouts."
+    },
+    "calories": {
+      "title": "Update your daily target?",
+      "bodyUp": "Your new plan adds about {{count}} kcal a day of training, so your daily calorie target would go up.",
+      "bodyDown": "Your new plan has about {{count}} kcal a day less training, so your daily calorie target would go down.",
+      "change": "From {{from}} to {{to}} kcal a day",
+      "kcalDay": "kcal/day",
+      "later": "You can change this any time in Targets.",
+      "update": "Update target",
+      "notNow": "Not now"
+    }
+  }
+}

@@ -1,0 +1,225 @@
+import {
+  LifestyleSurveyPayload,
+  SurveyBasics,
+  SurveyExercise,
+  SurveyHealthClinical,
+  SurveyLifestyleDesi,
+  SurveyOccupational,
+  SurveyPreferences,
+  StepValidationResult,
+  SurveyStepId,
+} from './types.js';
+import {
+  validateBasics,
+  validateExercise,
+  validateHealthClinical,
+  validateLifestyleDesi,
+  validateOccupational,
+  validatePreferences,
+} from './validation.js';
+
+export const SURVEY_STEPS: SurveyStepId[] = [
+  'basics',
+  'exercise',
+  'health_clinical',
+  'preferences',
+];
+
+function mergeValidation(...results: StepValidationResult[]): StepValidationResult {
+  const errors = Object.assign({}, ...results.map((r) => r.errors));
+  return { isValid: Object.keys(errors).length === 0, errors };
+}
+
+export class SurveyStateEngine {
+  private currentStepIndex: number = 0;
+  private basics: Partial<SurveyBasics> = {};
+  private occupational: Partial<SurveyOccupational> = {};
+  private exercise: Partial<SurveyExercise> = {};
+  // The chai stepper opens on 2 cups; the answer starts at 2 too, so accepting the shown value saves it.
+  private lifestyleDesi: Partial<SurveyLifestyleDesi> = { chaiWithSugarCupsPerDay: 2 };
+  private healthClinical: Partial<SurveyHealthClinical> = {
+    medicalConditions: ['none'],
+    // Unanswered for women until they choose: a silent "No" would set calorie
+    // floors as if they were not pregnant or breastfeeding.
+    // Consent starts unticked: the user has to agree, not be agreed for.
+    medicalDisclaimerAccepted: false,
+  };
+  private preferences: Partial<SurveyPreferences> = {};
+  private currentErrors: Record<string, string> = {};
+
+  constructor(initialDraft?: Partial<LifestyleSurveyPayload>) {
+    if (initialDraft) {
+      this.loadDraft(initialDraft);
+    }
+  }
+
+  public getCurrentStep(): SurveyStepId {
+    return SURVEY_STEPS[this.currentStepIndex];
+  }
+
+  public getCurrentStepIndex(): number {
+    return this.currentStepIndex;
+  }
+
+  public getTotalSteps(): number {
+    return SURVEY_STEPS.length;
+  }
+
+  public getProgressPercentage(): number {
+    return Math.round(((this.currentStepIndex + 1) / SURVEY_STEPS.length) * 100);
+  }
+
+  public getErrors(): Record<string, string> {
+    return { ...this.currentErrors };
+  }
+
+  // Section setters
+  public setBasics(data: Partial<SurveyBasics>): void {
+    this.basics = { ...this.basics, ...data };
+    if (this.basics.sex === 'male') {
+      this.healthClinical.isPregnantOrBreastfeeding = false;
+    }
+    this.currentErrors = {};
+  }
+
+  public setOccupational(data: Partial<SurveyOccupational>): void {
+    this.occupational = { ...this.occupational, ...data };
+    this.currentErrors = {};
+  }
+
+  public setExercise(data: Partial<SurveyExercise>): void {
+    this.exercise = { ...this.exercise, ...data };
+    this.currentErrors = {};
+  }
+
+  public setLifestyleDesi(data: Partial<SurveyLifestyleDesi>): void {
+    this.lifestyleDesi = { ...this.lifestyleDesi, ...data };
+    this.currentErrors = {};
+  }
+
+  public setHealthClinical(data: Partial<SurveyHealthClinical>): void {
+    this.healthClinical = { ...this.healthClinical, ...data };
+    this.currentErrors = {};
+  }
+
+  public setPreferences(data: Partial<SurveyPreferences>): void {
+    this.preferences = { ...this.preferences, ...data };
+    this.currentErrors = {};
+  }
+
+  // Getters
+  public getBasics(): Partial<SurveyBasics> {
+    return { ...this.basics };
+  }
+
+  public getOccupational(): Partial<SurveyOccupational> {
+    return { ...this.occupational };
+  }
+
+  public getExercise(): Partial<SurveyExercise> {
+    return { ...this.exercise };
+  }
+
+  public getLifestyleDesi(): Partial<SurveyLifestyleDesi> {
+    return { ...this.lifestyleDesi };
+  }
+
+  public getHealthClinical(): Partial<SurveyHealthClinical> {
+    return { ...this.healthClinical };
+  }
+
+  public getPreferences(): Partial<SurveyPreferences> {
+    return { ...this.preferences };
+  }
+
+  // Validation for current step
+  public validateCurrentStep(): boolean {
+    const step = this.getCurrentStep();
+    let result = { isValid: true, errors: {} as Record<string, string> };
+
+    switch (step) {
+      case 'basics':
+        result = validateBasics(this.basics);
+        break;
+      case 'exercise':
+        result = mergeValidation(
+          validateOccupational(this.occupational),
+          validateExercise(this.exercise)
+        );
+        break;
+      case 'health_clinical':
+        result = validateHealthClinical(this.healthClinical, this.basics.sex);
+        break;
+      case 'preferences':
+        result = mergeValidation(
+          validatePreferences(this.preferences),
+          validateLifestyleDesi(this.lifestyleDesi)
+        );
+        break;
+    }
+
+    this.currentErrors = result.errors;
+    return result.isValid;
+  }
+
+  // Navigation
+  public nextStep(): boolean {
+    if (!this.validateCurrentStep()) {
+      return false;
+    }
+
+    if (this.currentStepIndex < SURVEY_STEPS.length - 1) {
+      this.currentStepIndex++;
+      this.currentErrors = {};
+      return true;
+    }
+
+    return true; // Reached end
+  }
+
+  public prevStep(): boolean {
+    if (this.currentStepIndex > 0) {
+      this.currentStepIndex--;
+      this.currentErrors = {};
+      return true;
+    }
+    return false;
+  }
+
+  public isComplete(): boolean {
+    return (
+      validateBasics(this.basics).isValid &&
+      validateOccupational(this.occupational).isValid &&
+      validateExercise(this.exercise).isValid &&
+      validateLifestyleDesi(this.lifestyleDesi).isValid &&
+      validateHealthClinical(this.healthClinical, this.basics.sex).isValid &&
+      validatePreferences(this.preferences).isValid
+    );
+  }
+
+  public serializePayload(): LifestyleSurveyPayload {
+    if (!this.isComplete()) {
+      throw new Error('Cannot serialize survey: all sections must pass validation.');
+    }
+
+    return {
+      version: 1,
+      completedAt: new Date().toISOString(),
+      basics: this.basics as SurveyBasics,
+      occupational: this.occupational as SurveyOccupational,
+      exercise: this.exercise as SurveyExercise,
+      lifestyleDesi: this.lifestyleDesi as SurveyLifestyleDesi,
+      healthClinical: this.healthClinical as SurveyHealthClinical,
+      preferencesBudget: this.preferences as SurveyPreferences,
+    };
+  }
+
+  public loadDraft(draft: Partial<LifestyleSurveyPayload>): void {
+    if (draft.basics) this.basics = { ...draft.basics };
+    if (draft.occupational) this.occupational = { ...draft.occupational };
+    if (draft.exercise) this.exercise = { ...draft.exercise };
+    if (draft.lifestyleDesi) this.lifestyleDesi = { ...draft.lifestyleDesi };
+    if (draft.healthClinical) this.healthClinical = { ...draft.healthClinical };
+    if (draft.preferencesBudget) this.preferences = { ...draft.preferencesBudget };
+  }
+}

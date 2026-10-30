@@ -1,0 +1,579 @@
+import React, { useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { BackButton } from '../../ui/BackButton.js';
+import { NamedModal } from '../../ui/NamedModal.js';
+import { DailyTrackerSummary, LoggedItem } from '../types.js';
+import { Icon } from '../../ui/Icon.js';
+import { useTheme, commonRadii } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
+import { foodDisplayName } from '../foodDisplayName.js';
+import { formatDayKey } from '../../common/dateKey.js';
+import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
+import { formatPercent } from '../../i18n/format.js';
+import { formatServingLine } from '../formatServing.js';
+
+interface DiaryViewModalProps {
+  visible: boolean;
+  summary: DailyTrackerSummary;
+  dayOffset: number;
+  minDayOffset: number;
+  onDayOffsetChange: (updater: (current: number) => number) => void;
+  readOnly?: boolean;
+  onClose: () => void;
+  onDeleteItem: (id: string) => void;
+  /**
+   * The "removed · Undo" toast. The dashboard owns it; it is passed in because
+   * a native modal covers anything the dashboard draws.
+   */
+  undoToast?: React.ReactNode;
+  onOpenLogHub: () => void;
+}
+
+export const DiaryViewModal: React.FC<DiaryViewModalProps> = ({
+  visible,
+  summary,
+  dayOffset,
+  minDayOffset,
+  onDayOffsetChange,
+  readOnly = false,
+  onClose,
+  onDeleteItem,
+  undoToast,
+  onOpenLogHub,
+}) => {
+  const { theme, isDark } = useTheme();
+  const { activeRegion } = useRegion();
+  const { t } = useTranslation();
+  const dir = useTextDirection();
+  const { language } = useI18nState();
+  const isSaudi = activeRegion === 'SA';
+
+  if (!visible) return null;
+
+  const dateLabel =
+    dayOffset === 0
+      ? t('common.today')
+      : dayOffset === -1
+      ? t('common.yesterday')
+      : dayOffset === 1
+      ? t('common.tomorrow')
+      : dayOffset < 0
+      ? t('common.daysAgo', { count: Math.abs(dayOffset) })
+      : t('common.daysAhead', { count: Math.abs(dayOffset) });
+
+  const pct = Math.min(
+    100,
+    Math.round((summary.totalCaloriesConsumed / (summary.targetCalories || 2100)) * 100)
+  );
+
+  return (
+    <NamedModal accessibilityName={t('a11y.dialog.diary')}
+      visible={visible}
+      animationType="slide"
+      presentationStyle="pageSheet"
+      onRequestClose={onClose}
+    >
+      <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.canvas }]}>
+        {/* Header */}
+        <View
+          style={[
+            styles.header,
+            {
+              backgroundColor: theme.colors.surface,
+              borderBottomColor: theme.colors.border,
+            },
+          ]}
+        >
+          <BackButton variant="icon" onPress={onClose} label={t('tracker.diary.backToDashboard')} />
+
+          <Text style={[styles.headerTitle, { color: theme.colors.textPrimary }]}>
+            {t('tracker.diary.title')}
+          </Text>
+
+          <View style={styles.headerRightSpacer} />
+        </View>
+
+        {/* Date Selector Carousel */}
+        <View
+          style={[
+            styles.dateSelector,
+            {
+              backgroundColor: theme.colors.surface,
+              borderBottomColor: theme.colors.border,
+            },
+          ]}
+        >
+          <TouchableOpacity
+            style={[
+              styles.dateArrow,
+              { backgroundColor: theme.colors.surfaceSecondary },
+              dayOffset <= minDayOffset && { backgroundColor: 'transparent' },
+            ]}
+            onPress={() => onDayOffsetChange((d) => Math.max(minDayOffset, d - 1))}
+            disabled={dayOffset <= minDayOffset}
+            accessibilityState={{ disabled: dayOffset <= minDayOffset }}
+          >
+            <Icon
+              name={dir.isRTL ? 'arrow-right' : 'arrow-left'}
+              size={16}
+              color={dayOffset <= minDayOffset ? theme.colors.textMuted : theme.colors.textPrimary}
+            />
+          </TouchableOpacity>
+
+          <View style={styles.dateCenter}>
+            <Text style={[styles.dateText, dir.textCenter, { color: theme.colors.textPrimary }]}>
+              {dateLabel}
+            </Text>
+            <Text style={[styles.dateSub, { color: theme.colors.textSecondary }]}>
+              {formatDayKey(summary.date, language)}
+            </Text>
+          </View>
+
+          <TouchableOpacity
+            style={[
+              styles.dateArrow,
+              { backgroundColor: theme.colors.surfaceSecondary },
+              dayOffset >= 0 && { backgroundColor: 'transparent' },
+            ]}
+            onPress={() => onDayOffsetChange((d) => Math.min(0, d + 1))}
+            disabled={dayOffset >= 0}
+            accessibilityState={{ disabled: dayOffset >= 0 }}
+          >
+            <Icon
+              name={dir.isRTL ? 'arrow-left' : 'arrow-right'}
+              size={16}
+              color={dayOffset >= 0 ? theme.colors.textMuted : theme.colors.textPrimary}
+            />
+          </TouchableOpacity>
+        </View>
+
+        {/* Content */}
+        <ScrollView
+          style={styles.content}
+          contentContainerStyle={styles.contentContainer}
+          showsVerticalScrollIndicator={false}
+        >
+          {/* Daily Progress Card */}
+          <View
+            style={[
+              styles.progressCard,
+              {
+                backgroundColor: theme.colors.surface,
+                borderColor: theme.colors.border,
+              },
+            ]}
+          >
+            <View style={styles.progressTopRow}>
+              <View>
+                <Text style={[styles.progressKcalText, { color: theme.colors.textPrimary }]}>
+                  {summary.totalCaloriesConsumed}{' '}
+                  <Text style={[styles.progressKcalTarget, { color: theme.colors.textSecondary }]}>
+                    / {t('common.kcalValue', { value: summary.targetCalories })}
+                  </Text>
+                </Text>
+                <Text
+                  style={[
+                    styles.progressMacroSub,
+                    { color: theme.colors.primaryAccessible },
+                  ]}
+                >
+                  {t('common.macroLine', {
+                    protein: summary.totalProteinConsumed,
+                    carbs: summary.totalCarbConsumed,
+                    fat: summary.totalFatConsumed,
+                  })}{' · '}
+                  {t('tracker.diary.itemCount', { count: summary.items.length })}
+                </Text>
+              </View>
+
+              <View
+                style={[
+                  styles.percentageBadge,
+                  { backgroundColor: theme.colors.primaryLime },
+                ]}
+              >
+                <Text style={[styles.percentageText, { color: theme.colors.limeText }]}>{formatPercent(pct, language)}</Text>
+              </View>
+            </View>
+
+            {/* Progress Bar Track */}
+            <View
+              accessibilityRole="progressbar"
+              accessibilityLabel={t('a11y.dialog.diary')}
+              accessibilityValue={{ min: 0, max: 100, now: Math.round(pct) }}
+              style={[
+                styles.progressBarTrack,
+                { backgroundColor: theme.colors.progressTrack },
+              ]}
+            >
+              <View
+                style={[
+                  styles.progressBarFill,
+                  {
+                    width: `${pct}%`,
+                    backgroundColor: theme.colors.primaryLime,
+                  },
+                ]}
+              />
+            </View>
+          </View>
+
+          {/* Logged Food Items List */}
+          <View style={styles.itemsSection}>
+            <View style={styles.sectionHeaderRow}>
+              <Text style={[styles.sectionTitle, dir.text, { color: theme.colors.textMuted }]}>
+                {t('tracker.diary.loggedDishes')}
+              </Text>
+              <Text style={[styles.sectionCount, { color: theme.colors.textMuted }]}>
+                {t('tracker.diary.dishCount', { count: summary.items.length })}
+              </Text>
+            </View>
+
+            {summary.items.length === 0 ? (
+              <View
+                style={[
+                  styles.emptyContainer,
+                  {
+                    backgroundColor: theme.colors.surface,
+                    borderColor: theme.colors.border,
+                  },
+                ]}
+              >
+                <Text style={[styles.emptyTitle, dir.textCenter, { color: theme.colors.textPrimary }]}>
+                  {t('tracker.diary.emptyTitle')}
+                </Text>
+                <Text style={[styles.emptySubtitle, dir.textCenter, { color: theme.colors.textSecondary }]}>
+                  {readOnly
+                    ? t('tracker.diary.emptyPastDay')
+                    : t(`tracker.diary.emptySubtitle.${activeRegion}`)}
+                </Text>
+              </View>
+            ) : (
+              summary.items.map((item: LoggedItem) => (
+                <View
+                  key={item.id}
+                  style={[
+                    styles.itemRow,
+                    {
+                      backgroundColor: theme.colors.surface,
+                      borderColor: theme.colors.border,
+                    },
+                  ]}
+                >
+                  <View style={styles.itemLeft}>
+                    <View style={styles.itemTitleRow}>
+                      <Text style={[styles.itemName, { color: theme.colors.textPrimary }]}>
+                        {foodDisplayName(item.foodName, item.foodNameAr, dir.isRTL).primary}
+                      </Text>
+                    </View>
+
+                    <Text style={[styles.itemMeta, { color: theme.colors.textSecondary }]}>
+                      {t(`tracker.mealSlots.${item.mealSlot}.${activeRegion}`)} ·{' '}
+                      {formatServingLine(item.quantity, item.servingLabel, item.totalGrams, language)}
+                    </Text>
+
+                    <Text
+                      style={[
+                        styles.itemMacros,
+                        { color: theme.colors.primaryAccessible },
+                      ]}
+                    >
+                      {t('common.macroLine', {
+                        protein: item.proteinGrams,
+                        carbs: item.carbGrams,
+                        fat: item.fatGrams,
+                      })}
+                    </Text>
+                  </View>
+
+                  <View style={styles.itemRight}>
+                    <View
+                      style={[
+                        styles.caloriePill,
+                        {
+                          backgroundColor: isDark
+                            ? 'rgba(164, 235, 63, 0.15)'
+                            : theme.colors.limeTint,
+                          borderColor: theme.colors.primaryLime,
+                        },
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.caloriePillText,
+                          { color: theme.colors.primaryAccessible },
+                        ]}
+                      >
+                        ~{t('common.kcalValue', { value: item.calories })}
+                      </Text>
+                    </View>
+
+                    {!readOnly && (
+                      <TouchableOpacity
+                        style={styles.deleteBtn}
+                        onPress={() => onDeleteItem(item.id)}
+                        accessibilityRole="button"
+                        accessibilityLabel={t('tracker.mealsCard.removeDish', {
+                          name: foodDisplayName(item.foodName, item.foodNameAr, dir.isRTL).primary,
+                        })}
+                      >
+                        <View style={[styles.deleteCircle, { backgroundColor: theme.colors.surfaceSecondary }]}>
+                          <Icon name="x" size={14} color={theme.colors.textMuted} />
+                        </View>
+                      </TouchableOpacity>
+                    )}
+                  </View>
+                </View>
+              ))
+            )}
+          </View>
+        </ScrollView>
+
+        {/* Bottom Floating Log Action (today only — the hub always logs into today) */}
+        {!readOnly && (
+          <View
+            style={[
+              styles.bottomBar,
+              {
+                backgroundColor: theme.colors.surface,
+                borderTopColor: theme.colors.border,
+              },
+            ]}
+          >
+            <TouchableOpacity
+              style={[
+                styles.logHubButton,
+                { backgroundColor: theme.colors.primaryLime },
+              ]}
+              onPress={onOpenLogHub}
+              activeOpacity={0.8}
+            >
+              <Icon name="plus" size={18} color={theme.colors.limeText} />
+              <Text style={[styles.logHubButtonText, { color: theme.colors.limeText }]}>
+                {t('tracker.hub.title')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
+        {undoToast}
+      </SafeAreaView>
+    </NamedModal>
+  );
+};
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    borderBottomWidth: 1,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: '800',
+    letterSpacing: -0.3,
+  },
+  headerRightSpacer: {
+    width: 40,
+  },
+  dateSelector: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+  },
+  dateArrow: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  dateCenter: {
+    alignItems: 'center',
+  },
+  dateText: {
+    fontSize: 15,
+    fontWeight: '800',
+  },
+  dateSub: {
+    fontSize: 12,
+    marginTop: 1,
+  },
+  content: {
+    flex: 1,
+  },
+  contentContainer: {
+    padding: 16,
+    paddingBottom: 24,
+  },
+  progressCard: {
+    padding: 18,
+    borderRadius: 20,
+    marginBottom: 16,
+    borderWidth: 1,
+  },
+  progressTopRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+  },
+  progressKcalText: {
+    fontSize: 20,
+    fontWeight: '800',
+  },
+  progressKcalTarget: {
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  progressMacroSub: {
+    fontSize: 12,
+    fontWeight: '600',
+    marginTop: 4,
+  },
+  percentageBadge: {
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  percentageText: {
+    fontSize: 12,
+    fontWeight: '900',
+  },
+  progressBarTrack: {
+    height: 8,
+    borderRadius: commonRadii.pill,
+    overflow: 'hidden',
+  },
+  progressBarFill: {
+    height: '100%',
+    borderRadius: commonRadii.pill,
+  },
+  itemsSection: {
+    marginBottom: 16,
+  },
+  sectionHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+    paddingHorizontal: 4,
+  },
+  sectionTitle: {
+    fontSize: 12,
+    fontWeight: '800',
+    letterSpacing: 0.8,
+  },
+  sectionCount: {
+    fontSize: 12,
+  },
+  itemRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 16,
+    borderRadius: 18,
+    marginBottom: 10,
+    borderWidth: 1,
+  },
+  itemLeft: {
+    flex: 1,
+    marginEnd: 10,
+  },
+  itemTitleRow: {
+    marginBottom: 3,
+  },
+  itemName: {
+    fontSize: 15,
+    fontWeight: '800',
+    marginEnd: 6,
+  },
+  itemNameUr: {
+    fontSize: 12,
+  },
+  itemMeta: {
+    fontSize: 12,
+    marginBottom: 3,
+  },
+  itemMacros: {
+    fontSize: 12,
+  },
+  itemRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  caloriePill: {
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
+    borderWidth: 1,
+  },
+  caloriePillText: {
+    fontSize: 12,
+    fontWeight: '800',
+  },
+  // A 44 pt target around the 30 pt circle; the negative margin keeps the row height.
+  deleteBtn: {
+    width: 44,
+    height: 44,
+    margin: -7,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  deleteCircle: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyContainer: {
+    padding: 28,
+    borderRadius: 20,
+    alignItems: 'center',
+    borderWidth: 1,
+  },
+  emptyTitle: {
+    fontSize: 16,
+    fontWeight: '800',
+    marginBottom: 6,
+  },
+  emptySubtitle: {
+    fontSize: 13,
+    textAlign: 'center',
+    marginBottom: 16,
+  },
+  bottomBar: {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderTopWidth: 1,
+  },
+  logHubButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: commonRadii.pill,
+    paddingVertical: 16,
+    gap: 8,
+  },
+  logHubButtonText: {
+    fontSize: 15,
+    fontWeight: '800',
+  },
+});
