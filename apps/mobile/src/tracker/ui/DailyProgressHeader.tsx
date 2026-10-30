@@ -559,8 +559,8 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
   },
   tileLabel: {
-    fontSize: 12,
-    fontWeight: '700',
+    fontSize: 13,
+    fontWeight: '800',
     textTransform: 'uppercase',
     letterSpacing: 0.5,
     marginBottom: 4,

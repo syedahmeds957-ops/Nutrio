@@ -26,5 +26,7 @@ describe('water goal formatting', () => {
     expect(waterLitres(2500)).toBe(2.5);
     expect(waterLitres(250)).toBe(0.3);
     expect(waterLitres(0)).toBe(0);
+    expect(waterLitres(250, 2)).toBe(0.25);
+    expect(waterLitres(1250, 2)).toBe(1.25);
   });
 });

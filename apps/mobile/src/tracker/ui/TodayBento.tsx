@@ -9,7 +9,7 @@ import { HapticFeedback } from '../../ui/haptics.js';
 import { sparklinePoints, WeightGlance } from '../../weight/weightGlance.js';
 import { waterGoalPercent, waterLitres, waterTargetMl } from '../waterTile.js';
 
-const SPARK_MIN_HEIGHT = 44;
+const SPARK_HEIGHT = 36;
 const GLASS_ML = 250;
 
 
@@ -29,7 +29,10 @@ export const WeightTile: React.FC<{ glance: WeightGlance | null; onPress?: () =>
     ? t('tracker.weightTile.fromSurvey')
     : delta === null
       ? null
-      : t('tracker.weightTile.weekDelta', { value: `${delta > 0 ? '+' : delta < 0 ? '−' : ''}${Math.abs(delta)}` });
+      : t('tracker.weightTile.weekDelta', { value: `${delta > 0 ? '↑' : delta < 0 ? '↓' : ''} ${formatNumber(Math.abs(delta), { maximumFractionDigits: 1 })}`.trim() });
+  // Green only for a drop; a rise stays neutral because the tile does not know whether gaining is the goal.
+  const isDrop = !glance?.latestFromSurvey && delta !== null && delta < 0;
+  const trendColor = isDrop ? c.successText : c.primaryAccessible;
 
   const header = (
     <View style={styles.headRow}>
@@ -85,6 +88,7 @@ export const WeightTile: React.FC<{ glance: WeightGlance | null; onPress?: () =>
     <>
       {header}
       <View style={styles.dataBody}>
+        <View style={styles.dataTop}>
         <Text style={[styles.value, dir.text, { color: c.textPrimary }]} numberOfLines={1}>
           {formatNumber(glance.latestKg, { maximumFractionDigits: 1 })}
           <Text style={[styles.unit, { color: c.textSecondary }]}>{` ${t('survey.basics.unitKg')}`}</Text>
@@ -98,17 +102,18 @@ export const WeightTile: React.FC<{ glance: WeightGlance | null; onPress?: () =>
               <Path
                 d={points.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ')}
                 fill="none"
-                stroke={c.primaryAccessible}
+                stroke={trendColor}
                 strokeWidth={2.4}
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
-              {last ? <Circle cx={last.x} cy={last.y} r={3} fill={c.primaryAccessible} /> : null}
+              {last ? <Circle cx={last.x} cy={last.y} r={3} fill={trendColor} /> : null}
             </Svg>
           )}
         </View>
+        </View>
         {deltaText ? (
-          <Text style={[styles.sub, dir.text, { color: c.textSecondary }]} numberOfLines={1}>
+          <Text style={[styles.weightDelta, dir.text, { color: isDrop ? c.successText : c.textSecondary }]} numberOfLines={1}>
             {deltaText}
           </Text>
         ) : null}
@@ -171,7 +176,7 @@ export const WaterTile: React.FC<{
       </View>
       <View style={styles.center}>
         <Text style={[styles.value, styles.stretchText, dir.text, { color: c.textPrimary }]} numberOfLines={1}>
-          {formatNumber(waterLitres(consumedMl), { maximumFractionDigits: 1 })}
+          {formatNumber(waterLitres(consumedMl, 2), { maximumFractionDigits: 2 })}
           <Text style={[styles.unit, { color: c.textSecondary }]}>
             {` / ${t('common.litresValue', { value: formatNumber(waterLitres(target), { maximumFractionDigits: 1 }) })}`}
           </Text>
@@ -249,15 +254,17 @@ const styles = StyleSheet.create({
   headRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 30 },
   waterTitle: { flexDirection: 'row', alignItems: 'center', gap: 5, flexShrink: 1 },
   waterTitleText: { flexShrink: 1 },
-  overline: { fontSize: 12, fontWeight: '700', letterSpacing: 0.8, textTransform: 'uppercase' },
+  overline: { fontSize: 13, fontWeight: '800', letterSpacing: 0.8, textTransform: 'uppercase' },
   value: { fontSize: 24, fontWeight: '800', letterSpacing: -0.4, fontVariant: ['tabular-nums'] },
   unit: { fontSize: 12, fontWeight: '600', letterSpacing: 0 },
   stretchText: { alignSelf: 'stretch' },
   // The body under the header: takes the leftover height and centres its group in it.
   center: { flexGrow: 1, justifyContent: 'center', alignItems: 'center', gap: 10 },
-  dataBody: { flexGrow: 1, justifyContent: 'center', gap: 8 },
-  spark: { flexGrow: 1, minHeight: SPARK_MIN_HEIGHT, alignSelf: 'stretch', overflow: 'hidden' },
+  dataBody: { flexGrow: 1, justifyContent: 'space-between', gap: 8 },
+  dataTop: { gap: 8 },
+  spark: { height: SPARK_HEIGHT, alignSelf: 'stretch', overflow: 'hidden' },
   sub: { fontSize: 12, fontWeight: '700' },
+  weightDelta: { fontSize: 14, fontWeight: '800' },
   emptyIcon: { width: 48, height: 48, borderRadius: 24, alignItems: 'center', justifyContent: 'center' },
   emptyText: { fontSize: 13, lineHeight: 17, fontWeight: '600', textAlign: 'center' },
   pill: { alignSelf: 'stretch', minHeight: 44, borderRadius: commonRadii.pill, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 10 },

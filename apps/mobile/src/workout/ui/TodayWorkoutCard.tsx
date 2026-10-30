@@ -237,7 +237,7 @@ const tile = StyleSheet.create({
   body: { gap: 4 },
   headRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 6 },
   iconBox: { width: 34, height: 34, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
-  overline: { flex: 1, fontSize: 12, fontWeight: '700', letterSpacing: 0 },
+  overline: { flex: 1, fontSize: 13, fontWeight: '800', letterSpacing: 0 },
   title: { fontSize: 19, fontWeight: '800', letterSpacing: -0.2 },
   meta: { fontSize: 12.5, lineHeight: 17 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: TILE_THUMB_GAP, marginTop: 8, alignSelf: 'stretch' },

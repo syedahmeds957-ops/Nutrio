@@ -13,9 +13,11 @@ export function waterTargetMl(targetMl: number | null | undefined): number {
 }
 
 /**
- * Water in litres, rounded to one decimal: the one unit and precision every
- * screen shows (the dashboard read "2.2 L" while the profile read "2,170 ml").
+ * Water in litres, rounded to one decimal: the one unit every screen shows
+ * (the dashboard read "2.2 L" while the profile read "2,170 ml"). Pass 2
+ * decimals for the amount drunk so a 250 ml glass reads as 0.25, not 0.3.
  */
-export function waterLitres(ml: number): number {
-  return Math.round(ml / 100) / 10;
+export function waterLitres(ml: number, decimals: 1 | 2 = 1): number {
+  const scale = decimals === 2 ? 100 : 10;
+  return Math.round((ml / 1000) * scale) / scale;
 }
