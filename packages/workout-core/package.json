@@ -1,0 +1,15 @@
+{
+  "name": "@nutrio/workout-core",
+  "version": "0.1.0",
+  "description": "Exercise catalogue and deterministic workout-plan engine for Nutrio",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.2"
+  }
+}

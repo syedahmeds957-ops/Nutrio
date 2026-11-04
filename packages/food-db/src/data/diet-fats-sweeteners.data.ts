@@ -20,7 +20,7 @@ import { NormalizedFood } from '../types.js';
  */
 export const DIET_FATS_SWEETENERS_DATA: NormalizedFood[] = [
   {
-    name: 'Desi Ghee',
+    name: 'Ghee',
     nameUr: 'دیسی گھی',
     nameAr: 'سمن بلدي',
     category: 'Diet & Basics',

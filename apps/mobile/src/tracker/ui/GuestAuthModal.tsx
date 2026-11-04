@@ -1,0 +1,177 @@
+import React from 'react';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
+import { NamedModal } from '../../ui/NamedModal.js';
+import { useTheme, commonRadii } from '../../theme.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { Icon } from '../../ui/Icon.js';
+
+interface GuestAuthModalProps {
+  visible: boolean;
+  onClose: () => void;
+  onSignIn: () => void;
+  /** Wording for the action that was blocked; defaults to the general "save progress" copy. */
+  title?: string;
+  description?: string;
+}
+
+export const GuestAuthModal: React.FC<GuestAuthModalProps> = ({
+  visible,
+  onClose,
+  onSignIn,
+  title,
+  description,
+}) => {
+  const { theme, isDark } = useTheme();
+  const { t } = useTranslation();
+  const dir = useTextDirection();
+  const accentColor = theme.colors.primaryLime;
+  const accentTextColor = theme.colors.limeText;
+
+  return (
+    <NamedModal accessibilityName={t('a11y.dialog.guestAuth')}
+      visible={visible}
+      transparent
+      animationType="fade"
+      onRequestClose={onClose}
+    >
+      <TouchableWithoutFeedback onPress={onClose}>
+        <View style={styles.overlay}>
+          <TouchableWithoutFeedback>
+            <View
+              style={[
+                styles.modalCard,
+                {
+                  backgroundColor: theme.colors.surface,
+                  borderColor: theme.colors.border,
+                },
+              ]}
+            >
+              {/* Header Icon */}
+              <View
+                style={[
+                  styles.iconCircle,
+                  {
+                    backgroundColor: isDark ? theme.colors.surface : theme.colors.limeTint,
+                    borderColor: accentColor,
+                  },
+                ]}
+              >
+                <Icon name="shield" size={28} color={isDark ? accentColor : theme.colors.primaryAccessible} />
+              </View>
+
+              {/* Title & Description */}
+              <Text style={[styles.title, dir.textCenter, { color: theme.colors.textPrimary }]}>
+                {title ?? t('tracker.guestModal.title')}
+              </Text>
+              <Text style={[styles.description, dir.textCenter, { color: theme.colors.textSecondary }]}>
+                {description ?? t('tracker.guestModal.description')}
+              </Text>
+
+              {/* Actions */}
+              <View style={styles.actions}>
+                <TouchableOpacity
+                  style={[styles.primaryBtn, { backgroundColor: accentColor }]}
+                  onPress={onSignIn}
+                  activeOpacity={0.8}
+                  accessibilityRole="button"
+                  accessibilityLabel={t('tracker.guestModal.signIn')}
+                >
+                  <Text style={[styles.primaryBtnText, dir.textCenter, { color: accentTextColor }]}>
+                    {t('tracker.guestModal.signIn')}
+                  </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[styles.secondaryBtn, { borderColor: theme.colors.border }]}
+                  onPress={onClose}
+                  activeOpacity={0.7}
+                  accessibilityRole="button"
+                  accessibilityLabel={t('tracker.guestModal.continueGuest')}
+                >
+                  <Text style={[styles.secondaryBtnText, dir.textCenter, { color: theme.colors.textSecondary }]}>
+                    {t('tracker.guestModal.continueGuest')}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </TouchableWithoutFeedback>
+    </NamedModal>
+  );
+};
+
+const styles = StyleSheet.create({
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.65)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
+  modalCard: {
+    width: '100%',
+    maxWidth: 400,
+    borderRadius: 24,
+    borderWidth: 1,
+    padding: 24,
+    alignItems: 'center',
+    boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.35)',
+  },
+  iconCircle: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    borderWidth: 1.5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: '800',
+    textAlign: 'center',
+    marginBottom: 8,
+    letterSpacing: -0.3,
+  },
+  description: {
+    fontSize: 14,
+    lineHeight: 20,
+    textAlign: 'center',
+    marginBottom: 24,
+  },
+  actions: {
+    width: '100%',
+    gap: 12,
+  },
+  primaryBtn: {
+    width: '100%',
+    paddingVertical: 14,
+    borderRadius: commonRadii.pill,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  primaryBtnText: {
+    fontSize: 15,
+    fontWeight: '800',
+    letterSpacing: 0.2,
+  },
+  secondaryBtn: {
+    width: '100%',
+    paddingVertical: 12,
+    borderRadius: commonRadii.pill,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+  },
+  secondaryBtnText: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
+});

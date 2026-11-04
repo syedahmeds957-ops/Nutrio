@@ -330,7 +330,7 @@ export const DIET_SALADS_DATA: NormalizedFood[] = [
   {
     // Per 150g: 95g cabbage, 25g carrot, 30g light mayo. Distinct from the
     // KFC "Coleslaw (Regular)" row already in the restaurant catalogue.
-    name: 'Coleslaw (Homemade, Light)',
+    name: 'Coleslaw (Light)',
     nameUr: 'کول سلا (ہلکا)',
     nameAr: 'كول سلو خفيف',
     category: 'Diet & Basics',

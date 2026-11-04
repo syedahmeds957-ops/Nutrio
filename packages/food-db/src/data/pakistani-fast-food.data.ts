@@ -142,7 +142,7 @@ export const PAKISTANI_FAST_FOOD_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Chicken Shawarma (Arabic Pita Wrap)",
+    "name": "Chicken Shawarma (Pita Wrap)",
     "nameUr": "چکن شوارما (عربی پیٹا)",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
@@ -198,7 +198,7 @@ export const PAKISTANI_FAST_FOOD_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Club Sandwich (Pakistani Bakery Style)",
+    "name": "Club Sandwich",
     "nameUr": "کلب سینڈوچ",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
@@ -282,7 +282,7 @@ export const PAKISTANI_FAST_FOOD_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Beef Burger (Karachi Street Style)",
+    "name": "Beef Burger (Street Style)",
     "nameUr": "بیف برگر",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
@@ -450,7 +450,7 @@ export const PAKISTANI_FAST_FOOD_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Paratha Shawarma (Local Street Style)",
+    "name": "Paratha Shawarma",
     "nameUr": "پراٹھا شوارما",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
@@ -1206,7 +1206,7 @@ export const PAKISTANI_FAST_FOOD_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Chicken Mayo Garlic Roll (Bakery Style)",
+    "name": "Chicken Mayo Garlic Roll",
     "nameUr": "چکن مایو رول",
     "category": "Pakistani Fast Food",
     "cuisineTags": [

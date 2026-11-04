@@ -104,7 +104,7 @@ export const NASHTA_BREAKFAST_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Suji Ka Halwa (Nashta Halwa)",
+    "name": "Suji Ka Halwa (Breakfast Portion)",
     "nameUr": "سوجی کا حلوہ",
     "category": "Breakfast & Nashta",
     "cuisineTags": [
@@ -188,7 +188,7 @@ export const NASHTA_BREAKFAST_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Anda Ghotala (Karachi Egg Scramble)",
+    "name": "Anda Ghotala (Egg Scramble)",
     "nameUr": "انڈا گھوٹالہ",
     "category": "Breakfast & Nashta",
     "cuisineTags": [
@@ -272,7 +272,7 @@ export const NASHTA_BREAKFAST_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Plain Paratha (Ghar Ka Tawa Paratha)",
+    "name": "Plain Paratha",
     "nameUr": "سادہ توا پراٹھا",
     "category": "Breakfast & Nashta",
     "cuisineTags": [
@@ -636,7 +636,7 @@ export const NASHTA_BREAKFAST_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Sweet Lassi (Meethi مع ملائی)",
+    "name": "Sweet Lassi (Meethi with Malai)",
     "nameUr": "میٹھی لسی مع ملائی",
     "category": "Breakfast & Nashta",
     "cuisineTags": [
@@ -1028,7 +1028,7 @@ export const NASHTA_BREAKFAST_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Chana Puri Nashta Thali Combo",
+    "name": "Chana Puri Combo",
     "nameUr": "چنا پوری ناشتہ تھالی",
     "category": "Breakfast & Nashta",
     "cuisineTags": [
@@ -1056,7 +1056,7 @@ export const NASHTA_BREAKFAST_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Nihari with Khameeri Roti Nashta",
+    "name": "Nihari with Khameeri Roti",
     "nameUr": "نہاری مع خمیری روٹی",
     "category": "Breakfast & Nashta",
     "cuisineTags": [
@@ -1084,7 +1084,7 @@ export const NASHTA_BREAKFAST_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Siri Paye with Kulcha Nashta",
+    "name": "Siri Paye with Kulcha",
     "nameUr": "سری پائے مع کلچہ",
     "category": "Breakfast & Nashta",
     "cuisineTags": [

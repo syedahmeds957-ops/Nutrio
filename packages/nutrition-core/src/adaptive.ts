@@ -67,10 +67,18 @@ export function calculateAdaptiveTDEE(input: AdaptiveTDEEInput): AdaptiveTDEERes
   const totalIntake = dailyIntakeKcal.reduce((sum, d) => sum + d.kcal, 0);
   const meanDailyIntake = Math.round(totalIntake / dailyIntakeKcal.length);
 
-  // 3. Compute Observed TDEE over n days
+  // 3. Compute Observed TDEE over the n days the weight change spans
   // TDEE_observed = mean_daily_intake - (delta_weight_kg * 7700) / n
+  // n is the calendar span of the weigh-ins, not the count: 7 logs spread over
+  // 4 weeks describe a change a quarter as fast as 7 logs on consecutive days.
+  const firstDay = dailyWeighInsKg[0].dayIndex;
+  const lastDay = dailyWeighInsKg[dailyWeighInsKg.length - 1].dayIndex;
+  const spanDays =
+    Number.isFinite(firstDay) && Number.isFinite(lastDay)
+      ? Math.max(daysLogged, lastDay - firstDay + 1)
+      : daysLogged;
   const observedTDEE = Math.round(
-    meanDailyIntake - (weightDeltaKg * KCAL_PER_KG_BODYWEIGHT) / daysLogged
+    meanDailyIntake - (weightDeltaKg * KCAL_PER_KG_BODYWEIGHT) / spanDays
   );
 
   // 4. Check for under-logging (observed < 1.1 * BMR)

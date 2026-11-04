@@ -83,8 +83,10 @@ describe('Diet & Basics catalogue', () => {
 
   it('does not collide with names already in the wider catalogue', () => {
     const dietNames = new Set(DIET_BASICS_CATALOG.map((f) => f.name.toLowerCase()));
+    // Menu-only brand rows (a restaurant's lassi or cola) are the same dish on that brand's menu: they are
+    // kept out of the general search and sit after the diet foods, so a name lookup still finds the diet row.
     const clashes = ALL_FOODS_CATALOG.filter(
-      (f) => f.category !== 'Diet & Basics' && dietNames.has(f.name.toLowerCase())
+      (f) => f.category !== 'Diet & Basics' && !f.menuOnly && dietNames.has(f.name.toLowerCase())
     ).map((f) => f.name);
     expect(clashes, `names duplicated outside Diet & Basics: ${clashes.join(', ')}`).toHaveLength(0);
   });
@@ -94,19 +96,19 @@ describe('Phase 1 — beverages', () => {
   const beverages = DIET_BASICS_CATALOG.filter((f) => f.id?.startsWith('diet_bev_'));
 
   it('adds the plain home-made drinks that were missing', () => {
-    expect(beverages).toHaveLength(18);
+    expect(beverages).toHaveLength(19);
   });
 
   it('covers the chai variants that carry the hidden calories', () => {
     const names = beverages.map((f) => f.name);
-    expect(names).toContain('Home Chai (With Sugar)');
-    expect(names).toContain('Home Chai (No Sugar)');
+    expect(names).toContain('Chai (With Sugar)');
+    expect(names).toContain('Chai (No Sugar)');
     expect(names).toContain('Doodh Patti (Full Milk, Sugar)');
   });
 
   it('prices sugar honestly: sugared chai costs more than unsweetened', () => {
-    const plain = beverages.find((f) => f.name === 'Home Chai (No Sugar)')!;
-    const sweet = beverages.find((f) => f.name === 'Home Chai (With Sugar)')!;
+    const plain = beverages.find((f) => f.name === 'Chai (No Sugar)')!;
+    const sweet = beverages.find((f) => f.name === 'Chai (With Sugar)')!;
     const doodhPatti = beverages.find((f) => f.name === 'Doodh Patti (Full Milk, Sugar)')!;
     expect(sweet.kcal100g).toBeGreaterThan(plain.kcal100g);
     expect(doodhPatti.kcal100g).toBeGreaterThan(sweet.kcal100g);
@@ -401,7 +403,7 @@ describe('Add-on modifiers', () => {
 
     const pairs: [string, string, number][] = [
       // One row for both, so it has to reconcile with either.
-      ['addon_ghee_tsp', 'Desi Ghee', 5],
+      ['addon_ghee_tsp', 'Ghee', 5],
       ['addon_ghee_tsp', 'Cooking Oil (Any Plain Oil)', 5],
       ['addon_butter_tsp', 'Butter', 5],
       ['addon_sugar_tsp', 'Sugar (White)', 4],
@@ -425,7 +427,7 @@ describe('Add-on modifiers', () => {
   });
 
   it('offers sugar on chai and dahi, not ghee', () => {
-    for (const name of ['Home Chai (No Sugar)', 'Black Coffee (No Sugar)', 'Plain Yogurt / Dahi']) {
+    for (const name of ['Chai (No Sugar)', 'Black Coffee (No Sugar)', 'Plain Yogurt / Dahi']) {
       expect(modIds(name), name).toContain('addon_sugar_tsp');
       expect(modIds(name), name).not.toContain('addon_ghee_tsp');
     }
@@ -507,7 +509,7 @@ describe('Diet list grouping', () => {
     const groupOf = (name: string) =>
       sections.find((s) => s.foods.some((f) => f.name === name))?.group;
     expect(groupOf('Olive Oil')).toBe('extras');
-    expect(groupOf('Desi Ghee')).toBe('extras');
+    expect(groupOf('Ghee')).toBe('extras');
     expect(groupOf('Sugar (White)')).toBe('extras');
     expect(groupOf('Ranch Dressing')).toBe('extras');
     expect(sections[sections.length - 1].group).toBe('extras');

@@ -59,6 +59,8 @@ const EGG_TERMS = [
   'egg', 'anda', 'ande', 'andey', 'omelette', 'omelet', 'bhurji', 'khagina',
   'shakshuka', 'nargisi', 'ghotala', 'mayonnaise', 'mayo', 'tamago',
   'frittata', 'menemen', 'benedict', 'gyeran', 'chawanmushi', 'deviled',
+  // Caesar dressing is made on egg yolk.
+  'caesar',
 ] as const;
 
 const DAIRY_TERMS = [
@@ -67,6 +69,10 @@ const DAIRY_TERMS = [
   'malai', 'butter', 'makhan', 'ghee', 'khoya', 'mawa', 'kheer', 'firni',
   'rabri', 'rabdi', 'kulfi', 'falooda', 'thandai', 'sardai', 'skyr', 'quark',
   'condensed', 'latte', 'cappuccino', 'custard', 'chaas', 'buttermilk', 'whey',
+  // Sweet rices cooked in ghee.
+  'zarda', 'mutanjan',
+  // Cheeses the list missed, which put a feta salad in a vegan's plan.
+  'feta', 'parmesan', 'ricotta', 'greek salad', 'caesar',
 ] as const;
 
 /**
@@ -89,6 +95,19 @@ const PLANT_TERMS = [
   'kaddu', 'pumpkin', 'mushroom', 'soya', 'tofu', 'tempeh', 'daal', 'dal ',
   'chana', 'lobia', 'rajma', 'mash', 'moong', 'masoor', 'arhar', 'chickpea',
   'lentil', 'bean', 'quinoa', 'salad', 'fruit', 'mixed veg', 'corn',
+] as const;
+
+/**
+ * Plain breads and grains. Unmarked, every restrictive diet refused them as
+ * unidentified, so vegetarian plans had no roti and Saudi vegans no bread.
+ * They only settle an otherwise unidentified name: unlike PLANT_TERMS they do
+ * not override an ambiguous one, since a "pulao" is as often made on meat
+ * stock as not. Naan and paratha are left out, being often made with dairy
+ * or ghee.
+ */
+const PLAIN_GRAIN_TERMS = [
+  'roti', 'chapati', 'phulka', 'tamees', 'khubz', 'saj ', 'pita', 'flatbread',
+  'rice', 'chawal', 'oats',
 ] as const;
 
 /**
@@ -138,7 +157,7 @@ export function classifyAnimalContent(food: DietClassifiable): AnimalContentVerd
 
   return {
     contains,
-    isUnidentified: contains.size === 0 && !looksPlant,
+    isUnidentified: contains.size === 0 && !looksPlant && !matchesAny(name, PLAIN_GRAIN_TERMS),
   };
 }
 

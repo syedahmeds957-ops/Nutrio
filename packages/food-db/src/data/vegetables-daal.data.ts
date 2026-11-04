@@ -2,7 +2,7 @@ import { NormalizedFood } from '../types.js';
 
 export const VEGETABLES_DAAL_DATA: NormalizedFood[] = [
   {
-    "name": "Daal Mash Fry (with Desi Ghee Tarka)",
+    "name": "Daal Mash Fry (with Ghee Tarka)",
     "nameUr": "دال ماش فرائی",
     "category": "Sabzi & Lentils",
     "cuisineTags": [
@@ -562,7 +562,7 @@ export const VEGETABLES_DAAL_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Sarson Ka Saag (with Desi Makhan)",
+    "name": "Sarson Ka Saag (with Butter)",
     "nameUr": "سرسوں کا ساگ مع مکھن",
     "category": "Sabzi & Lentils",
     "cuisineTags": [
@@ -1094,7 +1094,7 @@ export const VEGETABLES_DAAL_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Daal Mash Dhaba Style Dry",
+    "name": "Daal Mash Dry",
     "nameUr": "دال ماش ڈھابہ ڈرائی",
     "category": "Sabzi & Lentils",
     "cuisineTags": [

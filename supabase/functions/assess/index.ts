@@ -125,7 +125,6 @@ export async function handleAssessmentRequest(req: Request): Promise<Response> {
         sleepHours: lifestyleDesi?.sleepHoursPerNight ?? 7,
         shiftPattern: occupational.shiftPattern ?? 'regular_day',
         dietPreference: preferencesBudget?.dietPreference,
-        budgetTier: preferencesBudget?.budgetTierPKR,
       },
       apiKey
     );

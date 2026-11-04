@@ -5,9 +5,16 @@ export interface NormalizedFood {
   name: string;
   nameUr?: string;
   nameAr?: string;
+  /**
+   * Other names people use for this food ("cold drink", "pepsi" for a regular
+   * cola). Search and meal matching treat each like the name; never shown.
+   */
+  aliases?: string[];
   brand?: string;
   brandId?: string;
   brandCategory?: string;
+  /** Listed on its brand's menu only: left out of the general food search (a brand drink is one of dozens of identical rows). */
+  menuOnly?: boolean;
   modifiers?: FoodModifier[];
   category: string;
   cuisineTags: string[];
@@ -26,6 +33,13 @@ export interface NormalizedFood {
   verifiedBy?: string;
   confidence?: number;
   isRecipe?: boolean;
+  /**
+   * Foods that are one dish cooked different ways (Aloo Gosht with mutton,
+   * beef or chicken) share a group, so search shows the dish once and the
+   * picker offers `variantLabel` as the choice.
+   */
+  variantGroup?: string;
+  variantLabel?: string;
   oilAddedG: number;
   servings: FoodServingItem[];
 }
@@ -86,6 +100,8 @@ export interface RestaurantBrand {
   cuisineTags?: string[];
   categories?: string[];
   menuCount?: number;
+  /** The menu is a generated template with estimated figures, not verified per-brand data: the app says "estimated", not "verified". */
+  estimatedMenu?: boolean;
   itemCount?: number;
   popularItemsCount?: number;
   color?: string;

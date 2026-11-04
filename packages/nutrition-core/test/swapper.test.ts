@@ -201,6 +201,25 @@ describe('One-Tap Macro-Matched Meal Swapper (Task 2.2)', () => {
     }
   });
 
+  it('titles each option after the dishes it actually contains', () => {
+    const solverInput = {
+      targetCalories: 2000,
+      targetProteinGrams: 140,
+      targetFatGrams: 55,
+      targetCarbGrams: 235,
+      dietPreference: 'halal_omnivore' as const,
+    };
+    const plan = solveDailyMealPlan(solverInput, testFoodPool);
+    for (const meal of plan.meals) {
+      for (const option of generateMealSwaps(meal, solverInput, testFoodPool).options) {
+        for (const item of option.items) {
+          const shortName = item.foodName.replace(/\s*\([^)]*\)\s*/g, ' ').trim();
+          expect(option.title, `${meal.slot}: ${option.title}`).toContain(shortName);
+        }
+      }
+    }
+  });
+
   it('preserves vegetarian boundaries when swapping meals on a vegetarian diet', () => {
     const solverInput = {
       targetCalories: 1800,
@@ -215,7 +234,10 @@ describe('One-Tap Macro-Matched Meal Swapper (Task 2.2)', () => {
 
     const swapResult = generateMealSwaps(dinnerMeal, solverInput, testFoodPool);
 
-    expect(swapResult.options).toHaveLength(3);
+    // This pool holds one daal (already on the plate), one sabzi, one bread
+    // and one rice: two real alternatives. Padding to three meant repeats.
+    expect(swapResult.options.length).toBeGreaterThanOrEqual(2);
+    expect(new Set(swapResult.options.map((o) => o.title)).size).toBe(swapResult.options.length);
     for (const option of swapResult.options) {
       const optionFoods = option.items.map((i) => i.foodName);
       expect(optionFoods.some((f) => f.includes('Chicken'))).toBe(false);

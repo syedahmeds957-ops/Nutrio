@@ -87,4 +87,27 @@ describe('Adaptive TDEE & Weight Smoothing', () => {
     expect(result.blendedTDEE).toBe(2400); // Does NOT slash calories
     expect(result.explanation).toContain('implausibly low');
   });
+
+  it("spreads the weight change over the days it happened, not the number of logs", () => {
+    // 7 logged days spread across 4 weeks (every 4th day). The same weights
+    // logged on 7 consecutive days would describe a change 4x as fast.
+    const weights = [80, 79.8, 79.6, 79.4, 79.2, 79.0, 78.8];
+    const sparse = calculateAdaptiveTDEE({
+      formulaTDEE: 2400,
+      bmr: 1700,
+      dailyWeighInsKg: weights.map((weightKg, i) => ({ dayIndex: 1 + i * 4, weightKg })),
+      dailyIntakeKcal: weights.map((_, i) => ({ dayIndex: 1 + i * 4, kcal: 2000 })),
+    });
+    const consecutive = calculateAdaptiveTDEE({
+      formulaTDEE: 2400,
+      bmr: 1700,
+      dailyWeighInsKg: weights.map((weightKg, i) => ({ dayIndex: i + 1, weightKg })),
+      dailyIntakeKcal: weights.map((_, i) => ({ dayIndex: i + 1, kcal: 2000 })),
+    });
+
+    const deficitPerDay = (r: { observedTDEE?: number; meanDailyIntake: number }) =>
+      (r.observedTDEE ?? 0) - r.meanDailyIntake;
+    // Span 25 days vs 7 days: the implied daily deficit is 7/25 as large.
+    expect(deficitPerDay(sparse)).toBeCloseTo((deficitPerDay(consecutive) * 7) / 25, -1);
+  });
 });

@@ -1,0 +1,533 @@
+import React from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
+import { BackButton } from '../../ui/BackButton.js';
+import { ComputedUserPlan } from '../types.js';
+import { planPaceLimit } from '../engine.js';
+import { Icon } from '../../ui/Icon.js';
+import { BurnBar } from './BurnBar.js';
+import { useTheme, commonRadii } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { useFormat } from '../../i18n/useFormat.js';
+
+interface PlanRevealViewProps {
+  plan: ComputedUserPlan;
+  onAcceptPlan: () => void;
+  onAdjustGoal: () => void;
+  onBack?: () => void;
+  /**
+   * Whether to offer "accept & launch".
+   *
+   * False when the user is simply looking at targets they already accepted —
+   * there is nothing to accept, and the button read as though the plan were
+   * still pending. It comes back the moment they change the goal, because then
+   * there genuinely is a new plan to confirm.
+   */
+  showAccept?: boolean;
+}
+
+export const PlanRevealView: React.FC<PlanRevealViewProps> = ({
+  plan,
+  onAcceptPlan,
+  onAdjustGoal,
+  onBack,
+  showAccept = true,
+}) => {
+  const { theme } = useTheme();
+  const { activeRegion } = useRegion();
+  const { t } = useTranslation();
+  const { formatNumber, formatPercent, formatRate } = useFormat();
+  const dir = useTextDirection();
+  const isSaudi = (plan.region || activeRegion) === 'SA';
+  const accentColor = theme.colors.heroCardBg;
+  const accentBorder = theme.colors.primaryLime;
+  const accentTextColor = theme.colors.limeText;
+  const { targetResult, macros, userContext, goalSelection } = plan;
+
+  const signedDelta = targetResult.appliedDelta;
+  const isDeficit = signedDelta < 0;
+  // A safety floor can stop the target reaching the pace picked on the goal screen.
+  const paceLimit = planPaceLimit(plan);
+
+  return (
+    <ScrollView
+      style={[styles.container, { backgroundColor: theme.colors.canvas }]}
+      contentContainerStyle={styles.content}
+      showsVerticalScrollIndicator={false}
+    >
+      {onBack && (
+        <BackButton variant="icon" onPress={onBack} style={styles.topBackBtn} />
+      )}
+
+      <View style={styles.header}>
+        <View
+          style={[
+            styles.badgeSuccess,
+            {
+              backgroundColor: theme.isDark ? '#1C2608' : '#F4FED0',
+              borderColor: theme.colors.primaryLime,
+            },
+          ]}
+        >
+          <Text
+            style={[
+              styles.badgeSuccessText,
+              { color: theme.colors.primaryAccessible },
+            ]}
+          >
+            {t('plan.reveal.formulationComplete')}
+          </Text>
+        </View>
+
+        <Text role="heading" aria-level={1} style={[styles.title, dir.text, { color: theme.colors.textPrimary }]}>
+          {t('plan.reveal.title')}
+        </Text>
+        <Text style={[styles.subtitle, dir.text, { color: theme.colors.textSecondary }]}>
+          {t('plan.reveal.subtitle')}
+        </Text>
+      </View>
+
+      {/* Hero Calorie Card - Solid Lime Revolut or Saudi Emerald */}
+      <View
+        style={[
+          styles.heroCard,
+          {
+            backgroundColor: accentColor,
+            borderColor: accentBorder,
+          },
+        ]}
+      >
+        <View style={styles.heroTopRow}>
+          <Text style={[styles.heroLabel, { color: accentTextColor }]}>
+            {t('plan.reveal.dailyTarget')}
+          </Text>
+        </View>
+
+        <Text style={[styles.heroValue, { color: accentTextColor }]}>
+          {formatNumber(targetResult.kcalTarget)}
+        </Text>
+        <Text style={[styles.heroUnit, { color: accentTextColor }]}>
+          {t('plan.reveal.caloriesPerDay')}
+        </Text>
+
+        <View style={[styles.deltaBox, isSaudi && { backgroundColor: 'rgba(0, 0, 0, 0.6)' }]}>
+          <Text style={[styles.deltaText, isSaudi && { color: '#FFFFFF' }]}>
+            {isDeficit
+              ? `${t('plan.reveal.deficit', {
+                  value: formatNumber(Math.abs(signedDelta)),
+                  tdee: formatNumber(userContext.tdee),
+                })}`
+              : signedDelta > 0
+              ? `${t('plan.reveal.surplus', { value: formatNumber(signedDelta), tdee: formatNumber(userContext.tdee) })}`
+              : `${t('plan.reveal.maintenance', { tdee: formatNumber(userContext.tdee) })}`}
+          </Text>
+        </View>
+
+        {paceLimit.limited && (
+          <Text style={[styles.paceLimitText, dir.textCenter, { color: accentTextColor }]}>
+            {t('plan.reveal.paceLimit', {
+              requested: formatRate(paceLimit.requestedRateKgPerWeek),
+              rate: formatRate(paceLimit.effectiveRateKgPerWeek, 'down'),
+            })}
+          </Text>
+        )}
+      </View>
+
+      {/* How the target adds up: rest + activity = daily burn, marker at the target */}
+      <View
+        style={[
+          styles.card,
+          {
+            backgroundColor: theme.colors.surface,
+            borderColor: theme.colors.border,
+          },
+        ]}
+      >
+        <Text role="heading" aria-level={2} style={[styles.cardHeader, dir.text, { color: theme.colors.textPrimary }]}>
+          {t('plan.reveal.burnTitle')}
+        </Text>
+        <BurnBar bmr={userContext.bmr} tdee={userContext.tdee} kcalTarget={targetResult.kcalTarget} />
+      </View>
+
+      {/* Macro Split Card */}
+      <View
+        style={[
+          styles.card,
+          {
+            backgroundColor: theme.colors.surface,
+            borderColor: theme.colors.border,
+          },
+        ]}
+      >
+        <Text style={[styles.cardHeader, dir.text, { color: theme.colors.textPrimary }]}>
+          {t('plan.reveal.macroBreakdown')}
+        </Text>
+
+        <View style={styles.macroRow}>
+          {/* Protein */}
+          <View
+            style={[
+              styles.macroCard,
+              {
+                backgroundColor: theme.colors.surfaceSecondary,
+                borderColor: theme.colors.border,
+                borderTopColor: theme.colors.protein,
+              },
+            ]}
+          >
+            <Text style={[styles.macroName, { color: theme.colors.textSecondary }]}>{t('common.protein')}</Text>
+            <Text style={[styles.macroValue, { color: theme.colors.textPrimary }]}>
+              {t('common.gramsValue', { value: macros.proteinGrams })}
+            </Text>
+            <Text style={[styles.macroSub, { color: theme.colors.textMuted }]}>
+              {t('common.kcalValue', { value: macros.proteinKcal })} ({formatPercent(macros.proteinPct)})
+            </Text>
+          </View>
+
+          {/* Carbs */}
+          <View
+            style={[
+              styles.macroCard,
+              {
+                backgroundColor: theme.colors.surfaceSecondary,
+                borderColor: theme.colors.border,
+                borderTopColor: theme.colors.carbs,
+              },
+            ]}
+          >
+            <Text style={[styles.macroName, { color: theme.colors.textSecondary }]}>{t('common.carbs')}</Text>
+            <Text style={[styles.macroValue, { color: theme.colors.textPrimary }]}>
+              {t('common.gramsValue', { value: macros.carbGrams })}
+            </Text>
+            <Text style={[styles.macroSub, { color: theme.colors.textMuted }]}>
+              {t('common.kcalValue', { value: macros.carbKcal })} ({formatPercent(macros.carbPct)})
+            </Text>
+          </View>
+
+          {/* Fat */}
+          <View
+            style={[
+              styles.macroCard,
+              {
+                backgroundColor: theme.colors.surfaceSecondary,
+                borderColor: theme.colors.border,
+                borderTopColor: theme.colors.fat,
+              },
+            ]}
+          >
+            <Text style={[styles.macroName, { color: theme.colors.textSecondary }]}>{t('common.fat')}</Text>
+            <Text style={[styles.macroValue, { color: theme.colors.textPrimary }]}>
+              {t('common.gramsValue', { value: macros.fatGrams })}
+            </Text>
+            <Text style={[styles.macroSub, { color: theme.colors.textMuted }]}>
+              {t('common.kcalValue', { value: macros.fatKcal })} ({formatPercent(macros.fatPct)})
+            </Text>
+          </View>
+        </View>
+
+        {/* Micronutrients / Essentials */}
+        <View style={[styles.subMacroRow, { borderTopColor: theme.colors.border }]}>
+          <View style={styles.subMacroItem}>
+            <Text style={[styles.subMacroLabel, { color: theme.colors.textMuted }]}>
+              {t('plan.reveal.dailyFibre')}
+            </Text>
+            <Text style={[styles.subMacroValue, { color: theme.colors.textPrimary }]}>
+              {t('common.gramsValue', { value: macros.fibreGrams })}
+            </Text>
+          </View>
+          <View style={styles.subMacroItem}>
+            <Text style={[styles.subMacroLabel, { color: theme.colors.textMuted }]}>
+              {t('plan.reveal.hydration')}
+            </Text>
+            <Text style={[styles.subMacroValue, { color: theme.colors.textPrimary }]}>
+              {t('common.litresValue', { value: (macros.waterMl / 1000).toFixed(1) })}
+            </Text>
+          </View>
+        </View>
+      </View>
+
+      {/* Clinical Safeguards Card */}
+      <View
+        style={[
+          styles.card,
+          {
+            backgroundColor: theme.colors.surface,
+            borderColor: theme.colors.border,
+          },
+        ]}
+      >
+        <Text style={[styles.cardHeader, dir.text, { color: theme.colors.textPrimary }]}>
+          {t('plan.reveal.safeguards')}
+        </Text>
+
+        <View style={styles.safeguardItem}>
+          <View style={[styles.safeguardIconCircle, { backgroundColor: theme.colors.surfaceSecondary }]}>
+            <Icon name="check" size={14} color={theme.colors.primaryAccessible} strokeWidth={3} />
+          </View>
+          <Text style={[styles.safeguardText, { color: theme.colors.textPrimary }]}>
+            {t('plan.reveal.safeguardBmr', { bmr: userContext.bmr })}
+          </Text>
+        </View>
+
+        <View style={styles.safeguardItem}>
+          <View style={[styles.safeguardIconCircle, { backgroundColor: theme.colors.surfaceSecondary }]}>
+            <Icon name="check" size={14} color={theme.colors.primaryAccessible} strokeWidth={3} />
+          </View>
+          <Text style={[styles.safeguardText, { color: theme.colors.textPrimary }]}>
+            {t('plan.reveal.safeguardDeficit')}
+          </Text>
+        </View>
+
+        <View style={styles.safeguardItem}>
+          <View style={[styles.safeguardIconCircle, { backgroundColor: theme.colors.surfaceSecondary }]}>
+            <Icon name="check" size={14} color={theme.colors.primaryAccessible} strokeWidth={3} />
+          </View>
+          <Text style={[styles.safeguardText, { color: theme.colors.textPrimary }]}>
+            {t('plan.reveal.safeguardFat')}
+          </Text>
+        </View>
+      </View>
+
+      {/* Action Buttons */}
+      <View style={styles.btnRow}>
+        <TouchableOpacity
+          style={[
+            styles.adjustBtn,
+            {
+              backgroundColor: theme.colors.surfaceSecondary,
+              borderColor: theme.colors.border,
+            },
+          ]}
+          onPress={onAdjustGoal}
+          activeOpacity={0.7}
+        >
+          <Text style={[styles.adjustBtnText, { color: theme.colors.textPrimary }]}>
+            {t('plan.reveal.adjustGoal')}
+          </Text>
+        </TouchableOpacity>
+
+        {showAccept && (
+          <TouchableOpacity
+            style={[styles.acceptBtn, { backgroundColor: theme.colors.primaryLime }]}
+            onPress={onAcceptPlan}
+            activeOpacity={0.8}
+          >
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, justifyContent: 'center' }}>
+              <Text style={[styles.acceptBtnText, { color: accentTextColor }]}>
+                {t('plan.reveal.acceptLaunch')}
+              </Text>
+              <Icon name={dir.isRTL ? 'arrow-left' : 'arrow-right'} size={18} color={accentTextColor} />
+            </View>
+          </TouchableOpacity>
+        )}
+      </View>
+    </ScrollView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  content: {
+    padding: 20,
+    paddingBottom: 48,
+  },
+  topBackBtn: {
+    marginBottom: 16,
+  },
+  header: {
+    marginBottom: 20,
+  },
+  badgeSuccess: {
+    paddingVertical: 5,
+    paddingHorizontal: 12,
+    borderRadius: commonRadii.pill,
+    alignSelf: 'flex-start',
+    marginBottom: 10,
+    borderWidth: 1,
+  },
+  badgeSuccessText: {
+    fontSize: 12,
+    fontWeight: '800',
+    letterSpacing: 0,
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: '800',
+    letterSpacing: -0.5,
+  },
+  subtitle: {
+    fontSize: 14,
+    marginTop: 6,
+    lineHeight: 20,
+    fontWeight: '500',
+  },
+  heroCard: {
+    borderRadius: 26,
+    padding: 24,
+    alignItems: 'center',
+    marginBottom: 16,
+    borderWidth: 1,
+  },
+  heroTopRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  heroLabel: {
+    fontSize: 13,
+    fontWeight: '700',
+    letterSpacing: 0,
+  },
+  heroValue: {
+    fontSize: 52,
+    fontWeight: '900',
+    letterSpacing: -1.5,
+    marginTop: 6,
+    lineHeight: 56,
+  },
+  heroUnit: {
+    fontSize: 14,
+    fontWeight: '700',
+    opacity: 0.8,
+    marginTop: 2,
+  },
+  deltaBox: {
+    marginTop: 18,
+    backgroundColor: '#0A0B0D',
+    borderRadius: commonRadii.pill,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+  },
+  paceLimitText: {
+    marginTop: 12,
+    fontSize: 13,
+    fontWeight: '600',
+    lineHeight: 18,
+  },
+  deltaText: {
+    color: '#A4EB3F',
+    fontSize: 12,
+    fontWeight: '800',
+  },
+  card: {
+    borderRadius: 22,
+    padding: 20,
+    marginBottom: 16,
+    borderWidth: 1,
+  },
+  cardHeader: {
+    fontSize: 16,
+    fontWeight: '800',
+    letterSpacing: -0.2,
+    marginBottom: 16,
+  },
+  macroRow: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  macroCard: {
+    flex: 1,
+    borderRadius: 16,
+    padding: 14,
+    alignItems: 'center',
+    borderTopWidth: 3,
+    borderWidth: 1,
+  },
+  macroName: {
+    fontSize: 12,
+    fontWeight: '700',
+    letterSpacing: 0,
+  },
+  macroValue: {
+    fontSize: 22,
+    fontWeight: '800',
+    marginTop: 4,
+    letterSpacing: -0.4,
+  },
+  macroSub: {
+    fontSize: 12,
+    fontWeight: '600',
+    marginTop: 4,
+    textAlign: 'center',
+  },
+  subMacroRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 16,
+    paddingTop: 14,
+    borderTopWidth: 1,
+  },
+  subMacroItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  subMacroLabel: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  subMacroValue: {
+    fontSize: 13,
+    fontWeight: '800',
+  },
+  safeguardItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 12,
+  },
+  safeguardIconCircle: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  safeguardIcon: {
+    fontSize: 14,
+    fontWeight: '900',
+  },
+  safeguardText: {
+    fontSize: 13,
+    lineHeight: 18,
+    fontWeight: '600',
+    flex: 1,
+  },
+  btnRow: {
+    flexDirection: 'row',
+    gap: 12,
+    marginTop: 10,
+  },
+  adjustBtn: {
+    flex: 1,
+    paddingVertical: 16,
+    borderRadius: commonRadii.pill,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+  },
+  adjustBtnText: {
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  acceptBtn: {
+    flex: 2,
+    paddingVertical: 16,
+    borderRadius: commonRadii.pill,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  acceptBtnText: {
+    fontSize: 15,
+    fontWeight: '800',
+    letterSpacing: -0.2,
+  },
+});

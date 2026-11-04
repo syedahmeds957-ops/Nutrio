@@ -155,6 +155,7 @@ export const DIET_BEVERAGES_DATA: NormalizedFood[] = [
   },
   {
     name: 'Diet Soda / Zero Cola',
+    aliases: ['diet cold drink', 'diet coke', 'coke zero', 'diet pepsi', 'pepsi diet', 'pepsi max', 'sprite zero', 'diet 7up', '7up zero'],
     nameUr: 'ڈائٹ سوڈا',
     nameAr: 'صودا دايت',
     category: 'Diet & Basics',
@@ -181,7 +182,7 @@ export const DIET_BEVERAGES_DATA: NormalizedFood[] = [
   // Ratio: 150ml cup = 50ml full-fat milk + 100ml water + tea leaves.
   // Sugared variants add 2 tsp (8g) sugar per cup = 5.3g per 100ml.
   {
-    name: 'Home Chai (No Sugar)',
+    name: 'Chai (No Sugar)',
     nameUr: 'گھر کی چائے (بغیر چینی)',
     nameAr: 'شاي بالحليب بدون سكر',
     category: 'Diet & Basics',
@@ -203,7 +204,7 @@ export const DIET_BEVERAGES_DATA: NormalizedFood[] = [
     ],
   },
   {
-    name: 'Home Chai (With Sugar)',
+    name: 'Chai (With Sugar)',
     nameUr: 'گھر کی چائے (چینی کے ساتھ)',
     nameAr: 'شاي بالحليب مع سكر',
     category: 'Diet & Basics',
@@ -225,7 +226,7 @@ export const DIET_BEVERAGES_DATA: NormalizedFood[] = [
     ],
   },
   {
-    name: 'Home Chai (Sugar-Free Sweetener)',
+    name: 'Chai (Sugar-Free Sweetener)',
     nameUr: 'گھر کی چائے (شوگر فری)',
     nameAr: 'شاي بمحلي خالي من السكر',
     category: 'Diet & Basics',
@@ -296,7 +297,7 @@ export const DIET_BEVERAGES_DATA: NormalizedFood[] = [
   // ------------------------------------------------------------ Yogurt drinks
   {
     // 1 part dahi : 1 part water, plus 2.5 tsp sugar per 250ml glass.
-    name: 'Sweet Lassi (Home)',
+    name: 'Sweet Lassi',
     nameUr: 'میٹھی لسی',
     nameAr: 'لبن حلو',
     category: 'Diet & Basics',
@@ -319,7 +320,7 @@ export const DIET_BEVERAGES_DATA: NormalizedFood[] = [
   },
   {
     // 1 part dahi : 1 part water, salt and zeera, no sugar.
-    name: 'Salted Lassi (Home)',
+    name: 'Salted Lassi',
     nameUr: 'نمکین لسی',
     nameAr: 'لبن مالح',
     category: 'Diet & Basics',
@@ -387,6 +388,8 @@ export const DIET_BEVERAGES_DATA: NormalizedFood[] = [
   },
   {
     name: 'Regular Cola / Soft Drink',
+    // Brand sodas run 38-48 kcal/100ml; this regular cola stands in for all of them.
+    aliases: ['cold drink', 'fizzy drink', 'soda', 'coke', 'coca cola', 'pepsi', '7up', 'sprite', 'fanta', 'mirinda', 'mountain dew'],
     nameUr: 'کولا ڈرنک',
     nameAr: 'مشروب غازي',
     category: 'Diet & Basics',
@@ -428,6 +431,29 @@ export const DIET_BEVERAGES_DATA: NormalizedFood[] = [
     servings: [
       { label: '1 glass (250ml)', labelUr: '1 گلاس', labelAr: 'كوب واحد', grams: 250, isDefault: true },
       { label: '1 large glass (400ml)', grams: 400, isDefault: false },
+    ],
+  },
+  {
+    // Green tea + 2 tsp (8g) sugar per 240ml cup. Last in the list: ids are positional (diet_bev_N), so inserting earlier would renumber the rest.
+    name: 'Green Tea (With Sugar)',
+    nameUr: 'سبز چائے (چینی کے ساتھ)',
+    nameAr: 'شاي أخضر مع سكر',
+    category: 'Diet & Basics',
+    cuisineTags: ['Diet', 'Beverage', 'Basics'],
+    kcal100g: 14,
+    protein100g: 0,
+    carb100g: 3.5,
+    fat100g: 0,
+    fibre100g: 0,
+    sugar100g: 3.3,
+    sodiumMg100g: 1,
+    satFat100g: 0,
+    source: 'pak_custom',
+    verifiedBy: 'composed',
+    oilAddedG: 0,
+    servings: [
+      { label: '1 cup (240ml)', labelUr: '1 کپ', labelAr: 'كوب واحد', grams: 240, isDefault: true },
+      { label: '1 mug (350ml)', grams: 350, isDefault: false },
     ],
   },
 ];

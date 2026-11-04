@@ -170,7 +170,7 @@ export const BEVERAGES_DRINKS_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Gur Wali Chai (Jaggery Village Tea)",
+    "name": "Gur Chai (Jaggery Village Tea)",
     "nameUr": "گڑ والی چائے",
     "category": "Beverages & Drinks",
     "cuisineTags": [
@@ -842,7 +842,7 @@ export const BEVERAGES_DRINKS_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Cold Coffee (Pakistani Bakery / Cafe Style)",
+    "name": "Cold Coffee",
     "nameUr": "کولڈ کافی",
     "category": "Beverages & Drinks",
     "cuisineTags": [

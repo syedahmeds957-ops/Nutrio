@@ -1,0 +1,398 @@
+import { cardioIntensity, cardioMinutes, cardioPool, REST_DAY_WALK } from './cardio.js';
+import { getExercise } from './catalogue.js';
+import { Caps, prescribe } from './prescription.js';
+import { isRamadan, settingsOn } from './ramadan.js';
+import { layoutForRoutine, routineExercisesFor } from './routine.js';
+import { alternatesFor, isAllowed, pickExercise } from './select.js';
+import { chooseSplit, focusSplit, SLOTS_FOR_MINUTES, slotsWithFocus } from './split.js';
+import { pairSupersets, supersetPartner, supersetsApply } from './superset.js';
+import {
+  CardioBlock,
+  Equipment,
+  Finisher,
+  FocusArea,
+  JointLoad,
+  MovementPattern,
+  PlannedSlot,
+  SessionMinutes,
+  SessionStyle,
+  SessionTemplateId,
+  SessionVariant,
+  SplitId,
+  Weekday,
+  WeeklyWorkoutPlan,
+  WorkoutSession,
+  WorkoutSettings,
+} from './types.js';
+
+export const WEEKDAYS: readonly Weekday[] = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+const SESSION_MINUTES: readonly SessionMinutes[] = [20, 30, 45, 60, 75];
+const HOME_EQUIPMENT: readonly Equipment[] = ['dumbbell', 'kettlebell', 'bands', 'bench', 'pullup_bar'];
+const FOCUS: readonly FocusArea[] = ['full_body', 'upper', 'lower_glutes', 'core', 'arms'];
+const JOINTS: readonly JointLoad[] = ['knee', 'lower_back', 'shoulder', 'wrist'];
+const STYLES: readonly SessionStyle[] = ['straight', 'supersets'];
+
+const VARIANTS: readonly SessionVariant[] = ['a', 'b', 'c', 'd', 'e', 'f'];
+const WARM_UP_SEC = 5 * 60;
+const WORK_SEC_PER_SET = 40;
+/** Ramadan sessions aim for 40 minutes so the +5 margin keeps them within 45. */
+const RAMADAN_TARGET_MINUTES = 40;
+const MIN_SETS = 2;
+
+export class InvalidWorkoutSettings extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'InvalidWorkoutSettings';
+  }
+}
+
+export function validateSettings(settings: WorkoutSettings): void {
+  const days = settings.trainingDays;
+  if (days.length < 2 || days.length > 6) throw new InvalidWorkoutSettings(`Pick 2 to 6 training days, got ${days.length}`);
+  if (new Set(days).size !== days.length) throw new InvalidWorkoutSettings('Training days repeat');
+  if (days.some((day) => !WEEKDAYS.includes(day))) throw new InvalidWorkoutSettings('Unknown training day');
+  if (!SESSION_MINUTES.includes(settings.sessionMinutes)) {
+    throw new InvalidWorkoutSettings(`Session length must be one of ${SESSION_MINUTES.join(', ')} minutes`);
+  }
+  if (settings.homeEquipment.some((item) => !HOME_EQUIPMENT.includes(item))) {
+    throw new InvalidWorkoutSettings('Home equipment can only be dumbbells, kettlebell, bands, bench or pull-up bar');
+  }
+  if (settings.dumbbellWeightsKg.some((kg) => !(kg > 0))) throw new InvalidWorkoutSettings('Dumbbell weights must be positive');
+  if (settings.focus.some((area) => !FOCUS.includes(area))) throw new InvalidWorkoutSettings('Unknown focus area');
+  if (settings.protectedJoints.some((joint) => !JOINTS.includes(joint))) throw new InvalidWorkoutSettings('Unknown joint');
+  const style = settings.profile?.sessionStyle;
+  if (style !== undefined && !STYLES.includes(style)) throw new InvalidWorkoutSettings('Unknown session style');
+}
+
+function slotSeconds(slot: PlannedSlot): number {
+  return slot.sets * (WORK_SEC_PER_SET + slot.restSec);
+}
+
+/** A superset: both exercises back to back, one rest per round. Sets one has over the other are straight. */
+function pairSeconds(a: PlannedSlot, b: PlannedSlot): number {
+  const rounds = Math.min(a.sets, b.sets);
+  const longer = a.sets >= b.sets ? a : b;
+  return rounds * (2 * WORK_SEC_PER_SET + Math.max(a.restSec, b.restSec)) + (longer.sets - rounds) * (WORK_SEC_PER_SET + longer.restSec);
+}
+
+function slotsSeconds(slots: readonly PlannedSlot[]): number {
+  const counted = new Set<string>();
+  let total = 0;
+  for (const slot of slots) {
+    if (counted.has(slot.slotId)) continue;
+    counted.add(slot.slotId);
+    const mate = supersetPartner(slots, slot);
+    if (!mate || counted.has(mate.slotId)) {
+      total += slotSeconds(slot);
+      continue;
+    }
+    counted.add(mate.slotId);
+    total += pairSeconds(slot, mate);
+  }
+  return total;
+}
+
+/** Warm-up, every set with its rest (a superset's rest once per round), and the cardio block (or an old plan's finisher). */
+export function estimateMinutes(slots: readonly PlannedSlot[], finisher?: Finisher, cardioMinutesInSession = 0): number {
+  const finisherSec = finisher ? finisher.rounds * (finisher.workSec + finisher.restSec) : 0;
+  const total = WARM_UP_SEC + slotsSeconds(slots) + finisherSec + cardioMinutesInSession * 60;
+  return Math.round(total / 60);
+}
+
+/**
+ * Trims a session to fit: sets come off the last accessory, then that
+ * accessory goes, and only when no accessories are left do main lifts lose
+ * sets (never below two). A 20-minute strength session needs that last step.
+ */
+function fitToTime(slots: PlannedSlot[], targetMinutes: number): PlannedSlot[] {
+  const fitted = slots.map((slot) => ({ ...slot }));
+  while (estimateMinutes(fitted) > targetMinutes + 5) {
+    const lastAccessory = fitted.map((slot) => slot.role).lastIndexOf('accessory');
+    if (lastAccessory >= 0) {
+      const slot = fitted[lastAccessory];
+      const mate = supersetPartner(fitted, slot);
+      // A superset loses a set from both exercises, so the pair stays even; dropping one leaves its partner as a straight set.
+      if (slot.sets > MIN_SETS && (!mate || mate.sets > MIN_SETS)) {
+        slot.sets -= 1;
+        if (mate) mate.sets -= 1;
+      } else {
+        if (mate) delete mate.supersetWith;
+        fitted.splice(lastAccessory, 1);
+      }
+      continue;
+    }
+    // Main lifts lose sets evenly: the one with the most sets goes first.
+    const reducible = fitted.reduce<PlannedSlot | null>(
+      (best, slot) => (slot.sets > MIN_SETS && (!best || slot.sets >= best.sets) ? slot : best),
+      null
+    );
+    if (!reducible) break;
+    reducible.sets -= 1;
+  }
+  return fitted;
+}
+
+/** Leg-heavy sessions and the lower-body main lifts kept off sports days (and the day before). */
+const LEG_TEMPLATES: ReadonlySet<SessionTemplateId> = new Set(['lower', 'legs']);
+const LEG_MAIN_PATTERNS: ReadonlySet<string> = new Set(['squat', 'hinge', 'lunge']);
+
+/** Days a sport or physical job needs fresh legs for: the day itself and the day before. */
+function sportDays(settings: WorkoutSettings): Set<Weekday> {
+  const blocked = new Set<Weekday>();
+  for (const sport of settings.profile?.sports ?? []) {
+    for (const day of sport.days) {
+      blocked.add(day);
+      blocked.add(WEEKDAYS[(WEEKDAYS.indexOf(day) + 6) % 7]);
+    }
+  }
+  return blocked;
+}
+
+/**
+ * The split's sessions laid over the training days. The order of the split
+ * is kept, but it may start further along so leg days miss sports days;
+ * without sports (or with no better order) it is unchanged.
+ */
+function arrangeTemplates(days: readonly Weekday[], templates: readonly SessionTemplateId[], blocked: ReadonlySet<Weekday>): SessionTemplateId[] {
+  const clashes = (order: readonly SessionTemplateId[]) =>
+    days.filter((day, i) => blocked.has(day) && LEG_TEMPLATES.has(order[i])).length;
+  let best = [...templates];
+  for (let shift = 1; shift < templates.length; shift++) {
+    const rotated = templates.map((_, i) => templates[(i + shift) % templates.length]);
+    if (clashes(rotated) < clashes(best)) best = rotated;
+  }
+  return best;
+}
+
+/** Someone who has trained for over a year gets the volume of "some" experience even if they called themselves new. */
+function experienceForVolume(settings: WorkoutSettings): WorkoutSettings['experience'] {
+  const now = settings.profile?.trainingNow;
+  return settings.experience === 'new' && now?.active && now.duration === 'over_a_year' ? 'some' : settings.experience;
+}
+
+interface SessionInput {
+  day: Weekday;
+  template: SessionTemplateId;
+  variant: SessionVariant | null;
+  settings: WorkoutSettings;
+  seed: number;
+  caps: Caps;
+  slotCount: number;
+  targetMinutes: number;
+  usedInWeek: Map<string, number>;
+  /** A sports day or the day before: lower-body main lifts get the lighter accessory prescription. */
+  easyLegs: boolean;
+  /** The user's own exercises for this day, kept where they fit. */
+  preferred: ReadonlySet<string>;
+  /** Set for a strict focus plan: the only patterns that may fill a slot. */
+  only?: ReadonlySet<MovementPattern>;
+}
+
+function buildSession(input: SessionInput): WorkoutSession {
+  const { settings, seed, caps } = input;
+  const prefix = input.variant ? `${input.template}-${input.variant}` : input.template;
+  const plannedSlots = slotsWithFocus(input.template, settings.focus).slice(0, input.slotCount);
+  const occurrences = new Map<string, number>();
+  const usedInSession = new Set<string>();
+  const slots: PlannedSlot[] = [];
+
+  for (const planned of plannedSlots) {
+    const n = occurrences.get(planned.pattern) ?? 0;
+    occurrences.set(planned.pattern, n + 1);
+    const slotId = `${prefix}:${planned.pattern}:${n}`;
+    const pick = pickExercise({
+      pattern: planned.pattern,
+      role: planned.role,
+      settings,
+      seed,
+      slotId,
+      usedInSession,
+      usedInWeek: input.usedInWeek,
+      preferred: input.preferred,
+      only: input.only,
+    });
+    if (!pick) continue;
+    usedInSession.add(pick.exercise.id);
+    slots.push({
+      slotId,
+      pattern: pick.pattern,
+      role: planned.role,
+      exerciseId: pick.exercise.id,
+      alternates: [pick.exercise.id],
+      ...prescribe(
+        settings.goal,
+        experienceForVolume(settings),
+        input.easyLegs && planned.role === 'main' && LEG_MAIN_PATTERNS.has(pick.pattern) ? 'accessory' : planned.role,
+        caps,
+        pick.exercise.timed
+      ),
+    });
+  }
+
+  // Rotation lists are built once every base pick is known, so no week can
+  // put the same exercise in two slots of one session.
+  const reserved = new Set(usedInSession);
+  for (const slot of slots) {
+    if (slot.role !== 'accessory') continue;
+    slot.alternates = alternatesFor(getExercise(slot.exerciseId)!, settings, seed, slot.slotId, reserved);
+    for (const id of slot.alternates) reserved.add(id);
+  }
+  for (const id of usedInSession) input.usedInWeek.set(id, (input.usedInWeek.get(id) ?? 0) + 1);
+
+  // The cardio block is counted inside the session length, so strength work fits in what is left.
+  const minutes = cardioMinutes(settings);
+  const fitted = fitToTime(supersetsApply(settings) ? pairSupersets(slots) : slots, input.targetMinutes - minutes);
+  const pool = cardioPool(settings, seed, prefix);
+  const cardio: CardioBlock | undefined = pool.length
+    ? { slotId: `${prefix}:cardio:0`, exerciseId: pool[0].id, minutes, intensity: cardioIntensity(settings), alternates: pool.map((e) => e.id) }
+    : undefined;
+
+  return {
+    day: input.day,
+    template: input.template,
+    variant: input.variant,
+    slots: fitted,
+    ...(cardio ? { cardio } : {}),
+    estimatedMinutes: estimateMinutes(fitted, undefined, cardio ? cardio.minutes : 0),
+  };
+}
+
+export interface GenerateOptions {
+  seed: number;
+  /** Date key (YYYY-MM-DD) the plan starts on. */
+  today: string;
+  /** ISO timestamp for `createdAt`; defaults to the start of `today`. */
+  now?: string;
+  /** The date the Ramadan caps are judged on (defaults to `today`). */
+  asOf?: string;
+}
+
+export function generateWeeklyPlan(userSettings: WorkoutSettings, options: GenerateOptions): WeeklyWorkoutPlan {
+  validateSettings(userSettings);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(options.today)) throw new InvalidWorkoutSettings(`Bad date key ${options.today}`);
+  // Ramadan mode only applies during Ramadan; the plan is built with the settings as they apply then.
+  const settings = settingsOn(userSettings, options.asOf ?? options.today);
+
+  const days = WEEKDAYS.filter((day) => settings.trainingDays.includes(day));
+  const blocked = sportDays(settings);
+  const routine = settings.profile?.routine;
+  // A routine the user already follows sets the structure; otherwise the split comes from the day count.
+  const layout = routine ? layoutForRoutine(days, routine, settings) : null;
+  const slotCount = Math.min(SLOTS_FOR_MINUTES[settings.sessionMinutes], settings.ramadan.enabled ? 4 : Infinity);
+  const targetMinutes = settings.ramadan.enabled
+    ? Math.min(settings.sessionMinutes, RAMADAN_TARGET_MINUTES)
+    : settings.sessionMinutes;
+  const caps: Caps = { ramadan: settings.ramadan.enabled, lowIntensity: settings.lowIntensity };
+
+  const build = (templates: readonly SessionTemplateId[], only?: ReadonlySet<MovementPattern>) => {
+    const totals = new Map<SessionTemplateId, number>();
+    for (const template of templates) totals.set(template, (totals.get(template) ?? 0) + 1);
+    const seen = new Map<SessionTemplateId, number>();
+    const usedInWeek = new Map<string, number>();
+    return days.map((day, i) => {
+      const template = templates[i];
+      const index = seen.get(template) ?? 0;
+      seen.set(template, index + 1);
+      const variant = (totals.get(template) ?? 0) > 1 ? VARIANTS[index] : null;
+      return buildSession({
+        day, template, variant, settings, seed: options.seed, caps, slotCount, targetMinutes, usedInWeek, easyLegs: blocked.has(day),
+        preferred: routineExercisesFor(routine, day), only,
+      });
+    });
+  };
+
+  // A focus the user chose (upper, lower, core, arms) is trained on its own. Without equipment a focus may
+  // have nothing to fill a session; then the balanced plan is better than an empty day.
+  const focused = layout ? null : focusSplit(days.length, settings.focus);
+  let split: SplitId;
+  let sessions = focused ? build(arrangeTemplates(days, focused.templates, blocked), focused.only) : null;
+  if (focused && sessions && !sessions.some((session) => session.slots.length === 0)) {
+    split = focused.split;
+  } else {
+    const chosen = chooseSplit(days.length, settings.experience, settings.location);
+    split = layout ? layout.split : chosen.split;
+    sessions = build(layout ? layout.templates : arrangeTemplates(days, chosen.templates, blocked));
+  }
+
+  return {
+    version: 1,
+    createdAt: options.now ?? `${options.today}T00:00:00.000Z`,
+    blockStart: options.today,
+    seed: options.seed,
+    settings: userSettings,
+    split,
+    sessions,
+    swaps: {},
+    restDayWalk: { ...REST_DAY_WALK },
+    fasting: settings.ramadan.enabled,
+  };
+}
+
+/**
+ * The plan for new settings that keeps what the user already has: the same
+ * seed (so unchanged slots pick the same exercises), the same block start
+ * (so week numbers continue), and every swap that still fits.
+ */
+export function regeneratePlan(
+  previous: WeeklyWorkoutPlan,
+  settings: WorkoutSettings,
+  options: { now?: string; asOf?: string } = {}
+): WeeklyWorkoutPlan {
+  const asOf = options.asOf ?? options.now?.slice(0, 10) ?? previous.blockStart;
+  const next = generateWeeklyPlan(settings, { seed: previous.seed, today: previous.blockStart, now: options.now, asOf });
+  const applied = settingsOn(settings, asOf);
+  const slotPattern = new Map(next.sessions.flatMap((session) => session.slots.map((slot) => [slot.slotId, slot.pattern] as const)));
+  const cardioChoices = new Map(next.sessions.flatMap((session) => (session.cardio ? [[session.cardio.slotId, session.cardio.alternates] as const] : [])));
+  for (const [slotId, exerciseId] of Object.entries(previous.swaps)) {
+    const exercise = getExercise(exerciseId);
+    const fitsSlot = exercise && slotPattern.get(slotId) === exercise.pattern && isAllowed(exercise, applied);
+    const fitsCardio = cardioChoices.get(slotId)?.includes(exerciseId);
+    if (fitsSlot || fitsCardio) next.swaps[slotId] = exerciseId;
+  }
+  if (previous.targetOfferDeclinedKcal !== undefined) next.targetOfferDeclinedKcal = previous.targetOfferDeclinedKcal;
+  return next;
+}
+
+/** A rebuild the user didn't ask for keeps the plan's creation and save times. */
+function keepSaveTimes(plan: WeeklyWorkoutPlan, rebuilt: WeeklyWorkoutPlan): WeeklyWorkoutPlan {
+  return { ...rebuilt, createdAt: plan.createdAt, ...(plan.updatedAt ? { updatedAt: plan.updatedAt } : {}) };
+}
+
+/**
+ * A saved plan brought up to date with what the generator now adds (the
+ * cardio block and rest-day walk, phase 6b), keeping its seed, week numbers,
+ * swaps, creation and save times. Returns the same object when nothing is missing.
+ */
+export function upgradePlan(plan: WeeklyWorkoutPlan): WeeklyWorkoutPlan {
+  if (plan.restDayWalk) return plan;
+  return keepSaveTimes(plan, regeneratePlan(plan, plan.settings));
+}
+
+/**
+ * The plan as it should be on a date: rebuilt when Ramadan has started or
+ * ended since it was made (for users who use Ramadan mode), keeping its seed,
+ * week numbers, swaps, creation and save times. Returns the same object otherwise.
+ */
+export function planForDate(plan: WeeklyWorkoutPlan, dateKey: string): WeeklyWorkoutPlan {
+  const shouldFast = plan.settings.ramadan.enabled && isRamadan(dateKey);
+  const fasting = plan.fasting ?? plan.settings.ramadan.enabled;
+  if (shouldFast === fasting && plan.fasting !== undefined) return plan;
+  return keepSaveTimes(plan, regeneratePlan(plan, plan.settings, { asOf: dateKey }));
+}
+
+/** Whole weeks since the block started (0 in the first week). */
+export function weekIndexFor(blockStart: string, dateKey: string): number {
+  const start = Date.parse(`${blockStart}T00:00:00Z`);
+  const date = Date.parse(`${dateKey}T00:00:00Z`);
+  return Math.max(0, Math.floor((date - start) / (7 * 24 * 60 * 60 * 1000)));
+}
+
+/** The exercise a slot holds in a given week: a swap wins, accessories rotate every 4 weeks, main lifts stay. */
+export function exerciseForWeek(plan: WeeklyWorkoutPlan, slotId: string, weekIndex: number): string | undefined {
+  if (plan.swaps[slotId]) return plan.swaps[slotId];
+  const slot = plan.sessions.flatMap((session) => session.slots).find((s) => s.slotId === slotId);
+  if (!slot) return plan.sessions.find((session) => session.cardio?.slotId === slotId)?.cardio?.exerciseId;
+  if (slot.role === 'main' || slot.alternates.length === 0) return slot.exerciseId;
+  return slot.alternates[Math.floor(weekIndex / 4) % slot.alternates.length];
+}

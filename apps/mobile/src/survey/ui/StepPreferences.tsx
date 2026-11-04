@@ -1,0 +1,130 @@
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { DietPreference, SurveyPreferences } from '../types.js';
+import { useTheme } from '../../theme.js';
+import { useRegion } from '../../common/region/index.js';
+import { useTranslation, useTextDirection } from '../../i18n/index.js';
+import { OptionButton, OptionGroup } from '../../ui/Selectable.js';
+
+interface StepPreferencesProps {
+  data: Partial<SurveyPreferences>;
+  onChange: (updated: Partial<SurveyPreferences>) => void;
+  errors: Record<string, string>;
+}
+
+// Staple foods are market specific, so the diet labels are keyed by region.
+const DIET_OPTION_IDS: DietPreference[] = [
+  'halal_omnivore',
+  'halal_meat_moderate',
+  'vegetarian_desi',
+  'eggetarian',
+  'vegan',
+];
+
+export const StepPreferences: React.FC<StepPreferencesProps> = ({
+  data,
+  onChange,
+  errors,
+}) => {
+  const { theme } = useTheme();
+  const { activeRegion } = useRegion();
+  const { t } = useTranslation();
+  const dir = useTextDirection();
+  const dietOptions = DIET_OPTION_IDS.map((id) => ({
+    id,
+    label: t(`survey.preferences.diets.${id}.${activeRegion}`),
+  }));
+
+  return (
+    <View style={styles.container}>
+      <Text style={[styles.description, dir.text, { color: theme.colors.textSecondary }]}>
+        {t(`survey.preferences.description.${activeRegion}`)}
+      </Text>
+
+      {/* Diet Style */}
+      <View style={styles.fieldGroup}>
+        <Text style={[styles.label, dir.text, { color: theme.colors.textPrimary }]}>
+          {t('survey.preferences.dietaryPreference')}
+        </Text>
+        <OptionGroup label={t('survey.preferences.dietaryPreference')} style={styles.chipGrid}>
+          {dietOptions.map((d) => (
+            <OptionButton
+              key={d.id}
+              label={d.label}
+              check="inline"
+              selected={data.dietPreference === d.id}
+              onPress={() => onChange({ dietPreference: d.id })}
+              style={styles.chip}
+              labelStyle={styles.chipText}
+            />
+          ))}
+        </OptionGroup>
+        {errors.dietPreference && (
+          <Text style={[styles.errorText, { color: theme.colors.danger }]}>{errors.dietPreference}</Text>
+        )}
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 20,
+    paddingTop: 8,
+  },
+  description: {
+    fontSize: 14,
+    marginBottom: 20,
+    lineHeight: 20,
+  },
+  fieldGroup: {
+    marginBottom: 20,
+  },
+  label: {
+    fontSize: 13,
+    fontWeight: '700',
+    marginBottom: 8,
+  },
+  chipGrid: {
+    gap: 8,
+  },
+  chip: {
+    borderRadius: 16,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+  },
+  chipText: {
+    fontSize: 14,
+  },
+  cardOption: {
+    borderRadius: 20,
+    padding: 16,
+    marginBottom: 10,
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 4,
+  },
+  cardTitle: {
+    fontSize: 15,
+    fontWeight: '800',
+    flex: 1,
+  },
+  activePill: {
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 8,
+    marginStart: 8,
+  },
+  cardSubtitle: {
+    fontSize: 12,
+    lineHeight: 17,
+  },
+  errorText: {
+    fontSize: 12,
+    marginTop: 4,
+    fontWeight: '600',
+  },
+});

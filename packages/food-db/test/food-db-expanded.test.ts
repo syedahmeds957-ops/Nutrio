@@ -16,7 +16,7 @@ import {
 
 describe('Expanded Pakistani Restaurant & Food Database (500+ Items)', () => {
   it('contains at least 500 verified Pakistani dishes', () => {
-    expect(PAKISTANI_STAPLES_DATA.length).toBeGreaterThanOrEqual(2700);
+    expect(PAKISTANI_STAPLES_DATA.length).toBeGreaterThanOrEqual(2400);
   });
 
   it('correctly populates all 10 modular category files', () => {

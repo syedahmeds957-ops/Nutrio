@@ -4,9 +4,11 @@ import {
   PAKISTANI_RESTAURANT_BRANDS,
 } from '../src/index.js';
 
-describe('Pakistani Restaurant Catalog: 2,700+ Menu Items & 60+ Brands', () => {
-  it('contains at least 2,700 total verified menu items', () => {
-    expect(ALL_EXPANDED_PAKISTANI_FOODS.length).toBeGreaterThanOrEqual(2700);
+// The floor was 2,700 while 778 "Special <dish>" clones padded the generated menus; they are retired
+// now (scripts/retire-special-copies.mjs), so the honest size of the catalogue is 2,400+.
+describe('Pakistani Restaurant Catalog: 2,400+ Menu Items & 60+ Brands', () => {
+  it('contains at least 2,400 total menu items', () => {
+    expect(ALL_EXPANDED_PAKISTANI_FOODS.length).toBeGreaterThanOrEqual(2400);
   });
 
   it('contains at least 60 authentic Pakistani restaurant and cafe brands', () => {
@@ -49,7 +51,7 @@ describe('Pakistani Restaurant Catalog: 2,700+ Menu Items & 60+ Brands', () => {
     expect(brandNames.has('The Monal (Islamabad / Rawalpindi)')).toBe(true);
   });
 
-  it('ensures 100% of the 2,700+ items have strictly unique IDs (no duplicates)', () => {
+  it('ensures 100% of the 2,400+ items have strictly unique IDs (no duplicates)', () => {
     const idSet = new Set<string>();
     const duplicateIds: string[] = [];
 
@@ -65,7 +67,7 @@ describe('Pakistani Restaurant Catalog: 2,700+ Menu Items & 60+ Brands', () => {
     expect(idSet.size).toBe(ALL_EXPANDED_PAKISTANI_FOODS.length);
   });
 
-  it('enforces Atwater energy balance (P*4 + C*4 + F*9 = kcal +- 5) on all 2,700+ items', () => {
+  it('enforces Atwater energy balance (P*4 + C*4 + F*9 = kcal +- 5) on all 2,400+ items', () => {
     for (const food of ALL_EXPANDED_PAKISTANI_FOODS) {
       expect(food.protein100g).toBeGreaterThanOrEqual(0);
       expect(food.carb100g).toBeGreaterThanOrEqual(0);

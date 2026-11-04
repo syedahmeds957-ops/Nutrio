@@ -164,6 +164,18 @@ describe('Deterministic Constraint Meal Plan Solver (Task 2.1)', () => {
     ]);
   });
 
+  it('returns an empty, flagged plan instead of throwing when the diet leaves no foods', () => {
+    const meatOnly = mockFoodPool.filter((f) => f.name === 'Chicken Karahi');
+    const plan = solveDailyMealPlan(
+      { targetCalories: 1800, targetProteinGrams: 100, targetFatGrams: 55, targetCarbGrams: 220, dietPreference: 'vegan' },
+      meatOnly
+    );
+    expect(plan.insufficientFoodPool).toBe(true);
+    expect(plan.meals).toHaveLength(4);
+    expect(plan.meals.every((m) => m.items.length === 0)).toBe(true);
+    expect(plan.isWithinTolerance).toBe(false);
+  });
+
   it('filters out animal meats when vegetarian_desi is requested', () => {
     const filtered = filterFoodPool(mockFoodPool, {
       targetCalories: 1800,

@@ -8,7 +8,18 @@ import {
   CoachChatRequest,
   CoachChatResponse,
   CoachChatResponseSchema,
+  SwapRequest,
 } from './schema.js';
+
+// Reasoning plus a short reply; Groq's documented default for gpt-oss.
+const COACH_MAX_COMPLETION_TOKENS = 1024;
+
+/** Default follow-up questions when the model gives none; Saudi Arabia reads Arabic only. */
+const SUGGESTED_PROMPTS_AR = [
+  'ما الفطور الذي يشبعني حتى الغداء؟',
+  'كيف أحصل على بروتين أكثر دون الكثير من اللحم؟',
+  'ما زلت جائعاً بعد العشاء، ماذا آكل؟',
+];
 
 function getFallbackCoachResponse(
   userQuery: string,
@@ -17,13 +28,22 @@ function getFallbackCoachResponse(
   const query = userQuery.toLowerCase();
   const remaining = context.todaySummary?.remainingCalories ?? 500;
 
+  // The app never shows this reply (it answers offline from its own translated
+  // coach), but Saudi Arabia is Arabic only, so nothing English leaves here.
+  if (context.region === 'SA') {
+    return {
+      reply: `أهلاً ${context.displayName || 'بك'}! تبقى لديك حوالي ${remaining} سعرة حرارية في ميزانيتك اليومية. ركّز على البروتين الجيد والألياف، وقل لي أي وجبة تريد أن نعدّلها اليوم.`,
+      suggestedPrompts: SUGGESTED_PROMPTS_AR,
+    };
+  }
+
   if (query.includes('oil') || query.includes('karahi') || query.includes('tel')) {
     return {
       reply: `In traditional Pakistani handis like Chicken Karahi, cooks often free-pour oil, adding 30-50g of hidden fat (270-450 kcal).
 A game-changing habit: measure oil using a tablespoon (1 tbsp = 14g, ~120 kcal) for the entire family pot, or add tomatoes early to create a rich gravy without excess ghee.`,
       suggestedPrompts: [
-        'How many spoons of oil should I use for 4 people?',
-        'Can I use olive oil or mustard oil for desi cooking?',
+        'How much oil should I use when cooking for 4 people?',
+        'Is olive oil better than ghee for cooking?',
         'What should I eat for dinner tonight?',
       ],
     };
@@ -36,9 +56,9 @@ A game-changing habit: measure oil using a tablespoon (1 tbsp = 14g, ~120 kcal) 
 2. Pick ONE carb: either 1 naan OR 1 scoop of biryani, not both.
 3. Have 1 piece of sweet (gulab jamun/kheer) mindfully, and drink 2 glasses of water before eating.`,
       suggestedPrompts: [
-        'How do I log food if I eat out at a dawat?',
-        'What is the best choice at a BBQ restaurant?',
-        'Can I skip lunch before a heavy dinner?',
+        'How do I log food I ate at a dawat?',
+        'What should I pick at a BBQ restaurant?',
+        'Should I skip lunch before a big dinner?',
       ],
     };
   }
@@ -48,9 +68,9 @@ A game-changing habit: measure oil using a tablespoon (1 tbsp = 14g, ~120 kcal) 
       reply: `Traditional doodh patti made with whole milk and 2 spoons of sugar can easily pack 180-220 kcal per cup!
 If you drink 2-3 cups daily, try switching to 50% milk + 50% water (half doodh, half paani) with half a spoon of sugar or stevia. That saves ~300 kcal a day without giving up your chai ritual.`,
       suggestedPrompts: [
-        'Is green tea or kehwa better for fat loss?',
-        'What healthy desi snacks can I have with chai?',
-        'How do I control evening sugar cravings?',
+        'Are 3 cups of chai a day too many?',
+        'What can I have with chai instead of biscuits?',
+        'How do I stop craving sweets in the evening?',
       ],
     };
   }
@@ -59,11 +79,82 @@ If you drink 2-3 cups daily, try switching to 50% milk + 50% water (half doodh, 
     reply: `Assalam-o-Alaikum ${context.displayName || 'there'}! You currently have approximately ${remaining} kcal remaining in your daily budget.
 Focus on getting quality protein (daal, eggs, chicken) and fibre-rich whole wheat roti while keeping cooking oil measured. What specific meal or routine can I help you adjust today?`,
     suggestedPrompts: [
-      'How to reduce oil in everyday cooking?',
-      'High protein Pakistani breakfast ideas',
-      'Tips for dining out at dawats',
+      'What breakfast will keep me full until lunch?',
+      'How can I get more protein without much meat?',
+      "I'm still hungry after dinner. What can I eat?",
     ],
   };
+}
+
+/** Past this a suggestion is a paragraph, not a tap-to-ask question. */
+const MAX_SUGGESTION_CHARS = 90;
+
+/**
+ * Keeps only suggestions that read as a question the user would ask. The model
+ * sometimes returns topic headings ("High-protein snack ideas") despite the
+ * prompt; those are dropped and the defaults stay.
+ */
+export function isSuggestedQuestion(text: string): boolean {
+  const q = text.trim();
+  return q.length > 5 && q.length <= MAX_SUGGESTION_CHARS && (q.endsWith('?') || q.endsWith('؟'));
+}
+
+const JOINT_NAMES: Record<string, string> = {
+  knee: 'knees',
+  lower_back: 'lower back',
+  shoulder: 'shoulders',
+  wrist: 'wrists',
+};
+
+/**
+ * The prompt block for a chat about one exercise: the only alternatives the
+ * app allows, with the joints each one loads, and how to propose one. The
+ * model may only pick an id from this list; the app asks the user before
+ * changing anything.
+ */
+export function buildSwapInstructions(swap: SwapRequest): string {
+  const options = swap.candidates.length
+    ? swap.candidates
+        .map((c) => {
+          const loads = c.jointLoads.map((j) => JOINT_NAMES[j] ?? j).join(', ');
+          return `- ${c.id}: ${c.name} (${loads ? `loads ${loads}` : 'no joint flagged'})`;
+        })
+        .join('\n')
+    : '- (none: there is no safe alternative with their equipment and plan)';
+
+  return `EXERCISE BEING DISCUSSED: ${swap.exerciseName} (id ${swap.exerciseId}).
+Safe alternatives from the user's plan (the ONLY exercises you may suggest instead):
+${options}
+- If the user mentions pain in a joint, prefer an alternative that does not load it, and say so. If every alternative loads that joint, say that none avoids it fully, and suggest a lighter weight or skipping it today.
+- If there is no alternative, say you couldn't find a safe swap with their equipment, and suggest lowering the weight or skipping it today.
+- Suggest an alternative in words first and ask whether they want to swap. Only after the user clearly agrees, write one short sentence about the swap, then end your answer with one line, just before SUGGESTIONS:
+SWAP: {"toId": "<an id from the list above>", "reason": "<a full sentence in the user's language, no numbers>"}
+- Never write the SWAP line otherwise, and never with an id that is not in the list.`;
+}
+
+const SWAP_LINE = /SWAP:\s*(\{[^{}]*\})/i;
+
+/**
+ * Takes the SWAP line out of the model's text wherever it appears, and keeps
+ * the proposal only when its id is one of the candidates the app sent.
+ */
+export function takeProposedSwap(
+  content: string,
+  swap: SwapRequest | undefined
+): { content: string; proposedSwap?: { toId: string; reason: string }; rejected: boolean } {
+  const match = content.match(SWAP_LINE);
+  if (!match) return { content, rejected: false };
+  const rest = content.replace(match[0], '').replace(/```(?:json)?\s*```/g, '').replace(/\n{3,}/g, '\n\n');
+  try {
+    const parsed = JSON.parse(match[1]);
+    const toId = typeof parsed?.toId === 'string' ? parsed.toId : '';
+    const allowed = swap?.candidates.some((c) => c.id === toId) ?? false;
+    if (!allowed) return { content: rest, rejected: true };
+    const reason = typeof parsed.reason === 'string' ? parsed.reason.trim().slice(0, 300) : '';
+    return { content: rest, proposedSwap: { toId, reason }, rejected: false };
+  } catch {
+    return { content: rest, rejected: true };
+  }
 }
 
 export async function coachChatService(
@@ -75,22 +166,42 @@ export async function coachChatService(
     [...request.messages].reverse().find((m) => m.role === 'user')?.content || '';
 
   let reply = '';
-  let suggestedPrompts: string[] = [
-    'How to reduce oil in desi cooking?',
-    'What healthy desi snacks go with chai?',
-    'Tips for dining at a shaadi or dawat',
-  ];
+  const isSaudi = (request.context as CoachContext).region === 'SA';
+  let suggestedPrompts: string[] = isSaudi
+    ? SUGGESTED_PROMPTS_AR
+    : [
+        'What breakfast will keep me full until lunch?',
+        'How can I get more protein without much meat?',
+        "I'm still hungry after dinner. What can I eat?",
+      ];
   let provider = 'deterministic_coach_fallback';
+  let proposedSwap: CoachChatResponse['proposedSwap'];
+  let swapRejected = false;
+  const swapSection = request.swapRequest ? `\n\n${buildSwapInstructions(request.swapRequest)}` : '';
 
   if (apiKey) {
     try {
-      const promptInstructions = `${systemPrompt}
+      const promptInstructions = `${systemPrompt}${swapSection}
+
+ANSWER STYLE (strict):
+- Answer the exact question in the first sentence. No greeting, no restating the question, no preamble.
+- Keep the whole answer under 80 words: 2 to 4 short sentences, or at most 3 short bullet points when listing options.
+- Be specific: real foods, amounts and numbers from the user's targets and today's log above. No generic wellness advice.
+- Only add an explanation if the user asked "why".
 
 OUTPUT FORMAT REQUIREMENT:
-Respond in conversational text, then at the very end, provide 3 short follow-up prompts on a new line prefixed with "SUGGESTIONS:":
-[Your natural advice here]
+Write the answer as plain text. Then, at the very end, on a new line prefixed with "SUGGESTIONS:", give 3 questions the user is likely to ask you next.
+Write them the way a real person types to their nutrition coach: first person, everyday words, under 12 words, each ending with "?", and about what was just discussed or their day (e.g. "Can I have a second roti at dinner?", "What should I eat before the gym?").
+Never write topic headings or slogans ("High-protein snack ideas", "Balancing your macros"), never name brands or restaurants, and never repeat a question already asked in this chat.
+[Your short, direct answer here]
 
-SUGGESTIONS: ["Prompt 1", "Prompt 2", "Prompt 3"]`;
+SUGGESTIONS: ["Question 1?", "Question 2?", "Question 3?"]
+
+LANGUAGE (strict): ${
+        isSaudi
+          ? 'Write the answer and all 3 suggested questions in Arabic only (Arabic script, each question ending with "؟"). No English except the app name Nutrio and brand names.'
+          : 'Write the answer and all 3 suggested questions in English only. No Arabic or Urdu script.'
+      }`;
 
       const messages = [
         { role: 'system', content: promptInstructions },
@@ -107,21 +218,41 @@ SUGGESTIONS: ["Prompt 1", "Prompt 2", "Prompt 3"]`;
           model: MODELS.GROQ.CHAT_NARRATIVE,
           messages,
           temperature: 0.3,
-          max_tokens: 600,
+          // gpt-oss is a reasoning model: hidden reasoning tokens share the
+          // completion budget, and at the default effort they could use all of
+          // it and leave the reply empty. Low effort suits short coaching
+          // replies, and leaving the reasoning text out keeps responses small.
+          reasoning_effort: 'low',
+          include_reasoning: false,
+          max_completion_tokens: COACH_MAX_COMPLETION_TOKENS,
         }),
       });
 
-      if (res.ok) {
+      if (!res.ok) {
+        // Never log the key; Groq's error message says what went wrong
+        // (invalid key, rate limit, unknown model).
+        const detail = await res.text().catch(() => '');
+        console.warn(`[coach-chat] Groq returned HTTP ${res.status}: ${detail.slice(0, 300)}`);
+      } else {
         const data = await res.json();
-        const rawContent = data.choices?.[0]?.message?.content;
+        const choice = data.choices?.[0];
+        const rawContent = choice?.message?.content;
+        if (!rawContent) {
+          console.warn(`[coach-chat] Groq sent an empty reply (finish_reason: ${choice?.finish_reason})`);
+        }
         if (rawContent) {
-          const split = rawContent.split(/SUGGESTIONS:\s*/i);
+          const swap = takeProposedSwap(rawContent, request.swapRequest);
+          proposedSwap = swap.proposedSwap;
+          swapRejected = swap.rejected;
+          if (swapRejected) console.warn('[coach-chat] Dropped a proposed swap that was not one of the candidates');
+          const split = swap.content.split(/SUGGESTIONS:\s*/i);
           reply = split[0].trim();
           if (split[1]) {
             try {
               const parsed = JSON.parse(split[1].trim());
-              if (Array.isArray(parsed) && parsed.length > 0) {
-                suggestedPrompts = parsed.map(String);
+              const questions = Array.isArray(parsed) ? parsed.map(String).filter(isSuggestedQuestion) : [];
+              if (questions.length > 0) {
+                suggestedPrompts = questions;
               }
             } catch {
               // fallback suggestions preserved
@@ -130,10 +261,14 @@ SUGGESTIONS: ["Prompt 1", "Prompt 2", "Prompt 3"]`;
           provider = 'groq_gpt_oss_120b';
         }
       }
-    } catch {
-      // Fallback
+    } catch (err) {
+      console.warn(`[coach-chat] Groq request failed: ${(err as Error)?.message ?? err}`);
     }
   }
+
+  // The model sometimes answers an agreed swap with the SWAP line alone; the
+  // reason it gave reads as the answer, not the generic greeting.
+  if (!reply && proposedSwap) reply = proposedSwap.reason;
 
   if (!reply) {
     const fallback = getFallbackCoachResponse(
@@ -152,7 +287,8 @@ SUGGESTIONS: ["Prompt 1", "Prompt 2", "Prompt 3"]`;
     reply: validation.sanitizedText,
     suggestedPrompts: suggestedPrompts.slice(0, 3),
     provider,
-    flagsTriggered: validation.flagsTriggered,
+    flagsTriggered: swapRejected ? [...validation.flagsTriggered, 'SWAP_NOT_IN_CANDIDATES'] : validation.flagsTriggered,
+    ...(proposedSwap ? { proposedSwap } : {}),
   };
 
   return CoachChatResponseSchema.parse(response);

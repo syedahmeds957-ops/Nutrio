@@ -1,180 +1,153 @@
+import { z } from 'zod';
 import {
-  DetectedFoodItem,
-  resolveDetectedPlate,
-} from '@nutrio/nutrition-core';
-import { PAKISTANI_STAPLES_DATA } from '@nutrio/food-db';
+  parseMealItemText,
+  parseMealText,
+  UNIT_ALIASES,
+  WEIGHT_UNITS,
+  type ParsedMeal,
+  type ParsedMealItem,
+} from '@nutrio/food-db';
 import { MODELS } from '../_shared/models.js';
 import {
-  ParsedFoodItemCandidate,
+  ExtractedMealItemSchema,
+  MEAL_UNITS,
   ParseFoodTextRequest,
   ParseFoodTextResponse,
   ParseFoodTextResponseSchema,
 } from './schema.js';
 
-// Number words in Roman Urdu and Urdu
-const NUMBER_WORDS: Record<string, number> = {
-  ek: 1,
-  aik: 1,
-  one: 1,
-  '1': 1,
-  ایک: 1,
-  do: 2,
-  two: 2,
-  '2': 2,
-  دو: 2,
-  teen: 3,
-  three: 3,
-  '3': 3,
-  تین: 3,
-  char: 4,
-  chaar: 4,
-  four: 4,
-  '4': 4,
-  چار: 4,
-  paanch: 5,
-  five: 5,
-  '5': 5,
-  پانچ: 5,
-  aadha: 0.5,
-  aadhi: 0.5,
-  half: 0.5,
-};
+/** Past this the deterministic parser answers instead; a slow parse is worse than a plain one. */
+export const MODEL_TIMEOUT_MS = 4000;
+
+const SYSTEM_PROMPT = `You split a meal description into food items. Input may be English, Roman Urdu or Urdu.
+
+Return JSON: {"slot": "breakfast"|"lunch"|"dinner"|"snacks_chai" (only if stated), "items": [...]}
+Each item: {"name": string, "quantity": number (omit if not stated), "unit": string (omit if not stated), "grams": number (only if the user gave a weight or volume)}
+
+Rules:
+1. NEVER output calories, macros or any nutrition number.
+2. "name" is the food only. Remove filler ("I had", "khaya", "for breakfast", "with my tea").
+3. Keep each food separate: "2 roti aur daal" is two items.
+4. Units, when stated, are one of: ${MEAL_UNITS.join(', ')}. Map katora/pyala to bowl, chamach to tbsp.
+5. Do not guess quantities or grams the user did not say.`;
 
 /**
- * Deterministic fallback parser for Pakistani / Desi meal phrases.
+ * What the model may return; anything else it adds (calories, say) is dropped.
+ * Numbers may arrive as strings ("2") and are coerced; a value that is still
+ * invalid rejects the whole answer so the deterministic parser runs instead.
+ * Quietly replacing a bad quantity with "1" would log the wrong amount.
  */
-export function parseFoodTextFallback(text: string): ParsedFoodItemCandidate[] {
-  const lower = text.toLowerCase();
-  const segments = lower
-    .split(/,|\baur\b|\band\b|\bsaath\b|\bplus\b|\bwith\b|\b&\b/i)
-    .map((s) => s.trim())
-    .filter(Boolean);
+const ModelOutputSchema = z.object({
+  slot: z.enum(['breakfast', 'lunch', 'dinner', 'snacks_chai']).optional(),
+  items: z
+    .array(
+      z.object({
+        name: z.string().min(1).max(80),
+        quantity: z.coerce.number().positive().max(100).optional(),
+        unit: z.string().max(20).optional(),
+        grams: z.coerce.number().positive().max(5000).optional(),
+      })
+    )
+    .min(1)
+    .max(20),
+});
 
-  const candidates: ParsedFoodItemCandidate[] = [];
+type ModelItem = z.infer<typeof ModelOutputSchema>['items'][number];
 
-  for (const segment of segments) {
-    let quantity = 1;
-    const tokens = segment.split(/\s+/);
+/**
+ * A model item as a parsed item. A name that still carries its own amount
+ * ("2 roti") is read with the deterministic parser so the "2" is not lost; a
+ * weight given as the unit ("200", "g") becomes grams.
+ */
+function toParsedItem(item: ModelItem): ParsedMealItem {
+  const fromName = parseMealItemText(item.name);
+  const unitKey = item.unit?.toLowerCase().trim() ?? '';
+  const weightFactor = WEIGHT_UNITS[unitKey];
+  const unit = UNIT_ALIASES[unitKey] ?? fromName?.unit;
 
-    for (const token of tokens) {
-      if (NUMBER_WORDS[token] !== undefined) {
-        quantity = NUMBER_WORDS[token];
-        break;
-      }
-    }
+  const nameQuantity = fromName?.quantityGiven ? fromName.quantity : undefined;
+  const quantity = weightFactor !== undefined ? undefined : (item.quantity ?? nameQuantity);
+  const grams =
+    weightFactor !== undefined && item.quantity !== undefined
+      ? item.quantity * weightFactor
+      : (item.grams ?? fromName?.grams);
 
-    // Clean segment by removing quantifier words and units
-    const cleanName = segment
-      .replace(
-        /\b(ek|aik|do|teen|char|chaar|paanch|one|two|three|four|five|aadha|aadhi|half|\d+)\b/gi,
-        ''
-      )
-      .replace(
-        /\b(katori|bowl|plate|cup|glass|serving|servings|piece|pieces|slice|slices|chamach|spoon)\b/gi,
-        ''
-      )
-      .trim();
-
-    if (cleanName.length >= 2) {
-      candidates.push({
-        detectedName: cleanName,
-        quantity,
-      });
-    }
-  }
-
-  if (candidates.length === 0 && text.trim().length >= 2) {
-    candidates.push({
-      detectedName: text.trim(),
-      quantity: 1,
-    });
-  }
-
-  return candidates;
+  return {
+    text: item.name,
+    name: fromName?.name ?? item.name.toLowerCase().trim(),
+    quantity: quantity ?? 1,
+    quantityGiven: quantity !== undefined,
+    ...(unit ? { unit } : {}),
+    ...(grams !== undefined ? { grams } : {}),
+    ...(fromName?.issues ? { issues: fromName.issues } : {}),
+    ...(fromName?.literal ? { literal: fromName.literal } : {}),
+  };
 }
 
+/**
+ * The model's split of the sentence, or undefined on any failure — network,
+ * timeout, non-JSON, or a shape that fails validation — so the caller falls
+ * back to the deterministic parser.
+ */
+export async function extractWithModel(
+  text: string,
+  apiKey: string,
+  fetchImpl: typeof fetch = fetch
+): Promise<ParsedMeal | undefined> {
+  try {
+    const res = await fetchImpl('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: MODELS.GROQ.TEXT_FAST,
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'user', content: text },
+        ],
+        response_format: { type: 'json_object' },
+        temperature: 0,
+        max_tokens: 400,
+      }),
+      signal: AbortSignal.timeout(MODEL_TIMEOUT_MS),
+    });
+    if (!res.ok) return undefined;
+
+    const data = await res.json();
+    const content = data?.choices?.[0]?.message?.content;
+    if (typeof content !== 'string') return undefined;
+
+    const output = ModelOutputSchema.safeParse(JSON.parse(content));
+    if (!output.success) return undefined;
+
+    // One bad item rejects the answer: dropping it would lose a food unnoticed.
+    const items = output.data.items.map(toParsedItem);
+    if (!items.every((i) => ExtractedMealItemSchema.safeParse(i).success)) return undefined;
+    return { ...(output.data.slot ? { slot: output.data.slot } : {}), items };
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Splits a described meal into items. The model handles messy phrasing best;
+ * the deterministic parser answers when there is no key or the model fails.
+ * Either way the response carries no nutrition: the client resolves items
+ * against its own catalogue with `analyzeMealItems`.
+ */
 export async function parseFoodTextService(
   request: ParseFoodTextRequest,
-  apiKey?: string
+  apiKey?: string,
+  fetchImpl: typeof fetch = fetch
 ): Promise<ParseFoodTextResponse> {
-  let detectedCandidates = parseFoodTextFallback(request.text);
-  let provider = 'deterministic_regex';
+  const fromModel = apiKey ? await extractWithModel(request.text, apiKey, fetchImpl) : undefined;
+  const parsed = fromModel ?? parseMealText(request.text);
+  const slot = request.mealSlot ?? parsed.slot;
 
-  if (apiKey) {
-    try {
-      const systemPrompt = `You are an expert Pakistani culinary and multilingual NLP entity parser.
-Extract food items and quantities from the user's meal query (which may be in Roman Urdu, Urdu, or English).
-
-CRITICAL RULES:
-1. NEVER output or estimate calories or macronutrient numbers.
-2. Return strictly valid JSON array of objects:
-[
-  { "detectedName": "Roti", "quantity": 2, "unit": "pieces" },
-  { "detectedName": "Chicken Karahi", "quantity": 1, "unit": "katori" }
-]`;
-
-      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: MODELS.GROQ.CHAT_NARRATIVE,
-          messages: [
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: request.text },
-          ],
-          response_format: { type: 'json_object' },
-          temperature: 0.1,
-          max_tokens: 300,
-        }),
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        const content = data.choices?.[0]?.message?.content;
-        if (content) {
-          const parsed = JSON.parse(content);
-          const items = Array.isArray(parsed)
-            ? parsed
-            : parsed.items || parsed.foods;
-          if (Array.isArray(items) && items.length > 0) {
-            detectedCandidates = items.map((i: any) => ({
-              detectedName: String(i.detectedName || i.name),
-              quantity: Number(i.quantity) || 1,
-              unit: i.unit ? String(i.unit) : undefined,
-              estimatedGrams: i.estimatedGrams ? Number(i.estimatedGrams) : undefined,
-            }));
-            provider = 'groq_nlp_parser';
-          }
-        }
-      }
-    } catch {
-      // Gracefully fall back to deterministic regex parser
-    }
-  }
-
-  // Ground against food DB via nutrition-core resolver
-  const detectedItems: DetectedFoodItem[] = detectedCandidates.map((c) => ({
-    detectedName: c.detectedName,
-    estimatedGrams: c.estimatedGrams,
-    servingMultiplier: c.quantity,
-  }));
-
-  const resolution = resolveDetectedPlate(
-    detectedItems,
-    PAKISTANI_STAPLES_DATA as any,
-    request.calibrationFactors || {}
-  );
-
-  const response: ParseFoodTextResponse = {
+  return ParseFoodTextResponseSchema.parse({
     success: true,
     originalText: request.text,
-    detectedItems: detectedCandidates,
-    resolution,
-    provider,
-  };
-
-  return ParseFoodTextResponseSchema.parse(response);
+    ...(slot ? { slot } : {}),
+    items: parsed.items,
+    provider: fromModel ? 'groq_nlp_parser' : 'deterministic',
+  });
 }

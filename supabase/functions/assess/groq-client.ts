@@ -5,7 +5,6 @@ import { generateFallbackNarrative, NarrativeTemplateInput } from '../_shared/te
 export interface GroqAssessmentInput extends NarrativeTemplateInput {
   display_name?: string;
   dietPreference?: string;
-  budgetTier?: string;
 }
 
 export interface GroqAssessmentResult {
@@ -61,7 +60,6 @@ export async function requestAssessmentNarrative(
       sleepHoursPerNight: input.sleepHours,
       shiftPattern: input.shiftPattern,
       dietPreference: input.dietPreference,
-      budgetTier: input.budgetTier,
     },
     requiredJsonSchema: {
       summary: 'Concise summary of their metabolic baseline (20-500 chars)',

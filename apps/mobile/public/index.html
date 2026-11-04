@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Nutrio - Nutrition & Calorie Coach</title>
+    <meta name="description" content="Nutrio is an AI nutrition and calorie coach with local Pakistani and Saudi foods, personal targets and daily tracking." />
+    <meta name="theme-color" content="#F6F7FB" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0C0D10" media="(prefers-color-scheme: dark)" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Nutrio" />
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Nutrio, an AI nutrition and calorie coach" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="/og-image.png" />
+    <meta name="twitter:title" content="Nutrio - Nutrition & Calorie Coach" />
+    <meta name="twitter:description" content="Track meals from local menus, get targets built for you and a coach that knows your day." />
+    <meta property="og:title" content="Nutrio - Nutrition & Calorie Coach" />
+    <meta property="og:description" content="Track meals from local menus, get targets built for you and a coach that knows your day." />
+
+    <!-- The `react-native-web` recommended style reset: https://necolas.github.io/react-native-web/docs/setup/#root-element -->
+    <style id="expo-reset">
+      /* These styles make the body full-height */
+      html,
+      body {
+        height: 100%;
+      }
+      /* These styles disable body scrolling if you are using <ScrollView> */
+      body {
+        overflow: hidden;
+      }
+      /* These styles make the root element full-height */
+      #root {
+        display: flex;
+        height: 100%;
+        flex: 1;
+      }
+      .shell { margin: auto; max-width: 360px; padding: 24px; text-align: center; color: #0A0B0D; }
+      .shell h1 { margin: 0 0 8px; font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
+      .shell p { margin: 0; color: #556274; font-size: 15px; line-height: 1.5; }
+      /* The app's own faces (the same files the native app bundles): Inter for Latin,
+         IBM Plex Sans Arabic for Arabic. Each file only downloads when its weight is used. */
+      @font-face { font-family: 'Inter'; font-weight: 400; font-display: swap; src: url('/fonts/Inter-Regular.ttf') format('truetype'); }
+      @font-face { font-family: 'Inter'; font-weight: 500; font-display: swap; src: url('/fonts/Inter-Medium.ttf') format('truetype'); }
+      @font-face { font-family: 'Inter'; font-weight: 600; font-display: swap; src: url('/fonts/Inter-SemiBold.ttf') format('truetype'); }
+      @font-face { font-family: 'Inter'; font-weight: 700; font-display: swap; src: url('/fonts/Inter-Bold.ttf') format('truetype'); }
+      @font-face { font-family: 'Inter'; font-weight: 800; font-display: swap; src: url('/fonts/Inter-ExtraBold.ttf') format('truetype'); }
+      @font-face { font-family: 'Inter'; font-weight: 900; font-display: swap; src: url('/fonts/Inter-Black.ttf') format('truetype'); }
+      @font-face { font-family: 'IBM Plex Sans Arabic'; font-weight: 400; font-display: swap; src: url('/fonts/IBMPlexSansArabic-Regular.ttf') format('truetype'); }
+      @font-face { font-family: 'IBM Plex Sans Arabic'; font-weight: 500; font-display: swap; src: url('/fonts/IBMPlexSansArabic-Medium.ttf') format('truetype'); }
+      @font-face { font-family: 'IBM Plex Sans Arabic'; font-weight: 700; font-display: swap; src: url('/fonts/IBMPlexSansArabic-Bold.ttf') format('truetype'); }
+      body, button, input, textarea, select {
+        font-family: 'Inter', 'IBM Plex Sans Arabic', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      /* React Native Web text selector font-family enforcement */
+      div, span, [dir="auto"], [data-text], [class*="css-text-"] {
+        font-family: 'Inter', 'IBM Plex Sans Arabic', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Use static rendering with Expo Router to support running without JavaScript. -->
+    <noscript>
+      Nutrio needs JavaScript to run. Please turn it on and reload.
+    </noscript>
+    <!-- The root element for your Expo app. -->
+    <div id="root">
+      <!-- What a crawler, a screen reader or a slow connection gets before the
+           app's script runs. React replaces it on mount, so the app's own
+           heading is the only one left afterwards. -->
+      <main class="shell">
+        <h1>Nutrio</h1>
+        <p>An AI nutrition and calorie coach with local Pakistani and Saudi foods, personal targets and daily tracking.</p>
+      </main>
+    </div>
+  </body>
+</html>

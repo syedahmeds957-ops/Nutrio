@@ -51,7 +51,6 @@ export async function generateMealPlanService(
       targetFatGrams: request.targetFatGrams,
       targetCarbGrams: request.targetCarbGrams,
       dietPreference: request.dietPreference,
-      budgetTierPKR: request.budgetTierPKR,
       dislikedFoods: request.dislikedFoods,
       medicalConditions: request.medicalConditions,
     },
@@ -72,7 +71,6 @@ export async function generateMealPlanService(
         targetFatGrams: request.targetFatGrams,
         targetCarbGrams: request.targetCarbGrams,
         dietPreference: request.dietPreference,
-        budgetTierPKR: request.budgetTierPKR,
       },
       PAKISTANI_STAPLES_DATA as any
     );
@@ -98,7 +96,6 @@ CRITICAL RULES:
 
       const userContent = JSON.stringify({
         dietPreference: request.dietPreference,
-        budgetTier: request.budgetTierPKR,
         isRamadan: isRamadanActive,
         isFamilyMode: isFamilyActive,
         dishesPlanned: plan.meals.flatMap((m) => m.items.map((i) => i.foodName)),

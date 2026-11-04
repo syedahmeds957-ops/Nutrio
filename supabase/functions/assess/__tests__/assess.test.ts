@@ -43,7 +43,6 @@ describe('Assessment Edge Function (Task 1.3)', () => {
     preferencesBudget: {
       dietPreference: 'halal_omnivore',
       dislikedFoods: ['karela'],
-      budgetTierPKR: 'standard_3500_7000',
     },
   };
 

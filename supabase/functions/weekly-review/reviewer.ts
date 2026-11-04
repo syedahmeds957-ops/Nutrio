@@ -10,11 +10,20 @@ export async function generateWeeklyReviewService(
   request: WeeklyReviewRequest,
   apiKey?: string
 ): Promise<WeeklyReviewResponse> {
+  // The engine positions each day by dayIndex; the request carries dates, so
+  // convert them to whole days since the earliest one, oldest first.
+  const byDate = <T extends { date: string }>(a: T, b: T) => a.date.localeCompare(b.date);
+  const weights = [...request.dailyWeights].sort(byDate);
+  const intakes = [...request.dailyIntakes].sort(byDate);
+  const firstDate = [weights[0]?.date, intakes[0]?.date].filter(Boolean).sort()[0];
+  const dayIndex = (date: string) =>
+    Math.round((Date.parse(`${date}T00:00:00Z`) - Date.parse(`${firstDate}T00:00:00Z`)) / 86_400_000) + 1;
+
   const adaptiveResult = calculateAdaptiveTDEE({
     formulaTDEE: request.currentTDEE,
     bmr: request.bmr,
-    dailyWeighInsKg: request.dailyWeights,
-    dailyIntakeKcal: request.dailyIntakes,
+    dailyWeighInsKg: weights.map((w) => ({ dayIndex: dayIndex(w.date), weightKg: w.weightKg })),
+    dailyIntakeKcal: intakes.map((i) => ({ dayIndex: dayIndex(i.date), kcal: i.kcal })),
     previousEWMAWeightKg: request.previousEWMAWeightKg,
   });
 

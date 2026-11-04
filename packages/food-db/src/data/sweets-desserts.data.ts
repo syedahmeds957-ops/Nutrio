@@ -86,7 +86,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Desi Ghee Jalebi (Special Amritsari)",
+    "name": "Ghee Jalebi (Amritsari)",
     "nameUr": "دیسی گھی جلیبی",
     "category": "Sweets & Desserts",
     "cuisineTags": [
@@ -618,7 +618,7 @@ export const SWEETS_DESSERTS_DATA: NormalizedFood[] = [
     ]
   },
   {
-    "name": "Moong Daal Ka Halwa (Lentil Halwa with Desi Ghee)",
+    "name": "Moong Daal Ka Halwa (Lentil Halwa with Ghee)",
     "nameUr": "مونگ دال کا حلوہ",
     "category": "Sweets & Desserts",
     "cuisineTags": [

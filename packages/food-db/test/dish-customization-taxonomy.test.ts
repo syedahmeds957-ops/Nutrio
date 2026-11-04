@@ -2,6 +2,8 @@ import { describe, it, expect } from 'vitest';
 import {
   DishCustomizationType,
   DISH_MODIFIER_TEMPLATES,
+  ALL_FOODS_CATALOG,
+  ALL_DIET_ADDON_MODIFIERS,
   resolveDishCustomization,
   getDishCustomizationModifiers,
   NormalizedFood,
@@ -32,6 +34,26 @@ describe('Dish Customization Taxonomy Engine', () => {
           expect(mod.name.trim().length, `Modifier ${mod.id} missing English name`).toBeGreaterThan(0);
           expect(mod.nameUr?.trim().length, `Modifier ${mod.id} missing Urdu nameUr`).toBeGreaterThan(0);
         }
+      }
+    });
+  });
+
+  describe('Arabic modifier names', () => {
+    const ARABIC_SCRIPT = /[\u0600-\u06FF]/;
+    const options = [
+      ...Object.values(DISH_MODIFIER_TEMPLATES).flat(),
+      ...ALL_DIET_ADDON_MODIFIERS,
+      ...ALL_FOODS_CATALOG.flatMap((food) => food.modifiers ?? []),
+    ];
+
+    it('finds modifier options to check', () => {
+      expect(options.length).toBeGreaterThan(100);
+    });
+
+    it('gives every modifier option a non-empty Arabic name in Arabic script', () => {
+      for (const mod of options) {
+        expect(mod.nameAr?.trim().length, `Modifier ${mod.id} missing Arabic nameAr`).toBeGreaterThan(0);
+        expect(ARABIC_SCRIPT.test(mod.nameAr ?? ''), `Modifier ${mod.id} nameAr has no Arabic script`).toBe(true);
       }
     });
   });
