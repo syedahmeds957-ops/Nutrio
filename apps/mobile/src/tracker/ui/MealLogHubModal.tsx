@@ -35,6 +35,7 @@ import { styles } from './MealLogHubModal.styles.js';
 import { DishCard } from './DishCard.js';
 import { VariantDishCard } from './VariantDishCard.js';
 import { BasketSummaryBar, PresetNamingBar } from './MealBasketBars.js';
+import { PendingMealBar } from './PendingMealBar.js';
 import { foodKey, useMealBasket, type MealBasketEntry } from './useMealBasket.js';
 
 /** How many catalogue matches a search asks for; a full page means there may be more. */
@@ -63,6 +64,11 @@ export interface MealLogHubModalProps {
   onQuickLog?: (food: NormalizedFood) => string | null;
   /** Takes back a quick log by the id `onQuickLog` returned. */
   onUndoQuickLog?: (id: string) => void;
+  /** Items added to the meal being built with "Add to meal" on the item screen. */
+  pendingCount?: number;
+  pendingKcal?: number;
+  onLogPending?: () => void;
+  onClearPending?: () => void;
 }
 
 const MEAL_SLOT_IDS: MealSlot[] = ['breakfast', 'lunch', 'dinner', 'snacks_chai'];
@@ -132,6 +138,10 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
   onLogDescribedMeal,
   onQuickLog,
   onUndoQuickLog,
+  pendingCount = 0,
+  pendingKcal = 0,
+  onLogPending,
+  onClearPending,
 }) => {
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
@@ -985,6 +995,10 @@ export const MealLogHubModal: React.FC<MealLogHubModalProps> = ({
             </TouchableOpacity>
           </View>
         )}
+
+        {onLogPending && onClearPending ? (
+          <PendingMealBar count={pendingCount} kcal={pendingKcal} onLog={onLogPending} onClear={onClearPending} />
+        ) : null}
 
         {/* Custom Meal Summary Bar */}
         {isBuildMode && basket.length > 0 && !isNamingPreset && (

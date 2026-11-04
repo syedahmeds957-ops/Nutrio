@@ -18,6 +18,7 @@ import { noOutlineStyle } from '../../ui/AppleInput.js';
 import { useTheme, commonRadii } from '../../theme.js';
 import { foodDisplayName } from '../foodDisplayName.js';
 import { DishThumb } from './DishThumb.js';
+import { PendingMealBar } from './PendingMealBar.js';
 import { OptionButton, OptionGroup } from '../../ui/Selectable.js';
 import { useTranslation, useTextDirection, useI18nState } from '../../i18n/index.js';
 import { pickText } from '../../i18n/displayName.js';
@@ -28,6 +29,11 @@ export interface BrandMenuModalProps {
   brandId: string | null;
   onBack: () => void;
   onSelectItem: (item: NormalizedFood) => void;
+  /** Items added to the meal being built (restaurant orders with extras, one per Add to meal). */
+  pendingCount?: number;
+  pendingKcal?: number;
+  onLogPending?: () => void;
+  onClearPending?: () => void;
 }
 
 export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
@@ -35,6 +41,10 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
   brandId,
   onBack,
   onSelectItem,
+  pendingCount = 0,
+  pendingKcal = 0,
+  onLogPending,
+  onClearPending,
 }) => {
   const { theme, isDark } = useTheme();
   const { t } = useTranslation();
@@ -214,7 +224,7 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
                 </Text>
               </View>
               <Text style={[styles.headerSubtitle, { color: theme.colors.textSecondary }]}>
-                {t('tracker.brandMenu.verifiedItems', { count: brandItems.length })}
+                {t(currentBrand?.estimatedMenu ? 'tracker.brandMenu.estimatedItems' : 'tracker.brandMenu.verifiedItems', { count: brandItems.length })}
                 {currentBrand?.region === 'SA' ? ` · ${t('tracker.brandMenu.sfdaCompliant')}` : ''}
               </Text>
             </View>
@@ -423,6 +433,10 @@ export const BrandMenuModal: React.FC<BrandMenuModalProps> = ({
             })
           )}
         </ScrollView>
+
+        {onLogPending && onClearPending ? (
+          <PendingMealBar count={pendingCount} kcal={pendingKcal} onLog={onLogPending} onClear={onClearPending} />
+        ) : null}
       </SafeAreaView>
     </NamedModal>
   );

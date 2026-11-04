@@ -395,6 +395,24 @@ export const createStyles = (c: ThemeColors) =>
       alignItems: 'center',
       justifyContent: 'space-between',
     },
+    bottomStickyBarWrap: {
+      flexWrap: 'wrap',
+      rowGap: 12,
+    },
+    addToMealButton: {
+      width: '100%',
+      minHeight: 48,
+      borderRadius: 24,
+      borderWidth: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 8,
+    },
+    addToMealText: {
+      fontSize: 15,
+      fontWeight: '800',
+    },
     bottomTotalsLeft: {
       flex: 1,
       marginEnd: 16,

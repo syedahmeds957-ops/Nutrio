@@ -215,6 +215,10 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   const [selectedBrandId, setSelectedBrandId] = useState<string | null>(null);
   const [customizerVisible, setCustomizerVisible] = useState(false);
   const [selectedItemForCustomize, setSelectedItemForCustomize] = useState<NormalizedFood | null>(null);
+  // Where the customizer was opened from, so Back returns there (the restaurant menu or the log hub), not to Today.
+  const [customizerOrigin, setCustomizerOrigin] = useState<'hub' | 'brand'>('hub');
+  // Restaurant items added to the meal being built ("Add to meal"), logged together with the last one.
+  const [pendingMeal, setPendingMeal] = useState<CustomizedLogPayload[]>([]);
   const [diaryVisible, setDiaryVisible] = useState(false);
   const [diaryDayOffset, setDiaryDayOffset] = useState(0);
   const [guestModalVisible, setGuestModalVisible] = useState(false);
@@ -358,31 +362,37 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
 
   const handleSelectItemInHubOrBrand = (item: NormalizedFood) => {
     setSelectedItemForCustomize(item);
+    setCustomizerOrigin(brandMenuVisible ? 'brand' : 'hub');
     setHubVisible(false);
     setBrandMenuVisible(false);
     setCustomizerVisible(true);
   };
 
-  const handleConfirmCustomizedLog = (payload: CustomizedLogPayload) => {
+  /** Logs customized items (the meal being built, plus the one just confirmed) as one action. */
+  const logCustomizedItems = (payloads: CustomizedLogPayload[]) => {
     if (blockGuest()) return;
-    const servingDesc = payload.portionDescription || payload.food.servings[0]?.description || 'serving';
-    // The label stays the singular portion ("1 bazinga burger") — the cards
-    // prepend the quantity themselves, so baking it in here printed it twice.
-    engine.logCustomizedItem(
-      payload.mealSlot,
-      payload.food.name,
-      payload.food.nameUr,
-      servingDesc,
-      payload.quantity,
-      payload.totalCalories,
-      payload.totalProtein,
-      payload.totalCarbs,
-      payload.totalFat,
-      payload.actualGrams,
-      payload.food.nameAr
-    );
-    recordFoodUsage([payload.food.id || payload.food.name]);
+    for (const payload of payloads) {
+      const servingDesc = payload.portionDescription || payload.food.servings[0]?.description || 'serving';
+      // The label stays the singular portion ("1 bazinga burger") — the cards
+      // prepend the quantity themselves, so baking it in here printed it twice.
+      engine.logCustomizedItem(
+        payload.mealSlot,
+        payload.food.name,
+        payload.food.nameUr,
+        servingDesc,
+        payload.quantity,
+        payload.totalCalories,
+        payload.totalProtein,
+        payload.totalCarbs,
+        payload.totalFat,
+        payload.actualGrams,
+        payload.food.nameAr
+      );
+    }
+    recordFoodUsage(payloads.map((payload) => payload.food.id || payload.food.name));
+    setPendingMeal([]);
     setCustomizerVisible(false);
+    setBrandMenuVisible(false);
     setSelectedItemForCustomize(null);
     persistCurrentActivities();
     const completedNow = (['breakfast', 'lunch', 'dinner', 'snacks_chai'] as const).filter(
@@ -394,6 +404,19 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
       HapticFeedback.impactMedium();
     }
     forceUpdate();
+  };
+
+  const handleConfirmCustomizedLog = (payload: CustomizedLogPayload) => logCustomizedItems([...pendingMeal, payload]);
+
+  const pendingKcal = Math.round(pendingMeal.reduce((sum, item) => sum + item.totalCalories, 0));
+
+  // "Add to meal": keep this item aside and go back to the menu it came from to pick another.
+  const handleAddToMeal = (payload: CustomizedLogPayload) => {
+    setPendingMeal((items) => [...items, payload]);
+    setCustomizerVisible(false);
+    setSelectedItemForCustomize(null);
+    if (customizerOrigin === 'brand') setBrandMenuVisible(true);
+    else setHubVisible(true);
   };
 
   const handleConfirmLog = (
@@ -726,7 +749,10 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
       {/* Log a Meal Hub Screen */}
       <MealLogHubModal
         visible={hubVisible}
-        onClose={() => setHubVisible(false)}
+        onClose={() => {
+          setHubVisible(false);
+          setPendingMeal([]);
+        }}
         onSelectBrand={handleSelectBrandInHub}
         onSelectItem={handleSelectItemInHubOrBrand}
         onConfirmBasket={handleConfirmBasket}
@@ -735,6 +761,10 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
         onLogDescribedMeal={handleLogDescribedMeal}
         onQuickLog={handleQuickLogFromHub}
         onUndoQuickLog={handleUndoQuickLog}
+        pendingCount={pendingMeal.length}
+        pendingKcal={pendingKcal}
+        onLogPending={() => logCustomizedItems(pendingMeal)}
+        onClearPending={() => setPendingMeal([])}
       />
 
       {/* Brand Menu View with Sub-Categories */}
@@ -746,6 +776,10 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
           setHubVisible(true);
         }}
         onSelectItem={handleSelectItemInHubOrBrand}
+        pendingCount={pendingMeal.length}
+        pendingKcal={pendingKcal}
+        onLogPending={() => logCustomizedItems(pendingMeal)}
+        onClearPending={() => setPendingMeal([])}
       />
 
       {/* Make It Yours Live Order Customizer */}
@@ -756,8 +790,12 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
         onClose={() => {
           setCustomizerVisible(false);
           setSelectedItemForCustomize(null);
+          if (customizerOrigin === 'brand') setBrandMenuVisible(true);
+          else setHubVisible(true);
         }}
         onConfirmCustomizedLog={handleConfirmCustomizedLog}
+        onAddToMeal={handleAddToMeal}
+        pendingCount={pendingMeal.length}
       />
 
       {/* Diary Screen */}

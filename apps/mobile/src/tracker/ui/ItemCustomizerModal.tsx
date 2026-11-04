@@ -54,6 +54,10 @@ export interface ItemCustomizerModalProps {
   onClose?: () => void;
   onLogItem?: (payload: CustomizedLogPayload) => void;
   onConfirmCustomizedLog?: (payload: CustomizedLogPayload) => void;
+  /** Adds this item to the meal being built and goes back to pick another, instead of logging now. */
+  onAddToMeal?: (payload: CustomizedLogPayload) => void;
+  /** Items already added to that meal; the log button then logs them together with this one. */
+  pendingCount?: number;
 }
 
 export interface CalculatedMacros {
@@ -148,6 +152,8 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
   onClose,
   onLogItem,
   onConfirmCustomizedLog,
+  onAddToMeal,
+  pendingCount = 0,
 }) => {
   const { theme, isDark } = useTheme();
   const styles = useMemo(() => createStyles(theme.colors), [theme]);
@@ -296,14 +302,12 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
 
   const canLog = !isCustomWeightMode || gramsValid;
 
-  const handleConfirmLog = () => {
-    if (!canLog) return;
-    HapticFeedback.impactMedium();
+  const buildPayload = (): CustomizedLogPayload | null => {
+    if (!canLog || !item) return null;
     const servingDesc = isCustomWeightMode
       ? t('tracker.customizer.customPortion', { grams: customGrams })
       : activeServing?.description || activeServing?.label || 'serving';
-
-    handleLog({
+    return {
       food: item,
       quantity: effectiveQuantity,
       selectedModifiers,
@@ -314,7 +318,21 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
       mealSlot: selectedSlot,
       portionDescription: servingDesc,
       actualGrams: isCustomWeightMode ? customGrams : (activeServing?.grams || 100) * quantity,
-    });
+    };
+  };
+
+  const handleConfirmLog = () => {
+    const payload = buildPayload();
+    if (!payload) return;
+    HapticFeedback.impactMedium();
+    handleLog(payload);
+  };
+
+  const handleAddToMeal = () => {
+    const payload = buildPayload();
+    if (!payload) return;
+    HapticFeedback.impactLight();
+    onAddToMeal?.(payload);
   };
 
   const servingsList: LabelledServing[] = servingItem?.servings ?? [];
@@ -503,7 +521,7 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
         </ScrollView>
 
         {/* Sticky Bottom Bar */}
-        <View style={[styles.bottomStickyBar, { backgroundColor: theme.colors.card, borderTopColor: theme.colors.border }]}>
+        <View style={[styles.bottomStickyBar, { backgroundColor: theme.colors.card, borderTopColor: theme.colors.border }, onAddToMeal ? styles.bottomStickyBarWrap : null]}>
           <View style={styles.bottomTotalsLeft}>
             <View style={styles.calorieRow}>
               <Text style={[styles.totalCalorieNumber, { color: theme.colors.text }]}>{canLog ? `~${macros.calories}` : '—'}</Text>
@@ -526,9 +544,28 @@ export const ItemCustomizerModal: React.FC<ItemCustomizerModalProps> = ({
             accessibilityLabel={t('tracker.customizer.logToMeal', { meal: slotLabel })}
           >
             <Text style={styles.logThisButtonText} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8}>
-              {t('tracker.customizer.logToMeal', { meal: slotLabel })}
+              {pendingCount > 0
+                ? t('tracker.customizer.logAllToMeal', { count: pendingCount + 1, meal: slotLabel })
+                : t('tracker.customizer.logToMeal', { meal: slotLabel })}
             </Text>
           </TouchableOpacity>
+
+          {onAddToMeal ? (
+            <TouchableOpacity
+              style={[styles.addToMealButton, { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border }, !canLog && styles.saveMineButtonDisabled]}
+              onPress={handleAddToMeal}
+              disabled={!canLog}
+              activeOpacity={0.85}
+              accessibilityRole="button"
+              accessibilityState={{ disabled: !canLog }}
+              accessibilityLabel={t('tracker.customizer.addToMeal')}
+            >
+              <Icon name="plus" size={16} color={theme.colors.text} strokeWidth={2.5} />
+              <Text style={[styles.addToMealText, { color: theme.colors.text }]} numberOfLines={1}>
+                {t('tracker.customizer.addToMeal')}
+              </Text>
+            </TouchableOpacity>
+          ) : null}
         </View>
       </SafeAreaView>
     </NamedModal>
