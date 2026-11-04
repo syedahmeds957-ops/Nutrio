@@ -53,12 +53,12 @@ export const TodayMealsCard: React.FC<TodayMealsCardProps> = ({
 
   // One colour per meal, shared by the bar segment and the row icon.
   const slotColor: Record<MealSlot, string> = {
-    breakfast: c.warning,
-    lunch: c.primaryDark,
-    dinner: c.protein,
-    snacks_chai: c.fatText,
+    breakfast: c.mealBreakfast,
+    lunch: c.mealLunch,
+    dinner: c.mealDinner,
+    snacks_chai: c.mealSnacks,
   };
-  const iconColor: Record<MealSlot, string> = { ...slotColor, lunch: c.primaryAccessible };
+  const iconColor = slotColor;
 
   const bySlot = (slot: MealSlot) => items.filter((item) => item.mealSlot === slot);
   const kcalBySlot = Object.fromEntries(
@@ -102,7 +102,7 @@ export const TodayMealsCard: React.FC<TodayMealsCardProps> = ({
                 : t('common.kcalValue', { value: formatNumber(Math.round(eaten)) })}
             </Text>
           </View>
-          <View style={[styles.distBar, { backgroundColor: c.progressTrack }]}>
+          <View style={[styles.distBar, { backgroundColor: c.mealTrack }]}>
             {segments.map((segment) => (
               <View
                 key={segment.slot}

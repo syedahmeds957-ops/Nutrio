@@ -1479,30 +1479,51 @@
       "bhutta": "+ 1 Bhutta",
       "chai": "+ 1 Chai",
       "chaiLogged": "Chai ×{{cups}} added",
-      "chaiToday": "Chai ×{{cups}} today",
+      "chaiToday": "Chai",
       "chaiUndo": "Undo adding chai",
       "chana": "+ Roasted chana",
       "chooseSlotSubtitle": "Pick the meal to log it under.",
       "chooseSlotTitle": "Where does {{item}} go?",
+      "coffee": "+ Coffee",
       "dahi": "+ 1 Dahi",
       "dark_choc": "+ Dark chocolate",
       "egg": "+ 1 Egg",
       "green_tea": "+ Green tea",
       "heading": "Quick log staples",
+      "noSugarLabel": "{{drink}} (no sugar)",
       "popcorn": "+ Popcorn",
       "sa_almonds": "+ 10 Almonds",
       "sa_banana": "+ 1 Banana",
       "sa_chana": "+ Roasted chana",
+      "sa_coffee": "+ Coffee",
       "sa_dark_choc": "+ Dark chocolate",
       "sa_dates": "+ 3 Dates",
       "sa_egg": "+ Boiled egg",
       "sa_gahwa": "+ Gahwa",
+      "sa_green_tea": "+ Green tea",
       "sa_kabsa_rice": "+ Kabsa rice",
       "sa_karak": "+ Karak tea",
       "sa_laban": "+ Laban",
       "sa_popcorn": "+ Popcorn",
       "sa_tamees": "+ Tamees",
-      "sa_yogurt": "+ Greek yogurt"
+      "sa_yogurt": "+ Greek yogurt",
+      "sugar": {
+        "chai": {
+          "with": "With sugar",
+          "without": "Without sugar"
+        },
+        "coffee": {
+          "with": "With milk & sugar",
+          "without": "Black, no sugar"
+        },
+        "green_tea": {
+          "with": "With sugar",
+          "without": "Without sugar"
+        }
+      },
+      "sugarSubtitle": "The calories differ, so pick one before it is logged.",
+      "sugarTitle": "How do you take your {{drink}}?",
+      "withSugarLabel": "{{drink}} (with sugar)"
     },
     "streak": {
       "days_one": "{{count}} day streak",
@@ -1522,7 +1543,10 @@
     "weightTile": {
       "empty": "No weigh-ins yet",
       "fromSurvey": "From your survey",
+      "lastLogged": "Last logged {{date}}",
       "logCta": "Log weight",
+      "loggedToday": "Logged today",
+      "singleHint": "Weigh in for a trend",
       "weekDelta": "{{value}} kg this week"
     }
   },

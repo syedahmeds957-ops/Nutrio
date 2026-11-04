@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
-  LayoutChangeEvent,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -14,9 +14,7 @@ import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { HapticFeedback } from '../../ui/haptics.js';
 import { MealSlot } from '../types.js';
-import { StapleItem, getStapleDefinitions, resolveStaple, usualChaiServing } from '../staples.js';
-import { useFormat } from '../../i18n/useFormat.js';
-import { chipsThatFit } from '../mealsCard.js';
+import { StapleItem, getStapleDefinitions, resolveStaple, sugarDrink, sugarVariant, usualChaiServing } from '../staples.js';
 
 export type { StapleItem } from '../staples.js';
 
@@ -31,20 +29,14 @@ interface QuickStaplesBarProps {
    * that many cups into snacks and chai in one tap; 0 or left out shows the usual chips only.
    */
   chaiCups?: number;
-  /** Logs `cups` of the usual chai. The screen owns the diary write and the undo toast. */
-  onQuickLogChai?: (cups: number) => void;
+  /** Logs `cups` of the usual chai, without sugar when asked. The screen owns the diary write and the undo toast. */
+  onQuickLogChai?: (cups: number, sugarFree?: boolean) => void;
 }
 
 const SLOT_IDS: MealSlot[] = ['breakfast', 'lunch', 'dinner', 'snacks_chai'];
 
 const CHIP_GAP = 8;
 const CHAI_CHIP_ID = 'usual_chai';
-/** Chip width = padding, plus icon, gaps (about 48 px) + text at about 7 px a character, with 8% to spare. */
-const CHIP_FIXED_PX = 48;
-const CHIP_CHAR_PX = 7;
-const estimateChipWidth = (label: string, kcal: string) =>
-  Math.ceil((CHIP_FIXED_PX + (label.length + kcal.length) * CHIP_CHAR_PX) * 1.08);
-
 export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
   onQuickLog,
   onRequireAccount,
@@ -55,7 +47,6 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
   const { theme, isDark } = useTheme();
   const { activeRegion } = useRegion();
   const { t } = useTranslation();
-  const { formatNumber } = useFormat();
   const dir = useTextDirection();
   const accentColor = theme.colors.primaryLime;
   const activeTextColor = theme.colors.limeText;
@@ -63,8 +54,9 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
   // A staple is logged only once the user has picked a meal, so a tap parks
   // the chip here while the slot sheet is open instead of logging blind.
   const [pendingStaple, setPendingStaple] = useState<StapleItem | null>(null);
-  const [rowWidth, setRowWidth] = useState(0);
-  const sheetOpen = pendingStaple !== null;
+  // Chai is never logged blind: a tap on either chai chip first asks whether it has sugar.
+  const [askSugar, setAskSugar] = useState<'pinned' | StapleItem | null>(null);
+  const sheetOpen = pendingStaple !== null || askSugar !== null;
   React.useEffect(() => {
     onSheetOpenChange?.(sheetOpen);
     return () => onSheetOpenChange?.(false);
@@ -90,9 +82,7 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
       onRequireAccount();
       return;
     }
-    onQuickLogChai?.(chaiCups);
-    setJustLoggedId(CHAI_CHIP_ID);
-    setTimeout(() => setJustLoggedId(null), 1800);
+    setAskSugar('pinned');
   };
 
   const handlePress = (staple: StapleItem) => {
@@ -101,7 +91,36 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
       onRequireAccount();
       return;
     }
+    if (sugarDrink(staple)) {
+      setAskSugar(staple);
+      return;
+    }
     setPendingStaple(staple);
+  };
+
+  const handlePickSugar = (sugarFree: boolean) => {
+    const asked = askSugar;
+    if (!asked) return;
+    HapticFeedback.impactLight();
+    setAskSugar(null);
+    if (asked === 'pinned') {
+      onQuickLogChai?.(chaiCups, sugarFree);
+      setJustLoggedId(CHAI_CHIP_ID);
+      setTimeout(() => setJustLoggedId(null), 1800);
+      return;
+    }
+    // The meal question follows, naming the cup the user picked.
+    setPendingStaple({
+      ...sugarVariant(asked, sugarFree),
+      label: t(sugarFree ? 'tracker.staples.noSugarLabel' : 'tracker.staples.withSugarLabel', {
+        drink: asked.label.replace(/^\+\s*/, ''),
+      }),
+    });
+  };
+
+  const closeSheet = () => {
+    setPendingStaple(null);
+    setAskSugar(null);
   };
 
   const handlePickSlot = (slot: MealSlot) => {
@@ -113,36 +132,26 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
     setTimeout(() => setJustLoggedId(null), 1800);
   };
 
-  // One line, never scrolled or clipped: show the staples that fit the width,
-  // in order. Until the row is measured, show the first few.
+  // One line that scrolls sideways, so every staple (chai, black coffee, green tea, egg, ...) is reachable.
   const chaiChip = showChai
     ? {
-        label: t('tracker.staples.chaiToday', { cups: formatNumber(chaiCups) }),
+        label: t('tracker.staples.chaiToday'),
         kcal: t('common.kcalValue', { value: usualChaiServing(activeRegion).calories * chaiCups }),
       }
     : null;
   const chips = staples.map(({ item, resolved }) => ({
     item,
     label: item.label.replace(/^\+\s*/, ''),
-    kcal: t('common.kcalValue', { value: resolved.calories }),
+    // A drink that asks about sugar shows no calories: they depend on the answer.
+    kcal: sugarDrink(item) ? '' : t('common.kcalValue', { value: resolved.calories }),
   }));
-  // The pinned chip always shows first; the others fill what room is left.
-  const pinnedCount = chaiChip ? 1 : 0;
-  const widths = [
-    ...(chaiChip ? [estimateChipWidth(chaiChip.label, chaiChip.kcal)] : []),
-    ...chips.map((chip) => estimateChipWidth(chip.label, chip.kcal)),
-  ];
-  const fitting =
-    rowWidth > 0
-      ? chipsThatFit(widths, rowWidth, CHIP_GAP)
-      : Math.min(3, chips.length + pinnedCount);
-  const visibleCount = Math.max(0, fitting - pinnedCount);
-
   return (
     <View style={styles.container}>
-      <View
-        style={styles.row}
-        onLayout={(e: LayoutChangeEvent) => setRowWidth(e.nativeEvent.layout.width)}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={styles.scroll}
+        contentContainerStyle={styles.row}
         accessibilityLabel={t('tracker.staples.heading')}
       >
         {chaiChip && (
@@ -177,7 +186,7 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
             </View>
           </TouchableOpacity>
         )}
-        {chips.slice(0, visibleCount).map(({ item: staple, label, kcal }) => {
+        {chips.map(({ item: staple, label, kcal }) => {
           const isJustLogged = justLoggedId === staple.id;
 
           return (
@@ -214,28 +223,30 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
                   >
                     {isJustLogged ? t('tracker.staples.added') : label}
                   </Text>
-                  <Text
-                    numberOfLines={1}
-                    style={[styles.pillKcal, { color: isJustLogged ? activeTextColor : theme.colors.textSecondary }]}
-                  >
-                    {kcal}
-                  </Text>
+                  {kcal ? (
+                    <Text
+                      numberOfLines={1}
+                      style={[styles.pillKcal, { color: isJustLogged ? activeTextColor : theme.colors.textSecondary }]}
+                    >
+                      {kcal}
+                    </Text>
+                  ) : null}
                 </View>
               </View>
             </TouchableOpacity>
           );
         })}
-      </View>
+      </ScrollView>
 
       <NamedModal accessibilityName={t('a11y.dialog.quickStaples')}
-        visible={pendingStaple !== null}
+        visible={sheetOpen}
         transparent
         animationType="fade"
-        onRequestClose={() => setPendingStaple(null)}
+        onRequestClose={closeSheet}
       >
         <Pressable
           style={styles.sheetBackdrop}
-          onPress={() => setPendingStaple(null)}
+          onPress={closeSheet}
         >
           <Pressable
             style={[
@@ -247,6 +258,52 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
             ]}
             onPress={() => {}}
           >
+            {askSugar !== null ? (
+              (() => {
+                // The drink being asked about: the pinned chip is chai, a staple chip names its own drink.
+                const chaiStaple = getStapleDefinitions(activeRegion).find((staple) => staple.id === 'chai');
+                const asked = askSugar === 'pinned' ? chaiStaple : askSugar;
+                const drinkKey = asked ? sugarDrink(asked) : null;
+                if (!asked || !drinkKey) return null;
+                const drink = askSugar === 'pinned' ? t('tracker.staples.chaiToday') : (asked as StapleItem).label.replace(/^\+\s*/, '');
+                return (
+                  <>
+                    <Text style={[styles.sheetTitle, dir.text, { color: theme.colors.textPrimary }]}>
+                      {t('tracker.staples.sugarTitle', { drink: drink.toLowerCase() })}
+                    </Text>
+                    <Text style={[styles.sheetSubtitle, dir.text, { color: theme.colors.textMuted }]}>
+                      {t('tracker.staples.sugarSubtitle')}
+                    </Text>
+                    {[false, true].map((sugarFree) => {
+                      const cups = askSugar === 'pinned' ? chaiCups : 1;
+                      const kcal = sugarVariant(asked, sugarFree).calories * cups;
+                      return (
+                        <TouchableOpacity
+                          key={sugarFree ? 'plain' : 'sweet'}
+                          testID={sugarFree ? 'sugar-without' : 'sugar-with'}
+                          style={[
+                            styles.sheetOption,
+                            styles.sheetOptionRow,
+                            { backgroundColor: theme.colors.surface, borderColor: theme.colors.border },
+                          ]}
+                          onPress={() => handlePickSugar(sugarFree)}
+                          activeOpacity={0.7}
+                          accessibilityRole="button"
+                        >
+                          <Text style={[styles.sheetOptionText, styles.sheetOptionLabel, dir.text, { color: theme.colors.textPrimary }]}>
+                            {t(`tracker.staples.sugar.${drinkKey}.${sugarFree ? 'without' : 'with'}`)}
+                          </Text>
+                          <Text style={[styles.sheetOptionKcal, { color: theme.colors.textSecondary }]}>
+                            {t('common.kcalValue', { value: kcal })}
+                          </Text>
+                        </TouchableOpacity>
+                      );
+                    })}
+                  </>
+                );
+              })()
+            ) : (
+              <>
             <Text style={[styles.sheetTitle, dir.text, { color: theme.colors.textPrimary }]}>
               {t('tracker.staples.chooseSlotTitle', {
                 // The chip label reads "+ 1 Chai"; the question names just the food.
@@ -282,10 +339,12 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
                 </Text>
               </TouchableOpacity>
             ))}
+              </>
+            )}
 
             <TouchableOpacity
               style={styles.sheetCancel}
-              onPress={() => setPendingStaple(null)}
+              onPress={closeSheet}
               activeOpacity={0.7}
               accessibilityRole="button"
             >
@@ -303,21 +362,20 @@ export const QuickStaplesBar: React.FC<QuickStaplesBarProps> = ({
 const styles = StyleSheet.create({
   // The row is 44 px tall for tapping; the margin gives the 10 px back so the gaps to its neighbours stay as they were.
   container: { marginVertical: -5 },
+  scroll: { flexGrow: 0 },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: CHIP_GAP,
-    overflow: 'hidden',
   },
   // The chip stays 34 px tall inside a 44 px touchable.
-  pillHit: { minHeight: 44, justifyContent: 'center', flexShrink: 1 },
+  pillHit: { minHeight: 44, justifyContent: 'center' },
   pillBtn: {
     height: 34,
     justifyContent: 'center',
     borderRadius: commonRadii.pill,
     paddingHorizontal: 12,
     borderWidth: 1,
-    flexShrink: 1,
   },
   pillContent: {
     flexDirection: 'row',
@@ -367,6 +425,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '700',
   },
+  sheetOptionRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
+  sheetOptionLabel: { flexShrink: 1 },
+  sheetOptionKcal: { fontSize: 13, fontWeight: '600', fontVariant: ['tabular-nums'] },
   sheetCancel: {
     alignItems: 'center',
     paddingVertical: 12,

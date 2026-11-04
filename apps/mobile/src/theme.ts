@@ -54,6 +54,12 @@ export interface ThemeColors {
   fatText: string;
   water: string;             // Electric Cyan
   waterText: string;         // Water blue darkened until it reads as text (>= 4.5:1) on every surface
+  // One colour per meal, for the "Calories by meal" bar segments and the meal row icons.
+  mealBreakfast: string;
+  mealLunch: string;
+  mealDinner: string;
+  mealSnacks: string;
+  mealTrack: string;         // the unfilled part of that bar
   // Empty part of a progress bar: >= 3:1 on every surface so the bar is visible at 0%.
   progressTrack: string;
   banked: string;            // Emerald Green
@@ -111,6 +117,11 @@ export const darkColors: ThemeColors = {
   fatText: '#F59E0B',
   water: '#0EA5E9',
   waterText: '#38BDF8',
+  mealBreakfast: '#F2B24F',
+  mealLunch: '#8CBF45',
+  mealDinner: '#5B9BF5',
+  mealSnacks: '#E08F43',
+  mealTrack: '#2C3342',
   progressTrack: '#6B7587',
   banked: '#10B981',
 
@@ -166,6 +177,11 @@ export const lightColors: ThemeColors = {
   fatText: '#9A4A06',
   water: '#0EA5E9',
   waterText: '#0369A1',
+  mealBreakfast: '#E9A23B',
+  mealLunch: '#73A132',
+  mealDinner: '#4A86E8',
+  mealSnacks: '#CC7C2E',
+  mealTrack: '#EEF0F4',
   progressTrack: '#7F8899',
   banked: '#10B981',
 

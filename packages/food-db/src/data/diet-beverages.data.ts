@@ -433,4 +433,27 @@ export const DIET_BEVERAGES_DATA: NormalizedFood[] = [
       { label: '1 large glass (400ml)', grams: 400, isDefault: false },
     ],
   },
+  {
+    // Green tea + 2 tsp (8g) sugar per 240ml cup. Last in the list: ids are positional (diet_bev_N), so inserting earlier would renumber the rest.
+    name: 'Green Tea (With Sugar)',
+    nameUr: 'سبز چائے (چینی کے ساتھ)',
+    nameAr: 'شاي أخضر مع سكر',
+    category: 'Diet & Basics',
+    cuisineTags: ['Diet', 'Beverage', 'Basics'],
+    kcal100g: 14,
+    protein100g: 0,
+    carb100g: 3.5,
+    fat100g: 0,
+    fibre100g: 0,
+    sugar100g: 3.3,
+    sodiumMg100g: 1,
+    satFat100g: 0,
+    source: 'pak_custom',
+    verifiedBy: 'composed',
+    oilAddedG: 0,
+    servings: [
+      { label: '1 cup (240ml)', labelUr: '1 کپ', labelAr: 'كوب واحد', grams: 240, isDefault: true },
+      { label: '1 mug (350ml)', grams: 350, isDefault: false },
+    ],
+  },
 ];

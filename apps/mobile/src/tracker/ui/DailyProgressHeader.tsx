@@ -63,6 +63,9 @@ const MacroTile: React.FC<MacroTileProps> = ({
   const isOver = hasGoal && diff < 0;
   const pct = hasGoal ? Math.min(100, Math.max(0, (eaten / goal) * 100)) : eaten > 0 ? 100 : 0;
 
+  // One caption row on every tile, so the three tiles are the same height and none is left with blank space.
+  const caption = !hasGoal ? fallback : isOver ? t(overKey, { value: formatNumber(Math.abs(diff)) }) : t('tracker.header.gramsLeft', { value: formatNumber(diff) });
+
   return (
     <View
       style={[
@@ -88,13 +91,12 @@ const MacroTile: React.FC<MacroTileProps> = ({
       >
         <View style={[styles.tileProgressFill, { width: `${pct}%`, backgroundColor: color }]} />
       </View>
-      {(isOver || !hasGoal) && (
-        <Text
-          style={[styles.tileSub, { color: isOver ? theme.colors.danger : theme.colors.textMuted }]}
-        >
-          {isOver ? t(overKey, { value: formatNumber(Math.abs(diff)) }) : fallback}
-        </Text>
-      )}
+      <Text
+        numberOfLines={1}
+        style={[styles.tileSub, dir.text, { color: isOver ? theme.colors.danger : theme.colors.textSecondary }]}
+      >
+        {caption}
+      </Text>
     </View>
   );
 };
@@ -215,26 +217,27 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
                     percent: Math.round(dayFillPct * 100),
                   })}
                 >
-                  <View
-                    style={[
-                      styles.pillTrack,
-                      isToday && styles.pillTrackToday,
-                      isFuture && styles.pillTrackFuture,
-                    ]}
-                  >
-                    {isMissed && <View style={styles.pillMissedDot} />}
-                    {hasIntake && (
-                      <View
-                        style={[
-                          styles.pillFill,
-                          {
-                            height: `${Math.max(14, Math.round(dayFillPct * 100))}%`,
-                            backgroundColor: isToday
-                              ? theme.colors.limeText
-                              : 'rgba(10, 11, 13, 0.55)',
-                          },
-                        ]}
-                      />
+                  <View style={[styles.pillTrack, isFuture && styles.pillTrackFuture]}>
+                    <View style={styles.pillClip}>
+                      {isMissed && <View style={styles.pillMissedDot} />}
+                      {hasIntake && (
+                        <View
+                          style={[
+                            styles.pillFill,
+                            {
+                              height: `${Math.min(100, Math.max(14, Math.round(dayFillPct * 100)))}%`,
+                              backgroundColor: isToday
+                                ? theme.colors.limeText
+                                : 'rgba(10, 11, 13, 0.55)',
+                            },
+                          ]}
+                        />
+                      )}
+                    </View>
+                    {/* Drawn over the clipped fill, not as the clip's own border: its inner
+                        edge then lands on solid fill, so no pale seam shows between them. */}
+                    {isToday && (
+                      <View style={[styles.pillOutlineToday, { borderColor: theme.colors.limeText }]} />
                     )}
                   </View>
                   <Text
@@ -370,18 +373,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 4,
   },
+  // Sizes the pill only. The pale vessel and its fill sit in `pillClip`; today's
+  // outline is a separate layer on top, never a border on the clipping view
+  // (on iOS a child clipped inside a border leaves a hairline at the border's
+  // antialiased inner edge).
   pillTrack: {
     width: 16,
     flex: 1,
     minHeight: 60,
-    // A pale, outlined vessel: the dark fill is what shows intake, so an empty
-    // day must not look half-full.
+  },
+  // A pale vessel: the dark fill is what shows intake, so an empty day must not
+  // look half-full. The capsule clip keeps the square-cornered fill inside.
+  pillClip: {
+    ...StyleSheet.absoluteFill,
     backgroundColor: 'rgba(255, 255, 255, 0.55)',
-    borderWidth: 1,
-    borderColor: 'rgba(10, 11, 13, 0.35)',
     borderRadius: commonRadii.pill,
-    // The fill sits inside the outline with an even margin, rounded like the track.
-    padding: 2,
     justifyContent: 'flex-end',
     alignItems: 'center',
     overflow: 'hidden',
@@ -395,17 +401,23 @@ const styles = StyleSheet.create({
     width: 5,
     height: 5,
     borderRadius: commonRadii.pill,
-    marginBottom: 4,
+    // Where it sat when the track carried a 1.5 transparent border.
+    marginBottom: 5.5,
     backgroundColor: 'rgba(10, 11, 13, 0.4)',
   },
-  // Today's vessel is outlined harder, so the current day reads at a glance.
-  pillTrackToday: {
-    borderColor: 'rgba(10, 11, 13, 0.75)',
+  // Only today's vessel is outlined, so the current day reads at a glance.
+  pillOutlineToday: {
+    ...StyleSheet.absoluteFill,
     borderWidth: 1.5,
-  },
-  pillFill: {
-    width: '100%',
     borderRadius: commonRadii.pill,
+    pointerEvents: 'none',
+  },
+  // Flat on top and full width, so it runs under the outline; the clip rounds its bottom.
+  pillFill: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   weekDayLabel: {
     fontSize: 12,
@@ -429,13 +441,16 @@ const styles = StyleSheet.create({
   },
   metricTile: {
     flex: 1,
-    borderRadius: 22,
+    borderRadius: 20,
     paddingVertical: 14,
     paddingHorizontal: 12,
     borderWidth: 1,
   },
+  // Type scale shared with the Weight and Water tiles: 12 label and caption, 20 number (32 on the two big tiles).
   tileValue: {
-    fontSize: 18,
+    height: 26,
+    fontSize: 20,
+    lineHeight: 26,
     fontWeight: '800',
     letterSpacing: -0.3,
     fontVariant: ['tabular-nums'],
@@ -447,15 +462,15 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
   },
   tileLabel: {
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: '800',
     textTransform: 'uppercase',
-    letterSpacing: 0.5,
+    letterSpacing: 0.8,
     marginBottom: 4,
   },
   tileProgressTrack: {
-    height: 8,
-    borderRadius: 4,
+    height: 10,
+    borderRadius: 5,
     borderWidth: 1,
     overflow: 'hidden',
   },
@@ -464,13 +479,15 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
   tileUnit: {
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: '700',
     letterSpacing: 0,
   },
   tileSub: {
+    height: 16,
     fontSize: 12,
+    lineHeight: 16,
     fontWeight: '600',
-    marginTop: 6,
+    marginTop: 8,
   },
 });

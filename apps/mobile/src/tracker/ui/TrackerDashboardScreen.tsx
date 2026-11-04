@@ -44,10 +44,6 @@ import { loadWeighIns } from '../../weight/weightStorage.js';
 import { withSurveyBaseline } from '../../weight/surveyBaseline.js';
 import { weightGlance } from '../../weight/weightGlance.js';
 import { weekStripFor } from '../weekStrip.js';
-import { weekStartFor } from '../../workout/weekView.js';
-import { computeLoggingStreak } from '../streak.js';
-import { StreakBadge } from './StreakBadge.js';
-import { WeeklyCalorieBankCard } from './WeeklyCalorieBankCard.js';
 import { useReducedMotion } from '../../ui/useReducedMotion.js';
 
 interface TrackerDashboardScreenProps {
@@ -335,17 +331,6 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
     d.isToday ? 0 : Math.min(1, d.consumed / Math.max(1, targets.targetCalories))
   );
 
-  // Logging streak from which days have a saved log (today from the live
-  // list). Guests read nothing saved, so they get no streak.
-  const weekStart = weekStartFor(activeRegion);
-  const loggingStreak = isGuest
-    ? null
-    : computeLoggingStreak(
-        (date) => (date === summary.date ? summary.items.length > 0 : !!loadDay(date, activeRegion)?.items?.length),
-        summary.date,
-        weekStart
-      );
-
   /** True (and the sign-up prompt opens) when a guest tries to log or change anything. */
   const blockGuest = () => {
     if (!isGuest) return false;
@@ -592,9 +577,9 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
   };
 
   // The usual chai from the survey, logged as one item with a quantity into snacks and chai.
-  const handleQuickLogChai = (cups: number) => {
+  const handleQuickLogChai = (cups: number, sugarFree = false) => {
     if (blockGuest()) return;
-    const { food, serving } = usualChaiServing(activeRegion);
+    const { food, serving } = usualChaiServing(activeRegion, sugarFree);
     const logged = engine.logItem('snacks_chai', food, serving, cups);
     persistCurrentActivities();
     HapticFeedback.impactMedium();
@@ -720,22 +705,6 @@ export const TrackerDashboardScreen: React.FC<TrackerDashboardScreenProps> = ({
               onDeleteItem={handleDeleteItem}
               onOpenMealPlan={onOpenMealPlan}
             />
-
-            {loggingStreak && !isFirstDay ? <StreakBadge {...loggingStreak} weekStart={weekStart} /> : null}
-
-            {!isFirstDay && (
-              <WeeklyCalorieBankCard
-                targetCalories={targets.targetCalories}
-                weekStart={weekStart}
-                dailyHistory={weekDays.map((d, idx) => ({
-                  day: weekStrip.weekdays[idx],
-                  consumed: Math.round(d.consumed),
-                  target: targets.targetCalories,
-                  isLogged: d.isLogged,
-                  isToday: d.isToday,
-                }))}
-              />
-            )}
           </View>
         </ScrollView>
 

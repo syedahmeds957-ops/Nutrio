@@ -94,7 +94,7 @@ describe('Phase 1 — beverages', () => {
   const beverages = DIET_BASICS_CATALOG.filter((f) => f.id?.startsWith('diet_bev_'));
 
   it('adds the plain home-made drinks that were missing', () => {
-    expect(beverages).toHaveLength(18);
+    expect(beverages).toHaveLength(19);
   });
 
   it('covers the chai variants that carry the hidden calories', () => {

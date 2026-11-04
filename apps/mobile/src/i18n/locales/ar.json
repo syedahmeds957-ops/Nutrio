@@ -1539,30 +1539,51 @@
       "bhutta": "+ ذرة مسلوقة",
       "chai": "+ شاي",
       "chaiLogged": "تمت إضافة الشاي ×{{cups}}",
-      "chaiToday": "الشاي ×{{cups}} اليوم",
+      "chaiToday": "الشاي",
       "chaiUndo": "تراجع عن إضافة الشاي",
       "chana": "+ حمص محمص",
       "chooseSlotSubtitle": "اختر الوجبة التي تريد تسجيله فيها.",
       "chooseSlotTitle": "أين تريد إضافة {{item}}؟",
+      "coffee": "+ قهوة",
       "dahi": "+ زبادي",
       "dark_choc": "+ شوكولاتة داكنة",
       "egg": "+ بيضة",
       "green_tea": "+ شاي أخضر",
       "heading": "تسجيل سريع للأكلات الأساسية",
+      "noSugarLabel": "{{drink}} (بدون سكر)",
       "popcorn": "+ فشار",
       "sa_almonds": "+ 10 لوزات",
       "sa_banana": "+ موزة",
       "sa_chana": "+ حمص محمص",
+      "sa_coffee": "+ قهوة",
       "sa_dark_choc": "+ شوكولاتة داكنة",
       "sa_dates": "+ 3 تمرات",
       "sa_egg": "+ بيض مسلوق",
       "sa_gahwa": "+ قهوة",
+      "sa_green_tea": "+ شاي أخضر",
       "sa_kabsa_rice": "+ أرز كبسة",
       "sa_karak": "+ شاي كرك",
       "sa_laban": "+ لبن",
       "sa_popcorn": "+ فشار",
       "sa_tamees": "+ خبز تميس",
-      "sa_yogurt": "+ زبادي يوناني"
+      "sa_yogurt": "+ زبادي يوناني",
+      "sugar": {
+        "chai": {
+          "with": "مع سكر",
+          "without": "بدون سكر"
+        },
+        "coffee": {
+          "with": "مع حليب وسكر",
+          "without": "سوداء بدون سكر"
+        },
+        "green_tea": {
+          "with": "مع سكر",
+          "without": "بدون سكر"
+        }
+      },
+      "sugarSubtitle": "تختلف السعرات، فاختر قبل التسجيل.",
+      "sugarTitle": "كيف تشرب {{drink}}؟",
+      "withSugarLabel": "{{drink}} (مع سكر)"
     },
     "streak": {
       "days_few": "سلسلة {{count}} أيام",
@@ -1585,7 +1606,10 @@
     "weightTile": {
       "empty": "لا توجد أوزان مسجّلة بعد",
       "fromSurvey": "من استبيانك",
+      "lastLogged": "آخر تسجيل {{date}}",
       "logCta": "سجّل وزنك",
+      "loggedToday": "سُجّل اليوم",
+      "singleHint": "سجّل وزنك لرؤية الاتجاه",
       "weekDelta": "{{value}} كغ هذا الأسبوع"
     }
   },

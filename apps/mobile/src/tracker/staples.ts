@@ -49,6 +49,26 @@ const PK_STAPLES: StapleDefinition[] = [
     icon: 'coffee',
   },
   {
+    id: 'coffee',
+    foodName: 'Coffee with Milk & Sugar',
+    name: 'Coffee',
+    calories: 63,
+    proteinGrams: 1.7,
+    fatGrams: 1.7,
+    carbGrams: 10.5,
+    icon: 'coffee',
+  },
+  {
+    id: 'green_tea',
+    foodName: 'Green Tea (No Sugar)',
+    name: 'Green Tea / Qahwa',
+    calories: 0,
+    proteinGrams: 0,
+    fatGrams: 0,
+    carbGrams: 0,
+    icon: 'coffee',
+  },
+  {
     id: 'dahi',
     foodName: 'Plain Yogurt / Dahi',
     name: 'Plain Yogurt / Dahi',
@@ -87,16 +107,6 @@ const PK_STAPLES: StapleDefinition[] = [
     fatGrams: 6,
     carbGrams: 2.6,
     icon: 'sun',
-  },
-  {
-    id: 'green_tea',
-    foodName: 'Green Tea (No Sugar)',
-    name: 'Green Tea / Qahwa',
-    calories: 0,
-    proteinGrams: 0,
-    fatGrams: 0,
-    carbGrams: 0,
-    icon: 'coffee',
   },
   {
     id: 'chana',
@@ -169,6 +179,26 @@ const SA_STAPLES: StapleDefinition[] = [
     proteinGrams: 0.1,
     fatGrams: 0,
     carbGrams: 0.5,
+    icon: 'coffee',
+  },
+  {
+    id: 'sa_coffee',
+    foodName: 'Coffee with Milk & Sugar',
+    name: 'Coffee (قهوة)',
+    calories: 63,
+    proteinGrams: 1.7,
+    fatGrams: 1.7,
+    carbGrams: 10.5,
+    icon: 'coffee',
+  },
+  {
+    id: 'sa_green_tea',
+    foodName: 'Green Tea (No Sugar)',
+    name: 'Green Tea (شاي أخضر)',
+    calories: 0,
+    proteinGrams: 0,
+    fatGrams: 0,
+    carbGrams: 0,
     icon: 'coffee',
   },
   {
@@ -364,11 +394,39 @@ export function usualChaiCups(
 }
 
 /**
- * One cup of the catalogue's standard sweet chai (the same serving the chai chip
- * and the survey count), so the chip's calories are the diary's calories.
+ * Drinks that ask "with sugar or without" before they are logged, and the catalogue cup behind
+ * each answer. Keyed by the chip id without its region prefix, so Saudi chips share the table.
+ * The numbers come from these food-db entries, never from the chip.
  */
-export function usualChaiServing(region: Region): ResolvedStaple {
+const SUGAR_CHOICES: Record<string, { sweet: [string, string]; plain: [string, string] }> = {
+  chai: { sweet: ['Chai (With Sugar)', '1 chai cup (150ml)'], plain: ['Chai (No Sugar)', '1 chai cup (150ml)'] },
+  coffee: { sweet: ['Coffee with Milk & Sugar', '1 cup (150ml)'], plain: ['Black Coffee (No Sugar)', '1 cup (240ml)'] },
+  green_tea: { sweet: ['Green Tea (With Sugar)', '1 cup (240ml)'], plain: ['Green Tea (No Sugar)', '1 cup (240ml)'] },
+};
+
+/** The key into the sugar table (`chai`, `coffee`, `green_tea`), or null for a chip that logs straight away. */
+export function sugarDrink(staple: { id: string }): string | null {
+  const base = staple.id.replace(/^sa_/, '');
+  return SUGAR_CHOICES[base] ? base : null;
+}
+
+/** A drink chip as the cup with sugar, or without, with the catalogue's calories for that cup. */
+export function sugarVariant<T extends { id: string; foodName?: string; calories: number }>(staple: T, sugarFree: boolean): T {
+  const choice = SUGAR_CHOICES[staple.id.replace(/^sa_/, '')];
+  if (!choice) return staple;
+  const [foodName, serving] = sugarFree ? choice.plain : choice.sweet;
+  const food = foodDb().DIET_BASICS_CATALOG.find((f) => f.name === foodName);
+  const unit = food?.servings.find((sv) => sv.label.startsWith(serving));
+  if (!food || !unit) throw new Error(`"${foodName}" (${serving}) is missing from the catalogue`);
+  return { ...staple, foodName: food.name, calories: Math.round((food.kcal100g * unit.grams) / 100) };
+}
+
+/**
+ * One cup of the catalogue's standard chai (the same serving the chai chip and the survey
+ * count, with sugar unless `sugarFree`), so the chip's calories are the diary's calories.
+ */
+export function usualChaiServing(region: Region, sugarFree = false): ResolvedStaple {
   const chai = getStapleDefinitions(region).find((staple) => staple.id === 'chai');
   if (!chai) throw new Error('The chai staple is missing');
-  return resolveStaple(chai, region);
+  return resolveStaple(sugarVariant(chai, sugarFree), region);
 }
