@@ -50,7 +50,11 @@ export type HomeCookingStyle =
 
 // Only the chai cups are asked and used. The rest are kept optional for
 // payloads saved before the survey was shortened.
+/** What the user usually drinks (Pakistan). Only `chai_sugar` counts sweetened cups; the rest save 0. */
+export type UsualDrink = 'chai_sugar' | 'chai_plain' | 'green_tea' | 'coffee' | 'black_coffee' | 'none';
+
 export interface SurveyLifestyleDesi {
+  usualDrink?: UsualDrink;
   sleepHoursPerNight?: number;
   stressRating?: 1 | 2 | 3 | 4 | 5;
   chaiWithSugarCupsPerDay: number; // Critical 300-600 kcal/day lever in Pakistan

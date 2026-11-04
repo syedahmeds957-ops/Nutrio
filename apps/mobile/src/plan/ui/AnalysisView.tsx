@@ -131,7 +131,9 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
         </View>
       </View>
 
-      {/* Cultural Levers Card (Pakistani Chai & Cooking vs Saudi Gahwa & Dates) */}
+      {/* Cultural Levers Card (Pakistani Chai & Cooking vs Saudi Gahwa & Dates).
+          Left out when the user takes no sweetened chai: nothing to cut back on. */}
+      {ritualKcalDay > 0 && (
       <View
         style={[
           styles.card,
@@ -145,6 +147,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
           <Text
             style={[
               styles.chaiTitle,
+              dir.text,
               {
                 color: tone.text,
               },
@@ -228,6 +231,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
           </Text>
         </View>
       </View>
+      )}
 
       {/* AI / Clinical Levers */}
       {narrative && (
@@ -363,13 +367,19 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: '900',
   },
+  // The badge drops under a long title instead of running past the card edge.
   chaiHeaderRow: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
     alignItems: 'center',
+    columnGap: 8,
+    rowGap: 6,
     marginBottom: 12,
   },
   chaiTitle: {
+    flexShrink: 1,
+    flexGrow: 1,
     fontSize: 16,
     fontWeight: '800',
   },

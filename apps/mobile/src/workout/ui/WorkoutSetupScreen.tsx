@@ -269,7 +269,7 @@ export const WorkoutSetupScreen: React.FC<WorkoutSetupScreenProps> = ({ initialS
                             label={kg === 0 ? t('workout.setup.adjustable') : t('workout.setup.kg', { kg })}
                             selected={settings.dumbbellWeightsKg.includes(kg)}
                             onPress={() => update(toggleDumbbell(settings, kg))}
-                            style={styles.gridCell}
+                            style={kg === 0 ? styles.gridCellWide : styles.gridCell}
                           />
                         ))}
                       </ChipGroup>
@@ -414,6 +414,8 @@ const styles = StyleSheet.create({
   locationIcon: { width: 40, height: 40, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   grid4: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 8 },
   gridCell: { width: '23%', paddingHorizontal: 4 },
+  // "Adjustable" is a word, not a weight: it gets its own full row instead of being squeezed into a 23% cell.
+  gridCellWide: { width: '100%' },
   daysCount: { fontSize: 13, fontWeight: '600', marginBottom: 20 },
   row: { flexDirection: 'row', gap: 8, marginBottom: 22 },
   lengthTile: { flex: 1, minHeight: 52, paddingHorizontal: 0, paddingVertical: 4, borderRadius: 12 },

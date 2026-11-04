@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { DailyTrackerSummary } from '../types.js';
 import { useTheme, commonRadii } from '../../theme.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
@@ -7,11 +7,6 @@ import { useFormat } from '../../i18n/useFormat.js';
 import type { Weekday } from '@nutrio/workout-core';
 import { localDateKey } from '../../common/dateKey.js';
 import { MONDAY_FIRST_WEEKDAYS, dayIndexInWeek } from '../weekStrip.js';
-import { caloriesEatenFraction, caloriesEatenPercent, heroFillFraction } from '../heroFill.js';
-import { useReducedMotion } from '../../ui/useReducedMotion.js';
-
-/** How long the hero takes to drain when something is logged. */
-const HERO_DRAIN_MS = 300;
 
 interface DailyProgressHeaderProps {
   summary: DailyTrackerSummary;
@@ -114,60 +109,6 @@ export function heroSize(text: string): { fontSize: number; lineHeight: number }
   return { fontSize, lineHeight: Math.round(fontSize * 1.08) };
 }
 
-interface HeroFillProps {
-  /** Share of the card still filled, 0-1. */
-  fill: number;
-  fillColor: string;
-  drainedColor: string;
-  /** Eaten share in whole percent; `null` leaves the layer out of the accessibility tree (first day). */
-  percent: number | null;
-  label: string;
-}
-
-/**
- * The card's own progress: a lime fill anchored to the bottom that shrinks as
- * calories are eaten, over a darker "drained" base. It sits behind the text,
- * which is black and passes 4.5:1 on both colours. Over the target the fill is
- * 0, never negative. With reduced motion the fill jumps; otherwise it eases
- * for a short moment.
- */
-const HeroFill: React.FC<HeroFillProps> = ({ fill, fillColor, drainedColor, percent, label }) => {
-  const reduceMotion = useReducedMotion();
-  const level = React.useRef(new Animated.Value(fill)).current;
-
-  React.useEffect(() => {
-    if (reduceMotion) {
-      level.setValue(fill);
-      return;
-    }
-    const animation = Animated.timing(level, {
-      toValue: fill,
-      duration: HERO_DRAIN_MS,
-      easing: Easing.out(Easing.cubic),
-      useNativeDriver: false,
-    });
-    animation.start();
-    return () => animation.stop();
-  }, [fill, reduceMotion, level]);
-
-  const height = level.interpolate({ inputRange: [0, 1], outputRange: ['0%', '100%'], extrapolate: 'clamp' });
-  const progress =
-    percent === null
-      ? {}
-      : {
-          accessible: true,
-          accessibilityRole: 'progressbar' as const,
-          accessibilityLabel: label,
-          accessibilityValue: { min: 0, max: 100, now: percent },
-        };
-
-  return (
-    <View style={[StyleSheet.absoluteFill, styles.heroFillLayer, { backgroundColor: drainedColor }]} {...progress}>
-      <Animated.View testID="hero-fill" style={[styles.heroFill, { height, backgroundColor: fillColor }]} />
-    </View>
-  );
-};
-
 export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
   summary,
   weeklyHistoryFills,
@@ -200,11 +141,6 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
 
   const totalTarget = Math.max(1, targetCalories);
   const calRatio = Math.min(1, Math.max(0, totalCaloriesConsumed / totalTarget));
-  // The card drains as calories are eaten. The first day stays full.
-  const heroFill = firstDay ? 1 : heroFillFraction(totalCaloriesConsumed, targetCalories);
-  const heroPercent =
-    firstDay || targetCalories <= 0 ? null : caloriesEatenPercent(totalCaloriesConsumed, targetCalories);
-
 
   // Today's position in the strip (0 = the week's first day).
   const currentDayOfWeek = todayIndex ?? dayIndexInWeek(localDateKey(), weekdays[0]);
@@ -217,18 +153,11 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
         style={[
           styles.heroCard,
           {
-            backgroundColor: theme.colors.heroCardDrained,
+            backgroundColor: heroBg,
             borderColor: heroBorder,
           },
         ]}
       >
-        <HeroFill
-          fill={heroFill}
-          fillColor={heroBg}
-          drainedColor={theme.colors.heroCardDrained}
-          percent={heroPercent}
-          label={t('tracker.header.calorieProgress')}
-        />
         <View style={styles.heroTopRow}>
           <View style={styles.heroCategoryPill}>
             <Text style={styles.heroCategoryText}>
@@ -299,7 +228,7 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
                         style={[
                           styles.pillFill,
                           {
-                            height: `${Math.max(12, Math.round(dayFillPct * 100))}%`,
+                            height: `${Math.max(14, Math.round(dayFillPct * 100))}%`,
                             backgroundColor: isToday
                               ? theme.colors.limeText
                               : 'rgba(10, 11, 13, 0.55)',
@@ -324,37 +253,8 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
         </View>
       </View>
 
-      {/* 2. Macro row (Protein, Carbs, Fat). Calories live in the hero above. */}
-      {firstDay ? (
-        <View
-          style={[
-            styles.targetsCard,
-            { backgroundColor: theme.colors.surface, borderColor: theme.colors.border },
-          ]}
-        >
-          <Text numberOfLines={1} style={[styles.tileLabel, dir.text, { color: theme.colors.textSecondary }]}>
-            {t('tracker.header.dailyTargets')}
-          </Text>
-          <View style={styles.targetsRow}>
-            {[
-              { label: t('common.protein'), grams: targetProteinGrams, color: theme.colors.proteinText },
-              { label: t('common.carbs'), grams: targetCarbGrams, color: theme.colors.carbsText },
-              { label: t('common.fat'), grams: targetFatGrams, color: theme.colors.fatText },
-            ].map((macro) => (
-              <View key={macro.label} style={styles.targetCol}>
-                <Text style={[styles.targetValue, { color: theme.colors.textPrimary }]} numberOfLines={1}>
-                  {formatNumber(Math.round(macro.grams))}
-                  <Text style={[styles.tileUnit, { color: theme.colors.textSecondary }]}>{` ${t('common.gramsUnit')}`}</Text>
-                </Text>
-                <View style={[styles.targetBar, { backgroundColor: macro.color }]} />
-                <Text style={[styles.targetLabel, dir.text, { color: theme.colors.textSecondary }]} numberOfLines={1}>
-                  {macro.label}
-                </Text>
-              </View>
-            ))}
-          </View>
-        </View>
-      ) : (
+      {/* 2. Macro row (Protein, Carbs, Fat). Calories live in the hero above. On the first day the tiles read
+          0 / goal, so they still show the targets without a separate card. */}
       <View style={styles.metricGrid}>
         <MacroTile
           label={t('common.protein')}
@@ -387,18 +287,11 @@ export const DailyProgressHeader: React.FC<DailyProgressHeaderProps> = ({
           fallback={t('tracker.header.consumedToday')}
         />
       </View>
-      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  targetsCard: { borderRadius: 20, borderWidth: 1, padding: 14, gap: 10 },
-  targetsRow: { flexDirection: 'row', gap: 12 },
-  targetCol: { flex: 1, minWidth: 0, gap: 6 },
-  targetValue: { fontSize: 20, fontWeight: '800', letterSpacing: -0.3, fontVariant: ['tabular-nums'] },
-  targetBar: { height: 4, borderRadius: 2, width: '100%' },
-  targetLabel: { fontSize: 12, fontWeight: '600' },
   container: {
     paddingHorizontal: 16,
     marginBottom: 16,
@@ -418,13 +311,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     borderWidth: 1,
     overflow: 'hidden',
-  },
-  heroFillLayer: { pointerEvents: 'none' },
-  heroFill: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
   },
   heroTopRow: {
     flexDirection: 'row',
@@ -494,6 +380,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(10, 11, 13, 0.35)',
     borderRadius: commonRadii.pill,
+    // The fill sits inside the outline with an even margin, rounded like the track.
+    padding: 2,
     justifyContent: 'flex-end',
     alignItems: 'center',
     overflow: 'hidden',

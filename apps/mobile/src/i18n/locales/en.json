@@ -728,11 +728,11 @@
         },
         "kcalPerDay": "{{kcal}} kcal/day",
         "subtitle": {
-          "PK": "Doodh patti / tea brewed with 1-2 tsp of sugar",
+          "PK": "Chai, tea or coffee. Tell us what you usually have.",
           "SA": "Finjans of Saudi Gahwa paired with companion dates (Sukari / Ajwa)"
         },
         "title": {
-          "PK": "Cups of chai with sugar per day",
+          "PK": "Your daily drink",
           "SA": "Daily Saudi gahwa & dates ritual"
         },
         "unit": {
@@ -742,6 +742,24 @@
         "weekly": {
           "PK": "(~{{weekly}} kcal/week) in liquid sugars & milk!",
           "SA": "(~{{weekly}} kcal/week) in dates & Gahwa ritual!"
+        },
+        "drink": {
+          "question": "What do you usually drink?",
+          "options": {
+            "chai_sugar": "Chai with sugar",
+            "chai_plain": "Chai without sugar",
+            "green_tea": "Green tea",
+            "coffee": "Coffee",
+            "black_coffee": "Black coffee",
+            "none": "I don't drink these"
+          },
+          "notes": {
+            "chai_plain": "No sugar in your chai, so it adds no extra sugar calories to your day.",
+            "green_tea": "Green tea has almost no calories, so nothing is added to your day.",
+            "coffee": "Coffee with milk or sugar adds calories. Log each cup in your diary so it counts.",
+            "black_coffee": "Black coffee has almost no calories, so nothing is added to your day.",
+            "none": "No daily tea or coffee, so there is nothing to add to your day."
+          }
         }
       }
     },
@@ -1297,7 +1315,6 @@
     },
     "header": {
       "banked": "Banked",
-      "calorieProgress": "Calories eaten, as a share of your daily target",
       "caloriesConsumed": "calories consumed today",
       "caloriesOver": "calories over limit",
       "caloriesRemaining": "calories remaining",
@@ -1305,7 +1322,6 @@
       "consumedToday": "Consumed today",
       "dailyGoal": "Daily goal: {{target}} kcal ({{eaten}} eaten)",
       "dailyTarget": "Daily target",
-      "dailyTargets": "Your daily targets",
       "eatenSoFar": "{{eaten}} kcal eaten so far",
       "energyBudget": "Daily calories",
       "goalCaption": "Goal",

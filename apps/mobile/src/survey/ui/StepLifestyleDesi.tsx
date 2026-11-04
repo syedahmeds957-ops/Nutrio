@@ -1,17 +1,20 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { SurveyLifestyleDesi } from '../types.js';
+import { SurveyLifestyleDesi, UsualDrink } from '../types.js';
 import { ritualCupKcal } from '../../common/ritualDrinks.js';
 import { useTheme, commonRadii } from '../../theme.js';
 import { useRegion } from '../../common/region/index.js';
 import { useTranslation, useTextDirection } from '../../i18n/index.js';
 import { useFormat } from '../../i18n/useFormat.js';
+import { OptionButton, OptionGroup } from '../../ui/Selectable.js';
 
 interface StepLifestyleDesiProps {
   data: Partial<SurveyLifestyleDesi>;
   onChange: (updated: Partial<SurveyLifestyleDesi>) => void;
   errors: Record<string, string>;
 }
+
+const DRINKS: UsualDrink[] = ['chai_sugar', 'chai_plain', 'green_tea', 'coffee', 'black_coffee', 'none'];
 
 export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
   data,
@@ -27,6 +30,16 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
   const chaiCount = data.chaiWithSugarCupsPerDay ?? 2;
   const estimatedChaiKcal = chaiCount * ritualCupKcal(activeRegion);
   const estimatedWeeklyChaiKcal = estimatedChaiKcal * 7;
+  // Only the Pakistani card asks what the user drinks; gahwa and dates have no alternatives. Only
+  // sweetened chai counts cups, so every other drink is stored as 0 sweetened cups.
+  const asksDrink = activeRegion !== 'SA';
+  const drink: UsualDrink = data.usualDrink ?? (data.chaiWithSugarCupsPerDay === 0 ? 'chai_plain' : 'chai_sugar');
+  const showStepper = !asksDrink || drink === 'chai_sugar';
+  const pickDrink = (next: UsualDrink) =>
+    onChange({
+      usualDrink: next,
+      chaiWithSugarCupsPerDay: next === 'chai_sugar' ? Math.max(chaiCount, 2) : 0,
+    });
 
   return (
     <View style={styles.container}>
@@ -54,6 +67,21 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
           {t(`survey.lifestyle.chai.subtitle.${activeRegion}`)}
         </Text>
 
+        {asksDrink && (
+          <OptionGroup label={t('survey.lifestyle.chai.drink.question')} style={styles.drinkGrid}>
+            {DRINKS.map((option) => (
+              <OptionButton
+                key={option}
+                label={t(`survey.lifestyle.chai.drink.options.${option}`)}
+                selected={drink === option}
+                onPress={() => pickDrink(option)}
+                style={styles.drinkOption}
+              />
+            ))}
+          </OptionGroup>
+        )}
+
+        {showStepper && (
         <View style={styles.stepperRow}>
           <TouchableOpacity
             style={[
@@ -96,8 +124,22 @@ export const StepLifestyleDesi: React.FC<StepLifestyleDesiProps> = ({
             <Text style={[styles.stepperBtnText, { color: theme.colors.textPrimary }]}>+</Text>
           </TouchableOpacity>
         </View>
+        )}
 
-        {chaiCount > 0 && (
+        {!showStepper && (
+          <View
+            style={[
+              styles.impactBox,
+              { backgroundColor: theme.colors.surfaceSecondary, borderColor: theme.colors.border },
+            ]}
+          >
+            <Text style={[styles.impactText, dir.text, { color: theme.colors.textPrimary }]}>
+              {t(`survey.lifestyle.chai.drink.notes.${drink}`)}
+            </Text>
+          </View>
+        )}
+
+        {showStepper && chaiCount > 0 && (
           <View
             style={[
               styles.impactBox,
@@ -170,6 +212,17 @@ const styles = StyleSheet.create({
   chaiSubtitle: {
     fontSize: 12,
     marginBottom: 16,
+  },
+  drinkGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginBottom: 16,
+  },
+  drinkOption: {
+    flexGrow: 1,
+    flexBasis: '45%',
+    paddingHorizontal: 8,
   },
   stepperRow: {
     flexDirection: 'row',

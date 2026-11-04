@@ -35,17 +35,17 @@ const render = (firstDay: boolean) => {
 };
 
 describe('the day-0 dashboard header', () => {
-  it('shows the targets in one card instead of three zero macro tiles', () => {
+  it('shows the same three macro tiles as later days, each reading 0 / target', () => {
     const html = render(true);
-    expect(html).toContain('Your daily targets');
+    expect(html).not.toContain('Your daily targets');
+    expect(html.match(/role="progressbar"/g)?.length).toBe(3);
     expect(html).toContain('124');
-    expect(html).not.toContain('progressbar');
-    expect(html).not.toContain('Consumed today');
+    expect(html).toContain('150');
+    expect(html).toContain('45');
   });
 
   it('keeps the macro progress tiles once something is logged', () => {
     const html = render(false);
-    expect(html).not.toContain('Your daily targets');
-    expect(html).toContain('progressbar');
+    expect(html.match(/role="progressbar"/g)?.length).toBe(3);
   });
 });
