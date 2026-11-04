@@ -83,8 +83,10 @@ describe('Diet & Basics catalogue', () => {
 
   it('does not collide with names already in the wider catalogue', () => {
     const dietNames = new Set(DIET_BASICS_CATALOG.map((f) => f.name.toLowerCase()));
+    // Menu-only brand rows (a restaurant's lassi or cola) are the same dish on that brand's menu: they are
+    // kept out of the general search and sit after the diet foods, so a name lookup still finds the diet row.
     const clashes = ALL_FOODS_CATALOG.filter(
-      (f) => f.category !== 'Diet & Basics' && dietNames.has(f.name.toLowerCase())
+      (f) => f.category !== 'Diet & Basics' && !f.menuOnly && dietNames.has(f.name.toLowerCase())
     ).map((f) => f.name);
     expect(clashes, `names duplicated outside Diet & Basics: ${clashes.join(', ')}`).toHaveLength(0);
   });

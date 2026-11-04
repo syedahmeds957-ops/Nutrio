@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { searchPakistaniFoods, getSearchIndexStats } from '../src/index.js';
 
-describe('High-Performance Pakistani Food Search Index (2,700+ Items)', () => {
-  it('indexes all 2,700+ items and reports valid index statistics', () => {
+describe('High-Performance Pakistani Food Search Index (2,400+ Items)', () => {
+  it('indexes all 2,400+ items and reports valid index statistics', () => {
     const stats = getSearchIndexStats();
-    expect(stats.totalFoods).toBeGreaterThanOrEqual(2700);
+    expect(stats.totalFoods).toBeGreaterThanOrEqual(2400);
     expect(stats.totalTokens).toBeGreaterThan(500);
   });
 

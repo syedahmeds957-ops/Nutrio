@@ -262,6 +262,7 @@ function nameMatchBonus(canonicalName: string, canonicalQuery: string): number {
 }
 
 function passesFilters(catalog: RegionCatalog, food: NormalizedFood, options?: SearchOptions): boolean {
+  if (food.menuOnly && !options?.brand) return false;
   if (options?.brand && !catalog.matchesBrand(food, options.brand)) return false;
   if (
     options?.category &&

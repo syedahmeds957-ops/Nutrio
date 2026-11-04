@@ -16,7 +16,7 @@ export const CALORIFY_BRANDS: CalorifyBrand[] = [
     nameUr: 'کے ایف سی',
     tagline: '25 items · official & estimated',
     icon: 'utensils',
-    categories: ['All', 'Burgers', 'Everyday Value', 'Chicken & Wings', 'Wraps & Rice', 'Sides'],
+    categories: ['All', 'Burgers', 'Everyday Value', 'Chicken & Wings', 'Wraps & Rice', 'Sides', 'Beverages & Drinks'],
     itemCount: 25,
   },
   {

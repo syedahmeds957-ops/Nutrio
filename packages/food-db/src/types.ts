@@ -13,6 +13,8 @@ export interface NormalizedFood {
   brand?: string;
   brandId?: string;
   brandCategory?: string;
+  /** Listed on its brand's menu only: left out of the general food search (a brand drink is one of dozens of identical rows). */
+  menuOnly?: boolean;
   modifiers?: FoodModifier[];
   category: string;
   cuisineTags: string[];
@@ -98,6 +100,8 @@ export interface RestaurantBrand {
   cuisineTags?: string[];
   categories?: string[];
   menuCount?: number;
+  /** The menu is a generated template with estimated figures, not verified per-brand data: the app says "estimated", not "verified". */
+  estimatedMenu?: boolean;
   itemCount?: number;
   popularItemsCount?: number;
   color?: string;

@@ -10,6 +10,9 @@ import { PAKISTANI_FAST_FOOD_DATA } from './pakistani-fast-food.data.js';
 import { SWEETS_DESSERTS_DATA } from './sweets-desserts.data.js';
 import { BEVERAGES_DRINKS_DATA } from './beverages-drinks.data.js';
 import { CALORIFY_RESTAURANTS_DATA, CALORIFY_BRANDS } from './calorify-restaurants.data.js';
+import { RESTAURANT_DRINKS_DATA } from './restaurant-drinks.data.js';
+import { DESI_RESTAURANT_DRINKS_DATA } from './restaurant-drinks-desi.data.js';
+import { SAUDI_RESTAURANT_DRINKS_DATA } from './restaurant-drinks-saudi.data.js';
 import {
   PAKISTANI_EXPANDED_BRANDS,
   PAKISTANI_EXPANDED_RESTAURANTS_DATA,
@@ -59,6 +62,9 @@ export * from './pakistani-fast-food.data.js';
 export * from './sweets-desserts.data.js';
 export * from './beverages-drinks.data.js';
 export * from './calorify-restaurants.data.js';
+export * from './restaurant-drinks.data.js';
+export * from './restaurant-drinks-desi.data.js';
+export * from './restaurant-drinks-saudi.data.js';
 export * from './pakistani-restaurants-expanded.data.js';
 export * from './saudi-traditional.data.js';
 export * from './saudi-restaurants.data.js';
@@ -85,19 +91,9 @@ export * from './diet-nuts-seeds.data.js';
 export * from './diet-modifiers.data.js';
 export * from './diet-groups.data.js';
 export * from './retired-duplicates.js';
+export * from './retired-special-copies.js';
 export * from './meat-variants.data.js';
 export * from './piece-servings.data.js';
-
-export const PAKISTANI_RESTAURANT_BRANDS: RestaurantBrand[] = [
-  ...CALORIFY_BRANDS,
-  ...PAKISTANI_EXPANDED_BRANDS,
-];
-
-// Unified brands list across all supported regions
-export const ALL_RESTAURANT_BRANDS: RestaurantBrand[] = [
-  ...PAKISTANI_RESTAURANT_BRANDS,
-  ...SAUDI_RESTAURANT_BRANDS,
-];
 
 /**
  * Diet & Basics foods, shared by every region. Ids are assigned here once so the
@@ -246,6 +242,9 @@ const PAKISTANI_FOODS_WITH_POSITIONAL_IDS: NormalizedFood[] = [
   // real Roti would silently repoint those lookups. Diet foods are surfaced
   // by the search ranking boost and the Diet & Basics filter instead.
   ...dietFoodsForRegion('PK'),
+  // Last, so its ids never shift another food's (retired-duplicate ids are positional).
+  ...RESTAURANT_DRINKS_DATA,
+  ...DESI_RESTAURANT_DRINKS_DATA,
 ].map((item, idx) => ({
   ...item,
   id: item.id || `pak_food_${idx + 1}`,
@@ -288,6 +287,7 @@ export const ALL_SAUDI_FOODS: NormalizedFood[] = [
   ...SAUDI_RESTAURANTS_DATA,
   // Likewise: chapli kebab and karela sabzi do not belong in a Saudi list.
   ...dietFoodsForRegion('SA'),
+  ...SAUDI_RESTAURANT_DRINKS_DATA,
 ];
 
 // Deduped by id: the diet basics appear in both regional catalogues, so a
@@ -298,9 +298,66 @@ export const ALL_FOODS_CATALOG: NormalizedFood[] = Array.from(
   ).values()
 );
 
+const DRINKS_TAB = 'Beverages & Drinks';
+
+/**
+ * A brand whose menu has drinks (the brand drink lists above) gets the drinks tab even when its
+ * own `categories` list, which the generated data files own, does not name it.
+ */
+const withDrinksTab = (brands: RestaurantBrand[], drinks: NormalizedFood[]): RestaurantBrand[] => {
+  const brandsWithDrinks = new Set(drinks.map((food) => food.brand));
+  return brands.map((brand) =>
+    brandsWithDrinks.has(brand.name) && !brand.categories?.includes(DRINKS_TAB)
+      ? { ...brand, categories: [...(brand.categories ?? ['All']), DRINKS_TAB] }
+      : brand
+  );
+};
+
+const PAKISTANI_BRANDS_UNCOUNTED: RestaurantBrand[] = withDrinksTab(
+  [
+    ...CALORIFY_BRANDS,
+    // Generated template menus: their figures are estimates, and the menu screen says so.
+    ...PAKISTANI_EXPANDED_BRANDS.map((brand) => ({ ...brand, estimatedMenu: true })),
+  ],
+  [...RESTAURANT_DRINKS_DATA, ...DESI_RESTAURANT_DRINKS_DATA]
+);
+
+/**
+ * The item count in a brand's tagline ("38 items · ...") and its menuCount come from generated data
+ * and drift from the menu (retired duplicates, added drinks), so they are recounted from the foods
+ * the menu really lists.
+ */
+const withTrueCounts = (brands: RestaurantBrand[], foods: NormalizedFood[]): RestaurantBrand[] => {
+  const counts = new Map<string, number>();
+  for (const food of foods) if (food.brand) counts.set(food.brand, (counts.get(food.brand) ?? 0) + 1);
+  return brands.map((brand) => {
+    const count = counts.get(brand.name);
+    if (!count || !/^\d+ items/.test(brand.tagline)) return brand;
+    return {
+      ...brand,
+      tagline: brand.tagline.replace(/^\d+ items/, `${count} items`),
+      ...(brand.menuCount !== undefined ? { menuCount: count } : {}),
+    };
+  });
+};
+
+export const PAKISTANI_RESTAURANT_BRANDS: RestaurantBrand[] = withTrueCounts(PAKISTANI_BRANDS_UNCOUNTED, ALL_EXPANDED_PAKISTANI_FOODS);
+
+const SAUDI_BRANDS_WITH_DRINKS: RestaurantBrand[] = withTrueCounts(
+  withDrinksTab(SAUDI_RESTAURANT_BRANDS, SAUDI_RESTAURANT_DRINKS_DATA),
+  ALL_SAUDI_FOODS
+);
+
+// Unified brands list across all supported regions
+export const ALL_RESTAURANT_BRANDS: RestaurantBrand[] = [
+  ...PAKISTANI_RESTAURANT_BRANDS,
+  ...SAUDI_BRANDS_WITH_DRINKS,
+];
+
+
 const REGIONAL_BRANDS: Record<RegionCode, RestaurantBrand[]> = {
   PK: PAKISTANI_RESTAURANT_BRANDS,
-  SA: SAUDI_RESTAURANT_BRANDS,
+  SA: SAUDI_BRANDS_WITH_DRINKS,
   GLOBAL: ALL_RESTAURANT_BRANDS,
 };
 

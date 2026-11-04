@@ -14,7 +14,9 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
       "All",
       "Burgers",
       "Wraps",
-      "Fries & Sticks",
+      "Chicken & Wings",
+      "Fries",
+      "Sides",
       "Sauces & Dips"
     ],
     "menuCount": 38
@@ -29,9 +31,11 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "categories": [
       "All",
       "Burgers",
-      "Fried Chicken",
-      "Appetizers",
-      "Fries"
+      "Wraps",
+      "Chicken & Wings",
+      "Fries",
+      "Sides",
+      "Sauces & Dips"
     ],
     "menuCount": 40
   },
@@ -44,10 +48,12 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Fast Food",
     "categories": [
       "All",
-      "Beef Burgers",
-      "Chicken Burgers",
-      "Steaks & Wraps",
-      "Loaded Fries"
+      "Burgers",
+      "Wraps",
+      "Chicken & Wings",
+      "Fries",
+      "Sides",
+      "Sauces & Dips"
     ],
     "menuCount": 36
   },
@@ -61,9 +67,11 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "categories": [
       "All",
       "Burgers",
-      "Steaks",
-      "Starters",
-      "Shakes"
+      "Wraps",
+      "Chicken & Wings",
+      "Fries",
+      "Sides",
+      "Sauces & Dips"
     ],
     "menuCount": 35
   },
@@ -76,10 +84,12 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Fast Food",
     "categories": [
       "All",
-      "Chicken & Tenders",
-      "Burgers & Wraps",
-      "Honey-Butter Biscuits",
-      "Sides"
+      "Burgers",
+      "Wraps",
+      "Chicken & Wings",
+      "Fries",
+      "Sides",
+      "Sauces & Dips"
     ],
     "menuCount": 34
   },
@@ -92,10 +102,12 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Fast Food",
     "categories": [
       "All",
-      "Gourmet Beef",
-      "Crispy Chicken",
-      "Animal Fries",
-      "Dips"
+      "Burgers",
+      "Wraps",
+      "Chicken & Wings",
+      "Fries",
+      "Sides",
+      "Sauces & Dips"
     ],
     "menuCount": 36
   },
@@ -108,10 +120,12 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Fast Food",
     "categories": [
       "All",
-      "Hot Tenders",
-      "Sliders",
-      "Loaded Bowls",
-      "Sauces"
+      "Burgers",
+      "Wraps",
+      "Chicken & Wings",
+      "Fries",
+      "Sides",
+      "Sauces & Dips"
     ],
     "menuCount": 35
   },
@@ -124,9 +138,12 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Fast Food",
     "categories": [
       "All",
-      "Classic Burgers",
-      "Hot Dogs",
-      "Waffles & Shakes"
+      "Burgers",
+      "Wraps",
+      "Chicken & Wings",
+      "Fries",
+      "Sides",
+      "Sauces & Dips"
     ],
     "menuCount": 35
   },
@@ -139,9 +156,12 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Fast Food",
     "categories": [
       "All",
-      "Bun Kabab",
-      "Crispy Burgers",
-      "Chaat & Fries"
+      "Burgers",
+      "Wraps",
+      "Chicken & Wings",
+      "Fries",
+      "Sides",
+      "Sauces & Dips"
     ],
     "menuCount": 32
   },
@@ -154,9 +174,12 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Fast Food",
     "categories": [
       "All",
-      "Fried Chicken Buckets",
-      "Crispy Burgers",
-      "Rolls & Wings"
+      "Burgers",
+      "Wraps",
+      "Chicken & Wings",
+      "Fries",
+      "Sides",
+      "Sauces & Dips"
     ],
     "menuCount": 32
   },
@@ -169,9 +192,9 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Chai & Cafes",
     "categories": [
       "All",
-      "Mithai Delights",
-      "Halwa & Ladoo",
-      "Shahi Meetha"
+      "Savory Bites",
+      "Beverages & Drinks",
+      "Desserts"
     ],
     "menuCount": 30
   },
@@ -185,8 +208,9 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "categories": [
       "All",
       "Pizzas",
-      "Starters",
-      "Pastas"
+      "Chicken & Wings",
+      "Pastas",
+      "Sides"
     ],
     "menuCount": 42
   },
@@ -199,10 +223,10 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Pizza",
     "categories": [
       "All",
-      "Signature Pizzas",
-      "Crust Specials",
-      "Sides & Dips",
-      "Desserts"
+      "Pizzas",
+      "Chicken & Wings",
+      "Pastas",
+      "Sides"
     ],
     "menuCount": 44
   },
@@ -215,10 +239,10 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Pizza",
     "categories": [
       "All",
-      "Pan Pizzas",
-      "Stuffed Crust",
-      "Appetizers & Wings",
-      "Desserts"
+      "Pizzas",
+      "Chicken & Wings",
+      "Pastas",
+      "Sides"
     ],
     "menuCount": 45
   },
@@ -231,9 +255,10 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Pizza",
     "categories": [
       "All",
-      "NY Giant Slices",
-      "Gourmet Pizzas",
-      "Sides & Wings"
+      "Pizzas",
+      "Chicken & Wings",
+      "Pastas",
+      "Sides"
     ],
     "menuCount": 38
   },
@@ -246,9 +271,10 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Pizza",
     "categories": [
       "All",
-      "Special Pizzas",
-      "Sandwiches & Rolls",
-      "Appetizers"
+      "Pizzas",
+      "Chicken & Wings",
+      "Pastas",
+      "Sides"
     ],
     "menuCount": 36
   },
@@ -261,9 +287,10 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Pizza",
     "categories": [
       "All",
-      "Papa Pizzas",
-      "Papa Sides",
-      "Dips & Desserts"
+      "Pizzas",
+      "Chicken & Wings",
+      "Pastas",
+      "Sides"
     ],
     "menuCount": 36
   },
@@ -276,9 +303,10 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Pizza",
     "categories": [
       "All",
-      "Woodfired Pizzas",
-      "Italian Breads",
-      "Calzones"
+      "Pizzas",
+      "Chicken & Wings",
+      "Pastas",
+      "Sides"
     ],
     "menuCount": 34
   },
@@ -291,8 +319,10 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Pizza",
     "categories": [
       "All",
-      "Manhattan Pizzas",
-      "Sides & Breads"
+      "Pizzas",
+      "Chicken & Wings",
+      "Pastas",
+      "Sides"
     ],
     "menuCount": 34
   },
@@ -305,9 +335,10 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Pizza",
     "categories": [
       "All",
-      "Deep Pan Pizzas",
-      "Oven Pastas",
-      "Starters"
+      "Pizzas",
+      "Chicken & Wings",
+      "Pastas",
+      "Sides"
     ],
     "menuCount": 32
   },
@@ -320,8 +351,9 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Pizza",
     "categories": [
       "All",
-      "Crown Crust",
-      "Special Flavors",
+      "Pizzas",
+      "Chicken & Wings",
+      "Pastas",
       "Sides"
     ],
     "menuCount": 32
@@ -335,10 +367,11 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "BBQ",
     "categories": [
       "All",
-      "Famous Biryani",
-      "BBQ & Kabab",
-      "Curries",
-      "Meetha"
+      "BBQ & Grills",
+      "Curries & Karahi",
+      "Rice & Biryani",
+      "Roti & Bread",
+      "Sides"
     ],
     "menuCount": 40
   },
@@ -351,10 +384,11 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "BBQ",
     "categories": [
       "All",
-      "BBQ Grills",
-      "Puri Paratha",
-      "Handi & Karahi",
-      "Naan & Gravy"
+      "BBQ & Grills",
+      "Curries & Karahi",
+      "Rice & Biryani",
+      "Roti & Bread",
+      "Sides"
     ],
     "menuCount": 48
   },
@@ -367,9 +401,11 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "BBQ",
     "categories": [
       "All",
-      "Desi Ghee Karahi",
-      "Shinwari Specialties",
-      "Tandoor & Sides"
+      "BBQ & Grills",
+      "Curries & Karahi",
+      "Rice & Biryani",
+      "Roti & Bread",
+      "Sides"
     ],
     "menuCount": 36
   },
@@ -382,10 +418,11 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "BBQ",
     "categories": [
       "All",
-      "Signature BBQ",
-      "Special Karahi",
+      "BBQ & Grills",
+      "Curries & Karahi",
       "Rice & Biryani",
-      "Breads & Raita"
+      "Roti & Bread",
+      "Sides"
     ],
     "menuCount": 46
   },
@@ -398,10 +435,11 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "BBQ",
     "categories": [
       "All",
-      "Mughlai Grills",
-      "Shahi Curries",
-      "Royal Biryani",
-      "Shahi Desserts"
+      "BBQ & Grills",
+      "Curries & Karahi",
+      "Rice & Biryani",
+      "Roti & Bread",
+      "Sides"
     ],
     "menuCount": 44
   },
@@ -414,10 +452,11 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "BBQ",
     "categories": [
       "All",
-      "Bihari & Afghani BBQ",
-      "Mutton Specialties",
-      "Karahi & Handi",
-      "Seafood"
+      "BBQ & Grills",
+      "Curries & Karahi",
+      "Rice & Biryani",
+      "Roti & Bread",
+      "Sides"
     ],
     "menuCount": 46
   },
@@ -430,8 +469,11 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "BBQ",
     "categories": [
       "All",
-      "Nalli Biryani",
-      "Sides & Drinks"
+      "BBQ & Grills",
+      "Curries & Karahi",
+      "Rice & Biryani",
+      "Roti & Bread",
+      "Sides"
     ],
     "menuCount": 30
   },
@@ -444,8 +486,11 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "BBQ",
     "categories": [
       "All",
-      "Nihari Specials",
-      "Kulcha & Tarka"
+      "BBQ & Grills",
+      "Curries & Karahi",
+      "Rice & Biryani",
+      "Roti & Bread",
+      "Sides"
     ],
     "menuCount": 32
   },
@@ -458,9 +503,11 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "BBQ",
     "categories": [
       "All",
-      "Classic Nihari",
-      "Maghaz & Nalli",
-      "Tandoor"
+      "BBQ & Grills",
+      "Curries & Karahi",
+      "Rice & Biryani",
+      "Roti & Bread",
+      "Sides"
     ],
     "menuCount": 32
   },
@@ -473,8 +520,10 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "BBQ",
     "categories": [
       "All",
-      "Nalli Nihari",
-      "Special Fry Nihari",
+      "BBQ & Grills",
+      "Curries & Karahi",
+      "Rice & Biryani",
+      "Roti & Bread",
       "Sides"
     ],
     "menuCount": 32
@@ -488,8 +537,11 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "BBQ",
     "categories": [
       "All",
-      "Double Masala Biryani",
-      "Raita & Drinks"
+      "BBQ & Grills",
+      "Curries & Karahi",
+      "Rice & Biryani",
+      "Roti & Bread",
+      "Sides"
     ],
     "menuCount": 30
   },
@@ -502,8 +554,11 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "BBQ",
     "categories": [
       "All",
-      "Siri Paye Bowls",
-      "Kulcha & Sides"
+      "BBQ & Grills",
+      "Curries & Karahi",
+      "Rice & Biryani",
+      "Roti & Bread",
+      "Sides"
     ],
     "menuCount": 30
   },
@@ -516,9 +571,11 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "BBQ",
     "categories": [
       "All",
-      "Village BBQ",
-      "Handi Specialties",
-      "Salads & Continental"
+      "BBQ & Grills",
+      "Curries & Karahi",
+      "Rice & Biryani",
+      "Roti & Bread",
+      "Sides"
     ],
     "menuCount": 42
   },
@@ -531,9 +588,11 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "BBQ",
     "categories": [
       "All",
-      "Dhaba Daal & Karahi",
-      "Paratha & Tandoor",
-      "Chai"
+      "BBQ & Grills",
+      "Curries & Karahi",
+      "Rice & Biryani",
+      "Roti & Bread",
+      "Sides"
     ],
     "menuCount": 34
   },
@@ -546,9 +605,9 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Chai & Cafes",
     "categories": [
       "All",
-      "Karak Chai",
-      "Paratha & Eggs",
-      "Qahwa & Snacks"
+      "Savory Bites",
+      "Beverages & Drinks",
+      "Desserts"
     ],
     "menuCount": 36
   },
@@ -561,10 +620,9 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Chai & Cafes",
     "categories": [
       "All",
-      "Signature Teas",
-      "Breakfast & Omelettes",
-      "Sandwiches & Snacks",
-      "Bakery"
+      "Savory Bites",
+      "Beverages & Drinks",
+      "Desserts"
     ],
     "menuCount": 42
   },
@@ -577,9 +635,9 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Chai & Cafes",
     "categories": [
       "All",
-      "Hot Coffees",
-      "Iced Chillers",
-      "Pastries & Cakes"
+      "Savory Bites",
+      "Beverages & Drinks",
+      "Desserts"
     ],
     "menuCount": 40
   },
@@ -592,9 +650,9 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Chai & Cafes",
     "categories": [
       "All",
-      "Espresso & Lattes",
-      "Frappes & Coolers",
-      "Bakery Bites"
+      "Savory Bites",
+      "Beverages & Drinks",
+      "Desserts"
     ],
     "menuCount": 36
   },
@@ -607,9 +665,9 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Chai & Cafes",
     "categories": [
       "All",
-      "Donuts",
-      "Cold Coffees & Lattes",
-      "Sandwiches"
+      "Savory Bites",
+      "Beverages & Drinks",
+      "Desserts"
     ],
     "menuCount": 38
   },
@@ -622,8 +680,9 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Chai & Cafes",
     "categories": [
       "All",
-      "Cinnabon Rolls",
-      "Chillattas & Drinks"
+      "Savory Bites",
+      "Beverages & Drinks",
+      "Desserts"
     ],
     "menuCount": 30
   },
@@ -636,9 +695,9 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Chai & Cafes",
     "categories": [
       "All",
-      "Dessert Slices",
-      "Cupcakes & Tarts",
-      "Sundaes & Mousse"
+      "Savory Bites",
+      "Beverages & Drinks",
+      "Desserts"
     ],
     "menuCount": 38
   },
@@ -651,9 +710,9 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Chai & Cafes",
     "categories": [
       "All",
-      "Famous Breads & Rolls",
-      "Patties & Snacks",
-      "Cakes & Biscuits"
+      "Savory Bites",
+      "Beverages & Drinks",
+      "Desserts"
     ],
     "menuCount": 45
   },
@@ -666,9 +725,9 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Chai & Cafes",
     "categories": [
       "All",
-      "Bakery Delights",
-      "Deli Sandwiches",
-      "Cakes & Pastries"
+      "Savory Bites",
+      "Beverages & Drinks",
+      "Desserts"
     ],
     "menuCount": 42
   },
@@ -681,9 +740,9 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Chai & Cafes",
     "categories": [
       "All",
-      "Brews & Lattes",
-      "Paninis & Wraps",
-      "Cheesecakes"
+      "Savory Bites",
+      "Beverages & Drinks",
+      "Desserts"
     ],
     "menuCount": 36
   },
@@ -696,9 +755,9 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Chai & Cafes",
     "categories": [
       "All",
-      "Chocolate Desserts",
-      "Hot & Cold Drinks",
-      "Savory Bites"
+      "Savory Bites",
+      "Beverages & Drinks",
+      "Desserts"
     ],
     "menuCount": 36
   },
@@ -711,9 +770,9 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Chai & Cafes",
     "categories": [
       "All",
-      "Artisan Brownies",
-      "Cheesecakes & Tiramisu",
-      "Coffee & Shakes"
+      "Savory Bites",
+      "Beverages & Drinks",
+      "Desserts"
     ],
     "menuCount": 34
   },
@@ -726,10 +785,11 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Asian & Continental",
     "categories": [
       "All",
+      "Chicken & Beef Mains",
+      "Seafood",
+      "Rice & Noodles",
       "Soups",
-      "Chicken Manchurian & Shashlik",
-      "Beef & Seafood",
-      "Fried Rice & Chowmein"
+      "Appetizers"
     ],
     "menuCount": 45
   },
@@ -743,8 +803,9 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "categories": [
       "All",
       "Custom Wok Bowls",
-      "Noodles & Rice",
-      "Dim Sum & Starters"
+      "Seafood",
+      "Rice & Noodles",
+      "Appetizers"
     ],
     "menuCount": 40
   },
@@ -758,9 +819,11 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "categories": [
       "All",
       "Gourmet Steaks & Mains",
-      "Pasta & Seafood",
-      "Salads & Appetizers",
-      "Artisan Desserts"
+      "Seafood",
+      "Pastas",
+      "Appetizers",
+      "Salads",
+      "Desserts"
     ],
     "menuCount": 42
   },
@@ -773,9 +836,14 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Asian & Continental",
     "categories": [
       "All",
-      "Gourmet Steaks",
-      "Specialty Burgers",
-      "Pastas & Appetizers",
+      "Burgers",
+      "Sandwiches",
+      "Chicken & Wings",
+      "Gourmet Steaks & Mains",
+      "Pastas",
+      "Fries",
+      "Sides",
+      "Beverages & Drinks",
       "Desserts"
     ],
     "menuCount": 40
@@ -789,9 +857,11 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Asian & Continental",
     "categories": [
       "All",
-      "Chinese Soups",
+      "Chicken & Wings",
       "Chicken & Beef Mains",
+      "Seafood",
       "Rice & Noodles",
+      "Soups",
       "Appetizers"
     ],
     "menuCount": 42
@@ -805,9 +875,17 @@ export const PAKISTANI_EXPANDED_BRANDS: RestaurantBrand[] = [
     "brandGroup": "Asian & Continental",
     "categories": [
       "All",
-      "Pakistani Platters",
-      "BBQ & Karahi",
-      "Continental & Italian",
+      "Sandwiches",
+      "BBQ & Grills",
+      "Curries & Karahi",
+      "Rice & Biryani",
+      "Platters",
+      "Gourmet Steaks & Mains",
+      "Seafood",
+      "Pastas",
+      "Appetizers",
+      "Salads",
+      "Beverages & Drinks",
       "Desserts"
     ],
     "menuCount": 45
@@ -858,7 +936,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Fiery Zesty Crispy Burger",
     "nameUr": "فائری زیسٹی برگر",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Wraps",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -896,7 +974,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Double Decker Cheesy Fillet",
     "nameUr": "ڈبل ڈیکر چیزی فلٹ",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Fries & Sticks",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -934,7 +1012,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Smash Beef Burger Single",
     "nameUr": "سمیش بیف برگر سنگل",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Sauces & Dips",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -1010,7 +1088,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Grilled Peri Peri Chicken Burger",
     "nameUr": "گرلڈ پیری پیری چکن برگر",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Wraps",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -1048,7 +1126,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "BBQ Smokey Bacon & Cheese Burger",
     "nameUr": "بار بی کیو سموکی برگر",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Fries & Sticks",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -1086,7 +1164,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Jalapeno Popper Crunchy Burger",
     "nameUr": "ہیلاپینیو کرنچی برگر",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Sauces & Dips",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -1200,7 +1278,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Flamin Hot Tortilla Wrap",
     "nameUr": "فلیمنگ ہاٹ ریپ",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Fries & Sticks",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -1238,7 +1316,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Spicy Crispy Chicken Tenders (3 pcs)",
     "nameUr": "کرسپی چکن ٹینڈرز",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Sauces & Dips",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -1276,7 +1354,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Golden Fried Drumstick (1 pc)",
     "nameUr": "فرائیڈ چکن ڈرم اسٹک",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Burgers",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -1314,7 +1392,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crispy Hot Wings with Buffalo Sauce (6 pcs)",
     "nameUr": "کرسپی ہاٹ ونگز",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Wraps",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -1352,7 +1430,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Animal Style Loaded Fries with Melted Cheese",
     "nameUr": "اینیمل لوڈڈ فرائز",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Fries & Sticks",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -1390,7 +1468,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Curly Seasoned Fries Cup",
     "nameUr": "کرلی فرائز",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Sauces & Dips",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -1428,7 +1506,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crinkle Cut Golden French Fries",
     "nameUr": "کرنکل کٹ فرائز",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Burgers",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -1466,7 +1544,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crispy Mozzarella Sticks with Marinara (4 pcs)",
     "nameUr": "موزاریلا اسٹکس",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Wraps",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -1504,7 +1582,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Garlic Mayo Dipping Sauce",
     "nameUr": "گارلک میو ساس",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Fries & Sticks",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -1580,7 +1658,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Honey Mustard Special Sauce",
     "nameUr": "ہنی مسٹرڈ ساس",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Burgers",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -1618,7 +1696,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Classic Crunch Burger",
     "nameUr": "کلاسک کرینچ برگر",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Wraps",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -1656,7 +1734,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Fiery Zesty Crispy Burger",
     "nameUr": "فائری زیسٹی برگر",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Fries & Sticks",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -1694,7 +1772,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Double Decker Cheesy Fillet",
     "nameUr": "ڈبل ڈیکر چیزی فلٹ",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Sauces & Dips",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -1770,7 +1848,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Double Smash Melt with Caramelized Onions",
     "nameUr": "ڈبل سمیش بیف میلٹ",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Wraps",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -1808,7 +1886,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Grilled Peri Peri Chicken Burger",
     "nameUr": "گرلڈ پیری پیری چکن برگر",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Fries & Sticks",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -1846,7 +1924,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special BBQ Smokey Bacon & Cheese Burger",
     "nameUr": "بار بی کیو سموکی برگر",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Sauces & Dips",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -1922,7 +2000,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Mushroom Melt Gourmet Beef",
     "nameUr": "مشروم میلٹ بیف برگر",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Wraps",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -1960,7 +2038,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Honey Mustard Crispy Wrap",
     "nameUr": "ہنی مسٹرڈ ریپ",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Fries & Sticks",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -1998,7 +2076,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Flamin Hot Tortilla Wrap",
     "nameUr": "فلیمنگ ہاٹ ریپ",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Sauces & Dips",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -2036,7 +2114,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Spicy Crispy Chicken Tenders (3 pcs)",
     "nameUr": "کرسپی چکن ٹینڈرز",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Burgers",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -2074,7 +2152,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Golden Fried Drumstick (1 pc)",
     "nameUr": "فرائیڈ چکن ڈرم اسٹک",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Wraps",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -2112,7 +2190,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crispy Hot Wings with Buffalo Sauce (6 pcs)",
     "nameUr": "کرسپی ہاٹ ونگز",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Fries & Sticks",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -2150,7 +2228,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Animal Style Loaded Fries with Melted Cheese",
     "nameUr": "اینیمل لوڈڈ فرائز",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Sauces & Dips",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -2188,7 +2266,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Curly Seasoned Fries Cup",
     "nameUr": "کرلی فرائز",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Burgers",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -2226,7 +2304,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crinkle Cut Golden French Fries",
     "nameUr": "کرنکل کٹ فرائز",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Wraps",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -2264,7 +2342,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crispy Mozzarella Sticks with Marinara (4 pcs)",
     "nameUr": "موزاریلا اسٹکس",
     "brand": "Johnny & Jugnu",
-    "brandCategory": "Fries & Sticks",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -2378,7 +2456,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Fiery Zesty Crispy Burger",
     "nameUr": "فائری زیسٹی برگر",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Fried Chicken",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -2416,7 +2494,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Double Decker Cheesy Fillet",
     "nameUr": "ڈبل ڈیکر چیزی فلٹ",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -2454,7 +2532,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Smash Beef Burger Single",
     "nameUr": "سمیش بیف برگر سنگل",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Fries",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -2530,7 +2608,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Grilled Peri Peri Chicken Burger",
     "nameUr": "گرلڈ پیری پیری چکن برگر",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Fried Chicken",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -2568,7 +2646,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "BBQ Smokey Bacon & Cheese Burger",
     "nameUr": "بار بی کیو سموکی برگر",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -2606,7 +2684,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Jalapeno Popper Crunchy Burger",
     "nameUr": "ہیلاپینیو کرنچی برگر",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Fries",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -2682,7 +2760,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Honey Mustard Crispy Wrap",
     "nameUr": "ہنی مسٹرڈ ریپ",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Fried Chicken",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -2720,7 +2798,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Flamin Hot Tortilla Wrap",
     "nameUr": "فلیمنگ ہاٹ ریپ",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -2758,7 +2836,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Spicy Crispy Chicken Tenders (3 pcs)",
     "nameUr": "کرسپی چکن ٹینڈرز",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Fries",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -2796,7 +2874,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Golden Fried Drumstick (1 pc)",
     "nameUr": "فرائیڈ چکن ڈرم اسٹک",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Burgers",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -2834,7 +2912,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crispy Hot Wings with Buffalo Sauce (6 pcs)",
     "nameUr": "کرسپی ہاٹ ونگز",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Fried Chicken",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -2872,7 +2950,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Animal Style Loaded Fries with Melted Cheese",
     "nameUr": "اینیمل لوڈڈ فرائز",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -2948,7 +3026,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crinkle Cut Golden French Fries",
     "nameUr": "کرنکل کٹ فرائز",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Burgers",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -2986,7 +3064,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crispy Mozzarella Sticks with Marinara (4 pcs)",
     "nameUr": "موزاریلا اسٹکس",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Fried Chicken",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -3024,7 +3102,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Garlic Mayo Dipping Sauce",
     "nameUr": "گارلک میو ساس",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -3062,7 +3140,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Atomic Fiery Chilli Dip",
     "nameUr": "ایٹامک چلی ساس",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Fries",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -3100,7 +3178,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Honey Mustard Special Sauce",
     "nameUr": "ہنی مسٹرڈ ساس",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Burgers",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -3138,7 +3216,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Classic Crunch Burger",
     "nameUr": "کلاسک کرینچ برگر",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Fried Chicken",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -3176,7 +3254,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Fiery Zesty Crispy Burger",
     "nameUr": "فائری زیسٹی برگر",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -3214,7 +3292,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Double Decker Cheesy Fillet",
     "nameUr": "ڈبل ڈیکر چیزی فلٹ",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Fries",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -3290,7 +3368,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Double Smash Melt with Caramelized Onions",
     "nameUr": "ڈبل سمیش بیف میلٹ",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Fried Chicken",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -3328,7 +3406,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Grilled Peri Peri Chicken Burger",
     "nameUr": "گرلڈ پیری پیری چکن برگر",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -3366,7 +3444,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special BBQ Smokey Bacon & Cheese Burger",
     "nameUr": "بار بی کیو سموکی برگر",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Fries",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -3442,7 +3520,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Mushroom Melt Gourmet Beef",
     "nameUr": "مشروم میلٹ بیف برگر",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Fried Chicken",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -3480,7 +3558,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Honey Mustard Crispy Wrap",
     "nameUr": "ہنی مسٹرڈ ریپ",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -3518,7 +3596,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Flamin Hot Tortilla Wrap",
     "nameUr": "فلیمنگ ہاٹ ریپ",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Fries",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -3556,7 +3634,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Spicy Crispy Chicken Tenders (3 pcs)",
     "nameUr": "کرسپی چکن ٹینڈرز",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Burgers",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -3594,7 +3672,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Golden Fried Drumstick (1 pc)",
     "nameUr": "فرائیڈ چکن ڈرم اسٹک",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Fried Chicken",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -3632,7 +3710,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crispy Hot Wings with Buffalo Sauce (6 pcs)",
     "nameUr": "کرسپی ہاٹ ونگز",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -3708,7 +3786,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Curly Seasoned Fries Cup",
     "nameUr": "کرلی فرائز",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Burgers",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -3746,7 +3824,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crinkle Cut Golden French Fries",
     "nameUr": "کرنکل کٹ فرائز",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Fried Chicken",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -3784,7 +3862,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crispy Mozzarella Sticks with Marinara (4 pcs)",
     "nameUr": "موزاریلا اسٹکس",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -3822,7 +3900,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Garlic Mayo Dipping Sauce",
     "nameUr": "گارلک میو ساس",
     "brand": "Ranchers Cafe",
-    "brandCategory": "Fries",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -3860,7 +3938,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Classic Crunch Burger",
     "nameUr": "کلاسک کرینچ برگر",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Beef Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -3898,7 +3976,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Fiery Zesty Crispy Burger",
     "nameUr": "فائری زیسٹی برگر",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Chicken Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -3936,7 +4014,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Double Decker Cheesy Fillet",
     "nameUr": "ڈبل ڈیکر چیزی فلٹ",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Steaks & Wraps",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -3974,7 +4052,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Smash Beef Burger Single",
     "nameUr": "سمیش بیف برگر سنگل",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Loaded Fries",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4012,7 +4090,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Double Smash Melt with Caramelized Onions",
     "nameUr": "ڈبل سمیش بیف میلٹ",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Beef Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4050,7 +4128,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Grilled Peri Peri Chicken Burger",
     "nameUr": "گرلڈ پیری پیری چکن برگر",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Chicken Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4088,7 +4166,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "BBQ Smokey Bacon & Cheese Burger",
     "nameUr": "بار بی کیو سموکی برگر",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Steaks & Wraps",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4126,7 +4204,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Jalapeno Popper Crunchy Burger",
     "nameUr": "ہیلاپینیو کرنچی برگر",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Loaded Fries",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4164,7 +4242,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Mushroom Melt Gourmet Beef",
     "nameUr": "مشروم میلٹ بیف برگر",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Beef Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4202,7 +4280,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Honey Mustard Crispy Wrap",
     "nameUr": "ہنی مسٹرڈ ریپ",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Chicken Burgers",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4240,7 +4318,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Flamin Hot Tortilla Wrap",
     "nameUr": "فلیمنگ ہاٹ ریپ",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Steaks & Wraps",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4278,7 +4356,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Spicy Crispy Chicken Tenders (3 pcs)",
     "nameUr": "کرسپی چکن ٹینڈرز",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Loaded Fries",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4316,7 +4394,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Golden Fried Drumstick (1 pc)",
     "nameUr": "فرائیڈ چکن ڈرم اسٹک",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Beef Burgers",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4354,7 +4432,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crispy Hot Wings with Buffalo Sauce (6 pcs)",
     "nameUr": "کرسپی ہاٹ ونگز",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Chicken Burgers",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4392,7 +4470,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Animal Style Loaded Fries with Melted Cheese",
     "nameUr": "اینیمل لوڈڈ فرائز",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Steaks & Wraps",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4430,7 +4508,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Curly Seasoned Fries Cup",
     "nameUr": "کرلی فرائز",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Loaded Fries",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4468,7 +4546,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crinkle Cut Golden French Fries",
     "nameUr": "کرنکل کٹ فرائز",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Beef Burgers",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4506,7 +4584,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crispy Mozzarella Sticks with Marinara (4 pcs)",
     "nameUr": "موزاریلا اسٹکس",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Chicken Burgers",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4544,7 +4622,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Garlic Mayo Dipping Sauce",
     "nameUr": "گارلک میو ساس",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Steaks & Wraps",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4582,7 +4660,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Atomic Fiery Chilli Dip",
     "nameUr": "ایٹامک چلی ساس",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Loaded Fries",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4620,7 +4698,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Honey Mustard Special Sauce",
     "nameUr": "ہنی مسٹرڈ ساس",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Beef Burgers",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4658,7 +4736,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Classic Crunch Burger",
     "nameUr": "کلاسک کرینچ برگر",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Chicken Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4696,7 +4774,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Fiery Zesty Crispy Burger",
     "nameUr": "فائری زیسٹی برگر",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Steaks & Wraps",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4734,7 +4812,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Double Decker Cheesy Fillet",
     "nameUr": "ڈبل ڈیکر چیزی فلٹ",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Loaded Fries",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4772,7 +4850,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Smash Beef Burger Single",
     "nameUr": "سمیش بیف برگر سنگل",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Beef Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4810,7 +4888,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Double Smash Melt with Caramelized Onions",
     "nameUr": "ڈبل سمیش بیف میلٹ",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Chicken Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4848,7 +4926,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Grilled Peri Peri Chicken Burger",
     "nameUr": "گرلڈ پیری پیری چکن برگر",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Steaks & Wraps",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4886,7 +4964,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special BBQ Smokey Bacon & Cheese Burger",
     "nameUr": "بار بی کیو سموکی برگر",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Loaded Fries",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4924,7 +5002,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Jalapeno Popper Crunchy Burger",
     "nameUr": "ہیلاپینیو کرنچی برگر",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Beef Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -4962,7 +5040,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Mushroom Melt Gourmet Beef",
     "nameUr": "مشروم میلٹ بیف برگر",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Chicken Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5000,7 +5078,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Honey Mustard Crispy Wrap",
     "nameUr": "ہنی مسٹرڈ ریپ",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Steaks & Wraps",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5038,7 +5116,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Flamin Hot Tortilla Wrap",
     "nameUr": "فلیمنگ ہاٹ ریپ",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Loaded Fries",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5076,7 +5154,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Spicy Crispy Chicken Tenders (3 pcs)",
     "nameUr": "کرسپی چکن ٹینڈرز",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Beef Burgers",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5114,7 +5192,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Golden Fried Drumstick (1 pc)",
     "nameUr": "فرائیڈ چکن ڈرم اسٹک",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Chicken Burgers",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5152,7 +5230,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crispy Hot Wings with Buffalo Sauce (6 pcs)",
     "nameUr": "کرسپی ہاٹ ونگز",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Steaks & Wraps",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5190,7 +5268,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Animal Style Loaded Fries with Melted Cheese",
     "nameUr": "اینیمل لوڈڈ فرائز",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Loaded Fries",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5228,7 +5306,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Curly Seasoned Fries Cup",
     "nameUr": "کرلی فرائز",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Beef Burgers",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5266,7 +5344,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crinkle Cut Golden French Fries",
     "nameUr": "کرنکل کٹ فرائز",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Chicken Burgers",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5304,7 +5382,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crispy Mozzarella Sticks with Marinara (4 pcs)",
     "nameUr": "موزاریلا اسٹکس",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Steaks & Wraps",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5342,7 +5420,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Garlic Mayo Dipping Sauce",
     "nameUr": "گارلک میو ساس",
     "brand": "Daily Deli Co.",
-    "brandCategory": "Loaded Fries",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5418,7 +5496,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Fiery Zesty Crispy Burger",
     "nameUr": "فائری زیسٹی برگر",
     "brand": "Howdy",
-    "brandCategory": "Steaks",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5456,7 +5534,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Double Decker Cheesy Fillet",
     "nameUr": "ڈبل ڈیکر چیزی فلٹ",
     "brand": "Howdy",
-    "brandCategory": "Starters",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5494,7 +5572,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Smash Beef Burger Single",
     "nameUr": "سمیش بیف برگر سنگل",
     "brand": "Howdy",
-    "brandCategory": "Shakes",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5570,7 +5648,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Grilled Peri Peri Chicken Burger",
     "nameUr": "گرلڈ پیری پیری چکن برگر",
     "brand": "Howdy",
-    "brandCategory": "Steaks",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5608,7 +5686,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "BBQ Smokey Bacon & Cheese Burger",
     "nameUr": "بار بی کیو سموکی برگر",
     "brand": "Howdy",
-    "brandCategory": "Starters",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5646,7 +5724,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Jalapeno Popper Crunchy Burger",
     "nameUr": "ہیلاپینیو کرنچی برگر",
     "brand": "Howdy",
-    "brandCategory": "Shakes",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5722,7 +5800,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Honey Mustard Crispy Wrap",
     "nameUr": "ہنی مسٹرڈ ریپ",
     "brand": "Howdy",
-    "brandCategory": "Steaks",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5760,7 +5838,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Flamin Hot Tortilla Wrap",
     "nameUr": "فلیمنگ ہاٹ ریپ",
     "brand": "Howdy",
-    "brandCategory": "Starters",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5798,7 +5876,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Spicy Crispy Chicken Tenders (3 pcs)",
     "nameUr": "کرسپی چکن ٹینڈرز",
     "brand": "Howdy",
-    "brandCategory": "Shakes",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5836,7 +5914,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Golden Fried Drumstick (1 pc)",
     "nameUr": "فرائیڈ چکن ڈرم اسٹک",
     "brand": "Howdy",
-    "brandCategory": "Burgers",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5874,7 +5952,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crispy Hot Wings with Buffalo Sauce (6 pcs)",
     "nameUr": "کرسپی ہاٹ ونگز",
     "brand": "Howdy",
-    "brandCategory": "Steaks",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5912,7 +5990,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Animal Style Loaded Fries with Melted Cheese",
     "nameUr": "اینیمل لوڈڈ فرائز",
     "brand": "Howdy",
-    "brandCategory": "Starters",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5950,7 +6028,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Curly Seasoned Fries Cup",
     "nameUr": "کرلی فرائز",
     "brand": "Howdy",
-    "brandCategory": "Shakes",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -5988,7 +6066,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crinkle Cut Golden French Fries",
     "nameUr": "کرنکل کٹ فرائز",
     "brand": "Howdy",
-    "brandCategory": "Burgers",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6026,7 +6104,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crispy Mozzarella Sticks with Marinara (4 pcs)",
     "nameUr": "موزاریلا اسٹکس",
     "brand": "Howdy",
-    "brandCategory": "Steaks",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6064,7 +6142,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Garlic Mayo Dipping Sauce",
     "nameUr": "گارلک میو ساس",
     "brand": "Howdy",
-    "brandCategory": "Starters",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6102,7 +6180,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Atomic Fiery Chilli Dip",
     "nameUr": "ایٹامک چلی ساس",
     "brand": "Howdy",
-    "brandCategory": "Shakes",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6140,7 +6218,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Honey Mustard Special Sauce",
     "nameUr": "ہنی مسٹرڈ ساس",
     "brand": "Howdy",
-    "brandCategory": "Burgers",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6178,7 +6256,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Classic Crunch Burger",
     "nameUr": "کلاسک کرینچ برگر",
     "brand": "Howdy",
-    "brandCategory": "Steaks",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6216,7 +6294,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Fiery Zesty Crispy Burger",
     "nameUr": "فائری زیسٹی برگر",
     "brand": "Howdy",
-    "brandCategory": "Starters",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6254,7 +6332,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Double Decker Cheesy Fillet",
     "nameUr": "ڈبل ڈیکر چیزی فلٹ",
     "brand": "Howdy",
-    "brandCategory": "Shakes",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6330,7 +6408,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Double Smash Melt with Caramelized Onions",
     "nameUr": "ڈبل سمیش بیف میلٹ",
     "brand": "Howdy",
-    "brandCategory": "Steaks",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6368,7 +6446,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Grilled Peri Peri Chicken Burger",
     "nameUr": "گرلڈ پیری پیری چکن برگر",
     "brand": "Howdy",
-    "brandCategory": "Starters",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6406,7 +6484,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special BBQ Smokey Bacon & Cheese Burger",
     "nameUr": "بار بی کیو سموکی برگر",
     "brand": "Howdy",
-    "brandCategory": "Shakes",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6482,7 +6560,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Mushroom Melt Gourmet Beef",
     "nameUr": "مشروم میلٹ بیف برگر",
     "brand": "Howdy",
-    "brandCategory": "Steaks",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6520,7 +6598,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Honey Mustard Crispy Wrap",
     "nameUr": "ہنی مسٹرڈ ریپ",
     "brand": "Howdy",
-    "brandCategory": "Starters",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6558,7 +6636,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Flamin Hot Tortilla Wrap",
     "nameUr": "فلیمنگ ہاٹ ریپ",
     "brand": "Howdy",
-    "brandCategory": "Shakes",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6596,7 +6674,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Spicy Crispy Chicken Tenders (3 pcs)",
     "nameUr": "کرسپی چکن ٹینڈرز",
     "brand": "Howdy",
-    "brandCategory": "Burgers",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6634,7 +6712,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Golden Fried Drumstick (1 pc)",
     "nameUr": "فرائیڈ چکن ڈرم اسٹک",
     "brand": "Howdy",
-    "brandCategory": "Steaks",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6672,7 +6750,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crispy Hot Wings with Buffalo Sauce (6 pcs)",
     "nameUr": "کرسپی ہاٹ ونگز",
     "brand": "Howdy",
-    "brandCategory": "Starters",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6710,7 +6788,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Animal Style Loaded Fries with Melted Cheese",
     "nameUr": "اینیمل لوڈڈ فرائز",
     "brand": "Howdy",
-    "brandCategory": "Shakes",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6748,7 +6826,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Curly Seasoned Fries Cup",
     "nameUr": "کرلی فرائز",
     "brand": "Howdy",
-    "brandCategory": "Burgers",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6786,7 +6864,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crinkle Cut Golden French Fries",
     "nameUr": "کرنکل کٹ فرائز",
     "brand": "Howdy",
-    "brandCategory": "Steaks",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6824,7 +6902,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crispy Mozzarella Sticks with Marinara (4 pcs)",
     "nameUr": "موزاریلا اسٹکس",
     "brand": "Howdy",
-    "brandCategory": "Starters",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6862,7 +6940,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Garlic Mayo Dipping Sauce",
     "nameUr": "گارلک میو ساس",
     "brand": "Howdy",
-    "brandCategory": "Shakes",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6900,7 +6978,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Classic Crunch Burger",
     "nameUr": "کلاسک کرینچ برگر",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Chicken & Tenders",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6938,7 +7016,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Fiery Zesty Crispy Burger",
     "nameUr": "فائری زیسٹی برگر",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Burgers & Wraps",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -6976,7 +7054,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Double Decker Cheesy Fillet",
     "nameUr": "ڈبل ڈیکر چیزی فلٹ",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Honey-Butter Biscuits",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7014,7 +7092,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Smash Beef Burger Single",
     "nameUr": "سمیش بیف برگر سنگل",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Sides",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7052,7 +7130,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Double Smash Melt with Caramelized Onions",
     "nameUr": "ڈبل سمیش بیف میلٹ",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Chicken & Tenders",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7090,7 +7168,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Grilled Peri Peri Chicken Burger",
     "nameUr": "گرلڈ پیری پیری چکن برگر",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Burgers & Wraps",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7128,7 +7206,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "BBQ Smokey Bacon & Cheese Burger",
     "nameUr": "بار بی کیو سموکی برگر",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Honey-Butter Biscuits",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7166,7 +7244,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Jalapeno Popper Crunchy Burger",
     "nameUr": "ہیلاپینیو کرنچی برگر",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Sides",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7204,7 +7282,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Mushroom Melt Gourmet Beef",
     "nameUr": "مشروم میلٹ بیف برگر",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Chicken & Tenders",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7242,7 +7320,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Honey Mustard Crispy Wrap",
     "nameUr": "ہنی مسٹرڈ ریپ",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Burgers & Wraps",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7280,7 +7358,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Flamin Hot Tortilla Wrap",
     "nameUr": "فلیمنگ ہاٹ ریپ",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Honey-Butter Biscuits",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7318,7 +7396,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Spicy Crispy Chicken Tenders (3 pcs)",
     "nameUr": "کرسپی چکن ٹینڈرز",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Sides",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7356,7 +7434,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Golden Fried Drumstick (1 pc)",
     "nameUr": "فرائیڈ چکن ڈرم اسٹک",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Chicken & Tenders",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7394,7 +7472,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crispy Hot Wings with Buffalo Sauce (6 pcs)",
     "nameUr": "کرسپی ہاٹ ونگز",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Burgers & Wraps",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7432,7 +7510,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Animal Style Loaded Fries with Melted Cheese",
     "nameUr": "اینیمل لوڈڈ فرائز",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Honey-Butter Biscuits",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7470,7 +7548,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Curly Seasoned Fries Cup",
     "nameUr": "کرلی فرائز",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Sides",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7508,7 +7586,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crinkle Cut Golden French Fries",
     "nameUr": "کرنکل کٹ فرائز",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Chicken & Tenders",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7546,7 +7624,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crispy Mozzarella Sticks with Marinara (4 pcs)",
     "nameUr": "موزاریلا اسٹکس",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Burgers & Wraps",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7584,7 +7662,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Garlic Mayo Dipping Sauce",
     "nameUr": "گارلک میو ساس",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Honey-Butter Biscuits",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7622,7 +7700,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Atomic Fiery Chilli Dip",
     "nameUr": "ایٹامک چلی ساس",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Sides",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7660,7 +7738,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Honey Mustard Special Sauce",
     "nameUr": "ہنی مسٹرڈ ساس",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Chicken & Tenders",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7698,7 +7776,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Classic Crunch Burger",
     "nameUr": "کلاسک کرینچ برگر",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Burgers & Wraps",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7736,7 +7814,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Fiery Zesty Crispy Burger",
     "nameUr": "فائری زیسٹی برگر",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Honey-Butter Biscuits",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7774,7 +7852,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Double Decker Cheesy Fillet",
     "nameUr": "ڈبل ڈیکر چیزی فلٹ",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Sides",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7812,7 +7890,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Smash Beef Burger Single",
     "nameUr": "سمیش بیف برگر سنگل",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Chicken & Tenders",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7850,7 +7928,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Double Smash Melt with Caramelized Onions",
     "nameUr": "ڈبل سمیش بیف میلٹ",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Burgers & Wraps",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7888,7 +7966,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Grilled Peri Peri Chicken Burger",
     "nameUr": "گرلڈ پیری پیری چکن برگر",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Honey-Butter Biscuits",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7926,7 +8004,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special BBQ Smokey Bacon & Cheese Burger",
     "nameUr": "بار بی کیو سموکی برگر",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Sides",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -7964,7 +8042,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Jalapeno Popper Crunchy Burger",
     "nameUr": "ہیلاپینیو کرنچی برگر",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Chicken & Tenders",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8002,7 +8080,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Mushroom Melt Gourmet Beef",
     "nameUr": "مشروم میلٹ بیف برگر",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Burgers & Wraps",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8040,7 +8118,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Honey Mustard Crispy Wrap",
     "nameUr": "ہنی مسٹرڈ ریپ",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Honey-Butter Biscuits",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8078,7 +8156,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Flamin Hot Tortilla Wrap",
     "nameUr": "فلیمنگ ہاٹ ریپ",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Sides",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8116,7 +8194,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Spicy Crispy Chicken Tenders (3 pcs)",
     "nameUr": "کرسپی چکن ٹینڈرز",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Chicken & Tenders",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8154,7 +8232,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Golden Fried Drumstick (1 pc)",
     "nameUr": "فرائیڈ چکن ڈرم اسٹک",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Burgers & Wraps",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8192,7 +8270,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crispy Hot Wings with Buffalo Sauce (6 pcs)",
     "nameUr": "کرسپی ہاٹ ونگز",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Honey-Butter Biscuits",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8230,7 +8308,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Animal Style Loaded Fries with Melted Cheese",
     "nameUr": "اینیمل لوڈڈ فرائز",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Sides",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8268,7 +8346,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Curly Seasoned Fries Cup",
     "nameUr": "کرلی فرائز",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Chicken & Tenders",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8306,7 +8384,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crinkle Cut Golden French Fries",
     "nameUr": "کرنکل کٹ فرائز",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Burgers & Wraps",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8344,7 +8422,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crispy Mozzarella Sticks with Marinara (4 pcs)",
     "nameUr": "موزاریلا اسٹکس",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Honey-Butter Biscuits",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8382,7 +8460,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Garlic Mayo Dipping Sauce",
     "nameUr": "گارلک میو ساس",
     "brand": "Texas Chicken Pakistan",
-    "brandCategory": "Sides",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8420,7 +8498,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Classic Crunch Burger",
     "nameUr": "کلاسک کرینچ برگر",
     "brand": "Burger Lab",
-    "brandCategory": "Gourmet Beef",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8458,7 +8536,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Fiery Zesty Crispy Burger",
     "nameUr": "فائری زیسٹی برگر",
     "brand": "Burger Lab",
-    "brandCategory": "Crispy Chicken",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8496,7 +8574,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Double Decker Cheesy Fillet",
     "nameUr": "ڈبل ڈیکر چیزی فلٹ",
     "brand": "Burger Lab",
-    "brandCategory": "Animal Fries",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8534,7 +8612,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Smash Beef Burger Single",
     "nameUr": "سمیش بیف برگر سنگل",
     "brand": "Burger Lab",
-    "brandCategory": "Dips",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8572,7 +8650,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Double Smash Melt with Caramelized Onions",
     "nameUr": "ڈبل سمیش بیف میلٹ",
     "brand": "Burger Lab",
-    "brandCategory": "Gourmet Beef",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8610,7 +8688,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Grilled Peri Peri Chicken Burger",
     "nameUr": "گرلڈ پیری پیری چکن برگر",
     "brand": "Burger Lab",
-    "brandCategory": "Crispy Chicken",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8648,7 +8726,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "BBQ Smokey Bacon & Cheese Burger",
     "nameUr": "بار بی کیو سموکی برگر",
     "brand": "Burger Lab",
-    "brandCategory": "Animal Fries",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8686,7 +8764,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Jalapeno Popper Crunchy Burger",
     "nameUr": "ہیلاپینیو کرنچی برگر",
     "brand": "Burger Lab",
-    "brandCategory": "Dips",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8724,7 +8802,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Mushroom Melt Gourmet Beef",
     "nameUr": "مشروم میلٹ بیف برگر",
     "brand": "Burger Lab",
-    "brandCategory": "Gourmet Beef",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8762,7 +8840,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Honey Mustard Crispy Wrap",
     "nameUr": "ہنی مسٹرڈ ریپ",
     "brand": "Burger Lab",
-    "brandCategory": "Crispy Chicken",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8800,7 +8878,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Flamin Hot Tortilla Wrap",
     "nameUr": "فلیمنگ ہاٹ ریپ",
     "brand": "Burger Lab",
-    "brandCategory": "Animal Fries",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8838,7 +8916,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Spicy Crispy Chicken Tenders (3 pcs)",
     "nameUr": "کرسپی چکن ٹینڈرز",
     "brand": "Burger Lab",
-    "brandCategory": "Dips",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8876,7 +8954,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Golden Fried Drumstick (1 pc)",
     "nameUr": "فرائیڈ چکن ڈرم اسٹک",
     "brand": "Burger Lab",
-    "brandCategory": "Gourmet Beef",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8914,7 +8992,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crispy Hot Wings with Buffalo Sauce (6 pcs)",
     "nameUr": "کرسپی ہاٹ ونگز",
     "brand": "Burger Lab",
-    "brandCategory": "Crispy Chicken",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8952,7 +9030,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Animal Style Loaded Fries with Melted Cheese",
     "nameUr": "اینیمل لوڈڈ فرائز",
     "brand": "Burger Lab",
-    "brandCategory": "Animal Fries",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -8990,7 +9068,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Curly Seasoned Fries Cup",
     "nameUr": "کرلی فرائز",
     "brand": "Burger Lab",
-    "brandCategory": "Dips",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9028,7 +9106,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crinkle Cut Golden French Fries",
     "nameUr": "کرنکل کٹ فرائز",
     "brand": "Burger Lab",
-    "brandCategory": "Gourmet Beef",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9066,7 +9144,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crispy Mozzarella Sticks with Marinara (4 pcs)",
     "nameUr": "موزاریلا اسٹکس",
     "brand": "Burger Lab",
-    "brandCategory": "Crispy Chicken",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9104,7 +9182,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Garlic Mayo Dipping Sauce",
     "nameUr": "گارلک میو ساس",
     "brand": "Burger Lab",
-    "brandCategory": "Animal Fries",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9142,7 +9220,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Atomic Fiery Chilli Dip",
     "nameUr": "ایٹامک چلی ساس",
     "brand": "Burger Lab",
-    "brandCategory": "Dips",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9180,7 +9258,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Honey Mustard Special Sauce",
     "nameUr": "ہنی مسٹرڈ ساس",
     "brand": "Burger Lab",
-    "brandCategory": "Gourmet Beef",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9218,7 +9296,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Classic Crunch Burger",
     "nameUr": "کلاسک کرینچ برگر",
     "brand": "Burger Lab",
-    "brandCategory": "Crispy Chicken",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9256,7 +9334,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Fiery Zesty Crispy Burger",
     "nameUr": "فائری زیسٹی برگر",
     "brand": "Burger Lab",
-    "brandCategory": "Animal Fries",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9294,7 +9372,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Double Decker Cheesy Fillet",
     "nameUr": "ڈبل ڈیکر چیزی فلٹ",
     "brand": "Burger Lab",
-    "brandCategory": "Dips",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9332,7 +9410,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Smash Beef Burger Single",
     "nameUr": "سمیش بیف برگر سنگل",
     "brand": "Burger Lab",
-    "brandCategory": "Gourmet Beef",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9370,7 +9448,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Double Smash Melt with Caramelized Onions",
     "nameUr": "ڈبل سمیش بیف میلٹ",
     "brand": "Burger Lab",
-    "brandCategory": "Crispy Chicken",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9408,7 +9486,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Grilled Peri Peri Chicken Burger",
     "nameUr": "گرلڈ پیری پیری چکن برگر",
     "brand": "Burger Lab",
-    "brandCategory": "Animal Fries",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9446,7 +9524,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special BBQ Smokey Bacon & Cheese Burger",
     "nameUr": "بار بی کیو سموکی برگر",
     "brand": "Burger Lab",
-    "brandCategory": "Dips",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9484,7 +9562,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Jalapeno Popper Crunchy Burger",
     "nameUr": "ہیلاپینیو کرنچی برگر",
     "brand": "Burger Lab",
-    "brandCategory": "Gourmet Beef",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9522,7 +9600,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Mushroom Melt Gourmet Beef",
     "nameUr": "مشروم میلٹ بیف برگر",
     "brand": "Burger Lab",
-    "brandCategory": "Crispy Chicken",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9560,7 +9638,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Honey Mustard Crispy Wrap",
     "nameUr": "ہنی مسٹرڈ ریپ",
     "brand": "Burger Lab",
-    "brandCategory": "Animal Fries",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9598,7 +9676,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Flamin Hot Tortilla Wrap",
     "nameUr": "فلیمنگ ہاٹ ریپ",
     "brand": "Burger Lab",
-    "brandCategory": "Dips",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9636,7 +9714,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Spicy Crispy Chicken Tenders (3 pcs)",
     "nameUr": "کرسپی چکن ٹینڈرز",
     "brand": "Burger Lab",
-    "brandCategory": "Gourmet Beef",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9674,7 +9752,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Golden Fried Drumstick (1 pc)",
     "nameUr": "فرائیڈ چکن ڈرم اسٹک",
     "brand": "Burger Lab",
-    "brandCategory": "Crispy Chicken",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9712,7 +9790,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crispy Hot Wings with Buffalo Sauce (6 pcs)",
     "nameUr": "کرسپی ہاٹ ونگز",
     "brand": "Burger Lab",
-    "brandCategory": "Animal Fries",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9750,7 +9828,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Animal Style Loaded Fries with Melted Cheese",
     "nameUr": "اینیمل لوڈڈ فرائز",
     "brand": "Burger Lab",
-    "brandCategory": "Dips",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9788,7 +9866,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Curly Seasoned Fries Cup",
     "nameUr": "کرلی فرائز",
     "brand": "Burger Lab",
-    "brandCategory": "Gourmet Beef",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9826,7 +9904,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crinkle Cut Golden French Fries",
     "nameUr": "کرنکل کٹ فرائز",
     "brand": "Burger Lab",
-    "brandCategory": "Crispy Chicken",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9864,7 +9942,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crispy Mozzarella Sticks with Marinara (4 pcs)",
     "nameUr": "موزاریلا اسٹکس",
     "brand": "Burger Lab",
-    "brandCategory": "Animal Fries",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9902,7 +9980,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Garlic Mayo Dipping Sauce",
     "nameUr": "گارلک میو ساس",
     "brand": "Burger Lab",
-    "brandCategory": "Dips",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9940,7 +10018,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Classic Crunch Burger",
     "nameUr": "کلاسک کرینچ برگر",
     "brand": "Clucky's",
-    "brandCategory": "Hot Tenders",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -9978,7 +10056,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Fiery Zesty Crispy Burger",
     "nameUr": "فائری زیسٹی برگر",
     "brand": "Clucky's",
-    "brandCategory": "Sliders",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10016,7 +10094,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Double Decker Cheesy Fillet",
     "nameUr": "ڈبل ڈیکر چیزی فلٹ",
     "brand": "Clucky's",
-    "brandCategory": "Loaded Bowls",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10054,7 +10132,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Smash Beef Burger Single",
     "nameUr": "سمیش بیف برگر سنگل",
     "brand": "Clucky's",
-    "brandCategory": "Sauces",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10092,7 +10170,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Double Smash Melt with Caramelized Onions",
     "nameUr": "ڈبل سمیش بیف میلٹ",
     "brand": "Clucky's",
-    "brandCategory": "Hot Tenders",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10130,7 +10208,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Grilled Peri Peri Chicken Burger",
     "nameUr": "گرلڈ پیری پیری چکن برگر",
     "brand": "Clucky's",
-    "brandCategory": "Sliders",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10168,7 +10246,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "BBQ Smokey Bacon & Cheese Burger",
     "nameUr": "بار بی کیو سموکی برگر",
     "brand": "Clucky's",
-    "brandCategory": "Loaded Bowls",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10206,7 +10284,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Jalapeno Popper Crunchy Burger",
     "nameUr": "ہیلاپینیو کرنچی برگر",
     "brand": "Clucky's",
-    "brandCategory": "Sauces",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10244,7 +10322,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Mushroom Melt Gourmet Beef",
     "nameUr": "مشروم میلٹ بیف برگر",
     "brand": "Clucky's",
-    "brandCategory": "Hot Tenders",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10282,7 +10360,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Honey Mustard Crispy Wrap",
     "nameUr": "ہنی مسٹرڈ ریپ",
     "brand": "Clucky's",
-    "brandCategory": "Sliders",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10320,7 +10398,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Flamin Hot Tortilla Wrap",
     "nameUr": "فلیمنگ ہاٹ ریپ",
     "brand": "Clucky's",
-    "brandCategory": "Loaded Bowls",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10358,7 +10436,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Spicy Crispy Chicken Tenders (3 pcs)",
     "nameUr": "کرسپی چکن ٹینڈرز",
     "brand": "Clucky's",
-    "brandCategory": "Sauces",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10396,7 +10474,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Golden Fried Drumstick (1 pc)",
     "nameUr": "فرائیڈ چکن ڈرم اسٹک",
     "brand": "Clucky's",
-    "brandCategory": "Hot Tenders",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10434,7 +10512,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crispy Hot Wings with Buffalo Sauce (6 pcs)",
     "nameUr": "کرسپی ہاٹ ونگز",
     "brand": "Clucky's",
-    "brandCategory": "Sliders",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10472,7 +10550,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Animal Style Loaded Fries with Melted Cheese",
     "nameUr": "اینیمل لوڈڈ فرائز",
     "brand": "Clucky's",
-    "brandCategory": "Loaded Bowls",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10510,7 +10588,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Curly Seasoned Fries Cup",
     "nameUr": "کرلی فرائز",
     "brand": "Clucky's",
-    "brandCategory": "Sauces",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10548,7 +10626,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crinkle Cut Golden French Fries",
     "nameUr": "کرنکل کٹ فرائز",
     "brand": "Clucky's",
-    "brandCategory": "Hot Tenders",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10586,7 +10664,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crispy Mozzarella Sticks with Marinara (4 pcs)",
     "nameUr": "موزاریلا اسٹکس",
     "brand": "Clucky's",
-    "brandCategory": "Sliders",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10624,7 +10702,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Garlic Mayo Dipping Sauce",
     "nameUr": "گارلک میو ساس",
     "brand": "Clucky's",
-    "brandCategory": "Loaded Bowls",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10662,7 +10740,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Atomic Fiery Chilli Dip",
     "nameUr": "ایٹامک چلی ساس",
     "brand": "Clucky's",
-    "brandCategory": "Sauces",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10700,7 +10778,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Honey Mustard Special Sauce",
     "nameUr": "ہنی مسٹرڈ ساس",
     "brand": "Clucky's",
-    "brandCategory": "Hot Tenders",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10738,7 +10816,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Classic Crunch Burger",
     "nameUr": "کلاسک کرینچ برگر",
     "brand": "Clucky's",
-    "brandCategory": "Sliders",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10776,7 +10854,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Fiery Zesty Crispy Burger",
     "nameUr": "فائری زیسٹی برگر",
     "brand": "Clucky's",
-    "brandCategory": "Loaded Bowls",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10814,7 +10892,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Double Decker Cheesy Fillet",
     "nameUr": "ڈبل ڈیکر چیزی فلٹ",
     "brand": "Clucky's",
-    "brandCategory": "Sauces",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10852,7 +10930,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Smash Beef Burger Single",
     "nameUr": "سمیش بیف برگر سنگل",
     "brand": "Clucky's",
-    "brandCategory": "Hot Tenders",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10890,7 +10968,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Double Smash Melt with Caramelized Onions",
     "nameUr": "ڈبل سمیش بیف میلٹ",
     "brand": "Clucky's",
-    "brandCategory": "Sliders",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10928,7 +11006,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Grilled Peri Peri Chicken Burger",
     "nameUr": "گرلڈ پیری پیری چکن برگر",
     "brand": "Clucky's",
-    "brandCategory": "Loaded Bowls",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -10966,7 +11044,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special BBQ Smokey Bacon & Cheese Burger",
     "nameUr": "بار بی کیو سموکی برگر",
     "brand": "Clucky's",
-    "brandCategory": "Sauces",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11004,7 +11082,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Jalapeno Popper Crunchy Burger",
     "nameUr": "ہیلاپینیو کرنچی برگر",
     "brand": "Clucky's",
-    "brandCategory": "Hot Tenders",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11042,7 +11120,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Mushroom Melt Gourmet Beef",
     "nameUr": "مشروم میلٹ بیف برگر",
     "brand": "Clucky's",
-    "brandCategory": "Sliders",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11080,7 +11158,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Honey Mustard Crispy Wrap",
     "nameUr": "ہنی مسٹرڈ ریپ",
     "brand": "Clucky's",
-    "brandCategory": "Loaded Bowls",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11118,7 +11196,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Flamin Hot Tortilla Wrap",
     "nameUr": "فلیمنگ ہاٹ ریپ",
     "brand": "Clucky's",
-    "brandCategory": "Sauces",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11156,7 +11234,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Spicy Crispy Chicken Tenders (3 pcs)",
     "nameUr": "کرسپی چکن ٹینڈرز",
     "brand": "Clucky's",
-    "brandCategory": "Hot Tenders",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11194,7 +11272,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Golden Fried Drumstick (1 pc)",
     "nameUr": "فرائیڈ چکن ڈرم اسٹک",
     "brand": "Clucky's",
-    "brandCategory": "Sliders",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11232,7 +11310,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crispy Hot Wings with Buffalo Sauce (6 pcs)",
     "nameUr": "کرسپی ہاٹ ونگز",
     "brand": "Clucky's",
-    "brandCategory": "Loaded Bowls",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11270,7 +11348,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Animal Style Loaded Fries with Melted Cheese",
     "nameUr": "اینیمل لوڈڈ فرائز",
     "brand": "Clucky's",
-    "brandCategory": "Sauces",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11308,7 +11386,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Curly Seasoned Fries Cup",
     "nameUr": "کرلی فرائز",
     "brand": "Clucky's",
-    "brandCategory": "Hot Tenders",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11346,7 +11424,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crinkle Cut Golden French Fries",
     "nameUr": "کرنکل کٹ فرائز",
     "brand": "Clucky's",
-    "brandCategory": "Sliders",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11384,7 +11462,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crispy Mozzarella Sticks with Marinara (4 pcs)",
     "nameUr": "موزاریلا اسٹکس",
     "brand": "Clucky's",
-    "brandCategory": "Loaded Bowls",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11422,7 +11500,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Garlic Mayo Dipping Sauce",
     "nameUr": "گارلک میو ساس",
     "brand": "Clucky's",
-    "brandCategory": "Sauces",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11460,7 +11538,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Classic Crunch Burger",
     "nameUr": "کلاسک کرینچ برگر",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Classic Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11498,7 +11576,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Fiery Zesty Crispy Burger",
     "nameUr": "فائری زیسٹی برگر",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Hot Dogs",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11536,7 +11614,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Double Decker Cheesy Fillet",
     "nameUr": "ڈبل ڈیکر چیزی فلٹ",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Waffles & Shakes",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11574,7 +11652,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Smash Beef Burger Single",
     "nameUr": "سمیش بیف برگر سنگل",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Classic Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11612,7 +11690,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Double Smash Melt with Caramelized Onions",
     "nameUr": "ڈبل سمیش بیف میلٹ",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Hot Dogs",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11650,7 +11728,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Grilled Peri Peri Chicken Burger",
     "nameUr": "گرلڈ پیری پیری چکن برگر",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Waffles & Shakes",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11688,7 +11766,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "BBQ Smokey Bacon & Cheese Burger",
     "nameUr": "بار بی کیو سموکی برگر",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Classic Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11726,7 +11804,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Jalapeno Popper Crunchy Burger",
     "nameUr": "ہیلاپینیو کرنچی برگر",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Hot Dogs",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11764,7 +11842,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Mushroom Melt Gourmet Beef",
     "nameUr": "مشروم میلٹ بیف برگر",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Waffles & Shakes",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11802,7 +11880,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Honey Mustard Crispy Wrap",
     "nameUr": "ہنی مسٹرڈ ریپ",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Classic Burgers",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11840,7 +11918,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Flamin Hot Tortilla Wrap",
     "nameUr": "فلیمنگ ہاٹ ریپ",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Hot Dogs",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11878,7 +11956,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Spicy Crispy Chicken Tenders (3 pcs)",
     "nameUr": "کرسپی چکن ٹینڈرز",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Waffles & Shakes",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11916,7 +11994,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Golden Fried Drumstick (1 pc)",
     "nameUr": "فرائیڈ چکن ڈرم اسٹک",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Classic Burgers",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11954,7 +12032,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crispy Hot Wings with Buffalo Sauce (6 pcs)",
     "nameUr": "کرسپی ہاٹ ونگز",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Hot Dogs",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -11992,7 +12070,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Animal Style Loaded Fries with Melted Cheese",
     "nameUr": "اینیمل لوڈڈ فرائز",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Waffles & Shakes",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12030,7 +12108,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Curly Seasoned Fries Cup",
     "nameUr": "کرلی فرائز",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Classic Burgers",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12068,7 +12146,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crinkle Cut Golden French Fries",
     "nameUr": "کرنکل کٹ فرائز",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Hot Dogs",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12106,7 +12184,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crispy Mozzarella Sticks with Marinara (4 pcs)",
     "nameUr": "موزاریلا اسٹکس",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Waffles & Shakes",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12144,7 +12222,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Garlic Mayo Dipping Sauce",
     "nameUr": "گارلک میو ساس",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Classic Burgers",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12182,7 +12260,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Atomic Fiery Chilli Dip",
     "nameUr": "ایٹامک چلی ساس",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Hot Dogs",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12220,7 +12298,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Honey Mustard Special Sauce",
     "nameUr": "ہنی مسٹرڈ ساس",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Waffles & Shakes",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12258,7 +12336,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Classic Crunch Burger",
     "nameUr": "کلاسک کرینچ برگر",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Classic Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12296,7 +12374,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Fiery Zesty Crispy Burger",
     "nameUr": "فائری زیسٹی برگر",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Hot Dogs",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12334,7 +12412,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Double Decker Cheesy Fillet",
     "nameUr": "ڈبل ڈیکر چیزی فلٹ",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Waffles & Shakes",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12372,7 +12450,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Smash Beef Burger Single",
     "nameUr": "سمیش بیف برگر سنگل",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Classic Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12410,7 +12488,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Double Smash Melt with Caramelized Onions",
     "nameUr": "ڈبل سمیش بیف میلٹ",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Hot Dogs",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12448,7 +12526,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Grilled Peri Peri Chicken Burger",
     "nameUr": "گرلڈ پیری پیری چکن برگر",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Waffles & Shakes",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12486,7 +12564,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special BBQ Smokey Bacon & Cheese Burger",
     "nameUr": "بار بی کیو سموکی برگر",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Classic Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12524,7 +12602,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Jalapeno Popper Crunchy Burger",
     "nameUr": "ہیلاپینیو کرنچی برگر",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Hot Dogs",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12562,7 +12640,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Mushroom Melt Gourmet Beef",
     "nameUr": "مشروم میلٹ بیف برگر",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Waffles & Shakes",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12600,7 +12678,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Honey Mustard Crispy Wrap",
     "nameUr": "ہنی مسٹرڈ ریپ",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Classic Burgers",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12638,7 +12716,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Flamin Hot Tortilla Wrap",
     "nameUr": "فلیمنگ ہاٹ ریپ",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Hot Dogs",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12676,7 +12754,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Spicy Crispy Chicken Tenders (3 pcs)",
     "nameUr": "کرسپی چکن ٹینڈرز",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Waffles & Shakes",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12714,7 +12792,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Golden Fried Drumstick (1 pc)",
     "nameUr": "فرائیڈ چکن ڈرم اسٹک",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Classic Burgers",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12752,7 +12830,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crispy Hot Wings with Buffalo Sauce (6 pcs)",
     "nameUr": "کرسپی ہاٹ ونگز",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Hot Dogs",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12790,7 +12868,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Animal Style Loaded Fries with Melted Cheese",
     "nameUr": "اینیمل لوڈڈ فرائز",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Waffles & Shakes",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12828,7 +12906,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Curly Seasoned Fries Cup",
     "nameUr": "کرلی فرائز",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Classic Burgers",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12866,7 +12944,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crinkle Cut Golden French Fries",
     "nameUr": "کرنکل کٹ فرائز",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Hot Dogs",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12904,7 +12982,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crispy Mozzarella Sticks with Marinara (4 pcs)",
     "nameUr": "موزاریلا اسٹکس",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Waffles & Shakes",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12942,7 +13020,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Garlic Mayo Dipping Sauce",
     "nameUr": "گارلک میو ساس",
     "brand": "Big Moe's Diner",
-    "brandCategory": "Classic Burgers",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -12980,7 +13058,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Classic Crunch Burger",
     "nameUr": "کلاسک کرینچ برگر",
     "brand": "Buntoos",
-    "brandCategory": "Bun Kabab",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13018,7 +13096,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Fiery Zesty Crispy Burger",
     "nameUr": "فائری زیسٹی برگر",
     "brand": "Buntoos",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13056,7 +13134,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Double Decker Cheesy Fillet",
     "nameUr": "ڈبل ڈیکر چیزی فلٹ",
     "brand": "Buntoos",
-    "brandCategory": "Chaat & Fries",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13094,7 +13172,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Smash Beef Burger Single",
     "nameUr": "سمیش بیف برگر سنگل",
     "brand": "Buntoos",
-    "brandCategory": "Bun Kabab",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13132,7 +13210,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Double Smash Melt with Caramelized Onions",
     "nameUr": "ڈبل سمیش بیف میلٹ",
     "brand": "Buntoos",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13170,7 +13248,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Grilled Peri Peri Chicken Burger",
     "nameUr": "گرلڈ پیری پیری چکن برگر",
     "brand": "Buntoos",
-    "brandCategory": "Chaat & Fries",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13208,7 +13286,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "BBQ Smokey Bacon & Cheese Burger",
     "nameUr": "بار بی کیو سموکی برگر",
     "brand": "Buntoos",
-    "brandCategory": "Bun Kabab",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13246,7 +13324,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Jalapeno Popper Crunchy Burger",
     "nameUr": "ہیلاپینیو کرنچی برگر",
     "brand": "Buntoos",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13284,7 +13362,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Mushroom Melt Gourmet Beef",
     "nameUr": "مشروم میلٹ بیف برگر",
     "brand": "Buntoos",
-    "brandCategory": "Chaat & Fries",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13322,7 +13400,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Honey Mustard Crispy Wrap",
     "nameUr": "ہنی مسٹرڈ ریپ",
     "brand": "Buntoos",
-    "brandCategory": "Bun Kabab",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13360,7 +13438,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Flamin Hot Tortilla Wrap",
     "nameUr": "فلیمنگ ہاٹ ریپ",
     "brand": "Buntoos",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13398,7 +13476,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Spicy Crispy Chicken Tenders (3 pcs)",
     "nameUr": "کرسپی چکن ٹینڈرز",
     "brand": "Buntoos",
-    "brandCategory": "Chaat & Fries",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13436,7 +13514,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Golden Fried Drumstick (1 pc)",
     "nameUr": "فرائیڈ چکن ڈرم اسٹک",
     "brand": "Buntoos",
-    "brandCategory": "Bun Kabab",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13474,7 +13552,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crispy Hot Wings with Buffalo Sauce (6 pcs)",
     "nameUr": "کرسپی ہاٹ ونگز",
     "brand": "Buntoos",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13512,7 +13590,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Animal Style Loaded Fries with Melted Cheese",
     "nameUr": "اینیمل لوڈڈ فرائز",
     "brand": "Buntoos",
-    "brandCategory": "Chaat & Fries",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13550,7 +13628,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Curly Seasoned Fries Cup",
     "nameUr": "کرلی فرائز",
     "brand": "Buntoos",
-    "brandCategory": "Bun Kabab",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13588,7 +13666,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crinkle Cut Golden French Fries",
     "nameUr": "کرنکل کٹ فرائز",
     "brand": "Buntoos",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13626,7 +13704,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crispy Mozzarella Sticks with Marinara (4 pcs)",
     "nameUr": "موزاریلا اسٹکس",
     "brand": "Buntoos",
-    "brandCategory": "Chaat & Fries",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13664,7 +13742,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Garlic Mayo Dipping Sauce",
     "nameUr": "گارلک میو ساس",
     "brand": "Buntoos",
-    "brandCategory": "Bun Kabab",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13702,7 +13780,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Atomic Fiery Chilli Dip",
     "nameUr": "ایٹامک چلی ساس",
     "brand": "Buntoos",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13740,7 +13818,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Honey Mustard Special Sauce",
     "nameUr": "ہنی مسٹرڈ ساس",
     "brand": "Buntoos",
-    "brandCategory": "Chaat & Fries",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13778,7 +13856,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Classic Crunch Burger",
     "nameUr": "کلاسک کرینچ برگر",
     "brand": "Buntoos",
-    "brandCategory": "Bun Kabab",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13816,7 +13894,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Fiery Zesty Crispy Burger",
     "nameUr": "فائری زیسٹی برگر",
     "brand": "Buntoos",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13854,7 +13932,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Double Decker Cheesy Fillet",
     "nameUr": "ڈبل ڈیکر چیزی فلٹ",
     "brand": "Buntoos",
-    "brandCategory": "Chaat & Fries",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13892,7 +13970,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Smash Beef Burger Single",
     "nameUr": "سمیش بیف برگر سنگل",
     "brand": "Buntoos",
-    "brandCategory": "Bun Kabab",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13930,7 +14008,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Double Smash Melt with Caramelized Onions",
     "nameUr": "ڈبل سمیش بیف میلٹ",
     "brand": "Buntoos",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -13968,7 +14046,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Grilled Peri Peri Chicken Burger",
     "nameUr": "گرلڈ پیری پیری چکن برگر",
     "brand": "Buntoos",
-    "brandCategory": "Chaat & Fries",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14006,7 +14084,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special BBQ Smokey Bacon & Cheese Burger",
     "nameUr": "بار بی کیو سموکی برگر",
     "brand": "Buntoos",
-    "brandCategory": "Bun Kabab",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14044,7 +14122,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Jalapeno Popper Crunchy Burger",
     "nameUr": "ہیلاپینیو کرنچی برگر",
     "brand": "Buntoos",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14082,7 +14160,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Mushroom Melt Gourmet Beef",
     "nameUr": "مشروم میلٹ بیف برگر",
     "brand": "Buntoos",
-    "brandCategory": "Chaat & Fries",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14120,7 +14198,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Honey Mustard Crispy Wrap",
     "nameUr": "ہنی مسٹرڈ ریپ",
     "brand": "Buntoos",
-    "brandCategory": "Bun Kabab",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14158,7 +14236,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Flamin Hot Tortilla Wrap",
     "nameUr": "فلیمنگ ہاٹ ریپ",
     "brand": "Buntoos",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14196,7 +14274,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Spicy Crispy Chicken Tenders (3 pcs)",
     "nameUr": "کرسپی چکن ٹینڈرز",
     "brand": "Buntoos",
-    "brandCategory": "Chaat & Fries",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14234,7 +14312,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Golden Fried Drumstick (1 pc)",
     "nameUr": "فرائیڈ چکن ڈرم اسٹک",
     "brand": "Buntoos",
-    "brandCategory": "Bun Kabab",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14272,7 +14350,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crispy Hot Wings with Buffalo Sauce (6 pcs)",
     "nameUr": "کرسپی ہاٹ ونگز",
     "brand": "Buntoos",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14310,7 +14388,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Animal Style Loaded Fries with Melted Cheese",
     "nameUr": "اینیمل لوڈڈ فرائز",
     "brand": "Buntoos",
-    "brandCategory": "Chaat & Fries",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14348,7 +14426,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Curly Seasoned Fries Cup",
     "nameUr": "کرلی فرائز",
     "brand": "Buntoos",
-    "brandCategory": "Bun Kabab",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14386,7 +14464,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crinkle Cut Golden French Fries",
     "nameUr": "کرنکل کٹ فرائز",
     "brand": "Buntoos",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14424,7 +14502,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crispy Mozzarella Sticks with Marinara (4 pcs)",
     "nameUr": "موزاریلا اسٹکس",
     "brand": "Buntoos",
-    "brandCategory": "Chaat & Fries",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14462,7 +14540,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Garlic Mayo Dipping Sauce",
     "nameUr": "گارلک میو ساس",
     "brand": "Buntoos",
-    "brandCategory": "Bun Kabab",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14500,7 +14578,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Classic Crunch Burger",
     "nameUr": "کلاسک کرینچ برگر",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Fried Chicken Buckets",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14538,7 +14616,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Fiery Zesty Crispy Burger",
     "nameUr": "فائری زیسٹی برگر",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14576,7 +14654,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Double Decker Cheesy Fillet",
     "nameUr": "ڈبل ڈیکر چیزی فلٹ",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Rolls & Wings",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14614,7 +14692,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Smash Beef Burger Single",
     "nameUr": "سمیش بیف برگر سنگل",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Fried Chicken Buckets",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14652,7 +14730,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Double Smash Melt with Caramelized Onions",
     "nameUr": "ڈبل سمیش بیف میلٹ",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14690,7 +14768,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Grilled Peri Peri Chicken Burger",
     "nameUr": "گرلڈ پیری پیری چکن برگر",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Rolls & Wings",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14728,7 +14806,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "BBQ Smokey Bacon & Cheese Burger",
     "nameUr": "بار بی کیو سموکی برگر",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Fried Chicken Buckets",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14766,7 +14844,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Jalapeno Popper Crunchy Burger",
     "nameUr": "ہیلاپینیو کرنچی برگر",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14804,7 +14882,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Mushroom Melt Gourmet Beef",
     "nameUr": "مشروم میلٹ بیف برگر",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Rolls & Wings",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14842,7 +14920,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Honey Mustard Crispy Wrap",
     "nameUr": "ہنی مسٹرڈ ریپ",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Fried Chicken Buckets",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14880,7 +14958,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Flamin Hot Tortilla Wrap",
     "nameUr": "فلیمنگ ہاٹ ریپ",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14918,7 +14996,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Spicy Crispy Chicken Tenders (3 pcs)",
     "nameUr": "کرسپی چکن ٹینڈرز",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Rolls & Wings",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14956,7 +15034,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Golden Fried Drumstick (1 pc)",
     "nameUr": "فرائیڈ چکن ڈرم اسٹک",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Fried Chicken Buckets",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -14994,7 +15072,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crispy Hot Wings with Buffalo Sauce (6 pcs)",
     "nameUr": "کرسپی ہاٹ ونگز",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15032,7 +15110,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Animal Style Loaded Fries with Melted Cheese",
     "nameUr": "اینیمل لوڈڈ فرائز",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Rolls & Wings",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15070,7 +15148,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Curly Seasoned Fries Cup",
     "nameUr": "کرلی فرائز",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Fried Chicken Buckets",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15108,7 +15186,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crinkle Cut Golden French Fries",
     "nameUr": "کرنکل کٹ فرائز",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15146,7 +15224,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Crispy Mozzarella Sticks with Marinara (4 pcs)",
     "nameUr": "موزاریلا اسٹکس",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Rolls & Wings",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15184,7 +15262,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Garlic Mayo Dipping Sauce",
     "nameUr": "گارلک میو ساس",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Fried Chicken Buckets",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15222,7 +15300,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Atomic Fiery Chilli Dip",
     "nameUr": "ایٹامک چلی ساس",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15260,7 +15338,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Honey Mustard Special Sauce",
     "nameUr": "ہنی مسٹرڈ ساس",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Rolls & Wings",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15298,7 +15376,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Classic Crunch Burger",
     "nameUr": "کلاسک کرینچ برگر",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Fried Chicken Buckets",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15336,7 +15414,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Fiery Zesty Crispy Burger",
     "nameUr": "فائری زیسٹی برگر",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15374,7 +15452,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Double Decker Cheesy Fillet",
     "nameUr": "ڈبل ڈیکر چیزی فلٹ",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Rolls & Wings",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15412,7 +15490,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Smash Beef Burger Single",
     "nameUr": "سمیش بیف برگر سنگل",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Fried Chicken Buckets",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15450,7 +15528,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Double Smash Melt with Caramelized Onions",
     "nameUr": "ڈبل سمیش بیف میلٹ",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15488,7 +15566,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Grilled Peri Peri Chicken Burger",
     "nameUr": "گرلڈ پیری پیری چکن برگر",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Rolls & Wings",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15526,7 +15604,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special BBQ Smokey Bacon & Cheese Burger",
     "nameUr": "بار بی کیو سموکی برگر",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Fried Chicken Buckets",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15564,7 +15642,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Jalapeno Popper Crunchy Burger",
     "nameUr": "ہیلاپینیو کرنچی برگر",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15602,7 +15680,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Mushroom Melt Gourmet Beef",
     "nameUr": "مشروم میلٹ بیف برگر",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Rolls & Wings",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15640,7 +15718,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Honey Mustard Crispy Wrap",
     "nameUr": "ہنی مسٹرڈ ریپ",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Fried Chicken Buckets",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15678,7 +15756,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Flamin Hot Tortilla Wrap",
     "nameUr": "فلیمنگ ہاٹ ریپ",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Wraps",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15716,7 +15794,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Spicy Crispy Chicken Tenders (3 pcs)",
     "nameUr": "کرسپی چکن ٹینڈرز",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Rolls & Wings",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15754,7 +15832,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Golden Fried Drumstick (1 pc)",
     "nameUr": "فرائیڈ چکن ڈرم اسٹک",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Fried Chicken Buckets",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15792,7 +15870,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crispy Hot Wings with Buffalo Sauce (6 pcs)",
     "nameUr": "کرسپی ہاٹ ونگز",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15830,7 +15908,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Animal Style Loaded Fries with Melted Cheese",
     "nameUr": "اینیمل لوڈڈ فرائز",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Rolls & Wings",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15868,7 +15946,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Curly Seasoned Fries Cup",
     "nameUr": "کرلی فرائز",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Fried Chicken Buckets",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15906,7 +15984,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crinkle Cut Golden French Fries",
     "nameUr": "کرنکل کٹ فرائز",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Crispy Burgers",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15944,7 +16022,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Crispy Mozzarella Sticks with Marinara (4 pcs)",
     "nameUr": "موزاریلا اسٹکس",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Rolls & Wings",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -15982,7 +16060,7 @@ const CHUNK_1: NormalizedFood[] = [
     "name": "Special Garlic Mayo Dipping Sauce",
     "nameUr": "گارلک میو ساس",
     "brand": "Kababjees Fried Chicken",
-    "brandCategory": "Fried Chicken Buckets",
+    "brandCategory": "Sauces & Dips",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Fast Food",
@@ -16023,7 +16101,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Chashni Mithai",
-    "brandCategory": "Mithai Delights",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16061,7 +16139,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Chashni Mithai",
-    "brandCategory": "Halwa & Ladoo",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16099,7 +16177,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Chashni Mithai",
-    "brandCategory": "Shahi Meetha",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16137,7 +16215,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Chashni Mithai",
-    "brandCategory": "Mithai Delights",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16175,7 +16253,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Chashni Mithai",
-    "brandCategory": "Halwa & Ladoo",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16213,7 +16291,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Chashni Mithai",
-    "brandCategory": "Shahi Meetha",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16251,7 +16329,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Chashni Mithai",
-    "brandCategory": "Mithai Delights",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16289,7 +16367,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Chashni Mithai",
-    "brandCategory": "Halwa & Ladoo",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16327,7 +16405,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Chashni Mithai",
-    "brandCategory": "Shahi Meetha",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16365,7 +16443,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Chashni Mithai",
-    "brandCategory": "Mithai Delights",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16403,7 +16481,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Chashni Mithai",
-    "brandCategory": "Halwa & Ladoo",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16441,7 +16519,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Chashni Mithai",
-    "brandCategory": "Shahi Meetha",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16479,7 +16557,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Chashni Mithai",
-    "brandCategory": "Mithai Delights",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16517,7 +16595,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Chashni Mithai",
-    "brandCategory": "Halwa & Ladoo",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16555,7 +16633,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Chashni Mithai",
-    "brandCategory": "Shahi Meetha",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16593,7 +16671,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Chashni Mithai",
-    "brandCategory": "Mithai Delights",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16631,7 +16709,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Chashni Mithai",
-    "brandCategory": "Halwa & Ladoo",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16669,7 +16747,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Chashni Mithai",
-    "brandCategory": "Shahi Meetha",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16707,7 +16785,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Chashni Mithai",
-    "brandCategory": "Mithai Delights",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16745,7 +16823,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Chashni Mithai",
-    "brandCategory": "Halwa & Ladoo",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16783,7 +16861,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Chashni Mithai",
-    "brandCategory": "Shahi Meetha",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16821,7 +16899,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Chashni Mithai",
-    "brandCategory": "Mithai Delights",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16859,7 +16937,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Chashni Mithai",
-    "brandCategory": "Halwa & Ladoo",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16897,7 +16975,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Chashni Mithai",
-    "brandCategory": "Shahi Meetha",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16935,7 +17013,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Chashni Mithai",
-    "brandCategory": "Mithai Delights",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -16973,7 +17051,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Chashni Mithai",
-    "brandCategory": "Halwa & Ladoo",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -17011,7 +17089,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Chashni Mithai",
-    "brandCategory": "Shahi Meetha",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -17049,7 +17127,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Chashni Mithai",
-    "brandCategory": "Mithai Delights",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -17087,7 +17165,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Chashni Mithai",
-    "brandCategory": "Halwa & Ladoo",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -17125,7 +17203,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Chashni Mithai",
-    "brandCategory": "Shahi Meetha",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -17163,7 +17241,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Chashni Mithai",
-    "brandCategory": "Mithai Delights",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -17201,7 +17279,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Chashni Mithai",
-    "brandCategory": "Halwa & Ladoo",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -17239,7 +17317,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Chashni Mithai",
-    "brandCategory": "Shahi Meetha",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -17277,7 +17355,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Chashni Mithai",
-    "brandCategory": "Mithai Delights",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -17315,7 +17393,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Chashni Mithai",
-    "brandCategory": "Halwa & Ladoo",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -17353,7 +17431,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Chashni Mithai",
-    "brandCategory": "Shahi Meetha",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -17391,7 +17469,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Chashni Mithai",
-    "brandCategory": "Mithai Delights",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -17429,7 +17507,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Chashni Mithai",
-    "brandCategory": "Halwa & Ladoo",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -17467,7 +17545,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Chashni Mithai",
-    "brandCategory": "Shahi Meetha",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -17505,7 +17583,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Chashni Mithai",
-    "brandCategory": "Mithai Delights",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -17581,7 +17659,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "Pizza Max",
-    "brandCategory": "Starters",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -17619,7 +17697,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "Pizza Max",
-    "brandCategory": "Pastas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -17695,7 +17773,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "Pizza Max",
-    "brandCategory": "Starters",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -17733,7 +17811,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "Pizza Max",
-    "brandCategory": "Pastas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -17809,7 +17887,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "Pizza Max",
-    "brandCategory": "Starters",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -17847,7 +17925,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "Pizza Max",
-    "brandCategory": "Pastas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -17885,7 +17963,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "Pizza Max",
-    "brandCategory": "Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -17923,7 +18001,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "Pizza Max",
-    "brandCategory": "Starters",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -17961,7 +18039,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Peri Peri Wings (6 pcs)",
     "nameUr": "پیری پیری ونگز",
     "brand": "Pizza Max",
-    "brandCategory": "Pastas",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -17999,7 +18077,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "Pizza Max",
-    "brandCategory": "Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -18037,7 +18115,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Pizza Max",
-    "brandCategory": "Starters",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -18075,7 +18153,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "Pizza Max",
-    "brandCategory": "Pastas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -18151,7 +18229,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "Pizza Max",
-    "brandCategory": "Starters",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -18189,7 +18267,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "Pizza Max",
-    "brandCategory": "Pastas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -18265,7 +18343,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "Pizza Max",
-    "brandCategory": "Starters",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -18303,7 +18381,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "Pizza Max",
-    "brandCategory": "Pastas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -18341,7 +18419,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "Pizza Max",
-    "brandCategory": "Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -18379,7 +18457,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "Pizza Max",
-    "brandCategory": "Starters",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -18455,7 +18533,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Spicy Peri Peri Wings (6 pcs)",
     "nameUr": "پیری پیری ونگز",
     "brand": "Pizza Max",
-    "brandCategory": "Pizzas",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -18493,7 +18571,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "Pizza Max",
-    "brandCategory": "Starters",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -18531,7 +18609,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Pizza Max",
-    "brandCategory": "Pastas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -18607,7 +18685,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "Pizza Max",
-    "brandCategory": "Starters",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -18645,7 +18723,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "Pizza Max",
-    "brandCategory": "Pastas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -18721,7 +18799,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "Pizza Max",
-    "brandCategory": "Starters",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -18759,7 +18837,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "Pizza Max",
-    "brandCategory": "Pastas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -18835,7 +18913,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "Pizza Max",
-    "brandCategory": "Starters",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -18873,7 +18951,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "Pizza Max",
-    "brandCategory": "Pastas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -18911,7 +18989,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "Pizza Max",
-    "brandCategory": "Pizzas",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -18949,7 +19027,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "Pizza Max",
-    "brandCategory": "Pastas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19025,7 +19103,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Grilled Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "Pizza Max",
-    "brandCategory": "Starters",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19063,7 +19141,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Grilled Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "Pizza Max",
-    "brandCategory": "Pastas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19101,7 +19179,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Signature Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19139,7 +19217,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Crust Specials",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19177,7 +19255,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Sides & Dips",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19215,7 +19293,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19253,7 +19331,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Signature Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19291,7 +19369,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Crust Specials",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19329,7 +19407,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Sides & Dips",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19367,7 +19445,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19405,7 +19483,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Signature Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19443,7 +19521,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Crust Specials",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19481,7 +19559,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Sides & Dips",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19519,7 +19597,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Peri Peri Wings (6 pcs)",
     "nameUr": "پیری پیری ونگز",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Desserts",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19557,7 +19635,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Signature Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19595,7 +19673,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Crust Specials",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19633,7 +19711,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Sides & Dips",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19671,7 +19749,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19709,7 +19787,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Signature Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19747,7 +19825,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Crust Specials",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19785,7 +19863,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Sides & Dips",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19823,7 +19901,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19861,7 +19939,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Signature Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19899,7 +19977,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Crust Specials",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19937,7 +20015,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Sides & Dips",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -19975,7 +20053,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Desserts",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20013,7 +20091,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Spicy Peri Peri Wings (6 pcs)",
     "nameUr": "پیری پیری ونگز",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Signature Pizzas",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20051,7 +20129,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Crust Specials",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20089,7 +20167,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Sides & Dips",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20127,7 +20205,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20165,7 +20243,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Signature Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20203,7 +20281,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Crust Specials",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20241,7 +20319,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Sides & Dips",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20279,7 +20357,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20317,7 +20395,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Signature Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20355,7 +20433,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Crust Specials",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20393,7 +20471,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Sides & Dips",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20431,7 +20509,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Desserts",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20469,7 +20547,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Signature Pizzas",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20507,7 +20585,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Sides & Dips",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20545,7 +20623,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Grilled Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20583,7 +20661,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Grilled Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Signature Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20621,7 +20699,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Grilled Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Crust Specials",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20659,7 +20737,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Grilled Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Sides & Dips",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20697,7 +20775,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Grilled Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "Domino's Pakistan",
-    "brandCategory": "Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20735,7 +20813,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Pan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20773,7 +20851,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Stuffed Crust",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20811,7 +20889,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Appetizers & Wings",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20849,7 +20927,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20887,7 +20965,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Pan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20925,7 +21003,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Stuffed Crust",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -20963,7 +21041,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Appetizers & Wings",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21001,7 +21079,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21039,7 +21117,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Pan Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21077,7 +21155,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Stuffed Crust",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21115,7 +21193,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Appetizers & Wings",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21153,7 +21231,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Peri Peri Wings (6 pcs)",
     "nameUr": "پیری پیری ونگز",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Desserts",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21191,7 +21269,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Pan Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21229,7 +21307,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Stuffed Crust",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21267,7 +21345,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Appetizers & Wings",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21305,7 +21383,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21343,7 +21421,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Pan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21381,7 +21459,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Stuffed Crust",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21419,7 +21497,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Appetizers & Wings",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21457,7 +21535,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21495,7 +21573,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Pan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21533,7 +21611,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Stuffed Crust",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21571,7 +21649,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Appetizers & Wings",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21609,7 +21687,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Desserts",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21647,7 +21725,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Spicy Peri Peri Wings (6 pcs)",
     "nameUr": "پیری پیری ونگز",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Pan Pizzas",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21685,7 +21763,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Stuffed Crust",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21723,7 +21801,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Appetizers & Wings",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21761,7 +21839,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21799,7 +21877,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Pan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21837,7 +21915,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Stuffed Crust",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21875,7 +21953,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Appetizers & Wings",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21913,7 +21991,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21951,7 +22029,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Pan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -21989,7 +22067,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Stuffed Crust",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22027,7 +22105,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Appetizers & Wings",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22065,7 +22143,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Desserts",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22103,7 +22181,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Pan Pizzas",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22141,7 +22219,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Appetizers & Wings",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22179,7 +22257,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Grilled Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22217,7 +22295,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Grilled Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Pan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22255,7 +22333,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Grilled Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Stuffed Crust",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22293,7 +22371,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Grilled Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Appetizers & Wings",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22331,7 +22409,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Grilled Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22369,7 +22447,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Grilled Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "Pizza Hut Pakistan",
-    "brandCategory": "Pan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22407,7 +22485,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "NY Giant Slices",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22445,7 +22523,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Gourmet Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22483,7 +22561,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Sides & Wings",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22521,7 +22599,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "NY Giant Slices",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22559,7 +22637,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Gourmet Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22597,7 +22675,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Sides & Wings",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22635,7 +22713,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "NY Giant Slices",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22673,7 +22751,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Gourmet Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22711,7 +22789,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Sides & Wings",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22749,7 +22827,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "NY Giant Slices",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22787,7 +22865,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Gourmet Pizzas",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22825,7 +22903,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Peri Peri Wings (6 pcs)",
     "nameUr": "پیری پیری ونگز",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Sides & Wings",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22863,7 +22941,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "NY Giant Slices",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22901,7 +22979,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Gourmet Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22939,7 +23017,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Sides & Wings",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -22977,7 +23055,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "NY Giant Slices",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23015,7 +23093,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Gourmet Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23053,7 +23131,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Sides & Wings",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23091,7 +23169,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "NY Giant Slices",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23129,7 +23207,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Gourmet Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23167,7 +23245,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Sides & Wings",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23205,7 +23283,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "NY Giant Slices",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23243,7 +23321,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Gourmet Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23281,7 +23359,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Sides & Wings",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23319,7 +23397,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Spicy Peri Peri Wings (6 pcs)",
     "nameUr": "پیری پیری ونگز",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "NY Giant Slices",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23357,7 +23435,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Gourmet Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23395,7 +23473,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Sides & Wings",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23433,7 +23511,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "NY Giant Slices",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23471,7 +23549,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Gourmet Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23509,7 +23587,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Sides & Wings",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23547,7 +23625,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "NY Giant Slices",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23585,7 +23663,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Gourmet Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23623,7 +23701,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Sides & Wings",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23661,7 +23739,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "NY Giant Slices",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23699,7 +23777,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Gourmet Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23737,7 +23815,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Sides & Wings",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23775,7 +23853,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "NY Giant Slices",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23813,7 +23891,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "Sides & Wings",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23851,7 +23929,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Grilled Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "14th Street Pizza Co.",
-    "brandCategory": "NY Giant Slices",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23889,7 +23967,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "California Pizza",
-    "brandCategory": "Special Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23927,7 +24005,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "California Pizza",
-    "brandCategory": "Sandwiches & Rolls",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -23965,7 +24043,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "California Pizza",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24003,7 +24081,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "California Pizza",
-    "brandCategory": "Special Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24041,7 +24119,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "California Pizza",
-    "brandCategory": "Sandwiches & Rolls",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24079,7 +24157,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "California Pizza",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24117,7 +24195,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "California Pizza",
-    "brandCategory": "Special Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24155,7 +24233,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "California Pizza",
-    "brandCategory": "Sandwiches & Rolls",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24193,7 +24271,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "California Pizza",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24231,7 +24309,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "California Pizza",
-    "brandCategory": "Special Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24269,7 +24347,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "California Pizza",
-    "brandCategory": "Sandwiches & Rolls",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24307,7 +24385,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Peri Peri Wings (6 pcs)",
     "nameUr": "پیری پیری ونگز",
     "brand": "California Pizza",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24345,7 +24423,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "California Pizza",
-    "brandCategory": "Special Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24383,7 +24461,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "California Pizza",
-    "brandCategory": "Sandwiches & Rolls",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24421,7 +24499,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "California Pizza",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24459,7 +24537,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "California Pizza",
-    "brandCategory": "Special Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24497,7 +24575,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "California Pizza",
-    "brandCategory": "Sandwiches & Rolls",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24535,7 +24613,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "California Pizza",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24573,7 +24651,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "California Pizza",
-    "brandCategory": "Special Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24611,7 +24689,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "California Pizza",
-    "brandCategory": "Sandwiches & Rolls",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24649,7 +24727,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "California Pizza",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24687,7 +24765,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "California Pizza",
-    "brandCategory": "Special Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24725,7 +24803,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "California Pizza",
-    "brandCategory": "Sandwiches & Rolls",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24763,7 +24841,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "California Pizza",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24801,7 +24879,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Spicy Peri Peri Wings (6 pcs)",
     "nameUr": "پیری پیری ونگز",
     "brand": "California Pizza",
-    "brandCategory": "Special Pizzas",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24839,7 +24917,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "California Pizza",
-    "brandCategory": "Sandwiches & Rolls",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24877,7 +24955,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "California Pizza",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24915,7 +24993,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "California Pizza",
-    "brandCategory": "Special Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24953,7 +25031,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "California Pizza",
-    "brandCategory": "Sandwiches & Rolls",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -24991,7 +25069,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "California Pizza",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25029,7 +25107,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "California Pizza",
-    "brandCategory": "Special Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25067,7 +25145,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "California Pizza",
-    "brandCategory": "Sandwiches & Rolls",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25105,7 +25183,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "California Pizza",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25143,7 +25221,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "California Pizza",
-    "brandCategory": "Special Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25181,7 +25259,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "California Pizza",
-    "brandCategory": "Sandwiches & Rolls",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25219,7 +25297,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "California Pizza",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25257,7 +25335,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "California Pizza",
-    "brandCategory": "Special Pizzas",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25295,7 +25373,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "California Pizza",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25333,7 +25411,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Grilled Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "California Pizza",
-    "brandCategory": "Special Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25371,7 +25449,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25409,7 +25487,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Sides",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25447,7 +25525,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Dips & Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25485,7 +25563,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25523,7 +25601,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Sides",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25561,7 +25639,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Dips & Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25599,7 +25677,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25637,7 +25715,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Sides",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25675,7 +25753,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Dips & Desserts",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25713,7 +25791,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25751,7 +25829,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Sides",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25789,7 +25867,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Peri Peri Wings (6 pcs)",
     "nameUr": "پیری پیری ونگز",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Dips & Desserts",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25827,7 +25905,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25865,7 +25943,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Sides",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25903,7 +25981,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Dips & Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25941,7 +26019,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -25979,7 +26057,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Sides",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26017,7 +26095,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Dips & Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26055,7 +26133,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26093,7 +26171,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Sides",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26131,7 +26209,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Dips & Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26169,7 +26247,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26207,7 +26285,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Sides",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26245,7 +26323,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Dips & Desserts",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26283,7 +26361,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Spicy Peri Peri Wings (6 pcs)",
     "nameUr": "پیری پیری ونگز",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Pizzas",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26321,7 +26399,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Sides",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26359,7 +26437,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Dips & Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26397,7 +26475,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26435,7 +26513,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Sides",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26473,7 +26551,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Dips & Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26511,7 +26589,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26549,7 +26627,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Sides",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26587,7 +26665,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Dips & Desserts",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26625,7 +26703,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26663,7 +26741,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Sides",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26701,7 +26779,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Dips & Desserts",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26739,7 +26817,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Pizzas",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26777,7 +26855,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Dips & Desserts",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26815,7 +26893,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Grilled Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Papa John's Pakistan",
-    "brandCategory": "Papa Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26853,7 +26931,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Woodfired Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26891,7 +26969,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Italian Breads",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26929,7 +27007,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Calzones",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -26967,7 +27045,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Woodfired Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27005,7 +27083,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Italian Breads",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27043,7 +27121,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Calzones",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27081,7 +27159,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Woodfired Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27119,7 +27197,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Italian Breads",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27157,7 +27235,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Calzones",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27195,7 +27273,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Woodfired Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27233,7 +27311,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Italian Breads",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27271,7 +27349,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Peri Peri Wings (6 pcs)",
     "nameUr": "پیری پیری ونگز",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Calzones",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27309,7 +27387,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Woodfired Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27347,7 +27425,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Italian Breads",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27385,7 +27463,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Calzones",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27423,7 +27501,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Woodfired Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27461,7 +27539,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Italian Breads",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27499,7 +27577,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Calzones",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27537,7 +27615,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Woodfired Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27575,7 +27653,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Italian Breads",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27613,7 +27691,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Calzones",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27651,7 +27729,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Woodfired Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27689,7 +27767,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Italian Breads",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27727,7 +27805,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Calzones",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27765,7 +27843,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Spicy Peri Peri Wings (6 pcs)",
     "nameUr": "پیری پیری ونگز",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Woodfired Pizzas",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27803,7 +27881,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Italian Breads",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27841,7 +27919,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Calzones",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27879,7 +27957,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Woodfired Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27917,7 +27995,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Italian Breads",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27955,7 +28033,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Calzones",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -27993,7 +28071,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Woodfired Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28031,7 +28109,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Italian Breads",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28069,7 +28147,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Calzones",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28107,7 +28185,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Woodfired Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28145,7 +28223,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Italian Breads",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28183,7 +28261,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Calzones",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28221,7 +28299,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Woodfired Pizzas",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28259,7 +28337,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Calzones",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28297,7 +28375,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Grilled Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Tehzeeb Pizza & Italian",
-    "brandCategory": "Woodfired Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28335,7 +28413,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "NY212 Pizza",
-    "brandCategory": "Manhattan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28373,7 +28451,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "NY212 Pizza",
-    "brandCategory": "Sides & Breads",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28411,7 +28489,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "NY212 Pizza",
-    "brandCategory": "Manhattan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28449,7 +28527,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "NY212 Pizza",
-    "brandCategory": "Sides & Breads",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28487,7 +28565,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "NY212 Pizza",
-    "brandCategory": "Manhattan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28525,7 +28603,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "NY212 Pizza",
-    "brandCategory": "Sides & Breads",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28563,7 +28641,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "NY212 Pizza",
-    "brandCategory": "Manhattan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28601,7 +28679,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "NY212 Pizza",
-    "brandCategory": "Sides & Breads",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28639,7 +28717,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "NY212 Pizza",
-    "brandCategory": "Manhattan Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28677,7 +28755,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "NY212 Pizza",
-    "brandCategory": "Sides & Breads",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28715,7 +28793,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "NY212 Pizza",
-    "brandCategory": "Manhattan Pizzas",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28753,7 +28831,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Peri Peri Wings (6 pcs)",
     "nameUr": "پیری پیری ونگز",
     "brand": "NY212 Pizza",
-    "brandCategory": "Sides & Breads",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28791,7 +28869,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "NY212 Pizza",
-    "brandCategory": "Manhattan Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28829,7 +28907,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "NY212 Pizza",
-    "brandCategory": "Sides & Breads",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28867,7 +28945,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "NY212 Pizza",
-    "brandCategory": "Manhattan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28905,7 +28983,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "NY212 Pizza",
-    "brandCategory": "Sides & Breads",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28943,7 +29021,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "NY212 Pizza",
-    "brandCategory": "Manhattan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -28981,7 +29059,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "NY212 Pizza",
-    "brandCategory": "Sides & Breads",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29019,7 +29097,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "NY212 Pizza",
-    "brandCategory": "Manhattan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29057,7 +29135,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "NY212 Pizza",
-    "brandCategory": "Sides & Breads",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29095,7 +29173,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "NY212 Pizza",
-    "brandCategory": "Manhattan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29133,7 +29211,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "NY212 Pizza",
-    "brandCategory": "Sides & Breads",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29171,7 +29249,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "NY212 Pizza",
-    "brandCategory": "Manhattan Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29209,7 +29287,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "NY212 Pizza",
-    "brandCategory": "Sides & Breads",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29247,7 +29325,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Spicy Peri Peri Wings (6 pcs)",
     "nameUr": "پیری پیری ونگز",
     "brand": "NY212 Pizza",
-    "brandCategory": "Manhattan Pizzas",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29285,7 +29363,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "NY212 Pizza",
-    "brandCategory": "Sides & Breads",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29323,7 +29401,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "NY212 Pizza",
-    "brandCategory": "Manhattan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29361,7 +29439,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "NY212 Pizza",
-    "brandCategory": "Sides & Breads",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29399,7 +29477,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "NY212 Pizza",
-    "brandCategory": "Manhattan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29437,7 +29515,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "NY212 Pizza",
-    "brandCategory": "Sides & Breads",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29475,7 +29553,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "NY212 Pizza",
-    "brandCategory": "Manhattan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29513,7 +29591,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "NY212 Pizza",
-    "brandCategory": "Sides & Breads",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29551,7 +29629,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "NY212 Pizza",
-    "brandCategory": "Manhattan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29589,7 +29667,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "NY212 Pizza",
-    "brandCategory": "Sides & Breads",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29627,7 +29705,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "NY212 Pizza",
-    "brandCategory": "Manhattan Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29665,7 +29743,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "NY212 Pizza",
-    "brandCategory": "Sides & Breads",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29703,7 +29781,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "NY212 Pizza",
-    "brandCategory": "Manhattan Pizzas",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29741,7 +29819,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "NY212 Pizza",
-    "brandCategory": "Manhattan Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29779,7 +29857,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Grilled Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "NY212 Pizza",
-    "brandCategory": "Sides & Breads",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29817,7 +29895,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Gino's Pizza",
-    "brandCategory": "Deep Pan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29855,7 +29933,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "Gino's Pizza",
-    "brandCategory": "Oven Pastas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29893,7 +29971,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "Gino's Pizza",
-    "brandCategory": "Starters",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29931,7 +30009,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "Gino's Pizza",
-    "brandCategory": "Deep Pan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -29969,7 +30047,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "Gino's Pizza",
-    "brandCategory": "Oven Pastas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30007,7 +30085,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "Gino's Pizza",
-    "brandCategory": "Starters",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30045,7 +30123,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "Gino's Pizza",
-    "brandCategory": "Deep Pan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30083,7 +30161,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "Gino's Pizza",
-    "brandCategory": "Oven Pastas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30121,7 +30199,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "Gino's Pizza",
-    "brandCategory": "Starters",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30159,7 +30237,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "Gino's Pizza",
-    "brandCategory": "Deep Pan Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30197,7 +30275,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "Gino's Pizza",
-    "brandCategory": "Oven Pastas",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30235,7 +30313,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Peri Peri Wings (6 pcs)",
     "nameUr": "پیری پیری ونگز",
     "brand": "Gino's Pizza",
-    "brandCategory": "Starters",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30273,7 +30351,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "Gino's Pizza",
-    "brandCategory": "Deep Pan Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30311,7 +30389,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Gino's Pizza",
-    "brandCategory": "Oven Pastas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30349,7 +30427,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "Gino's Pizza",
-    "brandCategory": "Starters",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30387,7 +30465,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "Gino's Pizza",
-    "brandCategory": "Deep Pan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30425,7 +30503,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "Gino's Pizza",
-    "brandCategory": "Oven Pastas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30463,7 +30541,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "Gino's Pizza",
-    "brandCategory": "Starters",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30501,7 +30579,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "Gino's Pizza",
-    "brandCategory": "Deep Pan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30539,7 +30617,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "Gino's Pizza",
-    "brandCategory": "Oven Pastas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30577,7 +30655,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "Gino's Pizza",
-    "brandCategory": "Starters",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30615,7 +30693,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "Gino's Pizza",
-    "brandCategory": "Deep Pan Pizzas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30653,7 +30731,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "Gino's Pizza",
-    "brandCategory": "Oven Pastas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30691,7 +30769,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "Gino's Pizza",
-    "brandCategory": "Starters",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30729,7 +30807,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Spicy Peri Peri Wings (6 pcs)",
     "nameUr": "پیری پیری ونگز",
     "brand": "Gino's Pizza",
-    "brandCategory": "Deep Pan Pizzas",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30767,7 +30845,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Special Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "Gino's Pizza",
-    "brandCategory": "Oven Pastas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30805,7 +30883,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Gino's Pizza",
-    "brandCategory": "Starters",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30843,7 +30921,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "Gino's Pizza",
-    "brandCategory": "Deep Pan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30881,7 +30959,7 @@ const CHUNK_2: NormalizedFood[] = [
     "name": "Spicy Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "Gino's Pizza",
-    "brandCategory": "Oven Pastas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30922,7 +31000,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "Gino's Pizza",
-    "brandCategory": "Starters",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30960,7 +31038,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "Gino's Pizza",
-    "brandCategory": "Deep Pan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -30998,7 +31076,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "Gino's Pizza",
-    "brandCategory": "Oven Pastas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31036,7 +31114,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "Gino's Pizza",
-    "brandCategory": "Starters",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31074,7 +31152,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "Gino's Pizza",
-    "brandCategory": "Deep Pan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31112,7 +31190,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "Gino's Pizza",
-    "brandCategory": "Oven Pastas",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31150,7 +31228,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "Gino's Pizza",
-    "brandCategory": "Starters",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31188,7 +31266,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "Gino's Pizza",
-    "brandCategory": "Deep Pan Pizzas",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31226,7 +31304,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "Gino's Pizza",
-    "brandCategory": "Starters",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31264,7 +31342,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Grilled Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Gino's Pizza",
-    "brandCategory": "Deep Pan Pizzas",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31302,7 +31380,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Pizzalicious",
-    "brandCategory": "Crown Crust",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31340,7 +31418,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "Pizzalicious",
-    "brandCategory": "Special Flavors",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31378,7 +31456,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "Pizzalicious",
-    "brandCategory": "Sides",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31416,7 +31494,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "Pizzalicious",
-    "brandCategory": "Crown Crust",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31454,7 +31532,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "Pizzalicious",
-    "brandCategory": "Special Flavors",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31492,7 +31570,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "Pizzalicious",
-    "brandCategory": "Sides",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31530,7 +31608,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "Pizzalicious",
-    "brandCategory": "Crown Crust",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31568,7 +31646,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "Pizzalicious",
-    "brandCategory": "Special Flavors",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31644,7 +31722,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "Pizzalicious",
-    "brandCategory": "Crown Crust",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31682,7 +31760,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "Pizzalicious",
-    "brandCategory": "Special Flavors",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31720,7 +31798,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Peri Peri Wings (6 pcs)",
     "nameUr": "پیری پیری ونگز",
     "brand": "Pizzalicious",
-    "brandCategory": "Sides",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31758,7 +31836,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "Pizzalicious",
-    "brandCategory": "Crown Crust",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31796,7 +31874,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Pizzalicious",
-    "brandCategory": "Special Flavors",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31834,7 +31912,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "Pizzalicious",
-    "brandCategory": "Sides",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31872,7 +31950,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "Pizzalicious",
-    "brandCategory": "Crown Crust",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31910,7 +31988,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "Pizzalicious",
-    "brandCategory": "Special Flavors",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31948,7 +32026,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "Pizzalicious",
-    "brandCategory": "Sides",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -31986,7 +32064,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "Pizzalicious",
-    "brandCategory": "Crown Crust",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -32024,7 +32102,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "Pizzalicious",
-    "brandCategory": "Special Flavors",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -32062,7 +32140,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "Pizzalicious",
-    "brandCategory": "Sides",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -32100,7 +32178,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "Pizzalicious",
-    "brandCategory": "Crown Crust",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -32138,7 +32216,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Stuffed Cheesy Crust Roll (4 pcs)",
     "nameUr": "اسٹفڈ چیزی رولز",
     "brand": "Pizzalicious",
-    "brandCategory": "Special Flavors",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -32176,7 +32254,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "Pizzalicious",
-    "brandCategory": "Sides",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -32214,7 +32292,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Spicy Peri Peri Wings (6 pcs)",
     "nameUr": "پیری پیری ونگز",
     "brand": "Pizzalicious",
-    "brandCategory": "Crown Crust",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -32252,7 +32330,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Potato Wedges with Sour Cream Dip",
     "nameUr": "پوٹیٹو ویجز مع ساس",
     "brand": "Pizzalicious",
-    "brandCategory": "Special Flavors",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -32290,7 +32368,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Pizzalicious",
-    "brandCategory": "Sides",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -32328,7 +32406,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Fajita Sicilian Spicy Feast",
     "nameUr": "فجیتا سسیلین پیزا",
     "brand": "Pizzalicious",
-    "brandCategory": "Crown Crust",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -32366,7 +32444,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Cheese Lover Mozzarella Burst",
     "nameUr": "چیز لور پیزا",
     "brand": "Pizzalicious",
-    "brandCategory": "Special Flavors",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -32404,7 +32482,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Beef Pepperoni Passion",
     "nameUr": "بیف پیپرونی پیزا",
     "brand": "Pizzalicious",
-    "brandCategory": "Sides",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -32442,7 +32520,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Bihari Kebab Special Crust",
     "nameUr": "بہاری کباب پیزا",
     "brand": "Pizzalicious",
-    "brandCategory": "Crown Crust",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -32480,7 +32558,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Creamy Afghani Feast Pizza",
     "nameUr": "کیمی افغانی پیزا",
     "brand": "Pizzalicious",
-    "brandCategory": "Special Flavors",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -32518,7 +32596,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Ranch Feast with Garlic Drizzle",
     "nameUr": "رنچ فیسٹ پیزا",
     "brand": "Pizzalicious",
-    "brandCategory": "Sides",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -32556,7 +32634,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Vegetarian Garden Delight",
     "nameUr": "ویجیٹیرین ڈیلائٹ",
     "brand": "Pizzalicious",
-    "brandCategory": "Crown Crust",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -32594,7 +32672,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Cheesy Garlic Breadsticks (4 pcs)",
     "nameUr": "چیزی گارلک بریڈ",
     "brand": "Pizzalicious",
-    "brandCategory": "Special Flavors",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -32670,7 +32748,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Oven Baked Chicken Pasta Alfredo",
     "nameUr": "اوون بیکڈ الفریڈو پاستا",
     "brand": "Pizzalicious",
-    "brandCategory": "Crown Crust",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -32746,7 +32824,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Grilled Chicken Tikka Supreme",
     "nameUr": "چکن تکہ سپریم",
     "brand": "Pizzalicious",
-    "brandCategory": "Crown Crust",
+    "brandCategory": "Pizzas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Pizza",
@@ -32784,7 +32862,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "Student Biryani",
-    "brandCategory": "Famous Biryani",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -32822,7 +32900,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Student Biryani",
-    "brandCategory": "BBQ & Kabab",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -32860,7 +32938,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Student Biryani",
-    "brandCategory": "Curries",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -32898,7 +32976,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Student Biryani",
-    "brandCategory": "Meetha",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -32936,7 +33014,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Student Biryani",
-    "brandCategory": "Famous Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -32974,7 +33052,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Student Biryani",
-    "brandCategory": "BBQ & Kabab",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33012,7 +33090,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Student Biryani",
-    "brandCategory": "Curries",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33050,7 +33128,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Student Biryani",
-    "brandCategory": "Meetha",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33088,7 +33166,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Student Biryani",
-    "brandCategory": "Famous Biryani",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33126,7 +33204,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Student Biryani",
-    "brandCategory": "BBQ & Kabab",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33164,7 +33242,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Student Biryani",
-    "brandCategory": "Curries",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33202,7 +33280,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Student Biryani",
-    "brandCategory": "Meetha",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33240,7 +33318,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Student Biryani",
-    "brandCategory": "Famous Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33278,7 +33356,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Student Biryani",
-    "brandCategory": "BBQ & Kabab",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33316,7 +33394,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Student Biryani",
-    "brandCategory": "Curries",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33354,7 +33432,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Student Biryani",
-    "brandCategory": "Meetha",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33392,7 +33470,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Student Biryani",
-    "brandCategory": "Famous Biryani",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33430,7 +33508,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Student Biryani",
-    "brandCategory": "Curries",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33468,7 +33546,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Student Biryani",
-    "brandCategory": "Meetha",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33506,7 +33584,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Student Biryani",
-    "brandCategory": "Famous Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33544,7 +33622,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Student Biryani",
-    "brandCategory": "BBQ & Kabab",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33582,7 +33660,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Student Biryani",
-    "brandCategory": "Curries",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33620,7 +33698,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Student Biryani",
-    "brandCategory": "Meetha",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33658,7 +33736,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Student Biryani",
-    "brandCategory": "Famous Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33696,7 +33774,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Student Biryani",
-    "brandCategory": "BBQ & Kabab",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33734,7 +33812,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Student Biryani",
-    "brandCategory": "Curries",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33772,7 +33850,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Student Biryani",
-    "brandCategory": "Meetha",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33810,7 +33888,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Student Biryani",
-    "brandCategory": "Famous Biryani",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33848,7 +33926,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Student Biryani",
-    "brandCategory": "BBQ & Kabab",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33886,7 +33964,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Student Biryani",
-    "brandCategory": "Curries",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33924,7 +34002,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Student Biryani",
-    "brandCategory": "Meetha",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -33962,7 +34040,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Student Biryani",
-    "brandCategory": "Famous Biryani",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34000,7 +34078,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Student Biryani",
-    "brandCategory": "BBQ & Kabab",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34038,7 +34116,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "Student Biryani",
-    "brandCategory": "Curries",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34076,7 +34154,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Student Biryani",
-    "brandCategory": "Meetha",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34114,7 +34192,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Student Biryani",
-    "brandCategory": "Famous Biryani",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34152,7 +34230,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Student Biryani",
-    "brandCategory": "BBQ & Kabab",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34190,7 +34268,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Student Biryani",
-    "brandCategory": "Curries",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34228,7 +34306,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Student Biryani",
-    "brandCategory": "Meetha",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34266,7 +34344,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "Bundu Khan",
-    "brandCategory": "BBQ Grills",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34304,7 +34382,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Bundu Khan",
-    "brandCategory": "Puri Paratha",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34342,7 +34420,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Bundu Khan",
-    "brandCategory": "Handi & Karahi",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34380,7 +34458,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Bundu Khan",
-    "brandCategory": "Naan & Gravy",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34418,7 +34496,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Bundu Khan",
-    "brandCategory": "BBQ Grills",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34456,7 +34534,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Bundu Khan",
-    "brandCategory": "Puri Paratha",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34494,7 +34572,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Bundu Khan",
-    "brandCategory": "Handi & Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34532,7 +34610,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Bundu Khan",
-    "brandCategory": "Naan & Gravy",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34570,7 +34648,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Bundu Khan",
-    "brandCategory": "BBQ Grills",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34608,7 +34686,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Bundu Khan",
-    "brandCategory": "Puri Paratha",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34646,7 +34724,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Bundu Khan",
-    "brandCategory": "Handi & Karahi",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34684,7 +34762,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Bundu Khan",
-    "brandCategory": "Naan & Gravy",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34722,7 +34800,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Bundu Khan",
-    "brandCategory": "BBQ Grills",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34760,7 +34838,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Bundu Khan",
-    "brandCategory": "Puri Paratha",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34798,7 +34876,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Bundu Khan",
-    "brandCategory": "Handi & Karahi",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34836,7 +34914,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Bundu Khan",
-    "brandCategory": "Naan & Gravy",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34874,7 +34952,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Bundu Khan",
-    "brandCategory": "BBQ Grills",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34912,7 +34990,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Bundu Khan",
-    "brandCategory": "Handi & Karahi",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34950,7 +35028,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Bundu Khan",
-    "brandCategory": "Naan & Gravy",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -34988,7 +35066,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Bundu Khan",
-    "brandCategory": "BBQ Grills",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35026,7 +35104,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Bundu Khan",
-    "brandCategory": "Puri Paratha",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35064,7 +35142,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Bundu Khan",
-    "brandCategory": "Handi & Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35102,7 +35180,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Bundu Khan",
-    "brandCategory": "Naan & Gravy",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35140,7 +35218,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Bundu Khan",
-    "brandCategory": "BBQ Grills",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35178,7 +35256,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Bundu Khan",
-    "brandCategory": "Puri Paratha",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35216,7 +35294,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Bundu Khan",
-    "brandCategory": "Handi & Karahi",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35254,7 +35332,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Bundu Khan",
-    "brandCategory": "Naan & Gravy",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35292,7 +35370,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Bundu Khan",
-    "brandCategory": "BBQ Grills",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35330,7 +35408,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Bundu Khan",
-    "brandCategory": "Puri Paratha",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35368,7 +35446,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Bundu Khan",
-    "brandCategory": "Handi & Karahi",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35406,7 +35484,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Bundu Khan",
-    "brandCategory": "Naan & Gravy",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35444,7 +35522,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Bundu Khan",
-    "brandCategory": "BBQ Grills",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35482,7 +35560,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Bundu Khan",
-    "brandCategory": "Puri Paratha",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35520,7 +35598,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "Bundu Khan",
-    "brandCategory": "Handi & Karahi",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35558,7 +35636,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Bundu Khan",
-    "brandCategory": "Naan & Gravy",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35596,7 +35674,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Bundu Khan",
-    "brandCategory": "BBQ Grills",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35634,7 +35712,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Bundu Khan",
-    "brandCategory": "Puri Paratha",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35672,7 +35750,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Bundu Khan",
-    "brandCategory": "Handi & Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35710,7 +35788,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Bundu Khan",
-    "brandCategory": "Naan & Gravy",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35748,7 +35826,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Bundu Khan",
-    "brandCategory": "BBQ Grills",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35786,7 +35864,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Bundu Khan",
-    "brandCategory": "Puri Paratha",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35824,7 +35902,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Bundu Khan",
-    "brandCategory": "Handi & Karahi",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35862,7 +35940,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Bundu Khan",
-    "brandCategory": "Naan & Gravy",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35900,7 +35978,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Bundu Khan",
-    "brandCategory": "BBQ Grills",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35938,7 +36016,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Bundu Khan",
-    "brandCategory": "Puri Paratha",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -35976,7 +36054,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Bundu Khan",
-    "brandCategory": "Handi & Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36014,7 +36092,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Bundu Khan",
-    "brandCategory": "Naan & Gravy",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36052,7 +36130,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Desi Ghee Karahi",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36090,7 +36168,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Shinwari Specialties",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36128,7 +36206,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Tandoor & Sides",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36166,7 +36244,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Desi Ghee Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36204,7 +36282,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Shinwari Specialties",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36242,7 +36320,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Tandoor & Sides",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36280,7 +36358,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Desi Ghee Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36318,7 +36396,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Shinwari Specialties",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36356,7 +36434,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Tandoor & Sides",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36394,7 +36472,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Desi Ghee Karahi",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36432,7 +36510,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Shinwari Specialties",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36470,7 +36548,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Tandoor & Sides",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36508,7 +36586,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Desi Ghee Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36546,7 +36624,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Shinwari Specialties",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36584,7 +36662,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Tandoor & Sides",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36622,7 +36700,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Desi Ghee Karahi",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36660,7 +36738,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Shinwari Specialties",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36698,7 +36776,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Desi Ghee Karahi",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36736,7 +36814,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Shinwari Specialties",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36774,7 +36852,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Tandoor & Sides",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36812,7 +36890,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Desi Ghee Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36850,7 +36928,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Shinwari Specialties",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36888,7 +36966,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Tandoor & Sides",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36926,7 +37004,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Desi Ghee Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -36964,7 +37042,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Shinwari Specialties",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37002,7 +37080,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Tandoor & Sides",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37040,7 +37118,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Desi Ghee Karahi",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37078,7 +37156,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Shinwari Specialties",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37116,7 +37194,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Tandoor & Sides",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37154,7 +37232,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Desi Ghee Karahi",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37192,7 +37270,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Shinwari Specialties",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37230,7 +37308,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Tandoor & Sides",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37268,7 +37346,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Desi Ghee Karahi",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37306,7 +37384,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Shinwari Specialties",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37344,7 +37422,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Tandoor & Sides",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37382,7 +37460,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Desi Ghee Karahi",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37420,7 +37498,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Shinwari Specialties",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37458,7 +37536,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Tandoor & Sides",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37496,7 +37574,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Butt Karahi (Lakshmi Chowk)",
-    "brandCategory": "Desi Ghee Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37534,7 +37612,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Signature BBQ",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37572,7 +37650,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Special Karahi",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37648,7 +37726,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Breads & Raita",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37686,7 +37764,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Signature BBQ",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37724,7 +37802,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Special Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37762,7 +37840,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Rice & Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37800,7 +37878,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Breads & Raita",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37838,7 +37916,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Signature BBQ",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37876,7 +37954,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Special Karahi",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37914,7 +37992,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Rice & Biryani",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37952,7 +38030,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Breads & Raita",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -37990,7 +38068,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Signature BBQ",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38028,7 +38106,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Special Karahi",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38066,7 +38144,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Rice & Biryani",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38104,7 +38182,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Breads & Raita",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38142,7 +38220,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Signature BBQ",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38218,7 +38296,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Breads & Raita",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38256,7 +38334,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Signature BBQ",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38294,7 +38372,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Special Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38332,7 +38410,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Rice & Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38370,7 +38448,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Breads & Raita",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38408,7 +38486,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Signature BBQ",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38446,7 +38524,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Special Karahi",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38484,7 +38562,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Rice & Biryani",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38522,7 +38600,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Breads & Raita",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38560,7 +38638,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Signature BBQ",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38598,7 +38676,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Special Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38636,7 +38714,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Rice & Biryani",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38674,7 +38752,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Breads & Raita",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38712,7 +38790,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Signature BBQ",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38750,7 +38828,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Special Karahi",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38826,7 +38904,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Breads & Raita",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38864,7 +38942,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Signature BBQ",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38902,7 +38980,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Special Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38940,7 +39018,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Rice & Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -38978,7 +39056,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Breads & Raita",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39016,7 +39094,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Signature BBQ",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39054,7 +39132,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Special Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39092,7 +39170,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Rice & Biryani",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39130,7 +39208,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Breads & Raita",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39168,7 +39246,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Signature BBQ",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39206,7 +39284,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Kolachi Restaurant (Do Darya)",
-    "brandCategory": "Special Karahi",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39244,7 +39322,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Mughlai Grills",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39282,7 +39360,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Shahi Curries",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39320,7 +39398,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Royal Biryani",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39358,7 +39436,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Shahi Desserts",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39396,7 +39474,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Mughlai Grills",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39434,7 +39512,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Shahi Curries",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39472,7 +39550,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Royal Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39510,7 +39588,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Shahi Desserts",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39548,7 +39626,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Mughlai Grills",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39586,7 +39664,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Shahi Curries",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39624,7 +39702,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Royal Biryani",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39662,7 +39740,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Shahi Desserts",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39700,7 +39778,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Mughlai Grills",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39738,7 +39816,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Shahi Curries",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39776,7 +39854,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Royal Biryani",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39814,7 +39892,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Shahi Desserts",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39852,7 +39930,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Mughlai Grills",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39890,7 +39968,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Royal Biryani",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39928,7 +40006,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Shahi Desserts",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -39966,7 +40044,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Mughlai Grills",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40004,7 +40082,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Shahi Curries",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40042,7 +40120,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Royal Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40080,7 +40158,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Shahi Desserts",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40118,7 +40196,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Mughlai Grills",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40156,7 +40234,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Shahi Curries",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40194,7 +40272,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Royal Biryani",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40232,7 +40310,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Shahi Desserts",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40270,7 +40348,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Mughlai Grills",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40308,7 +40386,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Shahi Curries",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40346,7 +40424,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Royal Biryani",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40384,7 +40462,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Shahi Desserts",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40422,7 +40500,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Mughlai Grills",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40460,7 +40538,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Shahi Curries",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40498,7 +40576,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Royal Biryani",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40536,7 +40614,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Shahi Desserts",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40574,7 +40652,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Mughlai Grills",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40612,7 +40690,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Shahi Curries",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40650,7 +40728,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Royal Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40688,7 +40766,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Shahi Desserts",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40726,7 +40804,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Mughlai Grills",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40764,7 +40842,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Shahi Curries",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40802,7 +40880,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Royal Biryani",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40840,7 +40918,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "LalQila Restaurant",
-    "brandCategory": "Shahi Desserts",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40878,7 +40956,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "BBQ Tonight",
-    "brandCategory": "Bihari & Afghani BBQ",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40916,7 +40994,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "BBQ Tonight",
-    "brandCategory": "Mutton Specialties",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40954,7 +41032,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "BBQ Tonight",
-    "brandCategory": "Karahi & Handi",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -40992,7 +41070,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "BBQ Tonight",
-    "brandCategory": "Seafood",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41030,7 +41108,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "BBQ Tonight",
-    "brandCategory": "Bihari & Afghani BBQ",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41068,7 +41146,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "BBQ Tonight",
-    "brandCategory": "Mutton Specialties",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41106,7 +41184,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "BBQ Tonight",
-    "brandCategory": "Karahi & Handi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41144,7 +41222,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "BBQ Tonight",
-    "brandCategory": "Seafood",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41182,7 +41260,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "BBQ Tonight",
-    "brandCategory": "Bihari & Afghani BBQ",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41220,7 +41298,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "BBQ Tonight",
-    "brandCategory": "Mutton Specialties",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41258,7 +41336,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "BBQ Tonight",
-    "brandCategory": "Karahi & Handi",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41296,7 +41374,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "BBQ Tonight",
-    "brandCategory": "Seafood",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41334,7 +41412,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "BBQ Tonight",
-    "brandCategory": "Bihari & Afghani BBQ",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41372,7 +41450,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "BBQ Tonight",
-    "brandCategory": "Mutton Specialties",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41410,7 +41488,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "BBQ Tonight",
-    "brandCategory": "Karahi & Handi",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41448,7 +41526,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "BBQ Tonight",
-    "brandCategory": "Seafood",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41486,7 +41564,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "BBQ Tonight",
-    "brandCategory": "Bihari & Afghani BBQ",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41524,7 +41602,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "BBQ Tonight",
-    "brandCategory": "Karahi & Handi",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41562,7 +41640,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "BBQ Tonight",
-    "brandCategory": "Seafood",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41600,7 +41678,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "BBQ Tonight",
-    "brandCategory": "Bihari & Afghani BBQ",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41638,7 +41716,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "BBQ Tonight",
-    "brandCategory": "Mutton Specialties",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41676,7 +41754,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "BBQ Tonight",
-    "brandCategory": "Karahi & Handi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41714,7 +41792,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "BBQ Tonight",
-    "brandCategory": "Seafood",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41752,7 +41830,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "BBQ Tonight",
-    "brandCategory": "Bihari & Afghani BBQ",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41790,7 +41868,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "BBQ Tonight",
-    "brandCategory": "Mutton Specialties",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41828,7 +41906,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "BBQ Tonight",
-    "brandCategory": "Karahi & Handi",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41866,7 +41944,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "BBQ Tonight",
-    "brandCategory": "Seafood",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41904,7 +41982,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "BBQ Tonight",
-    "brandCategory": "Bihari & Afghani BBQ",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41942,7 +42020,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "BBQ Tonight",
-    "brandCategory": "Mutton Specialties",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -41980,7 +42058,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "BBQ Tonight",
-    "brandCategory": "Karahi & Handi",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42018,7 +42096,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "BBQ Tonight",
-    "brandCategory": "Seafood",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42056,7 +42134,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "BBQ Tonight",
-    "brandCategory": "Bihari & Afghani BBQ",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42094,7 +42172,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "BBQ Tonight",
-    "brandCategory": "Mutton Specialties",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42132,7 +42210,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "BBQ Tonight",
-    "brandCategory": "Karahi & Handi",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42170,7 +42248,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "BBQ Tonight",
-    "brandCategory": "Seafood",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42208,7 +42286,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "BBQ Tonight",
-    "brandCategory": "Bihari & Afghani BBQ",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42246,7 +42324,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "BBQ Tonight",
-    "brandCategory": "Mutton Specialties",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42284,7 +42362,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "BBQ Tonight",
-    "brandCategory": "Karahi & Handi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42322,7 +42400,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "BBQ Tonight",
-    "brandCategory": "Seafood",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42360,7 +42438,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "BBQ Tonight",
-    "brandCategory": "Bihari & Afghani BBQ",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42398,7 +42476,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "BBQ Tonight",
-    "brandCategory": "Mutton Specialties",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42436,7 +42514,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "BBQ Tonight",
-    "brandCategory": "Karahi & Handi",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42474,7 +42552,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "BBQ Tonight",
-    "brandCategory": "Seafood",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42512,7 +42590,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "BBQ Tonight",
-    "brandCategory": "Bihari & Afghani BBQ",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42550,7 +42628,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "BBQ Tonight",
-    "brandCategory": "Mutton Specialties",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42588,7 +42666,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Nalli Biryani",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42626,7 +42704,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Sides & Drinks",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42664,7 +42742,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Nalli Biryani",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42702,7 +42780,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Sides & Drinks",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42740,7 +42818,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Nalli Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42778,7 +42856,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Sides & Drinks",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42816,7 +42894,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Nalli Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42854,7 +42932,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Sides & Drinks",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42892,7 +42970,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Nalli Biryani",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42930,7 +43008,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Sides & Drinks",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -42968,7 +43046,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Nalli Biryani",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43006,7 +43084,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Sides & Drinks",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43044,7 +43122,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Nalli Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43082,7 +43160,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Sides & Drinks",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43120,7 +43198,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Nalli Biryani",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43158,7 +43236,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Sides & Drinks",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43196,7 +43274,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Nalli Biryani",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43234,7 +43312,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Nalli Biryani",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43272,7 +43350,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Sides & Drinks",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43310,7 +43388,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Nalli Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43348,7 +43426,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Sides & Drinks",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43386,7 +43464,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Nalli Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43424,7 +43502,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Sides & Drinks",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43462,7 +43540,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Nalli Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43500,7 +43578,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Sides & Drinks",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43538,7 +43616,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Nalli Biryani",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43576,7 +43654,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Sides & Drinks",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43614,7 +43692,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Nalli Biryani",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43652,7 +43730,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Sides & Drinks",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43690,7 +43768,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Nalli Biryani",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43728,7 +43806,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Sides & Drinks",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43766,7 +43844,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Nalli Biryani",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43804,7 +43882,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Sides & Drinks",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43842,7 +43920,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Nalli Biryani",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43880,7 +43958,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Sides & Drinks",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43918,7 +43996,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Nalli Biryani",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43956,7 +44034,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Sides & Drinks",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -43994,7 +44072,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Nalli Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44032,7 +44110,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Ghausia Nalli Biryani",
-    "brandCategory": "Sides & Drinks",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44070,7 +44148,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Nihari Specials",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44108,7 +44186,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Kulcha & Tarka",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44146,7 +44224,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Nihari Specials",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44184,7 +44262,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Kulcha & Tarka",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44222,7 +44300,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Nihari Specials",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44260,7 +44338,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Kulcha & Tarka",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44298,7 +44376,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Nihari Specials",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44336,7 +44414,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Kulcha & Tarka",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44374,7 +44452,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Nihari Specials",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44412,7 +44490,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Kulcha & Tarka",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44450,7 +44528,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Nihari Specials",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44488,7 +44566,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Kulcha & Tarka",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44526,7 +44604,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Nihari Specials",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44564,7 +44642,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Kulcha & Tarka",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44602,7 +44680,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Nihari Specials",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44640,7 +44718,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Kulcha & Tarka",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44678,7 +44756,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Nihari Specials",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44716,7 +44794,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Nihari Specials",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44754,7 +44832,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Kulcha & Tarka",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44792,7 +44870,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Nihari Specials",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44830,7 +44908,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Kulcha & Tarka",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44868,7 +44946,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Nihari Specials",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44906,7 +44984,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Kulcha & Tarka",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44944,7 +45022,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Nihari Specials",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -44982,7 +45060,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Kulcha & Tarka",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45020,7 +45098,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Nihari Specials",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45058,7 +45136,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Kulcha & Tarka",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45096,7 +45174,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Nihari Specials",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45134,7 +45212,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Kulcha & Tarka",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45172,7 +45250,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Nihari Specials",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45210,7 +45288,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Kulcha & Tarka",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45248,7 +45326,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Nihari Specials",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45286,7 +45364,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Kulcha & Tarka",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45324,7 +45402,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Nihari Specials",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45362,7 +45440,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Kulcha & Tarka",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45400,7 +45478,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Nihari Specials",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45438,7 +45516,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Kulcha & Tarka",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45476,7 +45554,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Nihari Specials",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45514,7 +45592,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Spicy Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Waris Nihari (Lahore)",
-    "brandCategory": "Kulcha & Tarka",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45552,7 +45630,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Classic Nihari",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45590,7 +45668,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Maghaz & Nalli",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45628,7 +45706,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Tandoor",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45666,7 +45744,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Classic Nihari",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45704,7 +45782,7 @@ const CHUNK_3: NormalizedFood[] = [
     "name": "Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Maghaz & Nalli",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45745,7 +45823,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Tandoor",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45783,7 +45861,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Classic Nihari",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45821,7 +45899,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Maghaz & Nalli",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45859,7 +45937,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Tandoor",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45897,7 +45975,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Classic Nihari",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45935,7 +46013,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Maghaz & Nalli",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -45973,7 +46051,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Tandoor",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46011,7 +46089,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Classic Nihari",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46049,7 +46127,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Maghaz & Nalli",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46087,7 +46165,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Tandoor",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46125,7 +46203,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Classic Nihari",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46163,7 +46241,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Maghaz & Nalli",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46201,7 +46279,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Classic Nihari",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46239,7 +46317,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Maghaz & Nalli",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46277,7 +46355,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Tandoor",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46315,7 +46393,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Classic Nihari",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46353,7 +46431,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Maghaz & Nalli",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46391,7 +46469,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Tandoor",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46429,7 +46507,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Classic Nihari",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46467,7 +46545,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Maghaz & Nalli",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46505,7 +46583,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Tandoor",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46543,7 +46621,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Classic Nihari",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46581,7 +46659,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Maghaz & Nalli",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46619,7 +46697,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Tandoor",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46657,7 +46735,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Classic Nihari",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46695,7 +46773,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Maghaz & Nalli",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46733,7 +46811,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Tandoor",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46771,7 +46849,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Classic Nihari",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46809,7 +46887,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Maghaz & Nalli",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46847,7 +46925,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Tandoor",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46885,7 +46963,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Classic Nihari",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46923,7 +47001,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Maghaz & Nalli",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46961,7 +47039,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Tandoor",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -46999,7 +47077,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Muhammadi Nahari",
-    "brandCategory": "Classic Nihari",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47037,7 +47115,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Nalli Nihari",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47075,7 +47153,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Special Fry Nihari",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47113,7 +47191,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Sides",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47151,7 +47229,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Nalli Nihari",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47189,7 +47267,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Special Fry Nihari",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47227,7 +47305,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Sides",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47265,7 +47343,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Nalli Nihari",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47303,7 +47381,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Special Fry Nihari",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47341,7 +47419,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Sides",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47379,7 +47457,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Nalli Nihari",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47417,7 +47495,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Special Fry Nihari",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47455,7 +47533,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Sides",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47493,7 +47571,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Nalli Nihari",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47531,7 +47609,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Special Fry Nihari",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47569,7 +47647,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Sides",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47607,7 +47685,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Nalli Nihari",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47645,7 +47723,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Special Fry Nihari",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47683,7 +47761,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Nalli Nihari",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47721,7 +47799,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Special Fry Nihari",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47759,7 +47837,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Sides",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47797,7 +47875,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Nalli Nihari",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47835,7 +47913,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Special Fry Nihari",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47873,7 +47951,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Sides",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47911,7 +47989,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Nalli Nihari",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47949,7 +48027,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Special Fry Nihari",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -47987,7 +48065,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Sides",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48025,7 +48103,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Nalli Nihari",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48063,7 +48141,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Special Fry Nihari",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48101,7 +48179,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Sides",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48139,7 +48217,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Nalli Nihari",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48177,7 +48255,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Special Fry Nihari",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48215,7 +48293,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Sides",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48253,7 +48331,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Nalli Nihari",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48291,7 +48369,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Special Fry Nihari",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48329,7 +48407,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Sides",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48367,7 +48445,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Nalli Nihari",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48405,7 +48483,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Special Fry Nihari",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48443,7 +48521,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Sides",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48481,7 +48559,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Javed Nihari (Dastagir Karachi)",
-    "brandCategory": "Nalli Nihari",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48519,7 +48597,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Double Masala Biryani",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48557,7 +48635,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Raita & Drinks",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48595,7 +48673,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Double Masala Biryani",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48633,7 +48711,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Raita & Drinks",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48671,7 +48749,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Double Masala Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48709,7 +48787,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Raita & Drinks",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48747,7 +48825,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Double Masala Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48785,7 +48863,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Raita & Drinks",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48823,7 +48901,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Double Masala Biryani",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48861,7 +48939,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Raita & Drinks",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48899,7 +48977,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Double Masala Biryani",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48937,7 +49015,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Raita & Drinks",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -48975,7 +49053,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Double Masala Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49013,7 +49091,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Raita & Drinks",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49051,7 +49129,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Double Masala Biryani",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49089,7 +49167,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Raita & Drinks",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49127,7 +49205,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Double Masala Biryani",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49165,7 +49243,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Double Masala Biryani",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49203,7 +49281,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Raita & Drinks",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49241,7 +49319,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Double Masala Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49279,7 +49357,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Raita & Drinks",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49317,7 +49395,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Double Masala Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49355,7 +49433,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Raita & Drinks",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49393,7 +49471,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Double Masala Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49431,7 +49509,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Raita & Drinks",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49469,7 +49547,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Double Masala Biryani",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49507,7 +49585,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Raita & Drinks",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49545,7 +49623,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Double Masala Biryani",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49583,7 +49661,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Raita & Drinks",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49621,7 +49699,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Double Masala Biryani",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49659,7 +49737,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Raita & Drinks",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49697,7 +49775,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Double Masala Biryani",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49735,7 +49813,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Raita & Drinks",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49773,7 +49851,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Double Masala Biryani",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49811,7 +49889,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Raita & Drinks",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49849,7 +49927,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Double Masala Biryani",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49887,7 +49965,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Raita & Drinks",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49925,7 +50003,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Double Masala Biryani",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -49963,7 +50041,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Al-Rehman Biryani (Karachi)",
-    "brandCategory": "Raita & Drinks",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50001,7 +50079,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Siri Paye Bowls",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50039,7 +50117,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Kulcha & Sides",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50077,7 +50155,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Siri Paye Bowls",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50115,7 +50193,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Kulcha & Sides",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50153,7 +50231,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Siri Paye Bowls",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50191,7 +50269,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Kulcha & Sides",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50229,7 +50307,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Siri Paye Bowls",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50267,7 +50345,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Kulcha & Sides",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50305,7 +50383,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Siri Paye Bowls",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50343,7 +50421,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Kulcha & Sides",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50381,7 +50459,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Siri Paye Bowls",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50419,7 +50497,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Kulcha & Sides",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50457,7 +50535,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Siri Paye Bowls",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50495,7 +50573,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Kulcha & Sides",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50533,7 +50611,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Siri Paye Bowls",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50571,7 +50649,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Kulcha & Sides",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50609,7 +50687,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Siri Paye Bowls",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50647,7 +50725,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Siri Paye Bowls",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50685,7 +50763,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Kulcha & Sides",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50723,7 +50801,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Siri Paye Bowls",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50761,7 +50839,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Kulcha & Sides",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50799,7 +50877,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Siri Paye Bowls",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50837,7 +50915,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Kulcha & Sides",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50875,7 +50953,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Siri Paye Bowls",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50913,7 +50991,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Kulcha & Sides",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50951,7 +51029,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Siri Paye Bowls",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -50989,7 +51067,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Kulcha & Sides",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51027,7 +51105,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Siri Paye Bowls",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51065,7 +51143,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Kulcha & Sides",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51103,7 +51181,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Siri Paye Bowls",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51141,7 +51219,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Kulcha & Sides",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51179,7 +51257,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Siri Paye Bowls",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51217,7 +51295,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Kulcha & Sides",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51255,7 +51333,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Siri Paye Bowls",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51293,7 +51371,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Kulcha & Sides",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51331,7 +51409,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Siri Paye Bowls",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51369,7 +51447,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Kulcha & Sides",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51407,7 +51485,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Siri Paye Bowls",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51445,7 +51523,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Phajja Siri Paye (Lahore)",
-    "brandCategory": "Kulcha & Sides",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51483,7 +51561,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Village BBQ",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51521,7 +51599,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Handi Specialties",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51559,7 +51637,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Salads & Continental",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51597,7 +51675,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Village BBQ",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51635,7 +51713,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Handi Specialties",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51673,7 +51751,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Salads & Continental",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51711,7 +51789,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Village BBQ",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51749,7 +51827,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Handi Specialties",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51787,7 +51865,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Salads & Continental",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51825,7 +51903,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Village BBQ",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51863,7 +51941,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Handi Specialties",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51901,7 +51979,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Salads & Continental",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51939,7 +52017,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Village BBQ",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -51977,7 +52055,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Handi Specialties",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52015,7 +52093,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Salads & Continental",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52053,7 +52131,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Village BBQ",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52091,7 +52169,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Handi Specialties",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52129,7 +52207,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Village BBQ",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52167,7 +52245,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Handi Specialties",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52205,7 +52283,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Salads & Continental",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52243,7 +52321,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Village BBQ",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52281,7 +52359,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Handi Specialties",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52319,7 +52397,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Salads & Continental",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52357,7 +52435,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Village BBQ",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52395,7 +52473,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Handi Specialties",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52433,7 +52511,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Salads & Continental",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52471,7 +52549,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Village BBQ",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52509,7 +52587,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Handi Specialties",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52547,7 +52625,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Salads & Continental",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52585,7 +52663,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Village BBQ",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52623,7 +52701,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Handi Specialties",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52661,7 +52739,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Salads & Continental",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52699,7 +52777,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Village BBQ",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52737,7 +52815,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Handi Specialties",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52775,7 +52853,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Salads & Continental",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52813,7 +52891,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Village BBQ",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52851,7 +52929,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Handi Specialties",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52889,7 +52967,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Salads & Continental",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52927,7 +53005,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Village BBQ",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -52965,7 +53043,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Handi Specialties",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53003,7 +53081,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Salt'n Pepper",
-    "brandCategory": "Salads & Continental",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53041,7 +53119,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "Daily Dhaba",
-    "brandCategory": "Dhaba Daal & Karahi",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53079,7 +53157,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Daily Dhaba",
-    "brandCategory": "Paratha & Tandoor",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53117,7 +53195,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Daily Dhaba",
-    "brandCategory": "Chai",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53155,7 +53233,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Daily Dhaba",
-    "brandCategory": "Dhaba Daal & Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53193,7 +53271,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Daily Dhaba",
-    "brandCategory": "Paratha & Tandoor",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53231,7 +53309,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Daily Dhaba",
-    "brandCategory": "Chai",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53269,7 +53347,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Daily Dhaba",
-    "brandCategory": "Dhaba Daal & Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53307,7 +53385,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Daily Dhaba",
-    "brandCategory": "Paratha & Tandoor",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53345,7 +53423,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Daily Dhaba",
-    "brandCategory": "Chai",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53383,7 +53461,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Daily Dhaba",
-    "brandCategory": "Dhaba Daal & Karahi",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53421,7 +53499,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Daily Dhaba",
-    "brandCategory": "Paratha & Tandoor",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53459,7 +53537,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Daily Dhaba",
-    "brandCategory": "Chai",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53497,7 +53575,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Daily Dhaba",
-    "brandCategory": "Dhaba Daal & Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53535,7 +53613,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Daily Dhaba",
-    "brandCategory": "Paratha & Tandoor",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53573,7 +53651,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Daily Dhaba",
-    "brandCategory": "Chai",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53611,7 +53689,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Daily Dhaba",
-    "brandCategory": "Dhaba Daal & Karahi",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53649,7 +53727,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Daily Dhaba",
-    "brandCategory": "Paratha & Tandoor",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53687,7 +53765,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Daily Dhaba",
-    "brandCategory": "Dhaba Daal & Karahi",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53725,7 +53803,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Daily Dhaba",
-    "brandCategory": "Paratha & Tandoor",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53763,7 +53841,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Daily Dhaba",
-    "brandCategory": "Chai",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53801,7 +53879,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Daily Dhaba",
-    "brandCategory": "Dhaba Daal & Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53839,7 +53917,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Daily Dhaba",
-    "brandCategory": "Paratha & Tandoor",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53877,7 +53955,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Mutton Seekh Kabab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "Daily Dhaba",
-    "brandCategory": "Chai",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53915,7 +53993,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Fish Tikka Charbroiled",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "Daily Dhaba",
-    "brandCategory": "Dhaba Daal & Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53953,7 +54031,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی ہانڈی",
     "brand": "Daily Dhaba",
-    "brandCategory": "Paratha & Tandoor",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -53991,7 +54069,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Mutton Karahi Desi Ghee (Half)",
     "nameUr": "مٹن کڑاہی دیسی گھی",
     "brand": "Daily Dhaba",
-    "brandCategory": "Chai",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -54029,7 +54107,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken White Karahi (Half)",
     "nameUr": "چکن وائٹ کڑاہی",
     "brand": "Daily Dhaba",
-    "brandCategory": "Dhaba Daal & Karahi",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -54067,7 +54145,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Dal Mash Fry Makhni",
     "nameUr": "دال ماش فرائی مکھنی",
     "brand": "Daily Dhaba",
-    "brandCategory": "Paratha & Tandoor",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -54105,7 +54183,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Shami Kabab (2 pcs)",
     "nameUr": "چکن شامی کباب",
     "brand": "Daily Dhaba",
-    "brandCategory": "Chai",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -54143,7 +54221,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Puri Paratha Bundu Khan Style",
     "nameUr": "پوری پراٹھا",
     "brand": "Daily Dhaba",
-    "brandCategory": "Dhaba Daal & Karahi",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -54181,7 +54259,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Roghani Naan with Sesame",
     "nameUr": "روغنی نان مع تل",
     "brand": "Daily Dhaba",
-    "brandCategory": "Paratha & Tandoor",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -54219,7 +54297,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Garlic Butter Naan",
     "nameUr": "گارلک بٹر نان",
     "brand": "Daily Dhaba",
-    "brandCategory": "Chai",
+    "brandCategory": "Roti & Bread",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -54257,7 +54335,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Zeera Raita with Mint",
     "nameUr": "زیرہ رائتہ مع پودینہ",
     "brand": "Daily Dhaba",
-    "brandCategory": "Dhaba Daal & Karahi",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -54295,7 +54373,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Special Chicken Biryani with Potato",
     "nameUr": "چکن بریانی مع آلو",
     "brand": "Daily Dhaba",
-    "brandCategory": "Paratha & Tandoor",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -54333,7 +54411,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Beef Biryani Double Masala",
     "nameUr": "بیف بریانی ڈبل مصالحہ",
     "brand": "Daily Dhaba",
-    "brandCategory": "Chai",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -54371,7 +54449,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Mutton Yakhni Pulao Karachi Style",
     "nameUr": "مٹن یخنی پلاؤ",
     "brand": "Daily Dhaba",
-    "brandCategory": "Dhaba Daal & Karahi",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -54409,7 +54487,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Chicken Malai Boti Platter (8 pcs)",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "Daily Dhaba",
-    "brandCategory": "Paratha & Tandoor",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -54447,7 +54525,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Beef Bihari Kabab with Onions",
     "nameUr": "بیف بہاری کباب",
     "brand": "Daily Dhaba",
-    "brandCategory": "Chai",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -54485,7 +54563,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Chicken Reshmi Kabab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "Daily Dhaba",
-    "brandCategory": "Dhaba Daal & Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "BBQ",
@@ -54523,7 +54601,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Karak Chai",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -54561,7 +54639,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Paratha & Eggs",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -54599,7 +54677,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Qahwa & Snacks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -54637,7 +54715,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Karak Chai",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -54675,7 +54753,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Paratha & Eggs",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -54713,7 +54791,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Qahwa & Snacks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -54751,7 +54829,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Karak Chai",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -54789,7 +54867,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Paratha & Eggs",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -54827,7 +54905,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Qahwa & Snacks",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -54865,7 +54943,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Karak Chai",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -54903,7 +54981,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Paratha & Eggs",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -54941,7 +55019,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Qahwa & Snacks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -54979,7 +55057,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Karak Chai",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55017,7 +55095,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Paratha & Eggs",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55055,7 +55133,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Qahwa & Snacks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55093,7 +55171,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Karak Chai",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55131,7 +55209,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Paratha & Eggs",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55169,7 +55247,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Qahwa & Snacks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55207,7 +55285,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Karak Chai",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55245,7 +55323,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Paratha & Eggs",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55283,7 +55361,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Qahwa & Snacks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55321,7 +55399,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Karak Chai",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55359,7 +55437,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Paratha & Eggs",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55397,7 +55475,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Qahwa & Snacks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55435,7 +55513,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Karak Chai",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55473,7 +55551,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Paratha & Eggs",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55511,7 +55589,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Qahwa & Snacks",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55549,7 +55627,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Karak Chai",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55587,7 +55665,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Paratha & Eggs",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55625,7 +55703,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Qahwa & Snacks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55663,7 +55741,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Karak Chai",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55701,7 +55779,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Paratha & Eggs",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55739,7 +55817,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Qahwa & Snacks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55777,7 +55855,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Karak Chai",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55815,7 +55893,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Paratha & Eggs",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55853,7 +55931,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Qahwa & Snacks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55891,7 +55969,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Karak Chai",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55929,7 +56007,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Paratha & Eggs",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -55967,7 +56045,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Qahwa & Snacks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56005,7 +56083,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Quetta Chai Dhaba (Peshawar/Karachi)",
-    "brandCategory": "Karak Chai",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56043,7 +56121,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Chaaye Khana",
-    "brandCategory": "Signature Teas",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56081,7 +56159,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Chaaye Khana",
-    "brandCategory": "Breakfast & Omelettes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56119,7 +56197,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Chaaye Khana",
-    "brandCategory": "Sandwiches & Snacks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56157,7 +56235,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Chaaye Khana",
-    "brandCategory": "Bakery",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56195,7 +56273,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Chaaye Khana",
-    "brandCategory": "Signature Teas",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56233,7 +56311,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Chaaye Khana",
-    "brandCategory": "Breakfast & Omelettes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56271,7 +56349,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Chaaye Khana",
-    "brandCategory": "Sandwiches & Snacks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56309,7 +56387,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Chaaye Khana",
-    "brandCategory": "Bakery",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56347,7 +56425,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Chaaye Khana",
-    "brandCategory": "Signature Teas",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56385,7 +56463,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Chaaye Khana",
-    "brandCategory": "Breakfast & Omelettes",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56423,7 +56501,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Chaaye Khana",
-    "brandCategory": "Sandwiches & Snacks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56461,7 +56539,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Chaaye Khana",
-    "brandCategory": "Bakery",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56499,7 +56577,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Chaaye Khana",
-    "brandCategory": "Signature Teas",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56537,7 +56615,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Chaaye Khana",
-    "brandCategory": "Breakfast & Omelettes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56575,7 +56653,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Chaaye Khana",
-    "brandCategory": "Sandwiches & Snacks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56613,7 +56691,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Chaaye Khana",
-    "brandCategory": "Bakery",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56651,7 +56729,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Chaaye Khana",
-    "brandCategory": "Signature Teas",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56689,7 +56767,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Chaaye Khana",
-    "brandCategory": "Breakfast & Omelettes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56727,7 +56805,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Chaaye Khana",
-    "brandCategory": "Sandwiches & Snacks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56765,7 +56843,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Chaaye Khana",
-    "brandCategory": "Bakery",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56803,7 +56881,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Chaaye Khana",
-    "brandCategory": "Signature Teas",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56841,7 +56919,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Chaaye Khana",
-    "brandCategory": "Breakfast & Omelettes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56879,7 +56957,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Chaaye Khana",
-    "brandCategory": "Sandwiches & Snacks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56917,7 +56995,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Chaaye Khana",
-    "brandCategory": "Bakery",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56955,7 +57033,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Chaaye Khana",
-    "brandCategory": "Signature Teas",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -56993,7 +57071,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Chaaye Khana",
-    "brandCategory": "Breakfast & Omelettes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57031,7 +57109,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Chaaye Khana",
-    "brandCategory": "Sandwiches & Snacks",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57069,7 +57147,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Chaaye Khana",
-    "brandCategory": "Bakery",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57107,7 +57185,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Chaaye Khana",
-    "brandCategory": "Signature Teas",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57145,7 +57223,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Chaaye Khana",
-    "brandCategory": "Breakfast & Omelettes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57183,7 +57261,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Chaaye Khana",
-    "brandCategory": "Sandwiches & Snacks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57221,7 +57299,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Chaaye Khana",
-    "brandCategory": "Bakery",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57259,7 +57337,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Chaaye Khana",
-    "brandCategory": "Signature Teas",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57297,7 +57375,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Chaaye Khana",
-    "brandCategory": "Breakfast & Omelettes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57335,7 +57413,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Chaaye Khana",
-    "brandCategory": "Sandwiches & Snacks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57373,7 +57451,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Chaaye Khana",
-    "brandCategory": "Bakery",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57411,7 +57489,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Chaaye Khana",
-    "brandCategory": "Signature Teas",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57449,7 +57527,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Chaaye Khana",
-    "brandCategory": "Breakfast & Omelettes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57487,7 +57565,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Chaaye Khana",
-    "brandCategory": "Sandwiches & Snacks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57525,7 +57603,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Chaaye Khana",
-    "brandCategory": "Bakery",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57563,7 +57641,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Chaaye Khana",
-    "brandCategory": "Signature Teas",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57601,7 +57679,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Chaaye Khana",
-    "brandCategory": "Breakfast & Omelettes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57639,7 +57717,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Hot Coffees",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57677,7 +57755,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Iced Chillers",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57715,7 +57793,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Pastries & Cakes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57753,7 +57831,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Hot Coffees",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57791,7 +57869,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Iced Chillers",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57829,7 +57907,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Pastries & Cakes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57867,7 +57945,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Hot Coffees",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57905,7 +57983,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Iced Chillers",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57943,7 +58021,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Pastries & Cakes",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -57981,7 +58059,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Hot Coffees",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58019,7 +58097,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Iced Chillers",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58057,7 +58135,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Pastries & Cakes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58095,7 +58173,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Hot Coffees",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58133,7 +58211,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Iced Chillers",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58171,7 +58249,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Pastries & Cakes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58209,7 +58287,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Hot Coffees",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58247,7 +58325,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Iced Chillers",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58285,7 +58363,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Pastries & Cakes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58323,7 +58401,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Hot Coffees",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58361,7 +58439,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Iced Chillers",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58399,7 +58477,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Pastries & Cakes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58437,7 +58515,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Hot Coffees",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58475,7 +58553,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Iced Chillers",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58513,7 +58591,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Pastries & Cakes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58551,7 +58629,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Hot Coffees",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58589,7 +58667,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Iced Chillers",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58627,7 +58705,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Pastries & Cakes",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58665,7 +58743,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Hot Coffees",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58703,7 +58781,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Iced Chillers",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58741,7 +58819,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Pastries & Cakes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58779,7 +58857,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Hot Coffees",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58817,7 +58895,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Iced Chillers",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58855,7 +58933,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Pastries & Cakes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58893,7 +58971,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Hot Coffees",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58931,7 +59009,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Iced Chillers",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -58969,7 +59047,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Pastries & Cakes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59007,7 +59085,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Hot Coffees",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59045,7 +59123,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Iced Chillers",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59083,7 +59161,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Pastries & Cakes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59121,7 +59199,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Gloria Jean's Coffees Pakistan",
-    "brandCategory": "Hot Coffees",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59159,7 +59237,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Espresso & Lattes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59197,7 +59275,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Frappes & Coolers",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59235,7 +59313,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Bakery Bites",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59273,7 +59351,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Espresso & Lattes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59311,7 +59389,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Frappes & Coolers",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59349,7 +59427,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Bakery Bites",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59387,7 +59465,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Espresso & Lattes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59425,7 +59503,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Frappes & Coolers",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59463,7 +59541,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Bakery Bites",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59501,7 +59579,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Espresso & Lattes",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59539,7 +59617,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Frappes & Coolers",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59577,7 +59655,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Bakery Bites",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59615,7 +59693,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Espresso & Lattes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59653,7 +59731,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Frappes & Coolers",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59691,7 +59769,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Bakery Bites",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59729,7 +59807,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Espresso & Lattes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59767,7 +59845,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Frappes & Coolers",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59805,7 +59883,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Bakery Bites",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59843,7 +59921,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Espresso & Lattes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59881,7 +59959,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Frappes & Coolers",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59919,7 +59997,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Bakery Bites",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59957,7 +60035,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Espresso & Lattes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -59995,7 +60073,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Frappes & Coolers",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60033,7 +60111,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Bakery Bites",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60071,7 +60149,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Espresso & Lattes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60109,7 +60187,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Frappes & Coolers",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60147,7 +60225,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Bakery Bites",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60185,7 +60263,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Espresso & Lattes",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60223,7 +60301,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Frappes & Coolers",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60261,7 +60339,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Bakery Bites",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60299,7 +60377,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Espresso & Lattes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60337,7 +60415,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Frappes & Coolers",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60375,7 +60453,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Bakery Bites",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60413,7 +60491,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Espresso & Lattes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60451,7 +60529,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Frappes & Coolers",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60489,7 +60567,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Special Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Bakery Bites",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60527,7 +60605,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Espresso & Lattes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60565,7 +60643,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Frappes & Coolers",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60603,7 +60681,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Bakery Bites",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60641,7 +60719,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Spicy Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Second Cup Coffee Co.",
-    "brandCategory": "Espresso & Lattes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60679,7 +60757,7 @@ const CHUNK_4: NormalizedFood[] = [
     "name": "Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Donuts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60720,7 +60798,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Cold Coffees & Lattes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60758,7 +60836,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Sandwiches",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60796,7 +60874,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Donuts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60834,7 +60912,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Cold Coffees & Lattes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60872,7 +60950,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Sandwiches",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60910,7 +60988,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Donuts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60948,7 +61026,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Cold Coffees & Lattes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -60986,7 +61064,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Sandwiches",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61024,7 +61102,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Donuts",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61062,7 +61140,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Cold Coffees & Lattes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61100,7 +61178,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Sandwiches",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61138,7 +61216,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Donuts",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61176,7 +61254,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Cold Coffees & Lattes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61214,7 +61292,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Sandwiches",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61252,7 +61330,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Donuts",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61290,7 +61368,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Cold Coffees & Lattes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61328,7 +61406,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Sandwiches",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61366,7 +61444,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Donuts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61404,7 +61482,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Cold Coffees & Lattes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61442,7 +61520,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Sandwiches",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61480,7 +61558,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Donuts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61518,7 +61596,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Cold Coffees & Lattes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61556,7 +61634,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Sandwiches",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61594,7 +61672,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Donuts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61632,7 +61710,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Cold Coffees & Lattes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61670,7 +61748,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Sandwiches",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61708,7 +61786,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Donuts",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61746,7 +61824,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Cold Coffees & Lattes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61784,7 +61862,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Sandwiches",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61822,7 +61900,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Donuts",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61860,7 +61938,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Cold Coffees & Lattes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61898,7 +61976,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Sandwiches",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61936,7 +62014,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Donuts",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -61974,7 +62052,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Cold Coffees & Lattes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62012,7 +62090,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Sandwiches",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62050,7 +62128,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Donuts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62088,7 +62166,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Cold Coffees & Lattes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62126,7 +62204,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Sandwiches",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62164,7 +62242,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Dunkin' Pakistan",
-    "brandCategory": "Donuts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62202,7 +62280,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Cinnabon Rolls",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62240,7 +62318,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Chillattas & Drinks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62278,7 +62356,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Cinnabon Rolls",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62316,7 +62394,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Chillattas & Drinks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62354,7 +62432,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Cinnabon Rolls",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62392,7 +62470,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Chillattas & Drinks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62430,7 +62508,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Cinnabon Rolls",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62468,7 +62546,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Chillattas & Drinks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62506,7 +62584,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Cinnabon Rolls",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62544,7 +62622,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Chillattas & Drinks",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62582,7 +62660,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Cinnabon Rolls",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62620,7 +62698,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Chillattas & Drinks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62658,7 +62736,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Cinnabon Rolls",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62696,7 +62774,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Chillattas & Drinks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62734,7 +62812,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Cinnabon Rolls",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62772,7 +62850,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Chillattas & Drinks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62810,7 +62888,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Cinnabon Rolls",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62848,7 +62926,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Chillattas & Drinks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62886,7 +62964,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Cinnabon Rolls",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62924,7 +63002,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Chillattas & Drinks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -62962,7 +63040,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Cinnabon Rolls",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63000,7 +63078,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Chillattas & Drinks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63038,7 +63116,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Cinnabon Rolls",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63076,7 +63154,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Chillattas & Drinks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63114,7 +63192,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Cinnabon Rolls",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63152,7 +63230,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Chillattas & Drinks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63190,7 +63268,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Cinnabon Rolls",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63228,7 +63306,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Chillattas & Drinks",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63266,7 +63344,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Cinnabon Rolls",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63304,7 +63382,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Chillattas & Drinks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63342,7 +63420,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Cinnabon Rolls",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63380,7 +63458,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Chillattas & Drinks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63418,7 +63496,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Cinnabon Rolls",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63456,7 +63534,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Chillattas & Drinks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63494,7 +63572,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Cinnabon Rolls",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63532,7 +63610,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Chillattas & Drinks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63570,7 +63648,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Cinnabon Rolls",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63608,7 +63686,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Chillattas & Drinks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63646,7 +63724,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Cinnabon Rolls",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63684,7 +63762,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Cinnabon Pakistan",
-    "brandCategory": "Chillattas & Drinks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63722,7 +63800,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Dessert Slices",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63760,7 +63838,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Cupcakes & Tarts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63798,7 +63876,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Sundaes & Mousse",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63836,7 +63914,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Dessert Slices",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63874,7 +63952,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Cupcakes & Tarts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63912,7 +63990,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Sundaes & Mousse",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63950,7 +64028,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Dessert Slices",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -63988,7 +64066,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Cupcakes & Tarts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64026,7 +64104,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Sundaes & Mousse",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64064,7 +64142,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Dessert Slices",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64102,7 +64180,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Cupcakes & Tarts",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64140,7 +64218,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Sundaes & Mousse",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64178,7 +64256,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Dessert Slices",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64216,7 +64294,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Cupcakes & Tarts",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64254,7 +64332,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Sundaes & Mousse",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64292,7 +64370,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Dessert Slices",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64330,7 +64408,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Cupcakes & Tarts",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64368,7 +64446,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Sundaes & Mousse",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64406,7 +64484,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Dessert Slices",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64444,7 +64522,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Cupcakes & Tarts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64482,7 +64560,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Sundaes & Mousse",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64520,7 +64598,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Dessert Slices",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64558,7 +64636,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Cupcakes & Tarts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64596,7 +64674,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Sundaes & Mousse",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64634,7 +64712,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Dessert Slices",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64672,7 +64750,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Cupcakes & Tarts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64710,7 +64788,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Sundaes & Mousse",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64748,7 +64826,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Dessert Slices",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64786,7 +64864,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Cupcakes & Tarts",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64824,7 +64902,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Sundaes & Mousse",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64862,7 +64940,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Dessert Slices",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64900,7 +64978,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Cupcakes & Tarts",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64938,7 +65016,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Sundaes & Mousse",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -64976,7 +65054,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Dessert Slices",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65014,7 +65092,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Cupcakes & Tarts",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65052,7 +65130,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Sundaes & Mousse",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65090,7 +65168,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Dessert Slices",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65128,7 +65206,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Cupcakes & Tarts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65166,7 +65244,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Sundaes & Mousse",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65204,7 +65282,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Layers Bakeshop",
-    "brandCategory": "Dessert Slices",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65242,7 +65320,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Famous Breads & Rolls",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65280,7 +65358,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Patties & Snacks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65318,7 +65396,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Cakes & Biscuits",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65356,7 +65434,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Famous Breads & Rolls",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65394,7 +65472,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Patties & Snacks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65432,7 +65510,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Cakes & Biscuits",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65470,7 +65548,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Famous Breads & Rolls",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65508,7 +65586,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Patties & Snacks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65546,7 +65624,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Cakes & Biscuits",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65584,7 +65662,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Famous Breads & Rolls",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65622,7 +65700,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Patties & Snacks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65660,7 +65738,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Cakes & Biscuits",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65698,7 +65776,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Famous Breads & Rolls",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65736,7 +65814,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Patties & Snacks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65774,7 +65852,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Cakes & Biscuits",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65812,7 +65890,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Famous Breads & Rolls",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65850,7 +65928,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Patties & Snacks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65888,7 +65966,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Cakes & Biscuits",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65926,7 +66004,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Famous Breads & Rolls",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -65964,7 +66042,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Patties & Snacks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66002,7 +66080,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Cakes & Biscuits",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66040,7 +66118,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Famous Breads & Rolls",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66078,7 +66156,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Patties & Snacks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66116,7 +66194,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Cakes & Biscuits",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66154,7 +66232,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Famous Breads & Rolls",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66192,7 +66270,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Patties & Snacks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66230,7 +66308,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Cakes & Biscuits",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66268,7 +66346,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Famous Breads & Rolls",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66306,7 +66384,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Patties & Snacks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66344,7 +66422,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Cakes & Biscuits",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66382,7 +66460,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Famous Breads & Rolls",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66420,7 +66498,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Patties & Snacks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66458,7 +66536,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Cakes & Biscuits",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66496,7 +66574,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Famous Breads & Rolls",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66534,7 +66612,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Patties & Snacks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66572,7 +66650,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Cakes & Biscuits",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66610,7 +66688,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Famous Breads & Rolls",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66648,7 +66726,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Patties & Snacks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66686,7 +66764,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Cakes & Biscuits",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66724,7 +66802,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Famous Breads & Rolls",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66762,7 +66840,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Patties & Snacks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66800,7 +66878,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Cakes & Biscuits",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66838,7 +66916,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Famous Breads & Rolls",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66876,7 +66954,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Patties & Snacks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66914,7 +66992,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Tehzeeb Bakers",
-    "brandCategory": "Cakes & Biscuits",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66952,7 +67030,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Bakery Delights",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -66990,7 +67068,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Deli Sandwiches",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67028,7 +67106,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Cakes & Pastries",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67066,7 +67144,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Bakery Delights",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67104,7 +67182,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Deli Sandwiches",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67142,7 +67220,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Cakes & Pastries",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67180,7 +67258,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Bakery Delights",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67218,7 +67296,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Deli Sandwiches",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67256,7 +67334,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Cakes & Pastries",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67294,7 +67372,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Bakery Delights",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67332,7 +67410,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Deli Sandwiches",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67370,7 +67448,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Cakes & Pastries",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67408,7 +67486,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Bakery Delights",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67446,7 +67524,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Deli Sandwiches",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67484,7 +67562,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Cakes & Pastries",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67522,7 +67600,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Bakery Delights",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67560,7 +67638,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Deli Sandwiches",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67598,7 +67676,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Cakes & Pastries",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67636,7 +67714,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Bakery Delights",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67674,7 +67752,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Deli Sandwiches",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67712,7 +67790,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Cakes & Pastries",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67750,7 +67828,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Bakery Delights",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67788,7 +67866,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Deli Sandwiches",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67826,7 +67904,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Cakes & Pastries",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67864,7 +67942,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Bakery Delights",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67902,7 +67980,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Deli Sandwiches",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67940,7 +68018,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Cakes & Pastries",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -67978,7 +68056,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Bakery Delights",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68016,7 +68094,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Deli Sandwiches",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68054,7 +68132,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Cakes & Pastries",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68092,7 +68170,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Bakery Delights",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68130,7 +68208,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Deli Sandwiches",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68168,7 +68246,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Cakes & Pastries",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68206,7 +68284,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Bakery Delights",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68244,7 +68322,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Deli Sandwiches",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68282,7 +68360,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Cakes & Pastries",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68320,7 +68398,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Bakery Delights",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68358,7 +68436,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Deli Sandwiches",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68396,7 +68474,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Cakes & Pastries",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68434,7 +68512,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Bakery Delights",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68472,7 +68550,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Deli Sandwiches",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68510,7 +68588,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Jalal Sons Bakery & Deli",
-    "brandCategory": "Cakes & Pastries",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68548,7 +68626,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Espresso Cafe",
-    "brandCategory": "Brews & Lattes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68586,7 +68664,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Espresso Cafe",
-    "brandCategory": "Paninis & Wraps",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68624,7 +68702,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Espresso Cafe",
-    "brandCategory": "Cheesecakes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68662,7 +68740,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Espresso Cafe",
-    "brandCategory": "Brews & Lattes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68700,7 +68778,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Espresso Cafe",
-    "brandCategory": "Paninis & Wraps",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68738,7 +68816,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Espresso Cafe",
-    "brandCategory": "Cheesecakes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68776,7 +68854,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Espresso Cafe",
-    "brandCategory": "Brews & Lattes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68814,7 +68892,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Espresso Cafe",
-    "brandCategory": "Paninis & Wraps",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68852,7 +68930,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Espresso Cafe",
-    "brandCategory": "Cheesecakes",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68890,7 +68968,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Espresso Cafe",
-    "brandCategory": "Brews & Lattes",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68928,7 +69006,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Espresso Cafe",
-    "brandCategory": "Paninis & Wraps",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -68966,7 +69044,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Espresso Cafe",
-    "brandCategory": "Cheesecakes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69004,7 +69082,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Espresso Cafe",
-    "brandCategory": "Brews & Lattes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69042,7 +69120,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Espresso Cafe",
-    "brandCategory": "Paninis & Wraps",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69080,7 +69158,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Espresso Cafe",
-    "brandCategory": "Cheesecakes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69118,7 +69196,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Espresso Cafe",
-    "brandCategory": "Brews & Lattes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69156,7 +69234,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Espresso Cafe",
-    "brandCategory": "Paninis & Wraps",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69194,7 +69272,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Espresso Cafe",
-    "brandCategory": "Cheesecakes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69232,7 +69310,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Espresso Cafe",
-    "brandCategory": "Brews & Lattes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69270,7 +69348,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Espresso Cafe",
-    "brandCategory": "Paninis & Wraps",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69308,7 +69386,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Espresso Cafe",
-    "brandCategory": "Cheesecakes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69346,7 +69424,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Espresso Cafe",
-    "brandCategory": "Brews & Lattes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69384,7 +69462,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Espresso Cafe",
-    "brandCategory": "Paninis & Wraps",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69422,7 +69500,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Espresso Cafe",
-    "brandCategory": "Cheesecakes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69460,7 +69538,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Espresso Cafe",
-    "brandCategory": "Brews & Lattes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69498,7 +69576,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Espresso Cafe",
-    "brandCategory": "Paninis & Wraps",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69536,7 +69614,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Espresso Cafe",
-    "brandCategory": "Cheesecakes",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69574,7 +69652,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Espresso Cafe",
-    "brandCategory": "Brews & Lattes",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69612,7 +69690,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Espresso Cafe",
-    "brandCategory": "Paninis & Wraps",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69650,7 +69728,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Espresso Cafe",
-    "brandCategory": "Cheesecakes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69688,7 +69766,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Espresso Cafe",
-    "brandCategory": "Brews & Lattes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69726,7 +69804,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Espresso Cafe",
-    "brandCategory": "Paninis & Wraps",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69764,7 +69842,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Espresso Cafe",
-    "brandCategory": "Cheesecakes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69802,7 +69880,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Espresso Cafe",
-    "brandCategory": "Brews & Lattes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69840,7 +69918,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Espresso Cafe",
-    "brandCategory": "Paninis & Wraps",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69878,7 +69956,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Espresso Cafe",
-    "brandCategory": "Cheesecakes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69916,7 +69994,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Espresso Cafe",
-    "brandCategory": "Brews & Lattes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69954,7 +70032,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Espresso Cafe",
-    "brandCategory": "Paninis & Wraps",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -69992,7 +70070,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Espresso Cafe",
-    "brandCategory": "Cheesecakes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70030,7 +70108,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Espresso Cafe",
-    "brandCategory": "Brews & Lattes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70068,7 +70146,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Chocolate Desserts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70106,7 +70184,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Hot & Cold Drinks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70144,7 +70222,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Savory Bites",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70182,7 +70260,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Chocolate Desserts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70220,7 +70298,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Hot & Cold Drinks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70258,7 +70336,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Savory Bites",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70296,7 +70374,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Chocolate Desserts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70334,7 +70412,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Hot & Cold Drinks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70410,7 +70488,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Chocolate Desserts",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70448,7 +70526,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Hot & Cold Drinks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70486,7 +70564,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Savory Bites",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70524,7 +70602,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Chocolate Desserts",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70562,7 +70640,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Hot & Cold Drinks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70600,7 +70678,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Savory Bites",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70638,7 +70716,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Chocolate Desserts",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70676,7 +70754,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Hot & Cold Drinks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70714,7 +70792,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Savory Bites",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70752,7 +70830,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Chocolate Desserts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70790,7 +70868,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Hot & Cold Drinks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70828,7 +70906,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Savory Bites",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70866,7 +70944,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Chocolate Desserts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70904,7 +70982,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Hot & Cold Drinks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70942,7 +71020,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Savory Bites",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -70980,7 +71058,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Chocolate Desserts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71018,7 +71096,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Hot & Cold Drinks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71094,7 +71172,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Chocolate Desserts",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71132,7 +71210,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Hot & Cold Drinks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71170,7 +71248,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Savory Bites",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71208,7 +71286,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Chocolate Desserts",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71246,7 +71324,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Hot & Cold Drinks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71284,7 +71362,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Savory Bites",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71322,7 +71400,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Chocolate Desserts",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71360,7 +71438,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Hot & Cold Drinks",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71398,7 +71476,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Savory Bites",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71436,7 +71514,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Chocolate Desserts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71474,7 +71552,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Hot & Cold Drinks",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71512,7 +71590,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Savory Bites",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71550,7 +71628,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Butler's Chocolate Cafe",
-    "brandCategory": "Chocolate Desserts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71588,7 +71666,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Burning Brownie",
-    "brandCategory": "Artisan Brownies",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71626,7 +71704,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Burning Brownie",
-    "brandCategory": "Cheesecakes & Tiramisu",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71664,7 +71742,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Burning Brownie",
-    "brandCategory": "Coffee & Shakes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71702,7 +71780,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Burning Brownie",
-    "brandCategory": "Artisan Brownies",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71740,7 +71818,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Burning Brownie",
-    "brandCategory": "Cheesecakes & Tiramisu",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71778,7 +71856,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Burning Brownie",
-    "brandCategory": "Coffee & Shakes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71816,7 +71894,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Burning Brownie",
-    "brandCategory": "Artisan Brownies",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71854,7 +71932,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Burning Brownie",
-    "brandCategory": "Cheesecakes & Tiramisu",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71892,7 +71970,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Burning Brownie",
-    "brandCategory": "Coffee & Shakes",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71930,7 +72008,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Burning Brownie",
-    "brandCategory": "Artisan Brownies",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -71968,7 +72046,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Burning Brownie",
-    "brandCategory": "Cheesecakes & Tiramisu",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72006,7 +72084,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Burning Brownie",
-    "brandCategory": "Coffee & Shakes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72044,7 +72122,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Burning Brownie",
-    "brandCategory": "Artisan Brownies",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72082,7 +72160,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Burning Brownie",
-    "brandCategory": "Cheesecakes & Tiramisu",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72120,7 +72198,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Burning Brownie",
-    "brandCategory": "Coffee & Shakes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72158,7 +72236,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Burning Brownie",
-    "brandCategory": "Artisan Brownies",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72196,7 +72274,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Burning Brownie",
-    "brandCategory": "Cheesecakes & Tiramisu",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72234,7 +72312,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Burning Brownie",
-    "brandCategory": "Coffee & Shakes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72272,7 +72350,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Burning Brownie",
-    "brandCategory": "Artisan Brownies",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72310,7 +72388,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Burning Brownie",
-    "brandCategory": "Cheesecakes & Tiramisu",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72348,7 +72426,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Burning Brownie",
-    "brandCategory": "Coffee & Shakes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72386,7 +72464,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Burning Brownie",
-    "brandCategory": "Artisan Brownies",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72424,7 +72502,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Spanish Iced Latte with Condensed Milk",
     "nameUr": "اسپینش آئسڈ لاٹے",
     "brand": "Burning Brownie",
-    "brandCategory": "Cheesecakes & Tiramisu",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72462,7 +72540,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Caramel Macchiato Double Shot",
     "nameUr": "کیریمل مکیاتو کافی",
     "brand": "Burning Brownie",
-    "brandCategory": "Coffee & Shakes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72500,7 +72578,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Cappuccino with Velvety Foam",
     "nameUr": "کیپوچینو کافی",
     "brand": "Burning Brownie",
-    "brandCategory": "Artisan Brownies",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72538,7 +72616,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Cold Coffee with Ice Cream",
     "nameUr": "کولڈ کافی مع آئس کریم",
     "brand": "Burning Brownie",
-    "brandCategory": "Cheesecakes & Tiramisu",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72576,7 +72654,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Tehzeeb Famous Smoked Chicken Bread",
     "nameUr": "تہذیب اسموکڈ چکن بریڈ",
     "brand": "Burning Brownie",
-    "brandCategory": "Coffee & Shakes",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72614,7 +72692,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Chicken Stuffed Puff Pastry Patty",
     "nameUr": "چکن پیٹیز پف پیسٹری",
     "brand": "Burning Brownie",
-    "brandCategory": "Artisan Brownies",
+    "brandCategory": "Savory Bites",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72652,7 +72730,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Lotus Biscoff Cream Cake Slice",
     "nameUr": "لوٹس بسکاف کیک سلائس",
     "brand": "Burning Brownie",
-    "brandCategory": "Cheesecakes & Tiramisu",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72690,7 +72768,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Belgian Chocolate Fudge Cake Slice",
     "nameUr": "بیلجین چاکلیٹ فج کیک",
     "brand": "Burning Brownie",
-    "brandCategory": "Coffee & Shakes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72728,7 +72806,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Glazed Ring Donut",
     "nameUr": "گلیزڈ رنگ ڈونٹ",
     "brand": "Burning Brownie",
-    "brandCategory": "Artisan Brownies",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72766,7 +72844,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Boston Kreme Filled Donut",
     "nameUr": "بوسٹن کریم فیلڈ ڈونٹ",
     "brand": "Burning Brownie",
-    "brandCategory": "Cheesecakes & Tiramisu",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72804,7 +72882,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Classic Cinnabon Cinnamon Roll",
     "nameUr": "سنابون سنامن رول",
     "brand": "Burning Brownie",
-    "brandCategory": "Coffee & Shakes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72842,7 +72920,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Nutella Fudge Brownie Slice",
     "nameUr": "نوٹیلا فج براؤنی",
     "brand": "Burning Brownie",
-    "brandCategory": "Artisan Brownies",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72880,7 +72958,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Gulab Jamun in Desi Ghee (2 pcs)",
     "nameUr": "دیسی گھی گلاب جامن",
     "brand": "Burning Brownie",
-    "brandCategory": "Cheesecakes & Tiramisu",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72918,7 +72996,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Special Motichoor Ladoo Pure Ghee (2 pcs)",
     "nameUr": "موتی چور لڈو",
     "brand": "Burning Brownie",
-    "brandCategory": "Coffee & Shakes",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72956,7 +73034,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Karak Doodh Patti Chai (Full Cream)",
     "nameUr": "کڑک دودھ پتی چائے",
     "brand": "Burning Brownie",
-    "brandCategory": "Artisan Brownies",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -72994,7 +73072,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Zafrani Matka Chai with Saffron",
     "nameUr": "زعفرانی مٹکا چائے",
     "brand": "Burning Brownie",
-    "brandCategory": "Cheesecakes & Tiramisu",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -73032,7 +73110,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Kashmiri Pink Tea with Almonds & Pistachios",
     "nameUr": "کشمیری پنک چائے مع پستہ بادام",
     "brand": "Burning Brownie",
-    "brandCategory": "Coffee & Shakes",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -73070,7 +73148,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Cardamom Special Qahwa (Green Tea)",
     "nameUr": "الائچی قہوہ",
     "brand": "Burning Brownie",
-    "brandCategory": "Artisan Brownies",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Chai & Cafes",
@@ -73298,7 +73376,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Chicken Manchurian with Red Gravy",
     "nameUr": "چکن منچورین مع گریوی",
     "brand": "Ginsoy Extreme Chinese",
-    "brandCategory": "Chicken Manchurian & Shashlik",
+    "brandCategory": "Chicken & Beef Mains",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -73336,7 +73414,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Chicken Shashlik with Sizzling Vegetables",
     "nameUr": "چکن شاشلک مع سبزیاں",
     "brand": "Ginsoy Extreme Chinese",
-    "brandCategory": "Chicken Manchurian & Shashlik",
+    "brandCategory": "Chicken & Beef Mains",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -73374,7 +73452,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Kung Pao Chicken with Roasted Peanuts",
     "nameUr": "کنگ پاؤ چکن",
     "brand": "Ginsoy Extreme Chinese",
-    "brandCategory": "Chicken Manchurian & Shashlik",
+    "brandCategory": "Chicken & Beef Mains",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -73412,7 +73490,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Sweet & Sour Chicken with Pineapple",
     "nameUr": "سوئٹ اینڈ سور چکن",
     "brand": "Ginsoy Extreme Chinese",
-    "brandCategory": "Chicken Manchurian & Shashlik",
+    "brandCategory": "Chicken & Beef Mains",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -73450,7 +73528,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Chicken with Cashew Nuts in Brown Sauce",
     "nameUr": "چکن مع کاجو",
     "brand": "Ginsoy Extreme Chinese",
-    "brandCategory": "Chicken Manchurian & Shashlik",
+    "brandCategory": "Chicken & Beef Mains",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -73488,7 +73566,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Szechuan Chicken Spicy Gravy",
     "nameUr": "سیچوان چکن اسپائسی",
     "brand": "Ginsoy Extreme Chinese",
-    "brandCategory": "Chicken Manchurian & Shashlik",
+    "brandCategory": "Chicken & Beef Mains",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -73526,7 +73604,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Crispy Honey Lemon Chicken",
     "nameUr": "کرسپی ہنی لیمن چکن",
     "brand": "Ginsoy Extreme Chinese",
-    "brandCategory": "Chicken Manchurian & Shashlik",
+    "brandCategory": "Chicken & Beef Mains",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -73564,7 +73642,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Crispy Beef Chilli Dry",
     "nameUr": "بیف چلی ڈرائی",
     "brand": "Ginsoy Extreme Chinese",
-    "brandCategory": "Beef & Seafood",
+    "brandCategory": "Chicken & Beef Mains",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -73602,7 +73680,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Mongolian Beef with Spring Onions",
     "nameUr": "منگولین بیف",
     "brand": "Ginsoy Extreme Chinese",
-    "brandCategory": "Beef & Seafood",
+    "brandCategory": "Chicken & Beef Mains",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -73640,7 +73718,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Fish in Hot Garlic Sauce",
     "nameUr": "فش ان ہاٹ گارلک ساس",
     "brand": "Ginsoy Extreme Chinese",
-    "brandCategory": "Beef & Seafood",
+    "brandCategory": "Seafood",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -73678,7 +73756,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Prawns with Chilli & Basil",
     "nameUr": "پرانز مع چلی بیزل",
     "brand": "Ginsoy Extreme Chinese",
-    "brandCategory": "Beef & Seafood",
+    "brandCategory": "Seafood",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -73716,7 +73794,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Golden Prawn Tempura with Sweet Dip",
     "nameUr": "گولڈن پران ٹیمپورا",
     "brand": "Ginsoy Extreme Chinese",
-    "brandCategory": "Beef & Seafood",
+    "brandCategory": "Appetizers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -73754,7 +73832,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Crispy Fried Calamari Squid",
     "nameUr": "کرسپی فرائیڈ اسکویڈ",
     "brand": "Ginsoy Extreme Chinese",
-    "brandCategory": "Beef & Seafood",
+    "brandCategory": "Appetizers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -73792,7 +73870,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Egg Fried Rice Classic",
     "nameUr": "ایگ فرائیڈ رائس",
     "brand": "Ginsoy Extreme Chinese",
-    "brandCategory": "Fried Rice & Chowmein",
+    "brandCategory": "Rice & Noodles",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -73830,7 +73908,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Chicken Fried Rice with Spring Onions",
     "nameUr": "چکن فرائیڈ رائس",
     "brand": "Ginsoy Extreme Chinese",
-    "brandCategory": "Fried Rice & Chowmein",
+    "brandCategory": "Rice & Noodles",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -73868,7 +73946,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Masaledar Singaporean Rice Platter",
     "nameUr": "سنگاپورین رائس پلیٹر",
     "brand": "Ginsoy Extreme Chinese",
-    "brandCategory": "Fried Rice & Chowmein",
+    "brandCategory": "Rice & Noodles",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -73906,7 +73984,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Chicken Chowmein with Crisp Vegetables",
     "nameUr": "چکن چاؤمین مع سبزیاں",
     "brand": "Ginsoy Extreme Chinese",
-    "brandCategory": "Fried Rice & Chowmein",
+    "brandCategory": "Rice & Noodles",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -73944,7 +74022,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Beef Chilli Chowmein Noodles",
     "nameUr": "بیف چلی چاؤمین",
     "brand": "Ginsoy Extreme Chinese",
-    "brandCategory": "Fried Rice & Chowmein",
+    "brandCategory": "Rice & Noodles",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -73982,7 +74060,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Vegetable Hakka Noodles",
     "nameUr": "ویجیٹیبل ہکا نوڈلز",
     "brand": "Ginsoy Extreme Chinese",
-    "brandCategory": "Fried Rice & Chowmein",
+    "brandCategory": "Rice & Noodles",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -74020,7 +74098,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Prawn Fried Rice Deluxe",
     "nameUr": "پران فرائیڈ رائس",
     "brand": "Ginsoy Extreme Chinese",
-    "brandCategory": "Fried Rice & Chowmein",
+    "brandCategory": "Rice & Noodles",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -74286,7 +74364,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Cantonese Garlic Chowmein",
     "nameUr": "کینٹونیز گارلک چاؤمین",
     "brand": "Chop Chop Wok",
-    "brandCategory": "Noodles & Rice",
+    "brandCategory": "Rice & Noodles",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -74324,7 +74402,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Pad Thai Noodles with Peanuts",
     "nameUr": "پیڈ تھائی نوڈلز",
     "brand": "Chop Chop Wok",
-    "brandCategory": "Noodles & Rice",
+    "brandCategory": "Rice & Noodles",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -74362,7 +74440,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Spicy Dan Dan Noodles",
     "nameUr": "ڈن ڈن نوڈلز اسپائسی",
     "brand": "Chop Chop Wok",
-    "brandCategory": "Noodles & Rice",
+    "brandCategory": "Rice & Noodles",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -74400,7 +74478,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Jasmine Steamed Rice",
     "nameUr": "جیسمین اسٹیمڈ رائس",
     "brand": "Chop Chop Wok",
-    "brandCategory": "Noodles & Rice",
+    "brandCategory": "Rice & Noodles",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -74438,7 +74516,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Garlic Butter Fried Rice",
     "nameUr": "گارلک بٹر فرائیڈ رائس",
     "brand": "Chop Chop Wok",
-    "brandCategory": "Noodles & Rice",
+    "brandCategory": "Rice & Noodles",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -74476,7 +74554,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Steamed Chicken Dumplings (Dim Sum 5pcs)",
     "nameUr": "اسٹیمڈ چکن ڈمپلنگز",
     "brand": "Chop Chop Wok",
-    "brandCategory": "Dim Sum & Starters",
+    "brandCategory": "Appetizers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -74514,7 +74592,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Crispy Wasabi Prawns with Slaw",
     "nameUr": "کرسپی وسابی پرانز",
     "brand": "Chop Chop Wok",
-    "brandCategory": "Dim Sum & Starters",
+    "brandCategory": "Seafood",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -74552,7 +74630,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Chicken Spring Rolls (4 pcs)",
     "nameUr": "چکن اسپرنگ رولز",
     "brand": "Chop Chop Wok",
-    "brandCategory": "Dim Sum & Starters",
+    "brandCategory": "Appetizers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -74590,7 +74668,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Fried Chicken Wontons with Sweet Dip",
     "nameUr": "فرائیڈ چکن ونٹون",
     "brand": "Chop Chop Wok",
-    "brandCategory": "Dim Sum & Starters",
+    "brandCategory": "Appetizers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -74780,7 +74858,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Pan Seared Red Snapper with Lemon Butter",
     "nameUr": "پین سیرڈ ریڈ سنیپر مچھلی",
     "brand": "Cafe Aylanto",
-    "brandCategory": "Gourmet Steaks & Mains",
+    "brandCategory": "Seafood",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -74818,7 +74896,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Prawn Linguine in Aglio Olio",
     "nameUr": "پران لنگوینی پاستا",
     "brand": "Cafe Aylanto",
-    "brandCategory": "Pasta & Seafood",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -74856,7 +74934,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Fettuccine with Smoked Salmon & Capers",
     "nameUr": "فیٹوچینی سالمن پاستا",
     "brand": "Cafe Aylanto",
-    "brandCategory": "Pasta & Seafood",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -74894,7 +74972,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Penne with Sundried Tomato Pesto",
     "nameUr": "پینی پیسٹو پاستا",
     "brand": "Cafe Aylanto",
-    "brandCategory": "Pasta & Seafood",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -74932,7 +75010,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Grilled Jumbo Prawns with Chimichurri",
     "nameUr": "گرلڈ جمبو پرانز",
     "brand": "Cafe Aylanto",
-    "brandCategory": "Pasta & Seafood",
+    "brandCategory": "Seafood",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -74970,7 +75048,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Aylanto Mediterranean Salad with Feta",
     "nameUr": "ایلانتو میڈیٹیرینین سلاد",
     "brand": "Cafe Aylanto",
-    "brandCategory": "Salads & Appetizers",
+    "brandCategory": "Salads",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -75008,7 +75086,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Rocket Leaf Salad with Parmesan Shavings",
     "nameUr": "راکٹ لیف پرمیسن سلاد",
     "brand": "Cafe Aylanto",
-    "brandCategory": "Salads & Appetizers",
+    "brandCategory": "Salads",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -75046,7 +75124,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Fried Calamari with Garlic Aioli",
     "nameUr": "فرائیڈ کلاماری",
     "brand": "Cafe Aylanto",
-    "brandCategory": "Salads & Appetizers",
+    "brandCategory": "Appetizers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -75084,7 +75162,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Mushroom Arancini Balls with Truffle Dip",
     "nameUr": "مشروم ارانچینی",
     "brand": "Cafe Aylanto",
-    "brandCategory": "Salads & Appetizers",
+    "brandCategory": "Appetizers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -75122,7 +75200,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Warm Dark Chocolate Tart with Cream",
     "nameUr": "ڈارک چاکلیٹ ٹارٹ",
     "brand": "Cafe Aylanto",
-    "brandCategory": "Artisan Desserts",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -75160,7 +75238,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Classic Creme Brulee with Caramelized Crust",
     "nameUr": "کریم برولے",
     "brand": "Cafe Aylanto",
-    "brandCategory": "Artisan Desserts",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -75198,7 +75276,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Warm Apple Crumble with Vanilla Gelato",
     "nameUr": "ایپل کرمبل مع جیلاٹو",
     "brand": "Cafe Aylanto",
-    "brandCategory": "Artisan Desserts",
+    "brandCategory": "Desserts",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -75236,7 +75314,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Chipotle Grilled Chicken Steak",
     "nameUr": "چپوٹلے گرلڈ چکن اسٹیک",
     "brand": "Roasters Coffee House & Grill",
-    "brandCategory": "Gourmet Steaks",
+    "brandCategory": "Gourmet Steaks & Mains",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -75274,7 +75352,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "New York Strip Beef Steak with Garlic Mash",
     "nameUr": "نیویارک اسٹرپ بیف اسٹیک",
     "brand": "Roasters Coffee House & Grill",
-    "brandCategory": "Gourmet Steaks",
+    "brandCategory": "Gourmet Steaks & Mains",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -75312,7 +75390,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Wild Western Mushroom Steak (Beef)",
     "nameUr": "وائلڈ ویسٹرن مشروم اسٹیک",
     "brand": "Roasters Coffee House & Grill",
-    "brandCategory": "Gourmet Steaks",
+    "brandCategory": "Gourmet Steaks & Mains",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -75350,7 +75428,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Blackened Chicken Steak with Sautéed Veggies",
     "nameUr": "بلیکینڈ چکن اسٹیک",
     "brand": "Roasters Coffee House & Grill",
-    "brandCategory": "Gourmet Steaks",
+    "brandCategory": "Gourmet Steaks & Mains",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -75388,7 +75466,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Wild Western Mushroom Burger (Beef)",
     "nameUr": "وائلڈ ویسٹرن مشروم برگر",
     "brand": "Roasters Coffee House & Grill",
-    "brandCategory": "Specialty Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -75426,7 +75504,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Roasters Prime Double Cheeseburger",
     "nameUr": "پرائم ڈبل چیز برگر",
     "brand": "Roasters Coffee House & Grill",
-    "brandCategory": "Specialty Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -75464,7 +75542,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Firehouse Crispy Chicken Burger",
     "nameUr": "فائر ہاؤس کرسپی چکن برگر",
     "brand": "Roasters Coffee House & Grill",
-    "brandCategory": "Specialty Burgers",
+    "brandCategory": "Burgers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -75502,7 +75580,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Grilled BBQ Chicken Sandwich on Sourdough",
     "nameUr": "گرلڈ بی بی کیو چکن سینڈوچ",
     "brand": "Roasters Coffee House & Grill",
-    "brandCategory": "Specialty Burgers",
+    "brandCategory": "Sandwiches",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -75540,7 +75618,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Fettuccine Alfredo with Grilled Chicken",
     "nameUr": "فیٹوچینی الفریڈو پاستا",
     "brand": "Roasters Coffee House & Grill",
-    "brandCategory": "Pastas & Appetizers",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -75578,7 +75656,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Crispy Buffalo Chicken Tenders with Dip",
     "nameUr": "بفیلو چکن ٹینڈرز",
     "brand": "Roasters Coffee House & Grill",
-    "brandCategory": "Pastas & Appetizers",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -75616,7 +75694,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Loaded Texas Fries with Melted Cheddar",
     "nameUr": "لوڈڈ ٹیکساس چیزی فرائز",
     "brand": "Roasters Coffee House & Grill",
-    "brandCategory": "Pastas & Appetizers",
+    "brandCategory": "Fries",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -75654,7 +75732,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Crispy Mozzarella Sticks (5 pcs)",
     "nameUr": "موزاریلا اسٹکس",
     "brand": "Roasters Coffee House & Grill",
-    "brandCategory": "Pastas & Appetizers",
+    "brandCategory": "Sides",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -75730,7 +75808,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Caramel Crunch Thick Shake",
     "nameUr": "کیریمل کرینچ شیک",
     "brand": "Roasters Coffee House & Grill",
-    "brandCategory": "Desserts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -75806,7 +75884,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Mei Kong Special Chicken Soup",
     "nameUr": "مے کونگ اسپیشل چکن سوپ",
     "brand": "Mei Kong",
-    "brandCategory": "Chinese Soups",
+    "brandCategory": "Soups",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -75844,7 +75922,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Szechuan Hot & Sour Soup",
     "nameUr": "سیچوان ہاٹ اینڈ سور سوپ",
     "brand": "Mei Kong",
-    "brandCategory": "Chinese Soups",
+    "brandCategory": "Soups",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -75882,7 +75960,7 @@ const CHUNK_5: NormalizedFood[] = [
     "name": "Chicken Won Ton Soup in Clear Broth",
     "nameUr": "چکن ون ٹون سوپ",
     "brand": "Mei Kong",
-    "brandCategory": "Chinese Soups",
+    "brandCategory": "Soups",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -76075,7 +76153,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Fish in Sweet Garlic Chilli Sauce",
     "nameUr": "فش ان سویٹ گارلک چلی",
     "brand": "Mei Kong",
-    "brandCategory": "Chicken & Beef Mains",
+    "brandCategory": "Seafood",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -76113,7 +76191,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Crispy Prawns in Sweet & Sour Glaze",
     "nameUr": "سوئٹ اینڈ سور پرانز",
     "brand": "Mei Kong",
-    "brandCategory": "Chicken & Beef Mains",
+    "brandCategory": "Seafood",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -76379,7 +76457,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Spicy Honey Chicken Wings (6 pcs)",
     "nameUr": "اسپائسی ہنی ونگز",
     "brand": "Mei Kong",
-    "brandCategory": "Appetizers",
+    "brandCategory": "Chicken & Wings",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -76417,7 +76495,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Chicken Tarragon Steak",
     "nameUr": "چکن ٹیراگون اسٹیک",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "Continental & Italian",
+    "brandCategory": "Gourmet Steaks & Mains",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -76455,7 +76533,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Moroccan Grilled Chicken",
     "nameUr": "موراکن گرلڈ چکن",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "Continental & Italian",
+    "brandCategory": "Gourmet Steaks & Mains",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -76493,7 +76571,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Beef Tenderloin Steak (Mushroom Sauce)",
     "nameUr": "بیف ٹینڈرلوئن اسٹیک مع مشروم ساس",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "Continental & Italian",
+    "brandCategory": "Gourmet Steaks & Mains",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -76531,7 +76609,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Fettuccine Alfredo with Chicken",
     "nameUr": "فیٹوچینی الفریڈو پاستا",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "Continental & Italian",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -76569,7 +76647,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Prawn Tempura with Tartar Dip",
     "nameUr": "پران ٹیمپورا",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "Continental & Italian",
+    "brandCategory": "Appetizers",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -76607,7 +76685,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Monal Club Sandwich with Fries",
     "nameUr": "مونال کلب سینڈوچ",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "Continental & Italian",
+    "brandCategory": "Sandwiches",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -76645,7 +76723,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Stuffed Chicken Breast in Herb Butter",
     "nameUr": "اسٹفڈ چکن بریسٹ",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "Continental & Italian",
+    "brandCategory": "Gourmet Steaks & Mains",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -76683,7 +76761,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Penne Arrabiata Pasta",
     "nameUr": "پینی عریبیاتا پاستا",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "Continental & Italian",
+    "brandCategory": "Pastas",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -76721,7 +76799,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Crispy Finger Fish with Tartar",
     "nameUr": "فنگر فش مع ٹارٹر ساس",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "Continental & Italian",
+    "brandCategory": "Seafood",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -76759,7 +76837,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Chicken Caesar Salad with Garlic Croutons",
     "nameUr": "چکن سیزر سلاد",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "Continental & Italian",
+    "brandCategory": "Salads",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -76797,7 +76875,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Monal Special Mutton Karahi (Half)",
     "nameUr": "مونال اسپیشل مٹن کڑاہی",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "BBQ & Karahi",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -76835,7 +76913,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Desi Ghee Chicken Karahi (Half)",
     "nameUr": "دیسی گھی چکن کڑاہی",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "BBQ & Karahi",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -76873,7 +76951,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Mutton Shinwari Dumba Karahi",
     "nameUr": "مٹن شنواری دنبہ کڑاہی",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "BBQ & Karahi",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -76911,7 +76989,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Chicken Makhni Handi (Boneless)",
     "nameUr": "چکن مکھنی بون لیس ہانڈی",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "BBQ & Karahi",
+    "brandCategory": "Curries & Karahi",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -76949,7 +77027,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Chicken Reshmi Kebab (4 pcs)",
     "nameUr": "چکن ریشمی کباب",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "BBQ & Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -76987,7 +77065,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Mutton Seekh Kebab (4 pcs)",
     "nameUr": "مٹن سیخ کباب",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "BBQ & Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -77025,7 +77103,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Chicken Malai Boti Platter",
     "nameUr": "چکن ملائی بوٹی پلیٹر",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "BBQ & Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -77063,7 +77141,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Fish Tikka BBQ (Charbroiled)",
     "nameUr": "فش تکہ بار بی کیو",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "BBQ & Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -77101,7 +77179,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Afghani Chicken Boti (Mild)",
     "nameUr": "افغانی چکن بوٹی",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "BBQ & Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -77139,7 +77217,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Mutton Chops BBQ (4 pcs)",
     "nameUr": "مٹن چانپ بار بی کیو",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "BBQ & Karahi",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -77177,7 +77255,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Monal Royal Pakistani Platter",
     "nameUr": "مونال رائل پاکستانی پلیٹر",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "Pakistani Platters",
+    "brandCategory": "Platters",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -77215,7 +77293,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Monal Chicken Biryani Special",
     "nameUr": "مونال چکن بریانی اسپیشل",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "Pakistani Platters",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -77253,7 +77331,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Mutton Yakhni Pulao Platter",
     "nameUr": "مٹن یخنی پلاؤ پلیٹر",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "Pakistani Platters",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -77291,7 +77369,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Mixed BBQ Rice Platter",
     "nameUr": "مکسڈ بی بی کیو رائس پلیٹر",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "Pakistani Platters",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -77329,7 +77407,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Chicken Tikka with Roghani Naan Platter",
     "nameUr": "چکن تکہ مع روغنی نان پلیٹر",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "Pakistani Platters",
+    "brandCategory": "BBQ & Grills",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -77367,7 +77445,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Mutton Shinwari Rice Platter",
     "nameUr": "مٹن شنواری رائس پلیٹر",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "Pakistani Platters",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -77405,7 +77483,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Fish Sayadiah Rice Platter",
     "nameUr": "فش صیادیہ رائس پلیٹر",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "Pakistani Platters",
+    "brandCategory": "Rice & Biryani",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -77671,7 +77749,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Peshawari Green Tea with Cardamom",
     "nameUr": "پشاور سبز چائے مع الائچی",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "Desserts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",
@@ -77709,7 +77787,7 @@ const CHUNK_6: NormalizedFood[] = [
     "name": "Fresh Mint Lemonade Chiller",
     "nameUr": "فریش پودینہ لیمونیڈ",
     "brand": "The Monal (Islamabad / Rawalpindi)",
-    "brandCategory": "Desserts",
+    "brandCategory": "Beverages & Drinks",
     "category": "Pakistani Fast Food",
     "cuisineTags": [
       "Asian & Continental",

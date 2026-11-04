@@ -1,3 +1,5 @@
+import { RETIRED_SPECIAL_COPIES } from './retired-special-copies.js';
+
 /**
  * Foods that were second copies of a dish already in the catalogue, mapped to
  * the entry that replaces each one.
@@ -17,6 +19,8 @@
  * Shinwari, sugar levels, and Diet & Basics "Low Oil" / "No Sugar" versions.
  */
 export const RETIRED_DUPLICATE_IDS: Readonly<Record<string, string>> = {
+  // The generated restaurant menus' "Special <dish>" clones (scripts/retire-special-copies.mjs).
+  ...RETIRED_SPECIAL_COPIES,
   // Curries & karahi
   ghar_expanded_2: 'pak_food_187', // Aloo Gosht Shorba → Aloo Gosht (Mutton Shorba)
   ghar_expanded_3: 'pak_food_199', // Palak Gosht
